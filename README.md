@@ -91,6 +91,17 @@ To deploy the application to Vercel:
 
 ---
 
+## 📚 Documentation
+
+For complete beginner-friendly onboarding and deep dives:
+- **[Developer's Guide](file:///Users/corinnelucas/dev/projects/ReproUs/reprous-webapp/docs/DEVELOPERS_GUIDE.md)**: Architecture, SDLC, PNPM commands, development vs. production environments, host/port networking, Next.js / Tailwind / Radix stack, and Vercel cloud deployment.
+- **[Web Development Foundations: HTML, CSS, TypeScript & Delivery](file:///Users/corinnelucas/dev/projects/ReproUs/reprous-webapp/docs/WEB_DEVELOPMENT_FOUNDATIONS.md)**: The core trinity (HTML/CSS/JS), TypeScript, bundling pipeline, and browser delivery/hydration.
+- **[Introduction to Python & FastAPI](file:///Users/corinnelucas/dev/projects/ReproUs/reprous-webapp/docs/PYTHON_GUIDE.md)**: Python foundations, data structures, virtual environments (`venv`), and FastAPI backend routes.
+- **[Databases & Managing Durable State with MySQL](file:///Users/corinnelucas/dev/projects/ReproUs/reprous-webapp/docs/DATABASE_MYSQL_GUIDE.md)**: RAM vs. persistent disk, relational ER schemas, SQL CRUD operations, ACID safety, and FastAPI integration.
+- **[Beginner's Guide to Git & GitHub](file:///Users/corinnelucas/dev/projects/ReproUs/reprous-webapp/docs/GIT_GUIDE.md)**: Version control, the 4 zones of Git, branching, conventional commits, pull requests, `.gitignore`, and safe undos.
+
+---
+
 ## 📂 Project Structure
 
 ```
