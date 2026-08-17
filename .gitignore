@@ -41,3 +41,4 @@ env/
 .coverage
 htmlcov/
 *.sqlite3
+.env*
