@@ -1,0 +1,97 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --blush: #FBEAE6;
+  --blush-deep: #F3C9C6;
+  --yellow: #F8D989;
+  --yellow-deep: #F0C25E;
+  --berry: #7A3B4E;
+  --berry-dark: #5C2E3C;
+  --ink: #3A2C2E;
+  --cream-card: #FFF8F3;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background-color: var(--blush);
+  color: var(--ink);
+  font-family: var(--font-nunito-sans), 'Nunito Sans', sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, .font-serif {
+  font-family: var(--font-fraunces), 'Fraunces', Georgia, serif;
+}
+
+/* Accessibility Modes */
+html.text-lg {
+  font-size: 112%;
+}
+
+html.text-xl {
+  font-size: 128%;
+}
+
+html.contrast {
+  --blush: #FFFFFF;
+  --blush-deep: #FFE3DF;
+  --cream-card: #FFFFFF;
+  --ink: #000000;
+  --berry: #591626;
+  --berry-dark: #3b0e19;
+  --yellow: #E5B338;
+  --yellow-deep: #B9860A;
+}
+
+html.contrast .border-contrast {
+  border: 1.5px solid #000000;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* 3D Flip Card Styles */
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.transform-style-3d {
+  transform-style: preserve-3d;
+}
+
+.backface-hidden {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.rotate-y-180 {
+  transform: rotateY(180deg);
+}
+
+/* Serpentine track dashed line */
+.path-track-line {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  border-left: 3px dashed var(--blush-deep);
+  transform: translateX(-50%);
+  z-index: 0;
+}
