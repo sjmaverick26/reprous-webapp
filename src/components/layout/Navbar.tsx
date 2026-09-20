@@ -34,12 +34,12 @@ export function Navbar({ activePage, onNavigate }: NavbarProps) {
     dropdownType?: "learn" | "about";
   }[] = [
     { id: "home", label: "Home" },
+    { id: "story", label: "About", dropdownType: "about" },
     { id: "hub", label: "Learn", dropdownType: "learn" },
     { id: "workshops", label: "Workshops" },
     { id: "resources", label: "Resources" },
     { id: "qa", label: "Q&A" },
     { id: "voices", label: "Youth Voices" },
-    { id: "story", label: "About", dropdownType: "about" },
   ];
 
   const learnCategories = [
@@ -185,7 +185,7 @@ export function Navbar({ activePage, onNavigate }: NavbarProps) {
 
                     {/* About Dropdown */}
                     {aboutDropdownOpen && (
-                      <div className="absolute right-0 xl:left-0 top-full pt-2 w-64 z-50 animate-in fade-in zoom-in-95 duration-150">
+                      <div className="absolute left-0 top-full pt-2 w-64 z-50 animate-in fade-in zoom-in-95 duration-150">
                         <div className="rounded-xl bg-white p-2 shadow-xl border border-plum/15 flex flex-col gap-1">
                           {aboutItems.map((sub) => (
                             <button

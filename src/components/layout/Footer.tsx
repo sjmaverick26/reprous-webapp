@@ -10,13 +10,13 @@ interface FooterProps {
 export function Footer({ onNavigate }: FooterProps) {
   const links: { id: PageId; label: string; tab?: string }[] = [
     { id: "home", label: "Home" },
+    { id: "story", label: "About" },
     { id: "hub", label: "Learn" },
     { id: "myths", label: "Myths & Facts" },
     { id: "workshops", label: "Workshops" },
     { id: "resources", label: "Resources" },
     { id: "qa", label: "Q&A" },
     { id: "voices", label: "Youth Voices" },
-    { id: "story", label: "About" },
     { id: "contact", label: "Contact Us" },
     { id: "qa", tab: "ask", label: "Ask a Question →" },
   ];
