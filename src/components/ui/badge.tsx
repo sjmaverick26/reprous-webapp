@@ -7,14 +7,18 @@ const badgeVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-berry/10 text-berry border border-berry/20",
-        berry: "bg-berry text-white",
-        outline: "bg-transparent text-berry border border-berry",
-        gold: "bg-gold/25 text-plum border border-gold/50",
-        sage: "bg-sage/25 text-plum border border-sage",
-        lavender: "bg-lavender text-plum border border-[#D3C2D7]",
-        rose: "bg-dusty-rose/25 text-plum border border-dusty-rose",
-        blush: "bg-dusty-rose/25 text-plum",
+        default: "bg-light-teal text-deep-teal border border-deep-teal/20",
+        berry: "bg-raspberry text-white",
+        raspberry: "bg-raspberry text-white",
+        outline: "bg-transparent text-deep-teal border border-deep-teal/40",
+        gold: "bg-coral/20 text-deep-teal border border-coral/40",
+        coral: "bg-coral/20 text-deep-teal border border-coral/40",
+        sage: "bg-light-teal text-deep-teal border border-deep-teal/25",
+        teal: "bg-light-teal text-deep-teal border border-deep-teal/25",
+        lavender: "bg-soft-pink text-deep-teal border border-raspberry/20",
+        rose: "bg-soft-pink text-deep-teal border border-raspberry/20",
+        pink: "bg-soft-pink text-deep-teal border border-raspberry/20",
+        blush: "bg-soft-pink text-deep-teal",
       },
     },
     defaultVariants: {

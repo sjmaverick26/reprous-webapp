@@ -36,8 +36,8 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
     title: "Body Basics",
     badge: "Body Basics Champion",
     badgeDesc: "Earned after exploring every foundational lesson on puberty, anatomy, and hormones in Body Basics.",
-    description: "Puberty, hormones, anatomy, and body image — the foundational stuff.",
-    colorSwatch: "#EBCB72",
+    description: "Puberty, anatomy, hormones, and what is actually 'normal.'",
+    colorSwatch: "#F47A6A",
     topics: [
       {
         id: "body-0",
@@ -123,7 +123,7 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
     badge: "Cycle Sense Pro",
     badgeDesc: "Earned after mastering menstrual cycles, pain management, and hygiene basics in Cycle Sense.",
     description: "Periods, cramps, irregular cycles, tracking, and hygiene.",
-    colorSwatch: "#D99AAA",
+    colorSwatch: "#B83F68",
     topics: [
       {
         id: "cycle-0",
@@ -199,7 +199,7 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
     badge: "Reproductive Care Pro",
     badgeDesc: "Mastered knowledge on pregnancy basics, postpartum healing, and ovarian wellness.",
     description: "Pregnancy basics, postpartum recovery, and ovarian health.",
-    colorSwatch: "#8E3F5C",
+    colorSwatch: "#205B5C",
     topics: [
       {
         id: "conditions-0",
@@ -248,7 +248,7 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
     badge: "Hormonal Balance Pro",
     badgeDesc: "Mastered knowledge on PCOS, androgen balance, insulin sensitivity, and managing hormonal cycles.",
     description: "Polycystic ovary syndrome, androgen regulation, insulin sensitivity, and cycle management.",
-    colorSwatch: "#E8DFEA",
+    colorSwatch: "#B83F68",
     topics: [
       {
         id: "pcos-0",
@@ -310,7 +310,7 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
     badge: "Pelvic Health Advocate",
     badgeDesc: "Mastered knowledge on endometriosis, adenomyosis, pain validation, and doctor communication.",
     description: "Severe cramps, chronic pelvic pain, adenomyosis, and navigating clinical care.",
-    colorSwatch: "#D99AAA",
+    colorSwatch: "#F47A6A",
     topics: [
       {
         id: "endo-0",
@@ -372,7 +372,7 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
     badge: "Real Talk Graduate",
     badgeDesc: "Earned after mastering STI education, affirmative consent, and safer sex practices.",
     description: "STIs, HIV education, consent, contraception, safer sex.",
-    colorSwatch: "#A8B7A1",
+    colorSwatch: "#B83F68",
     topics: [
       {
         id: "realtalk-0",
@@ -460,7 +460,7 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
     badge: "Mind & Self Aware",
     badgeDesc: "Earned after exploring the connection between mental wellness, hormone cycles, and healthy relationships.",
     description: "Mood changes, stress and hormones, body confidence, relationships.",
-    colorSwatch: "#E8DFEA",
+    colorSwatch: "#205B5C",
     topics: [
       {
         id: "mind-0",
@@ -534,7 +534,7 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
     badge: "Play Strong Athlete",
     badgeDesc: "Earned by mastering cycle-aware training, sports nutrition, and overtraining prevention.",
     description: "Reproductive health for active bodies — training, nutrition, cycle-aware performance.",
-    colorSwatch: "#A8B7A1",
+    colorSwatch: "#205B5C",
     topics: [
       {
         id: "play-0",
@@ -596,7 +596,7 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
     badge: "Bigger Picture Thinker",
     badgeDesc: "Earned by understanding healthcare equity, language access, and community advocacy.",
     description: "How transportation, language, and location shape access to this education.",
-    colorSwatch: "#3B2430",
+    colorSwatch: "#205B5C",
     topics: [
       {
         id: "factors-0",

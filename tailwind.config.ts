@@ -9,25 +9,39 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        ivory: "var(--ivory)",
-        plum: "var(--plum)",
-        "dusty-rose": "var(--dusty-rose)",
-        sage: "var(--sage)",
-        gold: "var(--gold)",
-        lavender: "var(--lavender)",
-        white: "var(--white)",
-        blush: {
-          DEFAULT: "var(--blush)",
-          deep: "var(--blush-deep)",
+        white: "#FFFFFF",
+        "deep-teal": "var(--deep-teal)",
+        teal: {
+          DEFAULT: "var(--deep-teal)",
+          deep: "var(--deep-teal)",
+          light: "var(--light-teal)",
         },
-        yellow: {
-          DEFAULT: "var(--yellow)",
+        raspberry: "var(--raspberry)",
+        coral: {
+          DEFAULT: "var(--coral)",
           deep: "var(--yellow-deep)",
         },
+        "soft-pink": "var(--soft-pink)",
+        "light-teal": "var(--light-teal)",
+        charcoal: "var(--charcoal)",
+        // Semantic and backward-compatible aliases:
+        plum: "var(--plum)",
         berry: {
           DEFAULT: "var(--berry)",
           dark: "var(--berry-dark)",
         },
+        gold: "var(--gold)",
+        yellow: {
+          DEFAULT: "var(--yellow)",
+          deep: "var(--yellow-deep)",
+        },
+        blush: {
+          DEFAULT: "var(--blush)",
+          deep: "var(--blush-deep)",
+        },
+        "dusty-rose": "var(--dusty-rose)",
+        sage: "var(--sage)",
+        lavender: "var(--lavender)",
         ink: "var(--ink)",
         "cream-card": "var(--cream-card)",
       },
@@ -48,10 +62,10 @@ const config: Config = {
         "3xl": "24px",
       },
       boxShadow: {
-        card: "0 12px 30px rgba(59,36,48,0.08)",
-        hover: "0 14px 26px rgba(59,36,48,0.12)",
-        node: "0 4px 0 rgba(59,36,48,0.15)",
-        "node-active": "0 0 0 6px rgba(235,203,114,0.35), 0 4px 0 rgba(59,36,48,0.15)",
+        card: "0 10px 30px rgba(32,91,92,0.08)",
+        hover: "0 14px 28px rgba(32,91,92,0.14)",
+        node: "0 4px 0 rgba(32,91,92,0.20)",
+        "node-active": "0 0 0 6px rgba(244,122,106,0.35), 0 4px 0 rgba(32,91,92,0.20)",
       },
     },
   },

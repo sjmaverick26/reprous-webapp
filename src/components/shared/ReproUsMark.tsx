@@ -16,9 +16,9 @@ export function ReproUsMark({ size = 34, className = "" }: ReproUsMarkProps) {
         xmlns="http://www.w3.org/2000/svg"
         aria-hidden="true"
       >
-        <circle cx="40" cy="56" r="30" fill="var(--yellow-deep)" opacity="0.9" />
-        <circle cx="80" cy="64" r="30" fill="var(--blush-deep)" opacity="0.9" />
-        <circle cx="60" cy="60" r="12" fill="var(--berry)" />
+        <circle cx="42" cy="56" r="30" fill="var(--deep-teal)" opacity="0.85" />
+        <circle cx="78" cy="64" r="30" fill="var(--coral)" opacity="0.9" />
+        <circle cx="60" cy="60" r="14" fill="var(--raspberry)" />
       </svg>
     </span>
   );

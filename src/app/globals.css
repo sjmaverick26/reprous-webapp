@@ -3,24 +3,32 @@
 @tailwind utilities;
 
 :root {
-  /* User-Defined Color Palette */
-  --ivory: #FFF8F3;         /* BACKGROUND / IVORY */
-  --plum: #3B2430;          /* DARK PLUM */
-  --berry: #8E3F5C;         /* PRIMARY BERRY */
-  --berry-dark: #3B2430;    /* DARK PLUM */
-  --dusty-rose: #D99AAA;    /* DUSTY ROSE */
-  --sage: #A8B7A1;          /* SAGE */
-  --gold: #EBCB72;          /* SOFT GOLD */
-  --yellow: #EBCB72;        /* SOFT GOLD */
-  --yellow-deep: #D4B45B;   /* DEEPER GOLD ACCENT */
-  --lavender: #E8DFEA;      /* LAVENDER */
-  --white: #FFFFFF;         /* WHITE */
+  /* New Semantic Color Palette */
+  --white: #FFFFFF;         /* Main page background (60%) */
+  --deep-teal: #205B5C;     /* Main headings, nav, footer (20%) */
+  --soft-pink: #F6D8DE;     /* Section backgrounds (10% with light teal) */
+  --light-teal: #D9EEEE;    /* Cards / alternating sections (10% with soft pink) */
+  --raspberry: #B83F68;     /* Primary buttons, important links (7%) */
+  --coral: #F47A6A;         /* Highlights, icons, hover states (3%) */
+  --charcoal: #29272A;      /* Body text */
+
+  /* Backward-compatible semantic aliases mapped to the new palette */
+  --plum: #205B5C;          /* Mapped to Deep Teal */
+  --berry: #B83F68;         /* Mapped to Raspberry */
+  --berry-dark: #205B5C;    /* Mapped to Deep Teal */
+  --dusty-rose: #F6D8DE;    /* Mapped to Soft Pink */
+  --sage: #D9EEEE;          /* Mapped to Light Teal */
+  --gold: #F47A6A;          /* Mapped to Coral */
+  --yellow: #F47A6A;        /* Mapped to Coral */
+  --yellow-deep: #E06858;   /* Deeper Coral */
+  --lavender: #F6D8DE;      /* Mapped to Soft Pink */
 
   /* Semantic Theme Aliases */
-  --blush: #FFF8F3;         /* Page Background -> IVORY */
-  --blush-deep: #D99AAA;    /* Accent Pink -> DUSTY ROSE */
-  --ink: #3B2430;           /* Primary Body Text -> DARK PLUM */
-  --cream-card: #FFFFFF;    /* Surface Cards -> WHITE */
+  --blush: #FFFFFF;         /* Page Background -> Pure White */
+  --blush-deep: #F6D8DE;    /* Accent Pink -> Soft Pink */
+  --ink: #29272A;           /* Primary Body Text -> Dark Charcoal */
+  --cream-card: #FFFFFF;    /* Surface Cards -> White */
+
   /* Semantic Typography Fallback Aliases */
   --font-fraunces: var(--font-dm-serif);
   --font-nunito-sans: var(--font-dm-sans);
@@ -36,8 +44,8 @@ html {
 
 body {
   margin: 0;
-  background-color: var(--blush);
-  color: var(--ink);
+  background-color: var(--white);
+  color: var(--charcoal);
   font-family: var(--font-dm-sans), 'DM Sans', sans-serif;
   font-size: 18px; /* DM Sans 17–19px */
   line-height: 1.6;
@@ -46,7 +54,7 @@ body {
 
 h1, .text-h1 {
   font-family: var(--font-dm-serif), 'DM Serif Display', Georgia, serif;
-  color: var(--plum);
+  color: var(--deep-teal);
   font-size: clamp(42px, 5.5vw + 1rem, 72px); /* DM Serif Display / 64–72px */
   line-height: 1.08;
   letter-spacing: -0.02em;
@@ -54,7 +62,7 @@ h1, .text-h1 {
 
 h2, .text-h2 {
   font-family: var(--font-dm-serif), 'DM Serif Display', Georgia, serif;
-  color: var(--plum);
+  color: var(--deep-teal);
   font-size: clamp(32px, 3.5vw + 0.5rem, 50px); /* DM Serif Display / 42–50px */
   line-height: 1.15;
   letter-spacing: -0.01em;
@@ -62,14 +70,14 @@ h2, .text-h2 {
 
 h3, .text-h3 {
   font-family: var(--font-dm-serif), 'DM Serif Display', Georgia, serif;
-  color: var(--plum);
+  color: var(--deep-teal);
   font-size: clamp(24px, 2.5vw + 0.25rem, 36px); /* DM Serif Display / 30–36px */
   line-height: 1.2;
 }
 
 h4, .font-serif {
   font-family: var(--font-dm-serif), 'DM Serif Display', Georgia, serif;
-  color: var(--plum);
+  color: var(--deep-teal);
 }
 
 /* Accessibility Modes */
@@ -83,14 +91,14 @@ html.text-xl {
 
 html.contrast {
   --blush: #FFFFFF;
-  --blush-deep: #D99AAA;
+  --blush-deep: #F6D8DE;
   --cream-card: #FFFFFF;
   --ink: #000000;
   --plum: #000000;
-  --berry: #6A2840;
-  --berry-dark: #3B2430;
-  --yellow: #D4B45B;
-  --yellow-deep: #B9860A;
+  --berry: #205B5C;
+  --berry-dark: #123B3C;
+  --yellow: #B83F68;
+  --yellow-deep: #8F2B4E;
 }
 
 html.contrast .border-contrast {

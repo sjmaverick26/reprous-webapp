@@ -95,22 +95,22 @@ export function VoicesView() {
       </div>
 
       {/* Add Your Voice Box */}
-      <div className="rounded-3xl bg-berry text-cream-card p-8 md:p-12 shadow-lg">
+      <div className="rounded-3xl bg-deep-teal text-white p-8 md:p-12 shadow-lg">
         <div className="max-w-xl mb-6">
-          <div className="flex items-center gap-2 text-gold text-[13px] font-bold uppercase tracking-wider mb-2 font-sans">
+          <div className="flex items-center gap-2 text-coral text-[13px] font-bold uppercase tracking-wider mb-2 font-sans">
             <Sparkles className="w-4 h-4" />
             Community Board
           </div>
-          <h2 className="text-3xl md:text-[42px] lg:text-[48px] font-normal font-serif text-cream-card mb-2 leading-[1.15]">
+          <h2 className="text-3xl md:text-[42px] lg:text-[48px] font-normal font-serif text-white mb-2 leading-[1.15]">
             Add your voice
           </h2>
-          <p className="text-[16px] md:text-[18px] text-cream-card/90 m-0 leading-relaxed font-sans">
+          <p className="text-[16px] md:text-[18px] text-white/90 m-0 leading-relaxed font-sans">
             Share a story, a memory, or an encouragement for someone else. 100% anonymous by default, and never shared without your consent.
           </p>
         </div>
 
         {submitSuccess && (
-          <div className="mb-6 p-4 rounded-2xl bg-gold text-ink flex items-center gap-3 font-bold text-[15px] font-sans">
+          <div className="mb-6 p-4 rounded-2xl bg-coral text-white flex items-center gap-3 font-bold text-[15px] font-sans shadow-sm">
             <CheckCircle2 className="w-5 h-5 flex-shrink-0" />
             <span>Thank you for sharing your story! It is now posted to the Youth Voices board.</span>
           </div>
@@ -123,7 +123,7 @@ export function VoicesView() {
             placeholder="Share your experience with periods, puberty, doctor visits, or learning about your body..."
             value={storyInput}
             onChange={(e) => setStoryInput(e.target.value)}
-            className="bg-cream-card text-ink placeholder:text-ink/50 text-[15px] font-sans"
+            className="bg-white text-charcoal placeholder:text-charcoal/50 text-[15px] font-sans border-0 focus-visible:ring-2 focus-visible:ring-coral"
           />
 
           <div className="flex flex-col sm:flex-row gap-3 items-center">
@@ -131,7 +131,7 @@ export function VoicesView() {
               placeholder="Alias / Signature (e.g. Shared anonymously or Jordan)"
               value={authorAlias}
               onChange={(e) => setAuthorAlias(e.target.value)}
-              className="bg-cream-card text-ink sm:w-1/2 placeholder:text-ink/50 text-[15px] font-sans"
+              className="bg-white text-charcoal sm:w-1/2 placeholder:text-charcoal/50 text-[15px] font-sans border-0 focus-visible:ring-2 focus-visible:ring-coral"
             />
             <Input
               type="number"
@@ -140,13 +140,13 @@ export function VoicesView() {
               placeholder="Age (e.g. 17)"
               value={authorAge}
               onChange={(e) => setAuthorAge(e.target.value)}
-              className="bg-cream-card text-ink sm:w-1/4 placeholder:text-ink/50 text-[15px] font-sans"
+              className="bg-white text-charcoal sm:w-1/4 placeholder:text-charcoal/50 text-[15px] font-sans border-0 focus-visible:ring-2 focus-visible:ring-coral"
             />
             <Button
               type="submit"
-              variant="yellow"
+              variant="coral"
               disabled={isSubmitting}
-              className="w-full sm:w-auto ml-auto px-8 gap-2"
+              className="w-full sm:w-auto ml-auto px-8 gap-2 font-bold shadow-md"
             >
               <Send className="w-4 h-4" />
               {isSubmitting ? "Posting..." : "Share Story"}

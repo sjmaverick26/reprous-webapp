@@ -69,7 +69,7 @@ export function Navbar({ activePage, onNavigate }: NavbarProps) {
   };
 
   return (
-    <nav className="sticky top-0 z-50 bg-blush/95 backdrop-blur-md border-b border-berry/10 transition-colors">
+    <nav className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-deep-teal/10 transition-colors">
       <div className="max-w-[1180px] mx-auto px-4 sm:px-6 py-3 flex items-center justify-between gap-3">
         {/* Brand Logo */}
         <button
@@ -77,11 +77,11 @@ export function Navbar({ activePage, onNavigate }: NavbarProps) {
             onNavigate("home");
             setMobileMenuOpen(false);
           }}
-          className="flex items-center gap-2.5 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-berry rounded-lg flex-shrink-0"
+          className="flex items-center gap-2.5 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-raspberry rounded-lg flex-shrink-0"
           aria-label="ReproUs Homepage"
         >
           <ReproUsMark size={34} />
-          <span className="font-serif text-2xl font-bold text-berry tracking-tight">ReproUs</span>
+          <span className="font-serif text-2xl font-bold text-deep-teal tracking-tight">ReproUs</span>
         </button>
 
         {/* Desktop Navigation Links + CTA Button */}
@@ -101,10 +101,10 @@ export function Navbar({ activePage, onNavigate }: NavbarProps) {
                     <button
                       onClick={() => onNavigate("hub")}
                       className={cn(
-                        "flex items-center gap-1 px-3 py-1.5 rounded-full text-[14px] xl:text-[14.5px] font-semibold font-sans transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-berry whitespace-nowrap",
+                        "flex items-center gap-1 px-3.5 py-1.5 rounded-full text-[14px] xl:text-[14.5px] font-semibold font-sans transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-raspberry whitespace-nowrap",
                         active
-                          ? "bg-berry text-cream-card shadow-sm"
-                          : "text-ink hover:bg-blush-deep/60"
+                          ? "bg-deep-teal text-white shadow-sm"
+                          : "text-charcoal hover:text-deep-teal hover:bg-light-teal/50"
                       )}
                     >
                       {item.label}
@@ -113,13 +113,13 @@ export function Navbar({ activePage, onNavigate }: NavbarProps) {
 
                     {/* Learn Dropdown Menu */}
                     {learnDropdownOpen && (
-                      <div className="absolute left-0 top-[105%] w-64 rounded-2xl bg-cream-card p-2 shadow-xl border border-berry/10 flex flex-col gap-1 z-50 animate-in fade-in zoom-in-95 duration-150">
+                      <div className="absolute left-0 top-[105%] w-64 rounded-2xl bg-white p-2 shadow-xl border border-deep-teal/15 flex flex-col gap-1 z-50 animate-in fade-in zoom-in-95 duration-150">
                         <button
                           onClick={() => {
                             onNavigate("hub");
                             setLearnDropdownOpen(false);
                           }}
-                          className="w-full text-left px-3 py-2 text-[14px] font-bold font-sans text-berry rounded-xl hover:bg-blush transition-colors border-b border-berry/10 pb-2.5 mb-1"
+                          className="w-full text-left px-3 py-2 text-[14px] font-bold font-sans text-deep-teal rounded-xl hover:bg-light-teal/40 transition-colors border-b border-deep-teal/10 pb-2.5 mb-1"
                         >
                           Explore All Topics →
                         </button>
@@ -130,18 +130,18 @@ export function Navbar({ activePage, onNavigate }: NavbarProps) {
                               onNavigate("hub", cat.id);
                               setLearnDropdownOpen(false);
                             }}
-                            className="w-full text-left px-3 py-1.5 text-[13.5px] font-semibold font-sans text-berry rounded-xl hover:bg-blush transition-colors"
+                            className="w-full text-left px-3 py-1.5 text-[13.5px] font-semibold font-sans text-deep-teal rounded-xl hover:bg-light-teal/40 transition-colors"
                           >
                             {cat.label}
                           </button>
                         ))}
-                        <div className="pt-1 border-t border-berry/10 mt-1">
+                        <div className="pt-1 border-t border-deep-teal/10 mt-1">
                           <button
                             onClick={() => {
                               onNavigate("myths");
                               setLearnDropdownOpen(false);
                             }}
-                            className="w-full text-left px-3 py-1.5 text-[13.5px] font-bold font-sans text-gold-deep bg-yellow/20 rounded-xl hover:bg-yellow/35 transition-colors"
+                            className="w-full text-left px-3 py-1.5 text-[13.5px] font-bold font-sans text-coral bg-coral/10 rounded-xl hover:bg-coral/20 transition-colors"
                           >
                             ✨ Myths &amp; Facts Cards
                           </button>
@@ -163,10 +163,10 @@ export function Navbar({ activePage, onNavigate }: NavbarProps) {
                     <button
                       onClick={() => onNavigate("story")}
                       className={cn(
-                        "flex items-center gap-1 px-3 py-1.5 rounded-full text-[14px] xl:text-[14.5px] font-semibold font-sans transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-berry whitespace-nowrap",
+                        "flex items-center gap-1 px-3.5 py-1.5 rounded-full text-[14px] xl:text-[14.5px] font-semibold font-sans transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-raspberry whitespace-nowrap",
                         active
-                          ? "bg-berry text-cream-card shadow-sm"
-                          : "text-ink hover:bg-blush-deep/60"
+                          ? "bg-deep-teal text-white shadow-sm"
+                          : "text-charcoal hover:text-deep-teal hover:bg-light-teal/50"
                       )}
                     >
                       {item.label}
@@ -175,7 +175,7 @@ export function Navbar({ activePage, onNavigate }: NavbarProps) {
 
                     {/* About Dropdown Menu */}
                     {aboutDropdownOpen && (
-                      <div className="absolute right-0 xl:left-0 top-[105%] w-60 rounded-2xl bg-cream-card p-2 shadow-xl border border-berry/10 flex flex-col gap-1 z-50 animate-in fade-in zoom-in-95 duration-150">
+                      <div className="absolute right-0 xl:left-0 top-[105%] w-60 rounded-2xl bg-white p-2 shadow-xl border border-deep-teal/15 flex flex-col gap-1 z-50 animate-in fade-in zoom-in-95 duration-150">
                         {aboutItems.map((sub) => (
                           <button
                             key={sub.label}
@@ -183,12 +183,12 @@ export function Navbar({ activePage, onNavigate }: NavbarProps) {
                               onNavigate(sub.id, sub.tab);
                               setAboutDropdownOpen(false);
                             }}
-                            className="w-full text-left px-3 py-2 rounded-xl hover:bg-blush transition-colors group"
+                            className="w-full text-left px-3 py-2 rounded-xl hover:bg-light-teal/40 transition-colors group"
                           >
-                            <span className="text-[14px] font-bold font-sans text-berry block">
+                            <span className="text-[14px] font-bold font-sans text-deep-teal block">
                               {sub.label}
                             </span>
-                            <span className="text-[12px] font-medium font-sans text-ink/70 block">
+                            <span className="text-[12px] font-medium font-sans text-charcoal/70 block">
                               {sub.description}
                             </span>
                           </button>
@@ -204,10 +204,10 @@ export function Navbar({ activePage, onNavigate }: NavbarProps) {
                   <button
                     onClick={() => onNavigate(item.id)}
                     className={cn(
-                      "px-3 py-1.5 rounded-full text-[14px] xl:text-[14.5px] font-semibold font-sans transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-berry whitespace-nowrap",
+                      "px-3.5 py-1.5 rounded-full text-[14px] xl:text-[14.5px] font-semibold font-sans transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-raspberry whitespace-nowrap",
                       active
-                        ? "bg-berry text-cream-card shadow-sm"
-                        : "text-ink hover:bg-blush-deep/60"
+                        ? "bg-deep-teal text-white shadow-sm"
+                        : "text-charcoal hover:text-deep-teal hover:bg-light-teal/50"
                     )}
                   >
                     {item.label}
@@ -220,7 +220,7 @@ export function Navbar({ activePage, onNavigate }: NavbarProps) {
           {/* Visually Distinct Button: Ask a Question → */}
           <button
             onClick={() => onNavigate("qa", "ask")}
-            className="ml-2 xl:ml-3 inline-flex items-center gap-1.5 px-4 py-2 rounded-full font-sans font-semibold text-[14.5px] bg-berry text-cream-card shadow-sm hover:bg-berry/90 hover:shadow-md transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-berry whitespace-nowrap active:scale-[0.98]"
+            className="ml-2 xl:ml-3 inline-flex items-center gap-1.5 px-4 py-2 rounded-full font-sans font-semibold text-[14.5px] bg-raspberry text-white shadow-sm hover:bg-raspberry/90 hover:shadow-md transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-raspberry whitespace-nowrap active:scale-[0.98]"
           >
             <span>Ask a Question</span>
             <span aria-hidden="true" className="text-base font-bold leading-none">→</span>
@@ -230,23 +230,22 @@ export function Navbar({ activePage, onNavigate }: NavbarProps) {
         {/* Mobile Menu Toggle Button */}
         <button
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="lg:hidden p-2 rounded-full text-berry hover:bg-blush-deep transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-berry"
+          className="lg:hidden p-2 rounded-full text-deep-teal hover:bg-light-teal/50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-raspberry"
           aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
           aria-expanded={mobileMenuOpen}
         >
           {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
         </button>
       </div>
-
       {/* Mobile Drawer Menu */}
       {mobileMenuOpen && (
-        <div className="lg:hidden bg-cream-card border-b border-berry/10 px-6 py-5 flex flex-col gap-2 shadow-lg animate-in slide-in-from-top-4 duration-200 max-h-[85vh] overflow-y-auto">
+        <div className="lg:hidden bg-white border-b border-deep-teal/15 px-6 py-5 flex flex-col gap-2 shadow-lg animate-in slide-in-from-top-4 duration-200 max-h-[85vh] overflow-y-auto">
           {navItems.map((item) => {
             const active = isItemActive(item.id);
 
             if (item.dropdownType === "learn") {
               return (
-                <div key={item.id} className="flex flex-col border-b border-berry/10 pb-1">
+                <div key={item.id} className="flex flex-col border-b border-deep-teal/10 pb-1">
                   <div className="flex items-center justify-between">
                     <button
                       onClick={() => {
@@ -255,14 +254,14 @@ export function Navbar({ activePage, onNavigate }: NavbarProps) {
                       }}
                       className={cn(
                         "flex-1 text-left px-3 py-2.5 rounded-xl font-semibold font-sans text-[15px] transition-colors",
-                        active ? "bg-berry text-cream-card" : "text-ink hover:bg-blush"
+                        active ? "bg-deep-teal text-white" : "text-charcoal hover:bg-light-teal/40"
                       )}
                     >
                       {item.label}
                     </button>
                     <button
                       onClick={() => setMobileLearnExpanded(!mobileLearnExpanded)}
-                      className="p-2 text-berry hover:bg-blush rounded-lg ml-1"
+                      className="p-2 text-deep-teal hover:bg-light-teal/40 rounded-lg ml-1"
                       aria-label="Expand Learn categories"
                     >
                       <ChevronDown
@@ -283,7 +282,7 @@ export function Navbar({ activePage, onNavigate }: NavbarProps) {
                             onNavigate("hub", cat.id);
                             setMobileMenuOpen(false);
                           }}
-                          className="w-full text-left px-3 py-1.5 text-[14px] font-medium font-sans text-berry hover:bg-blush rounded-lg"
+                          className="w-full text-left px-3 py-1.5 text-[14px] font-medium font-sans text-deep-teal hover:bg-light-teal/40 rounded-lg"
                         >
                           ↳ {cat.label}
                         </button>
@@ -293,7 +292,7 @@ export function Navbar({ activePage, onNavigate }: NavbarProps) {
                           onNavigate("myths");
                           setMobileMenuOpen(false);
                         }}
-                        className="w-full text-left px-3 py-1.5 text-[14px] font-bold font-sans text-gold-deep hover:bg-yellow/20 rounded-lg"
+                        className="w-full text-left px-3 py-1.5 text-[14px] font-bold font-sans text-coral hover:bg-coral/10 rounded-lg"
                       >
                         ↳ ✨ Myths &amp; Facts Cards
                       </button>
@@ -305,7 +304,7 @@ export function Navbar({ activePage, onNavigate }: NavbarProps) {
 
             if (item.dropdownType === "about") {
               return (
-                <div key={item.id} className="flex flex-col border-b border-berry/10 pb-1">
+                <div key={item.id} className="flex flex-col border-b border-deep-teal/10 pb-1">
                   <div className="flex items-center justify-between">
                     <button
                       onClick={() => {
@@ -314,14 +313,14 @@ export function Navbar({ activePage, onNavigate }: NavbarProps) {
                       }}
                       className={cn(
                         "flex-1 text-left px-3 py-2.5 rounded-xl font-semibold font-sans text-[15px] transition-colors",
-                        active ? "bg-berry text-cream-card" : "text-ink hover:bg-blush"
+                        active ? "bg-deep-teal text-white" : "text-charcoal hover:bg-light-teal/40"
                       )}
                     >
                       {item.label}
                     </button>
                     <button
                       onClick={() => setMobileAboutExpanded(!mobileAboutExpanded)}
-                      className="p-2 text-berry hover:bg-blush rounded-lg ml-1"
+                      className="p-2 text-deep-teal hover:bg-light-teal/40 rounded-lg ml-1"
                       aria-label="Expand About subpages"
                     >
                       <ChevronDown
@@ -342,7 +341,7 @@ export function Navbar({ activePage, onNavigate }: NavbarProps) {
                             onNavigate(sub.id, sub.tab);
                             setMobileMenuOpen(false);
                           }}
-                          className="w-full text-left px-3 py-1.5 text-[14px] font-medium font-sans text-berry hover:bg-blush rounded-lg"
+                          className="w-full text-left px-3 py-1.5 text-[14px] font-medium font-sans text-deep-teal hover:bg-light-teal/40 rounded-lg"
                         >
                           ↳ {sub.label}
                         </button>
@@ -362,7 +361,7 @@ export function Navbar({ activePage, onNavigate }: NavbarProps) {
                 }}
                 className={cn(
                   "w-full text-left px-3 py-2.5 rounded-xl font-semibold font-sans text-[15px] transition-colors",
-                  active ? "bg-berry text-cream-card" : "text-ink hover:bg-blush"
+                  active ? "bg-deep-teal text-white" : "text-charcoal hover:bg-light-teal/40"
                 )}
               >
                 {item.label}
@@ -376,7 +375,7 @@ export function Navbar({ activePage, onNavigate }: NavbarProps) {
               onNavigate("qa", "ask");
               setMobileMenuOpen(false);
             }}
-            className="w-full mt-3 py-3 px-4 rounded-full font-sans font-semibold text-[15px] bg-berry text-cream-card flex items-center justify-center gap-2 shadow-md hover:bg-berry/90 transition-colors active:scale-[0.98]"
+            className="w-full mt-3 py-3 px-4 rounded-full font-sans font-semibold text-[15px] bg-raspberry text-white flex items-center justify-center gap-2 shadow-md hover:bg-raspberry/90 transition-colors active:scale-[0.98]"
           >
             <span>Ask a Question</span>
             <span aria-hidden="true" className="text-base font-bold">→</span>

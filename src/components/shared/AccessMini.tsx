@@ -15,12 +15,12 @@ export function AccessMini({ text, onDark = false, className = "", icon }: Acces
       className={cn(
         "inline-flex items-center gap-2.5 rounded-full px-4 py-2.5 text-[13.5px] font-bold font-sans transition-colors",
         onDark
-          ? "bg-white/20 text-cream-card backdrop-blur-sm"
-          : "bg-yellow text-ink",
+          ? "bg-white/20 text-white backdrop-blur-sm"
+          : "bg-light-teal text-deep-teal border border-deep-teal/15",
         className
       )}
     >
-      {icon || <Globe className="w-4 h-4 flex-shrink-0" aria-hidden="true" />}
+      {icon || <Globe className="w-4 h-4 flex-shrink-0 text-coral" aria-hidden="true" />}
       <span>{text}</span>
     </div>
   );
