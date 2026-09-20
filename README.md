@@ -45,9 +45,8 @@ A modern, judgment-free reproductive health learning hub and community platform 
 ### 1. Frontend (Next.js)
 
 ```bash
-cd reprous-webapp
-npm install
-npm run dev
+pnpm install
+pnpm dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser.
@@ -55,7 +54,7 @@ Open [http://localhost:3000](http://localhost:3000) with your browser.
 ### 2. Backend (FastAPI)
 
 ```bash
-cd reprous-webapp/backend
+cd backend
 python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
@@ -78,8 +77,8 @@ To deploy the application to Vercel:
 2. **Project Settings**:
    - **Framework Preset**: Next.js (automatically detected).
    - **Root Directory**: `./` (leave default).
-   - **Build Command**: `npm run build` (or Next.js default).
-   - **Install Command**: `npm install`.
+   - **Build Command**: `pnpm build` (or Next.js default).
+   - **Install Command**: `pnpm install`.
 
 3. **Environment Variables (Optional)**:
    - If hosting the FastAPI backend on a separate cloud service (e.g. Render, Railway, AWS Lambda, GCP Cloud Run), add:
@@ -94,18 +93,18 @@ To deploy the application to Vercel:
 ## 📚 Documentation
 
 For complete beginner-friendly onboarding and deep dives:
-- **[Developer's Guide](file:///Users/corinnelucas/dev/projects/ReproUs/reprous-webapp/docs/DEVELOPERS_GUIDE.md)**: Architecture, SDLC, PNPM commands, development vs. production environments, host/port networking, Next.js / Tailwind / Radix stack, and Vercel cloud deployment.
-- **[Web Development Foundations: HTML, CSS, TypeScript & Delivery](file:///Users/corinnelucas/dev/projects/ReproUs/reprous-webapp/docs/WEB_DEVELOPMENT_FOUNDATIONS.md)**: The core trinity (HTML/CSS/JS), TypeScript, bundling pipeline, and browser delivery/hydration.
-- **[Introduction to Python & FastAPI](file:///Users/corinnelucas/dev/projects/ReproUs/reprous-webapp/docs/PYTHON_GUIDE.md)**: Python foundations, data structures, virtual environments (`venv`), and FastAPI backend routes.
-- **[Databases & Managing Durable State with MySQL](file:///Users/corinnelucas/dev/projects/ReproUs/reprous-webapp/docs/DATABASE_MYSQL_GUIDE.md)**: RAM vs. persistent disk, relational ER schemas, SQL CRUD operations, ACID safety, and FastAPI integration.
-- **[Beginner's Guide to Git & GitHub](file:///Users/corinnelucas/dev/projects/ReproUs/reprous-webapp/docs/GIT_GUIDE.md)**: Version control, the 4 zones of Git, branching, conventional commits, pull requests, `.gitignore`, and safe undos.
+- **[Developer's Guide](file:///Users/corinnelucas/dev/projects/ReproUs/docs/DEVELOPERS_GUIDE.md)**: Architecture, SDLC, PNPM commands, development vs. production environments, host/port networking, Next.js / Tailwind / Radix stack, and Vercel cloud deployment.
+- **[Web Development Foundations: HTML, CSS, TypeScript & Delivery](file:///Users/corinnelucas/dev/projects/ReproUs/docs/guides/Webdev%20Guide.md)**: The core trinity (HTML/CSS/JS), TypeScript, bundling pipeline, and browser delivery/hydration.
+- **[Introduction to Python & FastAPI](file:///Users/corinnelucas/dev/projects/ReproUs/docs/guides/Python%20Guide.md)**: Python foundations, data structures, virtual environments (`venv`), and FastAPI backend routes.
+- **[Databases & Managing Durable State with MySQL](file:///Users/corinnelucas/dev/projects/ReproUs/docs/guides/MySql%20Guide.md)**: RAM vs. persistent disk, relational ER schemas, SQL CRUD operations, ACID safety, and FastAPI integration.
+- **[Beginner's Guide to Git & GitHub](file:///Users/corinnelucas/dev/projects/ReproUs/docs/guides/Git%20Guide.md)**: Version control, the 4 zones of Git, branching, conventional commits, pull requests, `.gitignore`, and safe undos.
 
 ---
 
 ## 📂 Project Structure
 
 ```
-reprous-webapp/
+ReproUs/
 ├── src/
 │   ├── app/
 │   │   ├── layout.tsx              # Root HTML & Google Fonts
@@ -113,20 +112,23 @@ reprous-webapp/
 │   │   └── globals.css             # Theme variables, 3D flip card & a11y styles
 │   ├── components/
 │   │   ├── layout/                 # Navbar, LanguageBar, Footer
-│   │   ├── pages/                  # Home, Story, Hub, Workshops, Resources, QA, Myths, Voices
+│   │   ├── pages/                  # Home, Story, Hub, Workshops, Resources, QA, Myths, Voices, Contact
 │   │   ├── shared/                 # ReproUsMark, AccessMini
 │   │   └── ui/                     # Button, Dialog, Accordion, Card, Badge, Input, Textarea
-│   ├── data/                       # Hub topics, FAQs, Myths, Workshops, Clinics, Voices
+│   ├── data/                       # Hub topics, FAQs, Myths, Workshops, Clinics, Voices, Petitions
 │   └── lib/                        # cn utility, API fetchers
 ├── backend/
 │   ├── main.py                     # FastAPI app with CORS
-│   ├── routers/                    # Hub, Workshops, QA, Voices, Clinics
+│   ├── routers/                    # Hub, Workshops, QA, Voices, Clinics, Contact
 │   └── requirements.txt
-├── public/
+├── docs/                           # Developer guides and architecture references
+├── design-docs/                    # Master mockup & design source
+├── scripts/                        # GitHub & Vercel deployment scripts
 ├── tailwind.config.ts
 ├── next.config.mjs
 ├── vercel.json
-└── package.json
+├── package.json
+└── pnpm-lock.yaml
 ```
 
 ---

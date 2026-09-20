@@ -42,3 +42,6 @@ env/
 htmlcov/
 *.sqlite3
 .env*
+
+# Local dev credentials & scratch
+dev-code/
