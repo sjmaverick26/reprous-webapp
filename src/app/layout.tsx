@@ -1,17 +1,23 @@
 import type { Metadata } from "next";
-import { DM_Serif_Display, DM_Sans } from "next/font/google";
+import { Archivo_Black, Space_Grotesk, Sora } from "next/font/google";
 import "./globals.css";
 
-const dmSerifDisplay = DM_Serif_Display({
+const archivoBlack = Archivo_Black({
   weight: "400",
   subsets: ["latin"],
-  variable: "--font-dm-serif",
+  variable: "--font-archivo-black",
   display: "swap",
 });
 
-const dmSans = DM_Sans({
+const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
-  variable: "--font-dm-sans",
+  variable: "--font-space-grotesk",
+  display: "swap",
+});
+
+const sora = Sora({
+  subsets: ["latin"],
+  variable: "--font-sora",
   display: "swap",
 });
 
@@ -28,8 +34,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${dmSerifDisplay.variable} ${dmSans.variable}`}>
-      <body className="min-h-screen flex flex-col font-sans selection:bg-yellow-deep/40">
+    <html
+      lang="en"
+      className={`${archivoBlack.variable} ${spaceGrotesk.variable} ${sora.variable}`}
+    >
+      <body className="min-h-screen flex flex-col font-sora selection:bg-coral/30">
         {children}
       </body>
     </html>

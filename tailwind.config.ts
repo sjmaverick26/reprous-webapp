@@ -96,8 +96,11 @@ const config: Config = {
         "cream-card": "#FFFFFF",
       },
       fontFamily: {
-        serif: ["var(--font-dm-serif)", "DM Serif Display", "Georgia", "serif"],
-        sans: ["var(--font-dm-sans)", "DM Sans", "system-ui", "sans-serif"],
+        archivo: ["var(--font-archivo-black)", "sans-serif"],
+        space: ["var(--font-space-grotesk)", "sans-serif"],
+        sora: ["var(--font-sora)", "sans-serif"],
+        sans: ["var(--font-sora)", "system-ui", "sans-serif"],
+        serif: ["var(--font-space-grotesk)", "sans-serif"],
       },
       fontSize: {
         h1: ["clamp(42px, 5.5vw + 1rem, 72px)", { lineHeight: "1.08", letterSpacing: "-0.02em" }],
