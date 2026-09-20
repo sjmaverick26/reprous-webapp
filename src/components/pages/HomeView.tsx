@@ -352,6 +352,7 @@ export function HomeView({ onNavigate }: HomeViewProps) {
             text="Healthcare should be easier to navigate."
             subtext="Languages · Accessibility · Free resources · Find support"
             languages={["English", "Español", "한국어", "Tiếng Việt", "العربية"]}
+            onNavigate={onNavigate}
           />
         </div>
       </section>
