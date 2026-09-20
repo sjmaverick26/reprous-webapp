@@ -62,7 +62,7 @@ export default function App() {
         {activePage === "workshops" && <WorkshopsView />}
         {activePage === "resources" && <ResourcesView onNavigate={handleNavigate} />}
         {activePage === "qa" && <QAView autoOpenSubmit={qaAutoOpen} />}
-        {activePage === "myths" && <MythsView />}
+        {activePage === "myths" && <MythsView onNavigate={handleNavigate} />}
         {activePage === "voices" && <VoicesView />}
         {activePage === "contact" && <ContactView initialTab={contactTab} />}
       </main>
