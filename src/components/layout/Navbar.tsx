@@ -79,9 +79,11 @@ export function Navbar({ activePage, onNavigate }: NavbarProps) {
           className="flex items-center gap-2.5 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-raspberry rounded-lg shrink-0 group"
           aria-label="ReproUs Homepage"
         >
-          <ReproUsMark size={32} />
-          <span className="font-serif text-2xl md:text-[26px] font-bold text-deep-teal tracking-tight group-hover:text-raspberry transition-colors">
-            ReproUs
+          <ReproUsMark size={30} />
+          <span className="font-serif text-2xl md:text-[26px] font-bold tracking-tight inline-flex items-center">
+            <span className="text-deep-teal">Repro</span>
+            <span className="w-2 h-2 rounded-full bg-coral mx-1 inline-block" aria-hidden="true" />
+            <span className="text-raspberry">Us</span>
           </span>
         </button>
 

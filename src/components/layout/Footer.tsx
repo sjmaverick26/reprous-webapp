@@ -28,7 +28,11 @@ export function Footer({ onNavigate }: FooterProps) {
           <div className="flex items-center gap-3">
             <ReproUsMark size={32} />
             <div>
-              <span className="font-serif font-bold text-white text-2xl block tracking-tight">ReproUs</span>
+              <span className="font-serif font-bold text-white text-2xl block tracking-tight inline-flex items-center">
+                <span>Repro</span>
+                <span className="w-2 h-2 rounded-full bg-coral mx-1 inline-block" aria-hidden="true" />
+                <span className="text-raspberry-light">Us</span>
+              </span>
               <p className="text-[13.5px] text-white/80 m-0 font-sans">
                 Evidence-based education and self-advocacy tools for girls &amp; youth.
               </p>

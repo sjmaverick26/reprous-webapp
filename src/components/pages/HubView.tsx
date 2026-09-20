@@ -88,81 +88,108 @@ export function HubView({ initialCategory }: HubViewProps) {
   };
 
   return (
-    <div className="max-w-[1100px] mx-auto px-6 py-10">
-      {/* Overview View */}
-      {!activeCategory && (
-        <div className="flex flex-col gap-10">
-          <div className="text-center max-w-2xl mx-auto">
-            <div className="text-[13px] font-bold font-sans uppercase tracking-wider text-berry/75 mb-2">
-              Learn
-            </div>
-            <h1 className="text-4xl md:text-[64px] lg:text-[72px] font-normal font-serif leading-[1.08] text-plum mb-3">
-              Pick a topic, go at your pace
-            </h1>
-            <p className="text-ink/80 text-[17px] md:text-[18px] mb-6 leading-relaxed font-sans">
-              Every category below is judgment-free and written in plain language. Tap any card to explore interactive lessons, games, and quizzes.
-            </p>
-
-            <AccessMini
-              text="Every guide below is available in 5 languages and downloadable for offline reading."
-              className="mx-auto shadow-sm mb-6"
-            />
-
-            {/* Gamification Stats Bar */}
-            <div className="flex flex-wrap items-center justify-center gap-3">
-              <div className="inline-flex items-center gap-2 rounded-full bg-cream-card px-4 py-2 text-[14px] font-semibold font-sans text-berry shadow-sm border border-berry/10">
-                <Flame className="w-4 h-4 text-gold fill-gold" />
-                <span>{streak}-day streak</span>
+    <div className="w-full min-h-screen bg-warm-cream py-10 text-charcoal">
+      <div className="max-w-[1100px] mx-auto px-6">
+        {/* Overview View */}
+        {!activeCategory && (
+          <div className="flex flex-col gap-10">
+            <div className="text-center max-w-2xl mx-auto">
+              <div className="text-[13px] font-bold font-sans uppercase tracking-wider text-raspberry mb-2">
+                ✦ HEALTH EDUCATION · SELF-ADVOCACY
               </div>
-              <div className="inline-flex items-center gap-2 rounded-full bg-cream-card px-4 py-2 text-[14px] font-semibold font-sans text-berry shadow-sm border border-berry/10">
-                <Sparkles className="w-4 h-4 text-gold" />
-                <span>{xp} XP earned</span>
-              </div>
-              <div className="inline-flex items-center gap-2 rounded-full bg-cream-card px-4 py-2 text-[14px] font-semibold font-sans text-berry shadow-sm border border-berry/10">
-                <Award className="w-4 h-4 text-gold" />
-                <span>{earnedBadges.length} badges earned</span>
-              </div>
-            </div>
-          </div>
+              <h1 className="text-4xl md:text-[56px] lg:text-[64px] font-normal font-serif leading-[1.08] text-deep-teal mb-3">
+                What do you want to understand?
+              </h1>
+              <p className="text-charcoal/80 text-[17px] md:text-[18px] mb-6 leading-relaxed font-sans">
+                Every category below is judgment-free and written in plain language. Tap any card to explore interactive lessons, games, and quizzes.
+              </p>
 
-          {/* Category Cards Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {Object.values(HUB_CATEGORIES).map((cat) => (
-              <button
-                key={cat.id}
-                onClick={() => {
-                  setActiveCategoryId(cat.id);
-                  setOpenPanelId(null);
-                }}
-                className="group rounded-3xl bg-cream-card p-7 text-left border-2 border-transparent hover:border-berry/30 shadow-card hover:shadow-hover transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-berry flex flex-col justify-between"
-                style={{ borderTop: `5px solid ${cat.colorSwatch}` }}
-              >
-                <div>
-                  <div
-                    className="w-12 h-12 rounded-2xl mb-4 shadow-sm flex items-center justify-center font-bold text-xs"
-                    style={{ backgroundColor: cat.colorSwatch }}
-                  />
-                  <h3 className="text-2xl md:text-[30px] font-normal font-serif text-plum mb-2 group-hover:text-berry transition-colors leading-snug">
-                    {cat.title}
-                  </h3>
-                  <p className="text-[17px] text-ink/80 leading-relaxed mb-4 font-sans">
-                    {cat.description}
-                  </p>
+              <AccessMini
+                text="Every guide below is available in 5 languages and downloadable for offline reading."
+                className="mx-auto shadow-sm mb-6"
+              />
+
+              {/* Gamification Stats Bar */}
+              <div className="flex flex-wrap items-center justify-center gap-3">
+                <div className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-[14px] font-semibold font-sans text-deep-teal shadow-sm border border-deep-teal/15">
+                  <Flame className="w-4 h-4 text-coral fill-coral" />
+                  <span>{streak}-day streak</span>
                 </div>
-                <div className="flex items-center justify-between pt-2 text-[13.5px] font-semibold font-sans text-berry border-t border-berry/10">
-                  <span>{cat.topics.length} interactive topics</span>
-                  <span className="inline-flex items-center gap-1 group-hover:translate-x-1 transition-transform">
-                    See topics <ChevronRight className="w-4 h-4" />
-                  </span>
+                <div className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-[14px] font-semibold font-sans text-deep-teal shadow-sm border border-deep-teal/15">
+                  <Sparkles className="w-4 h-4 text-coral" />
+                  <span>{xp} XP earned</span>
                 </div>
-              </button>
-            ))}
-          </div>
+                <div className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-[14px] font-semibold font-sans text-deep-teal shadow-sm border border-deep-teal/15">
+                  <Award className="w-4 h-4 text-coral" />
+                  <span>{earnedBadges.length} badges earned</span>
+                </div>
+              </div>
+            </div>
 
-          {/* Clinical & Educational References */}
-          <EducationalReferences categoryId="default" />
-        </div>
-      )}
+            {/* Category Cards Grid with dedicated palette colors */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {Object.values(HUB_CATEGORIES).map((cat) => {
+                const getCardStyle = (id: string) => {
+                  switch (id) {
+                    case "play": // Athlete
+                      return "bg-light-teal border-deep-teal/20 hover:border-deep-teal/40";
+                    case "pcos": // Hormonal
+                      return "bg-soft-pink border-raspberry/20 hover:border-raspberry/40";
+                    case "endo": // Reproductive
+                      return "bg-[#FFE1DB] border-coral/30 hover:border-coral/50";
+                    case "cycle": // Periods
+                      return "bg-[#BFE3E0] border-deep-teal/20 hover:border-deep-teal/40";
+                    case "body":
+                      return "bg-white border-deep-teal/15 hover:border-coral";
+                    case "conditions":
+                      return "bg-white border-deep-teal/15 hover:border-coral";
+                    case "realtalk":
+                      return "bg-[#F0E6EF] border-raspberry/20 hover:border-raspberry/40";
+                    case "mind":
+                      return "bg-[#E8F3EE] border-deep-teal/20 hover:border-deep-teal/40";
+                    default:
+                      return "bg-white border-deep-teal/15 hover:border-deep-teal/30";
+                  }
+                };
+
+                return (
+                  <button
+                    key={cat.id}
+                    onClick={() => {
+                      setActiveCategoryId(cat.id);
+                      setOpenPanelId(null);
+                    }}
+                    className={`group rounded-3xl p-7 text-left border-2 shadow-card hover:shadow-hover hover:-translate-y-0.5 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-raspberry flex flex-col justify-between ${getCardStyle(
+                      cat.id
+                    )}`}
+                  >
+                    <div>
+                      <div
+                        className="w-12 h-12 rounded-2xl mb-4 shadow-sm flex items-center justify-center font-bold text-xs"
+                        style={{ backgroundColor: cat.colorSwatch }}
+                      />
+                      <h3 className="text-2xl md:text-[30px] font-normal font-serif text-deep-teal mb-2 group-hover:text-raspberry transition-colors leading-snug">
+                        {cat.title}
+                      </h3>
+                      <p className="text-[16px] md:text-[17px] text-charcoal/85 leading-relaxed mb-4 font-sans">
+                        {cat.description}
+                      </p>
+                    </div>
+                    <div className="flex items-center justify-between pt-3 text-[13.5px] font-semibold font-sans text-raspberry border-t border-deep-teal/10">
+                      <span>{cat.topics.length} interactive topics</span>
+                      <span className="inline-flex items-center gap-1 group-hover:translate-x-1 transition-transform font-bold">
+                        See topics <ChevronRight className="w-4 h-4" />
+                      </span>
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* Clinical & Educational References */}
+            <EducationalReferences categoryId="default" />
+          </div>
+        )}
 
       {/* Category Detail View with Duolingo-style Serpentine Learning Path */}
       {activeCategory && (
@@ -465,6 +492,7 @@ export function HubView({ initialCategory }: HubViewProps) {
           )}
         </DialogContent>
       </Dialog>
+      </div>
     </div>
   );
 }
