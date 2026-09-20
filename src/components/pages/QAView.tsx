@@ -142,9 +142,9 @@ export function QAView({ autoOpenSubmit = false }: { autoOpenSubmit?: boolean })
         <Button
           onClick={() => setIsSubmitModalOpen(true)}
           size="lg"
-          className="gap-2 shadow-md"
+          className="gap-2 shadow-md border-2 border-coral hover:border-coral-light"
         >
-          <HelpCircle className="w-4 h-4" />
+          <HelpCircle className="w-4 h-4 text-coral" />
           Submit your own anonymous question
         </Button>
       </div>

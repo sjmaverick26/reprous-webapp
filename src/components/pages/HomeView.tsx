@@ -314,22 +314,8 @@ export function HomeView({ onNavigate }: HomeViewProps) {
 
   return (
     <div className="flex flex-col w-full text-charcoal">
-      {/* 1. HERO SECTION: Light Teal (#D8EFED) with Coral Highlights */}
+      {/* 1. HERO SECTION: Light Teal (#D8EFED) */}
       <section className="w-full bg-light-teal text-charcoal pt-12 pb-16 md:pt-16 md:pb-24 relative overflow-hidden">
-        {/* Subtle coral ambient lighting */}
-        <div
-          className="absolute -top-36 -right-24 w-[480px] h-[480px] rounded-full bg-coral/20 blur-3xl pointer-events-none"
-          aria-hidden="true"
-        />
-        <div
-          className="absolute -bottom-28 -left-20 w-[360px] h-[360px] rounded-full bg-soft-pink/35 blur-2xl pointer-events-none"
-          aria-hidden="true"
-        />
-        <div
-          className="absolute top-1/2 right-10 w-[240px] h-[240px] rounded-full bg-coral/10 blur-2xl pointer-events-none"
-          aria-hidden="true"
-        />
-
         <div className="max-w-[1100px] mx-auto px-6 relative z-10 flex flex-col items-center text-center">
           {/* Eyebrow Pill with Coral Accent & Sparkle */}
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/85 border border-coral/35 shadow-xs mb-6 backdrop-blur-xs">
