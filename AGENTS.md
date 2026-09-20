@@ -46,13 +46,20 @@ Strictly respect the following directory organization across the workspace:
 
 ---
 
-## 4. Safety & Security Guardrails
+## 4. Execution Autonomy & Zero-Prompt Sandboxing
+- **Unattended Execution**: Execute tasks autonomously without pausing for manual approval modals, plan reviews, or interactive prompts unless a destructive operation is involved.
+- **Sandboxed Execution**: Always execute commands within the standard workspace sandbox (`BypassSandbox: false`). Commands must auto-run seamlessly without interrupting the user.
+- **Prefix-Matchable & Clean Commands**: Run commands directly (e.g., `pnpm ...`, `git ...`, `python3 ...`) without unnecessary wrappers or subshells so they execute immediately without triggering approval prompts.
+
+---
+
+## 5. Safety & Security Guardrails
 - **No Destructive Operations**: Never run destructive commands (e.g., `git reset --hard`, `git clean -fd`, deleting branches, dropping database tables, or removing critical files) without explicit confirmation.
 - **Secrets Management**: Never log, hardcode, or display secrets, API keys, or `.env` files. Ensure secrets use environment variables.
 
 ---
 
-## 5. Communication & Workflow Conventions
+## 6. Communication & Workflow Conventions
 - **Clickable File & Symbol Links**: Always format file and symbol paths as clickable Markdown links (e.g., `[main.py](file:///Users/corinnelucas/dev/projects/ReproUs/backend/main.py)` or `[docs/](file:///Users/corinnelucas/dev/projects/ReproUs/docs)`).
 - **Concise & High-Signal**: Keep explanations direct, actionable, and structured with GitHub-style Markdown.
 - **Conventional Commits**: Format proposed git commit messages using Conventional Commits (`feat:`, `fix:`, `refactor:`, `test:`, `docs:`, `chore:`).
