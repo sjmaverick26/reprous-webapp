@@ -195,8 +195,8 @@ export function ContactView({ initialTab = "feedback" }: { initialTab?: ContactT
             className={cn(
               "flex items-center gap-2 px-5 py-2.5 rounded-full text-[14.5px] font-semibold font-sans transition-all whitespace-nowrap",
               activeTab === "feedback"
-                ? "bg-berry text-cream-card shadow-sm"
-                : "text-ink hover:text-berry hover:bg-blush"
+                ? "bg-berry text-white shadow-sm hover:bg-berry hover:text-white active:bg-berry-dark active:text-white focus:text-white"
+                : "text-ink hover:text-berry hover:bg-soft-pink active:text-berry focus:text-ink"
             )}
           >
             <MessageSquareHeart className="w-4 h-4" />
@@ -208,8 +208,8 @@ export function ContactView({ initialTab = "feedback" }: { initialTab?: ContactT
             className={cn(
               "flex items-center gap-2 px-5 py-2.5 rounded-full text-[14.5px] font-semibold font-sans transition-all whitespace-nowrap",
               activeTab === "ambassador"
-                ? "bg-berry text-cream-card shadow-sm"
-                : "text-ink hover:text-berry hover:bg-blush"
+                ? "bg-berry text-white shadow-sm hover:bg-berry hover:text-white active:bg-berry-dark active:text-white focus:text-white"
+                : "text-ink hover:text-berry hover:bg-soft-pink active:text-berry focus:text-ink"
             )}
           >
             <Award className="w-4 h-4" />
@@ -221,8 +221,8 @@ export function ContactView({ initialTab = "feedback" }: { initialTab?: ContactT
             className={cn(
               "flex items-center gap-2 px-5 py-2.5 rounded-full text-[14.5px] font-semibold font-sans transition-all whitespace-nowrap",
               activeTab === "inquiry"
-                ? "bg-berry text-cream-card shadow-sm"
-                : "text-ink hover:text-berry hover:bg-blush"
+                ? "bg-berry text-white shadow-sm hover:bg-berry hover:text-white active:bg-berry-dark active:text-white focus:text-white"
+                : "text-ink hover:text-berry hover:bg-soft-pink active:text-berry focus:text-ink"
             )}
           >
             <Send className="w-4 h-4" />
@@ -305,14 +305,14 @@ export function ContactView({ initialTab = "feedback" }: { initialTab?: ContactT
                         className={cn(
                           "p-2 rounded-xl border transition-all flex items-center gap-1 text-[14px] font-bold font-sans",
                           feedbackRating >= star
-                            ? "bg-yellow border-yellow-deep text-ink shadow-sm"
-                            : "bg-cream-card border-berry/10 text-ink/50 hover:bg-blush"
+                            ? "bg-coral border-coral-dark text-white shadow-sm hover:bg-coral hover:text-white active:text-white focus:text-white"
+                            : "bg-white border-berry/15 text-charcoal/60 hover:bg-soft-pink hover:text-charcoal active:text-charcoal"
                         )}
                       >
                         <Star
                           className={cn(
                             "w-4 h-4",
-                            feedbackRating >= star ? "fill-ink text-ink" : "text-ink/40"
+                            feedbackRating >= star ? "fill-white text-white" : "text-charcoal/40"
                           )}
                         />
                         <span>{star}</span>
@@ -341,8 +341,8 @@ export function ContactView({ initialTab = "feedback" }: { initialTab?: ContactT
                         className={cn(
                           "px-3.5 py-1.5 rounded-full text-[13.5px] md:text-[14px] font-semibold font-sans transition-all border",
                           feedbackRole === role
-                            ? "bg-berry text-cream-card border-berry"
-                            : "bg-cream-card text-ink border-berry/15 hover:bg-blush"
+                            ? "bg-berry text-white border-berry hover:bg-berry hover:text-white active:bg-berry-dark active:text-white focus:text-white"
+                            : "bg-white text-charcoal border-berry/15 hover:bg-soft-pink hover:text-berry active:text-berry focus:text-charcoal"
                         )}
                       >
                         {role}
@@ -595,8 +595,8 @@ export function ContactView({ initialTab = "feedback" }: { initialTab?: ContactT
                           className={cn(
                             "px-3.5 py-1.5 rounded-full text-[13.5px] font-semibold font-sans transition-all border",
                             isSelected
-                              ? "bg-yellow text-ink border-yellow-deep font-bold"
-                              : "bg-cream-card text-ink/75 border-berry/15 hover:bg-blush"
+                              ? "bg-raspberry text-white border-raspberry font-bold hover:bg-raspberry hover:text-white active:bg-raspberry-dark active:text-white focus:text-white"
+                              : "bg-white text-charcoal border-raspberry/20 hover:bg-soft-pink hover:text-raspberry active:text-raspberry focus:text-charcoal"
                           )}
                         >
                           {isSelected ? "✓ " : "+ "}

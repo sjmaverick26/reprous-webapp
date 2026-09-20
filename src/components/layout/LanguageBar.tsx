@@ -54,8 +54,8 @@ export function LanguageBar({ currentLang, onSelectLang }: LanguageBarProps) {
                 className={cn(
                   "px-2.5 py-0.5 rounded text-[13px] font-medium font-sans transition-all",
                   isActive
-                    ? "bg-plum text-ivory font-bold shadow-xs"
-                    : "text-plum/80 hover:text-berry hover:bg-ivory-darker"
+                    ? "bg-deep-teal text-white font-bold shadow-xs hover:bg-deep-teal hover:text-white active:text-white focus:text-white"
+                    : "text-deep-teal/80 hover:text-raspberry hover:bg-soft-pink active:text-raspberry focus:text-deep-teal"
                 )}
               >
                 {lang.label}
@@ -74,8 +74,8 @@ export function LanguageBar({ currentLang, onSelectLang }: LanguageBarProps) {
             className={cn(
               "px-2 py-0.5 rounded text-[13px] font-semibold font-sans transition-colors",
               textSize === ""
-                ? "bg-plum text-ivory font-bold"
-                : "text-plum/80 hover:bg-ivory-darker"
+                ? "bg-deep-teal text-white font-bold hover:bg-deep-teal hover:text-white active:text-white focus:text-white"
+                : "text-deep-teal/80 hover:bg-soft-pink hover:text-deep-teal active:text-deep-teal"
             )}
             aria-label="Default text size"
           >
@@ -86,8 +86,8 @@ export function LanguageBar({ currentLang, onSelectLang }: LanguageBarProps) {
             className={cn(
               "px-2 py-0.5 rounded text-[13px] font-semibold font-sans transition-colors",
               textSize === "text-lg"
-                ? "bg-plum text-ivory font-bold"
-                : "text-plum/80 hover:bg-ivory-darker"
+                ? "bg-deep-teal text-white font-bold hover:bg-deep-teal hover:text-white active:text-white focus:text-white"
+                : "text-deep-teal/80 hover:bg-soft-pink hover:text-deep-teal active:text-deep-teal"
             )}
             aria-label="Large text size"
           >
@@ -98,8 +98,8 @@ export function LanguageBar({ currentLang, onSelectLang }: LanguageBarProps) {
             className={cn(
               "px-2 py-0.5 rounded text-[13px] font-semibold font-sans transition-colors",
               textSize === "text-xl"
-                ? "bg-plum text-ivory font-bold"
-                : "text-plum/80 hover:bg-ivory-darker"
+                ? "bg-deep-teal text-white font-bold hover:bg-deep-teal hover:text-white active:text-white focus:text-white"
+                : "text-deep-teal/80 hover:bg-soft-pink hover:text-deep-teal active:text-deep-teal"
             )}
             aria-label="Extra large text size"
           >
@@ -111,8 +111,8 @@ export function LanguageBar({ currentLang, onSelectLang }: LanguageBarProps) {
             className={cn(
               "ml-1.5 px-2.5 py-0.5 rounded text-[12.5px] font-semibold font-sans transition-colors border",
               isHighContrast
-                ? "bg-plum border-plum text-ivory font-bold ring-2 ring-gold"
-                : "border-plum/20 text-plum hover:bg-ivory-darker"
+                ? "bg-deep-teal border-deep-teal text-white font-bold ring-2 ring-coral hover:bg-deep-teal hover:text-white active:text-white focus:text-white"
+                : "border-deep-teal/20 text-deep-teal hover:bg-soft-pink hover:text-deep-teal active:text-deep-teal"
             )}
           >
             {isHighContrast ? "High Contrast On" : "High Contrast"}

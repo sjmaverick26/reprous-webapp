@@ -235,9 +235,8 @@ export function WorkshopsView() {
         </div>
         <Button
           onClick={() => setIsRequestModalOpen(true)}
-          variant="yellow"
           size="lg"
-          className="whitespace-nowrap flex-shrink-0"
+          className="bg-white text-raspberry font-bold hover:bg-white/95 hover:text-raspberry active:bg-white/90 active:text-raspberry focus-visible:text-raspberry shadow-md whitespace-nowrap flex-shrink-0"
         >
           Request a workshop
         </Button>

@@ -42,6 +42,16 @@
   box-sizing: border-box;
 }
 
+button,
+[role="button"] {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button:active > *,
+button:focus > * {
+  color: inherit;
+}
+
 html {
   scroll-behavior: smooth;
 }

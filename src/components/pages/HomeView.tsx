@@ -348,7 +348,7 @@ export function HomeView({ onNavigate }: HomeViewProps) {
             <Button
               onClick={() => onNavigate("hub")}
               size="default"
-              className="bg-raspberry text-white hover:bg-raspberry/90 shadow-sm gap-2 text-[15.5px]"
+              className="bg-raspberry text-white hover:bg-raspberry/90 hover:text-white active:bg-raspberry-dark active:text-white focus-visible:text-white shadow-sm gap-2 text-[15.5px]"
             >
               <span>Explore your health</span>
               <ArrowRight className="w-4 h-4" />
@@ -357,7 +357,7 @@ export function HomeView({ onNavigate }: HomeViewProps) {
               onClick={() => onNavigate("story")}
               variant="outline"
               size="default"
-              className="gap-2 text-deep-teal border-[1.5px] border-deep-teal hover:bg-deep-teal/5 text-[15.5px]"
+              className="gap-2 text-deep-teal border-[1.5px] border-deep-teal hover:bg-deep-teal/10 hover:text-deep-teal active:text-deep-teal focus-visible:text-deep-teal text-[15.5px]"
             >
               <span>How ReproUs works</span>
               <span aria-hidden="true">→</span>
@@ -736,8 +736,8 @@ export function HomeView({ onNavigate }: HomeViewProps) {
                   onClick={() => setSelectedSymptomId(symptom.id)}
                   className={`px-3.5 py-2 rounded-lg text-[13.5px] md:text-[14px] font-semibold font-sans transition-all border ${
                     isSelected
-                      ? "bg-deep-teal text-white border-deep-teal shadow-sm"
-                      : "bg-white text-charcoal border-deep-teal/20 hover:border-raspberry hover:text-raspberry"
+                      ? "bg-deep-teal text-white border-deep-teal shadow-sm hover:bg-deep-teal hover:text-white active:bg-deep-teal-dark active:text-white focus:text-white"
+                      : "bg-white text-charcoal border-deep-teal/20 hover:border-raspberry hover:text-raspberry hover:bg-white active:bg-white/90 active:text-raspberry focus:text-charcoal"
                   }`}
                 >
                   {symptom.name}
@@ -762,7 +762,7 @@ export function HomeView({ onNavigate }: HomeViewProps) {
                   onClick={() => onNavigate("hub", activeSymptom.learnCategory)}
                   variant="secondary"
                   size="sm"
-                  className="text-[14px] gap-1.5"
+                  className="text-[14px] gap-1.5 text-deep-teal border-deep-teal/30 hover:bg-deep-teal/5 hover:text-deep-teal active:text-deep-teal focus-visible:text-deep-teal"
                 >
                   <span>{activeSymptom.learnLabel}</span>
                 </Button>
@@ -853,7 +853,7 @@ export function HomeView({ onNavigate }: HomeViewProps) {
                 setActiveToolkitTab("prepare");
                 setToolkitModalOpen(true);
               }}
-              className="bg-deep-teal text-white hover:bg-deep-teal/90 text-[15px] gap-2 whitespace-nowrap self-start md:self-end shadow-sm"
+              className="bg-deep-teal text-white hover:bg-deep-teal/90 hover:text-white active:bg-deep-teal active:text-white focus-visible:text-white text-[15px] gap-2 whitespace-nowrap self-start md:self-end shadow-sm"
             >
               <span>Open the Self-Advocacy Toolkit</span>
               <ArrowRight className="w-4 h-4" />
@@ -1058,7 +1058,7 @@ export function HomeView({ onNavigate }: HomeViewProps) {
             <Button
               onClick={() => onNavigate("myths")}
               size="lg"
-              className="bg-white text-raspberry hover:bg-white/90 shadow-md font-bold text-[15.5px] px-8 gap-2"
+              className="bg-white text-raspberry hover:bg-white/95 hover:text-raspberry active:bg-white/90 active:text-raspberry focus-visible:text-raspberry shadow-md font-bold text-[15.5px] px-8 gap-2"
             >
               <span>Explore All Myths &amp; Facts</span>
               <ArrowRight className="w-4 h-4" />
@@ -1141,7 +1141,7 @@ export function HomeView({ onNavigate }: HomeViewProps) {
                     <Button
                       onClick={() => onNavigate("workshops")}
                       variant="secondary"
-                      className="w-full text-[14px] font-semibold gap-1.5"
+                      className="w-full text-[14px] font-semibold gap-1.5 text-deep-teal border-deep-teal/30 hover:bg-deep-teal/5 hover:text-deep-teal active:text-deep-teal focus-visible:text-deep-teal"
                     >
                       Reserve on Workshop Page →
                     </Button>
@@ -1163,7 +1163,7 @@ export function HomeView({ onNavigate }: HomeViewProps) {
             </div>
             <Button
               onClick={() => onNavigate("voices")}
-              className="bg-raspberry text-white hover:bg-raspberry/90 whitespace-nowrap shrink-0 font-bold text-[15px]"
+              className="bg-raspberry text-white hover:bg-raspberry/90 hover:text-white active:bg-raspberry-dark active:text-white focus-visible:text-white whitespace-nowrap shrink-0 font-bold text-[15px]"
             >
               Youth Voices →
             </Button>
@@ -1208,8 +1208,8 @@ export function HomeView({ onNavigate }: HomeViewProps) {
                 onClick={() => setActiveToolkitTab("prepare")}
                 className={`px-3 py-1.5 rounded-lg font-semibold whitespace-nowrap transition-colors ${
                   activeToolkitTab === "prepare"
-                    ? "bg-raspberry text-white"
-                    : "text-charcoal/80 hover:bg-light-teal"
+                    ? "bg-raspberry text-white hover:bg-raspberry hover:text-white active:text-white focus:text-white"
+                    : "text-charcoal/80 hover:bg-light-teal hover:text-deep-teal active:text-charcoal focus:text-deep-teal"
                 }`}
               >
                 💬 Prepare for Appointment
@@ -1218,8 +1218,8 @@ export function HomeView({ onNavigate }: HomeViewProps) {
                 onClick={() => setActiveToolkitTab("track")}
                 className={`px-3 py-1.5 rounded-lg font-semibold whitespace-nowrap transition-colors ${
                   activeToolkitTab === "track"
-                    ? "bg-raspberry text-white"
-                    : "text-charcoal/80 hover:bg-light-teal"
+                    ? "bg-raspberry text-white hover:bg-raspberry hover:text-white active:text-white focus:text-white"
+                    : "text-charcoal/80 hover:bg-light-teal hover:text-deep-teal active:text-charcoal focus:text-deep-teal"
                 }`}
               >
                 📝 Symptom Tracker
@@ -1228,8 +1228,8 @@ export function HomeView({ onNavigate }: HomeViewProps) {
                 onClick={() => setActiveToolkitTab("language")}
                 className={`px-3 py-1.5 rounded-lg font-semibold whitespace-nowrap transition-colors ${
                   activeToolkitTab === "language"
-                    ? "bg-raspberry text-white"
-                    : "text-charcoal/80 hover:bg-light-teal"
+                    ? "bg-raspberry text-white hover:bg-raspberry hover:text-white active:text-white focus:text-white"
+                    : "text-charcoal/80 hover:bg-light-teal hover:text-deep-teal active:text-charcoal focus:text-deep-teal"
                 }`}
               >
                 📚 Learn the Language
@@ -1238,8 +1238,8 @@ export function HomeView({ onNavigate }: HomeViewProps) {
                 onClick={() => setActiveToolkitTab("speak")}
                 className={`px-3 py-1.5 rounded-lg font-semibold whitespace-nowrap transition-colors ${
                   activeToolkitTab === "speak"
-                    ? "bg-raspberry text-white"
-                    : "text-charcoal/80 hover:bg-light-teal"
+                    ? "bg-raspberry text-white hover:bg-raspberry hover:text-white active:text-white focus:text-white"
+                    : "text-charcoal/80 hover:bg-light-teal hover:text-deep-teal active:text-charcoal focus:text-deep-teal"
                 }`}
               >
                 🗣️ Practice Speaking Up

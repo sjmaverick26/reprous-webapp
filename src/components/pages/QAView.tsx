@@ -109,8 +109,8 @@ export function QAView({ autoOpenSubmit = false }: { autoOpenSubmit?: boolean })
               onClick={() => setActiveCategory(c.id)}
               className={`px-3.5 py-1.5 rounded-full text-[13.5px] md:text-[14px] font-semibold font-sans transition-all border ${
                 activeCategory === c.id
-                  ? "bg-berry border-berry text-cream-card shadow-sm"
-                  : "bg-cream-card border-berry/20 text-berry hover:bg-blush-deep"
+                  ? "bg-berry border-berry text-white shadow-sm hover:bg-berry hover:text-white active:bg-berry-dark active:text-white focus:text-white"
+                  : "bg-white border-berry/20 text-berry hover:bg-soft-pink hover:text-berry active:bg-soft-pink active:text-berry focus:text-berry"
               }`}
             >
               {c.label}

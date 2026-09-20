@@ -127,7 +127,7 @@ export function MythsView({ onNavigate }: MythsViewProps) {
 
           <button
             onClick={revealAll}
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg text-[14px] font-semibold font-sans text-plum bg-white border border-plum/25 hover:bg-ivory-darker hover:border-plum/40 transition-all shadow-xs whitespace-nowrap active:scale-[0.98]"
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg text-[14px] font-semibold font-sans text-plum bg-white border border-plum/25 hover:bg-ivory-darker hover:border-plum/40 hover:text-plum active:text-plum focus-visible:text-plum transition-all shadow-xs whitespace-nowrap active:scale-[0.98]"
           >
             {revealedIds.size === filteredMyths.length && filteredMyths.length > 0 ? (
               <>
@@ -154,8 +154,8 @@ export function MythsView({ onNavigate }: MythsViewProps) {
               onClick={() => setSelectedCategory(c.id)}
               className={`px-3.5 py-1.5 rounded-lg text-[13.5px] md:text-[14px] font-semibold font-sans transition-all border ${
                 isActive
-                  ? "bg-plum border-plum text-ivory shadow-xs"
-                  : "bg-white border-plum/20 text-plum hover:border-berry hover:text-berry"
+                  ? "bg-deep-teal border-deep-teal text-white shadow-xs hover:bg-deep-teal hover:text-white active:bg-deep-teal-dark active:text-white focus:text-white"
+                  : "bg-white border-deep-teal/20 text-deep-teal hover:border-raspberry hover:text-raspberry hover:bg-white active:bg-white/90 active:text-raspberry focus:text-deep-teal"
               }`}
             >
               {c.label}
@@ -189,7 +189,7 @@ export function MythsView({ onNavigate }: MythsViewProps) {
               setSelectedCategory("all");
               setSearchQuery("");
             }}
-            className="px-4 py-2 rounded-lg bg-plum text-ivory text-sm font-semibold font-sans hover:bg-plum/90"
+            className="px-4 py-2 rounded-lg bg-deep-teal text-white text-sm font-semibold font-sans hover:bg-deep-teal/90 hover:text-white active:bg-deep-teal-dark active:text-white focus-visible:text-white shadow-xs"
           >
             Clear Filters
           </button>
@@ -258,7 +258,7 @@ export function MythsView({ onNavigate }: MythsViewProps) {
                     <div className="pt-2">
                       <button
                         onClick={() => toggleReveal(item.id)}
-                        className="inline-flex items-center gap-2.5 px-[22px] py-[13px] rounded-lg text-[15px] font-semibold font-sans text-white bg-berry hover:bg-berry/90 hover:gap-3 transition-all shadow-sm active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-berry"
+                        className="inline-flex items-center gap-2.5 px-[22px] py-[13px] rounded-lg text-[15px] font-semibold font-sans text-white bg-berry hover:bg-berry/90 hover:text-white active:bg-berry-dark active:text-white focus-visible:text-white hover:gap-3 transition-all shadow-sm active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-berry"
                       >
                         <span>Reveal the facts</span>
                         <ArrowRight className="w-4 h-4" />
@@ -458,7 +458,7 @@ export function MythsView({ onNavigate }: MythsViewProps) {
                     setActiveSourceModal(null);
                     if (cat) onNavigate("hub", cat);
                   }}
-                  className="px-4 py-2 rounded-lg text-xs font-bold font-sans text-plum bg-ivory hover:bg-ivory-darker border border-plum/20 transition-colors"
+                  className="px-4 py-2 rounded-lg text-xs font-bold font-sans text-plum bg-ivory hover:bg-ivory-darker hover:text-plum active:text-plum focus-visible:text-plum border border-plum/20 transition-colors"
                 >
                   Explore Topic in Learn →
                 </button>
@@ -468,7 +468,7 @@ export function MythsView({ onNavigate }: MythsViewProps) {
                   href={activeSourceModal.source.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-bold font-sans text-white bg-plum hover:bg-plum/90 transition-colors shadow-xs"
+                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-bold font-sans text-white bg-plum hover:bg-plum/90 hover:text-white active:bg-plum-dark active:text-white focus-visible:text-white transition-colors shadow-xs"
                 >
                   <span>Visit Guideline Site</span>
                   <ExternalLink className="w-3.5 h-3.5" />
@@ -476,7 +476,7 @@ export function MythsView({ onNavigate }: MythsViewProps) {
               )}
               <button
                 onClick={() => setActiveSourceModal(null)}
-                className="px-4 py-2 rounded-lg text-xs font-semibold font-sans text-plum/70 hover:text-plum hover:bg-black/5 transition-colors"
+                className="px-4 py-2 rounded-lg text-xs font-semibold font-sans text-plum/70 hover:text-plum hover:bg-black/5 active:text-plum focus-visible:text-plum transition-colors"
               >
                 Close
               </button>

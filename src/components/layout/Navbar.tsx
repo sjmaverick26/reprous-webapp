@@ -232,7 +232,7 @@ export function Navbar({ activePage, onNavigate }: NavbarProps) {
           {/* Visually Distinct Button: Ask a Question → */}
           <button
             onClick={() => onNavigate("qa", "ask")}
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg font-sans font-semibold text-[15px] bg-berry text-white shadow-sm hover:bg-berry/90 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-berry whitespace-nowrap active:scale-[0.98]"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg font-sans font-semibold text-[15px] bg-berry text-white shadow-sm hover:bg-berry/90 hover:text-white active:bg-berry-dark active:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-berry focus-visible:text-white whitespace-nowrap active:scale-[0.98]"
           >
             <span>Ask a Question</span>
             <span aria-hidden="true">→</span>
@@ -388,7 +388,7 @@ export function Navbar({ activePage, onNavigate }: NavbarProps) {
               onNavigate("qa", "ask");
               setMobileMenuOpen(false);
             }}
-            className="w-full mt-3 py-3 px-4 rounded-lg font-sans font-semibold text-[15px] bg-berry text-white flex items-center justify-center gap-2 shadow-sm hover:bg-berry/90 transition-colors active:scale-[0.98]"
+            className="w-full mt-3 py-3 px-4 rounded-lg font-sans font-semibold text-[15px] bg-berry text-white flex items-center justify-center gap-2 shadow-sm hover:bg-berry/90 hover:text-white active:bg-berry-dark active:text-white transition-colors active:scale-[0.98]"
           >
             <span>Ask a Question</span>
             <span aria-hidden="true">→</span>
