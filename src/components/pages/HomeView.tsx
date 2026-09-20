@@ -383,7 +383,7 @@ export function HomeView({ onNavigate }: HomeViewProps) {
               <span>✦ THE REPROUS COMMITMENT</span>
             </div>
 
-            <h2 className="text-3xl md:text-[42px] lg:text-[48px] font-normal font-serif text-white leading-[1.12] mb-5 tracking-tight">
+            <h2 className="text-3xl md:text-[44px] lg:text-[50px] font-bold font-serif text-light-teal leading-[1.12] mb-5 tracking-tight">
               You shouldn&apos;t need to become an expert to be taken seriously.
             </h2>
 
@@ -528,7 +528,7 @@ export function HomeView({ onNavigate }: HomeViewProps) {
           </div>
 
           {/* Large heading */}
-          <h2 className="text-3xl md:text-[44px] lg:text-[50px] font-normal font-serif text-white leading-[1.12] mb-5 tracking-tight max-w-3xl">
+          <h2 className="text-3xl md:text-[44px] lg:text-[50px] font-bold font-serif text-light-teal leading-[1.12] mb-5 tracking-tight max-w-3xl">
             What happens when questions aren&apos;t asked?
           </h2>
 
