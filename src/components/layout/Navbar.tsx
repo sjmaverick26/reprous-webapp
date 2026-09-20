@@ -43,21 +43,20 @@ export function Navbar({ activePage, onNavigate }: NavbarProps) {
   ];
 
   const learnCategories = [
-    { id: "body", label: "Body Basics" },
-    { id: "cycle", label: "Cycle Sense" },
-    { id: "play", label: "Female Athlete Health" },
-    { id: "pcos", label: "PCOS & Hormonal Health" },
-    { id: "endo", label: "Endometriosis & Pain" },
+    { id: "play", label: "Female Athlete Health", tag: "Sage" },
+    { id: "pcos", label: "PCOS & Hormonal Health", tag: "Lavender" },
+    { id: "endo", label: "Endometriosis & Reproductive Pain", tag: "Rose" },
+    { id: "cycle", label: "Cycle Sense & Menstruation" },
+    { id: "body", label: "Body Basics & Hormones" },
     { id: "conditions", label: "Pregnancy & Reproductive Care" },
-    { id: "realtalk", label: "Real Talk" },
-    { id: "mind", label: "Mind & Self" },
-    { id: "factors", label: "The Bigger Picture" },
+    { id: "realtalk", label: "Real Talk & STIs" },
+    { id: "mind", label: "Mind & Self-Advocacy" },
   ];
 
   const aboutItems = [
-    { id: "story" as PageId, label: "Our Story", description: "Our mission, youth journey & roots" },
-    { id: "contact" as PageId, tab: "inquiry", label: "Contact Us", description: "Direct inquiries & partnerships" },
+    { id: "story" as PageId, label: "Our Story", description: "Mission, research gaps & youth leadership" },
     { id: "contact" as PageId, tab: "ambassador", label: "Youth Ambassadors", description: "Join student leadership cohort" },
+    { id: "contact" as PageId, tab: "inquiry", label: "Contact Us", description: "Direct questions & partnerships" },
     { id: "contact" as PageId, tab: "feedback", label: "Program Feedback", description: "Anonymous input & suggestions" },
   ];
 
@@ -69,24 +68,26 @@ export function Navbar({ activePage, onNavigate }: NavbarProps) {
   };
 
   return (
-    <nav className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-deep-teal/10 transition-colors">
-      <div className="max-w-[1180px] mx-auto px-4 sm:px-6 py-3 flex items-center justify-between gap-3">
+    <nav className="sticky top-0 z-50 bg-ivory/95 backdrop-blur-md border-b border-plum/10 transition-colors">
+      <div className="max-w-[1140px] mx-auto px-4 sm:px-6 py-3.5 flex items-center justify-between gap-4">
         {/* Brand Logo */}
         <button
           onClick={() => {
             onNavigate("home");
             setMobileMenuOpen(false);
           }}
-          className="flex items-center gap-2.5 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-raspberry rounded-lg flex-shrink-0"
+          className="flex items-center gap-2.5 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-berry rounded-lg shrink-0 group"
           aria-label="ReproUs Homepage"
         >
-          <ReproUsMark size={34} />
-          <span className="font-serif text-2xl font-bold text-deep-teal tracking-tight">ReproUs</span>
+          <ReproUsMark size={32} />
+          <span className="font-serif text-2xl md:text-[26px] font-bold text-plum tracking-tight group-hover:text-berry transition-colors">
+            ReproUs
+          </span>
         </button>
 
-        {/* Desktop Navigation Links + CTA Button */}
-        <div className="hidden lg:flex items-center gap-1 xl:gap-1.5">
-          <ul className="flex items-center gap-1 list-none m-0 p-0">
+        {/* Desktop Navigation Links (Clean Text, No Heavy Pills) */}
+        <div className="hidden lg:flex items-center gap-6 xl:gap-8">
+          <ul className="flex items-center gap-5 xl:gap-6 list-none m-0 p-0">
             {navItems.map((item) => {
               const active = isItemActive(item.id);
 
@@ -101,50 +102,57 @@ export function Navbar({ activePage, onNavigate }: NavbarProps) {
                     <button
                       onClick={() => onNavigate("hub")}
                       className={cn(
-                        "flex items-center gap-1 px-3.5 py-1.5 rounded-full text-[14px] xl:text-[14.5px] font-semibold font-sans transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-raspberry whitespace-nowrap",
+                        "flex items-center gap-1 text-[14.5px] font-medium font-sans py-1 transition-colors relative focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-berry rounded",
                         active
-                          ? "bg-deep-teal text-white shadow-sm"
-                          : "text-charcoal hover:text-deep-teal hover:bg-light-teal/50"
+                          ? "text-plum font-bold after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[2px] after:bg-berry"
+                          : "text-plum/80 hover:text-berry"
                       )}
                     >
-                      {item.label}
+                      <span>{item.label}</span>
                       <ChevronDown className="w-3.5 h-3.5 opacity-70" />
                     </button>
 
-                    {/* Learn Dropdown Menu */}
+                    {/* Learn Dropdown */}
                     {learnDropdownOpen && (
-                      <div className="absolute left-0 top-[105%] w-64 rounded-2xl bg-white p-2 shadow-xl border border-deep-teal/15 flex flex-col gap-1 z-50 animate-in fade-in zoom-in-95 duration-150">
-                        <button
-                          onClick={() => {
-                            onNavigate("hub");
-                            setLearnDropdownOpen(false);
-                          }}
-                          className="w-full text-left px-3 py-2 text-[14px] font-bold font-sans text-deep-teal rounded-xl hover:bg-light-teal/40 transition-colors border-b border-deep-teal/10 pb-2.5 mb-1"
-                        >
-                          Explore All Topics →
-                        </button>
-                        {learnCategories.map((cat) => (
-                          <button
-                            key={cat.id}
-                            onClick={() => {
-                              onNavigate("hub", cat.id);
-                              setLearnDropdownOpen(false);
-                            }}
-                            className="w-full text-left px-3 py-1.5 text-[13.5px] font-semibold font-sans text-deep-teal rounded-xl hover:bg-light-teal/40 transition-colors"
-                          >
-                            {cat.label}
-                          </button>
-                        ))}
-                        <div className="pt-1 border-t border-deep-teal/10 mt-1">
+                      <div className="absolute left-0 top-full pt-2 w-72 z-50 animate-in fade-in zoom-in-95 duration-150">
+                        <div className="rounded-xl bg-white p-2 shadow-xl border border-plum/15 flex flex-col gap-1">
                           <button
                             onClick={() => {
-                              onNavigate("myths");
+                              onNavigate("hub");
                               setLearnDropdownOpen(false);
                             }}
-                            className="w-full text-left px-3 py-1.5 text-[13.5px] font-bold font-sans text-coral bg-coral/10 rounded-xl hover:bg-coral/20 transition-colors"
+                            className="w-full text-left px-3 py-2 text-[14px] font-bold font-sans text-plum rounded-lg hover:bg-ivory-darker transition-colors border-b border-plum/10 pb-2 mb-1"
                           >
-                            ✨ Myths &amp; Facts Cards
+                            Explore All Topics →
                           </button>
+                          {learnCategories.map((cat) => (
+                            <button
+                              key={cat.id}
+                              onClick={() => {
+                                onNavigate("hub", cat.id);
+                                setLearnDropdownOpen(false);
+                              }}
+                              className="w-full text-left px-3 py-1.5 text-[13.5px] font-medium font-sans text-plum hover:text-berry hover:bg-ivory-darker rounded-lg transition-colors flex items-center justify-between"
+                            >
+                              <span>{cat.label}</span>
+                              {cat.tag && (
+                                <span className="text-[11px] font-bold px-1.5 py-0.5 rounded bg-ivory text-plum/70">
+                                  {cat.tag}
+                                </span>
+                              )}
+                            </button>
+                          ))}
+                          <div className="pt-1 border-t border-plum/10 mt-1">
+                            <button
+                              onClick={() => {
+                                onNavigate("myths");
+                                setLearnDropdownOpen(false);
+                              }}
+                              className="w-full text-left px-3 py-1.5 text-[13.5px] font-bold font-sans text-berry hover:bg-berry/10 rounded-lg transition-colors"
+                            >
+                              ✨ Myths &amp; Facts Interactive Cards
+                            </button>
+                          </div>
                         </div>
                       </div>
                     )}
@@ -163,36 +171,38 @@ export function Navbar({ activePage, onNavigate }: NavbarProps) {
                     <button
                       onClick={() => onNavigate("story")}
                       className={cn(
-                        "flex items-center gap-1 px-3.5 py-1.5 rounded-full text-[14px] xl:text-[14.5px] font-semibold font-sans transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-raspberry whitespace-nowrap",
+                        "flex items-center gap-1 text-[14.5px] font-medium font-sans py-1 transition-colors relative focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-berry rounded",
                         active
-                          ? "bg-deep-teal text-white shadow-sm"
-                          : "text-charcoal hover:text-deep-teal hover:bg-light-teal/50"
+                          ? "text-plum font-bold after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[2px] after:bg-berry"
+                          : "text-plum/80 hover:text-berry"
                       )}
                     >
-                      {item.label}
+                      <span>{item.label}</span>
                       <ChevronDown className="w-3.5 h-3.5 opacity-70" />
                     </button>
 
-                    {/* About Dropdown Menu */}
+                    {/* About Dropdown */}
                     {aboutDropdownOpen && (
-                      <div className="absolute right-0 xl:left-0 top-[105%] w-60 rounded-2xl bg-white p-2 shadow-xl border border-deep-teal/15 flex flex-col gap-1 z-50 animate-in fade-in zoom-in-95 duration-150">
-                        {aboutItems.map((sub) => (
-                          <button
-                            key={sub.label}
-                            onClick={() => {
-                              onNavigate(sub.id, sub.tab);
-                              setAboutDropdownOpen(false);
-                            }}
-                            className="w-full text-left px-3 py-2 rounded-xl hover:bg-light-teal/40 transition-colors group"
-                          >
-                            <span className="text-[14px] font-bold font-sans text-deep-teal block">
-                              {sub.label}
-                            </span>
-                            <span className="text-[12px] font-medium font-sans text-charcoal/70 block">
-                              {sub.description}
-                            </span>
-                          </button>
-                        ))}
+                      <div className="absolute right-0 xl:left-0 top-full pt-2 w-64 z-50 animate-in fade-in zoom-in-95 duration-150">
+                        <div className="rounded-xl bg-white p-2 shadow-xl border border-plum/15 flex flex-col gap-1">
+                          {aboutItems.map((sub) => (
+                            <button
+                              key={sub.label}
+                              onClick={() => {
+                                onNavigate(sub.id, sub.tab);
+                                setAboutDropdownOpen(false);
+                              }}
+                              className="w-full text-left px-3 py-2 rounded-lg hover:bg-ivory-darker transition-colors group"
+                            >
+                              <span className="text-[14px] font-bold font-sans text-plum group-hover:text-berry block">
+                                {sub.label}
+                              </span>
+                              <span className="text-[12px] font-normal font-sans text-plum/70 block">
+                                {sub.description}
+                              </span>
+                            </button>
+                          ))}
+                        </div>
                       </div>
                     )}
                   </li>
@@ -204,10 +214,10 @@ export function Navbar({ activePage, onNavigate }: NavbarProps) {
                   <button
                     onClick={() => onNavigate(item.id)}
                     className={cn(
-                      "px-3.5 py-1.5 rounded-full text-[14px] xl:text-[14.5px] font-semibold font-sans transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-raspberry whitespace-nowrap",
+                      "text-[14.5px] font-medium font-sans py-1 transition-colors relative focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-berry rounded whitespace-nowrap",
                       active
-                        ? "bg-deep-teal text-white shadow-sm"
-                        : "text-charcoal hover:text-deep-teal hover:bg-light-teal/50"
+                        ? "text-plum font-bold after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[2px] after:bg-berry"
+                        : "text-plum/80 hover:text-berry"
                     )}
                   >
                     {item.label}
@@ -220,32 +230,33 @@ export function Navbar({ activePage, onNavigate }: NavbarProps) {
           {/* Visually Distinct Button: Ask a Question → */}
           <button
             onClick={() => onNavigate("qa", "ask")}
-            className="ml-2 xl:ml-3 inline-flex items-center gap-1.5 px-4 py-2 rounded-full font-sans font-semibold text-[14.5px] bg-raspberry text-white shadow-sm hover:bg-raspberry/90 hover:shadow-md transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-raspberry whitespace-nowrap active:scale-[0.98]"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg font-sans font-semibold text-[15px] bg-berry text-white shadow-sm hover:bg-berry/90 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-berry whitespace-nowrap active:scale-[0.98]"
           >
             <span>Ask a Question</span>
-            <span aria-hidden="true" className="text-base font-bold leading-none">→</span>
+            <span aria-hidden="true">→</span>
           </button>
         </div>
 
         {/* Mobile Menu Toggle Button */}
         <button
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="lg:hidden p-2 rounded-full text-deep-teal hover:bg-light-teal/50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-raspberry"
+          className="lg:hidden p-2 rounded-lg text-plum hover:bg-ivory-darker transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-berry"
           aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
           aria-expanded={mobileMenuOpen}
         >
           {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
         </button>
       </div>
+
       {/* Mobile Drawer Menu */}
       {mobileMenuOpen && (
-        <div className="lg:hidden bg-white border-b border-deep-teal/15 px-6 py-5 flex flex-col gap-2 shadow-lg animate-in slide-in-from-top-4 duration-200 max-h-[85vh] overflow-y-auto">
+        <div className="lg:hidden bg-ivory border-b border-plum/15 px-6 py-5 flex flex-col gap-2 shadow-lg animate-in slide-in-from-top-4 duration-200 max-h-[85vh] overflow-y-auto font-sans">
           {navItems.map((item) => {
             const active = isItemActive(item.id);
 
             if (item.dropdownType === "learn") {
               return (
-                <div key={item.id} className="flex flex-col border-b border-deep-teal/10 pb-1">
+                <div key={item.id} className="flex flex-col border-b border-plum/10 pb-1">
                   <div className="flex items-center justify-between">
                     <button
                       onClick={() => {
@@ -253,15 +264,15 @@ export function Navbar({ activePage, onNavigate }: NavbarProps) {
                         setMobileMenuOpen(false);
                       }}
                       className={cn(
-                        "flex-1 text-left px-3 py-2.5 rounded-xl font-semibold font-sans text-[15px] transition-colors",
-                        active ? "bg-deep-teal text-white" : "text-charcoal hover:bg-light-teal/40"
+                        "flex-1 text-left px-3 py-2.5 rounded-lg font-semibold text-[15px] transition-colors",
+                        active ? "text-berry font-bold" : "text-plum hover:bg-ivory-darker"
                       )}
                     >
                       {item.label}
                     </button>
                     <button
                       onClick={() => setMobileLearnExpanded(!mobileLearnExpanded)}
-                      className="p-2 text-deep-teal hover:bg-light-teal/40 rounded-lg ml-1"
+                      className="p-2 text-plum hover:bg-ivory-darker rounded-lg ml-1"
                       aria-label="Expand Learn categories"
                     >
                       <ChevronDown
@@ -282,7 +293,7 @@ export function Navbar({ activePage, onNavigate }: NavbarProps) {
                             onNavigate("hub", cat.id);
                             setMobileMenuOpen(false);
                           }}
-                          className="w-full text-left px-3 py-1.5 text-[14px] font-medium font-sans text-deep-teal hover:bg-light-teal/40 rounded-lg"
+                          className="w-full text-left px-3 py-1.5 text-[14px] font-medium text-plum/85 hover:text-berry rounded-lg"
                         >
                           ↳ {cat.label}
                         </button>
@@ -292,9 +303,9 @@ export function Navbar({ activePage, onNavigate }: NavbarProps) {
                           onNavigate("myths");
                           setMobileMenuOpen(false);
                         }}
-                        className="w-full text-left px-3 py-1.5 text-[14px] font-bold font-sans text-coral hover:bg-coral/10 rounded-lg"
+                        className="w-full text-left px-3 py-1.5 text-[14px] font-bold text-berry rounded-lg"
                       >
-                        ↳ ✨ Myths &amp; Facts Cards
+                        ↳ ✨ Myths &amp; Facts Interactive Cards
                       </button>
                     </div>
                   )}
@@ -304,7 +315,7 @@ export function Navbar({ activePage, onNavigate }: NavbarProps) {
 
             if (item.dropdownType === "about") {
               return (
-                <div key={item.id} className="flex flex-col border-b border-deep-teal/10 pb-1">
+                <div key={item.id} className="flex flex-col border-b border-plum/10 pb-1">
                   <div className="flex items-center justify-between">
                     <button
                       onClick={() => {
@@ -312,15 +323,15 @@ export function Navbar({ activePage, onNavigate }: NavbarProps) {
                         setMobileMenuOpen(false);
                       }}
                       className={cn(
-                        "flex-1 text-left px-3 py-2.5 rounded-xl font-semibold font-sans text-[15px] transition-colors",
-                        active ? "bg-deep-teal text-white" : "text-charcoal hover:bg-light-teal/40"
+                        "flex-1 text-left px-3 py-2.5 rounded-lg font-semibold text-[15px] transition-colors",
+                        active ? "text-berry font-bold" : "text-plum hover:bg-ivory-darker"
                       )}
                     >
                       {item.label}
                     </button>
                     <button
                       onClick={() => setMobileAboutExpanded(!mobileAboutExpanded)}
-                      className="p-2 text-deep-teal hover:bg-light-teal/40 rounded-lg ml-1"
+                      className="p-2 text-plum hover:bg-ivory-darker rounded-lg ml-1"
                       aria-label="Expand About subpages"
                     >
                       <ChevronDown
@@ -341,7 +352,7 @@ export function Navbar({ activePage, onNavigate }: NavbarProps) {
                             onNavigate(sub.id, sub.tab);
                             setMobileMenuOpen(false);
                           }}
-                          className="w-full text-left px-3 py-1.5 text-[14px] font-medium font-sans text-deep-teal hover:bg-light-teal/40 rounded-lg"
+                          className="w-full text-left px-3 py-1.5 text-[14px] font-medium text-plum/85 hover:text-berry rounded-lg"
                         >
                           ↳ {sub.label}
                         </button>
@@ -360,8 +371,8 @@ export function Navbar({ activePage, onNavigate }: NavbarProps) {
                   setMobileMenuOpen(false);
                 }}
                 className={cn(
-                  "w-full text-left px-3 py-2.5 rounded-xl font-semibold font-sans text-[15px] transition-colors",
-                  active ? "bg-deep-teal text-white" : "text-charcoal hover:bg-light-teal/40"
+                  "w-full text-left px-3 py-2.5 rounded-lg font-semibold text-[15px] transition-colors",
+                  active ? "text-berry font-bold" : "text-plum hover:bg-ivory-darker"
                 )}
               >
                 {item.label}
@@ -375,14 +386,13 @@ export function Navbar({ activePage, onNavigate }: NavbarProps) {
               onNavigate("qa", "ask");
               setMobileMenuOpen(false);
             }}
-            className="w-full mt-3 py-3 px-4 rounded-full font-sans font-semibold text-[15px] bg-raspberry text-white flex items-center justify-center gap-2 shadow-md hover:bg-raspberry/90 transition-colors active:scale-[0.98]"
+            className="w-full mt-3 py-3 px-4 rounded-lg font-sans font-semibold text-[15px] bg-berry text-white flex items-center justify-center gap-2 shadow-sm hover:bg-berry/90 transition-colors active:scale-[0.98]"
           >
             <span>Ask a Question</span>
-            <span aria-hidden="true" className="text-base font-bold">→</span>
+            <span aria-hidden="true">→</span>
           </button>
         </div>
       )}
     </nav>
   );
 }
-

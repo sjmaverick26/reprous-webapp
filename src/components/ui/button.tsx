@@ -4,26 +4,29 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center whitespace-nowrap rounded-full font-sans font-semibold ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-raspberry focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 active:scale-[0.98]",
+  "inline-flex items-center justify-center whitespace-nowrap rounded-lg font-sans font-semibold ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-berry focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 active:scale-[0.98]",
   {
     variants: {
       variant: {
-        default: "bg-raspberry text-white hover:bg-raspberry/90 shadow-sm",
-        raspberry: "bg-raspberry text-white hover:bg-raspberry/90 shadow-sm",
-        coral: "bg-coral text-white hover:bg-coral/90 shadow-sm",
-        secondary: "bg-transparent text-deep-teal border-2 border-deep-teal hover:bg-deep-teal/10",
-        outline: "bg-transparent text-deep-teal border-2 border-deep-teal hover:bg-deep-teal/10",
-        ghost: "bg-transparent text-deep-teal hover:bg-light-teal/50",
-        plum: "bg-transparent text-deep-teal border-2 border-deep-teal hover:bg-deep-teal/10",
-        yellow: "bg-coral text-white hover:bg-coral/90 shadow-sm",
-        pill: "bg-transparent border-[1.5px] border-raspberry text-raspberry hover:bg-raspberry/10 text-[14px] px-3.5 py-1.5",
-        pillActive: "bg-raspberry border-[1.5px] border-raspberry text-white text-[14px] px-3.5 py-1.5 shadow-sm",
+        default: "bg-berry text-white hover:bg-berry/90 shadow-sm border border-transparent",
+        primary: "bg-berry text-white hover:bg-berry/90 shadow-sm border border-transparent",
+        berry: "bg-berry text-white hover:bg-berry/90 shadow-sm border border-transparent",
+        secondary: "bg-transparent text-plum border-[1.5px] border-berry hover:bg-berry/10",
+        outline: "bg-transparent text-plum border-[1.5px] border-berry hover:bg-berry/10",
+        plum: "bg-transparent text-plum border-[1.5px] border-plum hover:bg-plum/10",
+        ghost: "bg-transparent text-plum hover:bg-plum/5",
+        gold: "bg-gold text-plum font-bold hover:bg-gold/90 shadow-sm",
+        yellow: "bg-gold text-plum font-bold hover:bg-gold/90 shadow-sm",
+        coral: "bg-gold text-plum font-bold hover:bg-gold/90 shadow-sm",
+        raspberry: "bg-berry text-white hover:bg-berry/90 shadow-sm border border-transparent",
+        pill: "bg-transparent border-[1.5px] border-berry text-berry hover:bg-berry/10 text-[14px] px-3.5 py-1.5",
+        pillActive: "bg-berry border-[1.5px] border-berry text-white text-[14px] px-3.5 py-1.5 shadow-sm",
       },
       size: {
-        default: "h-11 px-6 py-2.5 text-[15.5px]",
-        sm: "h-9 rounded-full px-4 text-[14px]",
-        lg: "h-13 rounded-full px-8 text-[16px]",
-        icon: "h-10 w-10 p-0 rounded-full",
+        default: "px-[22px] py-[13px] text-[15px] md:text-[16px]",
+        sm: "px-4 py-2 text-[13.5px] md:text-[14px]",
+        lg: "px-7 py-3.5 text-[16px] md:text-[17px]",
+        icon: "h-10 w-10 p-0",
       },
     },
     defaultVariants: {

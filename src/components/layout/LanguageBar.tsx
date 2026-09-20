@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { cn } from "@/lib/utils";
 
 interface LanguageBarProps {
@@ -38,11 +38,11 @@ export function LanguageBar({ currentLang, onSelectLang }: LanguageBarProps) {
   };
 
   return (
-    <div className="bg-white/95 border-b border-deep-teal/10 transition-colors">
-      <div className="max-w-[1100px] mx-auto px-6 py-2 flex items-center justify-between gap-4 flex-wrap">
+    <div className="bg-ivory/95 border-b border-plum/10 transition-colors">
+      <div className="max-w-[1140px] mx-auto px-4 sm:px-6 py-2 flex items-center justify-between gap-4 flex-wrap">
         {/* Language Switcher */}
-        <div className="flex items-center gap-2 flex-wrap">
-          <span className="text-[13px] font-semibold font-sans uppercase tracking-wider text-deep-teal/75 mr-1">
+        <div className="flex items-center gap-1.5 flex-wrap">
+          <span className="text-[12.5px] font-semibold font-sans uppercase tracking-wider text-plum/70 mr-1">
             Viewing in:
           </span>
           {languages.map((lang) => {
@@ -52,10 +52,10 @@ export function LanguageBar({ currentLang, onSelectLang }: LanguageBarProps) {
                 key={lang.code}
                 onClick={() => onSelectLang(lang.code)}
                 className={cn(
-                  "px-3 py-1 rounded-full text-[14px] font-semibold font-sans transition-all border",
+                  "px-2.5 py-0.5 rounded text-[13px] font-medium font-sans transition-all",
                   isActive
-                    ? "bg-deep-teal border-deep-teal text-white shadow-sm"
-                    : "bg-transparent border-deep-teal/20 text-deep-teal hover:bg-light-teal/50"
+                    ? "bg-plum text-ivory font-bold shadow-xs"
+                    : "text-plum/80 hover:text-berry hover:bg-ivory-darker"
                 )}
               >
                 {lang.label}
@@ -65,17 +65,17 @@ export function LanguageBar({ currentLang, onSelectLang }: LanguageBarProps) {
         </div>
 
         {/* Accessibility Tools (Text Size & Contrast) */}
-        <div className="flex items-center gap-2">
-          <span className="text-[13px] font-semibold font-sans uppercase tracking-wider text-deep-teal/75">
+        <div className="flex items-center gap-1.5">
+          <span className="text-[12.5px] font-semibold font-sans uppercase tracking-wider text-plum/70 mr-1">
             Text:
           </span>
           <button
             onClick={() => handleTextSize("")}
             className={cn(
-              "px-2.5 py-0.5 rounded-full text-[13.5px] font-semibold font-sans border transition-colors",
+              "px-2 py-0.5 rounded text-[13px] font-semibold font-sans transition-colors",
               textSize === ""
-                ? "bg-deep-teal border-deep-teal text-white"
-                : "border-deep-teal/20 text-deep-teal hover:bg-light-teal/50"
+                ? "bg-plum text-ivory font-bold"
+                : "text-plum/80 hover:bg-ivory-darker"
             )}
             aria-label="Default text size"
           >
@@ -84,10 +84,10 @@ export function LanguageBar({ currentLang, onSelectLang }: LanguageBarProps) {
           <button
             onClick={() => handleTextSize("text-lg")}
             className={cn(
-              "px-2.5 py-0.5 rounded-full text-[13.5px] font-semibold font-sans border transition-colors",
+              "px-2 py-0.5 rounded text-[13px] font-semibold font-sans transition-colors",
               textSize === "text-lg"
-                ? "bg-deep-teal border-deep-teal text-white"
-                : "border-deep-teal/20 text-deep-teal hover:bg-light-teal/50"
+                ? "bg-plum text-ivory font-bold"
+                : "text-plum/80 hover:bg-ivory-darker"
             )}
             aria-label="Large text size"
           >
@@ -96,10 +96,10 @@ export function LanguageBar({ currentLang, onSelectLang }: LanguageBarProps) {
           <button
             onClick={() => handleTextSize("text-xl")}
             className={cn(
-              "px-2.5 py-0.5 rounded-full text-[13.5px] font-semibold font-sans border transition-colors",
+              "px-2 py-0.5 rounded text-[13px] font-semibold font-sans transition-colors",
               textSize === "text-xl"
-                ? "bg-deep-teal border-deep-teal text-white"
-                : "border-deep-teal/20 text-deep-teal hover:bg-light-teal/50"
+                ? "bg-plum text-ivory font-bold"
+                : "text-plum/80 hover:bg-ivory-darker"
             )}
             aria-label="Extra large text size"
           >
@@ -109,10 +109,10 @@ export function LanguageBar({ currentLang, onSelectLang }: LanguageBarProps) {
           <button
             onClick={handleToggleContrast}
             className={cn(
-              "ml-1 px-3 py-0.5 rounded-full text-[13.5px] font-semibold font-sans border transition-colors",
+              "ml-1.5 px-2.5 py-0.5 rounded text-[12.5px] font-semibold font-sans transition-colors border",
               isHighContrast
-                ? "bg-deep-teal border-deep-teal text-white font-bold ring-2 ring-coral"
-                : "border-deep-teal/20 text-deep-teal hover:bg-light-teal/50"
+                ? "bg-plum border-plum text-ivory font-bold ring-2 ring-gold"
+                : "border-plum/20 text-plum hover:bg-ivory-darker"
             )}
           >
             {isHighContrast ? "High Contrast On" : "High Contrast"}

@@ -336,21 +336,21 @@ export function EducationalReferences({
   const getTypeIcon = (type: ReferenceItem["type"]) => {
     switch (type) {
       case "Research article":
-        return <BookOpen className="w-3.5 h-3.5 text-coral" />;
+        return <BookOpen className="w-3.5 h-3.5 text-berry" />;
       case "Clinical guideline":
-        return <FileCheck className="w-3.5 h-3.5 text-deep-teal" />;
+        return <FileCheck className="w-3.5 h-3.5 text-plum" />;
       case "Patient education resource":
-        return <HeartHandshake className="w-3.5 h-3.5 text-raspberry" />;
+        return <HeartHandshake className="w-3.5 h-3.5 text-berry" />;
       case "Additional reading":
-        return <Bookmark className="w-3.5 h-3.5 text-deep-teal" />;
+        return <Bookmark className="w-3.5 h-3.5 text-plum" />;
     }
   };
 
   if (compact) {
     return (
-      <div className={cn("mt-6 pt-5 border-t border-deep-teal/15", className)}>
+      <div className={cn("mt-6 pt-5 border-t border-plum/15 font-sans", className)}>
         <div className="flex items-center gap-2 mb-3">
-          <span className="text-[10px] uppercase font-bold tracking-widest text-[#2F7F7B] bg-light-teal/80 px-2 py-0.5 rounded-full font-sans">
+          <span className="text-[10px] uppercase font-bold tracking-widest text-berry bg-ivory-darker px-2.5 py-0.5 rounded border border-plum/10">
             ✦ Clinical &amp; Educational References
           </span>
         </div>
@@ -358,18 +358,18 @@ export function EducationalReferences({
           {items.map((item) => (
             <div
               key={item.number}
-              className="p-3 rounded-xl bg-white border border-deep-teal/15 flex flex-col justify-between shadow-xs"
+              className="p-3 rounded-xl bg-white border border-plum/15 flex flex-col justify-between shadow-xs"
             >
               <div>
-                <div className="flex items-center gap-1.5 text-[11px] font-bold text-coral font-sans uppercase mb-1">
+                <div className="flex items-center gap-1.5 text-[11px] font-bold text-berry uppercase mb-1">
                   <span>{item.number}</span>
                   <span>·</span>
                   <span>{item.type}</span>
                 </div>
-                <h5 className="font-bold text-[13px] text-deep-teal leading-snug font-sans">
+                <h5 className="font-bold text-[13px] text-plum leading-snug font-sans">
                   {item.title}
                 </h5>
-                <p className="text-[11.5px] text-charcoal/70 font-sans leading-tight mt-1 mb-0">
+                <p className="text-[11.5px] text-plum/70 font-sans leading-tight mt-1 mb-0">
                   {item.source}
                 </p>
               </div>
@@ -381,23 +381,23 @@ export function EducationalReferences({
   }
 
   return (
-    <section className={cn("w-full mt-12 pt-8 border-t border-deep-teal/15", className)}>
+    <section className={cn("w-full mt-12 pt-8 border-t border-plum/15 font-sans", className)}>
       {/* Section Eyebrow & Title */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-3 mb-6">
         <div>
-          <div className="inline-flex items-center gap-1.5 text-[11.5px] font-bold tracking-widest uppercase text-[#2F7F7B] mb-1.5 font-sans">
-            <span className="text-coral">✦</span>
+          <div className="inline-flex items-center gap-1.5 text-[11.5px] font-bold tracking-widest uppercase text-berry mb-1.5">
+            <span className="text-gold">✦</span>
             <span>VERIFIED CLINICAL SOURCES</span>
           </div>
-          <h3 className="text-2xl md:text-[28px] font-normal font-serif text-deep-teal leading-tight tracking-tight">
+          <h3 className="text-2xl md:text-[28px] font-normal font-serif text-plum leading-tight tracking-tight">
             {customTitle || "Evidence & Educational References"}
           </h3>
-          <p className="text-[14px] md:text-[15px] text-charcoal/80 font-sans mt-1 mb-0 max-w-2xl">
+          <p className="text-[14px] md:text-[15px] text-plum/80 font-sans mt-1 mb-0 max-w-2xl">
             ReproUs educational materials are grounded in peer-reviewed science, clinical society guidelines, and vetted patient advocacy frameworks.
           </p>
         </div>
 
-        <div className="text-xs font-semibold text-deep-teal/70 font-sans self-start md:self-end">
+        <div className="text-xs font-semibold text-plum/70 font-sans self-start md:self-end">
           Peer-Reviewed • Medically Verified
         </div>
       </div>
@@ -407,29 +407,29 @@ export function EducationalReferences({
         {items.map((item) => (
           <div
             key={item.number}
-            className="group rounded-2xl bg-white p-5 border border-deep-teal/15 shadow-xs hover:shadow-card hover:-translate-y-0.5 transition-all flex flex-col justify-between"
+            className="group rounded-xl bg-white p-5 border border-plum/15 shadow-xs hover:shadow-card hover:-translate-y-0.5 transition-all flex flex-col justify-between"
           >
             <div>
               <div className="flex items-center justify-between gap-2 mb-3">
-                <span className="font-serif font-bold text-xl text-coral tracking-tight">
+                <span className="font-serif font-bold text-xl text-gold tracking-tight">
                   {item.number}
                 </span>
-                <span className="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-deep-teal bg-light-teal/60 px-2.5 py-0.5 rounded-full font-sans border border-deep-teal/10">
+                <span className="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-plum bg-ivory px-2.5 py-0.5 rounded border border-plum/10">
                   {getTypeIcon(item.type)}
                   <span>{item.type}</span>
                 </span>
               </div>
 
-              <h4 className="font-bold text-[14.5px] text-deep-teal leading-snug mb-1.5 font-sans group-hover:text-raspberry transition-colors">
+              <h4 className="font-bold text-[14.5px] text-plum leading-snug mb-1.5 group-hover:text-berry transition-colors">
                 {item.title}
               </h4>
 
-              <p className="text-[12.5px] text-charcoal/75 font-sans leading-relaxed m-0">
+              <p className="text-[12.5px] text-plum/75 leading-relaxed m-0">
                 {item.source}
               </p>
             </div>
 
-            <div className="mt-4 pt-3 border-t border-deep-teal/10 flex items-center justify-between text-[12px] font-semibold text-deep-teal/80 group-hover:text-raspberry transition-colors">
+            <div className="mt-4 pt-3 border-t border-plum/10 flex items-center justify-between text-[12px] font-semibold text-plum/80 group-hover:text-berry transition-colors">
               <span>{item.linkText || "Clinical Evidence"}</span>
               <ExternalLink className="w-3.5 h-3.5 opacity-70 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
             </div>

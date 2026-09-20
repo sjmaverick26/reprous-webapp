@@ -3,37 +3,34 @@
 @tailwind utilities;
 
 :root {
-  /* Semantic Color Palette */
-  --white: #FFFFFF;         /* Card interiors & surface elements */
-  --page-bg: #FFF9F8;       /* Main page warm background (60%) */
-  --deep-teal: #174C4F;     /* Main headings, nav, footer, teal anchor (20%) */
-  --teal-accent: #2F7F7B;   /* Medium teal for eyebrows and subheadings */
-  --soft-pink: #F6D8DE;     /* Section backgrounds (10% with light teal) */
-  --light-teal: #D9EEEE;    /* Cards / alternating sections / language pill */
-  --raspberry: #B83F68;     /* Primary buttons, important links (7%) */
-  --coral: #F47C6C;         /* Highlights, icons, hover states, accent (3%) */
-  --charcoal: #29272A;      /* Body text */
+  /* Exact ReproUs Palette */
+  --white: #FFFFFF;
+  --page-bg: #FFF8F3;         /* Warm Ivory Main Background */
+  --ivory: #FFF8F3;           /* Warm Ivory */
+  --ivory-darker: #FAF1EC;    /* Slightly darker ivory/rose */
+  --plum: #3B2430;            /* Dark Plum - All Major Headings & Main Text */
+  --berry: #8E3F5C;           /* Primary Berry - Primary CTA Buttons & Small Labels */
+  --dusty-rose: #D99AAA;      /* Dusty Rose - Endometriosis / Reproductive Pain */
+  --sage: #A8B7A1;            /* Sage - Female Athlete Health */
+  --gold: #EBCB72;            /* Soft Gold - Important Highlights & Accents */
+  --lavender: #E8DFEA;        /* Pale Lavender - PCOS / Hormonal Health */
+  
+  /* Text & Semantic Colors */
+  --charcoal: #3B2430;        /* Deep Plum as Primary Text */
+  --ink: #3B2430;
+  --blush: #FFF8F3;           /* Warm Ivory */
+  --blush-deep: #FAF1EC;
+  --cream-card: #FFFFFF;
 
-  /* Backward-compatible semantic aliases mapped to the new palette */
-  --plum: #174C4F;          /* Mapped to Deep Teal */
-  --berry: #B83F68;         /* Mapped to Raspberry */
-  --berry-dark: #174C4F;    /* Mapped to Deep Teal */
-  --dusty-rose: #F6D8DE;    /* Mapped to Soft Pink */
-  --sage: #D9EEEE;          /* Mapped to Light Teal */
-  --gold: #F47C6C;          /* Mapped to Coral */
-  --yellow: #F47C6C;        /* Mapped to Coral */
-  --yellow-deep: #E06858;   /* Deeper Coral */
-  --lavender: #F6D8DE;      /* Mapped to Soft Pink */
-
-  /* Semantic Theme Aliases */
-  --blush: #FFF9F8;         /* Page Background -> Warm Soft White */
-  --blush-deep: #F6D8DE;    /* Accent Pink -> Soft Pink */
-  --ink: #29272A;           /* Primary Body Text -> Dark Charcoal */
-  --cream-card: #FFFFFF;    /* Surface Cards -> Pure White */
-
-  /* Semantic Typography Fallback Aliases */
-  --font-fraunces: var(--font-dm-serif);
-  --font-nunito-sans: var(--font-dm-sans);
+  /* Aliases mapped to new palette for backwards compatibility */
+  --deep-teal: #3B2430;       /* Mapped to Plum */
+  --teal-accent: #8E3F5C;     /* Mapped to Berry */
+  --light-teal: #A8B7A1;      /* Mapped to Sage */
+  --soft-pink: #E8DFEA;       /* Mapped to Lavender */
+  --raspberry: #8E3F5C;       /* Mapped to Berry */
+  --coral: #EBCB72;           /* Mapped to Soft Gold */
+  --yellow: #EBCB72;          /* Mapped to Soft Gold */
+  --yellow-deep: #D6B250;
 }
 
 * {
@@ -47,7 +44,7 @@ html {
 body {
   margin: 0;
   background-color: var(--page-bg);
-  color: var(--charcoal);
+  color: var(--plum);
   font-family: var(--font-dm-sans), 'DM Sans', sans-serif;
   font-size: 18px; /* DM Sans 17–19px */
   line-height: 1.6;
@@ -56,7 +53,8 @@ body {
 
 h1, .text-h1 {
   font-family: var(--font-dm-serif), 'DM Serif Display', Georgia, serif;
-  color: var(--deep-teal);
+  color: var(--plum);
+  font-weight: 400;
   font-size: clamp(42px, 5.5vw + 1rem, 72px); /* DM Serif Display / 64–72px */
   line-height: 1.08;
   letter-spacing: -0.02em;
@@ -64,7 +62,8 @@ h1, .text-h1 {
 
 h2, .text-h2 {
   font-family: var(--font-dm-serif), 'DM Serif Display', Georgia, serif;
-  color: var(--deep-teal);
+  color: var(--plum);
+  font-weight: 400;
   font-size: clamp(32px, 3.5vw + 0.5rem, 50px); /* DM Serif Display / 42–50px */
   line-height: 1.15;
   letter-spacing: -0.01em;
@@ -72,14 +71,16 @@ h2, .text-h2 {
 
 h3, .text-h3 {
   font-family: var(--font-dm-serif), 'DM Serif Display', Georgia, serif;
-  color: var(--deep-teal);
+  color: var(--plum);
+  font-weight: 400;
   font-size: clamp(24px, 2.5vw + 0.25rem, 36px); /* DM Serif Display / 30–36px */
   line-height: 1.2;
 }
 
 h4, .font-serif {
   font-family: var(--font-dm-serif), 'DM Serif Display', Georgia, serif;
-  color: var(--deep-teal);
+  color: var(--plum);
+  font-weight: 400;
 }
 
 /* Accessibility Modes */
@@ -92,15 +93,12 @@ html.text-xl {
 }
 
 html.contrast {
-  --blush: #FFFFFF;
-  --blush-deep: #F6D8DE;
-  --cream-card: #FFFFFF;
-  --ink: #000000;
+  --page-bg: #FFFFFF;
   --plum: #000000;
-  --berry: #205B5C;
-  --berry-dark: #123B3C;
-  --yellow: #B83F68;
-  --yellow-deep: #8F2B4E;
+  --berry: #5E1F35;
+  --charcoal: #000000;
+  --ink: #000000;
+  --cream-card: #FFFFFF;
 }
 
 html.contrast .border-contrast {
@@ -132,16 +130,4 @@ html.contrast .border-contrast {
 
 .rotate-y-180 {
   transform: rotateY(180deg);
-}
-
-/* Serpentine track dashed line */
-.path-track-line {
-  position: absolute;
-  left: 50%;
-  top: 0;
-  bottom: 0;
-  width: 2px;
-  border-left: 3px dashed var(--blush-deep);
-  transform: translateX(-50%);
-  z-index: 0;
 }

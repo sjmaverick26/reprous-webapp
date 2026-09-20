@@ -47,7 +47,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-blush text-ink selection:bg-yellow-deep/40 transition-colors">
+    <div className="min-h-screen flex flex-col bg-ivory text-plum selection:bg-gold/30 transition-colors">
       {/* Top Navbar */}
       <Navbar activePage={activePage} onNavigate={handleNavigate} />
 

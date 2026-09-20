@@ -22,33 +22,33 @@ export function Footer({ onNavigate }: FooterProps) {
   ];
 
   return (
-    <footer className="mt-auto border-t border-deep-teal/20 bg-deep-teal text-white py-12 transition-colors">
+    <footer className="mt-auto border-t border-plum/20 bg-plum text-ivory py-12 transition-colors font-sans">
       <div className="max-w-[1100px] mx-auto px-6 flex flex-col gap-8">
         <div className="flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
           <div className="flex items-center gap-3">
             <ReproUsMark size={32} />
             <div>
-              <span className="font-serif font-bold text-white text-2xl block tracking-tight">ReproUs</span>
-              <p className="text-[13.5px] text-white/80 m-0 font-sans">
-                Free, honest reproductive health education for youth, students &amp; communities.
+              <span className="font-serif font-bold text-ivory text-2xl block tracking-tight">ReproUs</span>
+              <p className="text-[13.5px] text-ivory/80 m-0 font-sans">
+                Evidence-based education and self-advocacy tools for girls &amp; youth.
               </p>
             </div>
           </div>
 
-          <div className="flex items-center gap-3.5 text-[13.5px] font-medium text-white/85 flex-wrap justify-center font-sans">
+          <div className="flex items-center gap-3.5 text-[13.5px] font-medium text-ivory/85 flex-wrap justify-center font-sans">
             <span>Always Free</span>
-            <span className="text-coral">•</span>
+            <span className="text-gold">•</span>
             <span>100% Anonymous</span>
-            <span className="text-coral">•</span>
-            <span>Medical Review Board</span>
-            <span className="text-coral">•</span>
+            <span className="text-gold">•</span>
+            <span>Clinical Research Grounding</span>
+            <span className="text-gold">•</span>
             <span>Youth-Led Movement</span>
           </div>
         </div>
 
         {/* Quick Links Row */}
         {onNavigate && (
-          <div className="flex flex-wrap items-center justify-center md:justify-start gap-x-6 gap-y-2 pt-4 border-t border-white/15 text-[14px] md:text-[14.5px] font-semibold text-white/90 font-sans">
+          <div className="flex flex-wrap items-center justify-center md:justify-start gap-x-6 gap-y-2 pt-4 border-t border-ivory/15 text-[14px] md:text-[14.5px] font-semibold text-ivory/90 font-sans">
             {links.map((link) => {
               const isCta = link.label.includes("→");
               return (
@@ -58,8 +58,8 @@ export function Footer({ onNavigate }: FooterProps) {
                   className={cn(
                     "transition-colors",
                     isCta
-                      ? "text-coral font-bold hover:underline"
-                      : "hover:text-coral hover:underline"
+                      ? "text-gold font-bold hover:underline"
+                      : "hover:text-gold hover:underline"
                   )}
                 >
                   {link.label}
@@ -69,21 +69,21 @@ export function Footer({ onNavigate }: FooterProps) {
           </div>
         )}
 
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t border-white/15 text-[13px] md:text-[13.5px] text-white/70 text-center sm:text-left font-sans">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t border-ivory/15 text-[13px] md:text-[13.5px] text-ivory/70 text-center sm:text-left font-sans">
           <p className="m-0">
             © {new Date().getFullYear()} ReproUs Network. All education is provided for informational empowerment.
           </p>
           <div className="flex items-center gap-4">
             <button
               onClick={() => onNavigate?.("contact", "ambassador")}
-              className="hover:underline text-coral font-semibold"
+              className="hover:underline text-gold font-semibold"
             >
               Ambassador Portal
             </button>
-            <span className="text-coral">•</span>
+            <span className="text-gold">•</span>
             <button
               onClick={() => onNavigate?.("contact", "feedback")}
-              className="hover:underline text-coral font-semibold"
+              className="hover:underline text-gold font-semibold"
             >
               Program Feedback
             </button>
