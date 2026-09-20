@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { HelpCircle, Send, CheckCircle2, Search } from "lucide-react";
 import { FAQS_DATA } from "@/data/faqsData";
 import {
@@ -21,15 +21,21 @@ import {
 } from "@/components/ui/dialog";
 import { submitQuestion } from "@/lib/api";
 
-export function QAView() {
+export function QAView({ autoOpenSubmit = false }: { autoOpenSubmit?: boolean }) {
   const [activeCategory, setActiveCategory] = useState<string>("all");
   const [searchQuery, setSearchQuery] = useState<string>("");
-  const [isSubmitModalOpen, setIsSubmitModalOpen] = useState(false);
+  const [isSubmitModalOpen, setIsSubmitModalOpen] = useState(autoOpenSubmit);
   const [questionText, setQuestionText] = useState("");
   const [questionCat, setQuestionCat] = useState("general");
   const [ageRange, setAgeRange] = useState("16-18");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
+
+  useEffect(() => {
+    if (autoOpenSubmit) {
+      setIsSubmitModalOpen(true);
+    }
+  }, [autoOpenSubmit]);
 
   const categories = [
     { id: "all", label: "All Questions" },

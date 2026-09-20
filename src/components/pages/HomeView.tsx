@@ -68,7 +68,7 @@ export function HomeView({ onNavigate }: HomeViewProps) {
               size="lg"
               className="gap-2 shadow-md hover:shadow-lg"
             >
-              Explore the Learning Hub
+              Start Learning
               <ArrowRight className="w-4 h-4" />
             </Button>
             <Button
@@ -366,7 +366,7 @@ export function HomeView({ onNavigate }: HomeViewProps) {
               You&apos;re not alone in figuring this out.
             </h2>
             <p className="text-[17px] md:text-[18px] text-cream-card/90 m-0 leading-relaxed font-sans">
-              Browse the full Learning Hub, or hear directly from other young people in Youth Voices.
+              Browse Learn topics, or hear directly from other young people in Youth Voices.
             </p>
           </div>
           <Button

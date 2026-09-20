@@ -16,7 +16,7 @@ const dmSans = DM_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "ReproUs — Learning Hub & Youth Reproductive Education",
+  title: "ReproUs — Learn & Youth Reproductive Education",
   description: "Free, honest, judgment-free reproductive health education built for curious minds. No paywalls, no shame.",
   keywords: ["reproductive health", "education", "puberty", "menstrual cycle", "youth health", "workshops"],
   authors: [{ name: "ReproUs Team" }],

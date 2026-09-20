@@ -93,7 +93,7 @@ export function HubView({ initialCategory }: HubViewProps) {
         <div className="flex flex-col gap-10">
           <div className="text-center max-w-2xl mx-auto">
             <div className="text-[13px] font-bold font-sans uppercase tracking-wider text-berry/75 mb-2">
-              Learning Hub
+              Learn
             </div>
             <h1 className="text-4xl md:text-[64px] lg:text-[72px] font-normal font-serif leading-[1.08] text-plum mb-3">
               Pick a topic, go at your pace
@@ -172,7 +172,7 @@ export function HubView({ initialCategory }: HubViewProps) {
               className="inline-flex items-center gap-2 text-sm font-extrabold text-berry hover:text-berry-dark transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-berry rounded-md px-2 py-1"
             >
               <ArrowLeft className="w-4 h-4" />
-              Back to Learning Hub
+              Back to Learn
             </button>
 
             <div className="inline-flex items-center gap-2 rounded-full bg-cream-card px-3.5 py-1.5 text-xs font-bold text-berry shadow-sm border border-berry/10">

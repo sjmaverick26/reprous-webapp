@@ -18,6 +18,7 @@ export default function App() {
   const [activePage, setActivePage] = useState<PageId>("home");
   const [hubCategory, setHubCategory] = useState<string | null>(null);
   const [contactTab, setContactTab] = useState<"feedback" | "ambassador" | "inquiry">("feedback");
+  const [qaAutoOpen, setQaAutoOpen] = useState(false);
   const [currentLang, setCurrentLang] = useState<string>("en");
 
   const handleNavigate = (page: PageId, categoryOrTab?: string) => {
@@ -26,6 +27,12 @@ export default function App() {
       setHubCategory(categoryOrTab || null);
     } else {
       setHubCategory(null);
+    }
+
+    if (page === "qa" && categoryOrTab === "ask") {
+      setQaAutoOpen(true);
+    } else if (page === "qa") {
+      setQaAutoOpen(false);
     }
 
     if (page === "contact" && (categoryOrTab === "feedback" || categoryOrTab === "ambassador" || categoryOrTab === "inquiry")) {
@@ -54,7 +61,7 @@ export default function App() {
         {activePage === "hub" && <HubView initialCategory={hubCategory} />}
         {activePage === "workshops" && <WorkshopsView />}
         {activePage === "resources" && <ResourcesView onNavigate={handleNavigate} />}
-        {activePage === "qa" && <QAView />}
+        {activePage === "qa" && <QAView autoOpenSubmit={qaAutoOpen} />}
         {activePage === "myths" && <MythsView />}
         {activePage === "voices" && <VoicesView />}
         {activePage === "contact" && <ContactView initialTab={contactTab} />}
