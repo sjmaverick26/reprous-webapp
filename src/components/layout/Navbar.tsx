@@ -80,7 +80,7 @@ export function Navbar({ activePage, onNavigate }: NavbarProps) {
                   <button
                     onClick={() => onNavigate("hub")}
                     className={cn(
-                      "flex items-center gap-1 px-3 py-1.5 rounded-full text-[13.5px] font-bold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-berry whitespace-nowrap",
+                      "flex items-center gap-1 px-3.5 py-1.5 rounded-full text-[14.5px] font-semibold font-sans transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-berry whitespace-nowrap",
                       isActive
                         ? "bg-berry text-cream-card shadow-sm"
                         : "text-ink hover:bg-blush-deep/60"
@@ -100,7 +100,7 @@ export function Navbar({ activePage, onNavigate }: NavbarProps) {
                             onNavigate("hub", cat.id);
                             setHubDropdownOpen(false);
                           }}
-                          className="w-full text-left px-3 py-2 text-sm font-bold text-berry rounded-xl hover:bg-blush transition-colors"
+                          className="w-full text-left px-3 py-2 text-[14px] font-semibold font-sans text-berry rounded-xl hover:bg-blush transition-colors"
                         >
                           {cat.label}
                         </button>
@@ -116,7 +116,7 @@ export function Navbar({ activePage, onNavigate }: NavbarProps) {
                 <button
                   onClick={() => onNavigate(item.id)}
                   className={cn(
-                    "px-3 py-1.5 rounded-full text-[13.5px] font-bold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-berry whitespace-nowrap",
+                    "px-3.5 py-1.5 rounded-full text-[14.5px] font-semibold font-sans transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-berry whitespace-nowrap",
                     isActive
                       ? "bg-berry text-cream-card shadow-sm"
                       : "text-ink hover:bg-blush-deep/60"
@@ -134,7 +134,7 @@ export function Navbar({ activePage, onNavigate }: NavbarProps) {
           <button
             onClick={() => onNavigate("hub")}
             className={cn(
-              "px-2.5 py-1.5 rounded-full text-xs font-bold transition-all",
+              "px-2.5 py-1.5 rounded-full text-[14px] font-semibold font-sans transition-all",
               activePage === "hub" ? "bg-berry text-cream-card" : "text-ink hover:bg-blush-deep/60"
             )}
           >
@@ -143,7 +143,7 @@ export function Navbar({ activePage, onNavigate }: NavbarProps) {
           <button
             onClick={() => onNavigate("workshops")}
             className={cn(
-              "px-2.5 py-1.5 rounded-full text-xs font-bold transition-all",
+              "px-2.5 py-1.5 rounded-full text-[14px] font-semibold font-sans transition-all",
               activePage === "workshops" ? "bg-berry text-cream-card" : "text-ink hover:bg-blush-deep/60"
             )}
           >
@@ -152,7 +152,7 @@ export function Navbar({ activePage, onNavigate }: NavbarProps) {
           <button
             onClick={() => onNavigate("resources")}
             className={cn(
-              "px-2.5 py-1.5 rounded-full text-xs font-bold transition-all",
+              "px-2.5 py-1.5 rounded-full text-[14px] font-semibold font-sans transition-all",
               activePage === "resources" ? "bg-berry text-cream-card" : "text-ink hover:bg-blush-deep/60"
             )}
           >
@@ -161,7 +161,7 @@ export function Navbar({ activePage, onNavigate }: NavbarProps) {
           <button
             onClick={() => onNavigate("qa")}
             className={cn(
-              "px-2.5 py-1.5 rounded-full text-xs font-bold transition-all",
+              "px-2.5 py-1.5 rounded-full text-[14px] font-semibold font-sans transition-all",
               activePage === "qa" ? "bg-berry text-cream-card" : "text-ink hover:bg-blush-deep/60"
             )}
           >
@@ -170,7 +170,7 @@ export function Navbar({ activePage, onNavigate }: NavbarProps) {
           <button
             onClick={() => onNavigate("contact")}
             className={cn(
-              "px-2.5 py-1.5 rounded-full text-xs font-bold transition-all",
+              "px-2.5 py-1.5 rounded-full text-[14px] font-semibold font-sans transition-all",
               activePage === "contact" ? "bg-berry text-cream-card" : "text-ink hover:bg-blush-deep/60"
             )}
           >
@@ -200,7 +200,7 @@ export function Navbar({ activePage, onNavigate }: NavbarProps) {
                   setMobileMenuOpen(false);
                 }}
                 className={cn(
-                  "w-full text-left px-4 py-2.5 rounded-xl font-bold text-base transition-colors",
+                  "w-full text-left px-4 py-2.5 rounded-xl font-semibold font-sans text-[15px] transition-colors",
                   activePage === item.id
                     ? "bg-berry text-cream-card"
                     : "text-ink hover:bg-blush"
@@ -217,7 +217,7 @@ export function Navbar({ activePage, onNavigate }: NavbarProps) {
                         onNavigate("hub", cat.id);
                         setMobileMenuOpen(false);
                       }}
-                      className="w-full text-left px-3 py-1.5 text-sm font-semibold text-berry hover:bg-blush rounded-lg"
+                      className="w-full text-left px-3 py-1.5 text-[14px] font-medium font-sans text-berry hover:bg-blush rounded-lg"
                     >
                       ↳ {cat.label}
                     </button>

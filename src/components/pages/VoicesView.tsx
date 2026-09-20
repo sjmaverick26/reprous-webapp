@@ -53,13 +53,13 @@ export function VoicesView() {
     <div className="max-w-[1100px] mx-auto px-6 py-12 flex flex-col gap-12">
       {/* Header */}
       <div className="text-center max-w-2xl mx-auto">
-        <div className="text-xs font-extrabold uppercase tracking-wider text-berry/75 mb-2">
+        <div className="text-[13px] md:text-[14px] font-bold uppercase tracking-wider text-berry mb-2 font-sans">
           Youth Voices
         </div>
-        <h1 className="text-4xl md:text-5xl font-bold text-plum mb-4">
+        <h1 className="text-4xl md:text-[64px] lg:text-[72px] font-normal font-serif text-plum leading-[1.08] mb-4">
           Real stories, shared on purpose
         </h1>
-        <p className="text-base text-ink/80 leading-relaxed mb-6">
+        <p className="text-[17px] md:text-[19px] text-ink/80 leading-relaxed mb-6 font-sans">
           Personal stories, questions, and reflections from young people who have navigated the exact same bodily changes, anxieties, and discoveries.
         </p>
         <AccessMini
@@ -76,16 +76,16 @@ export function VoicesView() {
             className="p-7 flex flex-col justify-between hover:shadow-hover transition-all"
           >
             <div>
-              <p className="font-serif text-lg font-normal text-plum leading-relaxed mb-6 italic">
+              <p className="font-serif text-[18px] md:text-[20px] font-normal text-plum leading-relaxed mb-6 italic">
                 &ldquo;{voice.quote}&rdquo;
               </p>
             </div>
             <div className="flex items-center justify-between pt-4 border-t border-berry/10">
-              <span className="text-xs font-extrabold text-ink/75">
+              <span className="text-[13.5px] md:text-[14px] font-bold text-ink/75 font-sans">
                 — {voice.author}, age {voice.age}
               </span>
               {voice.category && (
-                <span className="text-[11px] font-bold text-berry/70 bg-blush px-2.5 py-0.5 rounded-full">
+                <span className="text-[12px] md:text-[13px] font-bold text-berry bg-blush px-2.5 py-0.5 rounded-full font-sans">
                   {voice.category}
                 </span>
               )}
@@ -97,20 +97,20 @@ export function VoicesView() {
       {/* Add Your Voice Box */}
       <div className="rounded-3xl bg-berry text-cream-card p-8 md:p-12 shadow-lg">
         <div className="max-w-xl mb-6">
-          <div className="flex items-center gap-2 text-gold text-xs font-extrabold uppercase tracking-wider mb-2">
+          <div className="flex items-center gap-2 text-gold text-[13px] font-bold uppercase tracking-wider mb-2 font-sans">
             <Sparkles className="w-4 h-4" />
             Community Board
           </div>
-          <h2 className="text-2xl md:text-3xl font-bold text-cream-card mb-2">
+          <h2 className="text-3xl md:text-[42px] lg:text-[48px] font-normal font-serif text-cream-card mb-2 leading-[1.15]">
             Add your voice
           </h2>
-          <p className="text-sm md:text-base text-cream-card/90 m-0 leading-relaxed">
+          <p className="text-[16px] md:text-[18px] text-cream-card/90 m-0 leading-relaxed font-sans">
             Share a story, a memory, or an encouragement for someone else. 100% anonymous by default, and never shared without your consent.
           </p>
         </div>
 
         {submitSuccess && (
-          <div className="mb-6 p-4 rounded-2xl bg-gold text-ink flex items-center gap-3 font-bold text-sm">
+          <div className="mb-6 p-4 rounded-2xl bg-gold text-ink flex items-center gap-3 font-bold text-[15px] font-sans">
             <CheckCircle2 className="w-5 h-5 flex-shrink-0" />
             <span>Thank you for sharing your story! It is now posted to the Youth Voices board.</span>
           </div>
@@ -123,7 +123,7 @@ export function VoicesView() {
             placeholder="Share your experience with periods, puberty, doctor visits, or learning about your body..."
             value={storyInput}
             onChange={(e) => setStoryInput(e.target.value)}
-            className="bg-cream-card text-ink placeholder:text-ink/50"
+            className="bg-cream-card text-ink placeholder:text-ink/50 text-[15px] font-sans"
           />
 
           <div className="flex flex-col sm:flex-row gap-3 items-center">
@@ -131,7 +131,7 @@ export function VoicesView() {
               placeholder="Alias / Signature (e.g. Shared anonymously or Jordan)"
               value={authorAlias}
               onChange={(e) => setAuthorAlias(e.target.value)}
-              className="bg-cream-card text-ink sm:w-1/2 placeholder:text-ink/50"
+              className="bg-cream-card text-ink sm:w-1/2 placeholder:text-ink/50 text-[15px] font-sans"
             />
             <Input
               type="number"
@@ -140,7 +140,7 @@ export function VoicesView() {
               placeholder="Age (e.g. 17)"
               value={authorAge}
               onChange={(e) => setAuthorAge(e.target.value)}
-              className="bg-cream-card text-ink sm:w-1/4 placeholder:text-ink/50"
+              className="bg-cream-card text-ink sm:w-1/4 placeholder:text-ink/50 text-[15px] font-sans"
             />
             <Button
               type="submit"

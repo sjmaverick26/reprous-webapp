@@ -26,14 +26,14 @@ export function Footer({ onNavigate }: FooterProps) {
           <div className="flex items-center gap-3">
             <ReproUsMark size={32} />
             <div>
-              <span className="font-serif font-bold text-berry text-xl block">ReproUs</span>
-              <p className="text-xs text-ink/75 m-0">
+              <span className="font-serif font-normal text-berry text-2xl block">ReproUs</span>
+              <p className="text-[13.5px] text-ink/75 m-0 font-sans">
                 Free, honest reproductive health education for youth, students &amp; communities.
               </p>
             </div>
           </div>
 
-          <div className="flex items-center gap-4 text-xs font-bold text-berry/80 flex-wrap justify-center">
+          <div className="flex items-center gap-4 text-[13.5px] font-semibold text-berry/80 flex-wrap justify-center font-sans">
             <span>Always Free</span>
             <span>•</span>
             <span>100% Anonymous</span>
@@ -46,7 +46,7 @@ export function Footer({ onNavigate }: FooterProps) {
 
         {/* Quick Links Row */}
         {onNavigate && (
-          <div className="flex flex-wrap items-center justify-center md:justify-start gap-x-5 gap-y-2 pt-4 border-t border-berry/10 text-xs font-bold text-berry">
+          <div className="flex flex-wrap items-center justify-center md:justify-start gap-x-6 gap-y-2 pt-4 border-t border-berry/10 text-[14px] md:text-[14.5px] font-semibold text-berry font-sans">
             {links.map((link) => (
               <button
                 key={link.id}
@@ -59,7 +59,7 @@ export function Footer({ onNavigate }: FooterProps) {
           </div>
         )}
 
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t border-berry/10 text-xs text-ink/60 text-center sm:text-left">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t border-berry/10 text-[13px] md:text-[13.5px] text-ink/70 text-center sm:text-left font-sans">
           <p className="m-0">
             © {new Date().getFullYear()} ReproUs Network. All education is provided for informational empowerment.
           </p>

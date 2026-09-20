@@ -50,26 +50,26 @@ export function StoryView() {
     <div className="max-w-[1100px] mx-auto px-6 py-12 flex flex-col gap-16">
       {/* Story Hero */}
       <div className="text-center max-w-2xl mx-auto">
-        <div className="text-xs font-extrabold uppercase tracking-wider text-berry mb-2">
+        <div className="text-[13px] font-bold font-sans uppercase tracking-wider text-berry mb-2">
           Our Story
         </div>
-        <h1 className="text-4xl md:text-5xl font-bold text-plum mb-4">
+        <h1 className="text-4xl md:text-[64px] lg:text-[72px] font-normal font-serif text-plum leading-[1.08] mb-4">
           Why ReproUs exists
         </h1>
-        <p className="text-base md:text-lg text-ink/85 leading-relaxed">
+        <p className="text-[17px] md:text-[18px] text-ink/85 leading-relaxed font-sans">
           We started ReproUs because too many young people get their first &quot;real&quot; reproductive health information from an unverified rumor, social media trend, or playground myth. Two educators, one shared frustration, and a clear plan to make sure the next generation never has to guess about their own bodies.
         </p>
       </div>
 
       {/* Mission & Core Pillars */}
       <div className="text-center">
-        <div className="text-xs font-extrabold uppercase tracking-wider text-berry mb-2">
+        <div className="text-[13px] font-bold font-sans uppercase tracking-wider text-berry mb-2">
           Our Mission
         </div>
-        <h2 className="text-2xl md:text-3xl font-bold text-plum mb-4 max-w-2xl mx-auto">
+        <h2 className="text-3xl md:text-[42px] lg:text-[48px] font-normal font-serif text-plum mb-4 max-w-2xl mx-auto leading-[1.15]">
           Free, honest reproductive health education — for anyone who has never had equitable access to it.
         </h2>
-        <p className="text-sm md:text-base text-ink/80 max-w-xl mx-auto leading-relaxed mb-10">
+        <p className="text-[17px] md:text-[18px] text-ink/80 max-w-xl mx-auto leading-relaxed mb-10 font-sans">
           No paywalls, no shame, no gatekeeping. Just clear, medically accurate knowledge and a supportive community built by people who remember exactly what it felt like to have nowhere safe to ask.
         </p>
 
@@ -79,8 +79,8 @@ export function StoryView() {
               <div className="w-12 h-12 rounded-2xl bg-berry/10 flex items-center justify-center mb-4">
                 {pillar.icon}
               </div>
-              <h3 className="text-lg font-bold text-plum mb-2">{pillar.title}</h3>
-              <p className="text-sm text-ink/80 leading-relaxed m-0">{pillar.desc}</p>
+              <h3 className="text-2xl md:text-[30px] font-normal font-serif text-plum mb-2 leading-snug">{pillar.title}</h3>
+              <p className="text-[17px] text-ink/80 leading-relaxed m-0 font-sans">{pillar.desc}</p>
             </Card>
           ))}
         </div>
@@ -89,10 +89,10 @@ export function StoryView() {
       {/* Timeline */}
       <div>
         <div className="text-center mb-8">
-          <div className="text-xs font-extrabold uppercase tracking-wider text-berry mb-2">
+          <div className="text-[13px] font-bold font-sans uppercase tracking-wider text-berry mb-2">
             The Journey
           </div>
-          <h2 className="text-2xl md:text-3xl font-bold text-plum">
+          <h2 className="text-3xl md:text-[44px] lg:text-[50px] font-normal font-serif text-plum leading-[1.15]">
             How ReproUs grew
           </h2>
         </div>
@@ -106,7 +106,7 @@ export function StoryView() {
                 </span>
                 <div className="p-2 rounded-xl bg-blush-deep/40">{step.icon}</div>
               </div>
-              <p className="text-sm text-ink/80 leading-relaxed m-0">{step.text}</p>
+              <p className="text-[15px] md:text-[16px] text-ink/80 leading-relaxed m-0 font-sans">{step.text}</p>
             </Card>
           ))}
         </div>

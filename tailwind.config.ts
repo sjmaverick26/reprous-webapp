@@ -32,8 +32,17 @@ const config: Config = {
         "cream-card": "var(--cream-card)",
       },
       fontFamily: {
-        serif: ["var(--font-fraunces)", "Fraunces", "Georgia", "serif"],
-        sans: ["var(--font-nunito-sans)", "Nunito Sans", "system-ui", "sans-serif"],
+        serif: ["var(--font-dm-serif)", "DM Serif Display", "Georgia", "serif"],
+        sans: ["var(--font-dm-sans)", "DM Sans", "system-ui", "sans-serif"],
+      },
+      fontSize: {
+        h1: ["clamp(44px, 5.5vw + 1rem, 72px)", { lineHeight: "1.08", letterSpacing: "-0.02em" }],
+        h2: ["clamp(32px, 3.5vw + 0.5rem, 50px)", { lineHeight: "1.15", letterSpacing: "-0.01em" }],
+        h3: ["clamp(24px, 2.5vw + 0.25rem, 36px)", { lineHeight: "1.2" }],
+        body: ["18px", { lineHeight: "1.6" }],
+        small: ["14px", { lineHeight: "1.4" }],
+        nav: ["14.5px", { lineHeight: "1.3" }],
+        btn: ["15.5px", { lineHeight: "1.3", fontWeight: "600" }],
       },
       borderRadius: {
         "3xl": "24px",

@@ -1,16 +1,17 @@
 import type { Metadata } from "next";
-import { Fraunces, Nunito_Sans } from "next/font/google";
+import { DM_Serif_Display, DM_Sans } from "next/font/google";
 import "./globals.css";
 
-const fraunces = Fraunces({
+const dmSerifDisplay = DM_Serif_Display({
+  weight: "400",
   subsets: ["latin"],
-  variable: "--font-fraunces",
+  variable: "--font-dm-serif",
   display: "swap",
 });
 
-const nunitoSans = Nunito_Sans({
+const dmSans = DM_Sans({
   subsets: ["latin"],
-  variable: "--font-nunito-sans",
+  variable: "--font-dm-sans",
   display: "swap",
 });
 
@@ -27,7 +28,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${fraunces.variable} ${nunitoSans.variable}`}>
+    <html lang="en" className={`${dmSerifDisplay.variable} ${dmSans.variable}`}>
       <body className="min-h-screen flex flex-col font-sans selection:bg-yellow-deep/40">
         {children}
       </body>

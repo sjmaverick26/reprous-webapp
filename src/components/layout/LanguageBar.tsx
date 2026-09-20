@@ -42,7 +42,7 @@ export function LanguageBar({ currentLang, onSelectLang }: LanguageBarProps) {
       <div className="max-w-[1100px] mx-auto px-6 py-2 flex items-center justify-between gap-4 flex-wrap">
         {/* Language Switcher */}
         <div className="flex items-center gap-2 flex-wrap">
-          <span className="text-[11.5px] font-extrabold uppercase tracking-wider text-berry/75 mr-1">
+          <span className="text-[13px] font-semibold font-sans uppercase tracking-wider text-berry/75 mr-1">
             Viewing in:
           </span>
           {languages.map((lang) => {
@@ -52,7 +52,7 @@ export function LanguageBar({ currentLang, onSelectLang }: LanguageBarProps) {
                 key={lang.code}
                 onClick={() => onSelectLang(lang.code)}
                 className={cn(
-                  "px-3 py-1 rounded-full text-[12.5px] font-extrabold transition-all border",
+                  "px-3 py-1 rounded-full text-[14px] font-semibold font-sans transition-all border",
                   isActive
                     ? "bg-berry border-berry text-cream-card shadow-sm"
                     : "bg-transparent border-berry/30 text-berry hover:bg-blush-deep"
@@ -66,13 +66,13 @@ export function LanguageBar({ currentLang, onSelectLang }: LanguageBarProps) {
 
         {/* Accessibility Tools (Text Size & Contrast) */}
         <div className="flex items-center gap-2">
-          <span className="text-[11.5px] font-extrabold uppercase tracking-wider text-berry/75">
+          <span className="text-[13px] font-semibold font-sans uppercase tracking-wider text-berry/75">
             Text:
           </span>
           <button
             onClick={() => handleTextSize("")}
             className={cn(
-              "px-2.5 py-0.5 rounded-full text-xs font-extrabold border transition-colors",
+              "px-2.5 py-0.5 rounded-full text-[13.5px] font-semibold font-sans border transition-colors",
               textSize === ""
                 ? "bg-berry border-berry text-cream-card"
                 : "border-berry/30 text-berry hover:bg-blush-deep"
@@ -84,7 +84,7 @@ export function LanguageBar({ currentLang, onSelectLang }: LanguageBarProps) {
           <button
             onClick={() => handleTextSize("text-lg")}
             className={cn(
-              "px-2.5 py-0.5 rounded-full text-xs font-extrabold border transition-colors",
+              "px-2.5 py-0.5 rounded-full text-[13.5px] font-semibold font-sans border transition-colors",
               textSize === "text-lg"
                 ? "bg-berry border-berry text-cream-card"
                 : "border-berry/30 text-berry hover:bg-blush-deep"
@@ -96,7 +96,7 @@ export function LanguageBar({ currentLang, onSelectLang }: LanguageBarProps) {
           <button
             onClick={() => handleTextSize("text-xl")}
             className={cn(
-              "px-2.5 py-0.5 rounded-full text-xs font-extrabold border transition-colors",
+              "px-2.5 py-0.5 rounded-full text-[13.5px] font-semibold font-sans border transition-colors",
               textSize === "text-xl"
                 ? "bg-berry border-berry text-cream-card"
                 : "border-berry/30 text-berry hover:bg-blush-deep"
@@ -109,9 +109,9 @@ export function LanguageBar({ currentLang, onSelectLang }: LanguageBarProps) {
           <button
             onClick={handleToggleContrast}
             className={cn(
-              "ml-1 px-3 py-0.5 rounded-full text-xs font-extrabold border transition-colors",
+              "ml-1 px-3 py-0.5 rounded-full text-[13.5px] font-semibold font-sans border transition-colors",
               isHighContrast
-                ? "bg-berry border-berry text-cream-card font-black ring-2 ring-yellow-deep"
+                ? "bg-berry border-berry text-cream-card font-bold ring-2 ring-yellow-deep"
                 : "border-berry/30 text-berry hover:bg-blush-deep"
             )}
           >

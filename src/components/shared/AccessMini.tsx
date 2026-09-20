@@ -13,7 +13,7 @@ export function AccessMini({ text, onDark = false, className = "", icon }: Acces
   return (
     <div
       className={cn(
-        "inline-flex items-center gap-2.5 rounded-full px-4 py-2.5 text-[13px] font-bold transition-colors",
+        "inline-flex items-center gap-2.5 rounded-full px-4 py-2.5 text-[13.5px] font-bold font-sans transition-colors",
         onDark
           ? "bg-white/20 text-cream-card backdrop-blur-sm"
           : "bg-yellow text-ink",

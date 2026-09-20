@@ -92,13 +92,13 @@ export function HubView({ initialCategory }: HubViewProps) {
       {!activeCategory && (
         <div className="flex flex-col gap-10">
           <div className="text-center max-w-2xl mx-auto">
-            <div className="text-xs font-extrabold uppercase tracking-wider text-berry/75 mb-2">
+            <div className="text-[13px] font-bold font-sans uppercase tracking-wider text-berry/75 mb-2">
               Learning Hub
             </div>
-            <h1 className="text-4xl md:text-5xl font-bold text-plum mb-3">
+            <h1 className="text-4xl md:text-[64px] lg:text-[72px] font-normal font-serif leading-[1.08] text-plum mb-3">
               Pick a topic, go at your pace
             </h1>
-            <p className="text-ink/80 text-base mb-6 leading-relaxed">
+            <p className="text-ink/80 text-[17px] md:text-[18px] mb-6 leading-relaxed font-sans">
               Every category below is judgment-free and written in plain language. Tap any card to explore interactive lessons, games, and quizzes.
             </p>
 
@@ -109,15 +109,15 @@ export function HubView({ initialCategory }: HubViewProps) {
 
             {/* Gamification Stats Bar */}
             <div className="flex flex-wrap items-center justify-center gap-3">
-              <div className="inline-flex items-center gap-2 rounded-full bg-cream-card px-4 py-2 text-sm font-extrabold text-berry shadow-sm border border-berry/10">
+              <div className="inline-flex items-center gap-2 rounded-full bg-cream-card px-4 py-2 text-[14px] font-semibold font-sans text-berry shadow-sm border border-berry/10">
                 <Flame className="w-4 h-4 text-gold fill-gold" />
                 <span>{streak}-day streak</span>
               </div>
-              <div className="inline-flex items-center gap-2 rounded-full bg-cream-card px-4 py-2 text-sm font-extrabold text-berry shadow-sm border border-berry/10">
+              <div className="inline-flex items-center gap-2 rounded-full bg-cream-card px-4 py-2 text-[14px] font-semibold font-sans text-berry shadow-sm border border-berry/10">
                 <Sparkles className="w-4 h-4 text-gold" />
                 <span>{xp} XP earned</span>
               </div>
-              <div className="inline-flex items-center gap-2 rounded-full bg-cream-card px-4 py-2 text-sm font-extrabold text-berry shadow-sm border border-berry/10">
+              <div className="inline-flex items-center gap-2 rounded-full bg-cream-card px-4 py-2 text-[14px] font-semibold font-sans text-berry shadow-sm border border-berry/10">
                 <Award className="w-4 h-4 text-gold" />
                 <span>{earnedBadges.length} badges earned</span>
               </div>
@@ -141,14 +141,14 @@ export function HubView({ initialCategory }: HubViewProps) {
                     className="w-12 h-12 rounded-2xl mb-4 shadow-sm flex items-center justify-center font-bold text-xs"
                     style={{ backgroundColor: cat.colorSwatch }}
                   />
-                  <h3 className="text-xl font-bold text-plum mb-2 group-hover:text-berry transition-colors">
+                  <h3 className="text-2xl md:text-[30px] font-normal font-serif text-plum mb-2 group-hover:text-berry transition-colors leading-snug">
                     {cat.title}
                   </h3>
-                  <p className="text-sm text-ink/80 leading-relaxed mb-4">
+                  <p className="text-[17px] text-ink/80 leading-relaxed mb-4 font-sans">
                     {cat.description}
                   </p>
                 </div>
-                <div className="flex items-center justify-between pt-2 text-xs font-extrabold text-berry border-t border-berry/10">
+                <div className="flex items-center justify-between pt-2 text-[13.5px] font-semibold font-sans text-berry border-t border-berry/10">
                   <span>{cat.topics.length} interactive topics</span>
                   <span className="inline-flex items-center gap-1 group-hover:translate-x-1 transition-transform">
                     See topics <ChevronRight className="w-4 h-4" />
@@ -183,16 +183,16 @@ export function HubView({ initialCategory }: HubViewProps) {
 
           <div className="text-center">
             <div
-              className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-xs font-extrabold uppercase tracking-wider mb-2.5 text-plum border shadow-sm"
+              className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-[13px] font-bold font-sans uppercase tracking-wider mb-2.5 text-plum border shadow-sm"
               style={{ backgroundColor: activeCategory.colorSwatch, borderColor: activeCategory.colorSwatch }}
             >
               <span className="w-2 h-2 rounded-full bg-plum/60 inline-block" />
               {activeCategory.badge}
             </div>
-            <h2 className="text-3xl font-bold text-plum mb-2">
+            <h2 className="text-3xl md:text-[44px] lg:text-[50px] font-normal font-serif text-plum mb-2 leading-[1.15]">
               {activeCategory.title}
             </h2>
-            <p className="text-sm text-ink/80 max-w-lg mx-auto">
+            <p className="text-[17px] md:text-[18px] text-ink/80 max-w-lg mx-auto font-sans">
               {activeCategory.description}
             </p>
           </div>

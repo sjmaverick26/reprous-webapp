@@ -93,13 +93,13 @@ export function WorkshopsView() {
     <div className="max-w-[1100px] mx-auto px-6 py-12 flex flex-col gap-16">
       {/* Header */}
       <div className="text-center max-w-2xl mx-auto">
-        <div className="text-xs font-extrabold uppercase tracking-wider text-berry mb-2">
+        <div className="text-[13px] font-bold font-sans uppercase tracking-wider text-berry mb-2">
           Workshops
         </div>
-        <h1 className="text-4xl md:text-5xl font-bold text-plum mb-4">
+        <h1 className="text-4xl md:text-[64px] lg:text-[72px] font-normal font-serif text-plum leading-[1.08] mb-4">
           Free, interactive workshops
         </h1>
-        <p className="text-base md:text-lg text-ink/80 leading-relaxed mb-6">
+        <p className="text-[17px] md:text-[18px] text-ink/80 leading-relaxed mb-6 font-sans">
           Hands-on 90-minute sessions in schools and community centers. No tests, no awkwardness — just real facts, honest discussion, and practical skills.
         </p>
       </div>
@@ -108,11 +108,11 @@ export function WorkshopsView() {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {WORKSHOP_STEPS.map((step) => (
           <Card key={step.step} className="p-6 text-center hover:shadow-hover transition-all">
-            <div className="w-10 h-10 rounded-full bg-berry text-cream-card flex items-center justify-center font-extrabold text-base mx-auto mb-3">
+            <div className="w-10 h-10 rounded-full bg-berry text-cream-card flex items-center justify-center font-bold text-base mx-auto mb-3">
               {step.step}
             </div>
-            <h3 className="text-base font-bold text-plum mb-2">{step.title}</h3>
-            <p className="text-xs md:text-sm text-ink/80 leading-relaxed m-0">{step.desc}</p>
+            <h3 className="text-xl md:text-[22px] font-normal font-serif text-plum mb-2 leading-snug">{step.title}</h3>
+            <p className="text-[14px] text-ink/80 leading-relaxed m-0 font-sans">{step.desc}</p>
           </Card>
         ))}
       </div>
@@ -186,10 +186,10 @@ export function WorkshopsView() {
       {/* Upcoming Sessions Grid */}
       <div>
         <div className="text-center mb-8">
-          <div className="text-xs font-extrabold uppercase tracking-wider text-berry/75 mb-2">
+          <div className="text-[13px] font-bold font-sans uppercase tracking-wider text-berry/75 mb-2">
             Upcoming Sessions
           </div>
-          <h2 className="text-2xl md:text-3xl font-bold text-plum">
+          <h2 className="text-3xl md:text-[44px] lg:text-[50px] font-normal font-serif text-plum leading-[1.15]">
             Join an upcoming free workshop
           </h2>
         </div>
@@ -201,26 +201,22 @@ export function WorkshopsView() {
                 <div className="font-serif text-3xl font-bold text-berry mb-2">
                   {session.date}
                 </div>
-                <div className="text-xs font-bold text-yellow-deep uppercase tracking-wider mb-2">
+                <div className="text-[13px] font-bold font-sans text-yellow-deep uppercase tracking-wider mb-2">
                   {session.topic}
                 </div>
-                <div className="text-xs text-ink/80 flex items-center justify-center gap-1.5 mb-1">
-                  <Clock className="w-3.5 h-3.5" /> {session.time}
-                </div>
-                <div className="text-xs text-ink/80 flex items-center justify-center gap-1.5 mb-3">
-                  <MapPin className="w-3.5 h-3.5" /> {session.location}
-                </div>
-                <div className="inline-block px-3 py-1 rounded-full bg-blush text-[11px] font-extrabold uppercase text-berry mb-6">
-                  {session.spotsLeft}
+                <p className="text-[14px] text-ink/70 mb-4 font-sans">
+                  {session.time} • {session.location}
+                </p>
+                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blush-deep/30 text-berry text-[13px] font-semibold mb-6 font-sans">
+                  <Users className="w-3.5 h-3.5" />
+                  {session.spotsLeft} spots available
                 </div>
               </div>
-
               <Button
                 onClick={() => setSelectedSession(session)}
-                variant="ghost"
-                className="w-full text-xs"
+                className="w-full text-[14px] font-semibold"
               >
-                Reserve a spot
+                RSVP for Free
               </Button>
             </Card>
           ))}
@@ -230,10 +226,10 @@ export function WorkshopsView() {
       {/* Request Workshop for School or Group Banner */}
       <div className="rounded-3xl bg-berry text-cream-card p-8 md:p-12 flex flex-col md:flex-row items-center justify-between gap-6 shadow-lg">
         <div className="max-w-xl text-center md:text-left">
-          <h2 className="text-2xl md:text-3xl font-bold text-cream-card mb-2">
+          <h2 className="text-3xl md:text-[42px] lg:text-[48px] font-normal font-serif text-cream-card mb-2 leading-[1.15]">
             Bring ReproUs to your school or group
           </h2>
-          <p className="text-sm md:text-base text-cream-card/90 m-0 leading-relaxed">
+          <p className="text-[17px] md:text-[18px] text-cream-card/90 m-0 leading-relaxed font-sans">
             We will travel to you or host a dedicated virtual session for your class, youth organization, or community center.
           </p>
         </div>

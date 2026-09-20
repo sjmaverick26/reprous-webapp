@@ -72,13 +72,13 @@ export function QAView() {
     <div className="max-w-[760px] mx-auto px-6 py-12 flex flex-col gap-10">
       {/* Header */}
       <div className="text-center">
-        <div className="text-xs font-extrabold uppercase tracking-wider text-berry/75 mb-2">
+        <div className="text-[13px] md:text-[14px] font-bold uppercase tracking-wider text-berry mb-2 font-sans">
           Q&amp;A
         </div>
-        <h1 className="text-4xl md:text-5xl font-bold text-plum mb-4">
+        <h1 className="text-4xl md:text-[64px] lg:text-[72px] font-normal font-serif text-plum leading-[1.08] mb-4">
           Questions, answered plainly
         </h1>
-        <p className="text-base text-ink/80 leading-relaxed max-w-xl mx-auto">
+        <p className="text-[17px] md:text-[19px] text-ink/80 leading-relaxed max-w-xl mx-auto font-sans">
           Every question submitted is completely anonymous. Real answers from our medical educators, with no clinical jargon.
         </p>
       </div>
@@ -91,7 +91,7 @@ export function QAView() {
             placeholder="Search questions (e.g. cramps, irregular, anonymous)..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-10"
+            className="pl-10 text-[15px] font-sans"
           />
         </div>
 
@@ -100,7 +100,7 @@ export function QAView() {
             <button
               key={c.id}
               onClick={() => setActiveCategory(c.id)}
-              className={`px-3 py-1.5 rounded-full text-xs font-bold transition-all border ${
+              className={`px-3.5 py-1.5 rounded-full text-[13.5px] md:text-[14px] font-semibold font-sans transition-all border ${
                 activeCategory === c.id
                   ? "bg-berry border-berry text-cream-card shadow-sm"
                   : "bg-cream-card border-berry/20 text-berry hover:bg-blush-deep"
@@ -146,8 +146,10 @@ export function QAView() {
       <Dialog open={isSubmitModalOpen} onOpenChange={setIsSubmitModalOpen}>
         <DialogContent className="max-w-lg">
           <DialogHeader>
-            <DialogTitle>Ask a Question Anonymously</DialogTitle>
-            <DialogDescription>
+            <DialogTitle className="font-serif text-2xl md:text-[30px] font-normal text-plum">
+              Ask a Question Anonymously
+            </DialogTitle>
+            <DialogDescription className="text-[14px] md:text-[15px] font-sans text-ink/80">
               No names, no tracking. Answers are reviewed by clinicians and added to the community library.
             </DialogDescription>
           </DialogHeader>
@@ -155,15 +157,15 @@ export function QAView() {
           {submitSuccess ? (
             <div className="p-6 text-center flex flex-col items-center gap-2">
               <CheckCircle2 className="w-12 h-12 text-green-600 animate-bounce" />
-              <h4 className="font-serif text-xl font-bold text-plum">Question Submitted!</h4>
-              <p className="text-xs text-ink/80">
+              <h4 className="font-serif text-2xl font-normal text-plum">Question Submitted!</h4>
+              <p className="text-[14px] font-sans text-ink/80">
                 Thank you! We answer every question and regularly update the Q&amp;A directory.
               </p>
             </div>
           ) : (
             <form onSubmit={handleSubmitQuestion} className="flex flex-col gap-4 mt-2">
               <div>
-                <label className="block text-xs font-bold text-berry mb-1">
+                <label className="block text-[13.5px] font-semibold text-berry mb-1 font-sans">
                   What would you like to know?
                 </label>
                 <Textarea
@@ -172,16 +174,17 @@ export function QAView() {
                   placeholder="Ask anything about your body, periods, hormones, or relationships..."
                   value={questionText}
                   onChange={(e) => setQuestionText(e.target.value)}
+                  className="text-[15px] font-sans"
                 />
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-bold text-berry mb-1">Topic Category</label>
+                  <label className="block text-[13.5px] font-semibold text-berry mb-1 font-sans">Topic Category</label>
                   <select
                     value={questionCat}
                     onChange={(e) => setQuestionCat(e.target.value)}
-                    className="flex h-12 w-full rounded-xl border border-berry/20 bg-cream-card px-3 text-xs font-bold text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-berry"
+                    className="flex h-12 w-full rounded-xl border border-berry/20 bg-cream-card px-3 text-[14px] font-sans text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-berry"
                   >
                     <option value="general">General Anatomy &amp; Puberty</option>
                     <option value="cycles">Periods &amp; Cramps</option>
@@ -191,11 +194,11 @@ export function QAView() {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-berry mb-1">Age Range (Optional)</label>
+                  <label className="block text-[13.5px] font-semibold text-berry mb-1 font-sans">Age Range (Optional)</label>
                   <select
                     value={ageRange}
                     onChange={(e) => setAgeRange(e.target.value)}
-                    className="flex h-12 w-full rounded-xl border border-berry/20 bg-cream-card px-3 text-xs font-bold text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-berry"
+                    className="flex h-12 w-full rounded-xl border border-berry/20 bg-cream-card px-3 text-[14px] font-sans text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-berry"
                   >
                     <option value="under-15">13–15</option>
                     <option value="16-18">16–18</option>
@@ -205,7 +208,7 @@ export function QAView() {
                 </div>
               </div>
 
-              <div className="flex items-center gap-2 text-[11px] text-ink/70">
+              <div className="flex items-center gap-2 text-[13px] text-ink/70 font-sans">
                 🔒 100% anonymous — no IP logging or cookies stored.
               </div>
 

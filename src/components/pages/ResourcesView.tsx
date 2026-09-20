@@ -171,13 +171,13 @@ export function ResourcesView({ onNavigate }: ResourcesViewProps) {
     <div className="max-w-[1100px] mx-auto px-6 py-12 flex flex-col gap-14">
       {/* Header */}
       <div className="text-center max-w-2xl mx-auto">
-        <div className="text-xs font-extrabold uppercase tracking-wider text-berry/75 mb-2">
+        <div className="text-[13px] font-bold font-sans uppercase tracking-wider text-berry/75 mb-2">
           Resources &amp; Advocacy
         </div>
-        <h1 className="text-4xl md:text-5xl font-bold text-plum mb-4">
+        <h1 className="text-4xl md:text-[64px] lg:text-[72px] font-normal font-serif text-plum leading-[1.08] mb-4">
           How to get help &amp; take action
         </h1>
-        <p className="text-base text-ink/85 leading-relaxed">
+        <p className="text-[17px] md:text-[18px] text-ink/85 leading-relaxed font-sans">
           When it&apos;s time for more than information — here is where to actually go. Verified free clinics, confidential 24/7 hotlines, leadership programs, and youth-led advocacy petitions.
         </p>
       </div>
@@ -190,10 +190,10 @@ export function ResourcesView({ onNavigate }: ResourcesViewProps) {
             <div className="w-10 h-10 rounded-xl bg-yellow/40 flex items-center justify-center text-berry mb-4">
               <MapPin className="w-5 h-5" />
             </div>
-            <h3 className="text-xl font-bold text-plum mb-2">
+            <h3 className="text-2xl md:text-[30px] font-normal font-serif text-plum mb-2 leading-snug">
               Find a free clinic near you
             </h3>
-            <p className="text-sm text-ink/80 leading-relaxed mb-6">
+            <p className="text-[15px] md:text-[16px] text-ink/80 leading-relaxed mb-6 font-sans">
               Search by zip code for verified no-cost or sliding-scale reproductive health clinics offering STI testing, contraception, and exams.
             </p>
           </div>
@@ -212,10 +212,10 @@ export function ResourcesView({ onNavigate }: ResourcesViewProps) {
             <div className="w-10 h-10 rounded-xl bg-blush-deep/50 flex items-center justify-center text-berry mb-4">
               <Phone className="w-5 h-5" />
             </div>
-            <h3 className="text-xl font-bold text-plum mb-2">
+            <h3 className="text-2xl md:text-[30px] font-normal font-serif text-plum mb-2 leading-snug">
               Talk to someone now
             </h3>
-            <p className="text-sm text-ink/80 leading-relaxed mb-6">
+            <p className="text-[15px] md:text-[16px] text-ink/80 leading-relaxed mb-6 font-sans">
               Confidential hotlines and SMS text lines staffed 24/7 by real trained educators and crisis counselors.
             </p>
           </div>
@@ -235,14 +235,14 @@ export function ResourcesView({ onNavigate }: ResourcesViewProps) {
               <FileText className="w-5 h-5" />
             </div>
             <div className="flex items-center gap-2 mb-2">
-              <h3 className="text-xl font-bold text-plum">
+              <h3 className="text-2xl md:text-[30px] font-normal font-serif text-plum leading-snug">
                 Youth-Led Petitions
               </h3>
-              <Badge variant="default" className="text-[10px] uppercase">
+              <Badge variant="default" className="text-[11px] uppercase">
                 Active Campaigns
               </Badge>
             </div>
-            <p className="text-sm text-ink/80 leading-relaxed mb-6">
+            <p className="text-[15px] md:text-[16px] text-ink/80 leading-relaxed mb-6 font-sans">
               Support student campaigns fighting for free menstrual products in schools, comprehensive health education, and minor privacy rights.
             </p>
           </div>
@@ -262,10 +262,10 @@ export function ResourcesView({ onNavigate }: ResourcesViewProps) {
             <div className="w-10 h-10 rounded-xl bg-berry/10 flex items-center justify-center text-berry mb-4">
               <Calendar className="w-5 h-5" />
             </div>
-            <h3 className="text-xl font-bold text-plum mb-2">
+            <h3 className="text-2xl md:text-[30px] font-normal font-serif text-plum mb-2 leading-snug">
               See a workshop preview
             </h3>
-            <p className="text-sm text-ink/80 leading-relaxed mb-6">
+            <p className="text-[15px] md:text-[16px] text-ink/80 leading-relaxed mb-6 font-sans">
               Sample 90-minute agendas, testimonials, and upcoming session dates — see what happens before you go.
             </p>
           </div>
@@ -284,10 +284,10 @@ export function ResourcesView({ onNavigate }: ResourcesViewProps) {
             <div className="w-10 h-10 rounded-xl bg-yellow-deep/30 flex items-center justify-center text-berry mb-4">
               <GraduationCap className="w-5 h-5" />
             </div>
-            <h3 className="text-xl font-bold text-plum mb-2">
+            <h3 className="text-2xl md:text-[30px] font-normal font-serif text-plum mb-2 leading-snug">
               Become a Youth Ambassador
             </h3>
-            <p className="text-sm text-ink/80 leading-relaxed mb-6">
+            <p className="text-[15px] md:text-[16px] text-ink/80 leading-relaxed mb-6 font-sans">
               Represent ReproUs at your campus, run resource tables, and co-facilitate workshops with leadership training provided.
             </p>
           </div>
@@ -306,10 +306,10 @@ export function ResourcesView({ onNavigate }: ResourcesViewProps) {
             <div className="w-10 h-10 rounded-xl bg-blush-deep/50 flex items-center justify-center text-berry mb-4">
               <Download className="w-5 h-5" />
             </div>
-            <h3 className="text-xl font-bold text-plum mb-2">
+            <h3 className="text-2xl md:text-[30px] font-normal font-serif text-plum mb-2 leading-snug">
               Ambassador training module
             </h3>
-            <p className="text-sm text-ink/80 leading-relaxed mb-6">
+            <p className="text-[15px] md:text-[16px] text-ink/80 leading-relaxed mb-6 font-sans">
               A comprehensive self-paced guide covering how to discuss reproductive topics comfortably and navigate healthcare access.
             </p>
           </div>
@@ -328,10 +328,10 @@ export function ResourcesView({ onNavigate }: ResourcesViewProps) {
       <div className="rounded-2xl bg-yellow p-6 md:p-8 flex gap-4 items-start shadow-sm">
         <AlertCircle className="w-7 h-7 text-ink flex-shrink-0 mt-0.5" />
         <div>
-          <h3 className="text-lg font-bold text-ink mb-1">
+          <h3 className="text-xl md:text-2xl font-bold font-serif text-ink mb-1">
             Access isn&apos;t one-size-fits-all
           </h3>
-          <p className="text-sm text-ink/90 leading-relaxed m-0">
+          <p className="text-[15px] md:text-[16px] text-ink/90 leading-relaxed m-0 font-sans">
             We know transportation, insurance status, and language barriers often stand in the way of care. Every clinic listed above includes notes on public transit accessibility, certified interpreter availability, and free confidential teen services.
           </p>
         </div>
@@ -341,14 +341,14 @@ export function ResourcesView({ onNavigate }: ResourcesViewProps) {
       <section id="petitions-section" className="flex flex-col gap-8 pt-6">
         <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-4">
           <div>
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-yellow/50 text-berry text-xs font-extrabold uppercase tracking-wider mb-2.5">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-yellow/50 text-berry text-[13px] font-bold font-sans uppercase tracking-wider mb-2.5">
               <PenLine className="w-3.5 h-3.5" />
               Grassroots Advocacy &amp; Policy
             </div>
-            <h2 className="text-3xl md:text-4xl font-bold text-plum">
+            <h2 className="text-3xl md:text-[44px] lg:text-[50px] font-normal font-serif text-plum leading-[1.15]">
               Active Youth Petitions
             </h2>
-            <p className="text-sm md:text-base text-ink/80 max-w-xl mt-1 mb-0">
+            <p className="text-[17px] md:text-[18px] text-ink/80 max-w-xl mt-1 mb-0 font-sans">
               Add your name to student and community-driven campaigns fighting for equitable health policy, free period products, and youth privacy protections.
             </p>
           </div>
@@ -378,15 +378,15 @@ export function ResourcesView({ onNavigate }: ResourcesViewProps) {
               >
                 <div>
                   <div className="flex items-start justify-between gap-2 mb-3">
-                    <span className="text-xs font-extrabold uppercase tracking-wider text-berry/75">
+                    <span className="text-[13px] font-bold font-sans uppercase tracking-wider text-berry/75">
                       {petition.location} • {petition.organizer}
                     </span>
-                    <Badge variant="outline" className="capitalize text-[11px]">
+                    <Badge variant="outline" className="capitalize text-[12px]">
                       {petition.category}
                     </Badge>
                   </div>
 
-                  <h3 className="text-xl font-bold text-plum mb-2">
+                  <h3 className="text-2xl md:text-[28px] font-normal font-serif text-plum mb-2 leading-snug">
                     {petition.title}
                   </h3>
 

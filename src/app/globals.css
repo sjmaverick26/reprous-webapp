@@ -21,6 +21,9 @@
   --blush-deep: #D99AAA;    /* Accent Pink -> DUSTY ROSE */
   --ink: #3B2430;           /* Primary Body Text -> DARK PLUM */
   --cream-card: #FFFFFF;    /* Surface Cards -> WHITE */
+  /* Semantic Typography Fallback Aliases */
+  --font-fraunces: var(--font-dm-serif);
+  --font-nunito-sans: var(--font-dm-sans);
 }
 
 * {
@@ -35,12 +38,37 @@ body {
   margin: 0;
   background-color: var(--blush);
   color: var(--ink);
-  font-family: var(--font-nunito-sans), 'Nunito Sans', sans-serif;
+  font-family: var(--font-dm-sans), 'DM Sans', sans-serif;
+  font-size: 18px; /* DM Sans 17–19px */
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
 }
 
-h1, h2, h3, h4, .font-serif {
-  font-family: var(--font-fraunces), 'Fraunces', Georgia, serif;
+h1, .text-h1 {
+  font-family: var(--font-dm-serif), 'DM Serif Display', Georgia, serif;
+  color: var(--plum);
+  font-size: clamp(42px, 5.5vw + 1rem, 72px); /* DM Serif Display / 64–72px */
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+}
+
+h2, .text-h2 {
+  font-family: var(--font-dm-serif), 'DM Serif Display', Georgia, serif;
+  color: var(--plum);
+  font-size: clamp(32px, 3.5vw + 0.5rem, 50px); /* DM Serif Display / 42–50px */
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+}
+
+h3, .text-h3 {
+  font-family: var(--font-dm-serif), 'DM Serif Display', Georgia, serif;
+  color: var(--plum);
+  font-size: clamp(24px, 2.5vw + 0.25rem, 36px); /* DM Serif Display / 30–36px */
+  line-height: 1.2;
+}
+
+h4, .font-serif {
+  font-family: var(--font-dm-serif), 'DM Serif Display', Georgia, serif;
   color: var(--plum);
 }
 

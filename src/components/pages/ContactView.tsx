@@ -176,13 +176,13 @@ export function ContactView({ initialTab = "feedback" }: { initialTab?: ContactT
     <div className="max-w-[1100px] mx-auto px-6 py-12 flex flex-col gap-12">
       {/* Page Header */}
       <div className="text-center max-w-2xl mx-auto">
-        <div className="text-xs font-extrabold uppercase tracking-wider text-berry/75 mb-2">
+        <div className="text-[13px] md:text-[14px] font-bold uppercase tracking-wider text-berry mb-2 font-sans">
           Get in Touch &amp; Join the Movement
         </div>
-        <h1 className="text-4xl md:text-5xl font-bold text-plum mb-4">
+        <h1 className="text-4xl md:text-[64px] lg:text-[72px] font-normal font-serif text-plum leading-[1.08] mb-4">
           Contact Us
         </h1>
-        <p className="text-base md:text-lg text-ink/85 leading-relaxed">
+        <p className="text-[17px] md:text-[19px] text-ink/85 leading-relaxed font-sans">
           Whether you want to share feedback on our curriculum, apply to become a Youth Ambassador, or bring a free workshop to your school — we&apos;re here for you.
         </p>
       </div>
@@ -193,7 +193,7 @@ export function ContactView({ initialTab = "feedback" }: { initialTab?: ContactT
           <button
             onClick={() => setActiveTab("feedback")}
             className={cn(
-              "flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-bold transition-all whitespace-nowrap",
+              "flex items-center gap-2 px-5 py-2.5 rounded-full text-[14.5px] font-semibold font-sans transition-all whitespace-nowrap",
               activeTab === "feedback"
                 ? "bg-berry text-cream-card shadow-sm"
                 : "text-ink hover:text-berry hover:bg-blush"
@@ -206,7 +206,7 @@ export function ContactView({ initialTab = "feedback" }: { initialTab?: ContactT
           <button
             onClick={() => setActiveTab("ambassador")}
             className={cn(
-              "flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-bold transition-all whitespace-nowrap",
+              "flex items-center gap-2 px-5 py-2.5 rounded-full text-[14.5px] font-semibold font-sans transition-all whitespace-nowrap",
               activeTab === "ambassador"
                 ? "bg-berry text-cream-card shadow-sm"
                 : "text-ink hover:text-berry hover:bg-blush"
@@ -219,7 +219,7 @@ export function ContactView({ initialTab = "feedback" }: { initialTab?: ContactT
           <button
             onClick={() => setActiveTab("inquiry")}
             className={cn(
-              "flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-bold transition-all whitespace-nowrap",
+              "flex items-center gap-2 px-5 py-2.5 rounded-full text-[14.5px] font-semibold font-sans transition-all whitespace-nowrap",
               activeTab === "inquiry"
                 ? "bg-berry text-cream-card shadow-sm"
                 : "text-ink hover:text-berry hover:bg-blush"
@@ -240,13 +240,13 @@ export function ContactView({ initialTab = "feedback" }: { initialTab?: ContactT
               <div className="w-12 h-12 rounded-2xl bg-yellow/60 flex items-center justify-center text-berry mb-4">
                 <Sparkles className="w-6 h-6" />
               </div>
-              <h2 className="text-2xl font-bold text-plum mb-3">
+              <h2 className="font-serif text-2xl md:text-[34px] font-normal text-plum mb-3 leading-[1.2]">
                 Help Us Keep Growing
               </h2>
-              <p className="text-sm text-ink/85 leading-relaxed mb-4">
+              <p className="text-[15px] md:text-[16px] text-ink/85 leading-relaxed mb-4 font-sans">
                 ReproUs is built by and for young people. Your feedback directly shapes the new topics we research, the workshops we design, and how we bust myths.
               </p>
-              <ul className="space-y-2.5 text-xs text-ink/80 mb-6">
+              <ul className="space-y-2.5 text-[13.5px] md:text-[14px] text-ink/80 mb-6 font-sans">
                 <li className="flex items-center gap-2">
                   <CheckCircle2 className="w-4 h-4 text-berry flex-shrink-0" />
                   <span>100% anonymous option — share honestly</span>
@@ -261,7 +261,7 @@ export function ContactView({ initialTab = "feedback" }: { initialTab?: ContactT
                 </li>
               </ul>
 
-              <div className="p-4 rounded-2xl bg-cream-card border border-berry/10 text-xs text-ink/75">
+              <div className="p-4 rounded-2xl bg-cream-card border border-berry/10 text-[13px] md:text-[13.5px] text-ink/75 font-sans">
                 💡 <b>Looking to ask a private health question?</b> Head to the{" "}
                 <span className="font-bold text-berry">Q&amp;A page</span> where medical reviewers answer anonymous questions.
               </div>
@@ -273,27 +273,27 @@ export function ContactView({ initialTab = "feedback" }: { initialTab?: ContactT
             {feedbackSuccess ? (
               <div className="py-12 px-6 text-center flex flex-col items-center gap-3">
                 <CheckCircle2 className="w-16 h-16 text-green-600 animate-bounce" />
-                <h3 className="font-serif text-2xl font-bold text-plum">
+                <h3 className="font-serif text-2xl md:text-[30px] font-normal text-plum">
                   Thank You for Your Feedback!
                 </h3>
-                <p className="text-sm text-ink/80 max-w-md">
+                <p className="text-[15px] text-ink/80 max-w-md font-sans">
                   Your thoughts help us make ReproUs safer, clearer, and more empowering for everyone.
                 </p>
               </div>
             ) : (
               <form onSubmit={handleFeedbackSubmit} className="flex flex-col gap-5">
                 <div>
-                  <h3 className="text-xl font-bold text-plum mb-1">
+                  <h3 className="font-serif text-2xl md:text-[30px] font-normal text-plum mb-1 leading-snug">
                     Feedback About This Program
                   </h3>
-                  <p className="text-xs text-ink/70">
+                  <p className="text-[14px] text-ink/70 font-sans">
                     Tell us how we are doing and what we can do better.
                   </p>
                 </div>
 
                 {/* Rating selection */}
                 <div>
-                  <label className="block text-xs font-extrabold uppercase tracking-wider text-berry mb-2">
+                  <label className="block text-[13px] md:text-[14px] font-bold uppercase tracking-wider text-berry mb-2 font-sans">
                     Overall Experience Rating
                   </label>
                   <div className="flex items-center gap-2">
@@ -303,7 +303,7 @@ export function ContactView({ initialTab = "feedback" }: { initialTab?: ContactT
                         key={star}
                         onClick={() => setFeedbackRating(star)}
                         className={cn(
-                          "p-2 rounded-xl border transition-all flex items-center gap-1 text-sm font-bold",
+                          "p-2 rounded-xl border transition-all flex items-center gap-1 text-[14px] font-bold font-sans",
                           feedbackRating >= star
                             ? "bg-yellow border-yellow-deep text-ink shadow-sm"
                             : "bg-cream-card border-berry/10 text-ink/50 hover:bg-blush"
@@ -323,7 +323,7 @@ export function ContactView({ initialTab = "feedback" }: { initialTab?: ContactT
 
                 {/* Role selection */}
                 <div>
-                  <label className="block text-xs font-extrabold uppercase tracking-wider text-berry mb-2">
+                  <label className="block text-[13px] md:text-[14px] font-bold uppercase tracking-wider text-berry mb-2 font-sans">
                     I am a...
                   </label>
                   <div className="flex flex-wrap gap-2">
@@ -339,7 +339,7 @@ export function ContactView({ initialTab = "feedback" }: { initialTab?: ContactT
                         key={role}
                         onClick={() => setFeedbackRole(role)}
                         className={cn(
-                          "px-3.5 py-1.5 rounded-full text-xs font-bold transition-all border",
+                          "px-3.5 py-1.5 rounded-full text-[13.5px] md:text-[14px] font-semibold font-sans transition-all border",
                           feedbackRole === role
                             ? "bg-berry text-cream-card border-berry"
                             : "bg-cream-card text-ink border-berry/15 hover:bg-blush"
@@ -353,13 +353,13 @@ export function ContactView({ initialTab = "feedback" }: { initialTab?: ContactT
 
                 {/* Focus Area */}
                 <div>
-                  <label className="block text-xs font-extrabold uppercase tracking-wider text-berry mb-2">
+                  <label className="block text-[13px] md:text-[14px] font-bold uppercase tracking-wider text-berry mb-2 font-sans">
                     Area of Feedback
                   </label>
                   <select
                     value={feedbackCategory}
                     onChange={(e) => setFeedbackCategory(e.target.value)}
-                    className="w-full h-10 px-3 rounded-xl border border-berry/20 bg-cream-card text-sm font-semibold text-ink focus:outline-none focus:ring-2 focus:ring-berry"
+                    className="w-full h-11 px-3 rounded-xl border border-berry/20 bg-cream-card text-[15px] font-semibold font-sans text-ink focus:outline-none focus:ring-2 focus:ring-berry"
                   >
                     <option value="Learning Hub & Articles">Learning Hub &amp; Articles</option>
                     <option value="In-Person Workshops">In-Person Workshops</option>
@@ -372,7 +372,7 @@ export function ContactView({ initialTab = "feedback" }: { initialTab?: ContactT
 
                 {/* Main feedback text */}
                 <div>
-                  <label className="block text-xs font-extrabold uppercase tracking-wider text-berry mb-2">
+                  <label className="block text-[13px] md:text-[14px] font-bold uppercase tracking-wider text-berry mb-2 font-sans">
                     What worked well? What could be improved? *
                   </label>
                   <Textarea
@@ -381,24 +381,26 @@ export function ContactView({ initialTab = "feedback" }: { initialTab?: ContactT
                     placeholder="Share your thoughts, reactions, or suggestions..."
                     value={feedbackText}
                     onChange={(e) => setFeedbackText(e.target.value)}
+                    className="text-[15px] font-sans"
                   />
                 </div>
 
                 {/* Topic suggestions */}
                 <div>
-                  <label className="block text-xs font-extrabold uppercase tracking-wider text-berry mb-2">
+                  <label className="block text-[13px] md:text-[14px] font-bold uppercase tracking-wider text-berry mb-2 font-sans">
                     Topics or Features You&apos;d Like to See Added (Optional)
                   </label>
                   <Input
                     placeholder="e.g. PCOS management tips, athlete guides, more translations..."
                     value={topicSuggestions}
                     onChange={(e) => setTopicSuggestions(e.target.value)}
+                    className="text-[15px] font-sans"
                   />
                 </div>
 
                 {/* Anonymous Toggle & Email */}
                 <div className="flex flex-col gap-3 pt-2 border-t border-berry/10">
-                  <label className="flex items-center gap-2.5 cursor-pointer text-xs font-bold text-ink">
+                  <label className="flex items-center gap-2.5 cursor-pointer text-[13.5px] font-bold text-ink font-sans">
                     <input
                       type="checkbox"
                       checked={isAnonymous}
@@ -410,7 +412,7 @@ export function ContactView({ initialTab = "feedback" }: { initialTab?: ContactT
 
                   {!isAnonymous && (
                     <div>
-                      <label className="block text-xs font-bold text-berry mb-1">
+                      <label className="block text-[13px] font-bold text-berry mb-1 font-sans">
                         Your Email (Optional, if you&apos;d like a reply)
                       </label>
                       <Input
@@ -418,6 +420,7 @@ export function ContactView({ initialTab = "feedback" }: { initialTab?: ContactT
                         placeholder="you@example.com"
                         value={feedbackEmail}
                         onChange={(e) => setFeedbackEmail(e.target.value)}
+                        className="text-[15px] font-sans"
                       />
                     </div>
                   )}
@@ -441,10 +444,10 @@ export function ContactView({ initialTab = "feedback" }: { initialTab?: ContactT
               <Badge variant="default" className="mb-3">
                 Youth Leadership
               </Badge>
-              <h2 className="text-2xl font-bold text-plum mb-3">
+              <h2 className="font-serif text-2xl md:text-[34px] font-normal text-plum mb-3 leading-[1.2]">
                 Become a ReproUs Youth Ambassador
               </h2>
-              <p className="text-sm text-ink/85 leading-relaxed mb-6">
+              <p className="text-[15px] md:text-[16px] text-ink/85 leading-relaxed mb-6 font-sans">
                 Youth Ambassadors are the heart of ReproUs. You will lead peer discussions, host interactive resource tables at school, help organize workshops, and advocate for reproductive health equity in your community.
               </p>
 
@@ -454,8 +457,8 @@ export function ContactView({ initialTab = "feedback" }: { initialTab?: ContactT
                     🌟
                   </div>
                   <div>
-                    <h4 className="text-sm font-bold text-plum">Leadership &amp; Mentorship</h4>
-                    <p className="text-xs text-ink/75 m-0">
+                    <h4 className="text-[15px] font-bold text-plum font-sans">Leadership &amp; Mentorship</h4>
+                    <p className="text-[13.5px] text-ink/75 m-0 font-sans">
                       Work alongside trained health educators and adolescent health clinicians.
                     </p>
                   </div>
@@ -466,8 +469,8 @@ export function ContactView({ initialTab = "feedback" }: { initialTab?: ContactT
                     📜
                   </div>
                   <div>
-                    <h4 className="text-sm font-bold text-plum">Verified Volunteer Hours</h4>
-                    <p className="text-xs text-ink/75 m-0">
+                    <h4 className="text-[15px] font-bold text-plum font-sans">Verified Volunteer Hours</h4>
+                    <p className="text-[13.5px] text-ink/75 m-0 font-sans">
                       Earn community service hours, recommendation letters, and leadership certificates.
                     </p>
                   </div>
@@ -478,8 +481,8 @@ export function ContactView({ initialTab = "feedback" }: { initialTab?: ContactT
                     🎒
                   </div>
                   <div>
-                    <h4 className="text-sm font-bold text-plum">Ambassador Kit &amp; Swag</h4>
-                    <p className="text-xs text-ink/75 m-0">
+                    <h4 className="text-[15px] font-bold text-plum font-sans">Ambassador Kit &amp; Swag</h4>
+                    <p className="text-[13.5px] text-ink/75 m-0 font-sans">
                       Get printed pocket guides, stickers, pin badges, and demo educational kits.
                     </p>
                   </div>
@@ -489,7 +492,7 @@ export function ContactView({ initialTab = "feedback" }: { initialTab?: ContactT
               <Button
                 onClick={handleDownloadModule}
                 variant="ghost"
-                className="w-full gap-2 text-xs"
+                className="w-full gap-2 text-[13.5px] font-semibold font-sans"
               >
                 <Download className="w-4 h-4" />
                 Download Ambassador Training Guide (PDF/Text)
@@ -502,78 +505,83 @@ export function ContactView({ initialTab = "feedback" }: { initialTab?: ContactT
             {ambSuccess ? (
               <div className="py-12 px-6 text-center flex flex-col items-center gap-3">
                 <CheckCircle2 className="w-16 h-16 text-green-600 animate-bounce" />
-                <h3 className="font-serif text-2xl font-bold text-plum">
+                <h3 className="font-serif text-2xl md:text-[30px] font-normal text-plum">
                   Application Received, {ambName}!
                 </h3>
-                <p className="text-sm text-ink/80 max-w-md">
+                <p className="text-[15px] text-ink/80 max-w-md font-sans">
                   We&apos;re so excited to have you join our ambassador network. We will email you within 2-3 business days with your orientation materials and next cohort details.
                 </p>
               </div>
             ) : (
               <form onSubmit={handleAmbassadorSubmit} className="flex flex-col gap-4">
                 <div>
-                  <h3 className="text-xl font-bold text-plum mb-1">
+                  <h3 className="font-serif text-2xl md:text-[30px] font-normal text-plum mb-1 leading-snug">
                     Youth Ambassador Application
                   </h3>
-                  <p className="text-xs text-ink/70">
+                  <p className="text-[14px] text-ink/70 font-sans">
                     Open to high school and college students (Ages 14–24). No prior experience necessary.
                   </p>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs font-bold text-berry mb-1">Full Name *</label>
+                    <label className="block text-[13px] md:text-[14px] font-bold text-berry mb-1 font-sans">Full Name *</label>
                     <Input
                       required
                       placeholder="e.g. Jordan Rivera"
                       value={ambName}
                       onChange={(e) => setAmbName(e.target.value)}
+                      className="text-[15px] font-sans"
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-bold text-berry mb-1">Email Address *</label>
+                    <label className="block text-[13px] md:text-[14px] font-bold text-berry mb-1 font-sans">Email Address *</label>
                     <Input
                       type="email"
                       required
                       placeholder="jordan@example.com"
                       value={ambEmail}
                       onChange={(e) => setAmbEmail(e.target.value)}
+                      className="text-[15px] font-sans"
                     />
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                   <div>
-                    <label className="block text-xs font-bold text-berry mb-1">Age / Grade *</label>
+                    <label className="block text-[13px] md:text-[14px] font-bold text-berry mb-1 font-sans">Age / Grade *</label>
                     <Input
                       required
                       placeholder="e.g. 17 / 11th Grade"
                       value={ambAge}
                       onChange={(e) => setAmbAge(e.target.value)}
+                      className="text-[15px] font-sans"
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-bold text-berry mb-1">School / Organization *</label>
+                    <label className="block text-[13px] md:text-[14px] font-bold text-berry mb-1 font-sans">School / Organization *</label>
                     <Input
                       required
                       placeholder="e.g. Central High"
                       value={ambSchool}
                       onChange={(e) => setAmbSchool(e.target.value)}
+                      className="text-[15px] font-sans"
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-bold text-berry mb-1">City / State *</label>
+                    <label className="block text-[13px] md:text-[14px] font-bold text-berry mb-1 font-sans">City / State *</label>
                     <Input
                       required
                       placeholder="e.g. Austin, TX"
                       value={ambCity}
                       onChange={(e) => setAmbCity(e.target.value)}
+                      className="text-[15px] font-sans"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-berry mb-2">
+                  <label className="block text-[13px] md:text-[14px] font-bold text-berry mb-2 font-sans">
                     What areas are you most interested in? (Select all that apply)
                   </label>
                   <div className="flex flex-wrap gap-2">
@@ -585,7 +593,7 @@ export function ContactView({ initialTab = "feedback" }: { initialTab?: ContactT
                           key={interest}
                           onClick={() => handleInterestToggle(interest)}
                           className={cn(
-                            "px-3 py-1.5 rounded-full text-xs font-semibold transition-all border",
+                            "px-3.5 py-1.5 rounded-full text-[13.5px] font-semibold font-sans transition-all border",
                             isSelected
                               ? "bg-yellow text-ink border-yellow-deep font-bold"
                               : "bg-cream-card text-ink/75 border-berry/15 hover:bg-blush"
@@ -600,7 +608,7 @@ export function ContactView({ initialTab = "feedback" }: { initialTab?: ContactT
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-berry mb-1">
+                  <label className="block text-[13px] md:text-[14px] font-bold text-berry mb-1 font-sans">
                     Why do you want to be a ReproUs Ambassador? *
                   </label>
                   <Textarea
@@ -609,6 +617,7 @@ export function ContactView({ initialTab = "feedback" }: { initialTab?: ContactT
                     placeholder="Tell us a little about yourself and why reproductive health education matters to you or your peers..."
                     value={ambStatement}
                     onChange={(e) => setAmbStatement(e.target.value)}
+                    className="text-[15px] font-sans"
                   />
                 </div>
 
@@ -627,10 +636,10 @@ export function ContactView({ initialTab = "feedback" }: { initialTab?: ContactT
           {/* Quick Contact Info */}
           <div className="lg:col-span-5 flex flex-col gap-6">
             <Card className="p-7 bg-cream-card shadow-card">
-              <h2 className="text-2xl font-bold text-plum mb-3">
+              <h2 className="font-serif text-2xl md:text-[34px] font-normal text-plum mb-3 leading-[1.2]">
                 General Inquiries
               </h2>
-              <p className="text-sm text-ink/85 leading-relaxed mb-6">
+              <p className="text-[15px] md:text-[16px] text-ink/85 leading-relaxed mb-6 font-sans">
                 Have a question about our organization, media inquiries, or partnering with your youth center or health clinic?
               </p>
 
@@ -640,10 +649,10 @@ export function ContactView({ initialTab = "feedback" }: { initialTab?: ContactT
                     <Mail className="w-5 h-5" />
                   </div>
                   <div>
-                    <span className="text-xs font-bold text-ink/60 uppercase block">Email Us Directly</span>
+                    <span className="text-[12px] md:text-[13px] font-bold text-ink/60 uppercase tracking-wider block font-sans">Email Us Directly</span>
                     <a
                       href="mailto:hello@reprous.org"
-                      className="text-sm font-bold text-berry hover:underline"
+                      className="text-[15px] md:text-[16px] font-bold text-berry hover:underline font-sans"
                     >
                       hello@reprous.org
                     </a>
@@ -655,8 +664,8 @@ export function ContactView({ initialTab = "feedback" }: { initialTab?: ContactT
                     <Clock className="w-5 h-5" />
                   </div>
                   <div>
-                    <span className="text-xs font-bold text-ink/60 uppercase block">Response Time</span>
-                    <span className="text-sm font-bold text-ink">Usually within 24–48 hours</span>
+                    <span className="text-[12px] md:text-[13px] font-bold text-ink/60 uppercase tracking-wider block font-sans">Response Time</span>
+                    <span className="text-[15px] md:text-[16px] font-bold text-ink font-sans">Usually within 24–48 hours</span>
                   </div>
                 </div>
 
@@ -665,13 +674,13 @@ export function ContactView({ initialTab = "feedback" }: { initialTab?: ContactT
                     <ShieldCheck className="w-5 h-5" />
                   </div>
                   <div>
-                    <span className="text-xs font-bold text-ink/60 uppercase block">Privacy Guarantee</span>
-                    <span className="text-sm font-bold text-ink">Strictly confidential communication</span>
+                    <span className="text-[12px] md:text-[13px] font-bold text-ink/60 uppercase tracking-wider block font-sans">Privacy Guarantee</span>
+                    <span className="text-[15px] md:text-[16px] font-bold text-ink font-sans">Strictly confidential communication</span>
                   </div>
                 </div>
               </div>
 
-              <div className="mt-8 p-4 rounded-2xl bg-yellow/30 border border-yellow-deep/30 text-xs text-ink/80">
+              <div className="mt-8 p-4 rounded-2xl bg-yellow/30 border border-yellow-deep/30 text-[13px] md:text-[13.5px] text-ink/80 font-sans">
                 🚨 <b>In need of immediate support or medical advice?</b> Please refer to our 24/7 confidential hotlines on the{" "}
                 <span className="font-bold text-berry">Resources page</span>.
               </div>
@@ -683,52 +692,54 @@ export function ContactView({ initialTab = "feedback" }: { initialTab?: ContactT
             {inqSuccess ? (
               <div className="py-12 px-6 text-center flex flex-col items-center gap-3">
                 <CheckCircle2 className="w-16 h-16 text-green-600 animate-bounce" />
-                <h3 className="font-serif text-2xl font-bold text-plum">
+                <h3 className="font-serif text-2xl md:text-[30px] font-normal text-plum">
                   Message Sent!
                 </h3>
-                <p className="text-sm text-ink/80 max-w-md">
+                <p className="text-[15px] text-ink/80 max-w-md font-sans">
                   Thank you for reaching out. Our team will get back to you shortly at {inqEmail}.
                 </p>
               </div>
             ) : (
               <form onSubmit={handleInquirySubmit} className="flex flex-col gap-4">
                 <div>
-                  <h3 className="text-xl font-bold text-plum mb-1">
+                  <h3 className="font-serif text-2xl md:text-[30px] font-normal text-plum mb-1 leading-snug">
                     Send Us a Message
                   </h3>
-                  <p className="text-xs text-ink/70">
+                  <p className="text-[14px] text-ink/70 font-sans">
                     Fill out the form below and we will route your inquiry to the right coordinator.
                   </p>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs font-bold text-berry mb-1">Your Name *</label>
+                    <label className="block text-[13px] md:text-[14px] font-bold text-berry mb-1 font-sans">Your Name *</label>
                     <Input
                       required
                       placeholder="Your Name"
                       value={inqName}
                       onChange={(e) => setInqName(e.target.value)}
+                      className="text-[15px] font-sans"
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-bold text-berry mb-1">Your Email *</label>
+                    <label className="block text-[13px] md:text-[14px] font-bold text-berry mb-1 font-sans">Your Email *</label>
                     <Input
                       type="email"
                       required
                       placeholder="name@example.com"
                       value={inqEmail}
                       onChange={(e) => setInqEmail(e.target.value)}
+                      className="text-[15px] font-sans"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-berry mb-1">Subject / Reason for Inquiry *</label>
+                  <label className="block text-[13px] md:text-[14px] font-bold text-berry mb-1 font-sans">Subject / Reason for Inquiry *</label>
                   <select
                     value={inqSubject}
                     onChange={(e) => setInqSubject(e.target.value)}
-                    className="w-full h-10 px-3 rounded-xl border border-berry/20 bg-cream-card text-sm font-semibold text-ink focus:outline-none focus:ring-2 focus:ring-berry"
+                    className="w-full h-11 px-3 rounded-xl border border-berry/20 bg-cream-card text-[15px] font-semibold font-sans text-ink focus:outline-none focus:ring-2 focus:ring-berry"
                   >
                     <option value="General Question">General Question</option>
                     <option value="School / Organization Partnership">School / Organization Partnership</option>
@@ -739,13 +750,14 @@ export function ContactView({ initialTab = "feedback" }: { initialTab?: ContactT
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-berry mb-1">Message *</label>
+                  <label className="block text-[13px] md:text-[14px] font-bold text-berry mb-1 font-sans">Message *</label>
                   <Textarea
                     required
                     rows={5}
                     placeholder="How can we help or collaborate?"
                     value={inqMessage}
                     onChange={(e) => setInqMessage(e.target.value)}
+                    className="text-[15px] font-sans"
                   />
                 </div>
 

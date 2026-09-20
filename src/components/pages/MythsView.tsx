@@ -44,22 +44,22 @@ export function MythsView() {
     <div className="max-w-[1100px] mx-auto px-6 py-12 flex flex-col gap-10">
       {/* Header */}
       <div className="text-center max-w-2xl mx-auto">
-        <div className="text-xs font-extrabold uppercase tracking-wider text-berry/75 mb-2">
+        <div className="text-[13px] md:text-[14px] font-bold uppercase tracking-wider text-berry mb-2 font-sans">
           Myths &amp; Facts
         </div>
-        <h1 className="text-4xl md:text-5xl font-bold text-plum mb-4">
+        <h1 className="text-4xl md:text-[64px] lg:text-[72px] font-normal font-serif text-plum leading-[1.08] mb-4">
           Tap a card to flip it
         </h1>
-        <p className="text-base text-ink/80 leading-relaxed">
+        <p className="text-[17px] md:text-[19px] text-ink/80 leading-relaxed font-sans">
           There is a lot of misinformation out there. Tap any card below to reveal the medical reality behind common myths.
         </p>
 
         <div className="flex items-center justify-center gap-3 mt-6">
           <button
             onClick={flipAll}
-            className="inline-flex items-center gap-1.5 text-xs font-extrabold text-berry bg-cream-card px-4 py-2 rounded-full border border-berry/20 hover:bg-blush shadow-sm transition-colors"
+            className="inline-flex items-center gap-2 text-[14px] md:text-[15px] font-semibold text-berry bg-cream-card px-5 py-2.5 rounded-full border border-berry/20 hover:bg-blush shadow-sm transition-colors font-sans"
           >
-            <RefreshCw className="w-3.5 h-3.5" />
+            <RefreshCw className="w-4 h-4" />
             {flippedIds.size === filteredMyths.length ? "Flip All Back to Myth" : "Flip All to Fact"}
           </button>
         </div>
@@ -71,7 +71,7 @@ export function MythsView() {
           <button
             key={c.id}
             onClick={() => setActiveCategory(c.id)}
-            className={`px-3.5 py-1.5 rounded-full text-xs font-bold transition-all border ${
+            className={`px-3.5 py-1.5 rounded-full text-[13.5px] md:text-[14px] font-semibold font-sans transition-all border ${
               activeCategory === c.id
                 ? "bg-berry border-berry text-cream-card shadow-sm"
                 : "bg-cream-card border-berry/20 text-berry hover:bg-blush-deep"
@@ -91,7 +91,7 @@ export function MythsView() {
             <div
               key={item.id}
               onClick={() => toggleFlip(item.id)}
-              className="perspective-1000 h-60 cursor-pointer group focus:outline-none"
+              className="perspective-1000 h-64 cursor-pointer group focus:outline-none"
               tabIndex={0}
               onKeyDown={(e) => {
                 if (e.key === "Enter" || e.key === " ") {
@@ -111,17 +111,17 @@ export function MythsView() {
                 <div className="absolute inset-0 backface-hidden rounded-[22px] p-6 bg-blush-deep flex flex-col justify-between border border-berry/10 select-none">
                   <div>
                     <div className="flex items-center justify-between mb-2">
-                      <span className="text-[11px] font-extrabold uppercase tracking-wider text-berry/80 flex items-center gap-1">
-                        <HelpCircle className="w-3.5 h-3.5" /> Myth
+                      <span className="text-[13px] font-bold uppercase tracking-wider text-berry flex items-center gap-1.5 font-sans">
+                        <HelpCircle className="w-4 h-4" /> Myth
                       </span>
-                      <span className="text-[10px] text-ink/60 font-bold">Tap to flip</span>
+                      <span className="text-[13px] text-ink/65 font-semibold font-sans">Tap to flip</span>
                     </div>
-                    <p className="font-bold text-base md:text-[17px] text-ink leading-snug mt-2">
+                    <p className="font-bold text-lg md:text-[19px] text-ink leading-snug mt-2 font-sans">
                       &ldquo;{item.myth}&rdquo;
                     </p>
                   </div>
-                  <div className="text-[11px] font-bold text-berry/80 flex items-center gap-1">
-                    <RefreshCw className="w-3 h-3 group-hover:rotate-45 transition-transform" />
+                  <div className="text-[13.5px] font-semibold text-berry flex items-center gap-1.5 font-sans">
+                    <RefreshCw className="w-3.5 h-3.5 group-hover:rotate-45 transition-transform" />
                     Reveal the medical fact
                   </div>
                 </div>
@@ -130,17 +130,17 @@ export function MythsView() {
                 <div className="absolute inset-0 backface-hidden rotate-y-180 rounded-[22px] p-6 bg-berry text-cream-card flex flex-col justify-between border border-berry-dark select-none shadow-inner">
                   <div>
                     <div className="flex items-center justify-between mb-2">
-                      <span className="text-[11px] font-extrabold uppercase tracking-wider text-gold flex items-center gap-1">
-                        <CheckCircle className="w-3.5 h-3.5 text-gold" /> Medical Fact
+                      <span className="text-[13px] font-bold uppercase tracking-wider text-gold flex items-center gap-1.5 font-sans">
+                        <CheckCircle className="w-4 h-4 text-gold" /> Medical Fact
                       </span>
-                      <span className="text-[10px] text-cream-card/70 font-bold">Tap to flip back</span>
+                      <span className="text-[13px] text-cream-card/80 font-semibold font-sans">Tap to flip back</span>
                     </div>
-                    <p className="font-semibold text-sm md:text-base text-cream-card leading-relaxed mt-1">
+                    <p className="font-semibold text-[16px] md:text-[17px] text-cream-card leading-relaxed mt-1 font-sans">
                       {item.fact}
                     </p>
                   </div>
                   {item.detail && (
-                    <p className="text-[11px] text-cream-card/75 italic m-0 pt-2 border-t border-cream-card/15">
+                    <p className="text-[13px] md:text-[13.5px] text-cream-card/85 italic m-0 pt-2 border-t border-cream-card/15 font-sans">
                       {item.detail}
                     </p>
                   )}
