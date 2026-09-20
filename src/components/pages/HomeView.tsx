@@ -32,26 +32,28 @@ export function HomeView({ onNavigate }: HomeViewProps) {
   return (
     <div className="flex flex-col gap-16 pb-20">
       {/* Hero Section */}
-      <section className="relative overflow-hidden pt-12 pb-16 md:pt-16 md:pb-24">
-        {/* Decorative organic background shape clusters */}
+      <section className="relative overflow-hidden pt-12 pb-14 md:pt-16 md:pb-20">
+        {/* Subtle ambient lighting */}
         <div
-          className="absolute -top-36 -right-24 w-[460px] h-[460px] rounded-full bg-light-teal/60 blur-3xl pointer-events-none"
+          className="absolute -top-36 -right-24 w-[460px] h-[460px] rounded-full bg-light-teal/50 blur-3xl pointer-events-none"
           aria-hidden="true"
         />
         <div
-          className="absolute -bottom-28 -left-20 w-[320px] h-[320px] rounded-full bg-soft-pink/50 blur-2xl pointer-events-none"
+          className="absolute -bottom-28 -left-20 w-[320px] h-[320px] rounded-full bg-soft-pink/40 blur-2xl pointer-events-none"
           aria-hidden="true"
         />
 
         <div className="max-w-[1100px] mx-auto px-6 relative z-10 flex flex-col items-center text-center">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-light-teal text-deep-teal font-bold text-xs uppercase tracking-wider mb-6 border border-deep-teal/15">
-            <Sparkles className="w-3.5 h-3.5 text-coral" />
-            Empowering Youth &amp; Communities
+          {/* Eyebrow: ✦ HEALTH EDUCATION · SELF-ADVOCACY (#2F7F7B) */}
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-light-teal/70 text-[#2F7F7B] font-bold text-xs uppercase tracking-wider mb-6 border border-[#2F7F7B]/25 shadow-xs font-sans">
+            <span className="text-[11px]" aria-hidden="true">✦</span>
+            <span>HEALTH EDUCATION · SELF-ADVOCACY</span>
           </div>
 
-          <h1 className="text-4xl md:text-[64px] lg:text-[72px] font-normal font-serif leading-[1.08] tracking-tight mb-6 max-w-[840px] text-deep-teal">
+          {/* Heading: Know your body. Know what to ask. (#174C4F + #F47C6C) */}
+          <h1 className="text-4xl md:text-[64px] lg:text-[72px] font-normal font-serif leading-[1.08] tracking-tight mb-6 max-w-[840px] text-[#174C4F]">
             Know your body.<br />
-            Know what to ask.
+            Know <span className="text-[#F47C6C]">what to ask.</span>
           </h1>
 
           <p className="text-[17px] md:text-[19px] text-charcoal/90 max-w-[640px] leading-relaxed mb-8 font-sans">
@@ -71,23 +73,91 @@ export function HomeView({ onNavigate }: HomeViewProps) {
               onClick={() => onNavigate("story")}
               variant="plum"
               size="lg"
-              className="gap-2"
+              className="gap-2 text-[#174C4F] border-2 border-[#174C4F] hover:bg-[#174C4F]/10"
             >
               <span>How ReproUs works</span>
               <span aria-hidden="true">→</span>
             </Button>
           </div>
 
+          {/* Multilingual Access Bar on very light teal with coral globe icon */}
           <AccessMini
-            text="No car, no insurance, don't speak English at home? We've got you covered."
+            text="Need resources in another language?"
+            languages={["English", "Español", "한국어", "Tiếng Việt", "العربية"]}
             className="shadow-sm"
           />
+        </div>
+      </section>
 
-          {/* Organic 3-shape visual cluster */}
-          <div className="relative h-44 w-72 mt-8 hidden sm:block">
-            <div className="absolute w-28 h-36 rounded-full bg-coral/80 left-6 top-3 -rotate-6 shadow-sm" />
-            <div className="absolute w-28 h-36 rounded-full bg-light-teal left-28 top-6 rotate-6 shadow-sm" />
-            <div className="absolute w-14 h-18 rounded-full bg-deep-teal left-24 top-12 shadow-sm" />
+      {/* First Major Section: TEAL (#174C4F) Statement & Framework Anchor */}
+      <section className="max-w-[1100px] mx-auto px-6 w-full">
+        <div className="rounded-[36px] bg-[#174C4F] text-white p-8 sm:p-12 md:p-16 shadow-xl relative overflow-hidden">
+          {/* Ambient inner teal glow */}
+          <div
+            className="absolute -top-24 -right-24 w-96 h-96 rounded-full bg-[#2F7F7B]/25 blur-3xl pointer-events-none"
+            aria-hidden="true"
+          />
+
+          <div className="relative z-10 max-w-3xl">
+            {/* Coral Highlight: LEARN · RECOGNIZE · ADVOCATE */}
+            <div className="inline-flex items-center gap-2.5 text-xs md:text-[13px] font-bold tracking-widest uppercase text-[#F47C6C] mb-5 font-sans">
+              <span className="w-5 h-[2px] bg-[#F47C6C] inline-block rounded-full" />
+              <span>LEARN</span>
+              <span className="text-[#F47C6C]/60">·</span>
+              <span>RECOGNIZE</span>
+              <span className="text-[#F47C6C]/60">·</span>
+              <span>ADVOCATE</span>
+            </div>
+
+            <h2 className="text-3xl md:text-[44px] lg:text-[52px] font-normal font-serif text-white leading-[1.12] mb-6 tracking-tight">
+              You shouldn&apos;t need to become an expert to be taken seriously.
+            </h2>
+
+            <p className="text-[17px] md:text-[19px] text-white/90 leading-relaxed font-sans mb-10 max-w-2xl">
+              Too many girls and young people are told their pain is &quot;just stress&quot; or that heavy periods are &quot;normal.&quot; ReproUs gives you the clinical backing, practical words, and self-advocacy tools to navigate healthcare with confidence.
+            </p>
+
+            {/* 3 Pillars Grid with coral icons & lines */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-8 border-t border-white/15">
+              <div className="flex flex-col gap-2">
+                <div className="flex items-center gap-2 text-[#F47C6C] font-bold text-[13px] uppercase tracking-wider font-sans">
+                  <BookOpen className="w-4 h-4 text-[#F47C6C]" />
+                  <span>01. Learn</span>
+                </div>
+                <h3 className="text-lg font-serif font-bold text-white mb-1">
+                  Honest Physiology
+                </h3>
+                <p className="text-[14.5px] text-white/80 leading-relaxed font-sans m-0">
+                  Clear, stigma-free explanations of how hormones, menstrual phases, and bodily changes work.
+                </p>
+              </div>
+
+              <div className="flex flex-col gap-2">
+                <div className="flex items-center gap-2 text-[#F47C6C] font-bold text-[13px] uppercase tracking-wider font-sans">
+                  <Flame className="w-4 h-4 text-[#F47C6C]" />
+                  <span>02. Recognize</span>
+                </div>
+                <h3 className="text-lg font-serif font-bold text-white mb-1">
+                  Spot Red Flags
+                </h3>
+                <p className="text-[14.5px] text-white/80 leading-relaxed font-sans m-0">
+                  Validation for symptoms like debilitating cramps, athletic amenorrhea, or androgen imbalances.
+                </p>
+              </div>
+
+              <div className="flex flex-col gap-2">
+                <div className="flex items-center gap-2 text-[#F47C6C] font-bold text-[13px] uppercase tracking-wider font-sans">
+                  <Sparkles className="w-4 h-4 text-[#F47C6C]" />
+                  <span>03. Advocate</span>
+                </div>
+                <h3 className="text-lg font-serif font-bold text-white mb-1">
+                  Doctor-Ready Language
+                </h3>
+                <p className="text-[14.5px] text-white/80 leading-relaxed font-sans m-0">
+                  Concrete scripts, symptom logs, and confidentiality rights to get taken seriously in clinic visits.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </section>

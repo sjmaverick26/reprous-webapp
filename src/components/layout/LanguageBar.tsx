@@ -15,7 +15,7 @@ export function LanguageBar({ currentLang, onSelectLang }: LanguageBarProps) {
   const languages = [
     { code: "en", label: "English" },
     { code: "es", label: "Español" },
-    { code: "ht", label: "Kreyòl" },
+    { code: "ko", label: "한국어" },
     { code: "vi", label: "Tiếng Việt" },
     { code: "ar", label: "العربية" },
     { code: "more", label: "+ More" },
@@ -38,11 +38,11 @@ export function LanguageBar({ currentLang, onSelectLang }: LanguageBarProps) {
   };
 
   return (
-    <div className="bg-cream-card border-b border-berry/10 transition-colors">
+    <div className="bg-white/95 border-b border-deep-teal/10 transition-colors">
       <div className="max-w-[1100px] mx-auto px-6 py-2 flex items-center justify-between gap-4 flex-wrap">
         {/* Language Switcher */}
         <div className="flex items-center gap-2 flex-wrap">
-          <span className="text-[13px] font-semibold font-sans uppercase tracking-wider text-berry/75 mr-1">
+          <span className="text-[13px] font-semibold font-sans uppercase tracking-wider text-deep-teal/75 mr-1">
             Viewing in:
           </span>
           {languages.map((lang) => {
@@ -54,8 +54,8 @@ export function LanguageBar({ currentLang, onSelectLang }: LanguageBarProps) {
                 className={cn(
                   "px-3 py-1 rounded-full text-[14px] font-semibold font-sans transition-all border",
                   isActive
-                    ? "bg-berry border-berry text-cream-card shadow-sm"
-                    : "bg-transparent border-berry/30 text-berry hover:bg-blush-deep"
+                    ? "bg-deep-teal border-deep-teal text-white shadow-sm"
+                    : "bg-transparent border-deep-teal/20 text-deep-teal hover:bg-light-teal/50"
                 )}
               >
                 {lang.label}
@@ -66,7 +66,7 @@ export function LanguageBar({ currentLang, onSelectLang }: LanguageBarProps) {
 
         {/* Accessibility Tools (Text Size & Contrast) */}
         <div className="flex items-center gap-2">
-          <span className="text-[13px] font-semibold font-sans uppercase tracking-wider text-berry/75">
+          <span className="text-[13px] font-semibold font-sans uppercase tracking-wider text-deep-teal/75">
             Text:
           </span>
           <button
@@ -74,8 +74,8 @@ export function LanguageBar({ currentLang, onSelectLang }: LanguageBarProps) {
             className={cn(
               "px-2.5 py-0.5 rounded-full text-[13.5px] font-semibold font-sans border transition-colors",
               textSize === ""
-                ? "bg-berry border-berry text-cream-card"
-                : "border-berry/30 text-berry hover:bg-blush-deep"
+                ? "bg-deep-teal border-deep-teal text-white"
+                : "border-deep-teal/20 text-deep-teal hover:bg-light-teal/50"
             )}
             aria-label="Default text size"
           >
@@ -86,8 +86,8 @@ export function LanguageBar({ currentLang, onSelectLang }: LanguageBarProps) {
             className={cn(
               "px-2.5 py-0.5 rounded-full text-[13.5px] font-semibold font-sans border transition-colors",
               textSize === "text-lg"
-                ? "bg-berry border-berry text-cream-card"
-                : "border-berry/30 text-berry hover:bg-blush-deep"
+                ? "bg-deep-teal border-deep-teal text-white"
+                : "border-deep-teal/20 text-deep-teal hover:bg-light-teal/50"
             )}
             aria-label="Large text size"
           >
@@ -98,8 +98,8 @@ export function LanguageBar({ currentLang, onSelectLang }: LanguageBarProps) {
             className={cn(
               "px-2.5 py-0.5 rounded-full text-[13.5px] font-semibold font-sans border transition-colors",
               textSize === "text-xl"
-                ? "bg-berry border-berry text-cream-card"
-                : "border-berry/30 text-berry hover:bg-blush-deep"
+                ? "bg-deep-teal border-deep-teal text-white"
+                : "border-deep-teal/20 text-deep-teal hover:bg-light-teal/50"
             )}
             aria-label="Extra large text size"
           >
@@ -111,8 +111,8 @@ export function LanguageBar({ currentLang, onSelectLang }: LanguageBarProps) {
             className={cn(
               "ml-1 px-3 py-0.5 rounded-full text-[13.5px] font-semibold font-sans border transition-colors",
               isHighContrast
-                ? "bg-berry border-berry text-cream-card font-bold ring-2 ring-yellow-deep"
-                : "border-berry/30 text-berry hover:bg-blush-deep"
+                ? "bg-deep-teal border-deep-teal text-white font-bold ring-2 ring-coral"
+                : "border-deep-teal/20 text-deep-teal hover:bg-light-teal/50"
             )}
           >
             {isHighContrast ? "High Contrast On" : "High Contrast"}

@@ -10,10 +10,13 @@ const config: Config = {
     extend: {
       colors: {
         white: "#FFFFFF",
+        "page-bg": "var(--page-bg)",
         "deep-teal": "var(--deep-teal)",
+        "teal-accent": "var(--teal-accent)",
         teal: {
           DEFAULT: "var(--deep-teal)",
           deep: "var(--deep-teal)",
+          accent: "var(--teal-accent)",
           light: "var(--light-teal)",
         },
         raspberry: "var(--raspberry)",

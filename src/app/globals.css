@@ -3,31 +3,33 @@
 @tailwind utilities;
 
 :root {
-  /* New Semantic Color Palette */
-  --white: #FFFFFF;         /* Main page background (60%) */
-  --deep-teal: #205B5C;     /* Main headings, nav, footer (20%) */
+  /* Semantic Color Palette */
+  --white: #FFFFFF;         /* Card interiors & surface elements */
+  --page-bg: #FFF9F8;       /* Main page warm background (60%) */
+  --deep-teal: #174C4F;     /* Main headings, nav, footer, teal anchor (20%) */
+  --teal-accent: #2F7F7B;   /* Medium teal for eyebrows and subheadings */
   --soft-pink: #F6D8DE;     /* Section backgrounds (10% with light teal) */
-  --light-teal: #D9EEEE;    /* Cards / alternating sections (10% with soft pink) */
+  --light-teal: #D9EEEE;    /* Cards / alternating sections / language pill */
   --raspberry: #B83F68;     /* Primary buttons, important links (7%) */
-  --coral: #F47A6A;         /* Highlights, icons, hover states (3%) */
+  --coral: #F47C6C;         /* Highlights, icons, hover states, accent (3%) */
   --charcoal: #29272A;      /* Body text */
 
   /* Backward-compatible semantic aliases mapped to the new palette */
-  --plum: #205B5C;          /* Mapped to Deep Teal */
+  --plum: #174C4F;          /* Mapped to Deep Teal */
   --berry: #B83F68;         /* Mapped to Raspberry */
-  --berry-dark: #205B5C;    /* Mapped to Deep Teal */
+  --berry-dark: #174C4F;    /* Mapped to Deep Teal */
   --dusty-rose: #F6D8DE;    /* Mapped to Soft Pink */
   --sage: #D9EEEE;          /* Mapped to Light Teal */
-  --gold: #F47A6A;          /* Mapped to Coral */
-  --yellow: #F47A6A;        /* Mapped to Coral */
+  --gold: #F47C6C;          /* Mapped to Coral */
+  --yellow: #F47C6C;        /* Mapped to Coral */
   --yellow-deep: #E06858;   /* Deeper Coral */
   --lavender: #F6D8DE;      /* Mapped to Soft Pink */
 
   /* Semantic Theme Aliases */
-  --blush: #FFFFFF;         /* Page Background -> Pure White */
+  --blush: #FFF9F8;         /* Page Background -> Warm Soft White */
   --blush-deep: #F6D8DE;    /* Accent Pink -> Soft Pink */
   --ink: #29272A;           /* Primary Body Text -> Dark Charcoal */
-  --cream-card: #FFFFFF;    /* Surface Cards -> White */
+  --cream-card: #FFFFFF;    /* Surface Cards -> Pure White */
 
   /* Semantic Typography Fallback Aliases */
   --font-fraunces: var(--font-dm-serif);
@@ -44,7 +46,7 @@ html {
 
 body {
   margin: 0;
-  background-color: var(--white);
+  background-color: var(--page-bg);
   color: var(--charcoal);
   font-family: var(--font-dm-sans), 'DM Sans', sans-serif;
   font-size: 18px; /* DM Sans 17–19px */
