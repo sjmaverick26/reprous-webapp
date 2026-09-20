@@ -327,39 +327,39 @@ export function HomeView({ onNavigate }: HomeViewProps) {
         />
 
         <div className="max-w-[1100px] mx-auto px-6 relative z-10 flex flex-col items-center text-center">
-          {/* Eyebrow in Deep Teal (Sora) */}
-          <div className="font-sora font-semibold text-[12px] md:text-[13px] uppercase tracking-[1.5px] text-deep-teal mb-5">
+          {/* Eyebrow in Deep Teal */}
+          <div className="font-sans font-bold text-[12.5px] md:text-[13px] uppercase tracking-[1.5px] text-deep-teal mb-5">
             HEALTH EDUCATION · SELF-ADVOCACY · RESEARCH
           </div>
 
-          {/* H1: Know your body. Know what to ask. (Space Grotesk) */}
-          <h1 className="text-4xl sm:text-5xl md:text-[64px] font-space font-bold leading-[1.08] tracking-tight mb-6 max-w-[860px] text-deep-teal">
+          {/* H1: Know your body. Know what to ask. */}
+          <h1 className="text-4xl md:text-[64px] lg:text-[72px] font-normal font-serif leading-[1.08] tracking-tight mb-6 max-w-[860px] text-deep-teal">
             Know your body.<br />
-            <span className="text-raspberry">Know what to ask.</span>
+            Know <span className="text-raspberry">what to ask.</span>
           </h1>
 
-          {/* Supporting text in Sora */}
-          <p className="text-[17px] md:text-[18px] text-charcoal/85 max-w-[680px] leading-relaxed mb-8 font-sora">
-            Learn about reproductive health, female athlete health, and conditions that are often misunderstood or overlooked.
+          {/* Supporting text in Charcoal */}
+          <p className="text-[17px] md:text-[19px] text-charcoal/85 max-w-[660px] leading-relaxed mb-8 font-sans">
+            Health education for girls — from reproductive health and female athlete health to conditions that are often misunderstood or overlooked.
           </p>
 
-          {/* Hero Buttons: Space Grotesk */}
+          {/* Hero Buttons */}
           <div className="flex flex-wrap items-center justify-center gap-3.5 mb-9">
             <Button
               onClick={() => onNavigate("hub")}
               size="default"
-              className="bg-raspberry text-white hover:bg-raspberry/90 hover:text-white active:bg-raspberry-dark active:text-white focus-visible:text-white shadow-sm gap-2 text-[15.5px] font-space font-semibold"
+              className="bg-raspberry text-white hover:bg-raspberry/90 hover:text-white active:bg-raspberry-dark active:text-white focus-visible:text-white shadow-sm gap-2 text-[15.5px]"
             >
-              <span>EXPLORE YOUR HEALTH</span>
+              <span>Explore your health</span>
               <ArrowRight className="w-4 h-4" />
             </Button>
             <Button
               onClick={() => onNavigate("story")}
               variant="outline"
               size="default"
-              className="gap-2 text-deep-teal border-[1.5px] border-deep-teal hover:bg-deep-teal/10 hover:text-deep-teal active:text-deep-teal focus-visible:text-deep-teal text-[15.5px] font-space font-semibold"
+              className="gap-2 text-deep-teal border-[1.5px] border-deep-teal hover:bg-deep-teal/10 hover:text-deep-teal active:text-deep-teal focus-visible:text-deep-teal text-[15.5px]"
             >
-              <span>HOW IT WORKS</span>
+              <span>How ReproUs works</span>
               <span aria-hidden="true">→</span>
             </Button>
           </div>
@@ -374,55 +374,51 @@ export function HomeView({ onNavigate }: HomeViewProps) {
         </div>
       </section>
 
-      {/* 2. HUGE STATEMENT SECTION: Deep Teal (#175B5C) Full-Bleed */}
+      {/* 2. THE COMMITMENT SECTION: Deep Teal (#175B5C) Full-Bleed */}
       <section className="w-full bg-deep-teal text-white py-16 md:py-24">
         <div className="max-w-[1100px] mx-auto px-6">
-          <div className="max-w-4xl">
-            <div className="inline-flex items-center gap-2 text-xs font-semibold tracking-widest uppercase text-coral mb-4 font-sora">
+          <div className="max-w-3xl">
+            <div className="inline-flex items-center gap-2 text-xs font-bold tracking-widest uppercase text-coral mb-4 font-sans">
               <span className="w-2 h-2 rounded-full bg-coral" />
               <span>✦ THE REPROUS COMMITMENT</span>
             </div>
 
-            {/* Archivo Black Huge Statement */}
-            <h2 className="font-archivo font-normal text-4xl sm:text-6xl md:text-7xl lg:text-[88px] text-white leading-[0.92] mb-6 tracking-tight uppercase">
-              YOUR HEALTH<br />
-              DESERVES<br />
-              YOUR ATTENTION.
+            <h2 className="text-3xl md:text-[42px] lg:text-[48px] font-normal font-serif text-white leading-[1.12] mb-5 tracking-tight">
+              You shouldn&apos;t need to become an expert to be taken seriously.
             </h2>
 
-            {/* Sora Body Text */}
-            <p className="font-sora text-[17px] md:text-[20px] text-white/90 leading-relaxed mb-10 max-w-2xl">
-              ReproUs gives girls the knowledge and tools to better understand their bodies and prepare for conversations about their health.
+            <p className="text-[17px] md:text-[19px] text-white/90 leading-relaxed font-sans mb-10 max-w-2xl">
+              ReproUs helps girls understand their bodies, recognize symptoms, and build the confidence to ask informed questions about their health.
             </p>
 
             {/* 3 Small Items: LEARN · RECOGNIZE · ADVOCATE with Coral highlights */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 pt-8 border-t border-white/20">
               <div className="flex flex-col gap-2">
-                <span className="font-sora font-semibold text-xs uppercase tracking-wider text-coral flex items-center gap-1.5">
+                <span className="font-sans font-bold text-xs uppercase tracking-wider text-coral flex items-center gap-1.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-coral" />
                   <span>LEARN</span>
                 </span>
-                <p className="text-[15px] md:text-[16px] text-white/90 leading-relaxed font-sora m-0">
+                <p className="text-[15px] md:text-[16px] text-white/90 leading-relaxed font-sans m-0">
                   Understand your body and how it works.
                 </p>
               </div>
 
               <div className="flex flex-col gap-2">
-                <span className="font-sora font-semibold text-xs uppercase tracking-wider text-coral flex items-center gap-1.5">
+                <span className="font-sans font-bold text-xs uppercase tracking-wider text-coral flex items-center gap-1.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-coral" />
                   <span>RECOGNIZE</span>
                 </span>
-                <p className="text-[15px] md:text-[16px] text-white/90 leading-relaxed font-sora m-0">
+                <p className="text-[15px] md:text-[16px] text-white/90 leading-relaxed font-sans m-0">
                   Learn about symptoms that are often misunderstood or dismissed.
                 </p>
               </div>
 
               <div className="flex flex-col gap-2">
-                <span className="font-sora font-semibold text-xs uppercase tracking-wider text-coral flex items-center gap-1.5">
+                <span className="font-sans font-bold text-xs uppercase tracking-wider text-coral flex items-center gap-1.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-coral" />
                   <span>ADVOCATE</span>
                 </span>
-                <p className="text-[15px] md:text-[16px] text-white/90 leading-relaxed font-sora m-0">
+                <p className="text-[15px] md:text-[16px] text-white/90 leading-relaxed font-sans m-0">
                   Build the confidence and vocabulary to speak up about your health.
                 </p>
               </div>
@@ -435,13 +431,13 @@ export function HomeView({ onNavigate }: HomeViewProps) {
       <section className="w-full bg-warm-cream text-charcoal py-16 md:py-24">
         <div className="max-w-[1100px] mx-auto px-6">
           <div className="text-center mb-10">
-            <div className="text-[12.5px] font-semibold tracking-wider uppercase text-raspberry mb-2 font-sora">
+            <div className="text-[13px] font-bold tracking-wider uppercase text-raspberry mb-2 font-sans">
               Curriculum Focus
             </div>
-            <h2 className="text-3xl md:text-[44px] font-space font-bold text-deep-teal leading-[1.12]">
-              EXPLORE YOUR HEALTH
+            <h2 className="text-3xl md:text-[42px] lg:text-[48px] font-normal font-serif text-deep-teal leading-[1.15]">
+              Start with what you want to understand.
             </h2>
-            <p className="text-[16.5px] md:text-[18px] text-charcoal/80 max-w-xl mx-auto mt-2 mb-0 font-sora">
+            <p className="text-[17px] md:text-[18px] text-charcoal/80 max-w-xl mx-auto mt-2 mb-0 font-sans">
               Explore dedicated guides on athlete physiology, hormonal cycles, and reproductive conditions.
             </p>
           </div>
@@ -450,20 +446,20 @@ export function HomeView({ onNavigate }: HomeViewProps) {
             {/* CARD 01: FEMALE ATHLETE HEALTH - Light Teal (#D8EFED) */}
             <div className="rounded-2xl bg-light-teal border-2 border-deep-teal/20 p-7 md:p-8 flex flex-col justify-between shadow-card hover:shadow-hover hover:border-deep-teal/40 transition-all">
               <div>
-                <span className="font-sora font-bold text-[12px] uppercase tracking-wider text-deep-teal bg-white/85 px-2.5 py-1 rounded-md inline-block mb-3 border border-deep-teal/15">
-                  🩵 01 · FEMALE ATHLETE HEALTH
+                <span className="font-sans font-bold text-[12px] uppercase tracking-wider text-deep-teal bg-white/85 px-2.5 py-1 rounded-md inline-block mb-3 border border-deep-teal/15">
+                  01 · FEMALE ATHLETE HEALTH
                 </span>
-                <h3 className="text-xl md:text-[24px] font-space font-bold text-deep-teal mb-3 leading-snug">
-                  FEMALE ATHLETE HEALTH
+                <h3 className="text-2xl md:text-[28px] font-normal font-serif text-deep-teal mb-3 leading-snug">
+                  Your body is part of your performance.
                 </h3>
-                <p className="text-[15px] text-charcoal/85 leading-relaxed mb-6 font-sora">
-                  Energy availability · Periods · Bone health · Performance (female athlete triad)
+                <p className="text-[15.5px] text-charcoal/85 leading-relaxed mb-6 font-sans">
+                  Learn about energy availability, periods, bone health, and the Female Athlete Triad.
                 </p>
               </div>
               <div>
                 <Button
                   onClick={() => onNavigate("hub", "play")}
-                  className="w-full bg-raspberry text-white hover:bg-raspberry/90 justify-between text-[14.5px] font-space font-semibold"
+                  className="w-full bg-raspberry text-white hover:bg-raspberry/90 justify-between text-[14.5px]"
                 >
                   <span>Explore athlete health</span>
                   <span aria-hidden="true">→</span>
@@ -474,20 +470,20 @@ export function HomeView({ onNavigate }: HomeViewProps) {
             {/* CARD 02: HORMONAL HEALTH - Soft Pink (#F5D9DE) */}
             <div className="rounded-2xl bg-soft-pink border-2 border-raspberry/20 p-7 md:p-8 flex flex-col justify-between shadow-card hover:shadow-hover hover:border-raspberry/40 transition-all">
               <div>
-                <span className="font-sora font-bold text-[12px] uppercase tracking-wider text-deep-teal bg-white/85 px-2.5 py-1 rounded-md inline-block mb-3 border border-raspberry/15">
-                  🩷 02 · HORMONAL HEALTH
+                <span className="font-sans font-bold text-[12px] uppercase tracking-wider text-deep-teal bg-white/85 px-2.5 py-1 rounded-md inline-block mb-3 border border-raspberry/15">
+                  02 · HORMONAL HEALTH
                 </span>
-                <h3 className="text-xl md:text-[24px] font-space font-bold text-deep-teal mb-3 leading-snug">
-                  HORMONAL HEALTH
+                <h3 className="text-2xl md:text-[28px] font-normal font-serif text-deep-teal mb-3 leading-snug">
+                  When your hormones affect more than you expect.
                 </h3>
-                <p className="text-[15px] text-charcoal/85 leading-relaxed mb-6 font-sora">
-                  PCOS · Periods · Hormones · Symptoms
+                <p className="text-[15.5px] text-charcoal/85 leading-relaxed mb-6 font-sans">
+                  Explore PCOS, periods, symptoms, hormones, and what to track.
                 </p>
               </div>
               <div>
                 <Button
                   onClick={() => onNavigate("hub", "pcos")}
-                  className="w-full bg-raspberry text-white hover:bg-raspberry/90 justify-between text-[14.5px] font-space font-semibold"
+                  className="w-full bg-raspberry text-white hover:bg-raspberry/90 justify-between text-[14.5px]"
                 >
                   <span>Explore hormonal health</span>
                   <span aria-hidden="true">→</span>
@@ -498,20 +494,20 @@ export function HomeView({ onNavigate }: HomeViewProps) {
             {/* CARD 03: REPRODUCTIVE HEALTH - Light Coral (#FFE1DB) */}
             <div className="rounded-2xl bg-[#FFE1DB] border-2 border-coral/30 p-7 md:p-8 flex flex-col justify-between shadow-card hover:shadow-hover hover:border-coral/60 transition-all">
               <div>
-                <span className="font-sora font-bold text-[12px] uppercase tracking-wider text-deep-teal bg-white/85 px-2.5 py-1 rounded-md inline-block mb-3 border border-coral/20">
-                  🧡 03 · REPRODUCTIVE HEALTH
+                <span className="font-sans font-bold text-[12px] uppercase tracking-wider text-deep-teal bg-white/85 px-2.5 py-1 rounded-md inline-block mb-3 border border-coral/20">
+                  03 · REPRODUCTIVE HEALTH
                 </span>
-                <h3 className="text-xl md:text-[24px] font-space font-bold text-deep-teal mb-3 leading-snug">
-                  REPRODUCTIVE HEALTH
+                <h3 className="text-2xl md:text-[28px] font-normal font-serif text-deep-teal mb-3 leading-snug">
+                  Pain isn&apos;t something you have to ignore.
                 </h3>
-                <p className="text-[15px] text-charcoal/85 leading-relaxed mb-6 font-sora">
-                  Endometriosis · Pelvic pain · Period symptoms
+                <p className="text-[15.5px] text-charcoal/85 leading-relaxed mb-6 font-sans">
+                  Learn about endometriosis, pelvic pain, period symptoms, and when to ask for help.
                 </p>
               </div>
               <div>
                 <Button
                   onClick={() => onNavigate("hub", "endo")}
-                  className="w-full bg-raspberry text-white hover:bg-raspberry/90 justify-between text-[14.5px] font-space font-semibold"
+                  className="w-full bg-raspberry text-white hover:bg-raspberry/90 justify-between text-[14.5px]"
                 >
                   <span>Explore reproductive health</span>
                   <span aria-hidden="true">→</span>
@@ -526,84 +522,24 @@ export function HomeView({ onNavigate }: HomeViewProps) {
       <section className="w-full bg-[#174C4F] text-white py-16 md:py-24 relative overflow-hidden">
         <div className="max-w-[1100px] mx-auto px-6 relative z-10">
           {/* Small label: THE RESEARCH GAP (Coral #F47A6A) */}
-          <div className="inline-flex items-center gap-2 font-sora font-semibold text-xs uppercase tracking-widest text-coral mb-3">
+          <div className="inline-flex items-center gap-2 font-sans font-bold text-xs uppercase tracking-widest text-coral mb-3">
             <span className="w-2 h-2 rounded-full bg-coral" />
             <span>THE RESEARCH GAP</span>
           </div>
 
-          {/* Large heading (Space Grotesk) */}
-          <h2 className="text-3xl md:text-[44px] lg:text-[50px] font-space font-bold text-white leading-[1.12] mb-5 tracking-tight max-w-3xl">
+          {/* Large heading */}
+          <h2 className="text-3xl md:text-[44px] lg:text-[50px] font-normal font-serif text-white leading-[1.12] mb-5 tracking-tight max-w-3xl">
             What happens when questions aren&apos;t asked?
           </h2>
 
-          {/* Explanatory text (Sora) */}
-          <p className="text-[17px] md:text-[18.5px] text-white/90 leading-relaxed font-sora mb-12 max-w-3xl">
+          {/* Explanatory text */}
+          <p className="text-[17px] md:text-[18.5px] text-white/90 leading-relaxed font-sans mb-10 max-w-3xl">
             For generations, gaps in medical research have contributed to important questions about women&apos;s health receiving less attention. That can make it harder for girls and women to recognize symptoms, understand their bodies, and advocate for the care they need.
           </p>
 
-          {/* 3 Research Cards with Huge Archivo Black Numbers 01, 02, 03 & Space Grotesk Labels */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-            {/* Card 01: WHAT WE KNOW */}
-            <div className="rounded-2xl bg-white/10 border border-white/20 p-7 flex flex-col justify-between backdrop-blur-sm shadow-sm">
-              <div>
-                <span className="font-archivo text-5xl md:text-6xl text-coral block mb-3 leading-none">
-                  01
-                </span>
-                <h3 className="font-space font-bold text-xl md:text-[22px] text-white uppercase tracking-wider mb-3">
-                  WHAT WE KNOW
-                </h3>
-                <p className="text-[15px] text-white/85 font-sora leading-relaxed mb-4">
-                  Normal menstrual cycles range between 21–45 days in adolescents. Hormonal feedback regulates bone density, cellular energy, and cardiovascular vitality.
-                </p>
-              </div>
-              <div className="pt-3 border-t border-white/15 text-[12px] font-sora text-white/70">
-                <strong className="text-coral block">Clinical Baseline:</strong>
-                ACOG &amp; AAP Menstrual Health as a Vital Sign
-              </div>
-            </div>
-
-            {/* Card 02: WHAT WE'RE STILL LEARNING */}
-            <div className="rounded-2xl bg-white/10 border border-white/20 p-7 flex flex-col justify-between backdrop-blur-sm shadow-sm">
-              <div>
-                <span className="font-archivo text-5xl md:text-6xl text-coral block mb-3 leading-none">
-                  02
-                </span>
-                <h3 className="font-space font-bold text-xl md:text-[22px] text-white uppercase tracking-wider mb-3">
-                  WHAT WE&apos;RE STILL LEARNING
-                </h3>
-                <p className="text-[15px] text-white/85 font-sora leading-relaxed mb-4">
-                  Endometriosis diagnosis averages a 7–10 year delay. Low energy availability (RED-S) affects up to 47% of young female athletes without standard screenings.
-                </p>
-              </div>
-              <div className="pt-3 border-t border-white/15 text-[12px] font-sora text-white/70">
-                <strong className="text-coral block">Research Gap:</strong>
-                The Lancet Women&apos;s Health Evidence Review
-              </div>
-            </div>
-
-            {/* Card 03: WHAT YOU CAN ASK */}
-            <div className="rounded-2xl bg-white/10 border border-white/20 p-7 flex flex-col justify-between backdrop-blur-sm shadow-sm">
-              <div>
-                <span className="font-archivo text-5xl md:text-6xl text-coral block mb-3 leading-none">
-                  03
-                </span>
-                <h3 className="font-space font-bold text-xl md:text-[22px] text-white uppercase tracking-wider mb-3">
-                  WHAT YOU CAN ASK
-                </h3>
-                <p className="text-[15px] text-white/85 font-sora leading-relaxed mb-4">
-                  Armed with organized symptom tracking and clinical questions, you don&apos;t need to be an expert to challenge dismissals and request formal diagnostic workups.
-                </p>
-              </div>
-              <div className="pt-3 border-t border-white/15 text-[12px] font-sora text-white/70">
-                <strong className="text-coral block">Self-Advocacy Power:</strong>
-                ACOG Adolescent Dysmenorrhea Protocol
-              </div>
-            </div>
-          </div>
-
           {/* Horizontal Visual Pathway: 6 connected steps */}
-          <div className="pt-8 border-t border-white/15">
-            <div className="text-xs uppercase font-semibold tracking-wider text-coral mb-5 font-sora flex items-center gap-2">
+          <div className="pt-6 border-t border-white/15">
+            <div className="text-xs uppercase font-bold tracking-wider text-coral mb-5 font-sans flex items-center gap-2">
               <Sparkles className="w-3.5 h-3.5 text-coral" />
               <span>The Pathway from Gap to Self-Advocacy:</span>
             </div>
@@ -613,13 +549,13 @@ export function HomeView({ onNavigate }: HomeViewProps) {
               {/* Step 1: RESEARCH */}
               <div className="rounded-xl bg-white/10 border border-white/15 p-4 flex flex-col justify-between">
                 <div>
-                  <span className="text-[11px] font-bold text-coral uppercase tracking-wider block font-sora mb-1">
+                  <span className="text-[11px] font-bold text-coral uppercase tracking-wider block font-sans mb-1">
                     01
                   </span>
-                  <h4 className="font-space font-bold text-[14px] text-white tracking-wide mb-1.5">
+                  <h4 className="font-bold text-[14px] text-white tracking-wide font-sans mb-1.5">
                     RESEARCH
                   </h4>
-                  <p className="text-[12px] text-white/80 font-sora leading-relaxed m-0">
+                  <p className="text-[12px] text-white/80 font-sans leading-relaxed m-0">
                     Historical biomedical research underrepresented female hormonal cycles and cells.
                   </p>
                 </div>
@@ -634,13 +570,13 @@ export function HomeView({ onNavigate }: HomeViewProps) {
               {/* Step 2: WHAT WE KNOW */}
               <div className="rounded-xl bg-white/10 border border-white/15 p-4 flex flex-col justify-between">
                 <div>
-                  <span className="text-[11px] font-bold text-coral uppercase tracking-wider block font-sora mb-1">
+                  <span className="text-[11px] font-bold text-coral uppercase tracking-wider block font-sans mb-1">
                     02
                   </span>
-                  <h4 className="font-space font-bold text-[14px] text-white tracking-wide mb-1.5">
+                  <h4 className="font-bold text-[14px] text-white tracking-wide font-sans mb-1.5">
                     WHAT WE KNOW
                   </h4>
-                  <p className="text-[12px] text-white/80 font-sora leading-relaxed m-0">
+                  <p className="text-[12px] text-white/80 font-sans leading-relaxed m-0">
                     Foundational biology: menstrual cycle length, hormone feedback, and ovulation.
                   </p>
                 </div>
@@ -655,13 +591,13 @@ export function HomeView({ onNavigate }: HomeViewProps) {
               {/* Step 3: WHAT MAY BE MISSED */}
               <div className="rounded-xl bg-white/10 border border-white/15 p-4 flex flex-col justify-between">
                 <div>
-                  <span className="text-[11px] font-bold text-coral uppercase tracking-wider block font-sora mb-1">
+                  <span className="text-[11px] font-bold text-coral uppercase tracking-wider block font-sans mb-1">
                     03
                   </span>
-                  <h4 className="font-space font-bold text-[14px] text-white tracking-wide mb-1.5">
+                  <h4 className="font-bold text-[14px] text-white tracking-wide font-sans mb-1.5">
                     WHAT MAY BE MISSED
                   </h4>
-                  <p className="text-[12px] text-white/80 font-sora leading-relaxed m-0">
+                  <p className="text-[12px] text-white/80 font-sans leading-relaxed m-0">
                     Under-researched conditions like Endometriosis, RED-S, and atypical PCOS presentations.
                   </p>
                 </div>
@@ -676,13 +612,13 @@ export function HomeView({ onNavigate }: HomeViewProps) {
               {/* Step 4: RECOGNIZE THE SIGNS */}
               <div className="rounded-xl bg-white/10 border border-white/15 p-4 flex flex-col justify-between">
                 <div>
-                  <span className="text-[11px] font-bold text-coral uppercase tracking-wider block font-sora mb-1">
+                  <span className="text-[11px] font-bold text-coral uppercase tracking-wider block font-sans mb-1">
                     04
                   </span>
-                  <h4 className="font-space font-bold text-[14px] text-white tracking-wide mb-1.5">
+                  <h4 className="font-bold text-[14px] text-white tracking-wide font-sans mb-1.5">
                     RECOGNIZE THE SIGNS
                   </h4>
-                  <p className="text-[12px] text-white/80 font-sora leading-relaxed m-0">
+                  <p className="text-[12px] text-white/80 font-sans leading-relaxed m-0">
                     Validating that debilitating pain, cycle loss, or extreme fatigue are real medical data.
                   </p>
                 </div>
@@ -697,13 +633,13 @@ export function HomeView({ onNavigate }: HomeViewProps) {
               {/* Step 5: ASK QUESTIONS */}
               <div className="rounded-xl bg-white/10 border border-white/15 p-4 flex flex-col justify-between">
                 <div>
-                  <span className="text-[11px] font-bold text-coral uppercase tracking-wider block font-sora mb-1">
+                  <span className="text-[11px] font-bold text-coral uppercase tracking-wider block font-sans mb-1">
                     05
                   </span>
-                  <h4 className="font-space font-bold text-[14px] text-white tracking-wide mb-1.5">
+                  <h4 className="font-bold text-[14px] text-white tracking-wide font-sans mb-1.5">
                     ASK QUESTIONS
                   </h4>
-                  <p className="text-[12px] text-white/80 font-sora leading-relaxed m-0">
+                  <p className="text-[12px] text-white/80 font-sans leading-relaxed m-0">
                     Preparing targeted questions and symptom tracking logs before doctor appointments.
                   </p>
                 </div>
@@ -718,13 +654,13 @@ export function HomeView({ onNavigate }: HomeViewProps) {
               {/* Step 6: ADVOCATE FOR YOURSELF */}
               <div className="rounded-xl bg-raspberry text-white border border-raspberry p-4 flex flex-col justify-between shadow-sm">
                 <div>
-                  <span className="text-[11px] font-bold text-white/90 uppercase tracking-wider block font-sora mb-1">
+                  <span className="text-[11px] font-bold text-white/90 uppercase tracking-wider block font-sans mb-1">
                     06
                   </span>
-                  <h4 className="font-space font-bold text-[14px] text-white tracking-wide mb-1.5">
+                  <h4 className="font-bold text-[14px] text-white tracking-wide font-sans mb-1.5">
                     ADVOCATE FOR YOURSELF
                   </h4>
-                  <p className="text-[12px] text-white/90 font-sora leading-relaxed m-0">
+                  <p className="text-[12px] text-white/90 font-sans leading-relaxed m-0">
                     Building the confidence, vocabulary, and evidence to be taken seriously by clinicians.
                   </p>
                 </div>
@@ -737,11 +673,11 @@ export function HomeView({ onNavigate }: HomeViewProps) {
 
           {/* Evidence & Credible Sources Links */}
           <div className="mt-8 pt-6 border-t border-white/15">
-            <div className="text-xs uppercase font-semibold tracking-wider text-coral mb-3 font-sora flex items-center gap-1.5">
+            <div className="text-xs uppercase font-bold tracking-wider text-coral mb-3 font-sans flex items-center gap-1.5">
               <BookOpen className="w-3.5 h-3.5 text-coral" />
               <span>Credible Research Evidence &amp; Medical Grounding:</span>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs font-sora text-white/80">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs font-sans text-white/80">
               <div className="p-2.5 rounded-lg bg-white/5 border border-white/10">
                 <strong className="text-coral block mb-0.5">NIH ORWH Policy:</strong>
                 Inclusion of Women in Clinical Trials and Biomedical Research Mandates
@@ -760,11 +696,11 @@ export function HomeView({ onNavigate }: HomeViewProps) {
               </div>
             </div>
 
-            <div className="mt-4 flex items-center justify-between gap-4 text-xs font-sora text-white/70 flex-wrap">
+            <div className="mt-4 flex items-center justify-between gap-4 text-xs font-sans text-white/70 flex-wrap">
               <span>All statistics and guidelines verified through our medical advisory network.</span>
               <button
                 onClick={() => onNavigate("story")}
-                className="text-coral hover:underline font-semibold flex items-center gap-1 font-space"
+                className="text-coral hover:underline font-semibold flex items-center gap-1"
               >
                 <span>Read full research background</span>
                 <ExternalLink className="w-3 h-3" />
@@ -778,14 +714,14 @@ export function HomeView({ onNavigate }: HomeViewProps) {
       <section className="w-full bg-light-teal text-charcoal py-16 md:py-24">
         <div className="max-w-[1100px] mx-auto px-6">
           <div className="text-center mb-8">
-            <div className="text-[12.5px] font-semibold tracking-widest uppercase text-raspberry mb-2 font-sora flex items-center justify-center gap-1.5">
+            <div className="text-[12.5px] font-bold tracking-widest uppercase text-raspberry mb-2 font-sans flex items-center justify-center gap-1.5">
               <span className="w-2 h-2 rounded-full bg-coral" />
               <span>COULD THIS BE YOU?</span>
             </div>
-            <h2 className="text-3xl md:text-[44px] font-space font-bold text-deep-teal leading-[1.12]">
+            <h2 className="text-3xl md:text-[42px] lg:text-[48px] font-normal font-serif text-deep-teal leading-[1.15]">
               Start with the symptoms.
             </h2>
-            <p className="text-[16.5px] md:text-[18px] text-charcoal/80 max-w-xl mx-auto mt-2 mb-0 font-sora">
+            <p className="text-[17px] md:text-[18.5px] text-charcoal/80 max-w-xl mx-auto mt-2 mb-0 font-sans">
               Not sure what your symptoms might mean? Start exploring.
             </p>
           </div>
@@ -798,7 +734,7 @@ export function HomeView({ onNavigate }: HomeViewProps) {
                 <button
                   key={symptom.id}
                   onClick={() => setSelectedSymptomId(symptom.id)}
-                  className={`px-3.5 py-2 rounded-lg text-[13.5px] md:text-[14px] font-semibold font-space transition-all border ${
+                  className={`px-3.5 py-2 rounded-lg text-[13.5px] md:text-[14px] font-semibold font-sans transition-all border ${
                     isSelected
                       ? "bg-deep-teal text-white border-deep-teal shadow-sm hover:bg-deep-teal hover:text-white active:bg-deep-teal-dark active:text-white focus:text-white"
                       : "bg-white text-charcoal border-deep-teal/20 hover:border-raspberry hover:text-raspberry hover:bg-white active:bg-white/90 active:text-raspberry focus:text-charcoal"
@@ -814,10 +750,10 @@ export function HomeView({ onNavigate }: HomeViewProps) {
           <div className="rounded-2xl bg-white border border-deep-teal/15 p-7 md:p-10 shadow-card">
             <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border-b border-deep-teal/10 pb-5 mb-6">
               <div>
-                <span className="text-xs font-semibold uppercase tracking-wider text-raspberry block font-sora mb-1">
+                <span className="text-xs font-bold uppercase tracking-wider text-raspberry block font-sans mb-1">
                   Symptom Profile
                 </span>
-                <h3 className="text-2xl md:text-[28px] font-space font-bold text-deep-teal m-0">
+                <h3 className="text-2xl md:text-[30px] font-normal font-serif text-deep-teal m-0">
                   Exploring: {activeSymptom.name}
                 </h3>
               </div>
@@ -826,18 +762,18 @@ export function HomeView({ onNavigate }: HomeViewProps) {
                   onClick={() => onNavigate("hub", activeSymptom.learnCategory)}
                   variant="secondary"
                   size="sm"
-                  className="text-[14px] gap-1.5 text-deep-teal border-deep-teal/30 hover:bg-deep-teal/5 hover:text-deep-teal active:text-deep-teal focus-visible:text-deep-teal font-space font-semibold"
+                  className="text-[14px] gap-1.5 text-deep-teal border-deep-teal/30 hover:bg-deep-teal/5 hover:text-deep-teal active:text-deep-teal focus-visible:text-deep-teal"
                 >
                   <span>{activeSymptom.learnLabel}</span>
                 </Button>
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 font-sora">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 font-sans">
               {/* Col 1: Associated With & What To Track */}
               <div className="space-y-6">
                 <div>
-                  <h4 className="text-[14.5px] font-space font-bold text-deep-teal uppercase tracking-wider mb-2.5 flex items-center gap-2">
+                  <h4 className="text-[14.5px] font-bold text-deep-teal uppercase tracking-wider mb-2.5 flex items-center gap-2">
                     <Activity className="w-4 h-4 text-raspberry" />
                     What it can be associated with:
                   </h4>
@@ -849,7 +785,7 @@ export function HomeView({ onNavigate }: HomeViewProps) {
                 </div>
 
                 <div>
-                  <h4 className="text-[14.5px] font-space font-bold text-deep-teal uppercase tracking-wider mb-2.5 flex items-center gap-2">
+                  <h4 className="text-[14.5px] font-bold text-deep-teal uppercase tracking-wider mb-2.5 flex items-center gap-2">
                     <FileText className="w-4 h-4 text-raspberry" />
                     What you can track:
                   </h4>
@@ -864,7 +800,7 @@ export function HomeView({ onNavigate }: HomeViewProps) {
               {/* Col 2: Questions To Ask & When To Seek Care */}
               <div className="space-y-6">
                 <div>
-                  <h4 className="text-[14.5px] font-space font-bold text-deep-teal uppercase tracking-wider mb-2.5 flex items-center gap-2">
+                  <h4 className="text-[14.5px] font-bold text-deep-teal uppercase tracking-wider mb-2.5 flex items-center gap-2">
                     <MessageCircle className="w-4 h-4 text-raspberry" />
                     Questions you can ask a healthcare provider:
                   </h4>
@@ -876,11 +812,11 @@ export function HomeView({ onNavigate }: HomeViewProps) {
                 </div>
 
                 <div className="p-4 rounded-xl bg-soft-pink/40 border border-coral/30">
-                  <h4 className="text-[13.5px] font-space font-bold text-raspberry uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
+                  <h4 className="text-[13.5px] font-bold text-raspberry uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
                     <Stethoscope className="w-4 h-4 text-coral" />
                     When to seek medical care:
                   </h4>
-                  <p className="text-[14px] text-charcoal/85 leading-relaxed m-0 font-sora">
+                  <p className="text-[14px] text-charcoal/85 leading-relaxed m-0">
                     {activeSymptom.whenToSeekCare}
                   </p>
                 </div>
@@ -888,33 +824,27 @@ export function HomeView({ onNavigate }: HomeViewProps) {
             </div>
 
             {/* Educational Disclaimer */}
-            <div className="mt-8 pt-4 border-t border-deep-teal/10 text-center text-xs font-sora text-charcoal/70 bg-warm-cream/80 p-3 rounded-lg border border-deep-teal/10">
+            <div className="mt-8 pt-4 border-t border-deep-teal/10 text-center text-xs font-sans text-charcoal/70 bg-warm-cream/80 p-3 rounded-lg border border-deep-teal/10">
               <strong>Important Clinical Note:</strong> This information is compiled for health education and self-advocacy preparation, not medical diagnosis. If symptoms persist or cause you concern, consult a healthcare professional.
             </div>
           </div>
         </div>
       </section>
 
-      {/* 6. SELF-ADVOCACY SECTION: Full-Bleed Raspberry (#B83F68) */}
-      <section className="w-full bg-raspberry text-white py-16 md:py-24">
+      {/* 6. SELF-ADVOCACY TOOLKIT: Full-Bleed Coral (#F47A6A) */}
+      <section className="w-full bg-coral text-deep-teal py-16 md:py-24">
         <div className="max-w-[1100px] mx-auto px-6">
-          <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-4 mb-10">
+          <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-4 mb-8">
             <div>
-              <div className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-soft-pink mb-3 font-sora">
-                <Sparkles className="w-3.5 h-3.5 text-coral" />
-                <span>✦ EMPOWERMENT TOOLS</span>
+              <div className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-deep-teal mb-2 font-sans">
+                <Sparkles className="w-3.5 h-3.5 text-deep-teal" />
+                Empowerment Tools
               </div>
-              {/* Huge Archivo Black statement: SPEAK UP. */}
-              <h2 className="font-archivo font-normal text-5xl sm:text-6xl md:text-7xl lg:text-[84px] text-white leading-[0.92] uppercase tracking-tight mb-4">
-                SPEAK UP.
+              <h2 className="text-3xl md:text-[42px] lg:text-[48px] font-normal font-serif text-deep-teal leading-[1.15]">
+                Know what to ask.
               </h2>
-              {/* Space Grotesk subtitle */}
-              <p className="font-space font-bold text-2xl md:text-[30px] text-white/95 leading-snug mb-3">
-                Know what to ask at your next appointment.
-              </p>
-              {/* Sora body */}
-              <p className="font-sora text-[16.5px] md:text-[18px] text-white/85 max-w-xl mb-0 leading-relaxed">
-                Four practical tools to help you track your symptoms, prepare questions, communicate clearly, and advocate for yourself.
+              <p className="text-[17px] md:text-[18px] text-deep-teal/90 max-w-xl mt-2 mb-0 font-sans">
+                Four practical tools to help you track your symptoms, prepare for appointments, and speak up with confidence.
               </p>
             </div>
 
@@ -923,16 +853,16 @@ export function HomeView({ onNavigate }: HomeViewProps) {
                 setActiveToolkitTab("prepare");
                 setToolkitModalOpen(true);
               }}
-              className="bg-white text-raspberry hover:bg-white/95 hover:text-raspberry active:bg-white/90 active:text-raspberry focus-visible:text-raspberry font-space font-semibold text-[15px] gap-2 whitespace-nowrap self-start md:self-end shadow-md"
+              className="bg-deep-teal text-white hover:bg-deep-teal/90 hover:text-white active:bg-deep-teal active:text-white focus-visible:text-white text-[15px] gap-2 whitespace-nowrap self-start md:self-end shadow-sm"
             >
               <span>Open the Self-Advocacy Toolkit</span>
               <ArrowRight className="w-4 h-4" />
             </Button>
           </div>
 
-          {/* 4 Floating White Cards on Raspberry */}
+          {/* 4 Floating White Cards on Coral */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {/* Card 1: 01 — TRACK */}
+            {/* Card 1: Track your symptoms */}
             <div
               onClick={() => {
                 setActiveToolkitTab("track");
@@ -942,22 +872,19 @@ export function HomeView({ onNavigate }: HomeViewProps) {
             >
               <div>
                 <span className="text-2xl mb-3 block">📝</span>
-                <span className="font-sora font-bold text-xs uppercase tracking-wider text-raspberry block mb-1.5">
-                  01 — TRACK
-                </span>
-                <h3 className="text-lg font-space font-bold text-deep-teal group-hover:text-raspberry transition-colors mb-2">
-                  Track symptoms and patterns.
+                <h3 className="text-lg font-serif font-bold text-deep-teal group-hover:text-raspberry transition-colors mb-2">
+                  Track your symptoms
                 </h3>
-                <p className="text-[14px] text-charcoal/75 leading-relaxed font-sora m-0">
-                  Document frequency, severity, and cycle correlations to present clear medical data.
+                <p className="text-[14px] text-charcoal/75 leading-relaxed font-sans m-0">
+                  Download a symptom tracker to document frequency, severity, and cycle patterns.
                 </p>
               </div>
-              <span className="text-xs font-space font-bold text-raspberry mt-4 block">
+              <span className="text-xs font-bold text-raspberry mt-4 block font-sans">
                 Open tracker guide →
               </span>
             </div>
 
-            {/* Card 2: 02 — PREPARE */}
+            {/* Card 2: Prepare for an appointment */}
             <div
               onClick={() => {
                 setActiveToolkitTab("prepare");
@@ -967,22 +894,19 @@ export function HomeView({ onNavigate }: HomeViewProps) {
             >
               <div>
                 <span className="text-2xl mb-3 block">💬</span>
-                <span className="font-sora font-bold text-xs uppercase tracking-wider text-raspberry block mb-1.5">
-                  02 — PREPARE
-                </span>
-                <h3 className="text-lg font-space font-bold text-deep-teal group-hover:text-raspberry transition-colors mb-2">
-                  Prepare questions before an appointment.
+                <h3 className="text-lg font-serif font-bold text-deep-teal group-hover:text-raspberry transition-colors mb-2">
+                  Prepare for an appointment
                 </h3>
-                <p className="text-[14px] text-charcoal/75 leading-relaxed font-sora m-0">
+                <p className="text-[14px] text-charcoal/75 leading-relaxed font-sans m-0">
                   Build a personalized list of prioritized questions before seeing a healthcare provider.
                 </p>
               </div>
-              <span className="text-xs font-space font-bold text-raspberry mt-4 block">
+              <span className="text-xs font-bold text-raspberry mt-4 block font-sans">
                 Build question list →
               </span>
             </div>
 
-            {/* Card 3: 03 — COMMUNICATE */}
+            {/* Card 3: Learn the language */}
             <div
               onClick={() => {
                 setActiveToolkitTab("language");
@@ -992,22 +916,19 @@ export function HomeView({ onNavigate }: HomeViewProps) {
             >
               <div>
                 <span className="text-2xl mb-3 block">📚</span>
-                <span className="font-sora font-bold text-xs uppercase tracking-wider text-raspberry block mb-1.5">
-                  03 — COMMUNICATE
-                </span>
-                <h3 className="text-lg font-space font-bold text-deep-teal group-hover:text-raspberry transition-colors mb-2">
-                  Learn how to describe what you&apos;re experiencing.
+                <h3 className="text-lg font-serif font-bold text-deep-teal group-hover:text-raspberry transition-colors mb-2">
+                  Learn the language
                 </h3>
-                <p className="text-[14px] text-charcoal/75 leading-relaxed font-sora m-0">
-                  Master key terms like PCOS, endometriosis, energy availability, and amenorrhea.
+                <p className="text-[14px] text-charcoal/75 leading-relaxed font-sans m-0">
+                  Understand terms like PCOS, endometriosis, energy availability, and amenorrhea.
                 </p>
               </div>
-              <span className="text-xs font-space font-bold text-raspberry mt-4 block">
+              <span className="text-xs font-bold text-raspberry mt-4 block font-sans">
                 Explore terminology →
               </span>
             </div>
 
-            {/* Card 4: 04 — ADVOCATE */}
+            {/* Card 4: Speak up */}
             <div
               onClick={() => {
                 setActiveToolkitTab("speak");
@@ -1017,17 +938,14 @@ export function HomeView({ onNavigate }: HomeViewProps) {
             >
               <div>
                 <span className="text-2xl mb-3 block">🗣️</span>
-                <span className="font-sora font-bold text-xs uppercase tracking-wider text-raspberry block mb-1.5">
-                  04 — ADVOCATE
-                </span>
-                <h3 className="text-lg font-space font-bold text-deep-teal group-hover:text-raspberry transition-colors mb-2">
-                  Know when to ask for more information or support.
+                <h3 className="text-lg font-serif font-bold text-deep-teal group-hover:text-raspberry transition-colors mb-2">
+                  Speak up
                 </h3>
-                <p className="text-[14px] text-charcoal/75 leading-relaxed font-sora m-0">
-                  Practice explaining symptoms clearly, seeking second opinions, and responding when dismissed.
+                <p className="text-[14px] text-charcoal/75 leading-relaxed font-sans m-0">
+                  Practice explaining your symptoms clearly and responding when you feel dismissed.
                 </p>
               </div>
-              <span className="text-xs font-space font-bold text-raspberry mt-4 block">
+              <span className="text-xs font-bold text-raspberry mt-4 block font-sans">
                 Practice conversation scripts →
               </span>
             </div>
@@ -1035,18 +953,18 @@ export function HomeView({ onNavigate }: HomeViewProps) {
         </div>
       </section>
 
-      {/* 7. MYTHS & FACTS INTERACTIVE FEATURE: Warm Cream (#FFF8F0) Full-Bleed */}
-      <section className="w-full bg-warm-cream text-charcoal py-16 md:py-24">
+      {/* 7. MYTHS & FACTS INTERACTIVE FEATURE: Full-Bleed Raspberry (#B83F68) */}
+      <section className="w-full bg-raspberry text-white py-16 md:py-24">
         <div className="max-w-[1100px] mx-auto px-6">
           <div className="text-center max-w-3xl mx-auto mb-12">
-            <div className="inline-flex items-center gap-2 font-sora font-semibold text-xs uppercase tracking-widest text-raspberry mb-3">
+            <div className="inline-flex items-center gap-2 font-sans font-bold text-xs uppercase tracking-widest text-soft-pink mb-3">
               <span className="w-2 h-2 rounded-full bg-coral" />
               <span>INTERACTIVE MEDICAL MYTH-BUSTER</span>
             </div>
-            <h2 className="text-3xl md:text-[44px] lg:text-[48px] font-space font-bold text-deep-teal leading-[1.12] mb-4 tracking-tight">
+            <h2 className="text-3xl md:text-[44px] lg:text-[50px] font-normal font-serif text-white leading-[1.12] mb-4 tracking-tight">
               Separating myths from medical reality.
             </h2>
-            <p className="text-[17px] md:text-[18.5px] text-charcoal/85 leading-relaxed font-sora mb-0">
+            <p className="text-[17px] md:text-[18.5px] text-white/90 leading-relaxed font-sans mb-0">
               Too many girls are told that severe pain or missing periods are &ldquo;just part of being a girl.&rdquo; Tap any card to reveal clinical evidence and guidelines.
             </p>
           </div>
@@ -1059,21 +977,21 @@ export function HomeView({ onNavigate }: HomeViewProps) {
                 <div
                   key={item.id}
                   onClick={() => toggleHomeMyth(item.id)}
-                  className="rounded-2xl bg-white text-charcoal p-7 flex flex-col justify-between shadow-card hover:shadow-hover transition-all border border-deep-teal/15 group cursor-pointer"
+                  className="rounded-2xl bg-white text-charcoal p-7 flex flex-col justify-between shadow-lg cursor-pointer hover:shadow-2xl transition-all border border-white/20 group"
                 >
                   <div>
                     {/* Myth Tag */}
                     <div className="flex items-center justify-between gap-2 mb-4">
-                      <span className="font-sora font-bold text-[11px] uppercase tracking-wider text-raspberry bg-soft-pink px-2.5 py-1 rounded-md">
+                      <span className="font-sans font-bold text-[11px] uppercase tracking-wider text-raspberry bg-soft-pink px-2.5 py-1 rounded-md">
                         MYTH · {item.categoryLabel}
                       </span>
-                      <span className="text-xs font-semibold font-sora text-charcoal/50 group-hover:text-raspberry transition-colors">
+                      <span className="text-xs font-semibold text-charcoal/50 group-hover:text-raspberry transition-colors">
                         {isRevealed ? "Tap to collapse" : "Tap to reveal"}
                       </span>
                     </div>
 
                     {/* Myth Quote */}
-                    <h3 className="text-xl md:text-[22px] font-space font-bold text-deep-teal mb-4 leading-snug">
+                    <h3 className="text-xl md:text-[22px] font-serif font-normal text-deep-teal mb-4 leading-snug">
                       &ldquo;{item.myth}&rdquo;
                     </h3>
 
@@ -1081,19 +999,19 @@ export function HomeView({ onNavigate }: HomeViewProps) {
                     {isRevealed ? (
                       <div className="space-y-4 pt-4 border-t border-deep-teal/10 animate-in fade-in duration-200">
                         <div className="p-3.5 rounded-xl bg-light-teal/50 border border-deep-teal/15">
-                          <span className="font-sora font-bold text-[11.5px] uppercase tracking-wider text-deep-teal block mb-1">
+                          <span className="font-sans font-bold text-[11.5px] uppercase tracking-wider text-deep-teal block mb-1">
                             MEDICAL REALITY:
                           </span>
-                          <p className="text-[14px] text-charcoal/90 font-sora leading-relaxed m-0 font-medium">
+                          <p className="text-[14px] text-charcoal/90 font-sans leading-relaxed m-0 font-medium">
                             {item.quickFact}
                           </p>
                         </div>
 
-                        <p className="text-[13.5px] text-charcoal/80 font-sora leading-relaxed line-clamp-4 m-0">
+                        <p className="text-[13.5px] text-charcoal/80 font-sans leading-relaxed line-clamp-4 m-0">
                           {item.explanation}
                         </p>
 
-                        <div className="pt-2 border-t border-deep-teal/10 text-[12px] font-sora text-charcoal/70">
+                        <div className="pt-2 border-t border-deep-teal/10 text-[12px] font-sans text-charcoal/70">
                           <strong className="text-deep-teal block mb-0.5">Clinical Source:</strong>
                           <span className="text-charcoal/85">{item.source.organization}</span>
                           {item.source.guidelineNumber && (
@@ -1105,7 +1023,7 @@ export function HomeView({ onNavigate }: HomeViewProps) {
                       </div>
                     ) : (
                       <div className="pt-3">
-                        <span className="inline-flex items-center gap-1.5 text-[14px] font-space font-semibold text-raspberry group-hover:underline">
+                        <span className="inline-flex items-center gap-1.5 text-[14px] font-bold text-raspberry group-hover:underline">
                           <span>Reveal the facts</span>
                           <span aria-hidden="true">→</span>
                         </span>
@@ -1114,7 +1032,7 @@ export function HomeView({ onNavigate }: HomeViewProps) {
                   </div>
 
                   {/* Card Footer */}
-                  <div className="pt-4 mt-4 border-t border-deep-teal/10 flex items-center justify-between text-xs font-sora">
+                  <div className="pt-4 mt-4 border-t border-deep-teal/10 flex items-center justify-between text-xs font-sans">
                     <span className="text-charcoal/60">
                       {isRevealed ? "Verified Guideline" : "Click card to expand"}
                     </span>
@@ -1124,7 +1042,7 @@ export function HomeView({ onNavigate }: HomeViewProps) {
                           e.stopPropagation();
                           onNavigate("hub", item.learnCategory);
                         }}
-                        className="text-raspberry font-semibold hover:underline font-space"
+                        className="text-raspberry font-semibold hover:underline"
                       >
                         Explore topic →
                       </button>
@@ -1140,7 +1058,7 @@ export function HomeView({ onNavigate }: HomeViewProps) {
             <Button
               onClick={() => onNavigate("myths")}
               size="lg"
-              className="bg-raspberry text-white hover:bg-raspberry/90 hover:text-white active:bg-raspberry-dark active:text-white focus-visible:text-white shadow-md font-space font-semibold text-[15.5px] px-8 gap-2"
+              className="bg-white text-raspberry hover:bg-white/95 hover:text-raspberry active:bg-white/90 active:text-raspberry focus-visible:text-raspberry shadow-md font-bold text-[15.5px] px-8 gap-2"
             >
               <span>Explore All Myths &amp; Facts</span>
               <ArrowRight className="w-4 h-4" />
@@ -1150,20 +1068,20 @@ export function HomeView({ onNavigate }: HomeViewProps) {
       </section>
 
       {/* 8. WORKSHOPS & YOUTH VOICES: Full-Bleed Warm Cream (#FFF8F0) */}
-      <section className="w-full bg-warm-cream text-charcoal py-16 md:py-24 border-t border-deep-teal/10">
+      <section className="w-full bg-warm-cream text-charcoal py-16 md:py-24">
         <div className="max-w-[1100px] mx-auto px-6 space-y-16">
           {/* Upcoming Workshops Section */}
           <div className="rounded-2xl bg-white border border-deep-teal/15 p-8 md:p-12 shadow-card">
             <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-4 mb-8">
               <div>
-                <div className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-raspberry mb-2 font-sora">
+                <div className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-raspberry mb-2 font-sans">
                   <Calendar className="w-3.5 h-3.5 text-coral" />
-                  <span>Latest &amp; Upcoming Workshops</span>
+                  Latest &amp; Upcoming Workshops
                 </div>
-                <h2 className="text-3xl md:text-[42px] lg:text-[46px] font-space font-bold text-deep-teal leading-[1.15]">
+                <h2 className="text-3xl md:text-[42px] lg:text-[48px] font-normal font-serif text-deep-teal leading-[1.15]">
                   Join a free, honest workshop
                 </h2>
-                <p className="text-[17px] md:text-[18px] text-charcoal/80 max-w-xl mt-2 mb-0 font-sora">
+                <p className="text-[17px] md:text-[18px] text-charcoal/80 max-w-xl mt-2 mb-0 font-sans">
                   Interactive, non-judgmental sessions led by youth educators. Reserve your free spot or view full workshop agendas.
                 </p>
               </div>
@@ -1171,7 +1089,7 @@ export function HomeView({ onNavigate }: HomeViewProps) {
               <Button
                 onClick={() => onNavigate("workshops")}
                 variant="default"
-                className="bg-raspberry text-white hover:bg-raspberry/90 gap-2 self-start md:self-end whitespace-nowrap shadow-sm text-[15px] font-space font-semibold"
+                className="bg-raspberry text-white hover:bg-raspberry/90 gap-2 self-start md:self-end whitespace-nowrap shadow-sm text-[15px]"
               >
                 See All Workshops
                 <ArrowRight className="w-4 h-4" />
@@ -1186,11 +1104,11 @@ export function HomeView({ onNavigate }: HomeViewProps) {
                 >
                   <div>
                     <div className="flex items-center justify-between gap-2 mb-3">
-                      <span className="font-space text-2xl font-bold text-deep-teal">
+                      <span className="font-serif text-2xl font-bold text-deep-teal">
                         {session.date}
                       </span>
                       <span
-                        className={`text-[12px] font-bold px-2.5 py-0.5 rounded font-sora ${
+                        className={`text-[12px] font-bold px-2.5 py-0.5 rounded ${
                           session.isOnline
                             ? "bg-light-teal text-deep-teal border border-deep-teal/20"
                             : "bg-soft-pink text-deep-teal border border-coral/30"
@@ -1200,11 +1118,11 @@ export function HomeView({ onNavigate }: HomeViewProps) {
                       </span>
                     </div>
 
-                    <h3 className="text-lg md:text-xl font-space font-bold text-deep-teal mb-2 line-clamp-2 leading-snug">
+                    <h3 className="text-lg md:text-xl font-bold text-deep-teal mb-2 line-clamp-2 leading-snug">
                       {session.topic}
                     </h3>
 
-                    <div className="space-y-1.5 text-[14px] text-charcoal/80 mb-5 font-sora">
+                    <div className="space-y-1.5 text-[14px] text-charcoal/80 mb-5 font-sans">
                       <div className="flex items-center gap-1.5">
                         <Clock className="w-3.5 h-3.5 text-raspberry shrink-0" />
                         <span>{session.time}</span>
@@ -1217,13 +1135,13 @@ export function HomeView({ onNavigate }: HomeViewProps) {
                   </div>
 
                   <div className="pt-3 border-t border-deep-teal/10 flex flex-col gap-2">
-                    <div className="text-[13px] font-semibold text-charcoal/70 text-center font-sora">
+                    <div className="text-[13px] font-semibold text-charcoal/70 text-center font-sans">
                       {session.spotsLeft} • 100% Free
                     </div>
                     <Button
                       onClick={() => onNavigate("workshops")}
                       variant="secondary"
-                      className="w-full text-[14px] font-semibold gap-1.5 text-deep-teal border-deep-teal/30 hover:bg-deep-teal/5 hover:text-deep-teal active:text-deep-teal focus-visible:text-deep-teal font-space"
+                      className="w-full text-[14px] font-semibold gap-1.5 text-deep-teal border-deep-teal/30 hover:bg-deep-teal/5 hover:text-deep-teal active:text-deep-teal focus-visible:text-deep-teal"
                     >
                       Reserve on Workshop Page →
                     </Button>
@@ -1236,16 +1154,16 @@ export function HomeView({ onNavigate }: HomeViewProps) {
           {/* Youth Voices CTA Banner */}
           <div className="rounded-2xl bg-deep-teal text-white p-8 md:p-12 flex flex-col md:flex-row items-center justify-between gap-8 shadow-lg">
             <div className="max-w-xl text-center md:text-left">
-              <h2 className="text-3xl md:text-[42px] lg:text-[46px] font-space font-bold mb-3 text-white leading-[1.15]">
+              <h2 className="text-3xl md:text-[42px] lg:text-[48px] font-normal font-serif mb-3 text-white leading-[1.15]">
                 You&apos;re not alone in figuring this out.
               </h2>
-              <p className="text-[17px] md:text-[18px] text-white/90 m-0 leading-relaxed font-sora">
+              <p className="text-[17px] md:text-[18px] text-white/90 m-0 leading-relaxed font-sans">
                 Browse Learn topics, or hear directly from other young people in Youth Voices.
               </p>
             </div>
             <Button
               onClick={() => onNavigate("voices")}
-              className="bg-raspberry text-white hover:bg-raspberry/90 hover:text-white active:bg-raspberry-dark active:text-white focus-visible:text-white whitespace-nowrap shrink-0 font-space font-semibold text-[15px]"
+              className="bg-raspberry text-white hover:bg-raspberry/90 hover:text-white active:bg-raspberry-dark active:text-white focus-visible:text-white whitespace-nowrap shrink-0 font-bold text-[15px]"
             >
               Youth Voices →
             </Button>
@@ -1268,10 +1186,10 @@ export function HomeView({ onNavigate }: HomeViewProps) {
           >
             <div className="flex items-start justify-between gap-4 border-b border-deep-teal/10 pb-4">
               <div>
-                <div className="text-xs font-semibold uppercase tracking-wider text-raspberry font-sora mb-1">
+                <div className="text-xs font-bold uppercase tracking-wider text-raspberry font-sans mb-1">
                   ReproUs Patient Advocacy Series
                 </div>
-                <h3 id="toolkit-title" className="text-2xl font-space font-bold text-deep-teal m-0">
+                <h3 id="toolkit-title" className="text-2xl font-serif text-deep-teal m-0 font-normal">
                   Self-Advocacy Toolkit
                 </h3>
               </div>
@@ -1285,7 +1203,7 @@ export function HomeView({ onNavigate }: HomeViewProps) {
             </div>
 
             {/* Modal Tabs */}
-            <div className="flex items-center gap-2 border-b border-deep-teal/10 pb-2 overflow-x-auto font-space text-[13.5px]">
+            <div className="flex items-center gap-2 border-b border-deep-teal/10 pb-2 overflow-x-auto font-sans text-[13.5px]">
               <button
                 onClick={() => setActiveToolkitTab("prepare")}
                 className={`px-3 py-1.5 rounded-lg font-semibold whitespace-nowrap transition-colors ${
@@ -1330,8 +1248,8 @@ export function HomeView({ onNavigate }: HomeViewProps) {
 
             {/* Tab 1: Prepare for Appointment */}
             {activeToolkitTab === "prepare" && (
-              <div className="space-y-4 font-sora text-charcoal/90">
-                <h4 className="text-lg font-space font-bold text-deep-teal m-0">
+              <div className="space-y-4 font-sans text-charcoal/90">
+                <h4 className="text-lg font-serif font-bold text-deep-teal m-0">
                   Appointment Preparation Checklist
                 </h4>
                 <p className="text-[14.5px] leading-relaxed m-0">
@@ -1356,8 +1274,8 @@ export function HomeView({ onNavigate }: HomeViewProps) {
 
             {/* Tab 2: Symptom Tracker */}
             {activeToolkitTab === "track" && (
-              <div className="space-y-4 font-sora text-charcoal/90">
-                <h4 className="text-lg font-space font-bold text-deep-teal m-0">
+              <div className="space-y-4 font-sans text-charcoal/90">
+                <h4 className="text-lg font-serif font-bold text-deep-teal m-0">
                   What to Record in Your Symptom Log
                 </h4>
                 <p className="text-[14.5px] leading-relaxed m-0">
@@ -1386,21 +1304,21 @@ export function HomeView({ onNavigate }: HomeViewProps) {
 
             {/* Tab 3: Learn the Language */}
             {activeToolkitTab === "language" && (
-              <div className="space-y-4 font-sora text-charcoal/90">
-                <h4 className="text-lg font-space font-bold text-deep-teal m-0">
+              <div className="space-y-4 font-sans text-charcoal/90">
+                <h4 className="text-lg font-serif font-bold text-deep-teal m-0">
                   Essential Medical Terms
                 </h4>
                 <div className="space-y-3 text-[14px]">
                   <div className="p-3 bg-warm-cream/60 rounded-lg border border-deep-teal/10">
-                    <strong className="text-deep-teal block font-space text-base">Secondary Dysmenorrhea:</strong>
+                    <strong className="text-deep-teal block font-serif text-base">Secondary Dysmenorrhea:</strong>
                     Menstrual pain caused by an underlying reproductive condition (such as endometriosis, adenomyosis, or fibroids), rather than common primary cramps.
                   </div>
                   <div className="p-3 bg-warm-cream/60 rounded-lg border border-deep-teal/10">
-                    <strong className="text-deep-teal block font-space text-base">RED-S (Relative Energy Deficiency in Sport):</strong>
+                    <strong className="text-deep-teal block font-serif text-base">RED-S (Relative Energy Deficiency in Sport):</strong>
                     A syndrome where dietary energy intake is insufficient to support training and essential physiological functions, leading to period loss and bone thinning.
                   </div>
                   <div className="p-3 bg-warm-cream/60 rounded-lg border border-deep-teal/10">
-                    <strong className="text-deep-teal block font-space text-base">Hyperandrogenism:</strong>
+                    <strong className="text-deep-teal block font-serif text-base">Hyperandrogenism:</strong>
                     Elevated levels of androgens (like testosterone) in the female body, often seen in PCOS and causing acne, excess hair, or irregular ovulation.
                   </div>
                 </div>
@@ -1409,20 +1327,20 @@ export function HomeView({ onNavigate }: HomeViewProps) {
 
             {/* Tab 4: Speak Up Scripts */}
             {activeToolkitTab === "speak" && (
-              <div className="space-y-4 font-sora text-charcoal/90">
-                <h4 className="text-lg font-space font-bold text-deep-teal m-0">
+              <div className="space-y-4 font-sans text-charcoal/90">
+                <h4 className="text-lg font-serif font-bold text-deep-teal m-0">
                   Phrases to Advocate for Yourself
                 </h4>
                 <div className="space-y-3 text-[14px]">
                   <div className="p-3.5 bg-warm-cream/60 rounded-lg border border-deep-teal/10">
-                    <span className="text-xs font-bold uppercase tracking-wider text-charcoal/60 block mb-1 font-sora">
+                    <span className="text-xs font-bold uppercase tracking-wider text-charcoal/60 block mb-1">
                       If told: &ldquo;Cramps are just part of having a period.&rdquo;
                     </span>
                     <strong className="text-raspberry block">Your response:</strong>
                     &ldquo;While I understand mild cramping is normal, my pain prevents me from attending school and doesn&apos;t respond to maximum doses of ibuprofen. What clinical steps can we take to rule out secondary dysmenorrhea or endometriosis?&rdquo;
                   </div>
                   <div className="p-3.5 bg-warm-cream/60 rounded-lg border border-deep-teal/10">
-                    <span className="text-xs font-bold uppercase tracking-wider text-charcoal/60 block mb-1 font-sora">
+                    <span className="text-xs font-bold uppercase tracking-wider text-charcoal/60 block mb-1">
                       If told: &ldquo;Missing your period is just due to stress.&rdquo;
                     </span>
                     <strong className="text-raspberry block">Your response:</strong>
@@ -1435,7 +1353,7 @@ export function HomeView({ onNavigate }: HomeViewProps) {
             <div className="pt-2 border-t border-deep-teal/10 flex items-center justify-end">
               <Button
                 onClick={() => setToolkitModalOpen(false)}
-                className="bg-raspberry text-white hover:bg-raspberry/90 text-sm font-space font-semibold"
+                className="bg-raspberry text-white hover:bg-raspberry/90 text-sm"
               >
                 Close Toolkit
               </Button>

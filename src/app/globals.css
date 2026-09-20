@@ -60,63 +60,42 @@ body {
   margin: 0;
   background-color: var(--page-bg);
   color: var(--charcoal);
-  font-family: var(--font-sora), system-ui, sans-serif;
-  font-size: 17px;
+  font-family: var(--font-dm-sans), 'DM Sans', sans-serif;
+  font-size: 18px; /* DM Sans 17–19px */
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
 }
 
 h1, .text-h1 {
-  font-family: var(--font-space-grotesk), sans-serif;
+  font-family: var(--font-dm-serif), 'DM Serif Display', Georgia, serif;
   color: var(--deep-teal);
-  font-weight: 700;
-  font-size: clamp(40px, 5.5vw + 1rem, 64px);
+  font-weight: 400;
+  font-size: clamp(42px, 5.5vw + 1rem, 72px); /* DM Serif Display / 64–72px */
   line-height: 1.08;
   letter-spacing: -0.02em;
 }
 
 h2, .text-h2 {
-  font-family: var(--font-space-grotesk), sans-serif;
+  font-family: var(--font-dm-serif), 'DM Serif Display', Georgia, serif;
   color: var(--deep-teal);
-  font-weight: 700;
-  font-size: clamp(30px, 3.5vw + 0.5rem, 48px);
+  font-weight: 400;
+  font-size: clamp(32px, 3.5vw + 0.5rem, 50px); /* DM Serif Display / 42–50px */
   line-height: 1.15;
   letter-spacing: -0.01em;
 }
 
 h3, .text-h3 {
-  font-family: var(--font-space-grotesk), sans-serif;
+  font-family: var(--font-dm-serif), 'DM Serif Display', Georgia, serif;
   color: var(--deep-teal);
-  font-weight: 600;
-  font-size: clamp(22px, 2.5vw + 0.25rem, 30px);
-  line-height: 1.25;
+  font-weight: 400;
+  font-size: clamp(24px, 2.5vw + 0.25rem, 36px); /* DM Serif Display / 30–36px */
+  line-height: 1.2;
 }
 
 h4, .font-serif {
-  font-family: var(--font-space-grotesk), sans-serif;
+  font-family: var(--font-dm-serif), 'DM Serif Display', Georgia, serif;
   color: var(--deep-teal);
-  font-weight: 600;
-}
-
-.font-archivo {
-  font-family: var(--font-archivo-black), sans-serif;
   font-weight: 400;
-}
-
-.font-space {
-  font-family: var(--font-space-grotesk), sans-serif;
-}
-
-.font-sora {
-  font-family: var(--font-sora), sans-serif;
-}
-
-.sora-label {
-  font-family: var(--font-sora), sans-serif;
-  font-weight: 600;
-  font-size: 12.5px;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
 }
 
 /* Accessibility Modes */
