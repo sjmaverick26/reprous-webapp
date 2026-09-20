@@ -1,11 +1,28 @@
 "use client";
 
 import React from "react";
-import { ArrowRight, Sparkles, BookOpen, HelpCircle, Flame } from "lucide-react";
+import {
+  ArrowRight,
+  Sparkles,
+  BookOpen,
+  HelpCircle,
+  Flame,
+  Heart,
+  Calendar,
+  Clock,
+  MapPin,
+  Users,
+  MessageSquareHeart,
+  Award,
+  GraduationCap,
+  Mail,
+  Video
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { AccessMini } from "@/components/shared/AccessMini";
 import { PageId } from "@/components/layout/Navbar";
+import { UPCOMING_SESSIONS } from "@/data/workshopsData";
 
 interface HomeViewProps {
   onNavigate: (page: PageId, categoryId?: string) => void;
@@ -13,7 +30,7 @@ interface HomeViewProps {
 
 export function HomeView({ onNavigate }: HomeViewProps) {
   return (
-    <div className="flex flex-col gap-12 pb-16">
+    <div className="flex flex-col gap-16 pb-20">
       {/* Hero Section */}
       <section className="relative overflow-hidden pt-12 pb-16 md:pt-16 md:pb-24">
         {/* Decorative organic background shape clusters */}
@@ -29,7 +46,7 @@ export function HomeView({ onNavigate }: HomeViewProps) {
         <div className="max-w-[1100px] mx-auto px-6 relative z-10 flex flex-col items-center text-center">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-yellow/40 text-berry font-bold text-xs uppercase tracking-wider mb-6">
             <Sparkles className="w-3.5 h-3.5" />
-            Empowering Youth & Communities
+            Empowering Youth &amp; Communities
           </div>
 
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold leading-[1.08] tracking-tight mb-6 max-w-[800px]">
@@ -53,6 +70,15 @@ export function HomeView({ onNavigate }: HomeViewProps) {
             >
               Explore the Learning Hub
               <ArrowRight className="w-4 h-4" />
+            </Button>
+            <Button
+              onClick={() => onNavigate("story")}
+              variant="ghost"
+              size="lg"
+              className="gap-2"
+            >
+              <Heart className="w-4 h-4" />
+              Our Story
             </Button>
             <Button
               onClick={() => onNavigate("qa")}
@@ -141,6 +167,102 @@ export function HomeView({ onNavigate }: HomeViewProps) {
         </div>
       </section>
 
+      {/* UPCOMING / LATEST WORKSHOPS SECTION (Under Popular Starting Points) */}
+      <section className="max-w-[1100px] mx-auto px-6 w-full">
+        <div className="rounded-[32px] bg-gradient-to-br from-cream-card via-cream-card to-blush/40 border border-berry/10 p-8 md:p-12 shadow-card">
+          <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-4 mb-8">
+            <div>
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-yellow/50 text-berry text-xs font-extrabold uppercase tracking-wider mb-2.5">
+                <Calendar className="w-3.5 h-3.5" />
+                Latest &amp; Upcoming Workshops
+              </div>
+              <h2 className="text-3xl md:text-4xl font-bold text-berry">
+                Join a free, honest workshop
+              </h2>
+              <p className="text-sm md:text-base text-ink/80 max-w-xl mt-2 mb-0">
+                Interactive, non-judgmental sessions led by youth educators. Reserve your free spot or view full workshop agendas.
+              </p>
+            </div>
+
+            <Button
+              onClick={() => onNavigate("workshops")}
+              variant="default"
+              className="gap-2 self-start md:self-end whitespace-nowrap shadow-sm"
+            >
+              See All Workshops
+              <ArrowRight className="w-4 h-4" />
+            </Button>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {UPCOMING_SESSIONS.slice(0, 3).map((session) => (
+              <Card
+                key={session.id}
+                className="p-6 bg-cream-card border border-berry/15 flex flex-col justify-between hover:shadow-hover hover:-translate-y-0.5 transition-all"
+              >
+                <div>
+                  <div className="flex items-center justify-between gap-2 mb-3">
+                    <span className="font-serif text-2xl font-bold text-berry">
+                      {session.date}
+                    </span>
+                    <span
+                      className={`text-[11px] font-extrabold px-2.5 py-0.5 rounded-full ${
+                        session.isOnline
+                          ? "bg-blue-100 text-blue-900 border border-blue-200"
+                          : "bg-yellow/50 text-berry border border-yellow-deep/30"
+                      }`}
+                    >
+                      {session.isOnline ? "🌐 Virtual Zoom" : "📍 In Person"}
+                    </span>
+                  </div>
+
+                  <h3 className="text-base font-bold text-berry mb-2 line-clamp-2">
+                    {session.topic}
+                  </h3>
+
+                  <div className="space-y-1.5 text-xs text-ink/80 mb-5">
+                    <div className="flex items-center gap-1.5">
+                      <Clock className="w-3.5 h-3.5 text-berry flex-shrink-0" />
+                      <span>{session.time}</span>
+                    </div>
+                    <div className="flex items-center gap-1.5">
+                      <MapPin className="w-3.5 h-3.5 text-berry flex-shrink-0" />
+                      <span className="truncate">{session.location}</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="pt-3 border-t border-berry/10 flex flex-col gap-2">
+                  <div className="text-[11px] font-bold text-ink/65 text-center">
+                    {session.spotsLeft} • 100% Free
+                  </div>
+                  <Button
+                    onClick={() => onNavigate("workshops")}
+                    variant="ghost"
+                    className="w-full text-xs font-bold gap-1.5 bg-blush/60 hover:bg-berry hover:text-cream-card transition-colors"
+                  >
+                    Reserve on Workshop Page →
+                  </Button>
+                </div>
+              </Card>
+            ))}
+          </div>
+
+          <div className="mt-8 pt-6 border-t border-berry/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-ink/75">
+            <div className="flex items-center gap-2">
+              <Sparkles className="w-4 h-4 text-yellow-deep flex-shrink-0" />
+              <span>Need snacks, transportation assistance, or accommodations? All provided free.</span>
+            </div>
+            <button
+              onClick={() => onNavigate("workshops")}
+              className="font-bold text-berry hover:underline inline-flex items-center gap-1"
+            >
+              Request a workshop for your school or club →
+            </button>
+          </div>
+        </div>
+      </section>
+
       {/* Youth Voices CTA Banner */}
       <section className="max-w-[1100px] mx-auto px-6 w-full">
         <div className="rounded-[28px] bg-berry text-cream-card p-8 md:p-12 flex flex-col md:flex-row items-center justify-between gap-8 shadow-lg">
@@ -160,6 +282,111 @@ export function HomeView({ onNavigate }: HomeViewProps) {
           >
             Youth Voices →
           </Button>
+        </div>
+      </section>
+
+      {/* CONTACT US / JOIN US SECTION (At the bottom of Home Page) */}
+      <section className="max-w-[1100px] mx-auto px-6 w-full">
+        <div className="text-center mb-10">
+          <div className="text-xs font-extrabold tracking-wider uppercase text-berry/75 mb-2">
+            Get Involved
+          </div>
+          <h2 className="text-3xl md:text-4xl font-bold text-berry mb-3">
+            Contact Us &amp; Join the Movement
+          </h2>
+          <p className="text-base text-ink/80 max-w-xl mx-auto m-0">
+            ReproUs is fueled by youth, educators, and allies. Discover how you can take part today.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {/* Action 1: Youth Ambassador */}
+          <Card className="p-6 flex flex-col justify-between bg-cream-card border-2 border-yellow-deep hover:shadow-hover hover:-translate-y-1 transition-all">
+            <div>
+              <div className="w-10 h-10 rounded-xl bg-yellow/50 flex items-center justify-center text-berry mb-4">
+                <Award className="w-5 h-5" />
+              </div>
+              <h3 className="text-lg font-bold text-berry mb-2">
+                Become Youth Ambassador
+              </h3>
+              <p className="text-xs text-ink/80 leading-relaxed mb-4">
+                Lead peer education at your school, earn service hours, and receive direct clinical mentorship.
+              </p>
+            </div>
+            <Button
+              onClick={() => onNavigate("contact")}
+              variant="ghost"
+              className="w-full text-xs font-bold bg-yellow/30 hover:bg-yellow hover:text-ink"
+            >
+              Apply to Ambassador →
+            </Button>
+          </Card>
+
+          {/* Action 2: Program Feedback */}
+          <Card className="p-6 flex flex-col justify-between bg-cream-card border border-berry/10 hover:shadow-hover hover:-translate-y-1 transition-all">
+            <div>
+              <div className="w-10 h-10 rounded-xl bg-blush-deep/50 flex items-center justify-center text-berry mb-4">
+                <MessageSquareHeart className="w-5 h-5" />
+              </div>
+              <h3 className="text-lg font-bold text-berry mb-2">
+                Program Feedback
+              </h3>
+              <p className="text-xs text-ink/80 leading-relaxed mb-4">
+                Tell us how we can make our articles and workshops even better. 100% anonymous option available.
+              </p>
+            </div>
+            <Button
+              onClick={() => onNavigate("contact")}
+              variant="ghost"
+              className="w-full text-xs font-bold"
+            >
+              Give Feedback →
+            </Button>
+          </Card>
+
+          {/* Action 3: School Visits */}
+          <Card className="p-6 flex flex-col justify-between bg-cream-card border border-berry/10 hover:shadow-hover hover:-translate-y-1 transition-all">
+            <div>
+              <div className="w-10 h-10 rounded-xl bg-berry/10 flex items-center justify-center text-berry mb-4">
+                <GraduationCap className="w-5 h-5" />
+              </div>
+              <h3 className="text-lg font-bold text-berry mb-2">
+                Bring Us to Your School
+              </h3>
+              <p className="text-xs text-ink/80 leading-relaxed mb-4">
+                Request a customized, free workshop for your classroom, student club, or youth group.
+              </p>
+            </div>
+            <Button
+              onClick={() => onNavigate("workshops")}
+              variant="ghost"
+              className="w-full text-xs font-bold"
+            >
+              Request a Visit →
+            </Button>
+          </Card>
+
+          {/* Action 4: Direct Message / Outreach */}
+          <Card className="p-6 flex flex-col justify-between bg-cream-card border border-berry/10 hover:shadow-hover hover:-translate-y-1 transition-all">
+            <div>
+              <div className="w-10 h-10 rounded-xl bg-yellow-deep/20 flex items-center justify-center text-berry mb-4">
+                <Mail className="w-5 h-5" />
+              </div>
+              <h3 className="text-lg font-bold text-berry mb-2">
+                General Inquiries
+              </h3>
+              <p className="text-xs text-ink/80 leading-relaxed mb-4">
+                Questions about partnerships, media, or clinic listings? Send our coordination team a message.
+              </p>
+            </div>
+            <Button
+              onClick={() => onNavigate("contact")}
+              variant="ghost"
+              className="w-full text-xs font-bold"
+            >
+              Contact Our Team →
+            </Button>
+          </Card>
         </div>
       </section>
     </div>

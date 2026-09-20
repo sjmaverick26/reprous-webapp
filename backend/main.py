@@ -1,10 +1,10 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from routers import hub, workshops, qa, voices, clinics
+from routers import hub, workshops, qa, voices, clinics, contact
 
 app = FastAPI(
     title="ReproUs Learning Hub API",
-    description="Backend API supporting the ReproUs web application with anonymous Q&A, workshops RSVP, youth stories, and learning progress.",
+    description="Backend API supporting the ReproUs web application with anonymous Q&A, workshops RSVP, youth stories, feedback, ambassador program, petitions, and learning progress.",
     version="1.0.0"
 )
 
@@ -23,6 +23,7 @@ app.include_router(workshops.router, prefix="/api")
 app.include_router(qa.router, prefix="/api")
 app.include_router(voices.router, prefix="/api")
 app.include_router(clinics.router, prefix="/api")
+app.include_router(contact.router, prefix="/api")
 
 @app.get("/api/health")
 def health_check():

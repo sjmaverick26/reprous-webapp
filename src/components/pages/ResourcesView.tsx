@@ -10,12 +10,20 @@ import {
   AlertCircle,
   Search,
   ExternalLink,
-  CheckCircle2
+  CheckCircle2,
+  FileText,
+  Users,
+  PenLine,
+  PlusCircle,
+  Sparkles,
+  ArrowRight
 } from "lucide-react";
 import { CLINICS_DATA, HOTLINES_DATA, Clinic } from "@/data/clinicsData";
+import { PETITIONS_DATA, PetitionItem } from "@/data/petitionsData";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import {
   Dialog,
@@ -24,6 +32,7 @@ import {
   DialogTitle,
   DialogDescription,
 } from "@/components/ui/dialog";
+import { signPetitionApi, submitCommunityPetition } from "@/lib/api";
 import { PageId } from "@/components/layout/Navbar";
 
 interface ResourcesViewProps {
@@ -36,6 +45,29 @@ export function ResourcesView({ onNavigate }: ResourcesViewProps) {
   const [isHotlinesModalOpen, setIsHotlinesModalOpen] = useState(false);
   const [isAmbassadorModalOpen, setIsAmbassadorModalOpen] = useState(false);
   const [ambassadorSuccess, setAmbassadorSuccess] = useState(false);
+
+  // Petitions State
+  const [petitions, setPetitions] = useState<PetitionItem[]>(PETITIONS_DATA);
+  const [selectedPetition, setSelectedPetition] = useState<PetitionItem | null>(null);
+  const [signerName, setSignerName] = useState("");
+  const [signerEmail, setSignerEmail] = useState("");
+  const [signerZip, setSignerZip] = useState("");
+  const [signerComment, setSignerComment] = useState("");
+  const [isSigning, setIsSigning] = useState(false);
+  const [signSuccess, setSignSuccess] = useState(false);
+  const [signedPetitionIds, setSignedPetitionIds] = useState<string[]>([]);
+
+  // Propose Petition Modal State
+  const [isProposeModalOpen, setIsProposeModalOpen] = useState(false);
+  const [propTitle, setPropTitle] = useState("");
+  const [propTarget, setPropTarget] = useState("");
+  const [propSummary, setPropSummary] = useState("");
+  const [propDemands, setPropDemands] = useState("");
+  const [propName, setPropName] = useState("");
+  const [propEmail, setPropEmail] = useState("");
+  const [propLocation, setPropLocation] = useState("");
+  const [isSubmittingProp, setIsSubmittingProp] = useState(false);
+  const [propSuccess, setPropSuccess] = useState(false);
 
   const filteredClinics = CLINICS_DATA.filter((c) =>
     zipQuery.trim() === ""
@@ -64,23 +96,94 @@ export function ResourcesView({ onNavigate }: ResourcesViewProps) {
     document.body.removeChild(element);
   };
 
+  const handleSignSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!selectedPetition || !signerName || !signerEmail) return;
+
+    setIsSigning(true);
+    await signPetitionApi({
+      petitionId: selectedPetition.id,
+      signerName,
+      email: signerEmail,
+      zipCode: signerZip,
+      comment: signerComment
+    });
+    setIsSigning(false);
+    setSignSuccess(true);
+
+    // Update local signature count
+    setPetitions((prev) =>
+      prev.map((p) =>
+        p.id === selectedPetition.id
+          ? { ...p, currentSignatures: p.currentSignatures + 1 }
+          : p
+      )
+    );
+    setSignedPetitionIds((prev) => [...prev, selectedPetition.id]);
+
+    setTimeout(() => {
+      setSelectedPetition(null);
+      setSignSuccess(false);
+      setSignerName("");
+      setSignerEmail("");
+      setSignerZip("");
+      setSignerComment("");
+    }, 2400);
+  };
+
+  const handleProposeSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!propTitle || !propTarget || !propSummary || !propName || !propEmail) return;
+
+    setIsSubmittingProp(true);
+    await submitCommunityPetition({
+      title: propTitle,
+      target: propTarget,
+      summary: propSummary,
+      demands: propDemands,
+      proposerName: propName,
+      proposerEmail: propEmail,
+      location: propLocation
+    });
+    setIsSubmittingProp(false);
+    setPropSuccess(true);
+    setTimeout(() => {
+      setIsProposeModalOpen(false);
+      setPropSuccess(false);
+      setPropTitle("");
+      setPropTarget("");
+      setPropSummary("");
+      setPropDemands("");
+      setPropName("");
+      setPropEmail("");
+      setPropLocation("");
+    }, 2400);
+  };
+
+  const scrollToPetitions = () => {
+    const el = document.getElementById("petitions-section");
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
-    <div className="max-w-[1100px] mx-auto px-6 py-12 flex flex-col gap-12">
+    <div className="max-w-[1100px] mx-auto px-6 py-12 flex flex-col gap-14">
       {/* Header */}
       <div className="text-center max-w-2xl mx-auto">
         <div className="text-xs font-extrabold uppercase tracking-wider text-berry/75 mb-2">
-          Resources
+          Resources &amp; Advocacy
         </div>
         <h1 className="text-4xl md:text-5xl font-bold text-berry mb-4">
-          How to get help
+          How to get help &amp; take action
         </h1>
         <p className="text-base text-ink/85 leading-relaxed">
-          When it&apos;s time for more than information — here is where to actually go. Verified free and sliding-scale clinics, hotlines, and leadership opportunities.
+          When it&apos;s time for more than information — here is where to actually go. Verified free clinics, confidential 24/7 hotlines, leadership programs, and youth-led advocacy petitions.
         </p>
       </div>
 
-      {/* 6 Resource Cards Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {/* Resource Cards Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {/* Card 1: Find a free clinic */}
         <Card className="p-7 flex flex-col justify-between hover:shadow-hover transition-all">
           <div>
@@ -97,7 +200,7 @@ export function ResourcesView({ onNavigate }: ResourcesViewProps) {
           <Button
             onClick={() => setIsClinicModalOpen(true)}
             variant="ghost"
-            className="w-full sm:w-auto self-start"
+            className="w-full self-start"
           >
             Search clinics
           </Button>
@@ -119,13 +222,41 @@ export function ResourcesView({ onNavigate }: ResourcesViewProps) {
           <Button
             onClick={() => setIsHotlinesModalOpen(true)}
             variant="ghost"
-            className="w-full sm:w-auto self-start"
+            className="w-full self-start"
           >
             See hotlines
           </Button>
         </Card>
 
-        {/* Card 3: Workshop Preview */}
+        {/* Card 3: Petitions & Grassroots Action */}
+        <Card className="p-7 flex flex-col justify-between border-2 border-yellow-deep bg-cream-card hover:shadow-hover transition-all">
+          <div>
+            <div className="w-10 h-10 rounded-xl bg-yellow/60 flex items-center justify-center text-berry mb-4">
+              <FileText className="w-5 h-5" />
+            </div>
+            <div className="flex items-center gap-2 mb-2">
+              <h3 className="text-xl font-bold text-berry">
+                Youth-Led Petitions
+              </h3>
+              <Badge variant="default" className="text-[10px] uppercase">
+                Active Campaigns
+              </Badge>
+            </div>
+            <p className="text-sm text-ink/80 leading-relaxed mb-6">
+              Support student campaigns fighting for free menstrual products in schools, comprehensive health education, and minor privacy rights.
+            </p>
+          </div>
+          <Button
+            onClick={scrollToPetitions}
+            variant="default"
+            className="w-full self-start gap-1.5"
+          >
+            View Active Petitions
+            <ArrowRight className="w-3.5 h-3.5" />
+          </Button>
+        </Card>
+
+        {/* Card 4: Workshop Preview */}
         <Card className="p-7 flex flex-col justify-between hover:shadow-hover transition-all">
           <div>
             <div className="w-10 h-10 rounded-xl bg-berry/10 flex items-center justify-center text-berry mb-4">
@@ -141,73 +272,51 @@ export function ResourcesView({ onNavigate }: ResourcesViewProps) {
           <Button
             onClick={() => onNavigate("workshops")}
             variant="ghost"
-            className="w-full sm:w-auto self-start"
+            className="w-full self-start"
           >
             Preview a workshop
           </Button>
         </Card>
 
-        {/* Card 4: Request Visit */}
+        {/* Card 5: Ambassador Program */}
         <Card className="p-7 flex flex-col justify-between hover:shadow-hover transition-all">
           <div>
             <div className="w-10 h-10 rounded-xl bg-yellow-deep/30 flex items-center justify-center text-berry mb-4">
               <GraduationCap className="w-5 h-5" />
             </div>
             <h3 className="text-xl font-bold text-berry mb-2">
-              Request a school or youth group visit
-            </h3>
-            <p className="text-sm text-ink/80 leading-relaxed mb-6">
-              Bring ReproUs educators directly to your classroom, after-school club, or community center.
-            </p>
-          </div>
-          <Button
-            onClick={() => onNavigate("workshops")}
-            variant="ghost"
-            className="w-full sm:w-auto self-start"
-          >
-            Request a visit
-          </Button>
-        </Card>
-
-        {/* Card 5: Ambassador Program */}
-        <Card className="p-7 flex flex-col justify-between border-2 border-yellow-deep bg-cream-card hover:shadow-hover transition-all">
-          <div>
-            <Badge variant="default" className="mb-3">
-              Leadership
-            </Badge>
-            <h3 className="text-xl font-bold text-berry mb-2">
               Become a Youth Ambassador
             </h3>
             <p className="text-sm text-ink/80 leading-relaxed mb-6">
-              Represent ReproUs at your high school or college campus, run resource tables, and co-facilitate workshops with training and mentorship provided.
+              Represent ReproUs at your campus, run resource tables, and co-facilitate workshops with leadership training provided.
             </p>
           </div>
           <Button
-            onClick={() => setIsAmbassadorModalOpen(true)}
+            onClick={() => onNavigate("contact")}
             variant="ghost"
-            className="w-full sm:w-auto self-start"
+            className="w-full self-start"
           >
             Apply to be an ambassador
           </Button>
         </Card>
 
         {/* Card 6: Download Training Module */}
-        <Card className="p-7 flex flex-col justify-between border-2 border-yellow-deep bg-cream-card hover:shadow-hover transition-all">
+        <Card className="p-7 flex flex-col justify-between hover:shadow-hover transition-all">
           <div>
-            <Badge variant="default" className="mb-3">
-              Self-Paced Guide
-            </Badge>
+            <div className="w-10 h-10 rounded-xl bg-blush-deep/50 flex items-center justify-center text-berry mb-4">
+              <Download className="w-5 h-5" />
+            </div>
             <h3 className="text-xl font-bold text-berry mb-2">
-              Download the Ambassador training module
+              Ambassador training module
             </h3>
             <p className="text-sm text-ink/80 leading-relaxed mb-6">
-              A comprehensive guide covering how to discuss reproductive topics comfortably, answer tough questions, and navigate healthcare access.
+              A comprehensive self-paced guide covering how to discuss reproductive topics comfortably and navigate healthcare access.
             </p>
           </div>
           <Button
             onClick={handleDownloadModule}
             variant="ghost"
-            className="w-full sm:w-auto self-start gap-2"
+            className="w-full self-start gap-2"
           >
             <Download className="w-4 h-4" />
             Download module (PDF/Text)
@@ -227,6 +336,297 @@ export function ResourcesView({ onNavigate }: ResourcesViewProps) {
           </p>
         </div>
       </div>
+
+      {/* PETITIONS & ADVOCACY SECTION */}
+      <section id="petitions-section" className="flex flex-col gap-8 pt-6">
+        <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-4">
+          <div>
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-yellow/50 text-berry text-xs font-extrabold uppercase tracking-wider mb-2.5">
+              <PenLine className="w-3.5 h-3.5" />
+              Grassroots Advocacy &amp; Policy
+            </div>
+            <h2 className="text-3xl md:text-4xl font-bold text-berry">
+              Active Youth Petitions
+            </h2>
+            <p className="text-sm md:text-base text-ink/80 max-w-xl mt-1 mb-0">
+              Add your name to student and community-driven campaigns fighting for equitable health policy, free period products, and youth privacy protections.
+            </p>
+          </div>
+
+          <Button
+            onClick={() => setIsProposeModalOpen(true)}
+            variant="ghost"
+            className="gap-2 self-start md:self-end border border-berry/20 bg-cream-card hover:bg-blush"
+          >
+            <PlusCircle className="w-4 h-4" />
+            Start / Propose a Petition
+          </Button>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {petitions.map((petition) => {
+            const percent = Math.min(
+              100,
+              Math.round((petition.currentSignatures / petition.targetSignatures) * 100)
+            );
+            const isSigned = signedPetitionIds.includes(petition.id);
+
+            return (
+              <Card
+                key={petition.id}
+                className="p-7 flex flex-col justify-between bg-cream-card border border-berry/15 shadow-card hover:shadow-hover transition-all"
+              >
+                <div>
+                  <div className="flex items-start justify-between gap-2 mb-3">
+                    <span className="text-xs font-extrabold uppercase tracking-wider text-berry/75">
+                      {petition.location} • {petition.organizer}
+                    </span>
+                    <Badge variant="outline" className="capitalize text-[11px]">
+                      {petition.category}
+                    </Badge>
+                  </div>
+
+                  <h3 className="text-xl font-bold text-berry mb-2">
+                    {petition.title}
+                  </h3>
+
+                  <p className="text-xs font-bold text-ink/65 mb-3">
+                    Target: {petition.target}
+                  </p>
+
+                  <p className="text-sm text-ink/85 leading-relaxed mb-6">
+                    {petition.summary}
+                  </p>
+
+                  {/* Demands preview */}
+                  <div className="p-4 rounded-xl bg-blush/40 border border-berry/10 mb-6">
+                    <h4 className="text-xs font-extrabold text-berry uppercase tracking-wider mb-2">
+                      Key Demands:
+                    </h4>
+                    <ul className="space-y-1.5 text-xs text-ink/80 list-disc list-inside">
+                      {petition.fullDemands.map((demand, idx) => (
+                        <li key={idx} className="leading-snug">
+                          {demand}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+
+                <div>
+                  {/* Progress bar */}
+                  <div className="mb-4">
+                    <div className="flex justify-between text-xs font-bold mb-1">
+                      <span className="text-berry">
+                        {petition.currentSignatures.toLocaleString()} signatures
+                      </span>
+                      <span className="text-ink/70">
+                        Goal: {petition.targetSignatures.toLocaleString()} ({percent}%)
+                      </span>
+                    </div>
+                    <div className="w-full h-3 bg-blush-deep/40 rounded-full overflow-hidden">
+                      <div
+                        className="h-full bg-berry transition-all duration-500 rounded-full"
+                        style={{ width: `${percent}%` }}
+                      />
+                    </div>
+                  </div>
+
+                  <Button
+                    onClick={() => setSelectedPetition(petition)}
+                    disabled={isSigned}
+                    variant={isSigned ? "ghost" : "default"}
+                    className="w-full gap-2 font-bold"
+                  >
+                    {isSigned ? (
+                      <>
+                        <CheckCircle2 className="w-4 h-4 text-green-600" />
+                        Signed! Thank you for your support
+                      </>
+                    ) : (
+                      <>
+                        <PenLine className="w-4 h-4" />
+                        Sign this petition
+                      </>
+                    )}
+                  </Button>
+                </div>
+              </Card>
+            );
+          })}
+        </div>
+      </section>
+
+      {/* Sign Petition Modal */}
+      <Dialog open={!!selectedPetition} onOpenChange={(open) => !open && setSelectedPetition(null)}>
+        <DialogContent className="max-w-md">
+          {selectedPetition && (
+            <div>
+              <DialogHeader className="mb-4">
+                <DialogTitle>Sign Petition</DialogTitle>
+                <DialogDescription>
+                  {selectedPetition.title}
+                </DialogDescription>
+              </DialogHeader>
+
+              {signSuccess ? (
+                <div className="p-6 text-center flex flex-col items-center gap-2">
+                  <CheckCircle2 className="w-12 h-12 text-green-600 animate-bounce" />
+                  <h4 className="font-serif text-xl font-bold text-berry">Signature Added!</h4>
+                  <p className="text-xs text-ink/80">
+                    Thank you for standing up for youth health equity. Your voice makes a measurable difference.
+                  </p>
+                </div>
+              ) : (
+                <form onSubmit={handleSignSubmit} className="flex flex-col gap-3.5">
+                  <div>
+                    <label className="block text-xs font-bold text-berry mb-1">Your Full Name *</label>
+                    <Input
+                      required
+                      placeholder="e.g. Maya Chen"
+                      value={signerName}
+                      onChange={(e) => setSignerName(e.target.value)}
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-bold text-berry mb-1">Email Address *</label>
+                    <Input
+                      type="email"
+                      required
+                      placeholder="maya@example.com"
+                      value={signerEmail}
+                      onChange={(e) => setSignerEmail(e.target.value)}
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-bold text-berry mb-1">Zip Code / City</label>
+                    <Input
+                      placeholder="e.g. 90210"
+                      value={signerZip}
+                      onChange={(e) => setSignerZip(e.target.value)}
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-bold text-berry mb-1">
+                      Why does this matter to you? (Optional Public Comment)
+                    </label>
+                    <Textarea
+                      rows={2}
+                      placeholder="Add a brief reason why you are signing..."
+                      value={signerComment}
+                      onChange={(e) => setSignerComment(e.target.value)}
+                    />
+                  </div>
+                  <p className="text-[11px] text-ink/65 italic m-0">
+                    * Your email will not be published publicly. We only count verified signatures.
+                  </p>
+                  <Button type="submit" disabled={isSigning} className="w-full mt-2">
+                    {isSigning ? "Recording Signature..." : "Add My Signature"}
+                  </Button>
+                </form>
+              )}
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
+
+      {/* Propose Petition Modal */}
+      <Dialog open={isProposeModalOpen} onOpenChange={setIsProposeModalOpen}>
+        <DialogContent className="max-w-lg">
+          <DialogHeader className="mb-4">
+            <DialogTitle>Propose a Community Petition</DialogTitle>
+            <DialogDescription>
+              Lead change in your school district, city, or campus. Submit a petition for the ReproUs youth coalition to review and amplify.
+            </DialogDescription>
+          </DialogHeader>
+
+          {propSuccess ? (
+            <div className="p-6 text-center flex flex-col items-center gap-2">
+              <CheckCircle2 className="w-12 h-12 text-green-600 animate-bounce" />
+              <h4 className="font-serif text-xl font-bold text-berry">Petition Proposed!</h4>
+              <p className="text-xs text-ink/80">
+                Our advocacy team will review your proposal and follow up with you within 2 business days.
+              </p>
+            </div>
+          ) : (
+            <form onSubmit={handleProposeSubmit} className="flex flex-col gap-3.5">
+              <div>
+                <label className="block text-xs font-bold text-berry mb-1">Petition Title *</label>
+                <Input
+                  required
+                  placeholder="e.g. Provide Free Menstrual Products in Central High Restrooms"
+                  value={propTitle}
+                  onChange={(e) => setPropTitle(e.target.value)}
+                />
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-xs font-bold text-berry mb-1">Target Decision Maker *</label>
+                  <Input
+                    required
+                    placeholder="e.g. School Board / City Council"
+                    value={propTarget}
+                    onChange={(e) => setPropTarget(e.target.value)}
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-bold text-berry mb-1">Location / Campus *</label>
+                  <Input
+                    required
+                    placeholder="e.g. Chicago Public Schools"
+                    value={propLocation}
+                    onChange={(e) => setPropLocation(e.target.value)}
+                  />
+                </div>
+              </div>
+              <div>
+                <label className="block text-xs font-bold text-berry mb-1">Summary / Context *</label>
+                <Textarea
+                  required
+                  rows={2}
+                  placeholder="Explain why this issue is important in your community..."
+                  value={propSummary}
+                  onChange={(e) => setPropSummary(e.target.value)}
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-bold text-berry mb-1">Key Action Demands *</label>
+                <Textarea
+                  required
+                  rows={2}
+                  placeholder="What specific actions do you want leadership to take?"
+                  value={propDemands}
+                  onChange={(e) => setPropDemands(e.target.value)}
+                />
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-xs font-bold text-berry mb-1">Your Name / Group *</label>
+                  <Input
+                    required
+                    placeholder="Your Name or Club"
+                    value={propName}
+                    onChange={(e) => setPropName(e.target.value)}
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-bold text-berry mb-1">Contact Email *</label>
+                  <Input
+                    type="email"
+                    required
+                    placeholder="you@example.com"
+                    value={propEmail}
+                    onChange={(e) => setPropEmail(e.target.value)}
+                  />
+                </div>
+              </div>
+              <Button type="submit" disabled={isSubmittingProp} className="w-full mt-2">
+                {isSubmittingProp ? "Submitting Proposal..." : "Submit Petition Proposal"}
+              </Button>
+            </form>
+          )}
+        </DialogContent>
+      </Dialog>
 
       {/* Clinic Search Modal */}
       <Dialog open={isClinicModalOpen} onOpenChange={setIsClinicModalOpen}>
@@ -330,56 +730,6 @@ export function ResourcesView({ onNavigate }: ResourcesViewProps) {
               </div>
             ))}
           </div>
-        </DialogContent>
-      </Dialog>
-
-      {/* Ambassador Application Modal */}
-      <Dialog open={isAmbassadorModalOpen} onOpenChange={setIsAmbassadorModalOpen}>
-        <DialogContent className="max-w-md">
-          <DialogHeader>
-            <DialogTitle>Youth Ambassador Application</DialogTitle>
-            <DialogDescription>
-              Join our peer educator network! Training and mentorship provided.
-            </DialogDescription>
-          </DialogHeader>
-
-          {ambassadorSuccess ? (
-            <div className="p-6 text-center flex flex-col items-center gap-2">
-              <CheckCircle2 className="w-12 h-12 text-green-600 animate-bounce" />
-              <h4 className="font-serif text-xl font-bold text-berry">Application Received!</h4>
-              <p className="text-xs text-ink/80">
-                We will email you with orientation details soon.
-              </p>
-            </div>
-          ) : (
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                setAmbassadorSuccess(true);
-                setTimeout(() => {
-                  setIsAmbassadorModalOpen(false);
-                  setAmbassadorSuccess(false);
-                }, 2000);
-              }}
-              className="flex flex-col gap-3"
-            >
-              <div>
-                <label className="block text-xs font-bold text-berry mb-1">Your Name</label>
-                <Input required placeholder="First and Last Name" />
-              </div>
-              <div>
-                <label className="block text-xs font-bold text-berry mb-1">Email Address</label>
-                <Input type="email" required placeholder="name@example.com" />
-              </div>
-              <div>
-                <label className="block text-xs font-bold text-berry mb-1">School or Community Group</label>
-                <Input required placeholder="e.g. Westside High" />
-              </div>
-              <Button type="submit" className="w-full mt-2">
-                Submit Ambassador Application
-              </Button>
-            </form>
-          )}
         </DialogContent>
       </Dialog>
     </div>

@@ -75,3 +75,112 @@ export async function updateUserProgress(data: { topic_id: string; xp_gained: nu
     return { success: true, xp: data.xp_gained, offline: true };
   }
 }
+
+export async function submitProgramFeedback(data: {
+  role: string;
+  rating: number;
+  feedback: string;
+  topicSuggestions?: string;
+  email?: string;
+  isAnonymous: boolean;
+}) {
+  try {
+    const res = await fetch(`${API_BASE_URL}/contact/feedback`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
+    if (!res.ok) throw new Error("Failed to submit program feedback");
+    return await res.json();
+  } catch (err) {
+    console.warn("Backend not reachable, recorded locally:", err);
+    return { success: true, message: "Thank you for your valuable feedback! It helps us improve.", offline: true };
+  }
+}
+
+export async function submitAmbassadorApplication(data: {
+  fullName: string;
+  email: string;
+  age: number | string;
+  schoolOrOrg: string;
+  city: string;
+  statement: string;
+  interests: string[];
+}) {
+  try {
+    const res = await fetch(`${API_BASE_URL}/contact/ambassador`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
+    if (!res.ok) throw new Error("Failed to submit ambassador application");
+    return await res.json();
+  } catch (err) {
+    console.warn("Backend not reachable, recorded locally:", err);
+    return { success: true, message: "Application received! We'll email you with next steps.", offline: true };
+  }
+}
+
+export async function submitGeneralInquiry(data: {
+  name: string;
+  email: string;
+  subject: string;
+  message: string;
+}) {
+  try {
+    const res = await fetch(`${API_BASE_URL}/contact/inquiry`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
+    if (!res.ok) throw new Error("Failed to submit inquiry");
+    return await res.json();
+  } catch (err) {
+    console.warn("Backend not reachable, recorded locally:", err);
+    return { success: true, message: "Message sent! Our team will get back to you shortly.", offline: true };
+  }
+}
+
+export async function signPetitionApi(data: {
+  petitionId: string;
+  signerName: string;
+  email: string;
+  zipCode?: string;
+  comment?: string;
+}) {
+  try {
+    const res = await fetch(`${API_BASE_URL}/petitions/sign`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
+    if (!res.ok) throw new Error("Failed to record signature");
+    return await res.json();
+  } catch (err) {
+    console.warn("Backend not reachable, signed locally:", err);
+    return { success: true, message: "Signature added successfully!", offline: true };
+  }
+}
+
+export async function submitCommunityPetition(data: {
+  title: string;
+  target: string;
+  summary: string;
+  demands: string;
+  proposerName: string;
+  proposerEmail: string;
+  location: string;
+}) {
+  try {
+    const res = await fetch(`${API_BASE_URL}/petitions/propose`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
+    if (!res.ok) throw new Error("Failed to submit petition proposal");
+    return await res.json();
+  } catch (err) {
+    console.warn("Backend not reachable, submitted locally:", err);
+    return { success: true, message: "Community petition submitted for review!", offline: true };
+  }
+}

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Navbar, PageId } from "@/components/layout/Navbar";
 import { LanguageBar } from "@/components/layout/LanguageBar";
 import { Footer } from "@/components/layout/Footer";
@@ -12,19 +12,28 @@ import { ResourcesView } from "@/components/pages/ResourcesView";
 import { QAView } from "@/components/pages/QAView";
 import { MythsView } from "@/components/pages/MythsView";
 import { VoicesView } from "@/components/pages/VoicesView";
+import { ContactView } from "@/components/pages/ContactView";
 
 export default function App() {
   const [activePage, setActivePage] = useState<PageId>("home");
   const [hubCategory, setHubCategory] = useState<string | null>(null);
+  const [contactTab, setContactTab] = useState<"feedback" | "ambassador" | "inquiry">("feedback");
   const [currentLang, setCurrentLang] = useState<string>("en");
 
-  const handleNavigate = (page: PageId, categoryId?: string) => {
+  const handleNavigate = (page: PageId, categoryOrTab?: string) => {
     setActivePage(page);
-    if (categoryId) {
-      setHubCategory(categoryId);
-    } else if (page !== "hub") {
+    if (page === "hub") {
+      setHubCategory(categoryOrTab || null);
+    } else {
       setHubCategory(null);
     }
+
+    if (page === "contact" && (categoryOrTab === "feedback" || categoryOrTab === "ambassador" || categoryOrTab === "inquiry")) {
+      setContactTab(categoryOrTab);
+    } else if (page === "contact") {
+      setContactTab("feedback");
+    }
+
     if (typeof window !== "undefined") {
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
@@ -48,10 +57,11 @@ export default function App() {
         {activePage === "qa" && <QAView />}
         {activePage === "myths" && <MythsView />}
         {activePage === "voices" && <VoicesView />}
+        {activePage === "contact" && <ContactView initialTab={contactTab} />}
       </main>
 
       {/* Footer */}
-      <Footer />
+      <Footer onNavigate={handleNavigate} />
     </div>
   );
 }
