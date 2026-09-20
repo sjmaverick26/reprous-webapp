@@ -49,45 +49,32 @@ export function HomeView({ onNavigate }: HomeViewProps) {
             Empowering Youth &amp; Communities
           </div>
 
-          <h1 className="text-4xl md:text-[64px] lg:text-[72px] font-normal font-serif leading-[1.08] tracking-tight mb-6 max-w-[800px] text-plum">
-            Your body.<br />
-            Your questions.<br />
-            <em className="not-italic text-plum bg-gradient-to-t from-gold to-gold bg-[length:100%_40%] bg-no-repeat bg-bottom px-1">
-              Real
-            </em>{" "}
-            answers.
+          <h1 className="text-4xl md:text-[64px] lg:text-[72px] font-normal font-serif leading-[1.08] tracking-tight mb-6 max-w-[840px] text-plum">
+            Know your body.<br />
+            Know what to ask.
           </h1>
 
-          <p className="text-lg md:text-[19px] text-ink/90 max-w-[560px] leading-relaxed mb-8 font-sans">
-            A learning hub built for curious minds — straight facts on puberty, periods, mental health, and everything in between. No judgment, ever.
+          <p className="text-[17px] md:text-[19px] text-ink/90 max-w-[640px] leading-relaxed mb-8 font-sans">
+            Health education for girls — from reproductive health and female athlete health to conditions that are often misunderstood or overlooked.
           </p>
 
           <div className="flex flex-wrap items-center justify-center gap-3.5 mb-8">
             <Button
               onClick={() => onNavigate("hub")}
               size="lg"
-              className="gap-2 shadow-md hover:shadow-lg"
+              className="bg-berry text-white hover:bg-berry/90 shadow-md hover:shadow-lg gap-2"
             >
-              Start Learning
-              <ArrowRight className="w-4 h-4" />
+              <span>Explore your health</span>
+              <span aria-hidden="true">→</span>
             </Button>
             <Button
               onClick={() => onNavigate("story")}
-              variant="ghost"
+              variant="plum"
               size="lg"
               className="gap-2"
             >
-              <Heart className="w-4 h-4" />
-              Our Story
-            </Button>
-            <Button
-              onClick={() => onNavigate("qa")}
-              variant="ghost"
-              size="lg"
-              className="gap-2"
-            >
-              <HelpCircle className="w-4 h-4" />
-              Ask a question
+              <span>How ReproUs works</span>
+              <span aria-hidden="true">→</span>
             </Button>
           </div>
 

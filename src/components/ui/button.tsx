@@ -12,6 +12,7 @@ const buttonVariants = cva(
         secondary: "bg-transparent text-berry border-2 border-berry hover:bg-berry/10",
         ghost: "bg-transparent text-berry border-2 border-berry hover:bg-berry/10",
         outline: "bg-transparent text-berry border-2 border-berry hover:bg-berry/10",
+        plum: "bg-transparent text-plum border-2 border-plum hover:bg-plum/10",
         yellow: "bg-yellow text-plum hover:bg-yellow-deep shadow-sm",
         pill: "bg-transparent border-[1.5px] border-berry text-berry hover:bg-berry/10 text-[14px] px-3.5 py-1.5",
         pillActive: "bg-berry border-[1.5px] border-berry text-white text-[14px] px-3.5 py-1.5 shadow-sm",
