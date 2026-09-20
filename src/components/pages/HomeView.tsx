@@ -508,7 +508,7 @@ export function HomeView({ onNavigate }: HomeViewProps) {
       {/* 8. "The Research Gap" Section (Deep Plum #3B2430 Background) */}
       <section className="max-w-[1100px] mx-auto px-6 w-full">
         <div className="rounded-2xl bg-plum text-ivory p-8 sm:p-12 md:p-14 shadow-xl relative overflow-hidden">
-          <div className="relative z-10 max-w-3xl">
+          <div className="relative z-10">
             {/* Small label: THE RESEARCH GAP (Gold #EBCB72) */}
             <div className="inline-flex items-center gap-2 font-sans font-bold text-xs uppercase tracking-widest text-gold mb-3">
               <span className="w-2 h-2 rounded-full bg-gold" />
@@ -516,59 +516,184 @@ export function HomeView({ onNavigate }: HomeViewProps) {
             </div>
 
             {/* Large heading */}
-            <h2 className="text-3xl md:text-[44px] lg:text-[50px] font-normal font-serif text-ivory leading-[1.12] mb-5 tracking-tight">
+            <h2 className="text-3xl md:text-[44px] lg:text-[50px] font-normal font-serif text-ivory leading-[1.12] mb-5 tracking-tight max-w-3xl">
               What happens when questions aren&apos;t asked?
             </h2>
 
             {/* Explanatory text */}
-            <p className="text-[17px] md:text-[18.5px] text-ivory/90 leading-relaxed font-sans mb-10">
+            <p className="text-[17px] md:text-[18.5px] text-ivory/90 leading-relaxed font-sans mb-10 max-w-3xl">
               For generations, gaps in medical research have contributed to important questions about women&apos;s health receiving less attention. That can make it harder for girls and women to recognize symptoms, understand their bodies, and advocate for the care they need.
             </p>
 
-            {/* Horizontal Visual Pathway */}
+            {/* Horizontal Visual Pathway: 6 connected steps */}
             <div className="pt-6 border-t border-ivory/15">
-              <div className="text-xs uppercase font-bold tracking-wider text-gold mb-4 font-sans">
-                The Pathway from Gap to Self-Advocacy:
+              <div className="text-xs uppercase font-bold tracking-wider text-gold mb-5 font-sans flex items-center gap-2">
+                <Sparkles className="w-3.5 h-3.5 text-gold" />
+                <span>The Pathway from Gap to Self-Advocacy:</span>
               </div>
-              <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-[13px] sm:text-[14px] font-semibold font-sans">
-                <span className="px-3 py-1 rounded bg-white/10 border border-white/15 text-ivory">
-                  RESEARCH GAP
-                </span>
-                <span className="text-gold font-bold">→</span>
-                <span className="px-3 py-1 rounded bg-white/10 border border-white/15 text-ivory">
-                  WHAT WE KNOW
-                </span>
-                <span className="text-gold font-bold">→</span>
-                <span className="px-3 py-1 rounded bg-white/10 border border-white/15 text-ivory">
-                  WHAT MAY BE MISSED
-                </span>
-                <span className="text-gold font-bold">→</span>
-                <span className="px-3 py-1 rounded bg-white/10 border border-white/15 text-ivory">
-                  RECOGNIZE THE SIGNS
-                </span>
-                <span className="text-gold font-bold">→</span>
-                <span className="px-3 py-1 rounded bg-white/10 border border-white/15 text-ivory">
-                  ASK QUESTIONS
-                </span>
-                <span className="text-gold font-bold">→</span>
-                <span className="px-3 py-1 rounded bg-berry text-white border border-berry">
-                  ADVOCATE FOR YOURSELF
-                </span>
+
+              {/* Desktop Horizontal Grid / Mobile Vertical Sequence */}
+              <div className="grid grid-cols-1 md:grid-cols-6 gap-3 lg:gap-2">
+                {/* Step 1: RESEARCH */}
+                <div className="rounded-xl bg-white/10 border border-white/15 p-4 flex flex-col justify-between">
+                  <div>
+                    <span className="text-[11px] font-bold text-gold uppercase tracking-wider block font-sans mb-1">
+                      01
+                    </span>
+                    <h4 className="font-bold text-[14px] text-ivory tracking-wide font-sans mb-1.5">
+                      RESEARCH
+                    </h4>
+                    <p className="text-[12px] text-ivory/75 font-sans leading-relaxed m-0">
+                      Historical biomedical research underrepresented female hormonal cycles and cells.
+                    </p>
+                  </div>
+                  <div className="hidden md:flex justify-end pt-2 text-gold font-bold text-sm">
+                    →
+                  </div>
+                  <div className="md:hidden flex justify-center pt-2 text-gold font-bold text-sm">
+                    ↓
+                  </div>
+                </div>
+
+                {/* Step 2: WHAT WE KNOW */}
+                <div className="rounded-xl bg-white/10 border border-white/15 p-4 flex flex-col justify-between">
+                  <div>
+                    <span className="text-[11px] font-bold text-gold uppercase tracking-wider block font-sans mb-1">
+                      02
+                    </span>
+                    <h4 className="font-bold text-[14px] text-ivory tracking-wide font-sans mb-1.5">
+                      WHAT WE KNOW
+                    </h4>
+                    <p className="text-[12px] text-ivory/75 font-sans leading-relaxed m-0">
+                      Foundational biology: menstrual cycle length, hormone feedback, and ovulation.
+                    </p>
+                  </div>
+                  <div className="hidden md:flex justify-end pt-2 text-gold font-bold text-sm">
+                    →
+                  </div>
+                  <div className="md:hidden flex justify-center pt-2 text-gold font-bold text-sm">
+                    ↓
+                  </div>
+                </div>
+
+                {/* Step 3: WHAT MAY BE MISSED */}
+                <div className="rounded-xl bg-white/10 border border-white/15 p-4 flex flex-col justify-between">
+                  <div>
+                    <span className="text-[11px] font-bold text-gold uppercase tracking-wider block font-sans mb-1">
+                      03
+                    </span>
+                    <h4 className="font-bold text-[14px] text-ivory tracking-wide font-sans mb-1.5">
+                      WHAT MAY BE MISSED
+                    </h4>
+                    <p className="text-[12px] text-ivory/75 font-sans leading-relaxed m-0">
+                      Under-researched conditions like Endometriosis, RED-S, and atypical PCOS presentations.
+                    </p>
+                  </div>
+                  <div className="hidden md:flex justify-end pt-2 text-gold font-bold text-sm">
+                    →
+                  </div>
+                  <div className="md:hidden flex justify-center pt-2 text-gold font-bold text-sm">
+                    ↓
+                  </div>
+                </div>
+
+                {/* Step 4: RECOGNIZE THE SIGNS */}
+                <div className="rounded-xl bg-white/10 border border-white/15 p-4 flex flex-col justify-between">
+                  <div>
+                    <span className="text-[11px] font-bold text-gold uppercase tracking-wider block font-sans mb-1">
+                      04
+                    </span>
+                    <h4 className="font-bold text-[14px] text-ivory tracking-wide font-sans mb-1.5">
+                      RECOGNIZE SIGNS
+                    </h4>
+                    <p className="text-[12px] text-ivory/75 font-sans leading-relaxed m-0">
+                      Validating that debilitating pain, cycle loss, or extreme fatigue are real medical data.
+                    </p>
+                  </div>
+                  <div className="hidden md:flex justify-end pt-2 text-gold font-bold text-sm">
+                    →
+                  </div>
+                  <div className="md:hidden flex justify-center pt-2 text-gold font-bold text-sm">
+                    ↓
+                  </div>
+                </div>
+
+                {/* Step 5: ASK QUESTIONS */}
+                <div className="rounded-xl bg-white/10 border border-white/15 p-4 flex flex-col justify-between">
+                  <div>
+                    <span className="text-[11px] font-bold text-gold uppercase tracking-wider block font-sans mb-1">
+                      05
+                    </span>
+                    <h4 className="font-bold text-[14px] text-ivory tracking-wide font-sans mb-1.5">
+                      ASK QUESTIONS
+                    </h4>
+                    <p className="text-[12px] text-ivory/75 font-sans leading-relaxed m-0">
+                      Preparing targeted questions and symptom tracking logs before doctor appointments.
+                    </p>
+                  </div>
+                  <div className="hidden md:flex justify-end pt-2 text-gold font-bold text-sm">
+                    →
+                  </div>
+                  <div className="md:hidden flex justify-center pt-2 text-gold font-bold text-sm">
+                    ↓
+                  </div>
+                </div>
+
+                {/* Step 6: ADVOCATE FOR YOURSELF */}
+                <div className="rounded-xl bg-berry text-white border border-berry p-4 flex flex-col justify-between shadow-sm">
+                  <div>
+                    <span className="text-[11px] font-bold text-gold uppercase tracking-wider block font-sans mb-1">
+                      06
+                    </span>
+                    <h4 className="font-bold text-[14px] text-white tracking-wide font-sans mb-1.5">
+                      ADVOCATE
+                    </h4>
+                    <p className="text-[12px] text-white/90 font-sans leading-relaxed m-0">
+                      Building the confidence, vocabulary, and evidence to be taken seriously by clinicians.
+                    </p>
+                  </div>
+                  <div className="hidden md:flex justify-end pt-2 text-gold font-bold text-sm">
+                    ✓
+                  </div>
+                </div>
               </div>
             </div>
 
             {/* Evidence & Credible Sources Links */}
-            <div className="mt-8 pt-6 border-t border-ivory/15 flex flex-wrap items-center justify-between gap-4 text-xs font-sans text-ivory/70">
-              <span>
-                Evidence-grounded in guidelines from <strong>NIH Office of Research on Women&apos;s Health</strong>, <strong>ACOG</strong>, and <strong>The Endocrine Society</strong>.
-              </span>
-              <button
-                onClick={() => onNavigate("story")}
-                className="text-gold hover:underline font-semibold flex items-center gap-1"
-              >
-                <span>Read our clinical methodology</span>
-                <ExternalLink className="w-3 h-3" />
-              </button>
+            <div className="mt-8 pt-6 border-t border-ivory/15">
+              <div className="text-xs uppercase font-bold tracking-wider text-gold mb-3 font-sans flex items-center gap-1.5">
+                <BookOpen className="w-3.5 h-3.5 text-gold" />
+                <span>Credible Research Evidence &amp; Medical Grounding:</span>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs font-sans text-ivory/80">
+                <div className="p-2.5 rounded-lg bg-white/5 border border-white/10">
+                  <strong className="text-gold block mb-0.5">NIH ORWH Policy:</strong>
+                  Inclusion of Women in Clinical Trials and Biomedical Research Mandates
+                </div>
+                <div className="p-2.5 rounded-lg bg-white/5 border border-white/10">
+                  <strong className="text-gold block mb-0.5">The Lancet:</strong>
+                  Advancing the Science of Women&apos;s Health &amp; Eliminating Evidence Gaps
+                </div>
+                <div className="p-2.5 rounded-lg bg-white/5 border border-white/10">
+                  <strong className="text-gold block mb-0.5">ACOG Guideline 760:</strong>
+                  Adolescent Dysmenorrhea &amp; Endometriosis Early Diagnosis Protocols
+                </div>
+                <div className="p-2.5 rounded-lg bg-white/5 border border-white/10">
+                  <strong className="text-gold block mb-0.5">BJSM / IOC Consensus:</strong>
+                  Relative Energy Deficiency in Sport (RED-S) &amp; Skeletal Health Criteria
+                </div>
+              </div>
+
+              <div className="mt-4 flex items-center justify-between gap-4 text-xs font-sans text-ivory/70 flex-wrap">
+                <span>All statistics and guidelines verified through our medical advisory network.</span>
+                <button
+                  onClick={() => onNavigate("story")}
+                  className="text-gold hover:underline font-semibold flex items-center gap-1"
+                >
+                  <span>Read full research background</span>
+                  <ExternalLink className="w-3 h-3" />
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -577,26 +702,27 @@ export function HomeView({ onNavigate }: HomeViewProps) {
       {/* 9. Interactive "Could this be you?" Symptom Explorer Section */}
       <section className="max-w-[1100px] mx-auto px-6 w-full">
         <div className="text-center mb-8">
-          <div className="text-[13px] font-bold tracking-wider uppercase text-berry mb-2 font-sans">
-            Symptom Navigator
+          <div className="text-[12.5px] font-bold tracking-widest uppercase text-berry mb-2 font-sans flex items-center justify-center gap-1.5">
+            <span className="w-2 h-2 rounded-full bg-berry" />
+            <span>COULD THIS BE YOU?</span>
           </div>
           <h2 className="text-3xl md:text-[42px] lg:text-[48px] font-normal font-serif text-plum leading-[1.15]">
             Start with the symptoms.
           </h2>
-          <p className="text-[17px] md:text-[18px] text-plum/80 max-w-xl mx-auto mt-2 mb-0 font-sans">
-            Not sure what your symptoms might mean? Start exploring below.
+          <p className="text-[17px] md:text-[18.5px] text-plum/80 max-w-xl mx-auto mt-2 mb-0 font-sans">
+            Not sure what your symptoms might mean? Start exploring.
           </p>
         </div>
 
         {/* 10 Clickable Symptom Chips */}
-        <div className="flex items-center justify-center gap-2.5 flex-wrap max-w-4xl mx-auto mb-8">
+        <div className="flex items-center justify-center gap-2 flex-wrap max-w-4xl mx-auto mb-8">
           {SYMPTOMS_DATA.map((symptom) => {
             const isSelected = symptom.id === selectedSymptomId;
             return (
               <button
                 key={symptom.id}
                 onClick={() => setSelectedSymptomId(symptom.id)}
-                className={`px-4 py-2 rounded-lg text-[14px] font-semibold font-sans transition-all border ${
+                className={`px-3.5 py-2 rounded-lg text-[13.5px] md:text-[14px] font-semibold font-sans transition-all border ${
                   isSelected
                     ? "bg-plum text-ivory border-plum shadow-sm"
                     : "bg-white text-plum border-plum/20 hover:border-berry hover:text-berry"
@@ -613,27 +739,29 @@ export function HomeView({ onNavigate }: HomeViewProps) {
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border-b border-plum/10 pb-5 mb-6">
             <div>
               <span className="text-xs font-bold uppercase tracking-wider text-berry block font-sans mb-1">
-                Educational Overview
+                Symptom Profile
               </span>
               <h3 className="text-2xl md:text-[30px] font-normal font-serif text-plum m-0">
                 Exploring: {activeSymptom.name}
               </h3>
             </div>
-            <Button
-              onClick={() => onNavigate("hub", activeSymptom.learnCategory)}
-              variant="secondary"
-              size="sm"
-              className="text-[14px] gap-1.5"
-            >
-              <span>{activeSymptom.learnLabel}</span>
-            </Button>
+            <div className="flex items-center gap-2">
+              <Button
+                onClick={() => onNavigate("hub", activeSymptom.learnCategory)}
+                variant="secondary"
+                size="sm"
+                className="text-[14px] gap-1.5"
+              >
+                <span>{activeSymptom.learnLabel}</span>
+              </Button>
+            </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 font-sans">
             {/* Col 1: Associated With & What To Track */}
             <div className="space-y-6">
               <div>
-                <h4 className="text-[15px] font-bold text-plum uppercase tracking-wider mb-2.5 flex items-center gap-2">
+                <h4 className="text-[14.5px] font-bold text-plum uppercase tracking-wider mb-2.5 flex items-center gap-2">
                   <Activity className="w-4 h-4 text-berry" />
                   What it can be associated with:
                 </h4>
@@ -645,7 +773,7 @@ export function HomeView({ onNavigate }: HomeViewProps) {
               </div>
 
               <div>
-                <h4 className="text-[15px] font-bold text-plum uppercase tracking-wider mb-2.5 flex items-center gap-2">
+                <h4 className="text-[14.5px] font-bold text-plum uppercase tracking-wider mb-2.5 flex items-center gap-2">
                   <FileText className="w-4 h-4 text-berry" />
                   What you can track:
                 </h4>
@@ -660,11 +788,11 @@ export function HomeView({ onNavigate }: HomeViewProps) {
             {/* Col 2: Questions To Ask & When To Seek Care */}
             <div className="space-y-6">
               <div>
-                <h4 className="text-[15px] font-bold text-plum uppercase tracking-wider mb-2.5 flex items-center gap-2">
+                <h4 className="text-[14.5px] font-bold text-plum uppercase tracking-wider mb-2.5 flex items-center gap-2">
                   <MessageCircle className="w-4 h-4 text-berry" />
                   Questions you can ask a healthcare provider:
                 </h4>
-                <ul className="space-y-1.5 pl-4 list-disc text-[15px] text-plum/85 leading-relaxed">
+                <ul className="space-y-2 pl-4 list-disc text-[14.5px] text-plum/85 leading-relaxed">
                   {activeSymptom.questionsToAsk.map((item, i) => (
                     <li key={i}>&ldquo;{item}&rdquo;</li>
                   ))}
@@ -672,7 +800,7 @@ export function HomeView({ onNavigate }: HomeViewProps) {
               </div>
 
               <div className="p-4 rounded-xl bg-ivory-darker border border-plum/10">
-                <h4 className="text-[14px] font-bold text-berry uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
+                <h4 className="text-[13.5px] font-bold text-berry uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
                   <Stethoscope className="w-4 h-4 text-berry" />
                   When to seek medical care:
                 </h4>
@@ -684,8 +812,8 @@ export function HomeView({ onNavigate }: HomeViewProps) {
           </div>
 
           {/* Educational Disclaimer */}
-          <div className="mt-8 pt-4 border-t border-plum/10 text-center text-xs font-sans text-plum/60">
-            <strong>Important Clinical Note:</strong> This information is compiled for health education and self-advocacy preparation, not medical diagnosis. Always consult a qualified healthcare provider for clinical evaluation.
+          <div className="mt-8 pt-4 border-t border-plum/10 text-center text-xs font-sans text-plum/70 bg-ivory-darker/60 p-3 rounded-lg border border-plum/10">
+            <strong>Important Clinical Note:</strong> This information is compiled for health education and self-advocacy preparation, not medical diagnosis. If symptoms persist or cause you concern, consult a healthcare professional.
           </div>
         </div>
       </section>
