@@ -375,40 +375,31 @@ export function HomeView({ onNavigate }: HomeViewProps) {
             </p>
 
             {/* 3 Small Items: LEARN · RECOGNIZE · ADVOCATE */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-8 border-t border-plum/15">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 pt-8 border-t border-plum/15">
               <div className="flex flex-col gap-2">
                 <span className="font-sans font-bold text-xs uppercase tracking-wider text-berry">
-                  01 · LEARN
+                  LEARN
                 </span>
-                <h3 className="text-xl font-serif text-plum m-0 font-medium">
-                  Understand your body
-                </h3>
-                <p className="text-[14.5px] text-plum/75 leading-relaxed font-sans m-0">
-                  Understand your body and how it works with clear, honest reproductive biology.
+                <p className="text-[15px] md:text-[16px] text-plum/85 leading-relaxed font-sans m-0">
+                  Understand your body and how it works.
                 </p>
               </div>
 
               <div className="flex flex-col gap-2">
                 <span className="font-sans font-bold text-xs uppercase tracking-wider text-berry">
-                  02 · RECOGNIZE
+                  RECOGNIZE
                 </span>
-                <h3 className="text-xl font-serif text-plum m-0 font-medium">
-                  Recognize symptoms
-                </h3>
-                <p className="text-[14.5px] text-plum/75 leading-relaxed font-sans m-0">
-                  Learn about symptoms that are often misunderstood, normalized, or dismissed.
+                <p className="text-[15px] md:text-[16px] text-plum/85 leading-relaxed font-sans m-0">
+                  Learn about symptoms that are often misunderstood or dismissed.
                 </p>
               </div>
 
               <div className="flex flex-col gap-2">
                 <span className="font-sans font-bold text-xs uppercase tracking-wider text-berry">
-                  03 · ADVOCATE
+                  ADVOCATE
                 </span>
-                <h3 className="text-xl font-serif text-plum m-0 font-medium">
-                  Build confidence
-                </h3>
-                <p className="text-[14.5px] text-plum/75 leading-relaxed font-sans m-0">
-                  Build the confidence, questions, and vocabulary to speak up about your health.
+                <p className="text-[15px] md:text-[16px] text-plum/85 leading-relaxed font-sans m-0">
+                  Build the confidence and vocabulary to speak up about your health.
                 </p>
               </div>
             </div>
