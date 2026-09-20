@@ -27,7 +27,7 @@ export function AccessMini({
   return (
     <div
       className={cn(
-        "w-full max-w-2xl mx-auto rounded-lg bg-white/95 border border-deep-teal/15 px-5 py-3 text-charcoal shadow-xs font-sans transition-all",
+        "w-full max-w-2xl mx-auto rounded-lg bg-white/95 border border-deep-teal/15 hover:border-coral/40 px-5 py-3 text-charcoal shadow-xs font-sans transition-all",
         className
       )}
     >
@@ -67,25 +67,25 @@ export function AccessMini({
                 window.scrollTo({ top: 0, behavior: "smooth" });
               }
             }}
-            className="hover:text-berry transition-colors focus-visible:outline-none focus-visible:underline"
+            className="hover:text-raspberry transition-colors focus-visible:outline-none focus-visible:underline"
           >
             Accessibility
           </button>
-          <span className="text-gold font-bold select-none">•</span>
+          <span className="text-coral font-bold select-none">•</span>
 
           <button
             type="button"
             onClick={() => onNavigate?.("resources")}
-            className="hover:text-berry transition-colors focus-visible:outline-none focus-visible:underline"
+            className="hover:text-raspberry transition-colors focus-visible:outline-none focus-visible:underline"
           >
             Free resources
           </button>
-          <span className="text-gold font-bold select-none">•</span>
+          <span className="text-coral font-bold select-none">•</span>
 
           <button
             type="button"
             onClick={() => onNavigate?.("qa")}
-            className="hover:text-berry transition-colors focus-visible:outline-none focus-visible:underline"
+            className="hover:text-raspberry transition-colors focus-visible:outline-none focus-visible:underline"
           >
             Find support
           </button>

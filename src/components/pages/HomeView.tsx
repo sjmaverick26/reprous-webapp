@@ -314,34 +314,64 @@ export function HomeView({ onNavigate }: HomeViewProps) {
 
   return (
     <div className="flex flex-col w-full text-charcoal">
-      {/* 1. HERO SECTION: Light Teal (#D8EFED) */}
+      {/* 1. HERO SECTION: Light Teal (#D8EFED) with Coral Highlights */}
       <section className="w-full bg-light-teal text-charcoal pt-12 pb-16 md:pt-16 md:pb-24 relative overflow-hidden">
-        {/* Subtle ambient lighting */}
+        {/* Subtle coral ambient lighting */}
         <div
-          className="absolute -top-36 -right-24 w-[460px] h-[460px] rounded-full bg-coral/15 blur-3xl pointer-events-none"
+          className="absolute -top-36 -right-24 w-[480px] h-[480px] rounded-full bg-coral/20 blur-3xl pointer-events-none"
           aria-hidden="true"
         />
         <div
-          className="absolute -bottom-28 -left-20 w-[340px] h-[340px] rounded-full bg-soft-pink/30 blur-2xl pointer-events-none"
+          className="absolute -bottom-28 -left-20 w-[360px] h-[360px] rounded-full bg-soft-pink/35 blur-2xl pointer-events-none"
+          aria-hidden="true"
+        />
+        <div
+          className="absolute top-1/2 right-10 w-[240px] h-[240px] rounded-full bg-coral/10 blur-2xl pointer-events-none"
           aria-hidden="true"
         />
 
         <div className="max-w-[1100px] mx-auto px-6 relative z-10 flex flex-col items-center text-center">
-          {/* Eyebrow in Deep Teal */}
-          <div className="font-sans font-bold text-[12.5px] md:text-[13px] uppercase tracking-[1.5px] text-deep-teal mb-5">
-            HEALTH EDUCATION · SELF-ADVOCACY · RESEARCH
+          {/* Eyebrow Pill with Coral Accent & Sparkle */}
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/85 border border-coral/35 shadow-xs mb-6 backdrop-blur-xs">
+            <Sparkles className="w-3.5 h-3.5 text-coral" />
+            <span className="font-sans font-bold text-[12px] md:text-[12.5px] uppercase tracking-[1.5px] text-deep-teal">
+              Health Education <span className="text-coral">✦</span> Self-Advocacy <span className="text-coral">✦</span> Research
+            </span>
           </div>
 
-          {/* H1: Know your body. Know what to ask. */}
+          {/* H1: Know your body. Know what to ask. (with Coral underline highlight) */}
           <h1 className="text-4xl md:text-[64px] lg:text-[72px] font-normal font-serif leading-[1.08] tracking-tight mb-6 max-w-[860px] text-deep-teal">
             Know your body.<br />
-            Know <span className="text-raspberry">what to ask.</span>
+            Know{" "}
+            <span className="relative inline-block text-raspberry">
+              what to ask.
+              <span
+                className="absolute -bottom-1.5 left-0 right-0 h-[5px] bg-coral/60 rounded-full -rotate-0.5 pointer-events-none"
+                aria-hidden="true"
+              />
+            </span>
           </h1>
 
           {/* Supporting text in Charcoal */}
-          <p className="text-[17px] md:text-[19px] text-charcoal/85 max-w-[660px] leading-relaxed mb-8 font-sans">
+          <p className="text-[17px] md:text-[19px] text-charcoal/85 max-w-[660px] leading-relaxed mb-6 font-sans">
             Health education for girls — from reproductive health and female athlete health to conditions that are often misunderstood or overlooked.
           </p>
+
+          {/* Value / Focus Chips with Coral Pips & Borders */}
+          <div className="flex flex-wrap items-center justify-center gap-2.5 mb-8">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/90 border border-coral/35 text-deep-teal text-[12.5px] md:text-[13px] font-medium font-sans shadow-2xs">
+              <span className="w-1.5 h-1.5 rounded-full bg-coral shrink-0" />
+              Female Athlete Health
+            </span>
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/90 border border-coral/35 text-deep-teal text-[12.5px] md:text-[13px] font-medium font-sans shadow-2xs">
+              <span className="w-1.5 h-1.5 rounded-full bg-coral shrink-0" />
+              Overlooked Conditions
+            </span>
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/90 border border-coral/35 text-deep-teal text-[12.5px] md:text-[13px] font-medium font-sans shadow-2xs">
+              <span className="w-1.5 h-1.5 rounded-full bg-coral shrink-0" />
+              Self-Advocacy Tools
+            </span>
+          </div>
 
           {/* Hero Buttons */}
           <div className="flex flex-wrap items-center justify-center gap-3.5 mb-9">
@@ -351,7 +381,7 @@ export function HomeView({ onNavigate }: HomeViewProps) {
               className="bg-raspberry text-white hover:bg-raspberry/90 hover:text-white active:bg-raspberry-dark active:text-white focus-visible:text-white shadow-sm gap-2 text-[15.5px]"
             >
               <span>Explore your health</span>
-              <ArrowRight className="w-4 h-4" />
+              <ArrowRight className="w-4 h-4 text-coral group-hover:translate-x-0.5 transition-transform" />
             </Button>
             <Button
               onClick={() => onNavigate("story")}
@@ -360,7 +390,7 @@ export function HomeView({ onNavigate }: HomeViewProps) {
               className="gap-2 text-deep-teal border-[1.5px] border-deep-teal hover:bg-deep-teal/10 hover:text-deep-teal active:text-deep-teal focus-visible:text-deep-teal text-[15.5px]"
             >
               <span>How ReproUs works</span>
-              <span aria-hidden="true">→</span>
+              <span aria-hidden="true" className="text-coral font-bold">→</span>
             </Button>
           </div>
 
