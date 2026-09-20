@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { HelpCircle, Send, CheckCircle2, Search } from "lucide-react";
 import { FAQS_DATA } from "@/data/faqsData";
+import { EducationalReferences } from "@/components/shared/EducationalReferences";
 import {
   Accordion,
   AccordionItem,
@@ -147,6 +148,11 @@ export function QAView({ autoOpenSubmit = false }: { autoOpenSubmit?: boolean })
           Submit your own anonymous question
         </Button>
       </div>
+
+      {/* Clinical Guidelines & Medical Sources */}
+      <EducationalReferences
+        customTitle="Clinical Guidelines & Medical Sources"
+      />
 
       {/* Question Submission Modal */}
       <Dialog open={isSubmitModalOpen} onOpenChange={setIsSubmitModalOpen}>

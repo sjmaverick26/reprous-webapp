@@ -26,6 +26,7 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog";
 import { AccessMini } from "@/components/shared/AccessMini";
+import { EducationalReferences } from "@/components/shared/EducationalReferences";
 import { updateUserProgress } from "@/lib/api";
 
 interface HubViewProps {
@@ -157,6 +158,9 @@ export function HubView({ initialCategory }: HubViewProps) {
               </button>
             ))}
           </div>
+
+          {/* Clinical & Educational References */}
+          <EducationalReferences categoryId="default" />
         </div>
       )}
 
@@ -313,6 +317,12 @@ export function HubView({ initialCategory }: HubViewProps) {
                 </button>
               </div>
             </div>
+
+            {/* Category Educational References */}
+            <EducationalReferences
+              categoryId={activeCategory.id}
+              customTitle={`${activeCategory.title} Evidence & Clinical Guidelines`}
+            />
           </div>
         </div>
       )}
@@ -401,6 +411,12 @@ export function HubView({ initialCategory }: HubViewProps) {
                     )}
                   </div>
                 )}
+
+                {/* Educational References Section inside topic dialog */}
+                <EducationalReferences
+                  categoryId={activeCategoryId}
+                  compact={true}
+                />
 
                 <div className="mt-4 pt-4 border-t border-berry/10 flex items-center justify-end gap-3">
                   <Button

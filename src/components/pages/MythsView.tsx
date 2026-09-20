@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { Sparkles, RefreshCw, CheckCircle, HelpCircle } from "lucide-react";
 import { MYTHS_DATA, MythItem } from "@/data/mythsData";
 import { Badge } from "@/components/ui/badge";
+import { EducationalReferences, ReferenceItem } from "@/components/shared/EducationalReferences";
 
 export function MythsView() {
   const [flippedIds, setFlippedIds] = useState<Set<string>>(new Set());
@@ -150,6 +151,41 @@ export function MythsView() {
           );
         })}
       </div>
+
+      {/* Verified Clinical & Educational References */}
+      <EducationalReferences
+        customTitle="Myth-Busting Clinical References"
+        customItems={[
+          {
+            number: "01",
+            type: "Research article",
+            title: "Dispelling Menstrual & Contraceptive Misinformation in Adolescent Populations",
+            source: "Journal of Pediatric & Adolescent Gynecology (JPAG)",
+            linkText: "View Published Study",
+          },
+          {
+            number: "02",
+            type: "Clinical guideline",
+            title: "Addressing Health Misinformation: Evidence-Based Communication in Reproductive Medicine",
+            source: "American College of Obstetricians and Gynecologists (ACOG)",
+            linkText: "Read ACOG Statement",
+          },
+          {
+            number: "03",
+            type: "Patient education resource",
+            title: "Myth vs. Reality: Debunking Reproductive, Cycle, and Fertility Misconceptions",
+            source: "Office on Women's Health (HHS) & CDC Health Literacy Project",
+            linkText: "Explore Fact Library",
+          },
+          {
+            number: "04",
+            type: "Additional reading",
+            title: "The Anatomy of a Myth: How Stigma and Fear Shape What We Believe About Our Bodies",
+            source: "ReproUs Evidence-Based Dialogue Series",
+            linkText: "Read Article",
+          },
+        ]}
+      />
     </div>
   );
 }
