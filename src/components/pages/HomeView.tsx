@@ -595,7 +595,7 @@ export function HomeView({ onNavigate }: HomeViewProps) {
                       04
                     </span>
                     <h4 className="font-bold text-[14px] text-ivory tracking-wide font-sans mb-1.5">
-                      RECOGNIZE SIGNS
+                      RECOGNIZE THE SIGNS
                     </h4>
                     <p className="text-[12px] text-ivory/75 font-sans leading-relaxed m-0">
                       Validating that debilitating pain, cycle loss, or extreme fatigue are real medical data.
@@ -637,7 +637,7 @@ export function HomeView({ onNavigate }: HomeViewProps) {
                       06
                     </span>
                     <h4 className="font-bold text-[14px] text-white tracking-wide font-sans mb-1.5">
-                      ADVOCATE
+                      ADVOCATE FOR YOURSELF
                     </h4>
                     <p className="text-[12px] text-white/90 font-sans leading-relaxed m-0">
                       Building the confidence, vocabulary, and evidence to be taken seriously by clinicians.
