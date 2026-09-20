@@ -26,12 +26,12 @@ export function Footer({ onNavigate }: FooterProps) {
       <div className="max-w-[1100px] mx-auto px-6 flex flex-col gap-8">
         <div className="flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
           <div className="flex items-center gap-3">
-            <ReproUsMark size={32} />
+            <ReproUsMark size={32} variant="light" />
             <div>
-              <span className="font-serif font-bold text-white text-2xl block tracking-tight inline-flex items-center">
+              <span className="font-serif font-bold text-light-teal text-2xl block tracking-tight inline-flex items-center">
                 <span>Repro</span>
                 <span className="w-2 h-2 rounded-full bg-coral mx-1 inline-block" aria-hidden="true" />
-                <span className="text-raspberry-light">Us</span>
+                <span className="text-light-teal">Us</span>
               </span>
               <p className="text-[13.5px] text-white/80 m-0 font-sans">
                 Evidence-based education and self-advocacy tools for girls &amp; youth.
