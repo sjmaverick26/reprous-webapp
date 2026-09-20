@@ -47,7 +47,7 @@ export function MythsView() {
         <div className="text-xs font-extrabold uppercase tracking-wider text-berry/75 mb-2">
           Myths &amp; Facts
         </div>
-        <h1 className="text-4xl md:text-5xl font-bold text-berry mb-4">
+        <h1 className="text-4xl md:text-5xl font-bold text-plum mb-4">
           Tap a card to flip it
         </h1>
         <p className="text-base text-ink/80 leading-relaxed">
@@ -130,8 +130,8 @@ export function MythsView() {
                 <div className="absolute inset-0 backface-hidden rotate-y-180 rounded-[22px] p-6 bg-berry text-cream-card flex flex-col justify-between border border-berry-dark select-none shadow-inner">
                   <div>
                     <div className="flex items-center justify-between mb-2">
-                      <span className="text-[11px] font-extrabold uppercase tracking-wider text-yellow-deep flex items-center gap-1">
-                        <CheckCircle className="w-3.5 h-3.5 text-yellow-deep" /> Medical Fact
+                      <span className="text-[11px] font-extrabold uppercase tracking-wider text-gold flex items-center gap-1">
+                        <CheckCircle className="w-3.5 h-3.5 text-gold" /> Medical Fact
                       </span>
                       <span className="text-[10px] text-cream-card/70 font-bold">Tap to flip back</span>
                     </div>

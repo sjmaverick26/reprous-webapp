@@ -7,10 +7,14 @@ const badgeVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-yellow text-ink",
-        berry: "bg-berry text-cream-card",
-        blush: "bg-blush-deep text-ink",
-        outline: "text-berry border border-berry/30",
+        default: "bg-berry/10 text-berry border border-berry/20",
+        berry: "bg-berry text-white",
+        outline: "bg-transparent text-berry border border-berry",
+        gold: "bg-gold/25 text-plum border border-gold/50",
+        sage: "bg-sage/25 text-plum border border-sage",
+        lavender: "bg-lavender text-plum border border-[#D3C2D7]",
+        rose: "bg-dusty-rose/25 text-plum border border-dusty-rose",
+        blush: "bg-dusty-rose/25 text-plum",
       },
     },
     defaultVariants: {

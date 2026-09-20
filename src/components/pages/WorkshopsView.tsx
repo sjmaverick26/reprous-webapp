@@ -93,14 +93,14 @@ export function WorkshopsView() {
     <div className="max-w-[1100px] mx-auto px-6 py-12 flex flex-col gap-16">
       {/* Header */}
       <div className="text-center max-w-2xl mx-auto">
-        <div className="text-xs font-extrabold uppercase tracking-wider text-berry/75 mb-2">
+        <div className="text-xs font-extrabold uppercase tracking-wider text-berry mb-2">
           Workshops
         </div>
-        <h1 className="text-4xl md:text-5xl font-bold text-berry mb-4">
-          See what a workshop is actually like
+        <h1 className="text-4xl md:text-5xl font-bold text-plum mb-4">
+          Free, interactive workshops
         </h1>
-        <p className="text-base text-ink/85 leading-relaxed">
-          Free, in-person sessions led by young educators trained to make reproductive health comfortable, honest, and easy to talk about. Here is exactly what to expect before you walk through the door.
+        <p className="text-base md:text-lg text-ink/80 leading-relaxed mb-6">
+          Hands-on 90-minute sessions in schools and community centers. No tests, no awkwardness — just real facts, honest discussion, and practical skills.
         </p>
       </div>
 
@@ -111,7 +111,7 @@ export function WorkshopsView() {
             <div className="w-10 h-10 rounded-full bg-berry text-cream-card flex items-center justify-center font-extrabold text-base mx-auto mb-3">
               {step.step}
             </div>
-            <h3 className="text-base font-bold text-berry mb-2">{step.title}</h3>
+            <h3 className="text-base font-bold text-plum mb-2">{step.title}</h3>
             <p className="text-xs md:text-sm text-ink/80 leading-relaxed m-0">{step.desc}</p>
           </Card>
         ))}
@@ -189,7 +189,7 @@ export function WorkshopsView() {
           <div className="text-xs font-extrabold uppercase tracking-wider text-berry/75 mb-2">
             Upcoming Sessions
           </div>
-          <h2 className="text-2xl md:text-3xl font-bold text-berry">
+          <h2 className="text-2xl md:text-3xl font-bold text-plum">
             Join an upcoming free workshop
           </h2>
         </div>
@@ -262,7 +262,7 @@ export function WorkshopsView() {
               {rsvpSuccess ? (
                 <div className="p-6 text-center flex flex-col items-center gap-2">
                   <CheckCircle2 className="w-12 h-12 text-green-600 animate-bounce" />
-                  <h4 className="font-serif text-xl font-bold text-berry">You&apos;re All Set!</h4>
+                  <h4 className="font-serif text-xl font-bold text-plum">You&apos;re All Set!</h4>
                   <p className="text-xs text-ink/80">
                     We saved your spot. See you at {selectedSession.location}!
                   </p>
@@ -314,7 +314,7 @@ export function WorkshopsView() {
           {requestSuccess ? (
             <div className="p-6 text-center flex flex-col items-center gap-2">
               <CheckCircle2 className="w-12 h-12 text-green-600 animate-bounce" />
-              <h4 className="font-serif text-xl font-bold text-berry">Request Sent!</h4>
+              <h4 className="font-serif text-xl font-bold text-plum">Request Sent!</h4>
               <p className="text-xs text-ink/80">
                 Our outreach coordinator will reach out to you within 2 business days.
               </p>

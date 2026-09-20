@@ -50,10 +50,10 @@ export function StoryView() {
     <div className="max-w-[1100px] mx-auto px-6 py-12 flex flex-col gap-16">
       {/* Story Hero */}
       <div className="text-center max-w-2xl mx-auto">
-        <div className="text-xs font-extrabold uppercase tracking-wider text-berry/75 mb-2">
+        <div className="text-xs font-extrabold uppercase tracking-wider text-berry mb-2">
           Our Story
         </div>
-        <h1 className="text-4xl md:text-5xl font-bold text-berry mb-4">
+        <h1 className="text-4xl md:text-5xl font-bold text-plum mb-4">
           Why ReproUs exists
         </h1>
         <p className="text-base md:text-lg text-ink/85 leading-relaxed">
@@ -63,10 +63,10 @@ export function StoryView() {
 
       {/* Mission & Core Pillars */}
       <div className="text-center">
-        <div className="text-xs font-extrabold uppercase tracking-wider text-berry/75 mb-2">
+        <div className="text-xs font-extrabold uppercase tracking-wider text-berry mb-2">
           Our Mission
         </div>
-        <h2 className="text-2xl md:text-3xl font-bold text-berry mb-4 max-w-2xl mx-auto">
+        <h2 className="text-2xl md:text-3xl font-bold text-plum mb-4 max-w-2xl mx-auto">
           Free, honest reproductive health education — for anyone who has never had equitable access to it.
         </h2>
         <p className="text-sm md:text-base text-ink/80 max-w-xl mx-auto leading-relaxed mb-10">
@@ -75,11 +75,11 @@ export function StoryView() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-left">
           {pillars.map((pillar, idx) => (
-            <Card key={idx} className="p-7 hover:shadow-hover transition-all">
+            <Card key={idx} className="p-7 hover:shadow-hover transition-all border border-berry/10">
               <div className="w-12 h-12 rounded-2xl bg-berry/10 flex items-center justify-center mb-4">
                 {pillar.icon}
               </div>
-              <h3 className="text-lg font-bold text-berry mb-2">{pillar.title}</h3>
+              <h3 className="text-lg font-bold text-plum mb-2">{pillar.title}</h3>
               <p className="text-sm text-ink/80 leading-relaxed m-0">{pillar.desc}</p>
             </Card>
           ))}
@@ -89,10 +89,10 @@ export function StoryView() {
       {/* Timeline */}
       <div>
         <div className="text-center mb-8">
-          <div className="text-xs font-extrabold uppercase tracking-wider text-berry/75 mb-2">
+          <div className="text-xs font-extrabold uppercase tracking-wider text-berry mb-2">
             The Journey
           </div>
-          <h2 className="text-2xl md:text-3xl font-bold text-berry">
+          <h2 className="text-2xl md:text-3xl font-bold text-plum">
             How ReproUs grew
           </h2>
         </div>

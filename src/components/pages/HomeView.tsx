@@ -49,10 +49,10 @@ export function HomeView({ onNavigate }: HomeViewProps) {
             Empowering Youth &amp; Communities
           </div>
 
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold leading-[1.08] tracking-tight mb-6 max-w-[800px]">
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold leading-[1.08] tracking-tight mb-6 max-w-[800px] text-plum">
             Your body.<br />
             Your questions.<br />
-            <em className="not-italic text-berry bg-gradient-to-t from-yellow-deep/60 to-yellow-deep/60 bg-[length:100%_40%] bg-no-repeat bg-bottom px-1">
+            <em className="not-italic text-plum bg-gradient-to-t from-gold to-gold bg-[length:100%_40%] bg-no-repeat bg-bottom px-1">
               Real
             </em>{" "}
             answers.
@@ -98,8 +98,8 @@ export function HomeView({ onNavigate }: HomeViewProps) {
 
           {/* Organic 3-shape visual cluster */}
           <div className="relative h-44 w-72 mt-8 hidden sm:block">
-            <div className="absolute w-28 h-36 rounded-full bg-yellow-deep/90 left-6 top-3 -rotate-6 shadow-sm" />
-            <div className="absolute w-28 h-36 rounded-full bg-blush-deep/90 left-28 top-6 rotate-6 shadow-sm" />
+            <div className="absolute w-28 h-36 rounded-full bg-gold left-6 top-3 -rotate-6 shadow-sm" />
+            <div className="absolute w-28 h-36 rounded-full bg-dusty-rose left-28 top-6 rotate-6 shadow-sm" />
             <div className="absolute w-14 h-18 rounded-full bg-berry left-24 top-12 shadow-sm" />
           </div>
         </div>
@@ -108,10 +108,10 @@ export function HomeView({ onNavigate }: HomeViewProps) {
       {/* Popular Starting Points */}
       <section className="max-w-[1100px] mx-auto px-6 w-full">
         <div className="text-center mb-8">
-          <div className="text-xs font-extrabold tracking-wider uppercase text-berry/75 mb-2">
+          <div className="text-xs font-extrabold tracking-wider uppercase text-berry mb-2">
             Jump right in
           </div>
-          <h2 className="text-3xl md:text-4xl font-bold text-berry">
+          <h2 className="text-3xl md:text-4xl font-bold text-plum">
             Popular starting points
           </h2>
         </div>
@@ -120,12 +120,12 @@ export function HomeView({ onNavigate }: HomeViewProps) {
           {/* Tile 1: Body Basics */}
           <button
             onClick={() => onNavigate("hub", "body")}
-            className="group rounded-3xl bg-cream-card p-7 text-left border-t-4 border-yellow-deep shadow-card hover:shadow-hover hover:-translate-y-1 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-berry"
+            className="group rounded-3xl bg-cream-card p-7 text-left border-t-4 border-gold shadow-card hover:shadow-hover hover:-translate-y-1 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-berry"
           >
-            <div className="w-12 h-12 rounded-2xl bg-yellow/40 flex items-center justify-center text-berry mb-4 group-hover:bg-yellow transition-colors">
+            <div className="w-12 h-12 rounded-2xl bg-gold/30 flex items-center justify-center text-plum mb-4 group-hover:bg-gold transition-colors">
               <BookOpen className="w-6 h-6" />
             </div>
-            <h3 className="text-xl font-bold text-berry mb-2 group-hover:underline">
+            <h3 className="text-xl font-bold text-plum mb-2 group-hover:text-berry">
               Body Basics
             </h3>
             <p className="text-sm text-ink/80 leading-relaxed m-0">
@@ -136,12 +136,12 @@ export function HomeView({ onNavigate }: HomeViewProps) {
           {/* Tile 2: Cycle Sense */}
           <button
             onClick={() => onNavigate("hub", "cycle")}
-            className="group rounded-3xl bg-cream-card p-7 text-left border-t-4 border-blush-deep shadow-card hover:shadow-hover hover:-translate-y-1 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-berry"
+            className="group rounded-3xl bg-cream-card p-7 text-left border-t-4 border-dusty-rose shadow-card hover:shadow-hover hover:-translate-y-1 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-berry"
           >
-            <div className="w-12 h-12 rounded-2xl bg-blush-deep/50 flex items-center justify-center text-berry mb-4 group-hover:bg-blush-deep transition-colors">
+            <div className="w-12 h-12 rounded-2xl bg-dusty-rose/30 flex items-center justify-center text-plum mb-4 group-hover:bg-dusty-rose transition-colors">
               <Flame className="w-6 h-6" />
             </div>
-            <h3 className="text-xl font-bold text-berry mb-2 group-hover:underline">
+            <h3 className="text-xl font-bold text-plum mb-2 group-hover:text-berry">
               Cycle Sense
             </h3>
             <p className="text-sm text-ink/80 leading-relaxed m-0">
@@ -157,7 +157,7 @@ export function HomeView({ onNavigate }: HomeViewProps) {
             <div className="w-12 h-12 rounded-2xl bg-berry/10 flex items-center justify-center text-berry mb-4 group-hover:bg-berry/20 transition-colors">
               <Sparkles className="w-6 h-6" />
             </div>
-            <h3 className="text-xl font-bold text-berry mb-2 group-hover:underline">
+            <h3 className="text-xl font-bold text-plum mb-2 group-hover:text-berry">
               Myths &amp; Facts
             </h3>
             <p className="text-sm text-ink/80 leading-relaxed m-0">
@@ -167,16 +167,111 @@ export function HomeView({ onNavigate }: HomeViewProps) {
         </div>
       </section>
 
-      {/* UPCOMING / LATEST WORKSHOPS SECTION (Under Popular Starting Points) */}
+      {/* Specialized Health Focus Areas (Athlete #A8B7A1, PCOS #E8DFEA, Endometriosis #D99AAA) */}
       <section className="max-w-[1100px] mx-auto px-6 w-full">
-        <div className="rounded-[32px] bg-gradient-to-br from-cream-card via-cream-card to-blush/40 border border-berry/10 p-8 md:p-12 shadow-card">
+        <div className="text-center mb-8">
+          <div className="text-xs font-extrabold tracking-wider uppercase text-berry mb-2">
+            Specialized Care &amp; Health Focus
+          </div>
+          <h2 className="text-3xl md:text-4xl font-bold text-plum">
+            Tailored health for every body
+          </h2>
+          <p className="text-sm md:text-base text-ink/80 max-w-xl mx-auto mt-2 mb-0">
+            Dedicated guides covering athletic training, hormonal cycles, and chronic pelvic pain.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {/* Card 1: Female Athlete Health (#A8B7A1 SAGE) */}
+          <button
+            onClick={() => onNavigate("hub", "play")}
+            className="group rounded-3xl bg-cream-card p-7 text-left border-2 border-sage/60 hover:border-sage shadow-card hover:shadow-hover hover:-translate-y-1 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-berry flex flex-col justify-between"
+            style={{ backgroundColor: "#FAFCF9" }}
+          >
+            <div>
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-extrabold uppercase tracking-wider mb-4 border border-sage text-plum bg-sage/30">
+                <span className="w-2 h-2 rounded-full bg-sage inline-block" />
+                Female Athlete Health
+              </div>
+              <h3 className="text-xl font-bold text-plum mb-2 group-hover:text-berry">
+                Play Strong · Athlete Health
+              </h3>
+              <p className="text-sm text-ink/80 leading-relaxed mb-4">
+                Cycle-aware athletic training, sports nutrition, RED-S prevention, and fueling active bodies.
+              </p>
+            </div>
+            <div className="flex items-center justify-between text-xs font-extrabold text-berry pt-3 border-t border-sage/30">
+              <span>4 Topics &amp; Quizzes</span>
+              <span className="inline-flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+                Explore Section →
+              </span>
+            </div>
+          </button>
+
+          {/* Card 2: PCOS & Hormonal Health (#E8DFEA LAVENDER) */}
+          <button
+            onClick={() => onNavigate("hub", "pcos")}
+            className="group rounded-3xl bg-cream-card p-7 text-left border-2 border-[#D3C2D7] hover:border-lavender shadow-card hover:shadow-hover hover:-translate-y-1 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-berry flex flex-col justify-between"
+            style={{ backgroundColor: "#FBF8FC" }}
+          >
+            <div>
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-extrabold uppercase tracking-wider mb-4 border border-[#D3C2D7] text-plum bg-lavender">
+                <span className="w-2 h-2 rounded-full bg-[#B8A4BF] inline-block" />
+                PCOS &amp; Hormonal Health
+              </div>
+              <h3 className="text-xl font-bold text-plum mb-2 group-hover:text-berry">
+                PCOS &amp; Hormones
+              </h3>
+              <p className="text-sm text-ink/80 leading-relaxed mb-4">
+                Understanding androgens, insulin resistance, irregular cycles, and evidence-based lifestyle balance.
+              </p>
+            </div>
+            <div className="flex items-center justify-between text-xs font-extrabold text-berry pt-3 border-t border-[#D3C2D7]">
+              <span>4 Topics &amp; Games</span>
+              <span className="inline-flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+                Explore Section →
+              </span>
+            </div>
+          </button>
+
+          {/* Card 3: Endometriosis & Reproductive Pain (#D99AAA DUSTY ROSE) */}
+          <button
+            onClick={() => onNavigate("hub", "endo")}
+            className="group rounded-3xl bg-cream-card p-7 text-left border-2 border-dusty-rose/70 hover:border-dusty-rose shadow-card hover:shadow-hover hover:-translate-y-1 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-berry flex flex-col justify-between"
+            style={{ backgroundColor: "#FCF7F8" }}
+          >
+            <div>
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-extrabold uppercase tracking-wider mb-4 border border-dusty-rose text-plum bg-dusty-rose/30">
+                <span className="w-2 h-2 rounded-full bg-dusty-rose inline-block" />
+                Endometriosis &amp; Pain
+              </div>
+              <h3 className="text-xl font-bold text-plum mb-2 group-hover:text-berry">
+                Endometriosis &amp; Pelvic Pain
+              </h3>
+              <p className="text-sm text-ink/80 leading-relaxed mb-4">
+                Validating severe cramps, adenomyosis, pain navigation, and how to advocate for yourself with clinicians.
+              </p>
+            </div>
+            <div className="flex items-center justify-between text-xs font-extrabold text-berry pt-3 border-t border-dusty-rose/40">
+              <span>4 Topics &amp; Guides</span>
+              <span className="inline-flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+                Explore Section →
+              </span>
+            </div>
+          </button>
+        </div>
+      </section>
+
+      {/* UPCOMING / LATEST WORKSHOPS SECTION */}
+      <section className="max-w-[1100px] mx-auto px-6 w-full">
+        <div className="rounded-[32px] bg-gradient-to-br from-cream-card via-cream-card to-ivory border border-berry/10 p-8 md:p-12 shadow-card">
           <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-4 mb-8">
             <div>
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-yellow/50 text-berry text-xs font-extrabold uppercase tracking-wider mb-2.5">
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-berry/10 text-berry text-xs font-extrabold uppercase tracking-wider mb-2.5 border border-berry/20">
                 <Calendar className="w-3.5 h-3.5" />
                 Latest &amp; Upcoming Workshops
               </div>
-              <h2 className="text-3xl md:text-4xl font-bold text-berry">
+              <h2 className="text-3xl md:text-4xl font-bold text-plum">
                 Join a free, honest workshop
               </h2>
               <p className="text-sm md:text-base text-ink/80 max-w-xl mt-2 mb-0">
@@ -216,7 +311,7 @@ export function HomeView({ onNavigate }: HomeViewProps) {
                     </span>
                   </div>
 
-                  <h3 className="text-base font-bold text-berry mb-2 line-clamp-2">
+                  <h3 className="text-base font-bold text-plum mb-2 line-clamp-2">
                     {session.topic}
                   </h3>
 
@@ -288,10 +383,10 @@ export function HomeView({ onNavigate }: HomeViewProps) {
       {/* CONTACT US / JOIN US SECTION (At the bottom of Home Page) */}
       <section className="max-w-[1100px] mx-auto px-6 w-full">
         <div className="text-center mb-10">
-          <div className="text-xs font-extrabold tracking-wider uppercase text-berry/75 mb-2">
+          <div className="text-xs font-extrabold tracking-wider uppercase text-berry mb-2">
             Get Involved
           </div>
-          <h2 className="text-3xl md:text-4xl font-bold text-berry mb-3">
+          <h2 className="text-3xl md:text-4xl font-bold text-plum mb-3">
             Contact Us &amp; Join the Movement
           </h2>
           <p className="text-base text-ink/80 max-w-xl mx-auto m-0">
@@ -301,12 +396,12 @@ export function HomeView({ onNavigate }: HomeViewProps) {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {/* Action 1: Youth Ambassador */}
-          <Card className="p-6 flex flex-col justify-between bg-cream-card border-2 border-yellow-deep hover:shadow-hover hover:-translate-y-1 transition-all">
+          <Card className="p-6 flex flex-col justify-between bg-cream-card border-2 border-gold/60 hover:border-gold hover:shadow-hover hover:-translate-y-1 transition-all">
             <div>
-              <div className="w-10 h-10 rounded-xl bg-yellow/50 flex items-center justify-center text-berry mb-4">
-                <Award className="w-5 h-5" />
+              <div className="w-10 h-10 rounded-xl bg-gold/30 flex items-center justify-center text-plum mb-4">
+                <Award className="w-5 h-5 text-berry" />
               </div>
-              <h3 className="text-lg font-bold text-berry mb-2">
+              <h3 className="text-lg font-bold text-plum mb-2">
                 Become Youth Ambassador
               </h3>
               <p className="text-xs text-ink/80 leading-relaxed mb-4">
@@ -316,7 +411,7 @@ export function HomeView({ onNavigate }: HomeViewProps) {
             <Button
               onClick={() => onNavigate("contact")}
               variant="ghost"
-              className="w-full text-xs font-bold bg-yellow/30 hover:bg-yellow hover:text-ink"
+              className="w-full text-xs font-bold"
             >
               Apply to Ambassador →
             </Button>
@@ -325,10 +420,10 @@ export function HomeView({ onNavigate }: HomeViewProps) {
           {/* Action 2: Program Feedback */}
           <Card className="p-6 flex flex-col justify-between bg-cream-card border border-berry/10 hover:shadow-hover hover:-translate-y-1 transition-all">
             <div>
-              <div className="w-10 h-10 rounded-xl bg-blush-deep/50 flex items-center justify-center text-berry mb-4">
+              <div className="w-10 h-10 rounded-xl bg-dusty-rose/30 flex items-center justify-center text-berry mb-4">
                 <MessageSquareHeart className="w-5 h-5" />
               </div>
-              <h3 className="text-lg font-bold text-berry mb-2">
+              <h3 className="text-lg font-bold text-plum mb-2">
                 Program Feedback
               </h3>
               <p className="text-xs text-ink/80 leading-relaxed mb-4">
@@ -350,7 +445,7 @@ export function HomeView({ onNavigate }: HomeViewProps) {
               <div className="w-10 h-10 rounded-xl bg-berry/10 flex items-center justify-center text-berry mb-4">
                 <GraduationCap className="w-5 h-5" />
               </div>
-              <h3 className="text-lg font-bold text-berry mb-2">
+              <h3 className="text-lg font-bold text-plum mb-2">
                 Bring Us to Your School
               </h3>
               <p className="text-xs text-ink/80 leading-relaxed mb-4">
@@ -369,10 +464,10 @@ export function HomeView({ onNavigate }: HomeViewProps) {
           {/* Action 4: Direct Message / Outreach */}
           <Card className="p-6 flex flex-col justify-between bg-cream-card border border-berry/10 hover:shadow-hover hover:-translate-y-1 transition-all">
             <div>
-              <div className="w-10 h-10 rounded-xl bg-yellow-deep/20 flex items-center justify-center text-berry mb-4">
+              <div className="w-10 h-10 rounded-xl bg-gold/20 flex items-center justify-center text-berry mb-4">
                 <Mail className="w-5 h-5" />
               </div>
-              <h3 className="text-lg font-bold text-berry mb-2">
+              <h3 className="text-lg font-bold text-plum mb-2">
                 General Inquiries
               </h3>
               <p className="text-xs text-ink/80 leading-relaxed mb-4">

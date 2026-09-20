@@ -179,7 +179,7 @@ export function ContactView({ initialTab = "feedback" }: { initialTab?: ContactT
         <div className="text-xs font-extrabold uppercase tracking-wider text-berry/75 mb-2">
           Get in Touch &amp; Join the Movement
         </div>
-        <h1 className="text-4xl md:text-5xl font-bold text-berry mb-4">
+        <h1 className="text-4xl md:text-5xl font-bold text-plum mb-4">
           Contact Us
         </h1>
         <p className="text-base md:text-lg text-ink/85 leading-relaxed">
@@ -240,7 +240,7 @@ export function ContactView({ initialTab = "feedback" }: { initialTab?: ContactT
               <div className="w-12 h-12 rounded-2xl bg-yellow/60 flex items-center justify-center text-berry mb-4">
                 <Sparkles className="w-6 h-6" />
               </div>
-              <h2 className="text-2xl font-bold text-berry mb-3">
+              <h2 className="text-2xl font-bold text-plum mb-3">
                 Help Us Keep Growing
               </h2>
               <p className="text-sm text-ink/85 leading-relaxed mb-4">
@@ -273,7 +273,7 @@ export function ContactView({ initialTab = "feedback" }: { initialTab?: ContactT
             {feedbackSuccess ? (
               <div className="py-12 px-6 text-center flex flex-col items-center gap-3">
                 <CheckCircle2 className="w-16 h-16 text-green-600 animate-bounce" />
-                <h3 className="font-serif text-2xl font-bold text-berry">
+                <h3 className="font-serif text-2xl font-bold text-plum">
                   Thank You for Your Feedback!
                 </h3>
                 <p className="text-sm text-ink/80 max-w-md">
@@ -283,7 +283,7 @@ export function ContactView({ initialTab = "feedback" }: { initialTab?: ContactT
             ) : (
               <form onSubmit={handleFeedbackSubmit} className="flex flex-col gap-5">
                 <div>
-                  <h3 className="text-xl font-bold text-berry mb-1">
+                  <h3 className="text-xl font-bold text-plum mb-1">
                     Feedback About This Program
                   </h3>
                   <p className="text-xs text-ink/70">
@@ -441,7 +441,7 @@ export function ContactView({ initialTab = "feedback" }: { initialTab?: ContactT
               <Badge variant="default" className="mb-3">
                 Youth Leadership
               </Badge>
-              <h2 className="text-2xl font-bold text-berry mb-3">
+              <h2 className="text-2xl font-bold text-plum mb-3">
                 Become a ReproUs Youth Ambassador
               </h2>
               <p className="text-sm text-ink/85 leading-relaxed mb-6">
@@ -454,7 +454,7 @@ export function ContactView({ initialTab = "feedback" }: { initialTab?: ContactT
                     🌟
                   </div>
                   <div>
-                    <h4 className="text-sm font-bold text-berry">Leadership &amp; Mentorship</h4>
+                    <h4 className="text-sm font-bold text-plum">Leadership &amp; Mentorship</h4>
                     <p className="text-xs text-ink/75 m-0">
                       Work alongside trained health educators and adolescent health clinicians.
                     </p>
@@ -466,7 +466,7 @@ export function ContactView({ initialTab = "feedback" }: { initialTab?: ContactT
                     📜
                   </div>
                   <div>
-                    <h4 className="text-sm font-bold text-berry">Verified Volunteer Hours</h4>
+                    <h4 className="text-sm font-bold text-plum">Verified Volunteer Hours</h4>
                     <p className="text-xs text-ink/75 m-0">
                       Earn community service hours, recommendation letters, and leadership certificates.
                     </p>
@@ -478,7 +478,7 @@ export function ContactView({ initialTab = "feedback" }: { initialTab?: ContactT
                     🎒
                   </div>
                   <div>
-                    <h4 className="text-sm font-bold text-berry">Ambassador Kit &amp; Swag</h4>
+                    <h4 className="text-sm font-bold text-plum">Ambassador Kit &amp; Swag</h4>
                     <p className="text-xs text-ink/75 m-0">
                       Get printed pocket guides, stickers, pin badges, and demo educational kits.
                     </p>
@@ -502,7 +502,7 @@ export function ContactView({ initialTab = "feedback" }: { initialTab?: ContactT
             {ambSuccess ? (
               <div className="py-12 px-6 text-center flex flex-col items-center gap-3">
                 <CheckCircle2 className="w-16 h-16 text-green-600 animate-bounce" />
-                <h3 className="font-serif text-2xl font-bold text-berry">
+                <h3 className="font-serif text-2xl font-bold text-plum">
                   Application Received, {ambName}!
                 </h3>
                 <p className="text-sm text-ink/80 max-w-md">
@@ -512,7 +512,7 @@ export function ContactView({ initialTab = "feedback" }: { initialTab?: ContactT
             ) : (
               <form onSubmit={handleAmbassadorSubmit} className="flex flex-col gap-4">
                 <div>
-                  <h3 className="text-xl font-bold text-berry mb-1">
+                  <h3 className="text-xl font-bold text-plum mb-1">
                     Youth Ambassador Application
                   </h3>
                   <p className="text-xs text-ink/70">
@@ -627,7 +627,7 @@ export function ContactView({ initialTab = "feedback" }: { initialTab?: ContactT
           {/* Quick Contact Info */}
           <div className="lg:col-span-5 flex flex-col gap-6">
             <Card className="p-7 bg-cream-card shadow-card">
-              <h2 className="text-2xl font-bold text-berry mb-3">
+              <h2 className="text-2xl font-bold text-plum mb-3">
                 General Inquiries
               </h2>
               <p className="text-sm text-ink/85 leading-relaxed mb-6">
@@ -683,7 +683,7 @@ export function ContactView({ initialTab = "feedback" }: { initialTab?: ContactT
             {inqSuccess ? (
               <div className="py-12 px-6 text-center flex flex-col items-center gap-3">
                 <CheckCircle2 className="w-16 h-16 text-green-600 animate-bounce" />
-                <h3 className="font-serif text-2xl font-bold text-berry">
+                <h3 className="font-serif text-2xl font-bold text-plum">
                   Message Sent!
                 </h3>
                 <p className="text-sm text-ink/80 max-w-md">
@@ -693,7 +693,7 @@ export function ContactView({ initialTab = "feedback" }: { initialTab?: ContactT
             ) : (
               <form onSubmit={handleInquirySubmit} className="flex flex-col gap-4">
                 <div>
-                  <h3 className="text-xl font-bold text-berry mb-1">
+                  <h3 className="text-xl font-bold text-plum mb-1">
                     Send Us a Message
                   </h3>
                   <p className="text-xs text-ink/70">

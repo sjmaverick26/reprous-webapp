@@ -41,6 +41,7 @@ body {
 
 h1, h2, h3, h4, .font-serif {
   font-family: var(--font-fraunces), 'Fraunces', Georgia, serif;
+  color: var(--plum);
 }
 
 /* Accessibility Modes */

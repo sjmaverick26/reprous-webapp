@@ -56,7 +56,7 @@ export function VoicesView() {
         <div className="text-xs font-extrabold uppercase tracking-wider text-berry/75 mb-2">
           Youth Voices
         </div>
-        <h1 className="text-4xl md:text-5xl font-bold text-berry mb-4">
+        <h1 className="text-4xl md:text-5xl font-bold text-plum mb-4">
           Real stories, shared on purpose
         </h1>
         <p className="text-base text-ink/80 leading-relaxed mb-6">
@@ -76,7 +76,7 @@ export function VoicesView() {
             className="p-7 flex flex-col justify-between hover:shadow-hover transition-all"
           >
             <div>
-              <p className="font-serif text-lg font-normal text-berry leading-relaxed mb-6 italic">
+              <p className="font-serif text-lg font-normal text-plum leading-relaxed mb-6 italic">
                 &ldquo;{voice.quote}&rdquo;
               </p>
             </div>
@@ -97,7 +97,7 @@ export function VoicesView() {
       {/* Add Your Voice Box */}
       <div className="rounded-3xl bg-berry text-cream-card p-8 md:p-12 shadow-lg">
         <div className="max-w-xl mb-6">
-          <div className="flex items-center gap-2 text-yellow-deep text-xs font-extrabold uppercase tracking-wider mb-2">
+          <div className="flex items-center gap-2 text-gold text-xs font-extrabold uppercase tracking-wider mb-2">
             <Sparkles className="w-4 h-4" />
             Community Board
           </div>
@@ -110,7 +110,7 @@ export function VoicesView() {
         </div>
 
         {submitSuccess && (
-          <div className="mb-6 p-4 rounded-2xl bg-yellow-deep text-ink flex items-center gap-3 font-bold text-sm">
+          <div className="mb-6 p-4 rounded-2xl bg-gold text-ink flex items-center gap-3 font-bold text-sm">
             <CheckCircle2 className="w-5 h-5 flex-shrink-0" />
             <span>Thank you for sharing your story! It is now posted to the Youth Voices board.</span>
           </div>

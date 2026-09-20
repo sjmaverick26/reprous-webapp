@@ -39,12 +39,14 @@ export function Navbar({ activePage, onNavigate }: NavbarProps) {
 
   const hubCategories = [
     { id: "body", label: "Body Basics" },
+    { id: "cycle", label: "Cycle Sense" },
+    { id: "play", label: "Female Athlete Health" },
+    { id: "pcos", label: "PCOS & Hormonal Health" },
+    { id: "endo", label: "Endometriosis & Pain" },
+    { id: "conditions", label: "Pregnancy & Reproductive Care" },
+    { id: "realtalk", label: "Real Talk" },
     { id: "mind", label: "Mind & Self" },
     { id: "factors", label: "The Bigger Picture" },
-    { id: "play", label: "Play Strong · Athlete Corner" },
-    { id: "cycle", label: "Cycle Sense" },
-    { id: "conditions", label: "Body Conditions" },
-    { id: "realtalk", label: "Real Talk" },
   ];
 
   return (

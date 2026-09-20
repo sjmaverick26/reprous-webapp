@@ -195,10 +195,10 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
   },
   conditions: {
     id: "conditions",
-    title: "Body Conditions",
-    badge: "Body Conditions Pro",
-    badgeDesc: "Mastered knowledge on reproductive health conditions, PCOS, endometriosis, and prenatal care.",
-    description: "Pregnancy, postpartum health, endometriosis, PCOS, ovarian cysts.",
+    title: "Pregnancy & Reproductive Care",
+    badge: "Reproductive Care Pro",
+    badgeDesc: "Mastered knowledge on pregnancy basics, postpartum healing, and ovarian wellness.",
+    description: "Pregnancy basics, postpartum recovery, and ovarian health.",
     colorSwatch: "#8E3F5C",
     topics: [
       {
@@ -229,53 +229,139 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
       },
       {
         id: "conditions-2",
-        name: "Symptom Sort",
-        type: "game",
-        desc: "Sort real symptoms from myths for PCOS and endometriosis.",
-        xp: 75,
-        summary: "Test your diagnostic knowledge by identifying classic hallmarks vs. widespread myths for PCOS and endometriosis.",
-        keyTakeaways: [
-          "PCOS involves hormonal imbalances (androgens, insulin resistance) and irregular ovulation.",
-          "Endometriosis involves uterine-like tissue growing outside the uterus, causing chronic pain."
-        ],
-        gameType: "sort"
-      },
-      {
-        id: "conditions-3",
-        name: "Endometriosis",
-        type: "article",
-        desc: "Symptoms, diagnosis path, and living with it.",
-        xp: 40,
-        readTime: "5 min read",
-        summary: "An in-depth look at endometriosis, why diagnosis often takes years, and effective management strategies.",
-        keyTakeaways: [
-          "Pain during periods, bowel movements, or intercourse should always be investigated.",
-          "Hormonal therapies, pelvic physical therapy, and laparoscopy are standard management paths."
-        ]
-      },
-      {
-        id: "conditions-4",
-        name: "PCOS",
-        type: "lesson",
-        desc: "What it is and questions worth asking a doctor.",
-        xp: 50,
-        readTime: "4 min read",
-        summary: "Polycystic Ovary Syndrome (PCOS) affects 1 in 10 women and individuals with ovaries. Lifestyle adjustments and targeted medical support make it very manageable.",
-        keyTakeaways: [
-          "Common signs: irregular cycles, acne, excess facial/body hair, and scalp hair thinning.",
-          "PCOS does not mean infertility; many people conceive naturally or with reproductive assistance."
-        ]
-      },
-      {
-        id: "conditions-5",
         name: "Ovarian Cysts",
         type: "article",
         desc: "Common, usually harmless — here's how to know.",
         xp: 40,
         readTime: "4 min read",
-        summary: "Most ovarian cysts are functional (part of the normal ovulation cycle) and resolve on their own in 1–3 cycles.",
+        summary: "Functional vs. non-functional cysts: why most resolve on their own and when pain warrants ultrasound evaluation.",
         keyTakeaways: [
-          "Sudden sharp lower abdominal pain should always be evaluated in urgent care to rule out ovarian torsion."
+          "Most ovarian cysts are fluid-filled sacs that form naturally during normal ovulation.",
+          "Sudden sharp pelvic pain requires immediate medical assessment to rule out ovarian torsion."
+        ]
+      }
+    ]
+  },
+  pcos: {
+    id: "pcos",
+    title: "PCOS & Hormonal Health",
+    badge: "Hormonal Balance Pro",
+    badgeDesc: "Mastered knowledge on PCOS, androgen balance, insulin sensitivity, and managing hormonal cycles.",
+    description: "Polycystic ovary syndrome, androgen regulation, insulin sensitivity, and cycle management.",
+    colorSwatch: "#E8DFEA",
+    topics: [
+      {
+        id: "pcos-0",
+        name: "PCOS Fundamentals",
+        type: "lesson",
+        desc: "What it is, common signs, and evidence-based next steps.",
+        xp: 50,
+        readTime: "4 min read",
+        summary: "Polycystic Ovary Syndrome affects roughly 1 in 10 individuals with ovaries. Key markers include irregular ovulation, elevated androgens, and metabolic factors.",
+        keyTakeaways: [
+          "Common hallmarks include irregular periods, hormonal acne, and excess hair growth.",
+          "Lifestyle adjustments and targeted medical support make PCOS highly manageable."
+        ]
+      },
+      {
+        id: "pcos-1",
+        name: "Hormones & Androgens",
+        type: "lesson",
+        desc: "Breaking down insulin, testosterone, and LH/FSH ratios.",
+        xp: 50,
+        readTime: "4 min read",
+        summary: "Understanding how insulin resistance and adrenal or ovarian androgens interact to influence cycle regularity.",
+        keyTakeaways: [
+          "Insulin resistance frequently drives higher androgen production in PCOS.",
+          "Balanced nutrition with complex carbs and protein supports healthy blood sugar stability."
+        ]
+      },
+      {
+        id: "pcos-2",
+        name: "PCOS Symptom Match",
+        type: "game",
+        desc: "Sort real symptoms from common myths about PCOS.",
+        xp: 75,
+        summary: "Identify clinical hallmarks vs. outdated misconceptions about fertility and body changes.",
+        keyTakeaways: [
+          "PCOS does not mean you cannot get pregnant; ovulation can be supported effectively.",
+          "Weight is a symptom rather than the root cause of metabolic fluctuations."
+        ],
+        gameType: "sort"
+      },
+      {
+        id: "pcos-3",
+        name: "Cycle & Ovulation Support",
+        type: "article",
+        desc: "Practical strategies for cycle tracking with PCOS.",
+        xp: 40,
+        readTime: "5 min read",
+        summary: "How basal body temperature, ovulation test strips, and cervical fluid tracking work when cycles are long or irregular.",
+        keyTakeaways: [
+          "Ovulation predictor kits may show false positives due to elevated LH baselines.",
+          "Tracking cervical fluid and temperature provides more reliable confirmation of ovulation."
+        ]
+      }
+    ]
+  },
+  endo: {
+    id: "endo",
+    title: "Endometriosis & Reproductive Pain",
+    badge: "Pelvic Health Advocate",
+    badgeDesc: "Mastered knowledge on endometriosis, adenomyosis, pain validation, and doctor communication.",
+    description: "Severe cramps, chronic pelvic pain, adenomyosis, and navigating clinical care.",
+    colorSwatch: "#D99AAA",
+    topics: [
+      {
+        id: "endo-0",
+        name: "What Is Endometriosis?",
+        type: "lesson",
+        desc: "Symptoms, diagnosis journey, and whole-body impacts.",
+        xp: 50,
+        readTime: "5 min read",
+        summary: "Endometriosis occurs when tissue similar to the lining of the uterus grows outside the uterus, causing localized inflammation and chronic pain.",
+        keyTakeaways: [
+          "Pain during periods, bowel movements, or intercourse warrants thorough medical investigation.",
+          "Laparoscopy and high-resolution imaging by specialists are current diagnostic standards."
+        ]
+      },
+      {
+        id: "endo-1",
+        name: "When Pain Isn't Just Cramps",
+        type: "article",
+        desc: "Validating debilitating pain and recognizing red flags.",
+        xp: 40,
+        readTime: "4 min read",
+        summary: "Severe pain that prevents attending school, work, or daily life is never 'just normal cramps'—it is a medical signal requiring care.",
+        keyTakeaways: [
+          "If standard over-the-counter pain medication fails to manage cramps, consult a specialist.",
+          "Adenomyosis and pelvic nerve inflammation are related causes of persistent pain."
+        ]
+      },
+      {
+        id: "endo-2",
+        name: "Pelvic Pain Sorter",
+        type: "game",
+        desc: "Sort symptom indicators and discover personalized coping tools.",
+        xp: 75,
+        summary: "Distinguish between physiological period discomfort and chronic pain conditions.",
+        keyTakeaways: [
+          "Pelvic floor physical therapy is a proven, non-invasive treatment for pelvic muscle spasm.",
+          "Anti-inflammatory nutrition and heat therapy can help ease inflammatory flare-ups."
+        ],
+        gameType: "match"
+      },
+      {
+        id: "endo-3",
+        name: "Speaking Up to Clinicians",
+        type: "lesson",
+        desc: "Scripted questions and symptom logs to prevent medical gaslighting.",
+        xp: 50,
+        readTime: "4 min read",
+        summary: "Concrete tools to advocate for yourself in the exam room: keeping a symptom journal, asking for second opinions, and bringing an advocate.",
+        keyTakeaways: [
+          "Record frequency, severity (1-10), and interference with daily activities in writing.",
+          "You have the right to request a referral to an endometriosis specialist or pelvic pain clinician."
         ]
       }
     ]
@@ -444,11 +530,11 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
   },
   play: {
     id: "play",
-    title: "Play Strong · Athlete Corner",
+    title: "Play Strong · Female Athlete Health",
     badge: "Play Strong Athlete",
     badgeDesc: "Earned by mastering cycle-aware training, sports nutrition, and overtraining prevention.",
     description: "Reproductive health for active bodies — training, nutrition, cycle-aware performance.",
-    colorSwatch: "#EBCB72",
+    colorSwatch: "#A8B7A1",
     topics: [
       {
         id: "play-0",

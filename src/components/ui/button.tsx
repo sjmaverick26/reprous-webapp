@@ -8,11 +8,13 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-berry text-cream-card hover:bg-berry-dark shadow-sm",
-        ghost: "bg-transparent text-berry border-2 border-berry hover:bg-blush-deep",
-        yellow: "bg-yellow-deep text-ink hover:bg-yellow shadow-sm",
-        pill: "bg-transparent border-[1.5px] border-berry/30 text-berry hover:bg-blush-deep text-xs px-3 py-1.5",
-        pillActive: "bg-berry border-[1.5px] border-berry text-cream-card text-xs px-3 py-1.5 shadow-sm",
+        default: "bg-berry text-white hover:bg-berry/90 shadow-sm",
+        secondary: "bg-transparent text-berry border-2 border-berry hover:bg-berry/10",
+        ghost: "bg-transparent text-berry border-2 border-berry hover:bg-berry/10",
+        outline: "bg-transparent text-berry border-2 border-berry hover:bg-berry/10",
+        yellow: "bg-yellow text-plum hover:bg-yellow-deep shadow-sm",
+        pill: "bg-transparent border-[1.5px] border-berry text-berry hover:bg-berry/10 text-xs px-3 py-1.5",
+        pillActive: "bg-berry border-[1.5px] border-berry text-white text-xs px-3 py-1.5 shadow-sm",
       },
       size: {
         default: "h-11 px-6 py-2.5 text-[14.5px]",

@@ -95,7 +95,7 @@ export function HubView({ initialCategory }: HubViewProps) {
             <div className="text-xs font-extrabold uppercase tracking-wider text-berry/75 mb-2">
               Learning Hub
             </div>
-            <h1 className="text-4xl md:text-5xl font-bold text-berry mb-3">
+            <h1 className="text-4xl md:text-5xl font-bold text-plum mb-3">
               Pick a topic, go at your pace
             </h1>
             <p className="text-ink/80 text-base mb-6 leading-relaxed">
@@ -110,21 +110,21 @@ export function HubView({ initialCategory }: HubViewProps) {
             {/* Gamification Stats Bar */}
             <div className="flex flex-wrap items-center justify-center gap-3">
               <div className="inline-flex items-center gap-2 rounded-full bg-cream-card px-4 py-2 text-sm font-extrabold text-berry shadow-sm border border-berry/10">
-                <Flame className="w-4 h-4 text-yellow-deep fill-yellow-deep" />
+                <Flame className="w-4 h-4 text-gold fill-gold" />
                 <span>{streak}-day streak</span>
               </div>
               <div className="inline-flex items-center gap-2 rounded-full bg-cream-card px-4 py-2 text-sm font-extrabold text-berry shadow-sm border border-berry/10">
-                <Sparkles className="w-4 h-4 text-yellow-deep" />
+                <Sparkles className="w-4 h-4 text-gold" />
                 <span>{xp} XP earned</span>
               </div>
               <div className="inline-flex items-center gap-2 rounded-full bg-cream-card px-4 py-2 text-sm font-extrabold text-berry shadow-sm border border-berry/10">
-                <Award className="w-4 h-4 text-yellow-deep" />
+                <Award className="w-4 h-4 text-gold" />
                 <span>{earnedBadges.length} badges earned</span>
               </div>
             </div>
           </div>
 
-          {/* 7 Category Cards Grid */}
+          {/* Category Cards Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {Object.values(HUB_CATEGORIES).map((cat) => (
               <button
@@ -133,21 +133,22 @@ export function HubView({ initialCategory }: HubViewProps) {
                   setActiveCategoryId(cat.id);
                   setOpenPanelId(null);
                 }}
-                className="group rounded-3xl bg-cream-card p-7 text-left border-2 border-transparent hover:border-yellow-deep shadow-card hover:shadow-hover transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-berry flex flex-col justify-between"
+                className="group rounded-3xl bg-cream-card p-7 text-left border-2 border-transparent hover:border-berry/30 shadow-card hover:shadow-hover transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-berry flex flex-col justify-between"
+                style={{ borderTop: `5px solid ${cat.colorSwatch}` }}
               >
                 <div>
                   <div
-                    className="w-12 h-12 rounded-2xl mb-4 shadow-sm"
+                    className="w-12 h-12 rounded-2xl mb-4 shadow-sm flex items-center justify-center font-bold text-xs"
                     style={{ backgroundColor: cat.colorSwatch }}
                   />
-                  <h3 className="text-xl font-bold text-berry mb-2 group-hover:underline">
+                  <h3 className="text-xl font-bold text-plum mb-2 group-hover:text-berry transition-colors">
                     {cat.title}
                   </h3>
                   <p className="text-sm text-ink/80 leading-relaxed mb-4">
                     {cat.description}
                   </p>
                 </div>
-                <div className="flex items-center justify-between pt-2 text-xs font-extrabold text-berry">
+                <div className="flex items-center justify-between pt-2 text-xs font-extrabold text-berry border-t border-berry/10">
                   <span>{cat.topics.length} interactive topics</span>
                   <span className="inline-flex items-center gap-1 group-hover:translate-x-1 transition-transform">
                     See topics <ChevronRight className="w-4 h-4" />
@@ -175,16 +176,23 @@ export function HubView({ initialCategory }: HubViewProps) {
             </button>
 
             <div className="inline-flex items-center gap-2 rounded-full bg-cream-card px-3.5 py-1.5 text-xs font-bold text-berry shadow-sm border border-berry/10">
-              <Sparkles className="w-3.5 h-3.5 text-yellow-deep" />
+              <Sparkles className="w-3.5 h-3.5 text-gold" />
               {xp} XP
             </div>
           </div>
 
           <div className="text-center">
-            <h2 className="text-3xl font-bold text-berry mb-2">
+            <div
+              className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-xs font-extrabold uppercase tracking-wider mb-2.5 text-plum border shadow-sm"
+              style={{ backgroundColor: activeCategory.colorSwatch, borderColor: activeCategory.colorSwatch }}
+            >
+              <span className="w-2 h-2 rounded-full bg-plum/60 inline-block" />
+              {activeCategory.badge}
+            </div>
+            <h2 className="text-3xl font-bold text-plum mb-2">
               {activeCategory.title}
             </h2>
-            <p className="text-sm text-ink/80">
+            <p className="text-sm text-ink/80 max-w-lg mx-auto">
               {activeCategory.description}
             </p>
           </div>
@@ -214,9 +222,12 @@ export function HubView({ initialCategory }: HubViewProps) {
                         <div
                           className={`w-16 h-16 rounded-full flex items-center justify-center transition-all shadow-node group-hover:scale-105 ${
                             isDone
-                              ? "bg-berry shadow-node"
-                              : "bg-yellow-deep ring-4 ring-yellow-deep/30"
+                              ? "bg-berry text-white shadow-node"
+                              : "text-plum ring-4 ring-berry/20"
                           }`}
+                          style={{
+                            backgroundColor: isDone ? "var(--berry)" : activeCategory.colorSwatch,
+                          }}
                         >
                           {isDone ? (
                             <CheckCircle className="w-6 h-6 text-cream-card" />
@@ -246,7 +257,7 @@ export function HubView({ initialCategory }: HubViewProps) {
                             +{topic.xp} XP
                           </span>
                         </div>
-                        <h4 className="text-lg font-bold text-berry mb-2">
+                        <h4 className="text-lg font-bold text-plum mb-2">
                           {topic.name}
                         </h4>
                         <p className="text-sm text-ink/85 leading-relaxed mb-4">

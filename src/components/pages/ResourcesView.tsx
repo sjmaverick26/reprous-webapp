@@ -174,7 +174,7 @@ export function ResourcesView({ onNavigate }: ResourcesViewProps) {
         <div className="text-xs font-extrabold uppercase tracking-wider text-berry/75 mb-2">
           Resources &amp; Advocacy
         </div>
-        <h1 className="text-4xl md:text-5xl font-bold text-berry mb-4">
+        <h1 className="text-4xl md:text-5xl font-bold text-plum mb-4">
           How to get help &amp; take action
         </h1>
         <p className="text-base text-ink/85 leading-relaxed">
@@ -190,7 +190,7 @@ export function ResourcesView({ onNavigate }: ResourcesViewProps) {
             <div className="w-10 h-10 rounded-xl bg-yellow/40 flex items-center justify-center text-berry mb-4">
               <MapPin className="w-5 h-5" />
             </div>
-            <h3 className="text-xl font-bold text-berry mb-2">
+            <h3 className="text-xl font-bold text-plum mb-2">
               Find a free clinic near you
             </h3>
             <p className="text-sm text-ink/80 leading-relaxed mb-6">
@@ -212,7 +212,7 @@ export function ResourcesView({ onNavigate }: ResourcesViewProps) {
             <div className="w-10 h-10 rounded-xl bg-blush-deep/50 flex items-center justify-center text-berry mb-4">
               <Phone className="w-5 h-5" />
             </div>
-            <h3 className="text-xl font-bold text-berry mb-2">
+            <h3 className="text-xl font-bold text-plum mb-2">
               Talk to someone now
             </h3>
             <p className="text-sm text-ink/80 leading-relaxed mb-6">
@@ -235,7 +235,7 @@ export function ResourcesView({ onNavigate }: ResourcesViewProps) {
               <FileText className="w-5 h-5" />
             </div>
             <div className="flex items-center gap-2 mb-2">
-              <h3 className="text-xl font-bold text-berry">
+              <h3 className="text-xl font-bold text-plum">
                 Youth-Led Petitions
               </h3>
               <Badge variant="default" className="text-[10px] uppercase">
@@ -262,7 +262,7 @@ export function ResourcesView({ onNavigate }: ResourcesViewProps) {
             <div className="w-10 h-10 rounded-xl bg-berry/10 flex items-center justify-center text-berry mb-4">
               <Calendar className="w-5 h-5" />
             </div>
-            <h3 className="text-xl font-bold text-berry mb-2">
+            <h3 className="text-xl font-bold text-plum mb-2">
               See a workshop preview
             </h3>
             <p className="text-sm text-ink/80 leading-relaxed mb-6">
@@ -284,7 +284,7 @@ export function ResourcesView({ onNavigate }: ResourcesViewProps) {
             <div className="w-10 h-10 rounded-xl bg-yellow-deep/30 flex items-center justify-center text-berry mb-4">
               <GraduationCap className="w-5 h-5" />
             </div>
-            <h3 className="text-xl font-bold text-berry mb-2">
+            <h3 className="text-xl font-bold text-plum mb-2">
               Become a Youth Ambassador
             </h3>
             <p className="text-sm text-ink/80 leading-relaxed mb-6">
@@ -306,7 +306,7 @@ export function ResourcesView({ onNavigate }: ResourcesViewProps) {
             <div className="w-10 h-10 rounded-xl bg-blush-deep/50 flex items-center justify-center text-berry mb-4">
               <Download className="w-5 h-5" />
             </div>
-            <h3 className="text-xl font-bold text-berry mb-2">
+            <h3 className="text-xl font-bold text-plum mb-2">
               Ambassador training module
             </h3>
             <p className="text-sm text-ink/80 leading-relaxed mb-6">
@@ -345,7 +345,7 @@ export function ResourcesView({ onNavigate }: ResourcesViewProps) {
               <PenLine className="w-3.5 h-3.5" />
               Grassroots Advocacy &amp; Policy
             </div>
-            <h2 className="text-3xl md:text-4xl font-bold text-berry">
+            <h2 className="text-3xl md:text-4xl font-bold text-plum">
               Active Youth Petitions
             </h2>
             <p className="text-sm md:text-base text-ink/80 max-w-xl mt-1 mb-0">
@@ -386,7 +386,7 @@ export function ResourcesView({ onNavigate }: ResourcesViewProps) {
                     </Badge>
                   </div>
 
-                  <h3 className="text-xl font-bold text-berry mb-2">
+                  <h3 className="text-xl font-bold text-plum mb-2">
                     {petition.title}
                   </h3>
 
@@ -472,7 +472,7 @@ export function ResourcesView({ onNavigate }: ResourcesViewProps) {
               {signSuccess ? (
                 <div className="p-6 text-center flex flex-col items-center gap-2">
                   <CheckCircle2 className="w-12 h-12 text-green-600 animate-bounce" />
-                  <h4 className="font-serif text-xl font-bold text-berry">Signature Added!</h4>
+                  <h4 className="font-serif text-xl font-bold text-plum">Signature Added!</h4>
                   <p className="text-xs text-ink/80">
                     Thank you for standing up for youth health equity. Your voice makes a measurable difference.
                   </p>
@@ -543,7 +543,7 @@ export function ResourcesView({ onNavigate }: ResourcesViewProps) {
           {propSuccess ? (
             <div className="p-6 text-center flex flex-col items-center gap-2">
               <CheckCircle2 className="w-12 h-12 text-green-600 animate-bounce" />
-              <h4 className="font-serif text-xl font-bold text-berry">Petition Proposed!</h4>
+              <h4 className="font-serif text-xl font-bold text-plum">Petition Proposed!</h4>
               <p className="text-xs text-ink/80">
                 Our advocacy team will review your proposal and follow up with you within 2 business days.
               </p>
@@ -660,7 +660,7 @@ export function ResourcesView({ onNavigate }: ResourcesViewProps) {
                   className="p-4 rounded-xl bg-blush/40 border border-berry/10 flex flex-col gap-2"
                 >
                   <div className="flex items-start justify-between gap-2">
-                    <h4 className="font-bold text-berry text-base">{clinic.name}</h4>
+                    <h4 className="font-bold text-plum text-base">{clinic.name}</h4>
                     <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-yellow text-ink">
                       Zip {clinic.zip}
                     </span>
@@ -708,7 +708,7 @@ export function ResourcesView({ onNavigate }: ResourcesViewProps) {
                 className="p-4 rounded-xl bg-blush/40 border border-berry/10 flex flex-col gap-1.5"
               >
                 <div className="flex items-center justify-between">
-                  <h4 className="font-bold text-berry text-base">{h.name}</h4>
+                  <h4 className="font-bold text-plum text-base">{h.name}</h4>
                   <span className="text-[11px] font-bold text-green-700 bg-green-100 px-2 py-0.5 rounded-full">
                     {h.hours}
                   </span>

@@ -75,7 +75,7 @@ export function QAView() {
         <div className="text-xs font-extrabold uppercase tracking-wider text-berry/75 mb-2">
           Q&amp;A
         </div>
-        <h1 className="text-4xl md:text-5xl font-bold text-berry mb-4">
+        <h1 className="text-4xl md:text-5xl font-bold text-plum mb-4">
           Questions, answered plainly
         </h1>
         <p className="text-base text-ink/80 leading-relaxed max-w-xl mx-auto">
@@ -155,7 +155,7 @@ export function QAView() {
           {submitSuccess ? (
             <div className="p-6 text-center flex flex-col items-center gap-2">
               <CheckCircle2 className="w-12 h-12 text-green-600 animate-bounce" />
-              <h4 className="font-serif text-xl font-bold text-berry">Question Submitted!</h4>
+              <h4 className="font-serif text-xl font-bold text-plum">Question Submitted!</h4>
               <p className="text-xs text-ink/80">
                 Thank you! We answer every question and regularly update the Q&amp;A directory.
               </p>
