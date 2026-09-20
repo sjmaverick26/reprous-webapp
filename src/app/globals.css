@@ -3,14 +3,24 @@
 @tailwind utilities;
 
 :root {
-  --blush: #FBEAE6;
-  --blush-deep: #F3C9C6;
-  --yellow: #F8D989;
-  --yellow-deep: #F0C25E;
-  --berry: #7A3B4E;
-  --berry-dark: #5C2E3C;
-  --ink: #3A2C2E;
-  --cream-card: #FFF8F3;
+  /* User-Defined Color Palette */
+  --ivory: #FFF8F3;         /* BACKGROUND / IVORY */
+  --plum: #3B2430;          /* DARK PLUM */
+  --berry: #8E3F5C;         /* PRIMARY BERRY */
+  --berry-dark: #3B2430;    /* DARK PLUM */
+  --dusty-rose: #D99AAA;    /* DUSTY ROSE */
+  --sage: #A8B7A1;          /* SAGE */
+  --gold: #EBCB72;          /* SOFT GOLD */
+  --yellow: #EBCB72;        /* SOFT GOLD */
+  --yellow-deep: #D4B45B;   /* DEEPER GOLD ACCENT */
+  --lavender: #E8DFEA;      /* LAVENDER */
+  --white: #FFFFFF;         /* WHITE */
+
+  /* Semantic Theme Aliases */
+  --blush: #FFF8F3;         /* Page Background -> IVORY */
+  --blush-deep: #D99AAA;    /* Accent Pink -> DUSTY ROSE */
+  --ink: #3B2430;           /* Primary Body Text -> DARK PLUM */
+  --cream-card: #FFFFFF;    /* Surface Cards -> WHITE */
 }
 
 * {
@@ -44,12 +54,13 @@ html.text-xl {
 
 html.contrast {
   --blush: #FFFFFF;
-  --blush-deep: #FFE3DF;
+  --blush-deep: #D99AAA;
   --cream-card: #FFFFFF;
   --ink: #000000;
-  --berry: #591626;
-  --berry-dark: #3b0e19;
-  --yellow: #E5B338;
+  --plum: #000000;
+  --berry: #6A2840;
+  --berry-dark: #3B2430;
+  --yellow: #D4B45B;
   --yellow-deep: #B9860A;
 }
 

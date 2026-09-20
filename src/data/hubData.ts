@@ -37,7 +37,7 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
     badge: "Body Basics Champion",
     badgeDesc: "Earned after exploring every foundational lesson on puberty, anatomy, and hormones in Body Basics.",
     description: "Puberty, hormones, anatomy, and body image — the foundational stuff.",
-    colorSwatch: "#F0C25E",
+    colorSwatch: "#EBCB72",
     topics: [
       {
         id: "body-0",
@@ -123,7 +123,7 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
     badge: "Cycle Sense Pro",
     badgeDesc: "Earned after mastering menstrual cycles, pain management, and hygiene basics in Cycle Sense.",
     description: "Periods, cramps, irregular cycles, tracking, and hygiene.",
-    colorSwatch: "#F3C9C6",
+    colorSwatch: "#D99AAA",
     topics: [
       {
         id: "cycle-0",
@@ -199,7 +199,7 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
     badge: "Body Conditions Pro",
     badgeDesc: "Mastered knowledge on reproductive health conditions, PCOS, endometriosis, and prenatal care.",
     description: "Pregnancy, postpartum health, endometriosis, PCOS, ovarian cysts.",
-    colorSwatch: "#7A3B4E",
+    colorSwatch: "#8E3F5C",
     topics: [
       {
         id: "conditions-0",
@@ -286,7 +286,7 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
     badge: "Real Talk Graduate",
     badgeDesc: "Earned after mastering STI education, affirmative consent, and safer sex practices.",
     description: "STIs, HIV education, consent, contraception, safer sex.",
-    colorSwatch: "#F8D989",
+    colorSwatch: "#A8B7A1",
     topics: [
       {
         id: "realtalk-0",
@@ -374,7 +374,7 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
     badge: "Mind & Self Aware",
     badgeDesc: "Earned after exploring the connection between mental wellness, hormone cycles, and healthy relationships.",
     description: "Mood changes, stress and hormones, body confidence, relationships.",
-    colorSwatch: "#F3C9C6",
+    colorSwatch: "#E8DFEA",
     topics: [
       {
         id: "mind-0",
@@ -448,7 +448,7 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
     badge: "Play Strong Athlete",
     badgeDesc: "Earned by mastering cycle-aware training, sports nutrition, and overtraining prevention.",
     description: "Reproductive health for active bodies — training, nutrition, cycle-aware performance.",
-    colorSwatch: "#F0C25E",
+    colorSwatch: "#EBCB72",
     topics: [
       {
         id: "play-0",
@@ -510,7 +510,7 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
     badge: "Bigger Picture Thinker",
     badgeDesc: "Earned by understanding healthcare equity, language access, and community advocacy.",
     description: "How transportation, language, and location shape access to this education.",
-    colorSwatch: "#7A3B4E",
+    colorSwatch: "#3B2430",
     topics: [
       {
         id: "factors-0",

@@ -9,6 +9,13 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        ivory: "var(--ivory)",
+        plum: "var(--plum)",
+        "dusty-rose": "var(--dusty-rose)",
+        sage: "var(--sage)",
+        gold: "var(--gold)",
+        lavender: "var(--lavender)",
+        white: "var(--white)",
         blush: {
           DEFAULT: "var(--blush)",
           deep: "var(--blush-deep)",
@@ -32,10 +39,10 @@ const config: Config = {
         "3xl": "24px",
       },
       boxShadow: {
-        card: "0 12px 30px rgba(58,44,46,0.08)",
-        hover: "0 14px 26px rgba(58,44,46,0.12)",
-        node: "0 4px 0 rgba(58,44,46,0.15)",
-        "node-active": "0 0 0 6px rgba(240,194,94,0.35), 0 4px 0 rgba(58,44,46,0.15)",
+        card: "0 12px 30px rgba(59,36,48,0.08)",
+        hover: "0 14px 26px rgba(59,36,48,0.12)",
+        node: "0 4px 0 rgba(59,36,48,0.15)",
+        "node-active": "0 0 0 6px rgba(235,203,114,0.35), 0 4px 0 rgba(59,36,48,0.15)",
       },
     },
   },
