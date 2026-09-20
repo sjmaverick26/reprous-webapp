@@ -10,63 +10,89 @@ const config: Config = {
     extend: {
       colors: {
         white: "#FFFFFF",
-        ivory: {
-          DEFAULT: "#FFF8F3",
-          warm: "#FFF8F3",
-          darker: "#FAF1EC",
+        "light-teal": {
+          DEFAULT: "#D8EFED",
+          light: "#EDF8F7",
+          dark: "#BBE4E1",
         },
+        "deep-teal": {
+          DEFAULT: "#175B5C",
+          dark: "#0F3D3E",
+          light: "#207274",
+        },
+        raspberry: {
+          DEFAULT: "#B83F68",
+          dark: "#962D50",
+          light: "#D04D79",
+        },
+        coral: {
+          DEFAULT: "#F47A6A",
+          dark: "#DE5E4D",
+          light: "#F89B8F",
+        },
+        "soft-pink": {
+          DEFAULT: "#F5D9DE",
+          light: "#FAF0F2",
+          dark: "#E8BCC4",
+        },
+        "warm-cream": {
+          DEFAULT: "#FFF8F0",
+          light: "#FFFDF9",
+          dark: "#F5EADB",
+        },
+        charcoal: {
+          DEFAULT: "#29272A",
+          light: "#434045",
+          muted: "#666269",
+        },
+        // Semantic mapping & backward compatibility
+        "page-bg": "#D8EFED",
+        "card-bg": "#FFFFFF",
         plum: {
-          DEFAULT: "#3B2430",
-          dark: "#2A1822",
-          light: "#523344",
+          DEFAULT: "#175B5C", // Deep Teal
+          dark: "#0F3D3E",
+          light: "#207274",
         },
         berry: {
-          DEFAULT: "#8E3F5C",
-          dark: "#6F2E45",
-          light: "#A85371",
-        },
-        "dusty-rose": {
-          DEFAULT: "#D99AAA",
-          light: "#E8B8C4",
-        },
-        sage: {
-          DEFAULT: "#A8B7A1",
-          light: "#C2CEC0",
-          dark: "#87997E",
+          DEFAULT: "#B83F68", // Raspberry
+          dark: "#962D50",
+          light: "#D04D79",
         },
         gold: {
-          DEFAULT: "#EBCB72",
-          light: "#F3DC9B",
-          dark: "#D6B250",
+          DEFAULT: "#F47A6A", // Coral
+          light: "#F89B8F",
+          dark: "#DE5E4D",
+        },
+        yellow: {
+          DEFAULT: "#F47A6A",
+          deep: "#F47A6A",
+        },
+        teal: {
+          DEFAULT: "#175B5C",
+          deep: "#175B5C",
+          accent: "#B83F68",
+          light: "#D8EFED",
+        },
+        ivory: {
+          DEFAULT: "#D8EFED", // Main homepage background: Light Teal
+          warm: "#FFF8F0",    // Warm Cream
+          darker: "#F5D9DE",  // Soft Pink
+        },
+        "dusty-rose": {
+          DEFAULT: "#F5D9DE", // Soft Pink
+          light: "#FAF0F2",
+        },
+        sage: {
+          DEFAULT: "#D8EFED", // Light Teal
+          light: "#EDF8F7",
+          dark: "#BBE4E1",
         },
         lavender: {
-          DEFAULT: "#E8DFEA",
-          light: "#F3EDF5",
-          dark: "#CFBED3",
+          DEFAULT: "#F5D9DE", // Soft Pink
+          light: "#FAF0F2",
+          dark: "#E8BCC4",
         },
-        // Semantic and legacy palette mappings
-        "page-bg": "#FFF8F3",
-        "deep-teal": "#3B2430", // Harmonized to Dark Plum
-        "teal-accent": "#8E3F5C", // Harmonized to Berry
-        teal: {
-          DEFAULT: "#3B2430",
-          deep: "#3B2430",
-          accent: "#8E3F5C",
-          light: "#A8B7A1",
-        },
-        raspberry: "#8E3F5C", // Harmonized to Berry
-        coral: {
-          DEFAULT: "#EBCB72", // Harmonized to Soft Gold
-          deep: "#D99AAA",   // Harmonized to Dusty Rose
-        },
-        "soft-pink": "#E8DFEA", // Harmonized to Lavender
-        "light-teal": "#A8B7A1", // Harmonized to Sage
-        charcoal: "#3B2430",    // Harmonized to Dark Plum
-        ink: "#3B2430",         // Harmonized to Dark Plum
-        blush: {
-          DEFAULT: "#FFF8F3",
-          deep: "#FAF1EC",
-        },
+        ink: "#29272A",
         "cream-card": "#FFFFFF",
       },
       fontFamily: {

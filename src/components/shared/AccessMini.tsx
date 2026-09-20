@@ -27,38 +27,38 @@ export function AccessMini({
   return (
     <div
       className={cn(
-        "w-full max-w-2xl mx-auto rounded-lg bg-ivory-darker/90 border border-plum/15 px-5 py-3 text-plum shadow-xs font-sans transition-all",
+        "w-full max-w-2xl mx-auto rounded-lg bg-white/95 border border-deep-teal/15 px-5 py-3 text-charcoal shadow-xs font-sans transition-all",
         className
       )}
     >
       <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
-        {/* Primary line with subtle gold accent pip */}
+        {/* Primary line with subtle coral accent pip */}
         <div className="flex items-center gap-2.5">
           <span
-            className="w-2 h-2 rounded-full bg-gold shrink-0 inline-block ring-2 ring-gold/30"
+            className="w-2 h-2 rounded-full bg-coral shrink-0 inline-block ring-2 ring-coral/30"
             aria-hidden="true"
           />
-          <span className="font-semibold text-[14.5px] text-plum tracking-tight">
+          <span className="font-semibold text-[14.5px] text-deep-teal tracking-tight">
             {text}
           </span>
         </div>
 
         {/* Supporting navigation & resources list */}
-        <div className="flex items-center gap-2 flex-wrap justify-center text-[13px] text-plum/75 font-medium">
+        <div className="flex items-center gap-2 flex-wrap justify-center text-[13px] text-charcoal/75 font-medium">
           <button
             type="button"
             onClick={() => setShowLanguages(!showLanguages)}
-            className="hover:text-berry inline-flex items-center gap-1 transition-colors focus-visible:outline-none focus-visible:underline"
+            className="hover:text-raspberry inline-flex items-center gap-1 transition-colors focus-visible:outline-none focus-visible:underline"
           >
             <span>Languages</span>
             <ChevronDown
               className={cn(
-                "w-3 h-3 transition-transform text-plum/50",
+                "w-3 h-3 transition-transform text-charcoal/50",
                 showLanguages && "rotate-180"
               )}
             />
           </button>
-          <span className="text-gold font-bold select-none">•</span>
+          <span className="text-coral font-bold select-none">•</span>
 
           <button
             type="button"

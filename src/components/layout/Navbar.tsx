@@ -68,7 +68,7 @@ export function Navbar({ activePage, onNavigate }: NavbarProps) {
   };
 
   return (
-    <nav className="sticky top-0 z-50 bg-ivory/95 backdrop-blur-md border-b border-plum/10 transition-colors">
+    <nav className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-deep-teal/10 transition-colors shadow-xs">
       <div className="max-w-[1140px] mx-auto px-4 sm:px-6 py-3.5 flex items-center justify-between gap-4">
         {/* Brand Logo */}
         <button
@@ -76,11 +76,11 @@ export function Navbar({ activePage, onNavigate }: NavbarProps) {
             onNavigate("home");
             setMobileMenuOpen(false);
           }}
-          className="flex items-center gap-2.5 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-berry rounded-lg shrink-0 group"
+          className="flex items-center gap-2.5 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-raspberry rounded-lg shrink-0 group"
           aria-label="ReproUs Homepage"
         >
           <ReproUsMark size={32} />
-          <span className="font-serif text-2xl md:text-[26px] font-bold text-plum tracking-tight group-hover:text-berry transition-colors">
+          <span className="font-serif text-2xl md:text-[26px] font-bold text-deep-teal tracking-tight group-hover:text-raspberry transition-colors">
             ReproUs
           </span>
         </button>

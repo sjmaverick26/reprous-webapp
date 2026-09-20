@@ -4,33 +4,38 @@
 
 :root {
   /* Exact ReproUs Palette */
-  --white: #FFFFFF;
-  --page-bg: #FFF8F3;         /* Warm Ivory Main Background */
-  --ivory: #FFF8F3;           /* Warm Ivory */
-  --ivory-darker: #FAF1EC;    /* Slightly darker ivory/rose */
-  --plum: #3B2430;            /* Dark Plum - All Major Headings & Main Text */
-  --berry: #8E3F5C;           /* Primary Berry - Primary CTA Buttons & Small Labels */
-  --dusty-rose: #D99AAA;      /* Dusty Rose - Endometriosis / Reproductive Pain */
-  --sage: #A8B7A1;            /* Sage - Female Athlete Health */
-  --gold: #EBCB72;            /* Soft Gold - Important Highlights & Accents */
-  --lavender: #E8DFEA;        /* Pale Lavender - PCOS / Hormonal Health */
-  
-  /* Text & Semantic Colors */
-  --charcoal: #3B2430;        /* Deep Plum as Primary Text */
-  --ink: #3B2430;
-  --blush: #FFF8F3;           /* Warm Ivory */
-  --blush-deep: #FAF1EC;
-  --cream-card: #FFFFFF;
+  --light-teal: #D8EFED;      /* Main homepage background */
+  --deep-teal: #175B5C;       /* Dark sections, headings, footer */
+  --raspberry: #B83F68;       /* Brand color, buttons, important sections */
+  --coral: #F47A6A;           /* Energy, highlights, illustrations */
+  --soft-pink: #F5D9DE;       /* Secondary backgrounds */
+  --warm-cream: #FFF8F0;      /* Neutral/background */
+  --white: #FFFFFF;           /* Cards/content areas */
+  --charcoal: #29272A;        /* Body text */
 
-  /* Aliases mapped to new palette for backwards compatibility */
-  --deep-teal: #3B2430;       /* Mapped to Plum */
-  --teal-accent: #8E3F5C;     /* Mapped to Berry */
-  --light-teal: #A8B7A1;      /* Mapped to Sage */
-  --soft-pink: #E8DFEA;       /* Mapped to Lavender */
-  --raspberry: #8E3F5C;       /* Mapped to Berry */
-  --coral: #EBCB72;           /* Mapped to Soft Gold */
-  --yellow: #EBCB72;          /* Mapped to Soft Gold */
-  --yellow-deep: #D6B250;
+  /* Semantic Variables */
+  --page-bg: #D8EFED;         /* Light Teal Main Homepage Background */
+  --card-bg: #FFFFFF;         /* White Cards & Content Areas */
+  --headings: #175B5C;        /* Deep Teal */
+  --body-text: #29272A;       /* Charcoal */
+  --brand: #B83F68;           /* Raspberry */
+  --accent: #F47A6A;          /* Coral */
+  
+  /* Compatibility Aliases */
+  --plum: #175B5C;            /* Mapped to Deep Teal for headings & dark sections */
+  --berry: #B83F68;           /* Mapped to Raspberry for buttons & brand */
+  --gold: #F47A6A;            /* Mapped to Coral for highlights & accents */
+  --dusty-rose: #F5D9DE;      /* Mapped to Soft Pink */
+  --sage: #D8EFED;            /* Light Teal */
+  --lavender: #F5D9DE;        /* Soft Pink */
+  --ivory: #D8EFED;           /* Main homepage background */
+  --ivory-darker: #F5D9DE;    /* Soft Pink secondary background */
+  --ink: #29272A;
+  --blush: #D8EFED;
+  --blush-deep: #F5D9DE;
+  --cream-card: #FFFFFF;
+  --yellow: #F47A6A;
+  --yellow-deep: #F47A6A;
 }
 
 * {
@@ -44,7 +49,7 @@ html {
 body {
   margin: 0;
   background-color: var(--page-bg);
-  color: var(--plum);
+  color: var(--charcoal);
   font-family: var(--font-dm-sans), 'DM Sans', sans-serif;
   font-size: 18px; /* DM Sans 17–19px */
   line-height: 1.6;
@@ -53,7 +58,7 @@ body {
 
 h1, .text-h1 {
   font-family: var(--font-dm-serif), 'DM Serif Display', Georgia, serif;
-  color: var(--plum);
+  color: var(--deep-teal);
   font-weight: 400;
   font-size: clamp(42px, 5.5vw + 1rem, 72px); /* DM Serif Display / 64–72px */
   line-height: 1.08;
@@ -62,7 +67,7 @@ h1, .text-h1 {
 
 h2, .text-h2 {
   font-family: var(--font-dm-serif), 'DM Serif Display', Georgia, serif;
-  color: var(--plum);
+  color: var(--deep-teal);
   font-weight: 400;
   font-size: clamp(32px, 3.5vw + 0.5rem, 50px); /* DM Serif Display / 42–50px */
   line-height: 1.15;
@@ -71,7 +76,7 @@ h2, .text-h2 {
 
 h3, .text-h3 {
   font-family: var(--font-dm-serif), 'DM Serif Display', Georgia, serif;
-  color: var(--plum);
+  color: var(--deep-teal);
   font-weight: 400;
   font-size: clamp(24px, 2.5vw + 0.25rem, 36px); /* DM Serif Display / 30–36px */
   line-height: 1.2;
@@ -79,7 +84,7 @@ h3, .text-h3 {
 
 h4, .font-serif {
   font-family: var(--font-dm-serif), 'DM Serif Display', Georgia, serif;
-  color: var(--plum);
+  color: var(--deep-teal);
   font-weight: 400;
 }
 
