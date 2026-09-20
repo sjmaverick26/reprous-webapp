@@ -1,25 +1,25 @@
 "use client";
 
 import React from "react";
-import { CheckCircle2, Heart, Users2, Sparkles, Compass, Lightbulb, Globe } from "lucide-react";
+import { BookOpen, Sparkles, MessageSquare, Compass, Lightbulb, Globe } from "lucide-react";
 import { Card } from "@/components/ui/card";
 
 export function StoryView() {
   const pillars = [
     {
-      icon: <CheckCircle2 className="w-6 h-6 text-berry" />,
-      title: "Always free",
-      desc: "Every workshop, interactive article, and lesson is completely free of cost — no paywalls, subscriptions, or hidden charges ever.",
+      icon: <BookOpen className="w-6 h-6 text-berry" />,
+      title: "Learn",
+      desc: "Understand your body and how it works — including reproductive biology, hormonal cycles, and female athlete physiology.",
     },
     {
-      icon: <Heart className="w-6 h-6 text-berry" />,
-      title: "Judgment-free",
-      desc: "Every question is a valid question here. We strip away shame, stigma, and clinical intimidation in favor of honest facts.",
+      icon: <Sparkles className="w-6 h-6 text-berry" />,
+      title: "Recognize",
+      desc: "Spot symptoms that shouldn't be overlooked or dismissed, such as severe pain, cycle irregularity, PCOS, and RED-S.",
     },
     {
-      icon: <Users2 className="w-6 h-6 text-berry" />,
-      title: "Built on community",
-      desc: "Real stories from real youth and clinicians working together, creating an empowering space rather than a dry database.",
+      icon: <MessageSquare className="w-6 h-6 text-berry" />,
+      title: "Advocate",
+      desc: "Build the vocabulary, questions, and confidence to prepare for healthcare visits and advocate for the care you deserve.",
     },
   ];
 
@@ -49,16 +49,21 @@ export function StoryView() {
   return (
     <div className="max-w-[1100px] mx-auto px-6 py-12 flex flex-col gap-16">
       {/* Story Hero */}
-      <div className="text-center max-w-2xl mx-auto">
+      <div className="text-center max-w-3xl mx-auto">
         <div className="text-[13px] font-bold font-sans uppercase tracking-wider text-berry mb-2">
           Our Story
         </div>
-        <h1 className="text-4xl md:text-[64px] lg:text-[72px] font-normal font-serif text-plum leading-[1.08] mb-4">
-          Why ReproUs exists
+        <h1 className="text-4xl md:text-[56px] lg:text-[64px] font-normal font-serif text-plum leading-[1.1] mb-6">
+          Why ReproUs Exists
         </h1>
-        <p className="text-[17px] md:text-[18px] text-ink/85 leading-relaxed font-sans">
-          We started ReproUs because too many young people get their first &quot;real&quot; reproductive health information from an unverified rumor, social media trend, or playground myth. Two educators, one shared frustration, and a clear plan to make sure the next generation never has to guess about their own bodies.
-        </p>
+        <div className="space-y-4 text-center">
+          <p className="text-[18px] md:text-[21px] font-serif text-plum leading-snug max-w-2xl mx-auto">
+            Too many girls grow up knowing what a &ldquo;normal&rdquo; period is supposed to look like &mdash; but not what to do when something feels wrong.
+          </p>
+          <p className="text-[16.5px] md:text-[18px] text-ink/80 leading-relaxed font-sans max-w-2xl mx-auto">
+            For generations, gaps in health research and education have left important questions about girls&apos; and women&apos;s health unanswered, misunderstood, or overlooked. Conditions like PCOS, endometriosis, and the Female Athlete Triad can be difficult to recognize, especially when young people aren&apos;t taught what signs to look for or what questions to ask. We believe understanding your body is the first step toward advocating for your health.
+          </p>
+        </div>
       </div>
 
       {/* Mission & Core Pillars */}
@@ -66,12 +71,30 @@ export function StoryView() {
         <div className="text-[13px] font-bold font-sans uppercase tracking-wider text-berry mb-2">
           Our Mission
         </div>
-        <h2 className="text-3xl md:text-[42px] lg:text-[48px] font-normal font-serif text-plum mb-4 max-w-2xl mx-auto leading-[1.15]">
-          Free, honest reproductive health education — for anyone who has never had equitable access to it.
+        <h2 className="text-2xl md:text-[34px] lg:text-[40px] font-normal font-serif text-plum mb-5 max-w-3xl mx-auto leading-[1.2]">
+          ReproUs gives girls accessible health education focused on reproductive health, female athlete health, and under-recognized conditions such as PCOS and endometriosis.
         </h2>
-        <p className="text-[17px] md:text-[18px] text-ink/80 max-w-xl mx-auto leading-relaxed mb-10 font-sans">
-          No paywalls, no shame, no gatekeeping. Just clear, medically accurate knowledge and a supportive community built by people who remember exactly what it felt like to have nowhere safe to ask.
+        <p className="text-[17px] md:text-[18.5px] text-ink/80 max-w-2xl mx-auto leading-relaxed mb-6 font-sans">
+          Through interactive learning, workshops, and self-advocacy tools, we turn complicated health information into knowledge that young people can actually use.
         </p>
+
+        {/* Learn · Recognize · Advocate Highlight */}
+        <div className="inline-flex items-center gap-3 px-6 py-2.5 rounded-full bg-white/90 border border-coral/40 shadow-xs mb-12">
+          <span className="font-sans font-bold text-xs uppercase tracking-wider text-coral flex items-center gap-1.5">
+            <span className="w-1.5 h-1.5 rounded-full bg-coral" />
+            <span>LEARN</span>
+          </span>
+          <span className="text-coral/40">✦</span>
+          <span className="font-sans font-bold text-xs uppercase tracking-wider text-coral flex items-center gap-1.5">
+            <span className="w-1.5 h-1.5 rounded-full bg-coral" />
+            <span>RECOGNIZE</span>
+          </span>
+          <span className="text-coral/40">✦</span>
+          <span className="font-sans font-bold text-xs uppercase tracking-wider text-coral flex items-center gap-1.5">
+            <span className="w-1.5 h-1.5 rounded-full bg-coral" />
+            <span>ADVOCATE</span>
+          </span>
+        </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-left">
           {pillars.map((pillar, idx) => (

@@ -17,8 +17,8 @@ const dmSans = DM_Sans({
 
 export const metadata: Metadata = {
   title: "ReproUs — Learn & Youth Reproductive Education",
-  description: "Free, honest, judgment-free reproductive health education built for curious minds. No paywalls, no shame.",
-  keywords: ["reproductive health", "education", "puberty", "menstrual cycle", "youth health", "workshops"],
+  description: "Accessible health education focused on reproductive health, female athlete health, and under-recognized conditions like PCOS and endometriosis.",
+  keywords: ["reproductive health", "education", "puberty", "menstrual cycle", "youth health", "female athlete triad", "PCOS", "endometriosis", "self-advocacy"],
   authors: [{ name: "ReproUs Team" }],
 };
 
