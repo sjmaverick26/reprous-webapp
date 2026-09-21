@@ -20,6 +20,10 @@ import {
   Minus,
   ShieldAlert,
   Flame,
+  Brain,
+  Smile,
+  Wind,
+  RefreshCw,
 } from "lucide-react";
 
 interface InteractiveLessonDiagramProps {
@@ -55,6 +59,8 @@ export function InteractiveLessonDiagram({ diagram, themeColor = "#175B5C" }: In
       return <CycleTrainingMatrixDiagram diagram={diagram} themeColor={themeColor} />;
     case "cycle-fueling":
       return <CycleFuelingPlateDiagram diagram={diagram} themeColor={themeColor} />;
+    case "puberty-brain":
+      return <PubertyBrainDiagram diagram={diagram} themeColor={themeColor} />;
     case "timeline":
     default:
       return <PubertyTimelineDiagram diagram={diagram} themeColor={themeColor} />;
@@ -2645,6 +2651,757 @@ function CycleFuelingPlateDiagram({ diagram }: { diagram: LessonDiagram; themeCo
           ))}
         </div>
       </div>
+    </div>
+  );
+}
+
+// --------------------------------------------------------------------------
+// 14. Interactive Puberty Brain & Emotional Regulation Simulator
+// --------------------------------------------------------------------------
+function PubertyBrainDiagram({ diagram }: { diagram: LessonDiagram; themeColor: string }) {
+  const [activeTab, setActiveTab] = useState<"simulator" | "anatomy" | "stages" | "guide">("simulator");
+  const [activeStage, setActiveStage] = useState<"early" | "mid" | "late">("mid");
+  const [selectedRegion, setSelectedRegion] = useState<"pfc" | "amygdala" | "hpa">("amygdala");
+  const [activeTrigger, setActiveTrigger] = useState<"none" | "social" | "luteal" | "sleep" | "overwhelm">("none");
+  const [appliedReset, setAppliedReset] = useState<"none" | "sigh" | "label" | "dive" | "rest">("none");
+
+  // Maturation Stage Benchmarks
+  const stageData = {
+    early: {
+      name: "Early Puberty (Ages 9–11 · Tanner 1–2)",
+      sub: "Adrenarche & Sensory Awakening",
+      pfcMaturation: 35,
+      amygdalaReactivity: 70,
+      hormoneProfile: "Adrenal DHEA rise + initial pulsatile GnRH. Ovarian estrogen beginning slow production.",
+      brainState: "The amygdala awakens to social approval and peer cues. Prefrontal networks are starting multi-year synaptic remodeling.",
+      emotions: "First feelings of self-consciousness, curiosity about identity, emerging desire for personal autonomy.",
+    },
+    mid: {
+      name: "Mid-Puberty (Ages 12–15 · Tanner 3–4)",
+      sub: "Peak Mismatch · Maximum Limbic Sensitivity",
+      pfcMaturation: 50,
+      amygdalaReactivity: 95,
+      hormoneProfile: "Surging, fluctuating estradiol & progesterone. Dynamic GABA-A and serotonin receptor adjustments.",
+      brainState: "The 'Developmental Mismatch': Limbic reward & emotional centers fire at 100% volume, while executive prefrontal control is undergoing intensive synaptic pruning.",
+      emotions: "Heightened emotional peaks, sudden crying spells without obvious causes, deep passions, high sensitivity to peer rejection or social exclusion.",
+    },
+    late: {
+      name: "Late Adolescence (Ages 16–20+ · Tanner 5)",
+      sub: "Prefrontal Consolidation & Executive Brake",
+      pfcMaturation: 85,
+      amygdalaReactivity: 65,
+      hormoneProfile: "More regular ovulatory cycles. Mature estrogen-serotonin signaling and stable allopregnanolone balance.",
+      brainState: "Axonal myelination connects the prefrontal cortex to deeper limbic centers, providing strong impulse braking and nuanced perspective.",
+      emotions: "Greater capacity to pause between feeling and reacting, resilient self-advocacy, consolidated personal values.",
+    },
+  };
+
+  // Anatomy region details
+  const regionData = {
+    pfc: {
+      name: "Prefrontal Cortex (Frontal Lobe)",
+      subtitle: "The Executive Pilot & Impulse Brake",
+      badge: "In Construction until Age ~25",
+      color: "#175B5C",
+      borderClass: "border-teal-300 bg-teal-50/70",
+      role: "Controls emotional modulation, consequence evaluation, long-term planning, and calming the emotional engine when false alarms sound.",
+      adolescentFact: "During puberty, the PFC undergoes massive synaptic pruning—eliminating unused connections to build lightning-fast highways for adult reasoning. Because it remodels later than the amygdala, teens feel emotions before they can rationally dissect them.",
+      tip: "Strengthened by: Naming your feelings out loud, journaling, 8–10 hours of sleep, and compassionate boundaries.",
+    },
+    amygdala: {
+      name: "Amygdala & Limbic System",
+      subtitle: "The Emotional Engine & Alarm Bell",
+      badge: "Hyper-Sensitive in Puberty",
+      color: "#F47A6A",
+      borderClass: "border-coral/40 bg-coral/10",
+      role: "Processes raw emotional intensity, excitement, fear, social evaluation, gut instincts, and peer belonging.",
+      adolescentFact: "Pubertal sex steroids (estrogen, testosterone, DHEA) directly sensitize amygdalar neurons. It perceives social exclusion with the same neurological urgency that early humans felt toward physical danger!",
+      tip: "Calmed by: The physiological sigh (double inhale, long exhale), somatic grounding (5-4-3-2-1), and reassurance that emotional surges pass like weather.",
+    },
+    hpa: {
+      name: "Hypothalamus-Pituitary-Adrenal (HPA) Axis",
+      subtitle: "The Neuroendocrine Command Highway",
+      badge: "Hormone Dispatch Center",
+      color: "#D97706",
+      borderClass: "border-amber-300 bg-amber-50/70",
+      role: "Releases GnRH to trigger puberty and controls cortisol release when you feel overwhelmed, cold, tired, or socially threatened.",
+      adolescentFact: "The adolescent stress axis is hyper-reactive. Elevated chronic cortisol directly feeds back to the hypothalamus to suppress GnRH, which is why academic or emotional burnout can delay or skip periods.",
+      tip: "Balanced by: Regular carbohydrate-rich meals, daily outdoor daylight, and reducing perfectionist academic pressure.",
+    },
+  };
+
+  // Triggers definition
+  const triggers = {
+    none: {
+      label: "Baseline / Neutral Day",
+      amyDelta: 0,
+      pfcDelta: 0,
+      serotonin: "Balanced (Steady)",
+      cortisol: "Normal Rhythm",
+      gaba: "Effective",
+      sensations: "Calm baseline; normal alertness and manageable emotional flow.",
+    },
+    social: {
+      label: "Social Exclusion / Left on Read",
+      amyDelta: +25,
+      pfcDelta: -15,
+      serotonin: "Temporary Dip",
+      cortisol: "Sharp Spike (+65%)",
+      gaba: "Suppressed",
+      sensations: "Stomach drop, racing heart, sudden panic, catastrophic thoughts ('Everyone hates me').",
+    },
+    luteal: {
+      label: "Luteal Estrogen & Progesterone Plunge",
+      amyDelta: +30,
+      pfcDelta: -10,
+      serotonin: "Steep Plunge (-45%)",
+      cortisol: "Elevated Vulnerability",
+      gaba: "Subunit Fluctuation",
+      sensations: "Sudden tearfulness over small things, sensory irritation, lower tolerance for noise, intense fatigue.",
+    },
+    sleep: {
+      label: "Sleep Deprivation (<7h) + Exams",
+      amyDelta: +20,
+      pfcDelta: -35,
+      serotonin: "Depleted",
+      cortisol: "Chronically Elevated",
+      gaba: "Inefficient",
+      sensations: "Prefrontal impulse brake fails; irritability, brain fog, tearful overwhelm, difficulty focusing.",
+    },
+    overwhelm: {
+      label: "Schedule & Sensory Overload",
+      amyDelta: +35,
+      pfcDelta: -25,
+      serotonin: "Low Synthesis",
+      cortisol: "Peak Alert (+80%)",
+      gaba: "Exhausted",
+      sensations: "Fight-or-flight freeze, muscle tension in shoulders/jaw, urge to isolate or cry in a dark room.",
+    },
+  };
+
+  // Reset protocols
+  const resets = {
+    none: {
+      label: "No Reset Applied",
+      amyRecovery: 0,
+      pfcBoost: 0,
+      actionDesc: "Select a physiological reset tool below to restore nervous system balance.",
+      physioEffect: "Without active soothing, stress signals linger in the limbic system.",
+    },
+    sigh: {
+      label: "Physiological Sigh (Double Inhale + Long Exhale)",
+      amyRecovery: 35,
+      pfcBoost: 20,
+      actionDesc: "Two quick inhales through the nose, followed by a slow, extended sigh through the mouth (repeat 3–5 times).",
+      physioEffect: "Expands collapsed lung alveoli and triggers the vagus nerve, slowing heart rate and cooling amygdalar firing within 30 seconds.",
+    },
+    label: {
+      label: "Neuro-Labeling ('Name It to Tame It')",
+      amyRecovery: 30,
+      pfcBoost: 35,
+      actionDesc: "Say out loud or write: 'I am experiencing an estrogen-drop wave. My nervous system is tired, but I am physically safe.'",
+      physioEffect: "Puts language to the raw emotion, immediately shunting arterial blood flow away from the amygdala and into the prefrontal cortex.",
+    },
+    dive: {
+      label: "Mammalian Dive Reflex (Cold Water Face Splash)",
+      amyRecovery: 40,
+      pfcBoost: 15,
+      actionDesc: "Lean over a sink and splash cold water across your eyes, cheekbones, and temples for 15–20 seconds.",
+      physioEffect: "Stimulates the ophthalmic branch of the trigeminal nerve, causing instant parasympathetic deceleration of the nervous system.",
+    },
+    rest: {
+      label: "Complex Carb Snack + 8–10h Sleep",
+      amyRecovery: 35,
+      pfcBoost: 40,
+      actionDesc: "Oatmeal with peanut butter or whole-wheat toast with banana + going to bed in a dark, cool room without phones.",
+      physioEffect: "Carbohydrates provide tryptophan to resynthesize serotonin; deep Stage 3 sleep clears brain adenosine and rebuilds prefrontal synaptic strength.",
+    },
+  };
+
+  // Compute live meters
+  const currentStage = stageData[activeStage];
+  const currentTrigger = triggers[activeTrigger];
+  const currentReset = resets[appliedReset];
+
+  const rawAmy = currentStage.amygdalaReactivity + currentTrigger.amyDelta - currentReset.amyRecovery;
+  const computedAmygdala = Math.min(100, Math.max(15, rawAmy));
+
+  const rawPfc = currentStage.pfcMaturation + currentTrigger.pfcDelta + currentReset.pfcBoost;
+  const computedPfc = Math.min(100, Math.max(15, rawPfc));
+
+  return (
+    <div className="rounded-3xl border-2 border-deep-teal/20 bg-white p-4 sm:p-6 shadow-card space-y-5">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-gray-100 pb-3">
+        <div>
+          <div className="flex items-center gap-2">
+            <span className="p-1.5 rounded-xl bg-coral/15 text-[#B83F68]">
+              <Brain className="w-5 h-5 text-[#B83F68]" />
+            </span>
+            <h3 className="font-serif text-lg sm:text-xl font-bold text-deep-teal">
+              {diagram.title}
+            </h3>
+          </div>
+          <p className="text-xs sm:text-[13px] text-charcoal/70 mt-1 max-w-2xl font-sans leading-relaxed">
+            {diagram.caption}
+          </p>
+        </div>
+
+        {/* View Tabs */}
+        <div className="flex items-center bg-gray-100 p-1 rounded-2xl text-xs font-bold font-sans self-start sm:self-center">
+          <button
+            type="button"
+            onClick={() => setActiveTab("simulator")}
+            className={`px-3 py-1.5 rounded-xl transition-all ${
+              activeTab === "simulator"
+                ? "bg-deep-teal text-white shadow-xs"
+                : "text-charcoal/70 hover:text-deep-teal"
+            }`}
+          >
+            Nervous System Simulator
+          </button>
+          <button
+            type="button"
+            onClick={() => setActiveTab("anatomy")}
+            className={`px-3 py-1.5 rounded-xl transition-all ${
+              activeTab === "anatomy"
+                ? "bg-deep-teal text-white shadow-xs"
+                : "text-charcoal/70 hover:text-deep-teal"
+            }`}
+          >
+            Brain Anatomy Map
+          </button>
+          <button
+            type="button"
+            onClick={() => setActiveTab("stages")}
+            className={`px-3 py-1.5 rounded-xl transition-all ${
+              activeTab === "stages"
+                ? "bg-deep-teal text-white shadow-xs"
+                : "text-charcoal/70 hover:text-deep-teal"
+            }`}
+          >
+            Puberty Timeline
+          </button>
+          <button
+            type="button"
+            onClick={() => setActiveTab("guide")}
+            className={`px-3 py-1.5 rounded-xl transition-all ${
+              activeTab === "guide"
+                ? "bg-deep-teal text-white shadow-xs"
+                : "text-charcoal/70 hover:text-deep-teal"
+            }`}
+          >
+            Normal vs. Clinical Red Flags
+          </button>
+        </div>
+      </div>
+
+      {/* TAB 1: NERVOUS SYSTEM SIMULATOR */}
+      {activeTab === "simulator" && (
+        <div className="space-y-5">
+          {/* Maturation Stage Selector Bar */}
+          <div className="bg-slate-50 p-3 rounded-2xl border border-slate-200">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-xs font-bold text-deep-teal uppercase tracking-wider flex items-center gap-1.5">
+                <Sparkles className="w-3.5 h-3.5 text-coral" />
+                Select Puberty Stage to Simulate:
+              </span>
+              <span className="text-[11px] font-bold text-charcoal/70 bg-white px-2 py-0.5 rounded-lg border border-slate-200">
+                {currentStage.sub}
+              </span>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+              {(["early", "mid", "late"] as const).map((st) => (
+                <button
+                  key={st}
+                  type="button"
+                  onClick={() => setActiveStage(st)}
+                  className={`p-2.5 rounded-xl text-left border text-xs transition-all ${
+                    activeStage === st
+                      ? "bg-white border-deep-teal text-deep-teal ring-2 ring-deep-teal/20 shadow-xs font-bold"
+                      : "bg-white/60 border-slate-200 text-charcoal/80 hover:bg-white"
+                  }`}
+                >
+                  <div className="font-bold text-[12px]">{stageData[st].name.split("·")[0]}</div>
+                  <div className="text-[10px] text-charcoal/60 mt-0.5">{stageData[st].name.split("·")[1]}</div>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Dual Engine Meters: Prefrontal Brake vs Amygdala Alarm */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {/* Amygdala Alarm */}
+            <div className="p-4 rounded-2xl border-2 border-coral/30 bg-coral/5 space-y-2">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <span className="w-3 h-3 rounded-full bg-[#F47A6A] animate-pulse inline-block" />
+                  <span className="font-serif font-bold text-sm text-[#991B4B]">
+                    Amygdala Alarm & Emotional Engine
+                  </span>
+                </div>
+                <span className="text-xs font-extrabold text-[#991B4B] bg-coral/20 px-2 py-0.5 rounded-full">
+                  {computedAmygdala}% Reactive
+                </span>
+              </div>
+              {/* Meter bar */}
+              <div className="w-full bg-white rounded-full h-3 overflow-hidden border border-coral/30 p-0.5">
+                <div
+                  className="h-full rounded-full transition-all duration-500"
+                  style={{
+                    width: `${computedAmygdala}%`,
+                    backgroundColor: computedAmygdala > 80 ? "#E11D48" : computedAmygdala > 60 ? "#F47A6A" : "#10B981",
+                  }}
+                />
+              </div>
+              <p className="text-[11px] text-charcoal/80 m-0 leading-tight">
+                {computedAmygdala > 80
+                  ? "🚨 Intense Alert: Emotions felt at peak volume; high vulnerability to crying spells, frustration, or social self-consciousness."
+                  : computedAmygdala > 60
+                  ? "⚡ Elevated Sensitivity: Normal puberty reactivity; feelings are strong and responsive to external events."
+                  : "🌿 Grounded Baseline: Nervous system calm, parasympathetic tone active."}
+              </p>
+            </div>
+
+            {/* Prefrontal Cortex Regulation */}
+            <div className="p-4 rounded-2xl border-2 border-deep-teal/30 bg-light-teal/20 space-y-2">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <span className="w-3 h-3 rounded-full bg-deep-teal inline-block" />
+                  <span className="font-serif font-bold text-sm text-deep-teal">
+                    Prefrontal Cortex Braking & Perspective
+                  </span>
+                </div>
+                <span className="text-xs font-extrabold text-deep-teal bg-deep-teal/15 px-2 py-0.5 rounded-full">
+                  {computedPfc}% Modulated
+                </span>
+              </div>
+              {/* Meter bar */}
+              <div className="w-full bg-white rounded-full h-3 overflow-hidden border border-deep-teal/30 p-0.5">
+                <div
+                  className="h-full rounded-full transition-all duration-500 bg-deep-teal"
+                  style={{ width: `${computedPfc}%` }}
+                />
+              </div>
+              <p className="text-[11px] text-charcoal/80 m-0 leading-tight">
+                {computedPfc < 40
+                  ? "⚠️ Impaired Braking: Synaptic construction or fatigue weakens impulse control. Pausing to think is difficult."
+                  : computedPfc < 70
+                  ? "✦ Remodeling in Progress: Able to self-regulate with intentional breathwork, safe spaces, and time to decompress."
+                  : "🛡️ Resilient Executive Control: Solid prefrontal signaling; able to step back, name feelings, and keep perspective."}
+              </p>
+            </div>
+          </div>
+
+          {/* Interactive Trigger Buttons */}
+          <div className="space-y-2">
+            <span className="text-xs font-bold text-deep-teal uppercase tracking-wider block">
+              1. Choose an Adolescent Stress Trigger:
+            </span>
+            <div className="grid grid-cols-2 sm:grid-cols-5 gap-2 text-xs">
+              {[
+                { id: "none", label: "Neutral / Calm Day", icon: CheckCircle2 },
+                { id: "social", label: "Left on Read / Social", icon: AlertTriangle },
+                { id: "luteal", label: "Luteal Estrogen Dip", icon: Droplets },
+                { id: "sleep", label: "Low Sleep + Exams", icon: Moon },
+                { id: "overwhelm", label: "Schedule Overload", icon: Flame },
+              ].map((trig) => {
+                const IconComponent = trig.icon;
+                return (
+                  <button
+                    key={trig.id}
+                    type="button"
+                    onClick={() => setActiveTrigger(trig.id as any)}
+                    className={`p-2.5 rounded-xl border text-left flex flex-col justify-between transition-all ${
+                      activeTrigger === trig.id
+                        ? "bg-[#FFE1DB] border-coral text-raspberry font-bold ring-2 ring-coral/30 shadow-xs"
+                        : "bg-white border-gray-200 text-charcoal/80 hover:bg-gray-50"
+                    }`}
+                  >
+                    <div className="flex items-center justify-between w-full mb-1">
+                      <IconComponent className="w-4 h-4 text-deep-teal" />
+                      {activeTrigger === trig.id && (
+                        <span className="w-1.5 h-1.5 rounded-full bg-raspberry" />
+                      )}
+                    </div>
+                    <span className="text-[11px] leading-tight">{trig.label}</span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Interactive Reset Protocols */}
+          <div className="space-y-2">
+            <span className="text-xs font-bold text-deep-teal uppercase tracking-wider block">
+              2. Apply Evidence-Based Physiological Reset Tool:
+            </span>
+            <div className="grid grid-cols-2 sm:grid-cols-5 gap-2 text-xs">
+              {[
+                { id: "none", label: "None (Raw Surge)", icon: AlertTriangle },
+                { id: "sigh", label: "Physiological Sigh", icon: Wind },
+                { id: "label", label: "Neuro-Labeling", icon: Sparkles },
+                { id: "dive", label: "Cold Water Splash", icon: Droplets },
+                { id: "rest", label: "Carb Snack + Sleep", icon: Moon },
+              ].map((res) => {
+                const IconComponent = res.icon;
+                return (
+                  <button
+                    key={res.id}
+                    type="button"
+                    onClick={() => setAppliedReset(res.id as any)}
+                    className={`p-2.5 rounded-xl border text-left flex flex-col justify-between transition-all ${
+                      appliedReset === res.id
+                        ? "bg-light-teal border-deep-teal text-deep-teal font-bold ring-2 ring-deep-teal/30 shadow-xs"
+                        : "bg-white border-gray-200 text-charcoal/80 hover:bg-gray-50"
+                    }`}
+                  >
+                    <div className="flex items-center justify-between w-full mb-1">
+                      <IconComponent className="w-4 h-4 text-deep-teal" />
+                      {appliedReset === res.id && (
+                        <span className="w-1.5 h-1.5 rounded-full bg-deep-teal" />
+                      )}
+                    </div>
+                    <span className="text-[11px] leading-tight">{res.label}</span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Live Physiological Breakdown Readout */}
+          <div className="bg-slate-50 rounded-2xl p-4 border border-slate-200 space-y-3">
+            <div className="flex items-center justify-between border-b border-slate-200 pb-2 flex-wrap gap-2">
+              <span className="font-serif font-bold text-deep-teal text-sm flex items-center gap-1.5">
+                <Info className="w-4 h-4 text-deep-teal" />
+                Live Neurochemical & Somatic Status:
+              </span>
+              <div className="flex items-center gap-2 text-[10.5px]">
+                <span className="px-2 py-0.5 rounded-md bg-white border border-slate-200 font-bold text-charcoal">
+                  Serotonin: <strong className="text-deep-teal">{currentTrigger.serotonin}</strong>
+                </span>
+                <span className="px-2 py-0.5 rounded-md bg-white border border-slate-200 font-bold text-charcoal">
+                  Cortisol: <strong className="text-coral">{currentTrigger.cortisol}</strong>
+                </span>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+              <div className="p-3 bg-white rounded-xl border border-slate-200 space-y-1">
+                <strong className="text-rose-800 font-bold block text-[11.5px]">
+                  ⚡ Body Sensations in This State:
+                </strong>
+                <p className="text-charcoal/80 text-[11px] leading-relaxed m-0">
+                  {currentTrigger.sensations}
+                </p>
+              </div>
+
+              <div className="p-3 bg-white rounded-xl border border-slate-200 space-y-1">
+                <strong className="text-deep-teal font-bold block text-[11.5px]">
+                  🌿 How the Selected Reset Calms Your Biology:
+                </strong>
+                <p className="text-charcoal/80 text-[11px] leading-relaxed m-0">
+                  {currentReset.physioEffect}
+                </p>
+              </div>
+            </div>
+
+            {appliedReset !== "none" && (
+              <div className="p-2.5 rounded-xl bg-emerald-50 border border-emerald-300 text-emerald-950 text-[11.5px] flex items-center gap-2">
+                <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                <span>
+                  <strong>Step-by-Step Action:</strong> {currentReset.actionDesc}
+                </span>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* TAB 2: BRAIN ANATOMY MAP */}
+      {activeTab === "anatomy" && (
+        <div className="space-y-4">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-center">
+            {/* Interactive Vector Brain SVG */}
+            <div className="lg:col-span-6 bg-slate-900 rounded-2xl p-4 sm:p-6 flex flex-col items-center justify-center border border-slate-800 shadow-inner text-white">
+              <div className="text-[11px] font-bold text-slate-400 mb-2 uppercase tracking-wider flex items-center gap-1.5">
+                <Brain className="w-3.5 h-3.5 text-coral" />
+                Click Any Brain Structure to Explore
+              </div>
+
+              <svg viewBox="0 0 400 320" className="w-full max-w-sm h-auto select-none">
+                <defs>
+                  {/* Glowing filters */}
+                  <filter id="glow-teal" x="-20%" y="-20%" width="140%" height="140%">
+                    <feGaussianBlur stdDeviation="6" result="blur" />
+                    <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                  </filter>
+                  <filter id="glow-coral" x="-20%" y="-20%" width="140%" height="140%">
+                    <feGaussianBlur stdDeviation="7" result="blur" />
+                    <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                  </filter>
+                </defs>
+
+                {/* Brain Outline / Parietal & Occipital Lobes */}
+                <path
+                  d="M 120,240 C 70,240 50,190 60,140 C 70,80 140,50 210,50 C 290,50 350,90 350,160 C 350,210 320,240 280,240 C 260,240 250,260 250,280 L 220,280 C 220,250 200,240 170,240 Z"
+                  fill="#1E293B"
+                  stroke="#334155"
+                  strokeWidth="3"
+                />
+
+                {/* Cerebellum & Brainstem */}
+                <path
+                  d="M 280,230 C 310,230 330,260 310,280 C 290,300 260,290 250,270 Z"
+                  fill="#0F172A"
+                  stroke="#334155"
+                  strokeWidth="2"
+                />
+                <rect x="215" y="270" width="30" height="40" rx="5" fill="#0F172A" stroke="#334155" strokeWidth="2" />
+                <text x="230" y="300" textAnchor="middle" fill="#64748B" fontSize="9" fontWeight="bold">Spinal Cord</text>
+
+                {/* Region 1: Prefrontal Cortex (Front Lobe) */}
+                <g
+                  onClick={() => setSelectedRegion("pfc")}
+                  className="cursor-pointer group"
+                >
+                  <path
+                    d="M 120,230 C 80,230 65,180 75,130 C 85,85 135,65 175,65 C 160,110 160,170 120,230 Z"
+                    fill={selectedRegion === "pfc" ? "#175B5C" : "#0D9488"}
+                    fillOpacity={selectedRegion === "pfc" ? "0.85" : "0.45"}
+                    stroke="#2DD4BF"
+                    strokeWidth={selectedRegion === "pfc" ? "3" : "1.5"}
+                    filter={selectedRegion === "pfc" ? "url(#glow-teal)" : undefined}
+                    className="transition-all duration-300 group-hover:fill-opacity-80"
+                  />
+                  <circle cx="115" cy="140" r="14" fill="#175B5C" stroke="#2DD4BF" strokeWidth="2" />
+                  <text x="115" y="144" textAnchor="middle" fill="#FFFFFF" fontSize="10" fontWeight="bold">PFC</text>
+                </g>
+
+                {/* Region 2: Amygdala & Limbic System (Center Core) */}
+                <g
+                  onClick={() => setSelectedRegion("amygdala")}
+                  className="cursor-pointer group"
+                >
+                  <ellipse
+                    cx="195"
+                    cy="185"
+                    rx="32"
+                    ry="24"
+                    fill={selectedRegion === "amygdala" ? "#E11D48" : "#F43F5E"}
+                    fillOpacity={selectedRegion === "amygdala" ? "0.9" : "0.5"}
+                    stroke="#FDA4AF"
+                    strokeWidth={selectedRegion === "amygdala" ? "3" : "1.5"}
+                    filter={selectedRegion === "amygdala" ? "url(#glow-coral)" : undefined}
+                    className="transition-all duration-300 group-hover:fill-opacity-80"
+                  />
+                  <circle cx="195" cy="185" r="12" fill="#991B4B" stroke="#FECDD3" strokeWidth="2" />
+                  <text x="195" y="189" textAnchor="middle" fill="#FFFFFF" fontSize="9" fontWeight="bold">AMY</text>
+                </g>
+
+                {/* Region 3: Hypothalamus-Pituitary Axis (Under Core) */}
+                <g
+                  onClick={() => setSelectedRegion("hpa")}
+                  className="cursor-pointer group"
+                >
+                  <ellipse
+                    cx="190"
+                    cy="235"
+                    rx="22"
+                    ry="15"
+                    fill={selectedRegion === "hpa" ? "#D97706" : "#F59E0B"}
+                    fillOpacity={selectedRegion === "hpa" ? "0.9" : "0.45"}
+                    stroke="#FDE68A"
+                    strokeWidth={selectedRegion === "hpa" ? "3" : "1.5"}
+                    className="transition-all duration-300 group-hover:fill-opacity-80"
+                  />
+                  <text x="190" y="238" textAnchor="middle" fill="#FFFFFF" fontSize="8" fontWeight="bold">HPA</text>
+                </g>
+
+                {/* Communication Arrows / Pathways */}
+                <path
+                  d="M 130,150 Q 160,170 175,180"
+                  fill="none"
+                  stroke="#5EEAD4"
+                  strokeWidth="2"
+                  strokeDasharray="4 3"
+                />
+                <path
+                  d="M 195,205 L 192,220"
+                  fill="none"
+                  stroke="#FCD34D"
+                  strokeWidth="2"
+                  strokeDasharray="3 2"
+                />
+
+                {/* Labels */}
+                <text x="75" y="45" fill="#2DD4BF" fontSize="11" fontWeight="bold">Prefrontal Cortex</text>
+                <text x="75" y="58" fill="#94A3B8" fontSize="9">Executive Control & Impulse Brake</text>
+
+                <text x="240" y="180" fill="#FDA4AF" fontSize="11" fontWeight="bold">Amygdala Core</text>
+                <text x="240" y="193" fill="#94A3B8" fontSize="9">Emotional Engine & Threat Radar</text>
+
+                <text x="220" y="240" fill="#FCD34D" fontSize="11" fontWeight="bold">Hypothalamus Axis</text>
+                <text x="220" y="253" fill="#94A3B8" fontSize="9">Hormone Command Center</text>
+              </svg>
+
+              <div className="flex items-center gap-2 mt-2">
+                {(["pfc", "amygdala", "hpa"] as const).map((reg) => (
+                  <button
+                    key={reg}
+                    type="button"
+                    onClick={() => setSelectedRegion(reg)}
+                    className={`px-3 py-1 rounded-lg text-xs font-bold transition-all ${
+                      selectedRegion === reg
+                        ? "bg-white text-slate-900 shadow-xs"
+                        : "bg-slate-800 text-slate-300 hover:bg-slate-700"
+                    }`}
+                  >
+                    {reg === "pfc" ? "Prefrontal Cortex" : reg === "amygdala" ? "Amygdala" : "HPA Axis"}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Selected Region Explainer Panel */}
+            <div className={`lg:col-span-6 p-5 rounded-2xl border-2 ${regionData[selectedRegion].borderClass} space-y-3`}>
+              <div className="flex items-center justify-between flex-wrap gap-2">
+                <div>
+                  <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md bg-white border shadow-2xs" style={{ color: regionData[selectedRegion].color }}>
+                    {regionData[selectedRegion].badge}
+                  </span>
+                  <h4 className="font-serif text-lg font-bold text-deep-teal mt-1">
+                    {regionData[selectedRegion].name}
+                  </h4>
+                  <span className="text-xs text-charcoal/70 font-sans block">
+                    {regionData[selectedRegion].subtitle}
+                  </span>
+                </div>
+              </div>
+
+              <div className="space-y-2 text-xs">
+                <div className="p-3 bg-white/80 rounded-xl border border-gray-200">
+                  <strong className="text-deep-teal block font-bold text-[11.5px] mb-0.5">Biological Role:</strong>
+                  <p className="text-charcoal/85 leading-relaxed m-0">{regionData[selectedRegion].role}</p>
+                </div>
+
+                <div className="p-3 bg-white/80 rounded-xl border border-gray-200">
+                  <strong className="text-[#B83F68] block font-bold text-[11.5px] mb-0.5">What Happens in Puberty:</strong>
+                  <p className="text-charcoal/85 leading-relaxed m-0">{regionData[selectedRegion].adolescentFact}</p>
+                </div>
+
+                <div className="p-3 bg-white/80 rounded-xl border border-gray-200">
+                  <strong className="text-emerald-800 block font-bold text-[11.5px] mb-0.5">How to Support & Regulate:</strong>
+                  <p className="text-charcoal/85 leading-relaxed m-0">{regionData[selectedRegion].tip}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* TAB 3: PUBERTY TIMELINE */}
+      {activeTab === "stages" && (
+        <div className="space-y-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+            {(["early", "mid", "late"] as const).map((st) => (
+              <div
+                key={st}
+                onClick={() => setActiveStage(st)}
+                className={`p-4 rounded-2xl border-2 cursor-pointer transition-all ${
+                  activeStage === st
+                    ? "bg-white border-deep-teal shadow-md ring-2 ring-deep-teal/20"
+                    : "bg-slate-50/70 border-slate-200 hover:bg-white"
+                }`}
+              >
+                <div className="flex items-center justify-between mb-1.5">
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-coral">
+                    Tanner {st === "early" ? "1–2" : st === "mid" ? "3–4" : "5"}
+                  </span>
+                  {activeStage === st && (
+                    <span className="text-[9.5px] font-bold px-2 py-0.5 rounded-full bg-deep-teal text-white">
+                      Active Stage
+                    </span>
+                  )}
+                </div>
+                <h4 className="font-serif font-bold text-sm text-deep-teal mb-1">
+                  {stageData[st].name}
+                </h4>
+                <p className="text-[11px] text-charcoal/70 font-sans mb-3">
+                  {stageData[st].sub}
+                </p>
+
+                <div className="space-y-2 text-[11px]">
+                  <div className="flex items-center justify-between text-[10px] font-bold">
+                    <span className="text-rose-700">Amygdala: {stageData[st].amygdalaReactivity}%</span>
+                    <span className="text-teal-700">PFC Brake: {stageData[st].pfcMaturation}%</span>
+                  </div>
+
+                  <div className="p-2 rounded-lg bg-white border border-slate-200 text-[10.5px] leading-tight text-charcoal/85">
+                    <strong>Hormones:</strong> {stageData[st].hormoneProfile}
+                  </div>
+                  <div className="p-2 rounded-lg bg-white border border-slate-200 text-[10.5px] leading-tight text-charcoal/85">
+                    <strong>Emotions:</strong> {stageData[st].emotions}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="p-4 rounded-2xl bg-amber-50/80 border border-amber-300 text-amber-950 text-xs leading-relaxed space-y-1">
+            <strong>✦ Why the "Mismatch" Is an Evolutionary Strength:</strong>
+            <p className="m-0 text-[11.5px]">
+              Why would biology design a brain with an emotional engine that matures before its braking system? Anthropological neuroscience shows that high emotional sensitivity and novelty-seeking pushed human adolescents to form bonds outside their immediate family, master complex cultural skills, and step into independent adulthood. It is not a flaw—it is human biology doing its job!
+            </p>
+          </div>
+        </div>
+      )}
+
+      {/* TAB 4: NORMAL VS CLINICAL RED FLAGS */}
+      {activeTab === "guide" && (
+        <div className="space-y-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {/* Normal puberty waves */}
+            <div className="p-4 rounded-2xl border-2 border-emerald-300 bg-emerald-50/60 space-y-2.5">
+              <div className="flex items-center gap-2 text-emerald-900 font-serif font-bold text-sm">
+                <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+                Healthy Puberty Emotional Waves
+              </div>
+              <ul className="space-y-1.5 text-xs text-charcoal/85 pl-4 list-disc marker:text-emerald-600">
+                <li>Crying after a hard school day, then feeling relieved after a chat or nap.</li>
+                <li>Feeling excited one morning, then wanting quiet alone time in your room by evening.</li>
+                <li>Temporary self-consciousness about new body curves, height, or skin changes.</li>
+                <li>Brief frustration with family rules as you build your own independent identity.</li>
+                <li>Emotions feel intense in the moment, but you still experience joy with friends and hobbies.</li>
+              </ul>
+            </div>
+
+            {/* Red flags for clinical care */}
+            <div className="p-4 rounded-2xl border-2 border-rose-300 bg-rose-50/60 space-y-2.5">
+              <div className="flex items-center gap-2 text-rose-950 font-serif font-bold text-sm">
+                <AlertTriangle className="w-4 h-4 text-rose-600" />
+                Signals to Seek Professional Care (AACAP / ACOG)
+              </div>
+              <ul className="space-y-1.5 text-xs text-charcoal/85 pl-4 list-disc marker:text-rose-600">
+                <li><strong>Anhedonia:</strong> Total loss of joy or interest in all favorite activities for ≥2 weeks.</li>
+                <li><strong>Severe PMDD:</strong> Extreme cyclical despair, rage, or panic that hits strictly in the week before your period and vanishes right after bleeding starts.</li>
+                <li><strong>Functional Impairment:</strong> Inability to attend school, complete homework, or eat meals due to panic.</li>
+                <li><strong>Isolation:</strong> Cutting off all friendships and refusing to communicate for weeks.</li>
+                <li><strong>Hopelessness:</strong> Thoughts of self-harm, wanting to disappear, or feelings of worthlessness.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div className="p-3.5 rounded-2xl bg-light-teal/50 border border-deep-teal/20 text-deep-teal text-xs flex items-center justify-between flex-wrap gap-2">
+            <div className="flex items-center gap-2">
+              <Stethoscope className="w-4 h-4 text-deep-teal" />
+              <span>
+                <strong>Confidential Support:</strong> You can schedule a private, confidential discussion with your pediatrician, adolescent specialist, or school counselor at any time.
+              </span>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

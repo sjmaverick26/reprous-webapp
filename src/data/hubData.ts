@@ -8,7 +8,7 @@ export interface QuizQuestion {
 }
 
 export interface LessonDiagram {
-  type: "cycle-wheel" | "energy-balance" | "pcos-loop" | "pelvic-map" | "anatomy-callout" | "timeline" | "athlete-plate" | "hormone-scale" | "reds-triangle" | "water-glass" | "sleep-recovery" | "iron-ferritin" | "cycle-training" | "cycle-fueling";
+  type: "cycle-wheel" | "energy-balance" | "pcos-loop" | "pelvic-map" | "anatomy-callout" | "timeline" | "athlete-plate" | "hormone-scale" | "reds-triangle" | "water-glass" | "sleep-recovery" | "iron-ferritin" | "cycle-training" | "cycle-fueling" | "puberty-brain";
   title: string;
   caption: string;
 }
@@ -1237,28 +1237,272 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
     topics: [
       {
         id: "mind-0",
-        name: "Mood Changes",
+        name: "Puberty & Mental Health: Brain Rewiring & Emotional Waves",
         type: "lesson",
-        desc: "How hormones and emotions connect.",
+        desc: "The limbic-prefrontal gap, estrogen-serotonin shifts, normal mood swings vs. red flags, and emotional literacy.",
         xp: 50,
-        readTime: "4 min read",
-        summary: "Fluctuating levels of estrogen and progesterone directly influence neurotransmitters like serotonin and dopamine.",
+        readTime: "5 min read",
+        summary: "During puberty, your brain undergoes its most massive neurodevelopmental rewiring since infancy. Your emotional engine (the limbic system and amygdala) matures years before your impulse-control and perspective-taking center (the prefrontal cortex). When you pair this developmental gap with rapid surges and drops in estrogen and progesterone—which directly modulate serotonin and GABA in the brain—sudden tears, intense joy, frustration, or vulnerability are physiologically expected. Understanding the biology removes shame and gives you tools to regulate your nervous system.",
+        clinicalQuote: {
+          quote: "Adolescent pubertal transition involves profound neural remodeling. The socioemotional limbic system—governing emotional reactivity and reward sensitivity—matures earlier than the prefrontal executive networks responsible for cognitive control. Furthermore, gonadal steroids directly alter serotonin and GABA neurotransmission. Understanding this neurobiological gap helps clinicians, families, and adolescents distinguish normal developmental volatility from clinical mood disorders.",
+          source: "American Academy of Child & Adolescent Psychiatry (AACAP) & ACOG",
+          publication: "AACAP Practice Parameter on Adolescent Mood Regulation & ACOG Clinical Guidance on Adolescent Mental Health",
+        },
         keyTakeaways: [
-          "Premenstrual syndrome (PMS) and PMDD are physiological responses, not 'imagined' moods.",
-          "Mindful tracking helps normalize emotional shifts without self-judgment."
+          "The Brain Maturation Gap: The emotional and social radar of your brain (the amygdala) matures years ahead of the executive braking system (the prefrontal cortex).",
+          "Hormones Talk to Neurotransmitters: Estrogen boosts serotonin (mood and optimism), while progesterone and allopregnanolone act on GABA (calmness). Sudden drops create temporary chemical dips.",
+          "Adrenarche & Peer Sensitivity: Starting around ages 8–10, adrenal DHEA increases sensitivity to peer acceptance, belonging, and social evaluation.",
+          "Normal Waves vs. Clinical Signals: Intense emotions that resolve with sleep, connection, or crying are healthy; pervasive hopelessness or loss of joy lasting ≥2 weeks requires professional care.",
+          "Physiological Reset: Techniques like the physiological sigh (double inhale, long exhale), naming your feelings, and prioritizing 8–10 hours of sleep directly restore prefrontal control."
+        ],
+        visualCards: [
+          {
+            title: "The Emotional Engine (Amygdala)",
+            iconName: "Zap",
+            text: "Hyper-responsive during puberty. It processes excitement, fear, social status, and gut feelings at maximum volume.",
+            highlight: "Matures early & fast"
+          },
+          {
+            title: "The Executive Braking System (Prefrontal Cortex)",
+            iconName: "Shield",
+            text: "Still under active construction until roughly age 25! It is learning how to pause, analyze risks, and calm the amygdala down.",
+            highlight: "Still remodeling"
+          },
+          {
+            title: "Hormone-Brain Crosstalk",
+            iconName: "Sparkles",
+            text: "Estrogen and progesterone cross the blood-brain barrier. Rapid cyclical swings can trigger sudden tearfulness without any outside cause.",
+            highlight: "Biological, not dramatic"
+          }
+        ],
+        diagram: {
+          type: "puberty-brain",
+          title: "Interactive Puberty Brain & Emotional Regulation Simulator",
+          caption: "Step through pubertal maturation stages, inspect the Prefrontal vs Amygdala developmental gap, and test how hormone dips and grounding resets influence your nervous system."
+        },
+        video: {
+          title: "The Adolescent Brain: A Work in Progress",
+          source: "Child Mind Institute & AACAP Adolescent Neuroscience",
+          duration: "4:15",
+          youtubeId: "0Ol2C1FcHgs",
+          medicalReviewer: "Reviewed by Board-Certified Child & Adolescent Psychiatrists and Adolescent Medicine Physicians",
+          keyHighlights: [
+            "Synaptic pruning and myelination rewire the adolescent brain for complex adult reasoning.",
+            "Heightened emotional sensitivity is an evolutionary tool designed to encourage exploration and social bonding.",
+            "Adequate sleep (8–10 hrs) and nutritional consistency directly protect mental health during hormonal transitions."
+          ]
+        },
+        sorterGame: {
+          title: "Normal Puberty Emotional Shifts vs. Clinical Support Signals",
+          instructions: "Sort each emotional experience into healthy pubertal transition vs. signals to seek professional mental health care.",
+          categories: [
+            { id: "normal", name: "Healthy Puberty Emotional Wave", colorClass: "bg-emerald-50 border-emerald-300 text-emerald-900" },
+            { id: "support", name: "Signal to Seek Professional Support", colorClass: "bg-red-50 border-red-300 text-red-900" }
+          ],
+          items: [
+            {
+              id: "mh1",
+              text: "Crying after a frustrating day at school, but feeling refreshed after talking with a trusted friend or sleeping",
+              correctCategory: "normal",
+              explanation: "Episodic emotional release that resolves with social connection or rest is a healthy response to pubertal nervous system fatigue."
+            },
+            {
+              id: "mh2",
+              text: "Pervasive sadness, emptiness, or complete loss of interest in favorite sports and hobbies lasting more than 2 consecutive weeks",
+              correctCategory: "support",
+              explanation: "This meets clinical screening criteria for major depressive episode (anhedonia) and warrants an evaluation by a pediatrician or therapist."
+            },
+            {
+              id: "mh3",
+              text: "Feeling self-conscious about changing body shape or voice, but still attending class and hanging out with friends",
+              correctCategory: "normal",
+              explanation: "Transient self-consciousness during rapid physical growth is standard during adrenarche and early pubertal identity formation."
+            },
+            {
+              id: "mh4",
+              text: "Severe cyclical despair, sudden rage, or panic attacks that appear strictly in the 7–10 days before bleeding and vanish once bleeding starts",
+              correctCategory: "support",
+              explanation: "Strictly luteal-phase psychological distress indicates Premenstrual Dysphoric Disorder (PMDD), an endocrine-related mood condition that responds well to targeted medical treatment."
+            },
+            {
+              id: "mh5",
+              text: "Wanting more privacy in your room to recharge alone with music after overwhelming social school days",
+              correctCategory: "normal",
+              explanation: "Needing downtime to decompress and establish autonomy is a normal, healthy part of adolescent psychological development."
+            },
+            {
+              id: "mh6",
+              text: "Severe anxiety that causes frequent missed school days, avoiding eating around others, or thoughts of wanting to disappear",
+              correctCategory: "support",
+              explanation: "Any functional impairment in school, nutrition, or safety signals that the nervous system needs professional counseling and medical care."
+            }
+          ]
+        },
+        roleplayScenario: {
+          setting: "At home after a demanding day when your emotions feel completely overwhelmed and tearful",
+          character: "Parent or teacher observing your emotional reaction",
+          statement: "“Why are you crying over something so minor? You've been so moody and dramatic lately, it feels like walking on eggshells around you.”",
+          options: [
+            {
+              text: "“Just leave me alone! You never listen and you make everything worse anyway!” (Slams door)",
+              isBest: false,
+              feedback: "While completely understandable when you feel attacked, slamming the door can leave you feeling more isolated and reinforces the misunderstanding that your feelings are just 'bad behavior.'",
+              xpBonus: 5
+            },
+            {
+              text: "“I'm not crying on purpose. During puberty, the emotional part of my brain matures years before the control center, and changing hormones drop serotonin levels fast. My nervous system is genuinely overloaded right now. Can I have 20 minutes to reset with some quiet, and then we can talk calmly?”",
+              isBest: true,
+              feedback: "Outstanding self-advocacy! Explaining the neurobiology takes away personal blame, validates that your feelings are physiologically real, and creates a healthy boundary for nervous system co-regulation.",
+              xpBonus: 30
+            },
+            {
+              text: "“Sorry, you're right. I'm just broken. I'll just swallow my feelings and stop talking.”",
+              isBest: false,
+              feedback: "Internalizing shame and suppressing emotions increases chronic cortisol and worsens anxiety. Your emotions are not broken—your brain is simply undergoing intensive biological construction!",
+              xpBonus: 5
+            }
+          ]
+        },
+        advocacyScript: {
+          situation: "Discussing intense mood swings, crying spells, or premenstrual depression with your pediatrician, adolescent specialist, or gynecologist.",
+          doctorScript: "“Over the last few months, I've experienced intense emotional swings and crying episodes that feel overwhelming. I've been tracking them, and they seem to peak in the week before my period and during high-stress periods. Because pubertal hormones modulate neurotransmitters, I want to evaluate whether this is standard developmental remodeling, an anxiety/mood disorder, or PMDD, and discuss evidence-based coping tools.”",
+          whyItWorks: "Framing your experience in neurobiological terms (hormone-neurotransmitter modulation, prospective tracking, functional impairment) immediately prompts clinicians to run structured adolescent screenings (like the PHQ-9A or GAD-7) rather than dismissing your experience.",
+          whatIfDismissed: "“If the clinician says 'that's just part of being a teenage girl,' ask calmly: 'Can we record in my visit notes that I reported persistent mood distress interfering with school and daily life, and could you refer me to an adolescent mental health professional or reproductive endocrinologist?'”"
+        },
+        quiz: [
+          {
+            question: "Why do adolescents experience emotions more intensely during puberty?",
+            options: [
+              "The emotional limbic system (amygdala) matures years before the executive control center (prefrontal cortex)",
+              "Teens simply lack the desire to regulate their emotions",
+              "Hormones destroy all neurotransmitters in the brain permanently",
+              "Puberty only changes bones and muscles, with zero effect on the nervous system"
+            ],
+            correctIndex: 0,
+            explanation: "The amygdala reaches peak sensitivity early, while the prefrontal cortex—which governs perspective, impulse modulation, and calm regulation—continues remodeling until approximately age 25."
+          },
+          {
+            question: "How do shifting levels of estrogen and progesterone affect adolescent mood?",
+            options: [
+              "They only regulate reproductive organs and have no access to the brain",
+              "They cross the blood-brain barrier to modulate serotonin and GABA neurotransmitter systems",
+              "They only affect hunger and thirst",
+              "They permanently stop brain cell connections from forming"
+            ],
+            correctIndex: 1,
+            explanation: "Estrogen stimulates serotonin synthesis and receptor sensitivity, while progesterone and allopregnanolone modulate calming GABA-A receptors. Rapid fluctuations create real neurological mood dips."
+          },
+          {
+            question: "Which of the following is a sign that mood changes warrant professional clinical care rather than being normal puberty waves?",
+            options: [
+              "Crying after an upsetting exam, but feeling better after talking with a family member",
+              "Persistent sadness, anhedonia (loss of joy), or hopelessness lasting 2 or more consecutive weeks",
+              "Needing 45 minutes of quiet time in your bedroom after a busy social day",
+              "Feeling passionate and excited about a new sport or friendship"
+            ],
+            correctIndex: 1,
+            explanation: "Persistent sadness or loss of interest lasting 2 or more weeks is a primary clinical indicator of depression, requiring professional healthcare evaluation."
+          }
         ]
       },
       {
         id: "mind-1",
-        name: "Stress & Hormones",
+        name: "Stress & Hormones: Cortisol, Cycles & Sleep",
         type: "lesson",
-        desc: "The feedback loop, explained simply.",
+        desc: "The HPA axis feedback loop: how chronic stress delays periods and disrupts mental health.",
         xp: 50,
         readTime: "4 min read",
-        summary: "Cortisol (the primary stress hormone) can temporarily suppress reproductive hormones, leading to delayed or missed periods.",
+        summary: "When you face chronic academic, social, or emotional stress, your brain's alarm center activates the Hypothalamic-Pituitary-Adrenal (HPA) axis, flooding your system with cortisol. Cortisol tells your body to prioritize immediate survival over reproductive health, which can delay ovulation, cause missed periods, and amplify mood swings.",
+        clinicalQuote: {
+          quote: "Psychogenic stress stimulates corticotropin-releasing hormone (CRH) and endogenous opioids, which directly suppress the pulsatile secretion of GnRH from the hypothalamus. Functional hypothalamic amenorrhea or cycle irregularity is a protective neuroendocrine adaptation signaling systemic physiological or psychological stress.",
+          source: "The Global Library of Women's Medicine (GLOWM) & The Endocrine Society",
+          publication: "GLOWM Clinical Guidelines on Hypothalamic Amenorrhea & Neuroendocrinology",
+        },
         keyTakeaways: [
-          "Chronic stress signals the brain that the environment is unsafe for reproduction.",
-          "Simple breathwork, sleep hygiene, and physical activity restore hormonal equilibrium."
+          "The Survival Switch: High cortisol tells your hypothalamus that the environment is unsafe, temporarily pausing ovulation or making periods irregular.",
+          "Stress & Sleep Connection: Cortisol is supposed to be high in the morning and low at night. Chronic stress flips this curve, making it hard to fall asleep and worsening next-day mood.",
+          "Physiological Reset: Just 5 minutes of slow diaphragmatic breathing or a restorative walk lowers circulating cortisol and reactivates parasympathetic recovery.",
+          "Self-Advocacy: If stress has caused you to miss periods for 3+ months, it's essential to consult a doctor to protect bone density and rule out other conditions."
+        ],
+        visualCards: [
+          {
+            title: "The Alarm: Cortisol",
+            iconName: "Zap",
+            text: "Prepares you for fight-or-flight. Essential in short bursts, but draining when constantly elevated by school, social pressure, or lack of sleep.",
+            highlight: "Survival hormone"
+          },
+          {
+            title: "The Pause: GnRH Suppression",
+            iconName: "AlertTriangle",
+            text: "Your brain pauses reproduction until safety and rest return. This is why periods can be late during exam week.",
+            highlight: "Cycle delay mechanism"
+          },
+          {
+            title: "The Reset: Vagus Nerve Activation",
+            iconName: "Heart",
+            text: "Deep exhalations, laughter, hugs, and 8+ hours of sleep signal biological safety, restoring normal menstrual rhythms.",
+            highlight: "Restores balance"
+          }
+        ],
+        diagram: {
+          type: "puberty-brain",
+          title: "HPA Axis & Nervous System Stress Response",
+          caption: "Explore how stress triggers the cortisol pathway and how evidence-based grounding techniques restore balance."
+        },
+        roleplayScenario: {
+          setting: "Doctor's office after missing two periods during a high-stress academic semester",
+          character: "Physician asking about your recent menstrual history",
+          statement: "“Your lab work looks normal, so you're probably just stressed out. Try not to worry so much and your period will probably return eventually.”",
+          options: [
+            {
+              text: "“Okay, thanks. I guess I'll just wait and see.”",
+              isBest: false,
+              feedback: "Simply waiting without evaluating the underlying stress, nutritional adequacy, or bone health risks can allow functional hypothalamic suppression to persist unaddressed.",
+              xpBonus: 5
+            },
+            {
+              text: "“Thank you, doctor. Given that chronic cortisol can suppress hypothalamic GnRH pulsatility, what specific timeline should we monitor before evaluating for Functional Hypothalamic Amenorrhea? Can we also check my vitamin D, ferritin, and discuss stress reduction strategies to protect my bone density?”",
+              isBest: true,
+              feedback: "Brilliant clinical self-advocacy! Asking for a structured monitoring timeline and discussing bone density protection signals that you understand the serious physiology of hypothalamic cycle suppression.",
+              xpBonus: 30
+            },
+            {
+              text: "“You're wrong, stress has nothing to do with my body.”",
+              isBest: false,
+              feedback: "Stress actually has a profound physiological effect on hypothalamic hormones. Collaborative dialogue with your provider gets you the best comprehensive care.",
+              xpBonus: 5
+            }
+          ]
+        },
+        advocacyScript: {
+          situation: "Advocating for yourself when chronic stress or anxiety is disrupting your menstrual cycle and daily functioning.",
+          doctorScript: "“I've noticed that intense stress and sleep disruption have caused my cycle to become irregular (delayed by over 40 days). I understand that cortisol suppresses GnRH, but I want to ensure we rule out thyroid issues, PCOS, and protect my bone health while I work on stress management.”",
+          whyItWorks: "Demonstrates an understanding that while stress is a common culprit, amenorrhea requires thorough differential diagnosis to protect long-term endocrine and bone health.",
+          whatIfDismissed: "“If my period has not returned in another cycle, what specific diagnostic steps or referrals can we schedule to ensure my hormonal axis is protected?”"
+        },
+        quiz: [
+          {
+            question: "How does chronic psychological or physical stress delay or stop menstrual periods?",
+            options: [
+              "Cortisol and CRH directly suppress the brain's pulsatile release of GnRH from the hypothalamus",
+              "Stress makes the ovaries disappear temporarily",
+              "Cortisol makes blood disappear from the body",
+              "Stress has no biological impact on hormones whatsoever"
+            ],
+            correctIndex: 0,
+            explanation: "Elevated cortisol signals the hypothalamus that energy must be conserved for survival, temporarily pausing the hormonal cascade required for ovulation."
+          },
+          {
+            question: "Which simple physiological technique quickly stimulates the vagus nerve to reduce acute stress?",
+            options: [
+              "Holding your breath until you feel dizzy",
+              "The physiological sigh: two quick inhales through the nose followed by an extended, slow exhale through the mouth",
+              "Drinking 4 caffeinated energy drinks",
+              "Skipping meals to shock the nervous system"
+            ],
+            correctIndex: 1,
+            explanation: "The physiological sigh rapidly expands collapsed alveoli in the lungs and activates the parasympathetic vagus nerve, slowing heart rate within seconds."
+          }
         ]
       },
       {
