@@ -73,7 +73,11 @@ import { LessonSorterGameComponent } from "@/components/shared/LessonSorterGame"
 import { RoleplayInteractiveStage } from "@/components/shared/RoleplayInteractiveStage";
 import { InteractiveQuizGame } from "@/components/shared/InteractiveQuizGame";
 import { LittleHealthDictionary } from "@/components/shared/LittleHealthDictionary";
-import { updateUserProgress } from "@/lib/api";
+import {
+  getStoredProgress,
+  saveStoredProgress,
+  resetStoredProgress,
+} from "@/lib/progressStorage";
 
 interface HubViewProps {
   initialCategory?: string | null;
@@ -84,10 +88,12 @@ export function HubView({ initialCategory }: HubViewProps) {
   const [openPanelId, setOpenPanelId] = useState<string | null>(null);
   const [selectedTopic, setSelectedTopic] = useState<HubTopic | null>(null);
   const [selectedBadge, setSelectedBadge] = useState<{ name: string; desc: string; category: string } | null>(null);
-  const [completedTopics, setCompletedTopics] = useState<Set<string>>(new Set(["body-0", "cycle-0"]));
-  const [xp, setXp] = useState<number>(320);
-  const [streak, setStreak] = useState<number>(4);
-  const [earnedBadges, setEarnedBadges] = useState<string[]>(["Body Basics Champion", "Cycle Sense Pro"]);
+  const [completedTopics, setCompletedTopics] = useState<Set<string>>(new Set());
+  const [xp, setXp] = useState<number>(0);
+  const [streak, setStreak] = useState<number>(1);
+  const [earnedBadges, setEarnedBadges] = useState<string[]>([]);
+  const [showResetModal, setShowResetModal] = useState<boolean>(false);
+  const [showResetToast, setShowResetToast] = useState<boolean>(false);
 
   // Interactive Multi-Page Lesson State
   const [isFullScreen, setIsFullScreen] = useState<boolean>(false);
@@ -119,6 +125,24 @@ export function HubView({ initialCategory }: HubViewProps) {
     }
   }, [initialCategory]);
 
+  // Load saved progress from visitor's browser localStorage on client mount (100% private, no server calls)
+  React.useEffect(() => {
+    const stored = getStoredProgress();
+    const loadedTopics = new Set(stored.completedTopics);
+    setCompletedTopics(loadedTopics);
+    setXp(stored.xp);
+    setStreak(stored.streak);
+
+    // Compute badges based on completed categories
+    const loadedBadges = new Set(stored.earnedBadges);
+    Object.values(HUB_CATEGORIES).forEach((cat) => {
+      if (cat.topics.length > 0 && cat.topics.every((t) => loadedTopics.has(t.id))) {
+        loadedBadges.add(cat.badge);
+      }
+    });
+    setEarnedBadges(Array.from(loadedBadges));
+  }, []);
+
   const activeCategory: HubCategory | undefined = activeCategoryId
     ? HUB_CATEGORIES[activeCategoryId]
     : undefined;
@@ -141,20 +165,44 @@ export function HubView({ initialCategory }: HubViewProps) {
   }, [activeCategory, completedTopics]);
   const categoryPercentage = Math.round((categoryCompletedCount / (categoryTotalCount || 1)) * 100);
 
-  const handleCompleteTopic = async (topic: HubTopic) => {
+  const handleCompleteTopic = (topic: HubTopic) => {
     if (!completedTopics.has(topic.id)) {
       const nextSet = new Set(completedTopics);
       nextSet.add(topic.id);
       setCompletedTopics(nextSet);
       const newXp = xp + topic.xp;
       setXp(newXp);
-      await updateUserProgress({
-        topic_id: topic.id,
-        xp_gained: topic.xp,
-        category_id: activeCategoryId || "general",
+
+      // Check if this topic completion completes any category badges
+      const updatedBadges = new Set(earnedBadges);
+      Object.values(HUB_CATEGORIES).forEach((cat) => {
+        if (cat.topics.length > 0 && cat.topics.every((t) => nextSet.has(t.id))) {
+          updatedBadges.add(cat.badge);
+        }
+      });
+      const nextBadgesArray = Array.from(updatedBadges);
+      setEarnedBadges(nextBadgesArray);
+
+      // Save strictly into visitor's browser localStorage - zero server calls
+      saveStoredProgress({
+        completedTopics: Array.from(nextSet),
+        xp: newXp,
+        streak,
+        earnedBadges: nextBadgesArray,
       });
     }
     closeTopic();
+  };
+
+  const handleResetProgress = () => {
+    const fresh = resetStoredProgress();
+    setCompletedTopics(new Set(fresh.completedTopics));
+    setXp(fresh.xp);
+    setStreak(fresh.streak);
+    setEarnedBadges(fresh.earnedBadges);
+    setShowResetModal(false);
+    setShowResetToast(true);
+    setTimeout(() => setShowResetToast(false), 4000);
   };
 
   const openTopic = (topic: HubTopic) => {
@@ -425,6 +473,23 @@ export function HubView({ initialCategory }: HubViewProps) {
                     Keep up the momentum!
                   </span>
                 </div>
+
+                {/* Local Storage Privacy Reassurance & Reset Button */}
+                <div className="mt-4 pt-3.5 border-t border-slate-100 flex items-center justify-between gap-3 flex-wrap">
+                  <div className="flex items-center gap-1.5 text-[11.5px] sm:text-xs text-charcoal/65 font-sans">
+                    <ShieldCheck className="w-3.5 h-3.5 text-deep-teal shrink-0" />
+                    <span>Saved in your browser only · 100% private · No account needed</span>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setShowResetModal(true)}
+                    className="inline-flex items-center gap-1.5 text-[11.5px] sm:text-xs font-semibold text-charcoal/50 hover:text-red-600 transition-colors py-1 px-2.5 rounded-lg hover:bg-red-50 border border-transparent hover:border-red-200 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-red-400 cursor-pointer"
+                    title="Reset your saved progress back to zero"
+                  >
+                    <RotateCcw className="w-3 h-3" />
+                    <span>Reset my progress</span>
+                  </button>
+                </div>
               </div>
             </div>
 
@@ -555,6 +620,15 @@ export function HubView({ initialCategory }: HubViewProps) {
                   <Sparkles className="w-3.5 h-3.5 text-coral" />
                   {xp} XP
                 </div>
+                <button
+                  type="button"
+                  onClick={() => setShowResetModal(true)}
+                  className="inline-flex items-center gap-1.5 rounded-full bg-white hover:bg-red-50 hover:text-red-600 px-3 py-1.5 text-xs font-medium text-charcoal/60 shadow-xs border border-deep-teal/15 hover:border-red-200 transition-colors cursor-pointer"
+                  title="Reset your saved progress back to zero"
+                >
+                  <RotateCcw className="w-3 h-3" />
+                  <span className="hidden sm:inline">Reset</span>
+                </button>
               </div>
             </div>
 
@@ -1794,6 +1868,52 @@ export function HubView({ initialCategory }: HubViewProps) {
           )}
         </DialogContent>
       </Dialog>
+
+      {/* Reset Progress Confirmation Modal */}
+      <Dialog
+        open={showResetModal}
+        onOpenChange={setShowResetModal}
+      >
+        <DialogContent className="max-w-md text-left bg-white rounded-3xl p-6 sm:p-7">
+          <DialogHeader>
+            <div className="w-12 h-12 rounded-2xl bg-red-100 text-red-600 flex items-center justify-center mb-3">
+              <RotateCcw className="w-6 h-6" />
+            </div>
+            <DialogTitle className="text-xl sm:text-2xl font-serif font-bold text-deep-teal">
+              Reset Your Learning Progress?
+            </DialogTitle>
+            <DialogDescription className="text-sm text-charcoal/80 font-sans mt-2 leading-relaxed">
+              This will reset your completed lessons, streak, badges, and XP back to zero on this browser. Because ReproUs doesn&apos;t require an account and stores all your progress privately on your device, this action cannot be undone.
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="mt-6 flex items-center justify-end gap-3">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => setShowResetModal(false)}
+              className="rounded-full px-5 font-sans cursor-pointer"
+            >
+              Keep My Progress
+            </Button>
+            <Button
+              type="button"
+              onClick={handleResetProgress}
+              className="rounded-full px-5 bg-red-600 hover:bg-red-700 text-white font-sans shadow-sm cursor-pointer"
+            >
+              Yes, Reset Progress
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Reset Feedback Toast */}
+      {showResetToast && (
+        <div className="fixed bottom-6 right-6 z-50 bg-charcoal text-white text-sm font-sans px-4 py-3 rounded-2xl shadow-xl flex items-center gap-2.5 animate-in fade-in slide-in-from-bottom-3 duration-300">
+          <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+          <span>Your progress has been reset back to 0.</span>
+        </div>
+      )}
       </div>
     </div>
   );
