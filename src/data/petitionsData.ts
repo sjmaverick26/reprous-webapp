@@ -12,6 +12,7 @@ export interface PetitionItem {
   realWorldCampaign: string;
   billOrInitiative?: string;
   externalUrl: string;
+  billUrl?: string;
 }
 
 export interface AdvocacyCampaignLink {
@@ -40,7 +41,8 @@ export const PETITIONS_DATA: PetitionItem[] = [
     organizer: "Youth Reproductive Equity Coalition",
     realWorldCampaign: "PERIOD. (The Menstrual Movement) & Alliance for Period Supplies",
     billOrInitiative: "Menstrual Equity for All Act (H.R. 3646)",
-    externalUrl: "https://period.org"
+    externalUrl: "https://period.org",
+    billUrl: "https://www.congress.gov/bill/118th-congress/house-bill/3646"
   },
   {
     id: "petition-2",
@@ -59,7 +61,8 @@ export const PETITIONS_DATA: PetitionItem[] = [
     organizer: "ReproUs Youth Advocates & Student Leaders",
     realWorldCampaign: "Advocates for Youth & SIECUS (Sex Ed for Social Change)",
     billOrInitiative: "Real Education and Access for Healthy Youth Act (REHYA)",
-    externalUrl: "https://advocatesforyouth.org/issue/sex-education/"
+    externalUrl: "https://advocatesforyouth.org/issue/sex-education/",
+    billUrl: "https://siecus.org"
   },
   {
     id: "petition-3",
@@ -78,7 +81,8 @@ export const PETITIONS_DATA: PetitionItem[] = [
     organizer: "Adolescent Health Rights Alliance",
     realWorldCampaign: "National Family Planning & Reproductive Health Association (NFPRHA)",
     billOrInitiative: "Title X Minor Confidentiality Protection Framework",
-    externalUrl: "https://www.nationalfamilyplanning.org"
+    externalUrl: "https://www.nationalfamilyplanning.org",
+    billUrl: "https://www.guttmacher.org/state-policy/explore/overview-minors-consent-law"
   },
   {
     id: "petition-4",
@@ -97,7 +101,48 @@ export const PETITIONS_DATA: PetitionItem[] = [
     organizer: "Urban Youth Health Project",
     realWorldCampaign: "National Coalition of STD Directors (NCSD) & CDC GetTested",
     billOrInitiative: "Community Adolescent STI Testing & Prevention Grants",
-    externalUrl: "https://www.ncsddc.org"
+    externalUrl: "https://www.ncsddc.org",
+    billUrl: "https://gettested.cdc.gov"
+  },
+  {
+    id: "petition-5",
+    title: "Pass the Federal Menstrual Equity for All Act (H.R. 3646)",
+    target: "118th U.S. Congress (House & Senate)",
+    summary: "Mandate free menstrual hygiene products across public middle and high schools, colleges, federal prisons, and homeless shelters via federal Title I grants.",
+    fullDemands: [
+      "Provide federal grant assistance through the Department of Education to stock school dispensers.",
+      "Incentivize state colleges and universities to provide free pads and tampons in campus buildings.",
+      "Require all federal correctional and detention facilities to provide unrationed menstrual supplies."
+    ],
+    currentSignatures: 18940,
+    targetSignatures: 25000,
+    category: "policy",
+    location: "Federal Legislation (U.S. Capitol)",
+    organizer: "Congressional Menstrual Equity Coalition & Rep. Grace Meng",
+    realWorldCampaign: "Congress.gov Official Federal Bill Tracker",
+    billOrInitiative: "Federal Bill H.R. 3646",
+    externalUrl: "https://www.congress.gov/bill/118th-congress/house-bill/3646",
+    billUrl: "https://www.congress.gov/bill/118th-congress/house-bill/3646"
+  },
+  {
+    id: "petition-6",
+    title: "National Student Action: Free Emergency Contraception & Telehealth on Campuses",
+    target: "University Boards of Regents & Campus Health Centers",
+    summary: "College students across the country are organizing for 24/7 campus wellness vending machines stocking free or at-cost emergency contraception and confidential telehealth access.",
+    fullDemands: [
+      "Install accessible campus wellness vending machines with emergency contraception and barrier methods.",
+      "Guarantee confidential adolescent and student reproductive health telehealth visits without parental billing alerts.",
+      "Provide free rapid fentanyl test strips and emergency overdose reversal (Narcan) in student unions."
+    ],
+    currentSignatures: 12450,
+    targetSignatures: 15000,
+    category: "access",
+    location: "Nationwide College Campuses",
+    organizer: "Change.org Student Reproductive Rights Campaign",
+    realWorldCampaign: "Change.org National Student Reproductive Rights Initiative",
+    billOrInitiative: "Campus Reproductive Equity Action Network",
+    externalUrl: "https://www.change.org/t/reproductive-rights-en-us",
+    billUrl: "https://www.change.org/t/reproductive-rights-en-us"
   }
 ];
 

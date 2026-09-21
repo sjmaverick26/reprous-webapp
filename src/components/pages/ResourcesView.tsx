@@ -377,13 +377,38 @@ export function ResourcesView({ onNavigate }: ResourcesViewProps) {
                 className="p-7 flex flex-col justify-between bg-cream-card border border-berry/15 shadow-card hover:shadow-hover transition-all"
               >
                 <div>
-                  <div className="flex items-start justify-between gap-2 mb-3">
+                  <div className="flex items-start justify-between gap-2 mb-3 flex-wrap">
                     <span className="text-[13px] font-bold font-sans uppercase tracking-wider text-berry/75">
                       {petition.location} • {petition.organizer}
                     </span>
                     <Badge variant="outline" className="capitalize text-[12px]">
                       {petition.category}
                     </Badge>
+                  </div>
+
+                  {/* Real-World Campaign & Bill Badge */}
+                  <div className="flex items-center gap-2 mb-3.5 flex-wrap">
+                    <a
+                      href={petition.externalUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11.5px] font-bold bg-light-teal text-deep-teal border border-deep-teal/25 hover:bg-deep-teal hover:text-white transition-all shadow-2xs group"
+                    >
+                      <ExternalLink className="w-3.5 h-3.5 text-coral group-hover:text-white shrink-0" />
+                      <span>Live Coalition: {petition.realWorldCampaign}</span>
+                    </a>
+
+                    {petition.billOrInitiative && (
+                      <a
+                        href={petition.billUrl || petition.externalUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1 text-[11px] font-bold text-raspberry bg-soft-pink/70 hover:bg-soft-pink px-2.5 py-0.5 rounded-lg border border-raspberry/25 transition-colors"
+                      >
+                        <span>🏛️ {petition.billOrInitiative}</span>
+                        <ExternalLink className="w-3 h-3 ml-0.5 shrink-0" />
+                      </a>
+                    )}
                   </div>
 
                   <h3 className="text-2xl md:text-[28px] font-normal font-serif text-plum mb-2 leading-snug">
@@ -432,39 +457,55 @@ export function ResourcesView({ onNavigate }: ResourcesViewProps) {
                     </div>
                   </div>
 
-                  <Button
-                    onClick={() => setSelectedPetition(petition)}
-                    disabled={isSigned}
-                    variant={isSigned ? "ghost" : "default"}
-                    className="w-full gap-2 font-bold"
-                  >
-                    {isSigned ? (
-                      <>
-                        <CheckCircle2 className="w-4 h-4 text-green-600" />
-                        Signed! Thank you for your support
-                      </>
-                    ) : (
-                      <>
-                        <PenLine className="w-4 h-4" />
-                        Sign this petition
-                      </>
-                    )}
-                  </Button>
+                  {/* Dual Action Buttons: Community Pledge + Live Real-World Petition */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                    <Button
+                      onClick={() => setSelectedPetition(petition)}
+                      disabled={isSigned}
+                      variant={isSigned ? "ghost" : "default"}
+                      className={`w-full gap-1.5 font-bold text-xs sm:text-sm h-11 ${
+                        isSigned
+                          ? "text-green-700 bg-green-50 border border-green-300"
+                          : "bg-deep-teal text-white hover:bg-deep-teal/90"
+                      }`}
+                    >
+                      {isSigned ? (
+                        <>
+                          <CheckCircle2 className="w-4 h-4 text-green-600 shrink-0" />
+                          <span>Pledged on ReproUs ✓</span>
+                        </>
+                      ) : (
+                        <>
+                          <PenLine className="w-4 h-4 shrink-0" />
+                          <span>Sign Community Pledge</span>
+                        </>
+                      )}
+                    </Button>
+
+                    <a
+                      href={petition.externalUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-full inline-flex items-center justify-center gap-1.5 rounded-xl border-2 border-deep-teal/25 bg-white text-deep-teal hover:bg-light-teal/50 hover:border-deep-teal font-bold text-xs sm:text-sm h-11 px-3 transition-all shadow-2xs text-center"
+                    >
+                      <span>Sign Real Petition</span>
+                      <ExternalLink className="w-3.5 h-3.5 text-raspberry shrink-0" />
+                    </a>
+                  </div>
 
                   {petition.externalUrl && (
-                    <div className="mt-3.5 pt-3 border-t border-deep-teal/10 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs font-sans">
-                      <div className="text-charcoal/70">
-                        <span className="font-semibold text-deep-teal">National Campaign:</span>{" "}
-                        <span>{petition.realWorldCampaign}</span>
-                      </div>
+                    <div className="mt-3.5 pt-2.5 border-t border-deep-teal/10 flex items-center justify-between gap-2 text-[11.5px] font-sans">
+                      <span className="text-charcoal/70 truncate">
+                        Linked Host: <strong className="text-deep-teal">{petition.realWorldCampaign}</strong>
+                      </span>
                       <a
                         href={petition.externalUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1 font-bold text-raspberry hover:underline shrink-0"
+                        className="font-bold text-raspberry hover:underline inline-flex items-center gap-1 shrink-0"
                       >
-                        <span>Official Action Page</span>
-                        <ExternalLink className="w-3.5 h-3.5" />
+                        <span>Official Platform</span>
+                        <ExternalLink className="w-3 h-3" />
                       </a>
                     </div>
                   )}
@@ -533,32 +574,57 @@ export function ResourcesView({ onNavigate }: ResourcesViewProps) {
         <DialogContent className="max-w-md">
           {selectedPetition && (
             <div>
-              <DialogHeader className="mb-4">
-                <DialogTitle>Sign Petition</DialogTitle>
+              <DialogHeader className="mb-3">
+                <DialogTitle>Sign Petition Pledge</DialogTitle>
                 <DialogDescription>
                   {selectedPetition.title}
                 </DialogDescription>
               </DialogHeader>
 
+              {/* Real World Direct Outbound Banner */}
+              <div className="p-3.5 rounded-2xl bg-light-teal/50 border border-deep-teal/20 text-xs text-charcoal/90 space-y-1.5 mb-4">
+                <div className="flex items-center justify-between font-bold text-deep-teal">
+                  <span className="flex items-center gap-1.5">
+                    <ExternalLink className="w-4 h-4 text-coral shrink-0" />
+                    Official Live Petition Link:
+                  </span>
+                  <span className="text-[10px] uppercase font-bold px-2 py-0.5 rounded-md bg-white border border-deep-teal/20 text-deep-teal">
+                    National Coalition
+                  </span>
+                </div>
+                <p className="text-[11.5px] leading-relaxed m-0 text-charcoal/80">
+                  This community initiative supports <strong>{selectedPetition.realWorldCampaign}</strong> ({selectedPetition.billOrInitiative || "Grassroots Initiative"}).
+                  Add your name to the ReproUs student ledger below, or sign the official petition directly on the host website:
+                </p>
+                <a
+                  href={selectedPetition.externalUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 font-bold text-raspberry hover:underline text-xs pt-1"
+                >
+                  <span>Sign Live on {selectedPetition.realWorldCampaign.split("&")[0].trim()} ↗</span>
+                </a>
+              </div>
+
               {signSuccess ? (
                 <div className="p-6 text-center flex flex-col items-center gap-3">
                   <CheckCircle2 className="w-12 h-12 text-green-600 animate-bounce" />
-                  <h4 className="font-serif text-xl font-bold text-deep-teal">Signature Added!</h4>
+                  <h4 className="font-serif text-xl font-bold text-deep-teal">Pledge Recorded!</h4>
                   <p className="text-xs text-charcoal/80">
-                    Thank you for standing up for youth health equity. Your voice makes a measurable difference.
+                    Thank you for standing up for youth reproductive rights. Next, please add your name to the official live national petition:
                   </p>
                   {selectedPetition.externalUrl && (
-                    <div className="mt-2 pt-3 border-t border-deep-teal/15 w-full text-left bg-light-teal/50 p-3 rounded-xl">
-                      <p className="text-xs text-charcoal/80 font-bold mb-1">Official National Campaign:</p>
-                      <p className="text-xs text-charcoal/70 mb-2">{selectedPetition.realWorldCampaign}</p>
+                    <div className="mt-2 pt-3 border-t border-deep-teal/15 w-full text-left bg-light-teal/50 p-4 rounded-xl space-y-2.5">
+                      <p className="text-xs text-charcoal/80 font-bold mb-0">Official Host Campaign:</p>
+                      <p className="text-xs text-charcoal/70 mb-1">{selectedPetition.realWorldCampaign}</p>
                       <a
                         href={selectedPetition.externalUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1.5 font-bold text-xs text-raspberry hover:underline"
+                        className="w-full inline-flex items-center justify-center gap-2 font-bold text-xs sm:text-sm h-11 px-4 rounded-xl bg-deep-teal text-white hover:bg-deep-teal/90 shadow-sm transition-all"
                       >
-                        <span>Visit Official Campaign Page</span>
-                        <ExternalLink className="w-3.5 h-3.5" />
+                        <span>Sign Live on {selectedPetition.realWorldCampaign.split("&")[0].trim()}</span>
+                        <ExternalLink className="w-4 h-4" />
                       </a>
                     </div>
                   )}
@@ -612,7 +678,7 @@ export function ResourcesView({ onNavigate }: ResourcesViewProps) {
                         rel="noopener noreferrer"
                         className="font-bold text-raspberry hover:underline inline-flex items-center gap-1 shrink-0"
                       >
-                        <span>Official Bill</span>
+                        <span>Official Action</span>
                         <ExternalLink className="w-3 h-3" />
                       </a>
                     </div>
@@ -621,7 +687,7 @@ export function ResourcesView({ onNavigate }: ResourcesViewProps) {
                     * Your email will not be published publicly. We only count verified signatures.
                   </p>
                   <Button type="submit" disabled={isSigning} className="w-full mt-2">
-                    {isSigning ? "Recording Signature..." : "Add My Signature"}
+                    {isSigning ? "Recording Signature..." : "Record Community Pledge"}
                   </Button>
                 </form>
               )}
