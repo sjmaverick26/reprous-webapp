@@ -28,6 +28,9 @@ import {
   ExternalLink,
   Trash2,
   Check,
+  Maximize2,
+  Minimize2,
+  X,
 } from "lucide-react";
 
 export interface DiagramClinicalSource {
@@ -1284,16 +1287,12 @@ function AthletePlateDiagram({ diagram }: { diagram: LessonDiagram; themeColor: 
   const [viewMode, setViewMode] = useState<"bowl" | "plate">("bowl");
   const [dayType, setDayType] = useState<"easy" | "moderate" | "hard" | "pregame" | "postgame">("moderate");
 
-  // Nourishment Bowl State
-  const [bowlItems, setBowlItems] = useState<string[]>([
-    "sweet_potato",
-    "wild_salmon",
-    "avocado",
-    "spinach_kale",
-  ]);
-  const [selectedFoodId, setSelectedFoodId] = useState<string>("wild_salmon");
+  // Nourishment Bowl State — starts empty as an interactive game!
+  const [bowlItems, setBowlItems] = useState<string[]>([]);
+  const [selectedFoodId, setSelectedFoodId] = useState<string>("");
   const [pantryFilter, setPantryFilter] = useState<"all" | "carbs" | "protein" | "fats" | "colors">("all");
   const [isDraggingOver, setIsDraggingOver] = useState(false);
+  const [isFullscreen, setIsFullscreen] = useState(false);
 
   const addFoodToBowl = (foodId: string) => {
     if (!bowlItems.includes(foodId)) {
@@ -1416,456 +1415,536 @@ function AthletePlateDiagram({ diagram }: { diagram: LessonDiagram; themeColor: 
   };
 
   return (
-    <div className="rounded-2xl border-2 border-coral/30 bg-white p-4 md:p-5 shadow-sm space-y-4">
-      {/* Header & Mode Switcher */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-coral/15 pb-3">
-        <div>
-          <div className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-coral font-sans">
-            <Zap className="w-3.5 h-3.5 text-coral" />
-            Athlete Nutrition &amp; Hormone Fueling
-          </div>
-          <h4 className="text-base md:text-lg font-serif font-bold text-deep-teal mt-0.5">
-            {viewMode === "bowl"
-              ? "Build Your Athlete Nourishment Bowl"
-              : diagram.title}
-          </h4>
-        </div>
-
-        {/* View Mode Switcher */}
-        <div className="flex items-center gap-1.5 rounded-xl bg-slate-100 p-1 border border-slate-200">
-          <button
-            type="button"
-            onClick={() => setViewMode("bowl")}
-            className={`px-3 py-1.5 rounded-lg font-bold text-xs transition-all flex items-center gap-1.5 font-sans ${
-              viewMode === "bowl"
-                ? "bg-coral text-white shadow-xs"
-                : "text-charcoal/70 hover:text-charcoal"
-            }`}
-          >
-            <span>🥗 Fuel Bowl Builder</span>
-          </button>
-          <button
-            type="button"
-            onClick={() => setViewMode("plate")}
-            className={`px-3 py-1.5 rounded-lg font-bold text-xs transition-all flex items-center gap-1.5 font-sans ${
-              viewMode === "plate"
-                ? "bg-deep-teal text-white shadow-xs"
-                : "text-charcoal/70 hover:text-charcoal"
-            }`}
-          >
-            <span>🍽️ 5-Stage Athlete Plate</span>
-          </button>
-        </div>
-      </div>
-
-      {/* =========================================================================
-          MODE 1: NOURISHMENT BOWL BUILDER (DRAG & DROP / TAP-TO-ADD)
-         ========================================================================= */}
-      {viewMode === "bowl" && (
-        <div className="space-y-4">
-          {/* Top Explainer */}
-          <div className="rounded-2xl border border-coral/20 bg-gradient-to-r from-coral/10 via-amber-50/50 to-teal-50/40 p-3.5 space-y-1">
-            <div className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-deep-teal font-sans">
-              <Sparkles className="w-3.5 h-3.5 text-coral" />
-              <span>Interactive Food Drag &amp; Drop Studio:</span>
+    <div
+      className={
+        isFullscreen
+          ? "fixed inset-0 z-50 overflow-y-auto bg-slate-950/90 backdrop-blur-md p-3 sm:p-6 md:p-8 flex flex-col items-center justify-start animate-in fade-in duration-200"
+          : "rounded-2xl border-2 border-coral/30 bg-white p-4 md:p-5 shadow-sm space-y-4"
+      }
+    >
+      <div className={isFullscreen ? "max-w-6xl w-full bg-white rounded-3xl p-5 sm:p-8 shadow-2xl border-4 border-coral/40 space-y-6 my-auto" : "space-y-4 w-full"}>
+        {/* Header & Mode Switcher */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-coral/15 pb-3">
+          <div>
+            <div className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-coral font-sans">
+              <Zap className="w-3.5 h-3.5 text-coral" />
+              Athlete Nutrition &amp; Hormone Fueling
             </div>
-            <p className="text-xs sm:text-sm text-charcoal/85 leading-relaxed font-sans m-0">
-              Drag nutrient-dense foods into your bowl (or tap to add) to discover what each ingredient does for your{" "}
-              <strong className="text-deep-teal font-semibold">athletic performance</strong>,{" "}
-              <strong className="text-coral font-semibold">estrogen &amp; progesterone synthesis</strong>, and{" "}
-              <strong className="text-emerald-800 font-semibold">bone density protection</strong>.
-            </p>
+            <h4 className="text-base md:text-xl font-serif font-bold text-deep-teal mt-0.5">
+              {viewMode === "bowl"
+                ? "Interactive Athlete Fuel Bowl Studio"
+                : diagram.title}
+            </h4>
           </div>
 
-          {/* Preset Bowls & Reset Bar */}
-          <div className="flex flex-wrap items-center justify-between gap-2 text-xs font-sans">
-            <div className="flex items-center gap-1.5 flex-wrap">
-              <span className="font-bold text-charcoal/70 text-[11px]">Quick Sample Bowls:</span>
+          {/* View Mode Switcher & Fullscreen Game Toggle */}
+          <div className="flex items-center gap-2 flex-wrap">
+            <div className="flex items-center gap-1.5 rounded-xl bg-slate-100 p-1 border border-slate-200">
               <button
                 type="button"
-                onClick={() => loadPreset("pregame")}
-                className="px-2.5 py-1 rounded-lg bg-amber-100/80 hover:bg-amber-200/90 text-amber-900 border border-amber-300 text-[11px] font-bold transition-all"
+                onClick={() => setViewMode("bowl")}
+                className={`px-3 py-1.5 rounded-lg font-bold text-xs transition-all flex items-center gap-1.5 font-sans ${
+                  viewMode === "bowl"
+                    ? "bg-coral text-white shadow-xs"
+                    : "text-charcoal/70 hover:text-charcoal"
+                }`}
               >
-                ⚡ Pre-Game Primer
+                <span>🥗 Fuel Bowl Studio</span>
               </button>
               <button
                 type="button"
-                onClick={() => loadPreset("postgame")}
-                className="px-2.5 py-1 rounded-lg bg-emerald-100/80 hover:bg-emerald-200/90 text-emerald-900 border border-emerald-300 text-[11px] font-bold transition-all"
+                onClick={() => setViewMode("plate")}
+                className={`px-3 py-1.5 rounded-lg font-bold text-xs transition-all flex items-center gap-1.5 font-sans ${
+                  viewMode === "plate"
+                    ? "bg-deep-teal text-white shadow-xs"
+                    : "text-charcoal/70 hover:text-charcoal"
+                }`}
               >
-                🏆 Post-Game Recovery
-              </button>
-              <button
-                type="button"
-                onClick={() => loadPreset("cramp")}
-                className="px-2.5 py-1 rounded-lg bg-rose-100/80 hover:bg-rose-200/90 text-rose-900 border border-rose-300 text-[11px] font-bold transition-all"
-              >
-                🌸 Cramp &amp; Hormone Defense
+                <span>🍽️ 5-Stage Athlete Plate</span>
               </button>
             </div>
 
-            {bowlItems.length > 0 && (
+            {viewMode === "bowl" && (
               <button
                 type="button"
-                onClick={() => {
-                  setBowlItems([]);
-                  setSelectedFoodId("");
-                }}
-                className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-rose-700 bg-rose-50 hover:bg-rose-100 border border-rose-200 text-[11px] font-bold transition-all"
+                onClick={() => setIsFullscreen(!isFullscreen)}
+                className="px-3 py-1.5 rounded-xl bg-amber-100 hover:bg-amber-200 text-amber-950 font-bold text-xs transition-all flex items-center gap-1.5 font-sans border border-amber-300 shadow-2xs"
+                title={isFullscreen ? "Exit Fullscreen Game Mode" : "Expand to Fullscreen Game Mode"}
               >
-                <Trash2 className="w-3 h-3" />
-                <span>Reset Bowl</span>
+                {isFullscreen ? (
+                  <>
+                    <Minimize2 className="w-3.5 h-3.5 text-amber-900" />
+                    <span>Exit Game View</span>
+                  </>
+                ) : (
+                  <>
+                    <Maximize2 className="w-3.5 h-3.5 text-amber-900" />
+                    <span>🎮 Fullscreen Game</span>
+                  </>
+                )}
               </button>
             )}
           </div>
+        </div>
 
-          {/* The Bowl Drop Zone Canvas */}
-          <div
-            onDragOver={(e) => {
-              e.preventDefault();
-              setIsDraggingOver(true);
-            }}
-            onDragLeave={() => setIsDraggingOver(false)}
-            onDrop={(e) => {
-              e.preventDefault();
-              setIsDraggingOver(false);
-              const foodId = e.dataTransfer.getData("text/plain");
-              if (foodId) addFoodToBowl(foodId);
-            }}
-            className={`relative rounded-3xl p-5 md:p-6 transition-all border-2 text-center flex flex-col items-center justify-center min-h-[260px] ${
-              isDraggingOver
-                ? "border-emerald-500 bg-emerald-50/80 ring-4 ring-emerald-400/30 scale-[1.01]"
-                : "border-deep-teal/20 bg-gradient-to-b from-[#F7FBFA] via-white to-amber-50/30"
-            }`}
-          >
-            {/* Ceramic Bowl Graphic Backdrop */}
-            <div className="relative w-full max-w-md flex flex-col items-center">
-              {/* Bowl Illustration SVG */}
-              <div className="relative w-72 sm:w-80 h-36 sm:h-40">
-                <svg viewBox="0 0 320 160" className="w-full h-full drop-shadow-md">
-                  <defs>
-                    <linearGradient id="bowlExterior" x1="0%" y1="0%" x2="0%" y2="100%">
-                      <stop offset="0%" stopColor="#FFFFFF" />
-                      <stop offset="60%" stopColor="#F1F5F9" />
-                      <stop offset="100%" stopColor="#CBD5E1" />
-                    </linearGradient>
-                    <linearGradient id="bowlInterior" x1="0%" y1="0%" x2="0%" y2="100%">
-                      <stop offset="0%" stopColor="#FFFBF5" />
-                      <stop offset="100%" stopColor="#FDEEDC" />
-                    </linearGradient>
-                  </defs>
+        {/* =========================================================================
+            MODE 1: NOURISHMENT BOWL BUILDER (DRAG & DROP / TAP-TO-ADD GAME)
+           ========================================================================= */}
+        {viewMode === "bowl" && (
+          <div className="space-y-4 sm:space-y-5">
+            {/* Top Explainer with Clear Instruction Label */}
+            <div className="rounded-2xl border-2 border-coral/30 bg-gradient-to-r from-coral/15 via-amber-50/70 to-teal-50/50 p-4 sm:p-5 shadow-xs space-y-2">
+              <div className="flex items-center gap-2 flex-wrap">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-coral text-white text-xs font-extrabold uppercase tracking-wider font-sans shadow-xs">
+                  <Sparkles className="w-3.5 h-3.5 text-white animate-spin-slow" />
+                  Instructions:
+                </span>
+                <h5 className="font-serif font-bold text-base sm:text-lg text-deep-teal m-0">
+                  Interactive Food Drag &amp; Drop Studio
+                </h5>
+              </div>
+              <p className="text-xs sm:text-sm text-charcoal/90 leading-relaxed font-sans m-0">
+                Drag nutrient-dense foods into your bowl (or tap to add) to discover what each ingredient does for your{" "}
+                <strong className="text-deep-teal font-semibold">athletic performance</strong>,{" "}
+                <strong className="text-coral font-semibold">estrogen &amp; progesterone synthesis</strong>, and{" "}
+                <strong className="text-emerald-800 font-semibold">bone density protection</strong>.
+              </p>
+            </div>
 
-                  {/* Bowl Exterior Body */}
-                  <path
-                    d="M 20 50 C 30 135, 90 155, 160 155 C 230 155, 290 135, 300 50 Z"
-                    fill="url(#bowlExterior)"
-                    stroke="#94A3B8"
-                    strokeWidth="2.5"
-                  />
-                  {/* Bowl Base Ring */}
-                  <ellipse cx="160" cy="154" rx="65" ry="6" fill="#94A3B8" opacity="0.6" />
-                  <ellipse cx="160" cy="152" rx="60" ry="5" fill="#E2E8F0" />
+            {/* Preset Bowls & Reset Bar */}
+            <div className="flex flex-wrap items-center justify-between gap-2 text-xs font-sans">
+              <div className="flex items-center gap-1.5 flex-wrap">
+                <span className="font-bold text-charcoal/70 text-[11px]">Quick Sample Bowls:</span>
+                <button
+                  type="button"
+                  onClick={() => loadPreset("pregame")}
+                  className="px-3 py-1 rounded-xl bg-amber-100/90 hover:bg-amber-200 text-amber-900 border border-amber-300 text-xs font-bold transition-all shadow-2xs"
+                >
+                  ⚡ Pre-Game Primer
+                </button>
+                <button
+                  type="button"
+                  onClick={() => loadPreset("postgame")}
+                  className="px-3 py-1 rounded-xl bg-emerald-100/90 hover:bg-emerald-200 text-emerald-900 border border-emerald-300 text-xs font-bold transition-all shadow-2xs"
+                >
+                  🏆 Post-Game Recovery
+                </button>
+                <button
+                  type="button"
+                  onClick={() => loadPreset("cramp")}
+                  className="px-3 py-1 rounded-xl bg-rose-100/90 hover:bg-rose-200 text-rose-900 border border-rose-300 text-xs font-bold transition-all shadow-2xs"
+                >
+                  🌸 Cramp &amp; Hormone Defense
+                </button>
+              </div>
 
-                  {/* Bowl Interior Cavity */}
-                  <ellipse cx="160" cy="50" rx="140" ry="24" fill="url(#bowlInterior)" stroke="#CBD5E1" strokeWidth="2" />
-                  {/* Inner Depth Shadow */}
-                  <ellipse cx="160" cy="54" rx="125" ry="18" fill="#F8E8D5" opacity="0.45" />
+              {bowlItems.length > 0 && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setBowlItems([]);
+                    setSelectedFoodId("");
+                  }}
+                  className="inline-flex items-center gap-1 px-3 py-1 rounded-xl text-rose-700 bg-rose-50 hover:bg-rose-100 border border-rose-200 text-xs font-bold transition-all shadow-2xs"
+                >
+                  <Trash2 className="w-3.5 h-3.5" />
+                  <span>Reset Bowl</span>
+                </button>
+              )}
+            </div>
 
-                  {/* Ceramic Rim Highlight */}
-                  <ellipse cx="160" cy="49" rx="138" ry="22" fill="none" stroke="#FFFFFF" strokeWidth="1.5" />
+            {/* The Bowl Drop Zone Canvas — Much Bigger, Interactive & Game-Style */}
+            <div
+              onDragOver={(e) => {
+                e.preventDefault();
+                setIsDraggingOver(true);
+              }}
+              onDragLeave={() => setIsDraggingOver(false)}
+              onDrop={(e) => {
+                e.preventDefault();
+                setIsDraggingOver(false);
+                const foodId = e.dataTransfer.getData("text/plain");
+                if (foodId) addFoodToBowl(foodId);
+              }}
+              className={`relative rounded-3xl p-6 sm:p-8 transition-all border-3 text-center flex flex-col items-center justify-center min-h-[360px] sm:min-h-[420px] shadow-sm ${
+                isDraggingOver
+                  ? "border-emerald-500 bg-emerald-50/90 ring-8 ring-emerald-400/30 scale-[1.01]"
+                  : "border-deep-teal/25 bg-gradient-to-b from-[#F5FAF8] via-white to-amber-50/40"
+              }`}
+            >
+              {/* Ceramic Bowl Graphic Backdrop */}
+              <div className="relative w-full max-w-xl sm:max-w-2xl flex flex-col items-center">
+                {/* Large Bowl Illustration SVG */}
+                <div className="relative w-full h-56 sm:h-68 max-w-lg sm:max-w-xl">
+                  <svg viewBox="0 0 440 220" className="w-full h-full drop-shadow-xl select-none">
+                    <defs>
+                      <linearGradient id="bowlExteriorLarge" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" stopColor="#FFFFFF" />
+                        <stop offset="45%" stopColor="#F8FAFC" />
+                        <stop offset="85%" stopColor="#E2E8F0" />
+                        <stop offset="100%" stopColor="#94A3B8" />
+                      </linearGradient>
+                      <linearGradient id="bowlInteriorLarge" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" stopColor="#FFFDF9" />
+                        <stop offset="60%" stopColor="#FDF4E7" />
+                        <stop offset="100%" stopColor="#F8E5CE" />
+                      </linearGradient>
+                      <radialGradient id="soupDepth" cx="50%" cy="50%" r="50%">
+                        <stop offset="0%" stopColor="#FDE68A" stopOpacity="0.35" />
+                        <stop offset="100%" stopColor="#D97706" stopOpacity="0.15" />
+                      </radialGradient>
+                    </defs>
 
-                  {/* Wooden Salad Spoon Garnish Resting on Rim */}
-                  <g transform="translate(230, 25) rotate(22)">
-                    <rect x="0" y="0" width="8" height="70" rx="3" fill="#B45309" opacity="0.85" />
-                    <ellipse cx="4" cy="72" rx="12" ry="16" fill="#D97706" opacity="0.9" />
-                  </g>
-                </svg>
+                    {/* Exterior Bowl Body */}
+                    <path
+                      d="M 28 65 C 40 185, 120 215, 220 215 C 320 215, 400 185, 412 65 Z"
+                      fill="url(#bowlExteriorLarge)"
+                      stroke="#64748B"
+                      strokeWidth="3.5"
+                    />
+                    {/* Bowl Base Ring & Shadow */}
+                    <ellipse cx="220" cy="214" rx="88" ry="10" fill="#475569" opacity="0.4" />
+                    <ellipse cx="220" cy="211" rx="82" ry="7" fill="#E2E8F0" stroke="#94A3B8" strokeWidth="1.5" />
 
-                {/* Ingredients Floating Inside the Bowl */}
-                <div className="absolute inset-0 pt-6 px-6 pb-2 flex flex-wrap items-center justify-center gap-1.5 overflow-hidden z-10">
-                  {bowlItems.length === 0 ? (
-                    <div className="text-center space-y-1">
-                      <span className="text-2xl block animate-bounce">🥣</span>
-                      <p className="text-xs sm:text-sm font-bold text-charcoal/70 font-sans m-0">
-                        Your Bowl is Empty!
-                      </p>
-                      <p className="text-[11px] text-charcoal/60 font-sans m-0">
-                        Drag foods here or tap items below to build your meal.
-                      </p>
-                    </div>
-                  ) : (
-                    bowlItems.map((foodId) => {
-                      const food = ATHLETE_BOWL_FOODS.find((f) => f.id === foodId);
-                      if (!food) return null;
-                      const isSelected = selectedFoodId === food.id;
+                    {/* Interior Cavity */}
+                    <ellipse cx="220" cy="65" rx="192" ry="36" fill="url(#bowlInteriorLarge)" stroke="#CBD5E1" strokeWidth="3" />
+                    {/* Inner Depth & Warmth */}
+                    <ellipse cx="220" cy="72" rx="175" ry="28" fill="url(#soupDepth)" />
 
-                      return (
-                        <button
-                          key={food.id}
-                          type="button"
-                          onClick={() => setSelectedFoodId(food.id)}
-                          className={`group relative inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold transition-all shadow-xs animate-in zoom-in-75 font-sans ${
-                            isSelected
-                              ? "bg-deep-teal text-white ring-2 ring-coral scale-105"
-                              : "bg-white/95 text-charcoal hover:bg-white hover:scale-105 border border-slate-300"
-                          }`}
-                        >
-                          <span className="text-sm">{food.emoji}</span>
-                          <span>{food.name}</span>
-                          <span
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              removeFoodFromBowl(food.id);
-                            }}
-                            className="ml-0.5 rounded-full p-0.5 hover:bg-black/10 text-charcoal/60 hover:text-rose-600"
-                            title="Remove from bowl"
+                    {/* Ceramic Rim Highlight */}
+                    <ellipse cx="220" cy="64" rx="190" ry="34" fill="none" stroke="#FFFFFF" strokeWidth="2.5" />
+
+                    {/* Wooden Serving Utensil Accent on Rim */}
+                    <g transform="translate(325, 28) rotate(24)">
+                      <rect x="0" y="0" width="10" height="95" rx="4" fill="#92400E" opacity="0.9" />
+                      <ellipse cx="5" cy="100" rx="16" ry="22" fill="#B45309" opacity="0.95" />
+                    </g>
+                    <g transform="translate(340, 20) rotate(18)">
+                      <rect x="0" y="0" width="4" height="110" rx="2" fill="#78350F" opacity="0.8" />
+                    </g>
+                  </svg>
+
+                  {/* Ingredients Floating Inside the Bowl */}
+                  <div className="absolute inset-0 pt-7 sm:pt-9 px-6 sm:px-10 pb-4 flex flex-wrap items-center justify-center gap-2 overflow-y-auto z-10 custom-scrollbar max-h-48 sm:max-h-60">
+                    {bowlItems.length === 0 ? (
+                      <div className="text-center space-y-2 py-3 animate-in fade-in duration-300">
+                        <div className="w-14 h-14 sm:w-16 sm:h-16 mx-auto rounded-full bg-gradient-to-br from-amber-100 to-orange-100 border-2 border-dashed border-coral flex items-center justify-center text-3xl sm:text-4xl shadow-inner animate-bounce">
+                          🥣
+                        </div>
+                        <div className="space-y-0.5">
+                          <h6 className="text-sm sm:text-base font-serif font-bold text-deep-teal m-0">
+                            Your Athlete Fuel Bowl is Empty!
+                          </h6>
+                          <p className="text-xs text-charcoal/70 font-sans max-w-xs sm:max-w-sm mx-auto m-0">
+                            Drag nutrient-dense foods here from the pantry below or tap <strong className="text-coral">+ Add</strong> to build your energy powerhouse.
+                          </p>
+                        </div>
+                      </div>
+                    ) : (
+                      bowlItems.map((foodId) => {
+                        const food = ATHLETE_BOWL_FOODS.find((f) => f.id === foodId);
+                        if (!food) return null;
+                        const isSelected = selectedFoodId === food.id;
+
+                        return (
+                          <button
+                            key={food.id}
+                            type="button"
+                            onClick={() => setSelectedFoodId(food.id)}
+                            className={`group relative inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-2xl text-xs sm:text-sm font-bold transition-all shadow-md animate-in zoom-in-75 font-sans ${
+                              isSelected
+                                ? "bg-deep-teal text-white ring-4 ring-coral scale-105 shadow-lg"
+                                : "bg-white text-charcoal hover:bg-slate-50 hover:scale-105 border-2 border-slate-300"
+                            }`}
                           >
-                            ×
-                          </span>
-                        </button>
-                      );
-                    })
-                  )}
+                            <span className="text-2xl sm:text-3xl drop-shadow-xs">{food.emoji}</span>
+                            <div className="text-left">
+                              <span className="block leading-tight font-bold">{food.name}</span>
+                              <span className={`text-[10px] font-extrabold uppercase tracking-wider block ${isSelected ? "text-amber-300" : "text-charcoal/60"}`}>
+                                {food.categoryLabel.split(" ")[0]}
+                              </span>
+                            </div>
+                            <span
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                removeFoodFromBowl(food.id);
+                              }}
+                              className="ml-1 w-5 h-5 rounded-full flex items-center justify-center bg-black/10 hover:bg-rose-500 hover:text-white transition-colors text-xs font-black"
+                              title="Remove from bowl"
+                            >
+                              ×
+                            </span>
+                          </button>
+                        );
+                      })
+                    )}
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <span className="text-[11px] font-semibold text-charcoal/60 mt-2 block font-sans">
-              {isDraggingOver
-                ? "✨ Drop food item into the bowl!"
-                : `Active Ingredients: ${bowlItems.length} added · Tap any ingredient above or below to read its benefits`}
-            </span>
-          </div>
-
-          {/* 4-Pillar Bowl Balance Meter */}
-          <div className="rounded-2xl border border-deep-teal/15 bg-white p-3 sm:p-4 space-y-2 shadow-2xs">
-            <div className="flex items-center justify-between gap-2">
-              <span className="text-xs font-bold uppercase tracking-wider text-deep-teal font-sans">
-                4-Pillar Hormone &amp; Performance Balance Meter:
-              </span>
-              <span
-                className={`text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full font-sans ${
-                  isFullyBalanced
-                    ? "bg-emerald-100 text-emerald-900 border border-emerald-300"
-                    : "bg-slate-100 text-charcoal/70"
-                }`}
-              >
-                {isFullyBalanced ? "✓ Perfectly Balanced" : `${(carbsCount > 0 ? 1 : 0) + (proteinCount > 0 ? 1 : 0) + (fatsCount > 0 ? 1 : 0) + (colorsCount > 0 ? 1 : 0)} / 4 Pillars Added`}
+              <span className="text-xs font-semibold text-charcoal/70 mt-3 block font-sans">
+                {isDraggingOver
+                  ? "✨ Release to drop this food into your bowl!"
+                  : bowlItems.length === 0
+                  ? "👆 Choose from the 12 food items in the pantry below to start!"
+                  : `Active Ingredients: ${bowlItems.length} added · Tap any ingredient above or below to view its benefits`}
               </span>
             </div>
 
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs font-sans">
-              <div
-                className={`p-2 rounded-xl border flex items-center justify-between ${
-                  carbsCount > 0 ? "bg-amber-50 border-amber-300 text-amber-950 font-bold" : "bg-slate-50 border-slate-200 text-charcoal/60"
-                }`}
-              >
-                <span>🍠 Carbs ({carbsCount})</span>
-                <span className="text-[10.5px]">{carbsCount > 0 ? "✓ Added" : "Missing"}</span>
+            {/* 4-Pillar Bowl Balance Meter */}
+            <div className="rounded-2xl border border-deep-teal/15 bg-white p-3 sm:p-4 space-y-2 shadow-2xs">
+              <div className="flex items-center justify-between gap-2">
+                <span className="text-xs font-bold uppercase tracking-wider text-deep-teal font-sans">
+                  4-Pillar Hormone &amp; Performance Balance Meter:
+                </span>
+                <span
+                  className={`text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full font-sans ${
+                    isFullyBalanced
+                      ? "bg-emerald-100 text-emerald-900 border border-emerald-300"
+                      : "bg-slate-100 text-charcoal/70"
+                  }`}
+                >
+                  {isFullyBalanced ? "✓ Perfectly Balanced" : `${(carbsCount > 0 ? 1 : 0) + (proteinCount > 0 ? 1 : 0) + (fatsCount > 0 ? 1 : 0) + (colorsCount > 0 ? 1 : 0)} / 4 Pillars Added`}
+                </span>
               </div>
-              <div
-                className={`p-2 rounded-xl border flex items-center justify-between ${
-                  proteinCount > 0 ? "bg-rose-50 border-rose-300 text-rose-950 font-bold" : "bg-slate-50 border-slate-200 text-charcoal/60"
-                }`}
-              >
-                <span>🐟 Protein ({proteinCount})</span>
-                <span className="text-[10.5px]">{proteinCount > 0 ? "✓ Added" : "Missing"}</span>
+
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs font-sans">
+                <div
+                  className={`p-2 rounded-xl border flex items-center justify-between ${
+                    carbsCount > 0 ? "bg-amber-50 border-amber-300 text-amber-950 font-bold" : "bg-slate-50 border-slate-200 text-charcoal/60"
+                  }`}
+                >
+                  <span>🍠 Carbs ({carbsCount})</span>
+                  <span className="text-[10.5px]">{carbsCount > 0 ? "✓ Added" : "Missing"}</span>
+                </div>
+                <div
+                  className={`p-2 rounded-xl border flex items-center justify-between ${
+                    proteinCount > 0 ? "bg-rose-50 border-rose-300 text-rose-950 font-bold" : "bg-slate-50 border-slate-200 text-charcoal/60"
+                  }`}
+                >
+                  <span>🐟 Protein ({proteinCount})</span>
+                  <span className="text-[10.5px]">{proteinCount > 0 ? "✓ Added" : "Missing"}</span>
+                </div>
+                <div
+                  className={`p-2 rounded-xl border flex items-center justify-between ${
+                    fatsCount > 0 ? "bg-lime-50 border-lime-300 text-lime-950 font-bold" : "bg-slate-50 border-slate-200 text-charcoal/60"
+                  }`}
+                >
+                  <span>🥑 Fats ({fatsCount})</span>
+                  <span className="text-[10.5px]">{fatsCount > 0 ? "✓ Added" : "Missing"}</span>
+                </div>
+                <div
+                  className={`p-2 rounded-xl border flex items-center justify-between ${
+                    colorsCount > 0 ? "bg-emerald-50 border-emerald-300 text-emerald-950 font-bold" : "bg-slate-50 border-slate-200 text-charcoal/60"
+                  }`}
+                >
+                  <span>🫐 Colors ({colorsCount})</span>
+                  <span className="text-[10.5px]">{colorsCount > 0 ? "✓ Added" : "Missing"}</span>
+                </div>
               </div>
-              <div
-                className={`p-2 rounded-xl border flex items-center justify-between ${
-                  fatsCount > 0 ? "bg-lime-50 border-lime-300 text-lime-950 font-bold" : "bg-slate-50 border-slate-200 text-charcoal/60"
-                }`}
-              >
-                <span>🥑 Fats ({fatsCount})</span>
-                <span className="text-[10.5px]">{fatsCount > 0 ? "✓ Added" : "Missing"}</span>
-              </div>
-              <div
-                className={`p-2 rounded-xl border flex items-center justify-between ${
-                  colorsCount > 0 ? "bg-emerald-50 border-emerald-300 text-emerald-950 font-bold" : "bg-slate-50 border-slate-200 text-charcoal/60"
-                }`}
-              >
-                <span>🫐 Colors ({colorsCount})</span>
-                <span className="text-[10.5px]">{colorsCount > 0 ? "✓ Added" : "Missing"}</span>
-              </div>
+
+              {isFullyBalanced && (
+                <div className="rounded-xl bg-emerald-50 border border-emerald-200 p-2.5 text-xs text-emerald-950 font-sans leading-relaxed">
+                  🎉 <strong>Perfect Fueling Synergy Achieved!</strong> You have provided your body with all 4 vital pillars: muscle glycogen, cellular repair, sex steroid building blocks, and menstrual iron replenishment to safeguard your ovulatory cycles and prevent RED-S!
+                </div>
+              )}
             </div>
 
-            {isFullyBalanced && (
-              <div className="rounded-xl bg-emerald-50 border border-emerald-200 p-2.5 text-xs text-emerald-950 font-sans leading-relaxed">
-                🎉 <strong>Perfect Fueling Synergy Achieved!</strong> You have provided your body with all 4 vital pillars: muscle glycogen, cellular repair, sex steroid building blocks, and menstrual iron replenishment to safeguard your ovulatory cycles and prevent RED-S!
-              </div>
-            )}
-          </div>
+            {/* Selected Food Superpower & Female Body Benefits Card */}
+            {selectedFood && (
+              <div className="rounded-2xl border-2 border-coral/30 bg-gradient-to-br from-rose-50/50 via-white to-amber-50/30 p-4 sm:p-5 space-y-3 shadow-xs animate-in fade-in">
+                <div className="flex flex-wrap items-start justify-between gap-2 border-b border-coral/15 pb-2.5">
+                  <div className="flex items-center gap-2.5">
+                    <span className="text-3xl sm:text-4xl">{selectedFood.emoji}</span>
+                    <div>
+                      <span className="block text-base sm:text-lg font-serif font-bold text-deep-teal">
+                        {selectedFood.name}
+                      </span>
+                      <span className="text-[11px] font-bold text-charcoal/70 font-sans">
+                        {selectedFood.nutrients}
+                      </span>
+                    </div>
+                  </div>
 
-          {/* Selected Food Superpower & Female Body Benefits Card */}
-          {selectedFood && (
-            <div className="rounded-2xl border-2 border-coral/30 bg-gradient-to-br from-rose-50/50 via-white to-amber-50/30 p-4 sm:p-5 space-y-3 shadow-xs animate-in fade-in">
-              <div className="flex flex-wrap items-start justify-between gap-2 border-b border-coral/15 pb-2.5">
-                <div className="flex items-center gap-2.5">
-                  <span className="text-3xl sm:text-4xl">{selectedFood.emoji}</span>
-                  <div>
-                    <span className="block text-base sm:text-lg font-serif font-bold text-deep-teal">
-                      {selectedFood.name}
+                  <div className="flex items-center gap-2">
+                    <span className={`text-[11px] font-bold uppercase tracking-wider px-3 py-1 rounded-full border font-sans ${selectedFood.badgeClass}`}>
+                      {selectedFood.categoryLabel}
                     </span>
-                    <span className="text-[11px] font-bold text-charcoal/70 font-sans">
-                      {selectedFood.nutrients}
-                    </span>
+                    {bowlItems.includes(selectedFood.id) ? (
+                      <button
+                        type="button"
+                        onClick={() => removeFoodFromBowl(selectedFood.id)}
+                        className="text-xs font-bold text-rose-700 bg-rose-50 hover:bg-rose-100 border border-rose-200 px-2.5 py-1 rounded-full font-sans"
+                      >
+                        Remove from Bowl
+                      </button>
+                    ) : (
+                      <button
+                        type="button"
+                        onClick={() => addFoodToBowl(selectedFood.id)}
+                        className="text-xs font-bold text-white bg-coral hover:bg-coral/90 px-3 py-1 rounded-full shadow-2xs font-sans"
+                      >
+                        + Add to Bowl
+                      </button>
+                    )}
                   </div>
                 </div>
 
-                <div className="flex items-center gap-2">
-                  <span className={`text-[11px] font-bold uppercase tracking-wider px-3 py-1 rounded-full border font-sans ${selectedFood.badgeClass}`}>
-                    {selectedFood.categoryLabel}
+                {/* 2-Column Benefits Breakdown */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs sm:text-sm font-sans">
+                  {/* Athletic Performance */}
+                  <div className="rounded-xl border border-amber-200 bg-amber-50/70 p-3 space-y-1">
+                    <span className="font-bold text-amber-950 flex items-center gap-1.5 text-xs uppercase tracking-wider">
+                      <Zap className="w-3.5 h-3.5 text-amber-600" />
+                      Athletic Performance Benefit:
+                    </span>
+                    <p className="text-charcoal/85 leading-relaxed m-0 text-xs sm:text-sm">
+                      {selectedFood.athleticBenefit}
+                    </p>
+                  </div>
+
+                  {/* Female Body & Hormonal Impact */}
+                  <div className="rounded-xl border border-coral/30 bg-rose-50/70 p-3 space-y-1">
+                    <span className="font-bold text-[#B83F68] flex items-center gap-1.5 text-xs uppercase tracking-wider">
+                      <Heart className="w-3.5 h-3.5 text-[#B83F68]" />
+                      What It Does for Your Female Body:
+                    </span>
+                    <p className="text-charcoal/85 leading-relaxed m-0 text-xs sm:text-sm">
+                      {selectedFood.femaleBodyBenefit}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Clinical Fact Note */}
+                <div className="rounded-xl border border-deep-teal/15 bg-light-teal/40 p-2.5 text-xs text-deep-teal font-sans leading-relaxed flex items-start gap-2">
+                  <Lightbulb className="w-4 h-4 text-deep-teal shrink-0 mt-0.5" />
+                  <span>
+                    <strong>Clinical &amp; Sports Nutrition Fact:</strong> {selectedFood.clinicalFact}
                   </span>
-                  {bowlItems.includes(selectedFood.id) ? (
+                </div>
+              </div>
+            )}
+
+            {/* Interactive Pantry & Food Selection Shelf with BIG PICTURES */}
+            <div className="space-y-3 pt-2">
+              <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-200/80 pb-2">
+                <div>
+                  <span className="text-sm sm:text-base font-bold text-charcoal font-sans flex items-center gap-2">
+                    <span>🏪 Athletic Food Pantry</span>
+                    <span className="text-xs font-normal text-charcoal/60">(Drag items to bowl or tap &ldquo;+ Add&rdquo;)</span>
+                  </span>
+                </div>
+                {/* Category Filter Pills */}
+                <div className="flex items-center gap-1.5 text-xs font-sans overflow-x-auto pb-1">
+                  {[
+                    { id: "all", label: "All Foods (12)" },
+                    { id: "carbs", label: "🍠 Carbs (3)" },
+                    { id: "protein", label: "🐟 Protein (3)" },
+                    { id: "fats", label: "🥑 Healthy Fats (3)" },
+                    { id: "colors", label: "🫐 Colors (3)" },
+                  ].map((f) => (
                     <button
+                      key={f.id}
                       type="button"
-                      onClick={() => removeFoodFromBowl(selectedFood.id)}
-                      className="text-xs font-bold text-rose-700 bg-rose-50 hover:bg-rose-100 border border-rose-200 px-2.5 py-1 rounded-full font-sans"
+                      onClick={() => setPantryFilter(f.id as typeof pantryFilter)}
+                      className={`px-3 py-1 rounded-xl font-bold transition-all ${
+                        pantryFilter === f.id
+                          ? "bg-deep-teal text-white shadow-xs scale-105"
+                          : "bg-slate-100 text-charcoal/75 hover:bg-slate-200"
+                      }`}
                     >
-                      Remove from Bowl
+                      {f.label}
                     </button>
-                  ) : (
-                    <button
-                      type="button"
-                      onClick={() => addFoodToBowl(selectedFood.id)}
-                      className="text-xs font-bold text-white bg-coral hover:bg-coral/90 px-3 py-1 rounded-full shadow-2xs font-sans"
+                  ))}
+                </div>
+              </div>
+
+              {/* Pantry Grid of Foods: BIG GAME CARDS */}
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 sm:gap-4">
+                {ATHLETE_BOWL_FOODS.filter((item) => pantryFilter === "all" || item.category === pantryFilter).map((food) => {
+                  const inBowl = bowlItems.includes(food.id);
+                  const isSelected = selectedFoodId === food.id;
+
+                  return (
+                    <div
+                      key={food.id}
+                      draggable
+                      onDragStart={(e) => {
+                        e.dataTransfer.setData("text/plain", food.id);
+                      }}
+                      onClick={() => {
+                        if (!inBowl) addFoodToBowl(food.id);
+                        setSelectedFoodId(food.id);
+                      }}
+                      className={`group relative rounded-3xl border-2 p-3 sm:p-4 text-center transition-all cursor-grab active:cursor-grabbing select-none shadow-sm flex flex-col justify-between items-center hover:-translate-y-1.5 hover:shadow-xl ${
+                        isSelected
+                          ? "border-coral bg-gradient-to-b from-rose-50/90 to-amber-50/70 ring-4 ring-coral/30 shadow-lg"
+                          : inBowl
+                          ? "border-emerald-400 bg-emerald-50/60"
+                          : "border-slate-200 bg-white hover:border-deep-teal/50 hover:bg-slate-50/80"
+                      }`}
                     >
-                      + Add to Bowl
-                    </button>
-                  )}
-                </div>
-              </div>
-
-              {/* 2-Column Benefits Breakdown */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs sm:text-sm font-sans">
-                {/* Athletic Performance */}
-                <div className="rounded-xl border border-amber-200 bg-amber-50/70 p-3 space-y-1">
-                  <span className="font-bold text-amber-950 flex items-center gap-1.5 text-xs uppercase tracking-wider">
-                    <Zap className="w-3.5 h-3.5 text-amber-600" />
-                    Athletic Performance Benefit:
-                  </span>
-                  <p className="text-charcoal/85 leading-relaxed m-0 text-xs sm:text-sm">
-                    {selectedFood.athleticBenefit}
-                  </p>
-                </div>
-
-                {/* Female Body & Hormonal Impact */}
-                <div className="rounded-xl border border-coral/30 bg-rose-50/70 p-3 space-y-1">
-                  <span className="font-bold text-[#B83F68] flex items-center gap-1.5 text-xs uppercase tracking-wider">
-                    <Heart className="w-3.5 h-3.5 text-[#B83F68]" />
-                    What It Does for Your Female Body:
-                  </span>
-                  <p className="text-charcoal/85 leading-relaxed m-0 text-xs sm:text-sm">
-                    {selectedFood.femaleBodyBenefit}
-                  </p>
-                </div>
-              </div>
-
-              {/* Clinical Fact Note */}
-              <div className="rounded-xl border border-deep-teal/15 bg-light-teal/40 p-2.5 text-xs text-deep-teal font-sans leading-relaxed flex items-start gap-2">
-                <Lightbulb className="w-4 h-4 text-deep-teal shrink-0 mt-0.5" />
-                <span>
-                  <strong>Clinical &amp; Sports Nutrition Fact:</strong> {selectedFood.clinicalFact}
-                </span>
-              </div>
-            </div>
-          )}
-
-          {/* Interactive Pantry & Food Selection Shelf */}
-          <div className="space-y-2.5 pt-1">
-            <div className="flex flex-wrap items-center justify-between gap-2">
-              <span className="text-xs sm:text-sm font-bold text-charcoal font-sans">
-                Food Pantry: Drag an item to the bowl, or tap &ldquo;+ Add&rdquo;
-              </span>
-              {/* Category Filter Pills */}
-              <div className="flex items-center gap-1 text-[11px] font-sans overflow-x-auto pb-1">
-                {[
-                  { id: "all", label: "All Foods (12)" },
-                  { id: "carbs", label: "Carbs (3)" },
-                  { id: "protein", label: "Protein (3)" },
-                  { id: "fats", label: "Healthy Fats (3)" },
-                  { id: "colors", label: "Colors (3)" },
-                ].map((f) => (
-                  <button
-                    key={f.id}
-                    type="button"
-                    onClick={() => setPantryFilter(f.id as typeof pantryFilter)}
-                    className={`px-2.5 py-1 rounded-lg font-bold transition-all ${
-                      pantryFilter === f.id
-                        ? "bg-deep-teal text-white shadow-2xs"
-                        : "bg-slate-100 text-charcoal/70 hover:bg-slate-200"
-                    }`}
-                  >
-                    {f.label}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Pantry Grid of Foods */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5">
-              {ATHLETE_BOWL_FOODS.filter((item) => pantryFilter === "all" || item.category === pantryFilter).map((food) => {
-                const inBowl = bowlItems.includes(food.id);
-                const isSelected = selectedFoodId === food.id;
-
-                return (
-                  <div
-                    key={food.id}
-                    draggable
-                    onDragStart={(e) => {
-                      e.dataTransfer.setData("text/plain", food.id);
-                    }}
-                    onClick={() => {
-                      if (!inBowl) addFoodToBowl(food.id);
-                      setSelectedFoodId(food.id);
-                    }}
-                    className={`group rounded-2xl border-2 p-3 text-left transition-all cursor-grab active:cursor-grabbing select-none shadow-2xs flex items-center justify-between gap-2.5 ${
-                      isSelected
-                        ? "border-coral bg-rose-50/80 ring-2 ring-coral/25"
-                        : inBowl
-                        ? "border-emerald-400 bg-emerald-50/50"
-                        : "border-slate-200 bg-white hover:border-deep-teal/40 hover:bg-slate-50"
-                    }`}
-                  >
-                    <div className="flex items-center gap-2.5 min-w-0">
-                      <span className="text-2xl sm:text-3xl shrink-0 group-hover:scale-110 transition-transform">
-                        {food.emoji}
-                      </span>
-                      <div className="min-w-0">
-                        <span className="block text-xs sm:text-sm font-bold text-charcoal truncate font-sans">
-                          {food.name}
+                      {/* Top drag grip & category indicator */}
+                      <div className="w-full flex items-center justify-between text-[10px] font-bold text-charcoal/45 mb-1 font-sans">
+                        <span className="uppercase tracking-wider">👆 Drag</span>
+                        <span className={`px-1.5 py-0.5 rounded-full text-[9px] uppercase font-bold border ${food.badgeClass}`}>
+                          {food.category}
                         </span>
-                        <span className="block text-[11px] font-medium text-charcoal/65 truncate font-sans">
+                      </div>
+
+                      {/* BIG Picture of the Food */}
+                      <div className="w-20 h-20 sm:w-24 sm:h-24 my-1 rounded-3xl bg-gradient-to-br from-amber-50 via-white to-orange-100/70 border-2 border-amber-200/90 flex items-center justify-center shadow-inner group-hover:scale-115 group-hover:rotate-6 transition-all duration-300">
+                        <span className="text-4xl sm:text-5xl filter drop-shadow-md group-hover:drop-shadow-lg transition-all">
+                          {food.emoji}
+                        </span>
+                      </div>
+
+                      {/* Food Name & Category */}
+                      <div className="w-full my-1.5">
+                        <h6 className="text-xs sm:text-sm font-bold text-charcoal truncate font-sans m-0 group-hover:text-deep-teal">
+                          {food.name}
+                        </h6>
+                        <span className="block text-[11px] font-semibold text-charcoal/65 truncate font-sans mt-0.5">
                           {food.categoryLabel}
                         </span>
                       </div>
-                    </div>
 
-                    <button
-                      type="button"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        if (inBowl) {
-                          removeFoodFromBowl(food.id);
-                        } else {
-                          addFoodToBowl(food.id);
-                        }
-                      }}
-                      className={`shrink-0 text-[11px] font-bold px-2.5 py-1 rounded-full transition-all font-sans ${
-                        inBowl
-                          ? "bg-emerald-600 text-white hover:bg-emerald-700"
-                          : "bg-coral text-white hover:bg-coral/90 shadow-2xs"
-                      }`}
-                    >
-                      {inBowl ? "✓ In Bowl" : "+ Add"}
-                    </button>
-                  </div>
-                );
-              })}
+                      {/* Action Button */}
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          if (inBowl) {
+                            removeFoodFromBowl(food.id);
+                          } else {
+                            addFoodToBowl(food.id);
+                          }
+                        }}
+                        className={`w-full text-xs font-bold py-1.5 px-2 rounded-xl transition-all font-sans flex items-center justify-center gap-1 shadow-2xs ${
+                          inBowl
+                            ? "bg-emerald-600 text-white hover:bg-emerald-700 hover:shadow-xs"
+                            : "bg-coral text-white hover:bg-coral/90 hover:scale-[1.02]"
+                        }`}
+                      >
+                        {inBowl ? (
+                          <>
+                            <Check className="w-3.5 h-3.5" />
+                            <span>In Bowl ✓</span>
+                          </>
+                        ) : (
+                          <>
+                            <Plus className="w-3.5 h-3.5" />
+                            <span>+ Add</span>
+                          </>
+                        )}
+                      </button>
+                    </div>
+                  );
+                })}
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
 
       {/* =========================================================================
           MODE 2: 5-STAGE ATHLETE FUELING PLATE (Pie Wedges & Stage Breakdown)
@@ -2039,6 +2118,7 @@ function AthletePlateDiagram({ diagram }: { diagram: LessonDiagram; themeColor: 
           </div>
         </div>
       )}
+      </div>
     </div>
   );
 }
