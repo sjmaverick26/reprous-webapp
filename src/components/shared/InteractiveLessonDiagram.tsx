@@ -26,6 +26,8 @@ import {
   RefreshCw,
   ShieldCheck,
   ExternalLink,
+  Trash2,
+  Check,
 } from "lucide-react";
 
 export interface DiagramClinicalSource {
@@ -1132,10 +1134,218 @@ function AnatomyCalloutDiagram({ diagram }: { diagram: LessonDiagram; themeColor
 }
 
 // --------------------------------------------------------------------------
-// 7. Athlete Fueling Plate (Nutrition & Hormonal Recovery)
+// 7. Athlete Fueling Plate & Interactive Nourishment Bowl Builder
 // --------------------------------------------------------------------------
+
+interface BowlFoodItem {
+  id: string;
+  name: string;
+  emoji: string;
+  category: "carbs" | "protein" | "fats" | "colors";
+  categoryLabel: string;
+  badgeClass: string;
+  nutrients: string;
+  athleticBenefit: string;
+  femaleBodyBenefit: string;
+  clinicalFact: string;
+}
+
+const ATHLETE_BOWL_FOODS: BowlFoodItem[] = [
+  {
+    id: "sweet_potato",
+    name: "Roasted Sweet Potato",
+    emoji: "🍠",
+    category: "carbs",
+    categoryLabel: "Complex Power Carb",
+    badgeClass: "bg-amber-100 text-amber-900 border-amber-300",
+    nutrients: "Beta-Carotene · Slow-Burn Starches · Potassium · Vitamin B6",
+    athleticBenefit: "Provides sustained muscular glycogen replenishment and steady blood glucose without post-meal fatigue or stomach cramps.",
+    femaleBodyBenefit: "Carbohydrate availability keeps kisspeptin neurons firing in the brain. If female athletes restrict carbs, kisspeptin goes dormant, shutting off GnRH and halting menstrual cycles.",
+    clinicalFact: "Sports endocrinology consensus confirms carbohydrate intake >4g/kg/day is the #1 protector against athletic amenorrhea.",
+  },
+  {
+    id: "quinoa_rice",
+    name: "Quinoa & Brown Rice Blend",
+    emoji: "🍚",
+    category: "carbs",
+    categoryLabel: "Glycogen & Mineral Carb",
+    badgeClass: "bg-amber-100 text-amber-900 border-amber-300",
+    nutrients: "All 9 Essential Amino Acids · Magnesium · Iron · Fiber",
+    athleticBenefit: "Refills liver and muscle glycogen post-workout to turn off exercise-induced cortisol spikes.",
+    femaleBodyBenefit: "Magnesium relaxes uterine smooth muscle, reducing the intensity of premenstrual cramps and soothing anxiety during the luteal phase.",
+    clinicalFact: "Magnesium deficiency affects up to 45% of young female athletes, directly correlating with heightened menstrual cramping.",
+  },
+  {
+    id: "rolled_oats",
+    name: "Steel-Cut Rolled Oats",
+    emoji: "🥣",
+    category: "carbs",
+    categoryLabel: "Slow-Burn Energy",
+    badgeClass: "bg-amber-100 text-amber-900 border-amber-300",
+    nutrients: "Beta-Glucan Soluble Fiber · B-Complex · Zinc · Iron",
+    athleticBenefit: "Stabilizes pre-competition stamina and prevents mid-workout hypoglycemic crashes.",
+    femaleBodyBenefit: "Soluble fiber binds un-metabolized estrogen in the gut, ensuring healthy hormonal clearance and preventing estrogen dominance symptoms.",
+    clinicalFact: "Dietary fiber supports healthy liver phase II estrogen elimination, keeping menstrual cycles predictable.",
+  },
+  {
+    id: "wild_salmon",
+    name: "Wild Sockeye Salmon",
+    emoji: "🐟",
+    category: "protein",
+    categoryLabel: "Anti-Inflammatory Protein",
+    badgeClass: "bg-rose-100 text-rose-900 border-rose-300",
+    nutrients: "Omega-3 (EPA/DHA) · Leucine · Vitamin D3 · Selenium",
+    athleticBenefit: "Accelerates muscle protein synthesis (MPS) and clears exercise-induced joint and muscular inflammation.",
+    femaleBodyBenefit: "EPA and DHA synthesize resolving E-series prostaglandins that directly suppress inflammatory PGF2α, cutting menstrual cramps and protecting ligament stability.",
+    clinicalFact: "Studies show dietary Omega-3 supplementation reduces menstrual pain severity by over 40% in competitive athletes.",
+  },
+  {
+    id: "pastured_eggs",
+    name: "Pasture-Raised Eggs",
+    emoji: "🥚",
+    category: "protein",
+    categoryLabel: "Hormone-Building Protein",
+    badgeClass: "bg-rose-100 text-rose-900 border-rose-300",
+    nutrients: "Choline · Complete Bioavailable Protein · Vitamin D · Iron",
+    athleticBenefit: "Leucine triggers immediate muscle recovery, while choline maintains neuromuscular signaling and sprint reaction time.",
+    femaleBodyBenefit: "Egg yolks provide dietary cholesterol, the indispensable chemical substrate your ovaries use to synthesize estrogen and progesterone.",
+    clinicalFact: "Severely fat-free, protein-deficient diets starve ovarian follicular cells of the cholesterol needed for normal ovulation.",
+  },
+  {
+    id: "edamame_lentils",
+    name: "Steamed Edamame & Lentils",
+    emoji: "🫘",
+    category: "protein",
+    categoryLabel: "Plant Iron & Phyto-Nutrients",
+    badgeClass: "bg-rose-100 text-rose-900 border-rose-300",
+    nutrients: "Plant Protein · Folate · Non-Heme Iron · Isoflavones",
+    athleticBenefit: "Sustained amino acid release for long-distance training and aerobic stamina.",
+    femaleBodyBenefit: "Restores red blood cell hemoglobin depleted by menstrual bleeding, and natural plant isoflavones gently modulate estrogen receptor sensitivity.",
+    clinicalFact: "Menstruating athletes lose 15–40 mg of iron each cycle; plant legumes paired with vitamin C prevent sports anemia.",
+  },
+  {
+    id: "avocado",
+    name: "Fresh Sliced Avocado",
+    emoji: "🥑",
+    category: "fats",
+    categoryLabel: "Hormone Precursor Fat",
+    badgeClass: "bg-lime-100 text-lime-900 border-lime-300",
+    nutrients: "Monounsaturated Oleic Acid · Potassium · Folate · Vitamin E",
+    athleticBenefit: "Slows gastric emptying to provide an enduring secondary energy reservoir for long tournaments and multi-hour workouts.",
+    femaleBodyBenefit: "Monounsaturated fats cushion the pelvic organs and build healthy lipid cell membranes for hormone synthesis, protecting cycle regularity.",
+    clinicalFact: "Low dietary fat intake (<20% of calories) is a primary trigger for hypothalamic menstrual irregularities in competitive athletes.",
+  },
+  {
+    id: "walnuts_chia",
+    name: "Walnuts & Chia Seeds",
+    emoji: "🌰",
+    category: "fats",
+    categoryLabel: "Essential Fatty Acids",
+    badgeClass: "bg-lime-100 text-lime-900 border-lime-300",
+    nutrients: "Alpha-Linolenic Acid (ALA) · Magnesium · Zinc · Lignans",
+    athleticBenefit: "Cushions joints, protects against bone stress micro-fractures, and speeds tendon/ligament collagen remodeling.",
+    femaleBodyBenefit: "Zinc supports follicle development in the ovaries, promoting healthy ovulation and boosting natural progesterone in the luteal phase.",
+    clinicalFact: "Zinc is a critical co-factor in ovulation; adequate intake prevents luteal phase defects and irregular cycles.",
+  },
+  {
+    id: "olive_oil",
+    name: "Extra Virgin Olive Oil",
+    emoji: "🫒",
+    category: "fats",
+    categoryLabel: "Cellular Recovery Oil",
+    badgeClass: "bg-lime-100 text-lime-900 border-lime-300",
+    nutrients: "Oleocanthal · Vitamin E · Polyphenols · Squalene",
+    athleticBenefit: "Acts as a natural anti-inflammatory agent (oleocanthal mimics low-dose ibuprofen) without stressing the stomach lining.",
+    femaleBodyBenefit: "Protects vascular endothelial cells, maintaining healthy blood flow to the uterus and ovaries for nutrient delivery.",
+    clinicalFact: "EVOO polyphenols protect ovarian granulosa cells from oxidative stress during intense athletic training blocks.",
+  },
+  {
+    id: "spinach_kale",
+    name: "Dark Baby Spinach & Kale",
+    emoji: "🥬",
+    category: "colors",
+    categoryLabel: "Blood & Bone Greens",
+    badgeClass: "bg-emerald-100 text-emerald-900 border-emerald-300",
+    nutrients: "Non-Heme Iron · Calcium · Vitamin K1 · Folate",
+    athleticBenefit: "Maximizes oxygen-carrying capacity in red blood cells to elevate VO2 max and eliminate heavy-legged fatigue.",
+    femaleBodyBenefit: "Vitamin K1 and calcium deposit minerals into bones, counteracting stress fractures, while iron directly replaces menstrual blood loss.",
+    clinicalFact: "Female athletes have 3x higher iron deficiency rates than male athletes due to menstrual losses and foot-strike hemolysis.",
+  },
+  {
+    id: "wild_berries",
+    name: "Wild Blueberries & Cherries",
+    emoji: "🫐",
+    category: "colors",
+    categoryLabel: "Antioxidant Muscle Shield",
+    badgeClass: "bg-emerald-100 text-emerald-900 border-emerald-300",
+    nutrients: "Anthocyanins · Polyphenols · Natural Melatonin · Quercetin",
+    athleticBenefit: "Dramatically lowers delayed-onset muscle soreness (DOMS) and accelerates cellular repair between double sessions.",
+    femaleBodyBenefit: "Natural melatonin improves restorative deep sleep, triggering the nocturnal pulse of growth hormone that balances cortisol and progesterone.",
+    clinicalFact: "Tart cherry polyphenols significantly decrease inflammatory cytokine IL-6 after high-intensity athletic trials.",
+  },
+  {
+    id: "bell_peppers",
+    name: "Sweet Bell Peppers & Citrus",
+    emoji: "🍊",
+    category: "colors",
+    categoryLabel: "Iron Booster & Collagen",
+    badgeClass: "bg-emerald-100 text-emerald-900 border-emerald-300",
+    nutrients: "Vitamin C (Ascorbic Acid) · Bioflavonoids · Lycopene",
+    athleticBenefit: "Stimulates procollagen synthesis to reinforce the ACL, Achilles tendon, and patellar ligaments against athletic tears.",
+    femaleBodyBenefit: "Triples the absorption of plant-based (non-heme) iron in your gut, preventing the fatigue, dizziness, and cycle irregularities of sports anemia.",
+    clinicalFact: "Consuming 75mg of Vitamin C with plant meals increases non-heme iron absorption by nearly 300%.",
+  },
+];
+
 function AthletePlateDiagram({ diagram }: { diagram: LessonDiagram; themeColor: string }) {
+  const [viewMode, setViewMode] = useState<"bowl" | "plate">("bowl");
   const [dayType, setDayType] = useState<"easy" | "moderate" | "hard" | "pregame" | "postgame">("moderate");
+
+  // Nourishment Bowl State
+  const [bowlItems, setBowlItems] = useState<string[]>([
+    "sweet_potato",
+    "wild_salmon",
+    "avocado",
+    "spinach_kale",
+  ]);
+  const [selectedFoodId, setSelectedFoodId] = useState<string>("wild_salmon");
+  const [pantryFilter, setPantryFilter] = useState<"all" | "carbs" | "protein" | "fats" | "colors">("all");
+  const [isDraggingOver, setIsDraggingOver] = useState(false);
+
+  const addFoodToBowl = (foodId: string) => {
+    if (!bowlItems.includes(foodId)) {
+      setBowlItems((prev) => [...prev, foodId]);
+    }
+    setSelectedFoodId(foodId);
+  };
+
+  const removeFoodFromBowl = (foodId: string) => {
+    setBowlItems((prev) => prev.filter((id) => id !== foodId));
+    if (selectedFoodId === foodId) {
+      const remaining = bowlItems.filter((id) => id !== foodId);
+      setSelectedFoodId(remaining[remaining.length - 1] || "");
+    }
+  };
+
+  const loadPreset = (preset: "pregame" | "postgame" | "cramp") => {
+    if (preset === "pregame") {
+      setBowlItems(["sweet_potato", "pastured_eggs", "wild_berries", "bell_peppers"]);
+      setSelectedFoodId("sweet_potato");
+    } else if (preset === "postgame") {
+      setBowlItems(["wild_salmon", "quinoa_rice", "avocado", "spinach_kale"]);
+      setSelectedFoodId("wild_salmon");
+    } else {
+      setBowlItems(["rolled_oats", "edamame_lentils", "walnuts_chia", "bell_peppers"]);
+      setSelectedFoodId("walnuts_chia");
+    }
+  };
+
+  const selectedFood = ATHLETE_BOWL_FOODS.find((f) => f.id === selectedFoodId) || null;
+  const carbsCount = bowlItems.filter((id) => ATHLETE_BOWL_FOODS.find((f) => f.id === id)?.category === "carbs").length;
+  const proteinCount = bowlItems.filter((id) => ATHLETE_BOWL_FOODS.find((f) => f.id === id)?.category === "protein").length;
+  const fatsCount = bowlItems.filter((id) => ATHLETE_BOWL_FOODS.find((f) => f.id === id)?.category === "fats").length;
+  const colorsCount = bowlItems.filter((id) => ATHLETE_BOWL_FOODS.find((f) => f.id === id)?.category === "colors").length;
+  const isFullyBalanced = carbsCount > 0 && proteinCount > 0 && fatsCount > 0 && colorsCount > 0;
 
   const plateConfigs = {
     easy: {
@@ -1224,186 +1434,628 @@ function AthletePlateDiagram({ diagram }: { diagram: LessonDiagram; themeColor: 
 
   return (
     <div className="rounded-2xl border-2 border-coral/30 bg-white p-4 md:p-5 shadow-sm space-y-4">
-      <div className="flex items-start justify-between gap-2 border-b border-coral/10 pb-3">
+      {/* Header & Mode Switcher */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-coral/15 pb-3">
         <div>
-          <div className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-coral">
+          <div className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-coral font-sans">
             <Zap className="w-3.5 h-3.5 text-coral" />
-            Athlete Nutrition Scale
+            Athlete Nutrition &amp; Hormone Fueling
           </div>
           <h4 className="text-base md:text-lg font-serif font-bold text-deep-teal mt-0.5">
-            {diagram.title}
+            {viewMode === "bowl"
+              ? "Build Your Athlete Nourishment Bowl"
+              : diagram.title}
           </h4>
         </div>
-        <span className="text-[11px] font-semibold bg-[#FFE1DB] px-2.5 py-1 rounded-full text-[#B83F68] border border-coral/30">
-          5 Training &amp; Game Stages
-        </span>
-      </div>
 
-      {/* Intensity & Timing Selector Tabs */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2">
-        {[
-          { id: "easy", label: "Rest Day", icon: Heart },
-          { id: "moderate", label: "Practice Day", icon: Activity },
-          { id: "hard", label: "Game Day", icon: Flame },
-          { id: "pregame", label: "Pre-Game", icon: Zap },
-          { id: "postgame", label: "Post-Game", icon: RefreshCw },
-        ].map((tab) => {
-          const Icon = tab.icon;
-          const active = dayType === tab.id;
-          return (
-            <button
-              key={tab.id}
-              onClick={() => setDayType(tab.id as typeof dayType)}
-              className={`p-2 sm:p-2.5 rounded-xl text-center border font-bold text-xs transition-all flex items-center justify-center gap-1.5 ${
-                active
-                  ? "bg-coral text-white border-coral shadow-xs ring-2 ring-coral/20 scale-105"
-                  : "bg-white text-charcoal/75 border-slate-200 hover:bg-rose-50"
-              }`}
-            >
-              <Icon className={`w-3.5 h-3.5 ${active ? "text-white" : "text-coral"}`} />
-              <span>{tab.label}</span>
-            </button>
-          );
-        })}
-      </div>
-
-      {/* Timing Badge Banner */}
-      <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-semibold bg-light-teal/70 text-deep-teal border border-deep-teal/20 w-full">
-        <Clock className="w-3.5 h-3.5 text-deep-teal shrink-0" />
-        <span>{config.timingBadge}</span>
-      </div>
-
-      {/* Interactive Visual Plate */}
-      <div className="rounded-2xl bg-gradient-to-br from-amber-50/50 via-white to-emerald-50/40 p-4 border border-coral/20 flex flex-col sm:flex-row items-center justify-around gap-4">
-        {/* SVG Plate Representation */}
-        <div className="relative w-44 h-44 sm:w-48 sm:h-48 shrink-0 flex items-center justify-center">
-          <svg viewBox="0 0 200 200" className="w-full h-full drop-shadow-md">
-            {/* Outer Plate Rim */}
-            <circle cx="100" cy="100" r="95" fill="#F8FAFC" stroke="#E2E8F0" strokeWidth="4" />
-            <circle cx="100" cy="100" r="82" fill="#FFFFFF" stroke="#CBD5E1" strokeWidth="1.5" />
-
-            {/* Dynamic Slices based on dayType */}
-            {dayType === "easy" && (
-              <>
-                {/* 50% Veggies (0° to 180°) */}
-                <path d={getSlicePath(0, 180)} fill="#34D399" opacity="0.85" />
-                {/* 25% Protein (180° to 270°) */}
-                <path d={getSlicePath(180, 270)} fill="#F87171" opacity="0.85" />
-                {/* 25% Carbs (270° to 360°) */}
-                <path d={getSlicePath(270, 360)} fill="#FBBF24" opacity="0.85" />
-              </>
-            )}
-
-            {dayType === "moderate" && (
-              <>
-                {/* 35% Carbs (0° to 126°) */}
-                <path d={getSlicePath(0, 126)} fill="#FBBF24" opacity="0.85" />
-                {/* 30% Protein (126° to 234°) */}
-                <path d={getSlicePath(126, 234)} fill="#F87171" opacity="0.85" />
-                {/* 35% Veggies (234° to 360°) */}
-                <path d={getSlicePath(234, 360)} fill="#34D399" opacity="0.85" />
-              </>
-            )}
-
-            {dayType === "hard" && (
-              <>
-                {/* 50% Carbs (0° to 180°) */}
-                <path d={getSlicePath(0, 180)} fill="#FBBF24" opacity="0.9" />
-                {/* 25% Protein (180° to 270°) */}
-                <path d={getSlicePath(180, 270)} fill="#F87171" opacity="0.85" />
-                {/* 25% Veggies (270° to 360°) */}
-                <path d={getSlicePath(270, 360)} fill="#34D399" opacity="0.85" />
-              </>
-            )}
-
-            {dayType === "pregame" && (
-              <>
-                {/* 60% Carbs (0° to 216°) */}
-                <path d={getSlicePath(0, 216)} fill="#FBBF24" opacity="0.9" />
-                {/* 20% Protein (216° to 288°) */}
-                <path d={getSlicePath(216, 288)} fill="#F87171" opacity="0.85" />
-                {/* 20% Low-Fiber Colors (288° to 360°) */}
-                <path d={getSlicePath(288, 360)} fill="#34D399" opacity="0.85" />
-              </>
-            )}
-
-            {dayType === "postgame" && (
-              <>
-                {/* 45% Carbs (0° to 162°) */}
-                <path d={getSlicePath(0, 162)} fill="#FBBF24" opacity="0.9" />
-                {/* 35% Protein (162° to 288°) */}
-                <path d={getSlicePath(162, 288)} fill="#F87171" opacity="0.85" />
-                {/* 20% Anti-Inflammatory Colors (288° to 360°) */}
-                <path d={getSlicePath(288, 360)} fill="#34D399" opacity="0.85" />
-              </>
-            )}
-
-            {/* Inner Plate Center Circle */}
-            <circle cx="100" cy="100" r="19" fill="#FFFFFF" stroke="#CBD5E1" strokeWidth="2" />
-            <text x="100" y="97" textAnchor="middle" fontSize="8.5" fontWeight="bold" fill="#1E293B">
-              {dayType === "easy" && "Rest"}
-              {dayType === "moderate" && "Practice"}
-              {dayType === "hard" && "Game"}
-              {dayType === "pregame" && "Pre-Game"}
-              {dayType === "postgame" && "Post-Game"}
-            </text>
-            <text x="100" y="108" textAnchor="middle" fontSize="7.5" fontWeight="medium" fill="#64748B">Plate</text>
-          </svg>
-        </div>
-
-        {/* Legend & Proportions */}
-        <div className="flex-1 space-y-2.5 text-xs">
-          <div className="flex items-start gap-2">
-            <span className="w-3.5 h-3.5 rounded-md bg-amber-400 shrink-0 mt-0.5"></span>
-            <div>
-              <strong className="text-amber-900 block">{config.carbs}</strong>
-              <span className="text-charcoal/75 text-[11px] leading-tight block">{config.carbDetail}</span>
-            </div>
-          </div>
-
-          <div className="flex items-start gap-2">
-            <span className="w-3.5 h-3.5 rounded-md bg-rose-400 shrink-0 mt-0.5"></span>
-            <div>
-              <strong className="text-rose-900 block">{config.protein}</strong>
-              <span className="text-charcoal/75 text-[11px] leading-tight block">{config.proteinDetail}</span>
-            </div>
-          </div>
-
-          <div className="flex items-start gap-2">
-            <span className="w-3.5 h-3.5 rounded-md bg-emerald-400 shrink-0 mt-0.5"></span>
-            <div>
-              <strong className="text-emerald-900 block">{config.colors}</strong>
-              <span className="text-charcoal/75 text-[11px] leading-tight block">{config.colorDetail}</span>
-            </div>
-          </div>
-
-          <div className="flex items-start gap-2 pt-1 border-t border-coral/10">
-            <Droplets className="w-3.5 h-3.5 text-blue-500 shrink-0 mt-0.5" />
-            <div>
-              <strong className="text-blue-900 block text-[11px]">Hydration &amp; Fluids:</strong>
-              <span className="text-charcoal/75 text-[11px] leading-tight block">{config.fluids}</span>
-            </div>
-          </div>
+        {/* View Mode Switcher */}
+        <div className="flex items-center gap-1.5 rounded-xl bg-slate-100 p-1 border border-slate-200">
+          <button
+            type="button"
+            onClick={() => setViewMode("bowl")}
+            className={`px-3 py-1.5 rounded-lg font-bold text-xs transition-all flex items-center gap-1.5 font-sans ${
+              viewMode === "bowl"
+                ? "bg-coral text-white shadow-xs"
+                : "text-charcoal/70 hover:text-charcoal"
+            }`}
+          >
+            <span>🥗 Fuel Bowl Builder</span>
+          </button>
+          <button
+            type="button"
+            onClick={() => setViewMode("plate")}
+            className={`px-3 py-1.5 rounded-lg font-bold text-xs transition-all flex items-center gap-1.5 font-sans ${
+              viewMode === "plate"
+                ? "bg-deep-teal text-white shadow-xs"
+                : "text-charcoal/70 hover:text-charcoal"
+            }`}
+          >
+            <span>🍽️ 5-Stage Athlete Plate</span>
+          </button>
         </div>
       </div>
 
-      {/* Practical Action Tip */}
-      <div className="p-3 rounded-xl bg-amber-50/70 border border-amber-200 text-xs text-charcoal/90 flex items-start gap-2">
-        <Sparkles className="w-4 h-4 text-amber-700 shrink-0 mt-0.5" />
-        <div>
-          <strong className="text-amber-900 block text-[11.5px]">Coach &amp; Athlete Pro Tip:</strong>
-          <p className="text-[11px] text-amber-950/80 m-0 leading-relaxed">{config.actionTip}</p>
-        </div>
-      </div>
+      {/* =========================================================================
+          MODE 1: NOURISHMENT BOWL BUILDER (DRAG & DROP / TAP-TO-ADD)
+         ========================================================================= */}
+      {viewMode === "bowl" && (
+        <div className="space-y-4">
+          {/* Top Explainer */}
+          <div className="rounded-2xl border border-coral/20 bg-gradient-to-r from-coral/10 via-amber-50/50 to-teal-50/40 p-3.5 space-y-1">
+            <div className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-deep-teal font-sans">
+              <Sparkles className="w-3.5 h-3.5 text-coral" />
+              <span>Interactive Food Drag &amp; Drop Studio:</span>
+            </div>
+            <p className="text-xs sm:text-sm text-charcoal/85 leading-relaxed font-sans m-0">
+              Drag nutrient-dense foods into your bowl (or tap to add) to discover what each ingredient does for your{" "}
+              <strong className="text-deep-teal font-semibold">athletic performance</strong>,{" "}
+              <strong className="text-coral font-semibold">estrogen &amp; progesterone synthesis</strong>, and{" "}
+              <strong className="text-emerald-800 font-semibold">bone density protection</strong>.
+            </p>
+          </div>
 
-      {/* Hormone Protection Clinical Note */}
-      <div className="p-3.5 rounded-xl bg-[#FFE1DB]/40 border border-coral/30 text-xs text-charcoal/90">
-        <strong className="text-[#B83F68] block mb-1 flex items-center gap-1.5">
-          <Lightbulb className="w-3.5 h-3.5 text-[#B83F68] shrink-0" />
-          <span>Why This Protects Your Hormones &amp; Cycle:</span>
-        </strong>
-        {config.hormoneImpact}
-      </div>
+          {/* Preset Bowls & Reset Bar */}
+          <div className="flex flex-wrap items-center justify-between gap-2 text-xs font-sans">
+            <div className="flex items-center gap-1.5 flex-wrap">
+              <span className="font-bold text-charcoal/70 text-[11px]">Quick Sample Bowls:</span>
+              <button
+                type="button"
+                onClick={() => loadPreset("pregame")}
+                className="px-2.5 py-1 rounded-lg bg-amber-100/80 hover:bg-amber-200/90 text-amber-900 border border-amber-300 text-[11px] font-bold transition-all"
+              >
+                ⚡ Pre-Game Primer
+              </button>
+              <button
+                type="button"
+                onClick={() => loadPreset("postgame")}
+                className="px-2.5 py-1 rounded-lg bg-emerald-100/80 hover:bg-emerald-200/90 text-emerald-900 border border-emerald-300 text-[11px] font-bold transition-all"
+              >
+                🏆 Post-Game Recovery
+              </button>
+              <button
+                type="button"
+                onClick={() => loadPreset("cramp")}
+                className="px-2.5 py-1 rounded-lg bg-rose-100/80 hover:bg-rose-200/90 text-rose-900 border border-rose-300 text-[11px] font-bold transition-all"
+              >
+                🌸 Cramp &amp; Hormone Defense
+              </button>
+            </div>
+
+            {bowlItems.length > 0 && (
+              <button
+                type="button"
+                onClick={() => {
+                  setBowlItems([]);
+                  setSelectedFoodId("");
+                }}
+                className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-rose-700 bg-rose-50 hover:bg-rose-100 border border-rose-200 text-[11px] font-bold transition-all"
+              >
+                <Trash2 className="w-3 h-3" />
+                <span>Reset Bowl</span>
+              </button>
+            )}
+          </div>
+
+          {/* The Bowl Drop Zone Canvas */}
+          <div
+            onDragOver={(e) => {
+              e.preventDefault();
+              setIsDraggingOver(true);
+            }}
+            onDragLeave={() => setIsDraggingOver(false)}
+            onDrop={(e) => {
+              e.preventDefault();
+              setIsDraggingOver(false);
+              const foodId = e.dataTransfer.getData("text/plain");
+              if (foodId) addFoodToBowl(foodId);
+            }}
+            className={`relative rounded-3xl p-5 md:p-6 transition-all border-2 text-center flex flex-col items-center justify-center min-h-[260px] ${
+              isDraggingOver
+                ? "border-emerald-500 bg-emerald-50/80 ring-4 ring-emerald-400/30 scale-[1.01]"
+                : "border-deep-teal/20 bg-gradient-to-b from-[#F7FBFA] via-white to-amber-50/30"
+            }`}
+          >
+            {/* Ceramic Bowl Graphic Backdrop */}
+            <div className="relative w-full max-w-md flex flex-col items-center">
+              {/* Bowl Illustration SVG */}
+              <div className="relative w-72 sm:w-80 h-36 sm:h-40">
+                <svg viewBox="0 0 320 160" className="w-full h-full drop-shadow-md">
+                  <defs>
+                    <linearGradient id="bowlExterior" x1="0%" y1="0%" x2="0%" y2="100%">
+                      <stop offset="0%" stopColor="#FFFFFF" />
+                      <stop offset="60%" stopColor="#F1F5F9" />
+                      <stop offset="100%" stopColor="#CBD5E1" />
+                    </linearGradient>
+                    <linearGradient id="bowlInterior" x1="0%" y1="0%" x2="0%" y2="100%">
+                      <stop offset="0%" stopColor="#FFFBF5" />
+                      <stop offset="100%" stopColor="#FDEEDC" />
+                    </linearGradient>
+                  </defs>
+
+                  {/* Bowl Exterior Body */}
+                  <path
+                    d="M 20 50 C 30 135, 90 155, 160 155 C 230 155, 290 135, 300 50 Z"
+                    fill="url(#bowlExterior)"
+                    stroke="#94A3B8"
+                    strokeWidth="2.5"
+                  />
+                  {/* Bowl Base Ring */}
+                  <ellipse cx="160" cy="154" rx="65" ry="6" fill="#94A3B8" opacity="0.6" />
+                  <ellipse cx="160" cy="152" rx="60" ry="5" fill="#E2E8F0" />
+
+                  {/* Bowl Interior Cavity */}
+                  <ellipse cx="160" cy="50" rx="140" ry="24" fill="url(#bowlInterior)" stroke="#CBD5E1" strokeWidth="2" />
+                  {/* Inner Depth Shadow */}
+                  <ellipse cx="160" cy="54" rx="125" ry="18" fill="#F8E8D5" opacity="0.45" />
+
+                  {/* Ceramic Rim Highlight */}
+                  <ellipse cx="160" cy="49" rx="138" ry="22" fill="none" stroke="#FFFFFF" strokeWidth="1.5" />
+
+                  {/* Wooden Salad Spoon Garnish Resting on Rim */}
+                  <g transform="translate(230, 25) rotate(22)">
+                    <rect x="0" y="0" width="8" height="70" rx="3" fill="#B45309" opacity="0.85" />
+                    <ellipse cx="4" cy="72" rx="12" ry="16" fill="#D97706" opacity="0.9" />
+                  </g>
+                </svg>
+
+                {/* Ingredients Floating Inside the Bowl */}
+                <div className="absolute inset-0 pt-6 px-6 pb-2 flex flex-wrap items-center justify-center gap-1.5 overflow-hidden z-10">
+                  {bowlItems.length === 0 ? (
+                    <div className="text-center space-y-1">
+                      <span className="text-2xl block animate-bounce">🥣</span>
+                      <p className="text-xs sm:text-sm font-bold text-charcoal/70 font-sans m-0">
+                        Your Bowl is Empty!
+                      </p>
+                      <p className="text-[11px] text-charcoal/60 font-sans m-0">
+                        Drag foods here or tap items below to build your meal.
+                      </p>
+                    </div>
+                  ) : (
+                    bowlItems.map((foodId) => {
+                      const food = ATHLETE_BOWL_FOODS.find((f) => f.id === foodId);
+                      if (!food) return null;
+                      const isSelected = selectedFoodId === food.id;
+
+                      return (
+                        <button
+                          key={food.id}
+                          type="button"
+                          onClick={() => setSelectedFoodId(food.id)}
+                          className={`group relative inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold transition-all shadow-xs animate-in zoom-in-75 font-sans ${
+                            isSelected
+                              ? "bg-deep-teal text-white ring-2 ring-coral scale-105"
+                              : "bg-white/95 text-charcoal hover:bg-white hover:scale-105 border border-slate-300"
+                          }`}
+                        >
+                          <span className="text-sm">{food.emoji}</span>
+                          <span>{food.name}</span>
+                          <span
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              removeFoodFromBowl(food.id);
+                            }}
+                            className="ml-0.5 rounded-full p-0.5 hover:bg-black/10 text-charcoal/60 hover:text-rose-600"
+                            title="Remove from bowl"
+                          >
+                            ×
+                          </span>
+                        </button>
+                      );
+                    })
+                  )}
+                </div>
+              </div>
+            </div>
+
+            <span className="text-[11px] font-semibold text-charcoal/60 mt-2 block font-sans">
+              {isDraggingOver
+                ? "✨ Drop food item into the bowl!"
+                : `Active Ingredients: ${bowlItems.length} added · Tap any ingredient above or below to read its benefits`}
+            </span>
+          </div>
+
+          {/* 4-Pillar Bowl Balance Meter */}
+          <div className="rounded-2xl border border-deep-teal/15 bg-white p-3 sm:p-4 space-y-2 shadow-2xs">
+            <div className="flex items-center justify-between gap-2">
+              <span className="text-xs font-bold uppercase tracking-wider text-deep-teal font-sans">
+                4-Pillar Hormone &amp; Performance Balance Meter:
+              </span>
+              <span
+                className={`text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full font-sans ${
+                  isFullyBalanced
+                    ? "bg-emerald-100 text-emerald-900 border border-emerald-300"
+                    : "bg-slate-100 text-charcoal/70"
+                }`}
+              >
+                {isFullyBalanced ? "✓ Perfectly Balanced" : `${(carbsCount > 0 ? 1 : 0) + (proteinCount > 0 ? 1 : 0) + (fatsCount > 0 ? 1 : 0) + (colorsCount > 0 ? 1 : 0)} / 4 Pillars Added`}
+              </span>
+            </div>
+
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs font-sans">
+              <div
+                className={`p-2 rounded-xl border flex items-center justify-between ${
+                  carbsCount > 0 ? "bg-amber-50 border-amber-300 text-amber-950 font-bold" : "bg-slate-50 border-slate-200 text-charcoal/60"
+                }`}
+              >
+                <span>🍠 Carbs ({carbsCount})</span>
+                <span className="text-[10.5px]">{carbsCount > 0 ? "✓ Added" : "Missing"}</span>
+              </div>
+              <div
+                className={`p-2 rounded-xl border flex items-center justify-between ${
+                  proteinCount > 0 ? "bg-rose-50 border-rose-300 text-rose-950 font-bold" : "bg-slate-50 border-slate-200 text-charcoal/60"
+                }`}
+              >
+                <span>🐟 Protein ({proteinCount})</span>
+                <span className="text-[10.5px]">{proteinCount > 0 ? "✓ Added" : "Missing"}</span>
+              </div>
+              <div
+                className={`p-2 rounded-xl border flex items-center justify-between ${
+                  fatsCount > 0 ? "bg-lime-50 border-lime-300 text-lime-950 font-bold" : "bg-slate-50 border-slate-200 text-charcoal/60"
+                }`}
+              >
+                <span>🥑 Fats ({fatsCount})</span>
+                <span className="text-[10.5px]">{fatsCount > 0 ? "✓ Added" : "Missing"}</span>
+              </div>
+              <div
+                className={`p-2 rounded-xl border flex items-center justify-between ${
+                  colorsCount > 0 ? "bg-emerald-50 border-emerald-300 text-emerald-950 font-bold" : "bg-slate-50 border-slate-200 text-charcoal/60"
+                }`}
+              >
+                <span>🫐 Colors ({colorsCount})</span>
+                <span className="text-[10.5px]">{colorsCount > 0 ? "✓ Added" : "Missing"}</span>
+              </div>
+            </div>
+
+            {isFullyBalanced && (
+              <div className="rounded-xl bg-emerald-50 border border-emerald-200 p-2.5 text-xs text-emerald-950 font-sans leading-relaxed">
+                🎉 <strong>Perfect Fueling Synergy Achieved!</strong> You have provided your body with all 4 vital pillars: muscle glycogen, cellular repair, sex steroid building blocks, and menstrual iron replenishment to safeguard your ovulatory cycles and prevent RED-S!
+              </div>
+            )}
+          </div>
+
+          {/* Selected Food Superpower & Female Body Benefits Card */}
+          {selectedFood && (
+            <div className="rounded-2xl border-2 border-coral/30 bg-gradient-to-br from-rose-50/50 via-white to-amber-50/30 p-4 sm:p-5 space-y-3 shadow-xs animate-in fade-in">
+              <div className="flex flex-wrap items-start justify-between gap-2 border-b border-coral/15 pb-2.5">
+                <div className="flex items-center gap-2.5">
+                  <span className="text-3xl sm:text-4xl">{selectedFood.emoji}</span>
+                  <div>
+                    <span className="block text-base sm:text-lg font-serif font-bold text-deep-teal">
+                      {selectedFood.name}
+                    </span>
+                    <span className="text-[11px] font-bold text-charcoal/70 font-sans">
+                      {selectedFood.nutrients}
+                    </span>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <span className={`text-[11px] font-bold uppercase tracking-wider px-3 py-1 rounded-full border font-sans ${selectedFood.badgeClass}`}>
+                    {selectedFood.categoryLabel}
+                  </span>
+                  {bowlItems.includes(selectedFood.id) ? (
+                    <button
+                      type="button"
+                      onClick={() => removeFoodFromBowl(selectedFood.id)}
+                      className="text-xs font-bold text-rose-700 bg-rose-50 hover:bg-rose-100 border border-rose-200 px-2.5 py-1 rounded-full font-sans"
+                    >
+                      Remove from Bowl
+                    </button>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={() => addFoodToBowl(selectedFood.id)}
+                      className="text-xs font-bold text-white bg-coral hover:bg-coral/90 px-3 py-1 rounded-full shadow-2xs font-sans"
+                    >
+                      + Add to Bowl
+                    </button>
+                  )}
+                </div>
+              </div>
+
+              {/* 2-Column Benefits Breakdown */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs sm:text-sm font-sans">
+                {/* Athletic Performance */}
+                <div className="rounded-xl border border-amber-200 bg-amber-50/70 p-3 space-y-1">
+                  <span className="font-bold text-amber-950 flex items-center gap-1.5 text-xs uppercase tracking-wider">
+                    <Zap className="w-3.5 h-3.5 text-amber-600" />
+                    Athletic Performance Benefit:
+                  </span>
+                  <p className="text-charcoal/85 leading-relaxed m-0 text-xs sm:text-sm">
+                    {selectedFood.athleticBenefit}
+                  </p>
+                </div>
+
+                {/* Female Body & Hormonal Impact */}
+                <div className="rounded-xl border border-coral/30 bg-rose-50/70 p-3 space-y-1">
+                  <span className="font-bold text-[#B83F68] flex items-center gap-1.5 text-xs uppercase tracking-wider">
+                    <Heart className="w-3.5 h-3.5 text-[#B83F68]" />
+                    What It Does for Your Female Body:
+                  </span>
+                  <p className="text-charcoal/85 leading-relaxed m-0 text-xs sm:text-sm">
+                    {selectedFood.femaleBodyBenefit}
+                  </p>
+                </div>
+              </div>
+
+              {/* Clinical Fact Note */}
+              <div className="rounded-xl border border-deep-teal/15 bg-light-teal/40 p-2.5 text-xs text-deep-teal font-sans leading-relaxed flex items-start gap-2">
+                <Lightbulb className="w-4 h-4 text-deep-teal shrink-0 mt-0.5" />
+                <span>
+                  <strong>Clinical &amp; Sports Nutrition Fact:</strong> {selectedFood.clinicalFact}
+                </span>
+              </div>
+            </div>
+          )}
+
+          {/* Interactive Pantry & Food Selection Shelf */}
+          <div className="space-y-2.5 pt-1">
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <span className="text-xs sm:text-sm font-bold text-charcoal font-sans">
+                Food Pantry: Drag an item to the bowl, or tap &ldquo;+ Add&rdquo;
+              </span>
+              {/* Category Filter Pills */}
+              <div className="flex items-center gap-1 text-[11px] font-sans overflow-x-auto pb-1">
+                {[
+                  { id: "all", label: "All Foods (12)" },
+                  { id: "carbs", label: "Carbs (3)" },
+                  { id: "protein", label: "Protein (3)" },
+                  { id: "fats", label: "Healthy Fats (3)" },
+                  { id: "colors", label: "Colors (3)" },
+                ].map((f) => (
+                  <button
+                    key={f.id}
+                    type="button"
+                    onClick={() => setPantryFilter(f.id as typeof pantryFilter)}
+                    className={`px-2.5 py-1 rounded-lg font-bold transition-all ${
+                      pantryFilter === f.id
+                        ? "bg-deep-teal text-white shadow-2xs"
+                        : "bg-slate-100 text-charcoal/70 hover:bg-slate-200"
+                    }`}
+                  >
+                    {f.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Pantry Grid of Foods */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5">
+              {ATHLETE_BOWL_FOODS.filter((item) => pantryFilter === "all" || item.category === pantryFilter).map((food) => {
+                const inBowl = bowlItems.includes(food.id);
+                const isSelected = selectedFoodId === food.id;
+
+                return (
+                  <div
+                    key={food.id}
+                    draggable
+                    onDragStart={(e) => {
+                      e.dataTransfer.setData("text/plain", food.id);
+                    }}
+                    onClick={() => {
+                      if (!inBowl) addFoodToBowl(food.id);
+                      setSelectedFoodId(food.id);
+                    }}
+                    className={`group rounded-2xl border-2 p-3 text-left transition-all cursor-grab active:cursor-grabbing select-none shadow-2xs flex items-center justify-between gap-2.5 ${
+                      isSelected
+                        ? "border-coral bg-rose-50/80 ring-2 ring-coral/25"
+                        : inBowl
+                        ? "border-emerald-400 bg-emerald-50/50"
+                        : "border-slate-200 bg-white hover:border-deep-teal/40 hover:bg-slate-50"
+                    }`}
+                  >
+                    <div className="flex items-center gap-2.5 min-w-0">
+                      <span className="text-2xl sm:text-3xl shrink-0 group-hover:scale-110 transition-transform">
+                        {food.emoji}
+                      </span>
+                      <div className="min-w-0">
+                        <span className="block text-xs sm:text-sm font-bold text-charcoal truncate font-sans">
+                          {food.name}
+                        </span>
+                        <span className="block text-[11px] font-medium text-charcoal/65 truncate font-sans">
+                          {food.categoryLabel}
+                        </span>
+                      </div>
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        if (inBowl) {
+                          removeFoodFromBowl(food.id);
+                        } else {
+                          addFoodToBowl(food.id);
+                        }
+                      }}
+                      className={`shrink-0 text-[11px] font-bold px-2.5 py-1 rounded-full transition-all font-sans ${
+                        inBowl
+                          ? "bg-emerald-600 text-white hover:bg-emerald-700"
+                          : "bg-coral text-white hover:bg-coral/90 shadow-2xs"
+                      }`}
+                    >
+                      {inBowl ? "✓ In Bowl" : "+ Add"}
+                    </button>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* =========================================================================
+          MODE 2: 5-STAGE ATHLETE FUELING PLATE (Pie Wedges & Stage Breakdown)
+         ========================================================================= */}
+      {viewMode === "plate" && (
+        <div className="space-y-4">
+          {/* Intensity & Timing Selector Tabs */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2">
+            {[
+              { id: "easy", label: "Rest Day", icon: Heart },
+              { id: "moderate", label: "Practice Day", icon: Activity },
+              { id: "hard", label: "Game Day", icon: Flame },
+              { id: "pregame", label: "Pre-Game", icon: Zap },
+              { id: "postgame", label: "Post-Game", icon: RefreshCw },
+            ].map((tab) => {
+              const Icon = tab.icon;
+              const active = dayType === tab.id;
+              return (
+                <button
+                  key={tab.id}
+                  onClick={() => setDayType(tab.id as typeof dayType)}
+                  className={`p-2 sm:p-2.5 rounded-xl text-center border font-bold text-xs transition-all flex items-center justify-center gap-1.5 font-sans ${
+                    active
+                      ? "bg-coral text-white border-coral shadow-xs ring-2 ring-coral/20 scale-105"
+                      : "bg-white text-charcoal/75 border-slate-200 hover:bg-rose-50"
+                  }`}
+                >
+                  <Icon className={`w-3.5 h-3.5 ${active ? "text-white" : "text-coral"}`} />
+                  <span>{tab.label}</span>
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Timing Badge Banner */}
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-semibold bg-light-teal/70 text-deep-teal border border-deep-teal/20 w-full font-sans">
+            <Clock className="w-3.5 h-3.5 text-deep-teal shrink-0" />
+            <span>{config.timingBadge}</span>
+          </div>
+
+          {/* Interactive Visual Plate */}
+          <div className="rounded-2xl bg-gradient-to-br from-amber-50/50 via-white to-emerald-50/40 p-4 border border-coral/20 flex flex-col sm:flex-row items-center justify-around gap-4">
+            {/* SVG Plate Representation */}
+            <div className="relative w-44 h-44 sm:w-48 sm:h-48 shrink-0 flex items-center justify-center">
+              <svg viewBox="0 0 200 200" className="w-full h-full drop-shadow-md">
+                {/* Outer Plate Rim */}
+                <circle cx="100" cy="100" r="95" fill="#F8FAFC" stroke="#E2E8F0" strokeWidth="4" />
+                <circle cx="100" cy="100" r="82" fill="#FFFFFF" stroke="#CBD5E1" strokeWidth="1.5" />
+
+                {/* Dynamic Slices based on dayType */}
+                {dayType === "easy" && (
+                  <>
+                    {/* 50% Veggies (0° to 180°) */}
+                    <path d={getSlicePath(0, 180)} fill="#34D399" opacity="0.85" />
+                    {/* 25% Protein (180° to 270°) */}
+                    <path d={getSlicePath(180, 270)} fill="#F87171" opacity="0.85" />
+                    {/* 25% Carbs (270° to 360°) */}
+                    <path d={getSlicePath(270, 360)} fill="#FBBF24" opacity="0.85" />
+                  </>
+                )}
+
+                {dayType === "moderate" && (
+                  <>
+                    {/* 35% Carbs (0° to 126°) */}
+                    <path d={getSlicePath(0, 126)} fill="#FBBF24" opacity="0.85" />
+                    {/* 30% Protein (126° to 234°) */}
+                    <path d={getSlicePath(126, 234)} fill="#F87171" opacity="0.85" />
+                    {/* 35% Veggies (234° to 360°) */}
+                    <path d={getSlicePath(234, 360)} fill="#34D399" opacity="0.85" />
+                  </>
+                )}
+
+                {dayType === "hard" && (
+                  <>
+                    {/* 50% Carbs (0° to 180°) */}
+                    <path d={getSlicePath(0, 180)} fill="#FBBF24" opacity="0.9" />
+                    {/* 25% Protein (180° to 270°) */}
+                    <path d={getSlicePath(180, 270)} fill="#F87171" opacity="0.85" />
+                    {/* 25% Veggies (270° to 360°) */}
+                    <path d={getSlicePath(270, 360)} fill="#34D399" opacity="0.85" />
+                  </>
+                )}
+
+                {dayType === "pregame" && (
+                  <>
+                    {/* 60% Carbs (0° to 216°) */}
+                    <path d={getSlicePath(0, 216)} fill="#FBBF24" opacity="0.9" />
+                    {/* 20% Protein (216° to 288°) */}
+                    <path d={getSlicePath(216, 288)} fill="#F87171" opacity="0.85" />
+                    {/* 20% Low-Fiber Colors (288° to 360°) */}
+                    <path d={getSlicePath(288, 360)} fill="#34D399" opacity="0.85" />
+                  </>
+                )}
+
+                {dayType === "postgame" && (
+                  <>
+                    {/* 45% Carbs (0° to 162°) */}
+                    <path d={getSlicePath(0, 162)} fill="#FBBF24" opacity="0.9" />
+                    {/* 35% Protein (162° to 288°) */}
+                    <path d={getSlicePath(162, 288)} fill="#F87171" opacity="0.85" />
+                    {/* 20% Anti-Inflammatory Colors (288° to 360°) */}
+                    <path d={getSlicePath(288, 360)} fill="#34D399" opacity="0.85" />
+                  </>
+                )}
+
+                {/* Inner Plate Center Circle */}
+                <circle cx="100" cy="100" r="19" fill="#FFFFFF" stroke="#CBD5E1" strokeWidth="2" />
+                <text x="100" y="97" textAnchor="middle" fontSize="8.5" fontWeight="bold" fill="#1E293B">
+                  {dayType === "easy" && "Rest"}
+                  {dayType === "moderate" && "Practice"}
+                  {dayType === "hard" && "Game"}
+                  {dayType === "pregame" && "Pre-Game"}
+                  {dayType === "postgame" && "Post-Game"}
+                </text>
+                <text x="100" y="108" textAnchor="middle" fontSize="7.5" fontWeight="medium" fill="#64748B">Plate</text>
+              </svg>
+            </div>
+
+            {/* Legend & Proportions */}
+            <div className="flex-1 space-y-2.5 text-xs font-sans">
+              <div className="flex items-start gap-2">
+                <span className="w-3.5 h-3.5 rounded-md bg-amber-400 shrink-0 mt-0.5"></span>
+                <div>
+                  <strong className="text-amber-900 block">{config.carbs}</strong>
+                  <span className="text-charcoal/75 text-[11px] leading-tight block">{config.carbDetail}</span>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-2">
+                <span className="w-3.5 h-3.5 rounded-md bg-rose-400 shrink-0 mt-0.5"></span>
+                <div>
+                  <strong className="text-rose-900 block">{config.protein}</strong>
+                  <span className="text-charcoal/75 text-[11px] leading-tight block">{config.proteinDetail}</span>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-2">
+                <span className="w-3.5 h-3.5 rounded-md bg-emerald-400 shrink-0 mt-0.5"></span>
+                <div>
+                  <strong className="text-emerald-900 block">{config.colors}</strong>
+                  <span className="text-charcoal/75 text-[11px] leading-tight block">{config.colorDetail}</span>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-2 pt-1 border-t border-coral/10">
+                <Droplets className="w-3.5 h-3.5 text-blue-500 shrink-0 mt-0.5" />
+                <div>
+                  <strong className="text-blue-900 block text-[11px]">Hydration &amp; Fluids:</strong>
+                  <span className="text-charcoal/75 text-[11px] leading-tight block">{config.fluids}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Practical Action Tip */}
+          <div className="p-3 rounded-xl bg-amber-50/70 border border-amber-200 text-xs text-charcoal/90 flex items-start gap-2 font-sans">
+            <Sparkles className="w-4 h-4 text-amber-700 shrink-0 mt-0.5" />
+            <div>
+              <strong className="text-amber-900 block text-[11.5px]">Coach &amp; Athlete Pro Tip:</strong>
+              <p className="text-[11px] text-amber-950/80 m-0 leading-relaxed">{config.actionTip}</p>
+            </div>
+          </div>
+
+          {/* Hormone Protection Clinical Note */}
+          <div className="p-3.5 rounded-xl bg-[#FFE1DB]/40 border border-coral/30 text-xs text-charcoal/90 font-sans">
+            <strong className="text-[#B83F68] block mb-1 flex items-center gap-1.5">
+              <Lightbulb className="w-3.5 h-3.5 text-[#B83F68] shrink-0" />
+              <span>Why This Protects Your Hormones &amp; Cycle:</span>
+            </strong>
+            {config.hormoneImpact}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
