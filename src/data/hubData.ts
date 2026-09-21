@@ -1638,7 +1638,7 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
         diagram: {
           type: "athlete-plate",
           title: "Interactive Athlete Fueling Plate",
-          caption: "Toggle between Rest Day, Practice Day, and Game Day to see how your body's carbohydrate, protein, and veggie needs change for peak performance."
+          caption: "Toggle between Rest Day, Practice Day, Game Day, Pre-Game, and Post-Game to see how your body's carbohydrate, protein, and recovery needs change for peak performance and hormone protection."
         },
         video: {
           title: "Female Athlete Triad & RED-S Explained",

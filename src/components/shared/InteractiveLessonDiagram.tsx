@@ -962,12 +962,13 @@ function AnatomyCalloutDiagram({ diagram }: { diagram: LessonDiagram; themeColor
 // 7. Athlete Fueling Plate (Nutrition & Hormonal Recovery)
 // --------------------------------------------------------------------------
 function AthletePlateDiagram({ diagram }: { diagram: LessonDiagram; themeColor: string }) {
-  const [dayType, setDayType] = useState<"easy" | "moderate" | "hard">("moderate");
+  const [dayType, setDayType] = useState<"easy" | "moderate" | "hard" | "pregame" | "postgame">("moderate");
 
   const plateConfigs = {
     easy: {
       title: "Easy Training / Rest & Recovery Day",
       subtitle: "Focus on cellular repair, anti-inflammatory colors, and light mobility.",
+      timingBadge: "Rest & Active Recovery · Anti-Inflammatory Baseline",
       carbs: "25% Plate (Complex Carbs)",
       carbDetail: "Whole grains, sweet potato, oats, brown rice for steady basal glycogen.",
       protein: "25% Plate (Lean Protein)",
@@ -975,14 +976,13 @@ function AthletePlateDiagram({ diagram }: { diagram: LessonDiagram; themeColor: 
       colors: "50% Plate (Colorful Fruits & Veggies)",
       colorDetail: "Berries, leafy greens, peppers, carrots packed with antioxidants.",
       fluids: "Water + herbal teas throughout the day.",
-      hormoneImpact: "Gives your digestive tract rest while maintaining stable resting blood sugar.",
-      svgCarbAngle: 90,
-      svgProteinAngle: 90,
-      svgVegAngle: 180,
+      hormoneImpact: "Gives your digestive tract rest while maintaining stable resting blood sugar and thyroid function.",
+      actionTip: "Even on rest days, under-eating stalls recovery and suppresses nighttime growth hormone.",
     },
     moderate: {
       title: "Moderate Training Day (60–90 Minutes Practice)",
       subtitle: "Balanced fuel maintaining normal ovulatory cycles and athletic energy.",
+      timingBadge: "60–90 Min Practice · Baseline Training Fuel",
       carbs: "35% Plate (Performance Carbs)",
       carbDetail: "Oats, pasta, quinoa, sourdough, banana for muscle glycogen tops.",
       protein: "30% Plate (Lean Protein)",
@@ -990,14 +990,13 @@ function AthletePlateDiagram({ diagram }: { diagram: LessonDiagram; themeColor: 
       colors: "35% Plate (Veggies & Fruits)",
       colorDetail: "Spinach (iron!), broccoli, citrus (vitamin C increases iron absorption).",
       fluids: "Electrolyte water before, during, and right after practice.",
-      hormoneImpact: "Prevents cortisol spikes and keeps kisspeptin (brain period switch) happy.",
-      svgCarbAngle: 125,
-      svgProteinAngle: 110,
-      svgVegAngle: 125,
+      hormoneImpact: "Prevents cortisol spikes and keeps kisspeptin (the brain's period switch) happy.",
+      actionTip: "Fuel consistently before practice to prevent reaching into deep energy deficits.",
     },
     hard: {
-      title: "Hard Training / Game Day / Double Sessions",
-      subtitle: "High energy availability prioritizing immediate carbohydrate replenishment.",
+      title: "Hard Training Day / Double Sessions",
+      subtitle: "High energy availability prioritizing continuous carbohydrate replenishment.",
+      timingBadge: "High Intensity / Tournaments · Max Glycogen Loading",
       carbs: "50% Plate (High-Octane Carbs)",
       carbDetail: "Rice, potatoes, bagels, pasta. Essential to prevent RED-S and bone loss.",
       protein: "25% Plate (Recovery Protein)",
@@ -1005,14 +1004,50 @@ function AthletePlateDiagram({ diagram }: { diagram: LessonDiagram; themeColor: 
       colors: "25% Plate (Cooked Veggies & Berries)",
       colorDetail: "Gentle cooked veggies that digest easily before high-intensity sprints.",
       fluids: "Carbohydrate + electrolyte sports drink during active sweating.",
-      hormoneImpact: "CRITICAL: Under-fueling on hard days stops periods within just 5 days.",
-      svgCarbAngle: 180,
-      svgProteinAngle: 90,
-      svgVegAngle: 90,
+      hormoneImpact: "CRITICAL: Under-fueling on hard training days stops periods within just 5 days.",
+      actionTip: "Do not fear carbohydrates! Active female athletes burn carbs 2x faster during high-intensity intervals.",
+    },
+    pregame: {
+      title: "Pre-Game Energy Primer (2–4 Hours Before)",
+      subtitle: "Easily digestible carbs to top off glycogen, moderate lean protein, low fat & low fiber to prevent GI cramping.",
+      timingBadge: "2–4h Before Kickoff / Race · Pre-Competition Primer",
+      carbs: "60% Plate (Easily Digestible Carbs)",
+      carbDetail: "White rice, pasta, oatmeal with honey, sourdough toast with jam, bagel, pretzels, banana. Rapidly fills glycogen with zero sluggishness.",
+      protein: "20% Plate (Lean & Light Protein)",
+      proteinDetail: "Egg whites, grilled chicken breast, low-fat Greek yogurt, light tofu. Keeps blood amino acids stable without slowing gastric emptying.",
+      colors: "20% Plate (Low-Fiber Produce & Fluids)",
+      colorDetail: "Ripe bananas, peeled applesauce, melons, blueberries. (Avoid high-fiber beans, broccoli, or greasy fries that cause stomach cramps/nausea during sprints).",
+      fluids: "16–20 oz electrolyte water 2–3 hours pre-game, plus 6–8 oz 15 mins before warm-ups.",
+      hormoneImpact: "Prevents acute hypoglycemia (in-game sugar crashes) and keeps fight-or-flight cortisol in a calm, focused athletic zone.",
+      actionTip: "Rule of thumb: The closer you get to game time, the simpler and smaller the carbohydrates should be (e.g. half a banana or dates 30m out)!",
+    },
+    postgame: {
+      title: "Post-Game Recovery Plate (30–45m Window & Meal)",
+      subtitle: "Capitalize on high insulin sensitivity to restock glycogen 2x faster, shut off muscle breakdown, and soothe inflammation.",
+      timingBadge: "0–45m Recovery Window + Full Meal Within 2h",
+      carbs: "45% Plate (Glycogen Reload Carbs)",
+      carbDetail: "Roasted potatoes, rice, pasta, chocolate milk, quinoa, fruit. Rapidly refills exhausted muscle and liver glycogen stores before enzymatic windows close.",
+      protein: "35% Plate (Muscle Repair Protein — 25–30g)",
+      proteinDetail: "Salmon, chicken, tofu, eggs, Greek yogurt, or protein shake. Supplies leucine to stimulate rapid muscle protein synthesis (MPS).",
+      colors: "20% Plate (Anti-Inflammatory Deep Colors)",
+      colorDetail: "Tart cherry juice, blueberries, dark leafy spinach, beets. Rich in anthocyanins and polyphenols to accelerate muscle repair and clear lactate.",
+      fluids: "16–24 oz fluid for every pound lost in sweat + sodium electrolytes to restore blood plasma volume.",
+      hormoneImpact: "CRITICAL: Post-game fueling shuts down cortisol and signals to the brain's hypothalamus that energy stores are secure, safeguarding your menstrual cycle.",
+      actionTip: "Your muscle cells are like dry sponges right after a game. Waiting more than 2 hours cuts glycogen replenishment rate by 50%!",
     },
   };
 
   const config = plateConfigs[dayType];
+
+  const getSlicePath = (startDeg: number, endDeg: number, r = 82) => {
+    const rad = (deg: number) => ((deg - 90) * Math.PI) / 180;
+    const x1 = 100 + r * Math.cos(rad(startDeg));
+    const y1 = 100 + r * Math.sin(rad(startDeg));
+    const x2 = 100 + r * Math.cos(rad(endDeg));
+    const y2 = 100 + r * Math.sin(rad(endDeg));
+    const largeArc = endDeg - startDeg > 180 ? 1 : 0;
+    return `M 100 100 L ${x1.toFixed(2)} ${y1.toFixed(2)} A ${r} ${r} 0 ${largeArc} 1 ${x2.toFixed(2)} ${y2.toFixed(2)} Z`;
+  };
 
   return (
     <div className="rounded-2xl border-2 border-coral/30 bg-white p-4 md:p-5 shadow-sm space-y-4">
@@ -1027,27 +1062,42 @@ function AthletePlateDiagram({ diagram }: { diagram: LessonDiagram; themeColor: 
           </h4>
         </div>
         <span className="text-[11px] font-semibold bg-[#FFE1DB] px-2.5 py-1 rounded-full text-[#B83F68] border border-coral/30">
-          Switch training intensity
+          5 Training &amp; Game Stages
         </span>
       </div>
 
-      {/* Intensity Selector Tabs */}
-      <div className="grid grid-cols-3 gap-2">
-        {(["easy", "moderate", "hard"] as const).map((mode) => (
-          <button
-            key={mode}
-            onClick={() => setDayType(mode)}
-            className={`p-2.5 rounded-xl text-center border font-bold text-xs transition-all ${
-              dayType === mode
-                ? "bg-coral text-white border-coral shadow-xs ring-2 ring-coral/20 scale-105"
-                : "bg-white text-charcoal/75 border-slate-200 hover:bg-rose-50"
-            }`}
-          >
-            {mode === "easy" && "Rest Day"}
-            {mode === "moderate" && "Practice Day"}
-            {mode === "hard" && "Game Day"}
-          </button>
-        ))}
+      {/* Intensity & Timing Selector Tabs */}
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2">
+        {[
+          { id: "easy", label: "Rest Day", icon: Heart },
+          { id: "moderate", label: "Practice Day", icon: Activity },
+          { id: "hard", label: "Game Day", icon: Flame },
+          { id: "pregame", label: "Pre-Game", icon: Zap },
+          { id: "postgame", label: "Post-Game", icon: RefreshCw },
+        ].map((tab) => {
+          const Icon = tab.icon;
+          const active = dayType === tab.id;
+          return (
+            <button
+              key={tab.id}
+              onClick={() => setDayType(tab.id as typeof dayType)}
+              className={`p-2 sm:p-2.5 rounded-xl text-center border font-bold text-xs transition-all flex items-center justify-center gap-1.5 ${
+                active
+                  ? "bg-coral text-white border-coral shadow-xs ring-2 ring-coral/20 scale-105"
+                  : "bg-white text-charcoal/75 border-slate-200 hover:bg-rose-50"
+              }`}
+            >
+              <Icon className={`w-3.5 h-3.5 ${active ? "text-white" : "text-coral"}`} />
+              <span>{tab.label}</span>
+            </button>
+          );
+        })}
+      </div>
+
+      {/* Timing Badge Banner */}
+      <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-semibold bg-light-teal/70 text-deep-teal border border-deep-teal/20 w-full">
+        <Clock className="w-3.5 h-3.5 text-deep-teal shrink-0" />
+        <span>{config.timingBadge}</span>
       </div>
 
       {/* Interactive Visual Plate */}
@@ -1062,68 +1112,114 @@ function AthletePlateDiagram({ diagram }: { diagram: LessonDiagram; themeColor: 
             {/* Dynamic Slices based on dayType */}
             {dayType === "easy" && (
               <>
-                {/* 50% Veggies (Top half: 0 to 180 deg) */}
-                <path d="M 100 100 L 182 100 A 82 82 0 0 1 18 100 Z" fill="#34D399" opacity="0.85" />
-                {/* 25% Protein (Bottom left: 180 to 270 deg) */}
-                <path d="M 100 100 L 18 100 A 82 82 0 0 1 100 182 Z" fill="#F87171" opacity="0.85" />
-                {/* 25% Carbs (Bottom right: 270 to 360 deg) */}
-                <path d="M 100 100 L 100 182 A 82 82 0 0 1 182 100 Z" fill="#FBBF24" opacity="0.85" />
+                {/* 50% Veggies (0° to 180°) */}
+                <path d={getSlicePath(0, 180)} fill="#34D399" opacity="0.85" />
+                {/* 25% Protein (180° to 270°) */}
+                <path d={getSlicePath(180, 270)} fill="#F87171" opacity="0.85" />
+                {/* 25% Carbs (270° to 360°) */}
+                <path d={getSlicePath(270, 360)} fill="#FBBF24" opacity="0.85" />
               </>
             )}
 
             {dayType === "moderate" && (
               <>
-                {/* ~35% Carbs */}
-                <path d="M 100 100 L 182 100 A 82 82 0 0 1 60 175 Z" fill="#FBBF24" opacity="0.85" />
-                {/* ~30% Protein */}
-                <path d="M 100 100 L 60 175 A 82 82 0 0 1 35 50 Z" fill="#F87171" opacity="0.85" />
-                {/* ~35% Veggies */}
-                <path d="M 100 100 L 35 50 A 82 82 0 0 1 182 100 Z" fill="#34D399" opacity="0.85" />
+                {/* 35% Carbs (0° to 126°) */}
+                <path d={getSlicePath(0, 126)} fill="#FBBF24" opacity="0.85" />
+                {/* 30% Protein (126° to 234°) */}
+                <path d={getSlicePath(126, 234)} fill="#F87171" opacity="0.85" />
+                {/* 35% Veggies (234° to 360°) */}
+                <path d={getSlicePath(234, 360)} fill="#34D399" opacity="0.85" />
               </>
             )}
 
             {dayType === "hard" && (
               <>
-                {/* 50% Carbs (Half plate!) */}
-                <path d="M 100 100 L 182 100 A 82 82 0 0 1 18 100 Z" fill="#FBBF24" opacity="0.9" />
-                {/* 25% Protein */}
-                <path d="M 100 100 L 18 100 A 82 82 0 0 1 100 182 Z" fill="#F87171" opacity="0.85" />
-                {/* 25% Veggies */}
-                <path d="M 100 100 L 100 182 A 82 82 0 0 1 182 100 Z" fill="#34D399" opacity="0.85" />
+                {/* 50% Carbs (0° to 180°) */}
+                <path d={getSlicePath(0, 180)} fill="#FBBF24" opacity="0.9" />
+                {/* 25% Protein (180° to 270°) */}
+                <path d={getSlicePath(180, 270)} fill="#F87171" opacity="0.85" />
+                {/* 25% Veggies (270° to 360°) */}
+                <path d={getSlicePath(270, 360)} fill="#34D399" opacity="0.85" />
+              </>
+            )}
+
+            {dayType === "pregame" && (
+              <>
+                {/* 60% Carbs (0° to 216°) */}
+                <path d={getSlicePath(0, 216)} fill="#FBBF24" opacity="0.9" />
+                {/* 20% Protein (216° to 288°) */}
+                <path d={getSlicePath(216, 288)} fill="#F87171" opacity="0.85" />
+                {/* 20% Low-Fiber Colors (288° to 360°) */}
+                <path d={getSlicePath(288, 360)} fill="#34D399" opacity="0.85" />
+              </>
+            )}
+
+            {dayType === "postgame" && (
+              <>
+                {/* 45% Carbs (0° to 162°) */}
+                <path d={getSlicePath(0, 162)} fill="#FBBF24" opacity="0.9" />
+                {/* 35% Protein (162° to 288°) */}
+                <path d={getSlicePath(162, 288)} fill="#F87171" opacity="0.85" />
+                {/* 20% Anti-Inflammatory Colors (288° to 360°) */}
+                <path d={getSlicePath(288, 360)} fill="#34D399" opacity="0.85" />
               </>
             )}
 
             {/* Inner Plate Center Circle */}
-            <circle cx="100" cy="100" r="18" fill="#FFFFFF" stroke="#CBD5E1" strokeWidth="2" />
-            <text x="100" y="104" textAnchor="middle" fontSize="10" fontWeight="bold" fill="#1E293B">Fuel</text>
+            <circle cx="100" cy="100" r="19" fill="#FFFFFF" stroke="#CBD5E1" strokeWidth="2" />
+            <text x="100" y="97" textAnchor="middle" fontSize="8.5" fontWeight="bold" fill="#1E293B">
+              {dayType === "easy" && "Rest"}
+              {dayType === "moderate" && "Practice"}
+              {dayType === "hard" && "Game"}
+              {dayType === "pregame" && "Pre-Game"}
+              {dayType === "postgame" && "Post-Game"}
+            </text>
+            <text x="100" y="108" textAnchor="middle" fontSize="7.5" fontWeight="medium" fill="#64748B">Plate</text>
           </svg>
         </div>
 
         {/* Legend & Proportions */}
-        <div className="flex-1 space-y-2 text-xs">
-          <div className="flex items-center gap-2">
-            <span className="w-3.5 h-3.5 rounded-md bg-amber-400 shrink-0"></span>
+        <div className="flex-1 space-y-2.5 text-xs">
+          <div className="flex items-start gap-2">
+            <span className="w-3.5 h-3.5 rounded-md bg-amber-400 shrink-0 mt-0.5"></span>
             <div>
               <strong className="text-amber-900 block">{config.carbs}</strong>
-              <span className="text-charcoal/70 text-[11px]">{config.carbDetail}</span>
+              <span className="text-charcoal/75 text-[11px] leading-tight block">{config.carbDetail}</span>
             </div>
           </div>
 
-          <div className="flex items-center gap-2">
-            <span className="w-3.5 h-3.5 rounded-md bg-rose-400 shrink-0"></span>
+          <div className="flex items-start gap-2">
+            <span className="w-3.5 h-3.5 rounded-md bg-rose-400 shrink-0 mt-0.5"></span>
             <div>
               <strong className="text-rose-900 block">{config.protein}</strong>
-              <span className="text-charcoal/70 text-[11px]">{config.proteinDetail}</span>
+              <span className="text-charcoal/75 text-[11px] leading-tight block">{config.proteinDetail}</span>
             </div>
           </div>
 
-          <div className="flex items-center gap-2">
-            <span className="w-3.5 h-3.5 rounded-md bg-emerald-400 shrink-0"></span>
+          <div className="flex items-start gap-2">
+            <span className="w-3.5 h-3.5 rounded-md bg-emerald-400 shrink-0 mt-0.5"></span>
             <div>
               <strong className="text-emerald-900 block">{config.colors}</strong>
-              <span className="text-charcoal/70 text-[11px]">{config.colorDetail}</span>
+              <span className="text-charcoal/75 text-[11px] leading-tight block">{config.colorDetail}</span>
             </div>
           </div>
+
+          <div className="flex items-start gap-2 pt-1 border-t border-coral/10">
+            <Droplets className="w-3.5 h-3.5 text-blue-500 shrink-0 mt-0.5" />
+            <div>
+              <strong className="text-blue-900 block text-[11px]">Hydration &amp; Fluids:</strong>
+              <span className="text-charcoal/75 text-[11px] leading-tight block">{config.fluids}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Practical Action Tip */}
+      <div className="p-3 rounded-xl bg-amber-50/70 border border-amber-200 text-xs text-charcoal/90 flex items-start gap-2">
+        <Sparkles className="w-4 h-4 text-amber-700 shrink-0 mt-0.5" />
+        <div>
+          <strong className="text-amber-900 block text-[11.5px]">Coach &amp; Athlete Pro Tip:</strong>
+          <p className="text-[11px] text-amber-950/80 m-0 leading-relaxed">{config.actionTip}</p>
         </div>
       </div>
 
@@ -1131,7 +1227,7 @@ function AthletePlateDiagram({ diagram }: { diagram: LessonDiagram; themeColor: 
       <div className="p-3.5 rounded-xl bg-[#FFE1DB]/40 border border-coral/30 text-xs text-charcoal/90">
         <strong className="text-[#B83F68] block mb-1 flex items-center gap-1.5">
           <Lightbulb className="w-3.5 h-3.5 text-[#B83F68] shrink-0" />
-          <span>Why Fueling Protects Your Hormones:</span>
+          <span>Why This Protects Your Hormones &amp; Cycle:</span>
         </strong>
         {config.hormoneImpact}
       </div>
