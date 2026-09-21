@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   ArrowRight,
   Sparkles,
@@ -33,7 +33,11 @@ import {
   Scale,
   AlertTriangle,
   Shield,
-  FileCheck
+  FileCheck,
+  ListOrdered,
+  ArrowDown,
+  ArrowUp,
+  Compass,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -41,6 +45,74 @@ import { AccessMini } from "@/components/shared/AccessMini";
 import { PageId } from "@/components/layout/Navbar";
 import { UPCOMING_SESSIONS } from "@/data/workshopsData";
 import { MYTHS_DATA, MythItem } from "@/data/mythsData";
+
+export interface TocSection {
+  id: string;
+  number: string;
+  title: string;
+  subtitle: string;
+  tag: string;
+  icon: React.ElementType;
+}
+
+export const TOC_SECTIONS: TocSection[] = [
+  {
+    id: "commitment",
+    number: "01",
+    title: "The ReproUs Commitment",
+    subtitle: "Learn · Recognize · Advocate framework for young patients",
+    tag: "Core Mission",
+    icon: ShieldCheck,
+  },
+  {
+    id: "curriculum",
+    number: "02",
+    title: "Curriculum Focus",
+    subtitle: "Athlete physiology, menstrual cycles & overlooked conditions",
+    tag: "Health Guides",
+    icon: BookOpen,
+  },
+  {
+    id: "research-gap",
+    number: "03",
+    title: "Gender Research Gap & Evidence",
+    subtitle: "Diagnostic delays, adverse drug reactions & clinical papers",
+    tag: "Clinical Science",
+    icon: Scale,
+  },
+  {
+    id: "symptom-explorer",
+    number: "04",
+    title: "Symptom Explorer",
+    subtitle: "Interactive evaluation across 10 common adolescent symptoms",
+    tag: "Could This Be You?",
+    icon: Stethoscope,
+  },
+  {
+    id: "advocacy-toolkit",
+    number: "05",
+    title: "Self-Advocacy Toolkit",
+    subtitle: "Appointment preparation, symptom logs & chart scripts",
+    tag: "Patient Tools",
+    icon: ClipboardList,
+  },
+  {
+    id: "myth-buster",
+    number: "06",
+    title: "Medical Myth-Buster",
+    subtitle: "Separating menstrual and pelvic myths from clinical reality",
+    tag: "Myth vs Fact",
+    icon: AlertTriangle,
+  },
+  {
+    id: "workshops-community",
+    number: "07",
+    title: "Workshops & Community",
+    subtitle: "Free student workshops & Youth Voices community stories",
+    tag: "Community",
+    icon: Users,
+  },
+];
 
 interface HomeViewProps {
   onNavigate: (page: PageId, categoryId?: string) => void;
@@ -318,13 +390,76 @@ export function HomeView({ onNavigate, onSelectLang }: HomeViewProps) {
   const FEATURED_MYTH_IDS = ["myth-severe-pain", "myth-missing-period-stress", "myth-athlete-period-loss"];
   const featuredMyths = MYTHS_DATA.filter((m) => FEATURED_MYTH_IDS.includes(m.id));
 
-  const activeSymptom =
-    SYMPTOMS_DATA.find((s) => s.id === selectedSymptomId) || SYMPTOMS_DATA[0];
+  const [activeSymptom, setActiveSymptom] = useState<SymptomDetail>(
+    () => SYMPTOMS_DATA.find((s) => s.id === "painful-periods") || SYMPTOMS_DATA[0]
+  );
+  const [floatingTocOpen, setFloatingTocOpen] = useState(false);
+  const [activeSectionId, setActiveSectionId] = useState<string>("hero");
+  const [scrolledPastHero, setScrolledPastHero] = useState(false);
+
+  useEffect(() => {
+    const active = SYMPTOMS_DATA.find((s) => s.id === selectedSymptomId) || SYMPTOMS_DATA[0];
+    setActiveSymptom(active);
+  }, [selectedSymptomId]);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (typeof window !== "undefined") {
+        setScrolledPastHero(window.scrollY > 380);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveSectionId(entry.target.id);
+          }
+        });
+      },
+      { rootMargin: "-20% 0px -60% 0px", threshold: 0 }
+    );
+
+    const sectionIds = [
+      "hero",
+      "table-of-contents",
+      "commitment",
+      "curriculum",
+      "research-gap",
+      "symptom-explorer",
+      "advocacy-toolkit",
+      "myth-buster",
+      "workshops-community",
+    ];
+
+    sectionIds.forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) observer.observe(el);
+    });
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      observer.disconnect();
+    };
+  }, []);
+
+  const scrollToSection = (sectionId: string) => {
+    if (typeof document !== "undefined") {
+      const el = document.getElementById(sectionId);
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }
+    setFloatingTocOpen(false);
+  };
 
   return (
     <div className="flex flex-col w-full text-charcoal">
       {/* 1. HERO SECTION: Light Teal (#D8EFED) */}
-      <section className="w-full bg-light-teal text-charcoal pt-12 pb-16 md:pt-16 md:pb-24 relative overflow-hidden">
+      <section id="hero" className="w-full bg-light-teal text-charcoal pt-12 pb-16 md:pt-16 md:pb-24 relative overflow-hidden scroll-mt-20 md:scroll-mt-24">
         <div className="max-w-[1100px] mx-auto px-6 relative z-10 flex flex-col items-center text-center">
           {/* Eyebrow Pill with Coral Accent & Sparkle */}
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/85 border border-coral/35 shadow-xs mb-6 backdrop-blur-xs">
@@ -411,8 +546,87 @@ export function HomeView({ onNavigate, onSelectLang }: HomeViewProps) {
         </div>
       </section>
 
+      {/* TABLE OF CONTENTS: Quick-Jump Section Navigation */}
+      <section
+        id="table-of-contents"
+        aria-label="Table of Contents"
+        className="w-full bg-[#EBF7F6] border-y border-deep-teal/15 py-10 md:py-14 scroll-mt-20 md:scroll-mt-24"
+      >
+        <div className="max-w-[1100px] mx-auto px-6">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
+            <div>
+              <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/90 border border-coral/30 text-deep-teal font-bold text-xs uppercase tracking-wider font-sans mb-2.5 shadow-2xs">
+                <ListOrdered className="w-3.5 h-3.5 text-coral" />
+                <span>On This Page · Table of Contents</span>
+              </div>
+              <h2 className="text-2xl sm:text-3xl md:text-[38px] font-serif font-bold text-deep-teal m-0 leading-tight">
+                Jump to any section
+              </h2>
+              <p className="text-sm sm:text-base text-charcoal/80 font-sans mt-2 mb-0 max-w-2xl">
+                Explore research data, interactive symptom guides, clinical myth-busting, appointment scripts, or upcoming youth workshops.
+              </p>
+            </div>
+
+            {/* Direct Quick-Jump Chips (Desktop & Tablet) */}
+            <div className="hidden sm:flex items-center gap-1.5 flex-wrap">
+              <span className="text-xs font-bold text-charcoal/60 uppercase tracking-wider mr-1 font-sans">Jump:</span>
+              {TOC_SECTIONS.map((sec) => (
+                <button
+                  key={sec.id}
+                  onClick={() => scrollToSection(sec.id)}
+                  className="px-2.5 py-1 rounded-lg text-xs font-bold font-sans bg-white hover:bg-deep-teal hover:text-white text-deep-teal border border-deep-teal/20 transition-all cursor-pointer shadow-2xs"
+                  title={`Jump to Section ${sec.number}: ${sec.title}`}
+                >
+                  {sec.number}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* 7 Section Cards Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+            {TOC_SECTIONS.map((sec) => {
+              const Icon = sec.icon;
+              return (
+                <button
+                  key={sec.id}
+                  onClick={() => scrollToSection(sec.id)}
+                  className="p-5 rounded-2xl bg-white hover:bg-white/95 border-2 border-deep-teal/15 hover:border-coral transition-all text-left shadow-2xs hover:shadow-md group flex flex-col justify-between cursor-pointer"
+                >
+                  <div>
+                    <div className="flex items-center justify-between gap-2 mb-2.5">
+                      <span className="text-xs font-bold font-mono tracking-wider text-coral bg-coral/10 px-2.5 py-0.5 rounded-md border border-coral/20">
+                        SECTION {sec.number}
+                      </span>
+                      <span className="text-[11px] font-sans font-semibold text-charcoal/60 uppercase tracking-wider">
+                        {sec.tag}
+                      </span>
+                    </div>
+                    <div className="flex items-start gap-2.5 my-1.5">
+                      <div className="p-2 rounded-xl bg-light-teal/50 text-deep-teal group-hover:bg-coral/15 group-hover:text-coral transition-colors shrink-0 mt-0.5">
+                        <Icon className="w-4 h-4" />
+                      </div>
+                      <h3 className="font-serif font-bold text-deep-teal text-lg sm:text-[19px] leading-snug group-hover:text-raspberry transition-colors m-0">
+                        {sec.title}
+                      </h3>
+                    </div>
+                    <p className="text-xs sm:text-[13px] text-charcoal/75 font-sans leading-relaxed mt-2 mb-3">
+                      {sec.subtitle}
+                    </p>
+                  </div>
+                  <div className="pt-2.5 border-t border-deep-teal/10 flex items-center justify-between text-xs font-bold text-deep-teal group-hover:text-coral font-sans transition-colors">
+                    <span>Jump to section</span>
+                    <ArrowDown className="w-3.5 h-3.5 group-hover:translate-y-0.5 transition-transform text-coral" />
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
       {/* 2. THE COMMITMENT SECTION: Deep Teal (#175B5C) Full-Bleed */}
-      <section className="w-full bg-deep-teal text-white py-16 md:py-24">
+      <section id="commitment" className="w-full bg-deep-teal text-white py-16 md:py-24 scroll-mt-20 md:scroll-mt-24">
         <div className="max-w-[1100px] mx-auto px-6">
           <div className="max-w-3xl">
             <div className="inline-flex items-center gap-2 text-xs font-bold tracking-widest uppercase text-coral mb-4 font-sans">
@@ -483,7 +697,7 @@ export function HomeView({ onNavigate, onSelectLang }: HomeViewProps) {
       </section>
 
       {/* 3. HEALTH TOPICS: Warm Cream (#FFF8F0) Full-Bleed with 3 Distinct Cards */}
-      <section className="w-full bg-warm-cream text-charcoal py-16 md:py-24">
+      <section id="curriculum" className="w-full bg-warm-cream text-charcoal py-16 md:py-24 scroll-mt-20 md:scroll-mt-24">
         <div className="max-w-[1100px] mx-auto px-6">
           <div className="text-center mb-10">
             <div className="text-[13px] font-bold tracking-wider uppercase text-raspberry mb-2 font-sans">
@@ -574,7 +788,7 @@ export function HomeView({ onNavigate, onSelectLang }: HomeViewProps) {
       </section>
 
       {/* 4. "THE RESEARCH GAP & PATIENT ADVOCACY" SECTION: Full-Bleed Deep Teal (#174C4F) */}
-      <section className="w-full bg-[#174C4F] text-white py-16 md:py-24 relative overflow-hidden">
+      <section id="research-gap" className="w-full bg-[#174C4F] text-white py-16 md:py-24 relative overflow-hidden scroll-mt-20 md:scroll-mt-24">
         <div className="max-w-[1100px] mx-auto px-6 relative z-10 space-y-12">
           {/* Header */}
           <div>
@@ -993,7 +1207,7 @@ export function HomeView({ onNavigate, onSelectLang }: HomeViewProps) {
       </section>
 
       {/* 5. INTERACTIVE "COULD THIS BE YOU?" SYMPTOM EXPLORER: Light Teal (#D8EFED) */}
-      <section className="w-full bg-light-teal text-charcoal py-16 md:py-24">
+      <section id="symptom-explorer" className="w-full bg-light-teal text-charcoal py-16 md:py-24 scroll-mt-20 md:scroll-mt-24">
         <div className="max-w-[1100px] mx-auto px-6">
           <div className="text-center mb-8">
             <div className="text-[12.5px] font-bold tracking-widest uppercase text-raspberry mb-2 font-sans flex items-center justify-center gap-1.5">
@@ -1114,7 +1328,7 @@ export function HomeView({ onNavigate, onSelectLang }: HomeViewProps) {
       </section>
 
       {/* 6. SELF-ADVOCACY TOOLKIT: Full-Bleed Coral (#F47A6A) */}
-      <section className="w-full bg-coral text-deep-teal py-16 md:py-24">
+      <section id="advocacy-toolkit" className="w-full bg-coral text-deep-teal py-16 md:py-24 scroll-mt-20 md:scroll-mt-24">
         <div className="max-w-[1100px] mx-auto px-6">
           <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-4 mb-8">
             <div>
@@ -1256,7 +1470,7 @@ export function HomeView({ onNavigate, onSelectLang }: HomeViewProps) {
       </section>
 
       {/* 7. MYTHS & FACTS INTERACTIVE FEATURE: Full-Bleed Raspberry (#B83F68) */}
-      <section className="w-full bg-raspberry text-white py-16 md:py-24">
+      <section id="myth-buster" className="w-full bg-raspberry text-white py-16 md:py-24 scroll-mt-20 md:scroll-mt-24">
         <div className="max-w-[1100px] mx-auto px-6">
           <div className="text-center max-w-3xl mx-auto mb-12">
             <div className="inline-flex items-center gap-2 font-sans font-bold text-xs uppercase tracking-widest text-soft-pink mb-3">
@@ -1377,7 +1591,7 @@ export function HomeView({ onNavigate, onSelectLang }: HomeViewProps) {
       </section>
 
       {/* 8. WORKSHOPS & YOUTH VOICES: Full-Bleed Warm Cream (#FFF8F0) */}
-      <section className="w-full bg-warm-cream text-charcoal py-16 md:py-24">
+      <section id="workshops-community" className="w-full bg-warm-cream text-charcoal py-16 md:py-24 scroll-mt-20 md:scroll-mt-24">
         <div className="max-w-[1100px] mx-auto px-6 space-y-16">
           {/* Upcoming Workshops Section */}
           <div className="rounded-2xl bg-white border border-deep-teal/15 p-8 md:p-12 shadow-card">
@@ -1506,6 +1720,112 @@ export function HomeView({ onNavigate, onSelectLang }: HomeViewProps) {
           </div>
         </div>
       </section>
+
+      {/* Floating Quick Jump Widget (Visible when scrolled down) */}
+      {scrolledPastHero && (
+        <aside aria-label="Page navigation" className="fixed bottom-6 right-6 z-40 flex flex-col items-end gap-2 animate-in fade-in duration-200">
+          {/* Floating Dropdown Drawer */}
+          {floatingTocOpen && (
+            <div
+              className="w-72 sm:w-80 bg-white rounded-2xl p-4 shadow-2xl border-2 border-deep-teal/20 animate-in slide-in-from-bottom-3 duration-150 mb-1"
+              role="dialog"
+              aria-label="Table of Contents Menu"
+            >
+              <div className="flex items-center justify-between pb-3 mb-2 border-b border-deep-teal/10">
+                <div className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-deep-teal font-sans">
+                  <ListOrdered className="w-4 h-4 text-coral" />
+                  <span>On This Page ({TOC_SECTIONS.length})</span>
+                </div>
+                <button
+                  onClick={() => setFloatingTocOpen(false)}
+                  className="p-1 rounded-lg text-charcoal/50 hover:text-charcoal hover:bg-light-teal/50 transition-colors cursor-pointer"
+                  aria-label="Close Table of Contents menu"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+
+              <div className="space-y-1 max-h-[55vh] overflow-y-auto pr-1">
+                {TOC_SECTIONS.map((sec) => {
+                  const isActive = activeSectionId === sec.id;
+                  const Icon = sec.icon;
+                  return (
+                    <button
+                      key={sec.id}
+                      onClick={() => scrollToSection(sec.id)}
+                      className={`w-full p-2.5 rounded-xl text-left font-sans transition-all flex items-center justify-between gap-2 cursor-pointer ${
+                        isActive
+                          ? "bg-deep-teal text-white shadow-xs font-bold"
+                          : "hover:bg-light-teal/40 text-charcoal/90"
+                      }`}
+                    >
+                      <div className="flex items-center gap-2.5 min-w-0">
+                        <span
+                          className={`text-xs font-mono font-bold shrink-0 ${
+                            isActive ? "text-coral" : "text-coral"
+                          }`}
+                        >
+                          {sec.number}
+                        </span>
+                        <Icon
+                          className={`w-3.5 h-3.5 shrink-0 ${
+                            isActive ? "text-white" : "text-deep-teal"
+                          }`}
+                        />
+                        <span className="text-xs sm:text-[13px] truncate">
+                          {sec.title}
+                        </span>
+                      </div>
+                      <ArrowRight
+                        className={`w-3 h-3 shrink-0 ${
+                          isActive ? "text-coral" : "text-charcoal/40"
+                        }`}
+                      />
+                    </button>
+                  );
+                })}
+              </div>
+
+              <div className="pt-2.5 mt-2 border-t border-deep-teal/10 flex items-center justify-between gap-2">
+                <button
+                  onClick={() => scrollToSection("hero")}
+                  className="text-xs font-bold text-deep-teal hover:text-coral font-sans flex items-center gap-1 cursor-pointer transition-colors"
+                >
+                  <ArrowUp className="w-3.5 h-3.5" />
+                  <span>Back to Top</span>
+                </button>
+                <button
+                  onClick={() => scrollToSection("table-of-contents")}
+                  className="text-xs font-semibold text-charcoal/60 hover:text-deep-teal font-sans cursor-pointer transition-colors"
+                >
+                  View full index
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* Floating Pill Buttons */}
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => scrollToSection("hero")}
+              className="p-3 rounded-full bg-white/95 text-deep-teal hover:bg-white shadow-lg border border-deep-teal/20 transition-transform hover:scale-105 active:scale-95 cursor-pointer backdrop-blur-md"
+              title="Back to Top"
+              aria-label="Back to Top"
+            >
+              <ArrowUp className="w-4 h-4 text-deep-teal" />
+            </button>
+            <button
+              onClick={() => setFloatingTocOpen((prev) => !prev)}
+              className="px-4 py-3 rounded-full bg-deep-teal text-white hover:bg-deep-teal/90 shadow-xl border border-white/20 transition-transform hover:scale-105 active:scale-95 cursor-pointer flex items-center gap-2 font-bold font-sans text-xs tracking-wider uppercase backdrop-blur-md"
+              aria-expanded={floatingTocOpen}
+            >
+              <ListOrdered className="w-4 h-4 text-coral" />
+              <span className="hidden sm:inline">Table of Contents</span>
+              <span className="sm:hidden">Jump</span>
+            </button>
+          </div>
+        </aside>
+      )}
 
       {/* Interactive Self-Advocacy Toolkit Modal */}
       {toolkitModalOpen && (
