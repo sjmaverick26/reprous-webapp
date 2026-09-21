@@ -40,7 +40,14 @@ import {
   Square,
   Info,
 } from "lucide-react";
-import { HUB_CATEGORIES, HubCategory, HubTopic, getTopicClinicalQuote } from "@/data/hubData";
+import {
+  HUB_CATEGORIES,
+  HubCategory,
+  HubTopic,
+  getTopicClinicalQuote,
+  getTopicRoleplayScenario,
+  RoleplayScenario,
+} from "@/data/hubData";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -78,6 +85,10 @@ export function HubView({ initialCategory }: HubViewProps) {
   const [currentLessonPage, setCurrentLessonPage] = useState<number>(1);
   const [checkedSignals, setCheckedSignals] = useState<Set<number>>(new Set());
   const [curiosityRevealed, setCuriosityRevealed] = useState<boolean>(false);
+
+  // Roleplay Scenario Game State
+  const [selectedRoleplayOption, setSelectedRoleplayOption] = useState<number | null>(null);
+  const [roleplayBonusEarned, setRoleplayBonusEarned] = useState<boolean>(false);
 
   // Lesson Tabs & Quiz State
   const [activeLessonTab, setActiveLessonTab] = useState<"lesson" | "video" | "challenge" | "quiz">("lesson");
@@ -140,6 +151,8 @@ export function HubView({ initialCategory }: HubViewProps) {
     setCurrentLessonPage(1);
     setCheckedSignals(new Set());
     setCuriosityRevealed(false);
+    setSelectedRoleplayOption(null);
+    setRoleplayBonusEarned(false);
     setActiveLessonTab("lesson");
     setQuizStep(0);
     setQuizAnswers({});
@@ -155,6 +168,8 @@ export function HubView({ initialCategory }: HubViewProps) {
     setCurrentLessonPage(1);
     setCheckedSignals(new Set());
     setCuriosityRevealed(false);
+    setSelectedRoleplayOption(null);
+    setRoleplayBonusEarned(false);
     setActiveLessonTab("lesson");
     setQuizStep(0);
     setQuizAnswers({});
@@ -765,6 +780,7 @@ export function HubView({ initialCategory }: HubViewProps) {
             const currentQ = quizList[quizStep];
             const isQuizFinished = isQuizActive && quizStep >= quizList.length;
             const clinicalQuote = getTopicClinicalQuote(selectedTopic, activeCategoryId || undefined);
+            const roleplayData = getTopicRoleplayScenario(selectedTopic, activeCategoryId || undefined);
 
             const advocacyData = selectedTopic.advocacyScript || {
               situation: `When discussing ${selectedTopic.name.toLowerCase()} or questions about your body with a physician, gynecologist, or nurse practitioner.`,
@@ -774,11 +790,13 @@ export function HubView({ initialCategory }: HubViewProps) {
             };
 
             const lessonPages = [
-              { id: 1, title: "Concept & Evidence", shortTitle: "Concept" },
-              { id: 2, title: "Visual Anatomy", shortTitle: "Visuals" },
-              { id: 3, title: "Clinical Signals", shortTitle: "Signals" },
-              { id: 4, title: "Self-Advocacy", shortTitle: "Advocacy" },
-              { id: 5, title: isQuizActive ? "Mini-Quiz & XP" : "Practice & Review", shortTitle: isQuizActive ? "Quiz" : "Practice" },
+              { id: 1, title: "1. Core Concept", shortTitle: "Concept" },
+              { id: 2, title: "2. Clinical Evidence", shortTitle: "Evidence" },
+              { id: 3, title: "3. Visual Anatomy", shortTitle: "Visuals" },
+              { id: 4, title: "4. Signal Detective", shortTitle: "Signals" },
+              { id: 5, title: "5. Roleplay Game", shortTitle: "Roleplay" },
+              { id: 6, title: "6. Doctor Script", shortTitle: "Script" },
+              { id: 7, title: isQuizActive ? "7. Mini-Quiz & XP" : "7. Practice & XP", shortTitle: isQuizActive ? "Quiz" : "Complete" },
             ];
 
             return (
@@ -786,15 +804,15 @@ export function HubView({ initialCategory }: HubViewProps) {
                 {/* Top Control Bar */}
                 <div className="flex items-center justify-between gap-3 border-b border-deep-teal/10 pb-3 mb-2 pr-7 shrink-0">
                   <div className="flex items-center gap-2 flex-wrap">
-                    <span className={`text-[11.5px] font-bold uppercase tracking-wider px-3 py-0.5 rounded-full border shadow-2xs ${topicTheme.pillClass}`}>
+                    <span className={`text-[12px] font-bold uppercase tracking-wider px-3.5 py-1 rounded-full border shadow-2xs ${topicTheme.pillClass}`}>
                       {selectedTopic.isAdvocateCapstone ? "Self-Advocacy Action" : selectedTopic.type}
                     </span>
                     {selectedTopic.readTime && (
-                      <span className="text-xs sm:text-sm text-charcoal/70 inline-flex items-center gap-1 font-semibold">
-                        <Clock className="w-3.5 h-3.5 text-deep-teal" /> {selectedTopic.readTime}
+                      <span className="text-sm text-charcoal/70 inline-flex items-center gap-1.5 font-semibold font-sans">
+                        <Clock className="w-4 h-4 text-deep-teal" /> {selectedTopic.readTime}
                       </span>
                     )}
-                    <span className="text-xs sm:text-sm font-bold text-deep-teal">
+                    <span className="text-sm font-bold text-deep-teal font-sans">
                       +{selectedTopic.xp} XP
                     </span>
                   </div>
@@ -802,7 +820,7 @@ export function HubView({ initialCategory }: HubViewProps) {
                   <div className="flex items-center gap-2">
                     <button
                       onClick={() => setIsFullScreen(!isFullScreen)}
-                      className="p-1.5 rounded-lg border border-slate-200 bg-white text-charcoal/70 hover:text-deep-teal hover:border-deep-teal/40 transition-all shadow-sm flex items-center gap-1.5 text-xs font-semibold"
+                      className="p-2 rounded-xl border border-slate-200 bg-white text-charcoal/70 hover:text-deep-teal hover:border-deep-teal/40 transition-all shadow-sm flex items-center gap-1.5 text-xs font-semibold cursor-pointer"
                       title={isFullScreen ? "Exit Fullscreen" : "Fullscreen View"}
                       aria-label={isFullScreen ? "Exit Fullscreen" : "Fullscreen View"}
                     >
@@ -821,7 +839,7 @@ export function HubView({ initialCategory }: HubViewProps) {
                   </div>
                 </div>
 
-                {/* Page Navigation Stepper Pills */}
+                {/* 7-Slide Stepper Navigation Pills */}
                 <div className="flex items-center gap-1.5 p-1.5 bg-slate-100/90 rounded-2xl mb-3 overflow-x-auto border border-slate-200/80 shrink-0">
                   {lessonPages.map((p) => {
                     const isActive = currentLessonPage === p.id;
@@ -831,11 +849,11 @@ export function HubView({ initialCategory }: HubViewProps) {
                       <button
                         key={p.id}
                         onClick={() => setCurrentLessonPage(p.id)}
-                        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs sm:text-[13px] font-bold transition-all shrink-0 ${
+                        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs sm:text-[13px] font-bold transition-all shrink-0 cursor-pointer ${
                           isActive
                             ? "bg-white text-deep-teal shadow-sm ring-1 ring-black/5"
                             : isPast
-                            ? "text-deep-teal/70 hover:text-deep-teal hover:bg-white/50"
+                            ? "text-deep-teal/80 hover:text-deep-teal hover:bg-white/50"
                             : "text-charcoal/60 hover:text-deep-teal hover:bg-white/40"
                         }`}
                       >
@@ -850,103 +868,72 @@ export function HubView({ initialCategory }: HubViewProps) {
                         >
                           {isPast ? "✓" : p.id}
                         </span>
-                        <span className="hidden sm:inline">{p.title}</span>
-                        <span className="sm:hidden">{p.shortTitle}</span>
+                        <span className="hidden md:inline">{p.title}</span>
+                        <span className="md:hidden">{p.shortTitle}</span>
                       </button>
                     );
                   })}
                 </div>
 
                 {/* Scrollable Main Content Area */}
-                <div className="flex-1 overflow-y-auto pr-1 sm:pr-2 space-y-5">
-                  {/* PAGE 1: CORE CONCEPT & CLINICAL EVIDENCE */}
+                <div className="flex-1 overflow-y-auto pr-1 sm:pr-3 space-y-6">
+                  {/* SLIDE 1: CORE CONCEPT & BIOLOGICAL TRUTH */}
                   {currentLessonPage === 1 && (
-                    <div className="space-y-5 animate-in fade-in duration-200">
+                    <div className="space-y-6 animate-in fade-in duration-200 py-1">
                       <div>
-                        <DialogTitle className="text-2xl sm:text-3xl md:text-4xl font-normal font-serif text-deep-teal leading-tight mb-2">
+                        <span className="text-xs sm:text-sm font-bold uppercase tracking-wider text-deep-teal/70 font-sans block mb-1">
+                          Slide 1 of 7 · The Big Picture
+                        </span>
+                        <DialogTitle className="text-3xl sm:text-4xl md:text-5xl font-normal font-serif text-deep-teal leading-[1.12] mb-3">
                           {selectedTopic.name}
                         </DialogTitle>
-                        <DialogDescription className="text-charcoal/80 font-sans text-sm sm:text-base leading-relaxed">
+                        <DialogDescription className="text-charcoal/85 font-sans text-lg sm:text-xl leading-relaxed">
                           {selectedTopic.desc}
                         </DialogDescription>
                       </div>
 
-                      {/* Hero Core Principle */}
-                      <div className={`p-5 sm:p-6 rounded-2xl border-2 leading-relaxed ${topicTheme.bgLight} ${topicTheme.borderPrimary} shadow-xs space-y-2`}>
-                        <div className="flex items-center gap-2 text-xs sm:text-sm font-bold uppercase tracking-wider text-deep-teal">
-                          <Lightbulb className="w-4 h-4 text-raspberry" />
-                          <span>Core Principle</span>
+                      {/* Hero Core Principle in Large Editorial Typography */}
+                      <div className={`p-6 sm:p-8 md:p-9 rounded-3xl border-2 leading-relaxed ${topicTheme.bgLight} ${topicTheme.borderPrimary} shadow-sm space-y-3`}>
+                        <div className="flex items-center gap-2 text-xs sm:text-sm font-bold uppercase tracking-wider text-deep-teal font-sans">
+                          <Lightbulb className="w-5 h-5 text-raspberry" />
+                          <span>Foundational Principle</span>
                         </div>
-                        <p className="text-base sm:text-lg md:text-xl text-charcoal/95 font-medium leading-relaxed font-sans">
+                        <p className="text-xl sm:text-2xl md:text-[27px] text-deep-teal font-medium leading-relaxed font-serif">
                           {selectedTopic.summary}
                         </p>
                       </div>
 
-                      {/* Clinical Authority Direct Quote Card */}
-                      <div className="p-5 sm:p-6 rounded-2xl bg-white border-2 border-deep-teal/20 shadow-sm space-y-4">
-                        <div className="flex items-center justify-between flex-wrap gap-2">
-                          <div className="flex items-center gap-2">
-                            <div className="w-8 h-8 rounded-full bg-deep-teal/10 flex items-center justify-center">
-                              <Quote className="w-4 h-4 text-deep-teal" />
-                            </div>
-                            <span className="text-xs font-bold uppercase tracking-wider text-deep-teal font-sans">
-                              Verified Clinical Guidance
-                            </span>
-                          </div>
-                          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-light-teal text-deep-teal border border-deep-teal/20">
-                            <Shield className="w-3.5 h-3.5 text-deep-teal" />
-                            <span>{clinicalQuote.source.includes("ACOG") ? "ACOG Guidelines" : "GLOWM / FIGO Evidence"}</span>
-                          </span>
-                        </div>
-
-                        <blockquote className="border-l-4 border-deep-teal pl-4 py-1">
-                          <p className="text-base sm:text-lg md:text-xl font-serif italic text-deep-teal leading-relaxed">
-                            &ldquo;{clinicalQuote.quote}&rdquo;
-                          </p>
-                        </blockquote>
-
-                        <div className="pt-2 border-t border-deep-teal/10 flex items-center justify-between flex-wrap gap-2 text-xs sm:text-sm">
-                          <div>
-                            <span className="font-bold text-charcoal block">{clinicalQuote.source}</span>
-                            <span className="text-charcoal/70 text-xs italic">{clinicalQuote.publication}</span>
-                          </div>
-                          {clinicalQuote.year && (
-                            <span className="text-xs font-semibold text-deep-teal bg-slate-100 px-2.5 py-1 rounded-md">
-                              {clinicalQuote.year}
-                            </span>
-                          )}
-                        </div>
-                      </div>
-
                       {/* Interactive Clinical Curiosity Check */}
-                      <div className="rounded-2xl border-2 border-dashed border-deep-teal/25 bg-amber-50/50 p-4 sm:p-5 transition-all">
+                      <div className="rounded-3xl border-2 border-dashed border-deep-teal/30 bg-amber-50/60 p-5 sm:p-6 transition-all shadow-xs">
                         <button
                           type="button"
                           onClick={() => setCuriosityRevealed(!curiosityRevealed)}
-                          className="w-full flex items-center justify-between text-left gap-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-deep-teal rounded-lg cursor-pointer"
+                          className="w-full flex items-center justify-between text-left gap-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-deep-teal rounded-xl cursor-pointer"
                         >
-                          <div className="flex items-center gap-2.5">
-                            <Sparkles className="w-5 h-5 text-amber-700 shrink-0" />
+                          <div className="flex items-center gap-3">
+                            <div className="w-10 h-10 rounded-2xl bg-amber-100 text-amber-900 flex items-center justify-center shrink-0 shadow-xs">
+                              <Sparkles className="w-5 h-5 text-amber-700" />
+                            </div>
                             <div>
-                              <span className="text-xs font-bold uppercase tracking-wider text-amber-900 block">
-                                Clinical Curiosity Check
+                              <span className="text-xs font-bold uppercase tracking-wider text-amber-900 block font-sans">
+                                Clinical Curiosity Pearl
                               </span>
-                              <h5 className="text-sm sm:text-base font-bold text-charcoal">
-                                Why does medical self-advocacy matter for this topic?
+                              <h5 className="text-base sm:text-lg md:text-xl font-bold text-charcoal font-sans">
+                                Why does knowing this change your medical visits?
                               </h5>
                             </div>
                           </div>
-                          <span className="text-xs font-bold text-deep-teal bg-white px-3 py-1 rounded-full border border-deep-teal/20 shadow-2xs shrink-0">
+                          <span className="text-xs sm:text-sm font-bold text-deep-teal bg-white px-3.5 py-1.5 rounded-full border border-deep-teal/20 shadow-2xs shrink-0 font-sans">
                             {curiosityRevealed ? "Hide Pearl ▲" : "Tap to Reveal ▼"}
                           </span>
                         </button>
                         {curiosityRevealed && (
-                          <div className="mt-3 pt-3 border-t border-amber-200/80 text-sm sm:text-base text-charcoal/90 leading-relaxed animate-in fade-in space-y-2 font-sans">
+                          <div className="mt-4 pt-4 border-t border-amber-200/80 text-base sm:text-lg md:text-[19px] text-charcoal/90 leading-relaxed animate-in fade-in space-y-2.5 font-sans">
                             <p>
-                              Historical medical encounters have sometimes downplayed adolescent reproductive symptoms or cyclical pain as mere &ldquo;growing pains.&rdquo;
+                              Many adolescents and young adults are told their symptoms are &ldquo;normal growing pains&rdquo; or &ldquo;just stress,&rdquo; causing an average diagnosis delay of 7 to 10 years for reproductive conditions.
                             </p>
-                            <p className="font-medium text-deep-teal">
-                              By understanding the official criteria from leading authorities like ACOG and GLOWM, you can articulate your bodily experiences using the exact clinical parameters doctors recognize, significantly reducing diagnostic delays.
+                            <p className="font-semibold text-deep-teal">
+                              By learning the exact medical terminology and biological standards up front, you can describe what you feel with clinical precision — cutting through dismissal and getting real answers years earlier.
                             </p>
                           </div>
                         )}
@@ -956,46 +943,128 @@ export function HubView({ initialCategory }: HubViewProps) {
                       <div className="pt-2 flex justify-end">
                         <Button
                           onClick={() => setCurrentLessonPage(2)}
-                          className="bg-deep-teal text-white hover:bg-deep-teal/90 text-sm h-11 px-5 rounded-xl gap-2 font-semibold shadow-xs cursor-pointer"
+                          className="bg-deep-teal text-white hover:bg-deep-teal/90 text-base sm:text-lg h-12 sm:h-14 px-7 rounded-2xl gap-2.5 font-bold shadow-sm cursor-pointer"
                         >
-                          <span>Continue to Visual Anatomy</span>
-                          <ArrowRight className="w-4 h-4" />
+                          <span>Continue to Clinical Evidence</span>
+                          <ArrowRight className="w-5 h-5" />
                         </Button>
                       </div>
                     </div>
                   )}
 
-                  {/* PAGE 2: VISUAL ANATOMY & INTERACTIVE DIAGRAM */}
+                  {/* SLIDE 2: CLINICAL AUTHORITY & VERIFIED EVIDENCE */}
                   {currentLessonPage === 2 && (
-                    <div className="space-y-5 animate-in fade-in duration-200">
+                    <div className="space-y-6 animate-in fade-in duration-200 py-1">
                       <div>
-                        <div className="text-xs font-bold uppercase tracking-wider text-deep-teal mb-1">
-                          Step 2 of 5 · Anatomy & Mechanics
+                        <span className="text-xs sm:text-sm font-bold uppercase tracking-wider text-deep-teal/70 font-sans block mb-1">
+                          Slide 2 of 7 · Medical Authority & Evidence
+                        </span>
+                        <h4 className="text-3xl sm:text-4xl font-serif font-bold text-deep-teal leading-tight mb-2">
+                          Clinical Guidelines & Sourcing Grounding
+                        </h4>
+                        <p className="text-charcoal/85 text-lg sm:text-xl font-sans leading-relaxed">
+                          Evidence directly cited from the American College of Obstetricians and Gynecologists (ACOG) and The Global Library of Women's Medicine (GLOWM / FIGO).
+                        </p>
+                      </div>
+
+                      {/* Big Clinical Authority Direct Quote Card */}
+                      <div className="p-6 sm:p-8 md:p-9 rounded-3xl bg-white border-2 border-deep-teal/25 shadow-md space-y-5">
+                        <div className="flex items-center justify-between flex-wrap gap-3">
+                          <div className="flex items-center gap-3">
+                            <div className="w-11 h-11 rounded-2xl bg-light-teal flex items-center justify-center text-deep-teal shadow-xs">
+                              <Quote className="w-6 h-6" />
+                            </div>
+                            <div>
+                              <span className="text-xs sm:text-sm font-bold uppercase tracking-wider text-deep-teal font-sans block">
+                                Verified Clinical Guideline
+                              </span>
+                              <span className="text-sm sm:text-base font-bold text-charcoal">
+                                {clinicalQuote.source}
+                              </span>
+                            </div>
+                          </div>
+                          <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs sm:text-sm font-bold bg-light-teal text-deep-teal border border-deep-teal/20 shadow-2xs font-sans">
+                            <Shield className="w-4 h-4 text-deep-teal" />
+                            <span>Evidence Grounded</span>
+                          </span>
                         </div>
-                        <h4 className="text-2xl sm:text-3xl font-serif font-bold text-deep-teal leading-tight">
+
+                        <blockquote className="border-l-4 border-deep-teal pl-5 py-2 my-2">
+                          <p className="text-xl sm:text-2xl md:text-[25px] font-serif italic text-deep-teal leading-relaxed">
+                            &ldquo;{clinicalQuote.quote}&rdquo;
+                          </p>
+                        </blockquote>
+
+                        <div className="pt-3 border-t border-deep-teal/15 flex items-center justify-between flex-wrap gap-3 text-sm sm:text-base font-sans">
+                          <div>
+                            <span className="font-bold text-charcoal block">{clinicalQuote.publication}</span>
+                            <span className="text-charcoal/70 text-xs sm:text-sm italic">Peer-Reviewed Clinical Reference</span>
+                          </div>
+                          {clinicalQuote.year && (
+                            <span className="text-xs sm:text-sm font-bold text-deep-teal bg-slate-100 px-3 py-1.5 rounded-xl border border-slate-200">
+                              {clinicalQuote.year}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* Why Doctors Rely on This Standard */}
+                      <div className="p-5 sm:p-6 rounded-3xl bg-light-teal/50 border-2 border-deep-teal/20 space-y-2">
+                        <strong className="text-deep-teal font-bold text-base sm:text-lg flex items-center gap-2 font-sans">
+                          <ShieldAlert className="w-5 h-5 text-deep-teal" />
+                          <span>Why this citation protects you as a patient:</span>
+                        </strong>
+                        <p className="text-base sm:text-lg text-charcoal/90 leading-relaxed font-sans m-0">
+                          When you reference official ACOG or GLOWM clinical definitions during an appointment, physicians recognize that you are speaking within accepted medical frameworks. They are ethically and professionally obligated to evaluate your symptoms against these diagnostic criteria.
+                        </p>
+                      </div>
+
+                      {/* In-content Continue Button */}
+                      <div className="pt-2 flex justify-end">
+                        <Button
+                          onClick={() => setCurrentLessonPage(3)}
+                          className="bg-deep-teal text-white hover:bg-deep-teal/90 text-base sm:text-lg h-12 sm:h-14 px-7 rounded-2xl gap-2.5 font-bold shadow-sm cursor-pointer"
+                        >
+                          <span>Continue to Visual Anatomy</span>
+                          <ArrowRight className="w-5 h-5" />
+                        </Button>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* SLIDE 3: VISUAL ANATOMY & BIOLOGICAL FRAMEWORK */}
+                  {currentLessonPage === 3 && (
+                    <div className="space-y-6 animate-in fade-in duration-200 py-1">
+                      <div>
+                        <span className="text-xs sm:text-sm font-bold uppercase tracking-wider text-deep-teal/70 font-sans block mb-1">
+                          Slide 3 of 7 · Visual Anatomy & Mechanics
+                        </span>
+                        <h4 className="text-3xl sm:text-4xl font-serif font-bold text-deep-teal leading-tight mb-2">
                           Visual Breakdown & Biological Anatomy
                         </h4>
-                        <p className="text-charcoal/80 text-sm sm:text-base font-sans mt-1">
-                          Explore the physiological mechanics and structure behind {selectedTopic.name.toLowerCase()}.
+                        <p className="text-charcoal/85 text-lg sm:text-xl font-sans leading-relaxed">
+                          Explore the physiological mechanics and structural pathways behind {selectedTopic.name.toLowerCase()}.
                         </p>
                       </div>
 
                       {/* Interactive Diagram (if available for topic) */}
                       {selectedTopic.diagram && (
-                        <InteractiveLessonDiagram
-                          diagram={selectedTopic.diagram}
-                          themeColor={topicTheme.primaryHex}
-                        />
+                        <div className="p-1">
+                          <InteractiveLessonDiagram
+                            diagram={selectedTopic.diagram}
+                            themeColor={topicTheme.primaryHex}
+                          />
+                        </div>
                       )}
 
                       {/* Bite-Sized Visual Cards */}
                       {selectedTopic.visualCards && selectedTopic.visualCards.length > 0 ? (
                         <div>
-                          <h5 className="font-bold text-deep-teal text-xs uppercase tracking-wider mb-3 flex items-center gap-1.5">
-                            <Layers className="w-4 h-4 text-deep-teal" />
+                          <h5 className="font-bold text-deep-teal text-sm sm:text-base uppercase tracking-wider mb-3.5 flex items-center gap-2 font-sans">
+                            <Layers className="w-5 h-5 text-deep-teal" />
                             Key Anatomical Components:
                           </h5>
-                          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3.5">
+                          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                             {selectedTopic.visualCards.map((card, i) => {
                               const cardPalettes = [
                                 { bg: "bg-light-teal/50", border: "border-deep-teal/30", iconBg: "bg-deep-teal text-white", badgeBg: "bg-white text-deep-teal border-deep-teal/20" },
@@ -1007,21 +1076,21 @@ export function HubView({ initialCategory }: HubViewProps) {
                               return (
                                 <div
                                   key={i}
-                                  className={`p-4 sm:p-5 rounded-2xl ${palette.bg} border-2 ${palette.border} shadow-2xs flex flex-col justify-between hover:shadow-md hover:scale-[1.01] transition-all`}
+                                  className={`p-5 sm:p-6 rounded-3xl ${palette.bg} border-2 ${palette.border} shadow-2xs flex flex-col justify-between hover:shadow-md hover:scale-[1.01] transition-all`}
                                 >
                                   <div>
-                                    <div className="flex items-center justify-between mb-2.5">
-                                      <span className={`p-2.5 rounded-xl ${palette.iconBg} shadow-xs`}>
+                                    <div className="flex items-center justify-between mb-3">
+                                      <span className={`p-3 rounded-2xl ${palette.iconBg} shadow-xs`}>
                                         {getVisualCardIcon(card.iconName)}
                                       </span>
                                       {card.highlight && (
-                                        <span className={`text-[10.5px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full border ${palette.badgeBg}`}>
+                                        <span className={`text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full border ${palette.badgeBg} font-sans`}>
                                           {card.highlight}
                                         </span>
                                       )}
                                     </div>
-                                    <h6 className="font-bold text-base sm:text-lg text-deep-teal mb-1.5">{card.title}</h6>
-                                    <p className="text-sm sm:text-base text-charcoal/85 leading-relaxed font-sans">{card.text}</p>
+                                    <h6 className="font-bold text-lg sm:text-xl text-deep-teal mb-2 font-serif">{card.title}</h6>
+                                    <p className="text-base sm:text-lg text-charcoal/90 leading-relaxed font-sans">{card.text}</p>
                                   </div>
                                 </div>
                               );
@@ -1031,11 +1100,11 @@ export function HubView({ initialCategory }: HubViewProps) {
                       ) : (
                         /* Fallback spaced visual cards generated from key takeaways */
                         <div>
-                          <h5 className="font-bold text-deep-teal text-xs uppercase tracking-wider mb-3 flex items-center gap-1.5">
-                            <Layers className="w-4 h-4 text-deep-teal" />
+                          <h5 className="font-bold text-deep-teal text-sm sm:text-base uppercase tracking-wider mb-3.5 flex items-center gap-2 font-sans">
+                            <Layers className="w-5 h-5 text-deep-teal" />
                             Essential Concepts:
                           </h5>
-                          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3.5">
+                          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                             {selectedTopic.keyTakeaways.slice(0, 3).map((takeaway, i) => {
                               const cardPalettes = [
                                 { bg: "bg-light-teal/50", border: "border-deep-teal/30", iconBg: "bg-deep-teal text-white", badgeBg: "bg-white text-deep-teal border-deep-teal/20" },
@@ -1047,18 +1116,18 @@ export function HubView({ initialCategory }: HubViewProps) {
                               return (
                                 <div
                                   key={i}
-                                  className={`p-4 sm:p-5 rounded-2xl ${palette.bg} border-2 ${palette.border} shadow-2xs flex flex-col justify-between`}
+                                  className={`p-5 sm:p-6 rounded-3xl ${palette.bg} border-2 ${palette.border} shadow-2xs flex flex-col justify-between`}
                                 >
                                   <div>
-                                    <div className="flex items-center justify-between mb-2.5">
-                                      <span className={`p-2.5 rounded-xl ${palette.iconBg} shadow-xs`}>
-                                        {i === 0 ? <Sparkles className="w-4 h-4" /> : i === 1 ? <Heart className="w-4 h-4" /> : <Shield className="w-4 h-4" />}
+                                    <div className="flex items-center justify-between mb-3">
+                                      <span className={`p-3 rounded-2xl ${palette.iconBg} shadow-xs`}>
+                                        {i === 0 ? <Sparkles className="w-5 h-5" /> : i === 1 ? <Heart className="w-5 h-5" /> : <Shield className="w-5 h-5" />}
                                       </span>
-                                      <span className={`text-[10.5px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full border ${palette.badgeBg}`}>
+                                      <span className={`text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full border ${palette.badgeBg} font-sans`}>
                                         Concept #{i + 1}
                                       </span>
                                     </div>
-                                    <p className="text-sm sm:text-base text-charcoal/85 leading-relaxed font-sans">{takeaway}</p>
+                                    <p className="text-base sm:text-lg text-charcoal/90 leading-relaxed font-sans">{takeaway}</p>
                                   </div>
                                 </div>
                               );
@@ -1070,33 +1139,33 @@ export function HubView({ initialCategory }: HubViewProps) {
                       {/* In-content Continue Button */}
                       <div className="pt-2 flex justify-end">
                         <Button
-                          onClick={() => setCurrentLessonPage(3)}
-                          className="bg-deep-teal text-white hover:bg-deep-teal/90 text-sm h-11 px-5 rounded-xl gap-2 font-semibold shadow-xs cursor-pointer"
+                          onClick={() => setCurrentLessonPage(4)}
+                          className="bg-deep-teal text-white hover:bg-deep-teal/90 text-base sm:text-lg h-12 sm:h-14 px-7 rounded-2xl gap-2.5 font-bold shadow-sm cursor-pointer"
                         >
-                          <span>Continue to Clinical Signals</span>
-                          <ArrowRight className="w-4 h-4" />
+                          <span>Continue to Signal Detective</span>
+                          <ArrowRight className="w-5 h-5" />
                         </Button>
                       </div>
                     </div>
                   )}
 
-                  {/* PAGE 3: CLINICAL SIGNALS & INTERACTIVE CHECKLIST */}
-                  {currentLessonPage === 3 && (
-                    <div className="space-y-5 animate-in fade-in duration-200">
+                  {/* SLIDE 4: SIGNAL DETECTIVE & SYMPTOM CHECKLIST */}
+                  {currentLessonPage === 4 && (
+                    <div className="space-y-6 animate-in fade-in duration-200 py-1">
                       <div>
-                        <div className="text-xs font-bold uppercase tracking-wider text-deep-teal mb-1">
-                          Step 3 of 5 · Clinical Signals
-                        </div>
-                        <h4 className="text-2xl sm:text-3xl font-serif font-bold text-deep-teal leading-tight">
-                          Clinical Signals & Recognition Checklist
+                        <span className="text-xs sm:text-sm font-bold uppercase tracking-wider text-deep-teal/70 font-sans block mb-1">
+                          Slide 4 of 7 · Signal Detective
+                        </span>
+                        <h4 className="text-3xl sm:text-4xl font-serif font-bold text-deep-teal leading-tight mb-2">
+                          Clinical Signals & Symptom Checklist
                         </h4>
-                        <p className="text-charcoal/80 text-sm sm:text-base font-sans mt-1">
-                          Tap each signal below to verify your recognition and reinforce your symptom literacy.
+                        <p className="text-charcoal/85 text-lg sm:text-xl font-sans leading-relaxed">
+                          Tap each signal below to verify your symptom recognition and build your personal health awareness.
                         </p>
                       </div>
 
-                      {/* Interactive Recognition Checklist */}
-                      <div className="space-y-3">
+                      {/* Interactive Recognition Checklist with Large Typography */}
+                      <div className="space-y-3.5">
                         {selectedTopic.keyTakeaways.map((item, i) => {
                           const isChecked = checkedSignals.has(i);
 
@@ -1113,21 +1182,21 @@ export function HubView({ initialCategory }: HubViewProps) {
                                 }
                                 setCheckedSignals(next);
                               }}
-                              className={`w-full p-4 sm:p-5 rounded-2xl border-2 text-left transition-all flex items-start gap-3.5 shadow-2xs cursor-pointer ${
+                              className={`w-full p-5 sm:p-6 rounded-3xl border-2 text-left transition-all flex items-start gap-4 shadow-2xs cursor-pointer ${
                                 isChecked
-                                  ? "bg-emerald-50/80 border-emerald-500 shadow-sm"
+                                  ? "bg-emerald-50/90 border-emerald-500 shadow-md ring-2 ring-emerald-500/20"
                                   : "bg-white border-deep-teal/15 hover:border-deep-teal/40 hover:bg-light-teal/20"
                               }`}
                             >
                               <div className="shrink-0 mt-0.5">
                                 {isChecked ? (
-                                  <CheckSquare className="w-5 h-5 text-emerald-600 fill-emerald-100" />
+                                  <CheckSquare className="w-6 h-6 text-emerald-600 fill-emerald-100" />
                                 ) : (
-                                  <Square className="w-5 h-5 text-charcoal/40" />
+                                  <Square className="w-6 h-6 text-charcoal/40" />
                                 )}
                               </div>
                               <div className="flex-1">
-                                <span className={`text-sm sm:text-base md:text-[16.5px] leading-relaxed font-sans ${isChecked ? "text-emerald-950 font-semibold" : "text-charcoal/90 font-medium"}`}>
+                                <span className={`text-base sm:text-lg md:text-[20px] leading-relaxed font-sans ${isChecked ? "text-emerald-950 font-semibold" : "text-charcoal/90 font-medium"}`}>
                                   {item}
                                 </span>
                               </div>
@@ -1137,19 +1206,19 @@ export function HubView({ initialCategory }: HubViewProps) {
                       </div>
 
                       {/* Checklist Progress Tracker */}
-                      <div className="p-4 rounded-2xl bg-white border border-deep-teal/20 shadow-xs flex items-center justify-between flex-wrap gap-3">
-                        <div className="flex items-center gap-2">
-                          <CheckCircle2 className="w-5 h-5 text-emerald-600" />
-                          <span className="text-xs sm:text-sm font-bold text-deep-teal font-sans">
-                            Recognized {checkedSignals.size} of {selectedTopic.keyTakeaways.length} signals
+                      <div className="p-5 rounded-3xl bg-white border border-deep-teal/20 shadow-xs flex items-center justify-between flex-wrap gap-4">
+                        <div className="flex items-center gap-2.5">
+                          <CheckCircle2 className="w-6 h-6 text-emerald-600" />
+                          <span className="text-sm sm:text-base font-bold text-deep-teal font-sans">
+                            Recognized {checkedSignals.size} of {selectedTopic.keyTakeaways.length} clinical signals
                           </span>
                         </div>
                         {checkedSignals.size === selectedTopic.keyTakeaways.length ? (
-                          <span className="text-xs font-bold text-emerald-800 bg-emerald-100 px-3 py-1 rounded-full border border-emerald-300 animate-in fade-in">
-                            ✦ All signals reviewed! Ready for self-advocacy.
+                          <span className="text-xs sm:text-sm font-bold text-emerald-800 bg-emerald-100 px-4 py-1.5 rounded-full border border-emerald-300 animate-in fade-in font-sans">
+                            ✦ All signals verified! Ready for the Roleplay Game.
                           </span>
                         ) : (
-                          <span className="text-xs text-charcoal/60 font-sans">
+                          <span className="text-xs sm:text-sm text-charcoal/60 font-sans">
                             Tap signals above to check them off
                           </span>
                         )}
@@ -1158,47 +1227,184 @@ export function HubView({ initialCategory }: HubViewProps) {
                       {/* In-content Continue Button */}
                       <div className="pt-2 flex justify-end">
                         <Button
-                          onClick={() => setCurrentLessonPage(4)}
-                          className="bg-deep-teal text-white hover:bg-deep-teal/90 text-sm h-11 px-5 rounded-xl gap-2 font-semibold shadow-xs cursor-pointer"
+                          onClick={() => setCurrentLessonPage(5)}
+                          className="bg-deep-teal text-white hover:bg-deep-teal/90 text-base sm:text-lg h-12 sm:h-14 px-7 rounded-2xl gap-2.5 font-bold shadow-sm cursor-pointer"
                         >
-                          <span>Continue to Self-Advocacy Action</span>
-                          <ArrowRight className="w-4 h-4" />
+                          <span>Continue to Roleplay Scenario Game</span>
+                          <ArrowRight className="w-5 h-5" />
                         </Button>
                       </div>
                     </div>
                   )}
 
-                  {/* PAGE 4: SELF-ADVOCACY ACTION & DOCTOR SCRIPT */}
-                  {currentLessonPage === 4 && (
-                    <div className="space-y-5 animate-in fade-in duration-200">
+                  {/* SLIDE 5: INTERACTIVE ROLEPLAY SCENARIO GAME */}
+                  {currentLessonPage === 5 && (
+                    <div className="space-y-6 animate-in fade-in duration-200 py-1">
                       <div>
-                        <div className="text-xs font-bold uppercase tracking-wider text-raspberry mb-1">
-                          Step 4 of 5 · Speak Up & Advocate
+                        <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-raspberry text-white shadow-2xs font-sans mb-2">
+                          <Gamepad2 className="w-4 h-4" />
+                          <span>Interactive Roleplay Scenario Game</span>
                         </div>
-                        <h4 className="text-2xl sm:text-3xl font-serif font-bold text-deep-teal leading-tight">
-                          Self-Advocacy Action & Doctor Script
+                        <h4 className="text-3xl sm:text-4xl font-serif font-bold text-deep-teal leading-tight mb-2">
+                          Doctor & Provider Roleplay Challenge
                         </h4>
-                        <p className="text-charcoal/80 text-sm sm:text-base font-sans mt-1">
-                          Exact phrases to use with a physician, why they work, and what to do if dismissed.
+                        <p className="text-charcoal/85 text-lg sm:text-xl font-sans leading-relaxed">
+                          Simulate real encounters with doctors, coaches, and administrators. Choose the response that best asserts your rights and medical needs!
+                        </p>
+                      </div>
+
+                      {/* Setting Badge */}
+                      <div className="inline-flex items-center gap-2 text-xs sm:text-sm font-bold text-deep-teal bg-light-teal px-4 py-1.5 rounded-full border border-deep-teal/20 font-sans">
+                        <span>📍 Setting: {roleplayData.setting}</span>
+                      </div>
+
+                      {/* Provider Dialogue Speech Bubble Card */}
+                      <div className="p-6 sm:p-8 rounded-3xl bg-white border-2 border-deep-teal/25 shadow-md space-y-3">
+                        <div className="flex items-center gap-3">
+                          <div className="w-10 h-10 rounded-2xl bg-deep-teal text-white flex items-center justify-center font-bold text-sm shadow-xs">
+                            <Shield className="w-5 h-5 text-white" />
+                          </div>
+                          <div>
+                            <span className="text-xs font-bold uppercase tracking-wider text-deep-teal font-sans block">
+                              Healthcare Provider Statement
+                            </span>
+                            <span className="text-sm sm:text-base font-bold text-charcoal font-sans">
+                              {roleplayData.character}
+                            </span>
+                          </div>
+                        </div>
+
+                        <p className="text-xl sm:text-2xl md:text-[25px] font-serif text-deep-teal leading-relaxed font-medium m-0">
+                          {roleplayData.statement}
+                        </p>
+                      </div>
+
+                      {/* Interactive Options Choice */}
+                      <div className="space-y-3">
+                        <span className="text-base sm:text-lg font-bold text-charcoal/90 block font-sans">
+                          How do you respond to advocate for yourself?
+                        </span>
+
+                        <div className="space-y-3">
+                          {roleplayData.options.map((opt, optIdx) => {
+                            const isSelected = selectedRoleplayOption === optIdx;
+
+                            return (
+                              <button
+                                key={optIdx}
+                                type="button"
+                                onClick={() => {
+                                  setSelectedRoleplayOption(optIdx);
+                                  if (opt.isBest && !roleplayBonusEarned) {
+                                    setRoleplayBonusEarned(true);
+                                    setXp((x) => x + opt.xpBonus);
+                                  }
+                                }}
+                                className={`w-full p-5 sm:p-6 rounded-3xl border-2 text-left transition-all cursor-pointer shadow-2xs ${
+                                  isSelected
+                                    ? opt.isBest
+                                      ? "bg-emerald-50 border-emerald-500 shadow-md ring-2 ring-emerald-500/25"
+                                      : "bg-amber-50 border-amber-400 shadow-sm"
+                                    : "bg-white border-deep-teal/15 hover:border-deep-teal/40 hover:bg-light-teal/20"
+                                }`}
+                              >
+                                <div className="flex items-start justify-between gap-3">
+                                  <p className={`text-base sm:text-lg md:text-[19px] leading-relaxed font-sans m-0 ${
+                                    isSelected && opt.isBest ? "text-emerald-950 font-semibold" : "text-charcoal/90 font-medium"
+                                  }`}>
+                                    {opt.text}
+                                  </p>
+                                  {isSelected && opt.isBest && (
+                                    <span className="shrink-0 inline-flex items-center gap-1 text-xs font-bold bg-emerald-600 text-white px-3 py-1 rounded-full shadow-2xs font-sans">
+                                      <Check className="w-3.5 h-3.5" />
+                                      <span>+{opt.xpBonus} XP</span>
+                                    </span>
+                                  )}
+                                </div>
+                              </button>
+                            );
+                          })}
+                        </div>
+                      </div>
+
+                      {/* Feedback Coaching Card */}
+                      {selectedRoleplayOption !== null && (() => {
+                        const chosenOpt = roleplayData.options[selectedRoleplayOption];
+
+                        return (
+                          <div
+                            className={`p-5 sm:p-6 rounded-3xl border-2 space-y-2.5 animate-in fade-in ${
+                              chosenOpt.isBest
+                                ? "bg-emerald-50 border-emerald-400 text-emerald-950"
+                                : "bg-amber-50 border-amber-300 text-amber-950"
+                            }`}
+                          >
+                            <div className="flex items-center gap-2">
+                              {chosenOpt.isBest ? (
+                                <CheckCircle2 className="w-5 h-5 text-emerald-700 shrink-0" />
+                              ) : (
+                                <Lightbulb className="w-5 h-5 text-amber-700 shrink-0" />
+                              )}
+                              <span className="font-bold text-sm sm:text-base font-sans uppercase tracking-wider">
+                                {chosenOpt.isBest ? "✦ Self-Advocacy Mastery!" : "Clinical Coaching Tip:"}
+                              </span>
+                            </div>
+                            <p className="text-base sm:text-lg md:text-[19px] leading-relaxed font-sans m-0">
+                              {chosenOpt.feedback}
+                            </p>
+                            {!chosenOpt.isBest && (
+                              <p className="text-xs sm:text-sm font-semibold text-amber-800 font-sans pt-1">
+                                Tip: Try tapping the other options above to see how referencing clinical guidelines changes the dialogue!
+                              </p>
+                            )}
+                          </div>
+                        );
+                      })()}
+
+                      {/* In-content Continue Button */}
+                      <div className="pt-2 flex justify-end">
+                        <Button
+                          onClick={() => setCurrentLessonPage(6)}
+                          className="bg-deep-teal text-white hover:bg-deep-teal/90 text-base sm:text-lg h-12 sm:h-14 px-7 rounded-2xl gap-2.5 font-bold shadow-sm cursor-pointer"
+                        >
+                          <span>Continue to Doctor Script</span>
+                          <ArrowRight className="w-5 h-5" />
+                        </Button>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* SLIDE 6: DOCTOR SCRIPT & POCKET ACTION BLUEPRINT */}
+                  {currentLessonPage === 6 && (
+                    <div className="space-y-6 animate-in fade-in duration-200 py-1">
+                      <div>
+                        <span className="text-xs sm:text-sm font-bold uppercase tracking-wider text-raspberry font-sans block mb-1">
+                          Slide 6 of 7 · Appointment Blueprint
+                        </span>
+                        <h4 className="text-3xl sm:text-4xl font-serif font-bold text-deep-teal leading-tight mb-2">
+                          Word-for-Word Appointment Script
+                        </h4>
+                        <p className="text-charcoal/85 text-lg sm:text-xl font-sans leading-relaxed">
+                          Exact phrases to speak at your appointment, the psychological reasons they work, and boundary protections if dismissed.
                         </p>
                       </div>
 
                       {/* The Blueprint Card */}
-                      <div className="p-5 sm:p-6 rounded-2xl bg-gradient-to-br from-[#FFE1DB]/70 via-soft-pink/40 to-light-teal/50 border-2 border-raspberry/30 shadow-sm space-y-4">
+                      <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-[#FFE1DB]/70 via-soft-pink/40 to-light-teal/50 border-2 border-raspberry/30 shadow-md space-y-5">
                         <div className="flex items-center justify-between flex-wrap gap-2">
-                          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold tracking-wider uppercase bg-raspberry text-white shadow-2xs">
-                            <Shield className="w-3.5 h-3.5" />
+                          <span className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-xs sm:text-sm font-bold tracking-wider uppercase bg-raspberry text-white shadow-2xs font-sans">
+                            <Shield className="w-4 h-4" />
                             Self-Advocacy Action Blueprint
                           </span>
-                          <span className="text-xs font-bold text-deep-teal bg-white/95 px-3 py-1 rounded-full border border-deep-teal/20">
+                          <span className="text-xs sm:text-sm font-bold text-deep-teal bg-white/95 px-3.5 py-1 rounded-full border border-deep-teal/20 font-sans">
                             Real-Life Appointment Script
                           </span>
                         </div>
 
                         {/* Scenario */}
-                        <div className="p-4 rounded-xl bg-white/95 border border-coral/30 text-sm sm:text-base font-sans">
-                          <strong className="text-coral font-bold block mb-1 uppercase tracking-wider text-xs font-sans">
-                            When this happens:
+                        <div className="p-4 sm:p-5 rounded-2xl bg-white/95 border border-coral/30 text-base sm:text-lg font-sans">
+                          <strong className="text-coral font-bold block mb-1.5 uppercase tracking-wider text-xs sm:text-sm font-sans">
+                            When this scenario happens:
                           </strong>
                           <p className="text-charcoal/90 italic m-0">
                             {advocacyData.situation}
@@ -1206,9 +1412,9 @@ export function HubView({ initialCategory }: HubViewProps) {
                         </div>
 
                         {/* Doctor Script Speech Bubble */}
-                        <div className="p-5 rounded-2xl bg-white border-2 border-raspberry/40 shadow-xs space-y-2.5">
+                        <div className="p-6 sm:p-7 rounded-3xl bg-white border-2 border-raspberry/40 shadow-sm space-y-3">
                           <div className="flex items-center justify-between">
-                            <span className="text-xs font-bold uppercase tracking-wider text-raspberry flex items-center gap-1.5">
+                            <span className="text-xs sm:text-sm font-bold uppercase tracking-wider text-raspberry flex items-center gap-2 font-sans">
                               <Sparkles className="w-4 h-4 text-raspberry" />
                               Exactly what to say:
                             </span>
@@ -1219,87 +1425,82 @@ export function HubView({ initialCategory }: HubViewProps) {
                                 setCopiedScript(true);
                                 setTimeout(() => setCopiedScript(false), 2000);
                               }}
-                              className="inline-flex items-center gap-1.5 text-xs font-bold text-deep-teal hover:text-raspberry transition-colors bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-200 cursor-pointer shadow-2xs"
+                              className="inline-flex items-center gap-2 text-xs sm:text-sm font-bold text-deep-teal hover:text-raspberry transition-colors bg-slate-50 px-3.5 py-1.5 rounded-xl border border-slate-200 cursor-pointer shadow-2xs font-sans"
                             >
                               {copiedScript ? (
                                 <>
-                                  <Check className="w-3.5 h-3.5 text-emerald-600" />
+                                  <Check className="w-4 h-4 text-emerald-600" />
                                   <span>Copied to Clipboard!</span>
                                 </>
                               ) : (
                                 <>
-                                  <Copy className="w-3.5 h-3.5 text-deep-teal" />
+                                  <Copy className="w-4 h-4 text-deep-teal" />
                                   <span>Copy Script</span>
                                 </>
                               )}
                             </button>
                           </div>
-                          <p className="text-base sm:text-lg md:text-xl font-serif text-deep-teal font-medium leading-relaxed m-0">
+                          <p className="text-xl sm:text-2xl md:text-[25px] font-serif text-deep-teal font-medium leading-relaxed m-0">
                             {advocacyData.doctorScript}
                           </p>
                         </div>
 
                         {/* Why It Works & What If Dismissed */}
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 text-xs sm:text-sm font-sans">
-                          <div className="p-4 rounded-xl bg-light-teal/60 border border-deep-teal/20 space-y-1.5">
-                            <strong className="text-deep-teal font-bold block flex items-center gap-1.5 text-xs uppercase tracking-wider">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm sm:text-base font-sans">
+                          <div className="p-5 rounded-2xl bg-light-teal/60 border border-deep-teal/20 space-y-2">
+                            <strong className="text-deep-teal font-bold block flex items-center gap-2 text-xs sm:text-sm uppercase tracking-wider">
                               <Lightbulb className="w-4 h-4 text-deep-teal shrink-0" />
                               <span>Why this works:</span>
                             </strong>
-                            <p className="text-charcoal/85 leading-relaxed m-0">
+                            <p className="text-charcoal/90 leading-relaxed m-0 text-base sm:text-[17px]">
                               {advocacyData.whyItWorks}
                             </p>
                           </div>
 
-                          <div className="p-4 rounded-xl bg-amber-50/80 border border-amber-200 space-y-1.5">
-                            <strong className="text-amber-950 font-bold block flex items-center gap-1.5 text-xs uppercase tracking-wider">
+                          <div className="p-5 rounded-2xl bg-amber-50/80 border border-amber-200 space-y-2">
+                            <strong className="text-amber-950 font-bold block flex items-center gap-2 text-xs sm:text-sm uppercase tracking-wider">
                               <ShieldAlert className="w-4 h-4 text-amber-800 shrink-0" />
                               <span>If you are dismissed:</span>
                             </strong>
-                            <p className="text-charcoal/85 leading-relaxed m-0">
+                            <p className="text-charcoal/90 leading-relaxed m-0 text-base sm:text-[17px]">
                               {advocacyData.whatIfDismissed}
                             </p>
                           </div>
                         </div>
                       </div>
 
-                      {/* Quick Health Dictionary Lookups */}
-                      <div className="pt-1">
-                        <LittleHealthDictionary compact={true} initialModuleId={activeCategoryId || undefined} />
-                      </div>
-
                       {/* In-content Continue Button */}
                       <div className="pt-2 flex justify-end">
                         <Button
-                          onClick={() => setCurrentLessonPage(5)}
-                          className="bg-deep-teal text-white hover:bg-deep-teal/90 text-sm h-11 px-5 rounded-xl gap-2 font-semibold shadow-xs cursor-pointer"
+                          onClick={() => setCurrentLessonPage(7)}
+                          className="bg-deep-teal text-white hover:bg-deep-teal/90 text-base sm:text-lg h-12 sm:h-14 px-7 rounded-2xl gap-2.5 font-bold shadow-sm cursor-pointer"
                         >
-                          <span>Continue to Practice & Quiz</span>
-                          <ArrowRight className="w-4 h-4" />
+                          <span>Continue to Practice & Complete</span>
+                          <ArrowRight className="w-5 h-5" />
                         </Button>
                       </div>
                     </div>
                   )}
 
-                  {/* PAGE 5: PRACTICE, QUIZ & CLAIM XP */}
-                  {currentLessonPage === 5 && (
-                    <div className="space-y-5 animate-in fade-in duration-200">
+                  {/* SLIDE 7: PRACTICE, QUIZ & CLAIM XP */}
+                  {currentLessonPage === 7 && (
+                    <div className="space-y-6 animate-in fade-in duration-200 py-1">
                       <div>
-                        <div className="text-xs font-bold uppercase tracking-wider text-deep-teal mb-1">
-                          Step 5 of 5 · Knowledge Check & Completion
-                        </div>
-                        <h4 className="text-2xl sm:text-3xl font-serif font-bold text-deep-teal leading-tight">
+                        <span className="text-xs sm:text-sm font-bold uppercase tracking-wider text-deep-teal/70 font-sans block mb-1">
+                          Slide 7 of 7 · Knowledge Check & Completion
+                        </span>
+                        <h4 className="text-3xl sm:text-4xl font-serif font-bold text-deep-teal leading-tight mb-2">
                           Validate Knowledge & Claim XP
                         </h4>
-                        <p className="text-charcoal/80 text-sm sm:text-base font-sans mt-1">
+                        <p className="text-charcoal/85 text-lg sm:text-xl font-sans leading-relaxed">
                           Confirm your mastery against clinical standards and lock in your +{selectedTopic.xp} XP!
                         </p>
                       </div>
 
                       {/* VIDEO CONTENT (if topic has video) */}
                       {selectedTopic.video && (
-                        <div className="space-y-3">
-                          <h5 className="font-bold text-deep-teal text-xs uppercase tracking-wider flex items-center gap-1.5">
+                        <div className="space-y-3.5">
+                          <h5 className="font-bold text-deep-teal text-xs sm:text-sm uppercase tracking-wider flex items-center gap-2 font-sans">
                             <Video className="w-4 h-4 text-emerald-600" />
                             Clinical Explanation Video:
                           </h5>
@@ -1312,8 +1513,8 @@ export function HubView({ initialCategory }: HubViewProps) {
 
                       {/* INTERACTIVE CHALLENGE (if topic has sorter game) */}
                       {selectedTopic.sorterGame && (
-                        <div className="space-y-3">
-                          <h5 className="font-bold text-deep-teal text-xs uppercase tracking-wider flex items-center gap-1.5">
+                        <div className="space-y-3.5">
+                          <h5 className="font-bold text-deep-teal text-xs sm:text-sm uppercase tracking-wider flex items-center gap-2 font-sans">
                             <Gamepad2 className="w-4 h-4 text-raspberry" />
                             Interactive Clinical Sorter Challenge:
                           </h5>
@@ -1329,34 +1530,34 @@ export function HubView({ initialCategory }: HubViewProps) {
 
                       {/* MINI-QUIZ (if topic has quiz) */}
                       {isQuizActive && (
-                        <div className="p-5 sm:p-6 rounded-2xl bg-white border-2 border-deep-teal/20 shadow-sm space-y-4">
+                        <div className="p-6 sm:p-8 rounded-3xl bg-white border-2 border-deep-teal/20 shadow-md space-y-5">
                           {!isQuizFinished ? (
-                            <div className="space-y-4">
+                            <div className="space-y-5">
                               {/* Quiz Progress Header */}
-                              <div className="flex items-center justify-between border-b border-deep-teal/10 pb-3">
+                              <div className="flex items-center justify-between border-b border-deep-teal/10 pb-3.5">
                                 <div>
-                                  <span className="text-xs font-bold uppercase tracking-wider text-deep-teal font-sans">
+                                  <span className="text-xs sm:text-sm font-bold uppercase tracking-wider text-deep-teal font-sans">
                                     Question {quizStep + 1} of {quizList.length}
                                   </span>
-                                  <div className="w-40 h-2 bg-slate-100 rounded-full mt-1.5 overflow-hidden">
+                                  <div className="w-44 h-2.5 bg-slate-100 rounded-full mt-1.5 overflow-hidden">
                                     <div
                                       className="bg-deep-teal h-full transition-all duration-300"
                                       style={{ width: `${((quizStep + 1) / quizList.length) * 100}%` }}
                                     />
                                   </div>
                                 </div>
-                                <div className="text-right text-xs sm:text-sm font-semibold text-charcoal/70 font-sans">
-                                  Score: <strong className="text-emerald-700">{quizScore}</strong> / {quizList.length}
+                                <div className="text-right text-sm sm:text-base font-semibold text-charcoal/70 font-sans">
+                                  Score: <strong className="text-emerald-700 font-bold">{quizScore}</strong> / {quizList.length}
                                 </div>
                               </div>
 
-                              {/* Question Prompt */}
-                              <h5 className="text-base sm:text-lg md:text-xl font-bold text-deep-teal font-serif">
+                              {/* Question Prompt in Large Serif */}
+                              <h5 className="text-lg sm:text-xl md:text-2xl font-bold text-deep-teal font-serif leading-snug">
                                 {currentQ.question}
                               </h5>
 
                               {/* Options */}
-                              <div className="flex flex-col gap-2.5">
+                              <div className="flex flex-col gap-3">
                                 {currentQ.options.map((opt, optIdx) => {
                                   const chosen = quizAnswers[quizStep];
                                   const isAnswered = chosen !== undefined;
@@ -1374,7 +1575,7 @@ export function HubView({ initialCategory }: HubViewProps) {
                                           setQuizScore((s) => s + 1);
                                         }
                                       }}
-                                      className={`p-4 rounded-xl text-left text-sm sm:text-base font-semibold transition-all border cursor-pointer ${
+                                      className={`p-4 sm:p-5 rounded-2xl text-left text-base sm:text-lg font-semibold transition-all border cursor-pointer ${
                                         isAnswered
                                           ? isCorrectOpt
                                             ? "bg-emerald-50 border-emerald-500 text-emerald-950 font-bold ring-2 ring-emerald-500/20"
@@ -1397,8 +1598,8 @@ export function HubView({ initialCategory }: HubViewProps) {
 
                               {/* Feedback Explanation */}
                               {quizAnswers[quizStep] !== undefined && (
-                                <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 text-sm sm:text-base text-charcoal/90 leading-relaxed animate-in fade-in">
-                                  <strong className="text-deep-teal inline-flex items-center gap-1.5 mr-1 font-bold">
+                                <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200 text-base sm:text-lg text-charcoal/90 leading-relaxed animate-in fade-in font-sans">
+                                  <strong className="text-deep-teal inline-flex items-center gap-2 mr-1.5 font-bold">
                                     <Lightbulb className="w-4 h-4 text-deep-teal shrink-0 inline" />
                                     <span>Clinical Insight:</span>
                                   </strong>
@@ -1415,7 +1616,7 @@ export function HubView({ initialCategory }: HubViewProps) {
                                         setQuizStep((s) => s + 1);
                                         setQuizSubmitted(false);
                                       }}
-                                      className="bg-deep-teal text-white hover:bg-deep-teal/90 text-sm h-10 px-4 rounded-xl cursor-pointer"
+                                      className="bg-deep-teal text-white hover:bg-deep-teal/90 text-sm sm:text-base h-11 px-5 rounded-xl cursor-pointer font-bold"
                                     >
                                       Next Question →
                                     </Button>
@@ -1424,7 +1625,7 @@ export function HubView({ initialCategory }: HubViewProps) {
                                       onClick={() => {
                                         setQuizStep((s) => s + 1);
                                       }}
-                                      className="bg-emerald-600 text-white hover:bg-emerald-700 text-sm h-10 px-4 rounded-xl inline-flex items-center gap-1.5 cursor-pointer"
+                                      className="bg-emerald-600 text-white hover:bg-emerald-700 text-sm sm:text-base h-11 px-5 rounded-xl inline-flex items-center gap-2 cursor-pointer font-bold"
                                     >
                                       <span>View Quiz Results</span>
                                       <Check className="w-4 h-4" />
@@ -1435,22 +1636,22 @@ export function HubView({ initialCategory }: HubViewProps) {
                             </div>
                           ) : (
                             /* Quiz Finished Summary */
-                            <div className="text-center py-6 space-y-4">
+                            <div className="text-center py-7 space-y-4">
                               <div className="w-16 h-16 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center mx-auto shadow-sm">
-                                <Trophy className="w-8 h-8" />
+                                <Trophy className="w-9 h-9" />
                               </div>
                               <div>
-                                <h5 className="text-2xl font-bold font-serif text-deep-teal">
+                                <h5 className="text-2xl sm:text-3xl font-bold font-serif text-deep-teal">
                                   Knowledge Check Completed!
                                 </h5>
-                                <p className="text-base text-charcoal/80 mt-1 font-sans">
+                                <p className="text-lg text-charcoal/80 mt-1 font-sans">
                                   You scored <strong>{quizScore}</strong> out of <strong>{quizList.length}</strong>!
                                 </p>
                               </div>
-                              <p className="text-sm text-charcoal/70 max-w-sm mx-auto font-sans leading-relaxed">
+                              <p className="text-base text-charcoal/70 max-w-md mx-auto font-sans leading-relaxed">
                                 Exceptional work validating your reproductive literacy against clinical standards. You are ready to claim your XP and complete this module.
                               </p>
-                              <div className="flex justify-center gap-3 pt-2">
+                              <div className="flex justify-center gap-3 pt-3 flex-wrap">
                                 <Button
                                   onClick={() => {
                                     setQuizStep(0);
@@ -1459,16 +1660,16 @@ export function HubView({ initialCategory }: HubViewProps) {
                                     setQuizScore(0);
                                   }}
                                   variant="outline"
-                                  className="text-sm border-deep-teal/30 text-deep-teal cursor-pointer"
+                                  className="text-sm sm:text-base border-deep-teal/30 text-deep-teal cursor-pointer h-11 px-5 rounded-xl font-bold"
                                 >
-                                  <RotateCcw className="w-4 h-4 mr-1" />
+                                  <RotateCcw className="w-4 h-4 mr-1.5" />
                                   Retake Quiz
                                 </Button>
                                 <Button
                                   onClick={() => handleCompleteTopic(selectedTopic)}
-                                  className="bg-deep-teal text-white hover:bg-deep-teal/90 text-sm cursor-pointer"
+                                  className="bg-deep-teal text-white hover:bg-deep-teal/90 text-sm sm:text-base h-11 px-5 rounded-xl cursor-pointer font-bold shadow-xs"
                                 >
-                                  <CheckCircle className="w-4 h-4 mr-1" />
+                                  <CheckCircle className="w-4 h-4 mr-1.5" />
                                   Complete & Claim +{selectedTopic.xp} XP
                                 </Button>
                               </div>
@@ -1479,24 +1680,24 @@ export function HubView({ initialCategory }: HubViewProps) {
 
                       {/* Fallback completion card if topic does not have a quiz */}
                       {!isQuizActive && !selectedTopic.sorterGame && !selectedTopic.video && (
-                        <div className="p-6 rounded-2xl bg-white border-2 border-deep-teal/20 text-center space-y-4 shadow-sm">
+                        <div className="p-7 sm:p-9 rounded-3xl bg-white border-2 border-deep-teal/20 text-center space-y-4 shadow-sm">
                           <div className="w-16 h-16 rounded-full bg-light-teal text-deep-teal flex items-center justify-center mx-auto shadow-sm">
-                            <Sparkles className="w-8 h-8 text-coral" />
+                            <Sparkles className="w-9 h-9 text-coral" />
                           </div>
                           <div>
-                            <h5 className="text-2xl font-bold font-serif text-deep-teal">
+                            <h5 className="text-2xl sm:text-3xl font-bold font-serif text-deep-teal">
                               Lesson Complete!
                             </h5>
-                            <p className="text-base text-charcoal/80 mt-1 font-sans">
-                              You have reviewed the biological concept, anatomy, clinical signals, and self-advocacy script for <strong>{selectedTopic.name}</strong>.
+                            <p className="text-lg text-charcoal/85 mt-2 font-sans max-w-lg mx-auto leading-relaxed">
+                              You have mastered the biological concept, reviewed verified clinical guidelines, checked off clinical signals, practiced the roleplay scenario game, and learned the appointment script for <strong>{selectedTopic.name}</strong>.
                             </p>
                           </div>
-                          <div className="pt-2">
+                          <div className="pt-3">
                             <Button
                               onClick={() => handleCompleteTopic(selectedTopic)}
-                              className="bg-deep-teal text-white hover:bg-deep-teal/90 text-base h-12 px-6 rounded-xl font-bold cursor-pointer"
+                              className="bg-deep-teal text-white hover:bg-deep-teal/90 text-base sm:text-lg h-12 sm:h-14 px-8 rounded-2xl font-bold cursor-pointer shadow-sm"
                             >
-                              <CheckCircle className="w-5 h-5 mr-1.5" />
+                              <CheckCircle className="w-5 h-5 mr-2" />
                               Complete & Claim +{selectedTopic.xp} XP
                             </Button>
                           </div>
@@ -1514,23 +1715,23 @@ export function HubView({ initialCategory }: HubViewProps) {
                   )}
                 </div>
 
-                {/* Sticky Bottom Navigation Bar */}
-                <div className="mt-3 pt-3 border-t-2 border-deep-teal/10 flex items-center justify-between gap-3 flex-wrap shrink-0 bg-white/95">
+                {/* Sticky Bottom Navigation Bar (Fixed with Big Arrow Buttons) */}
+                <div className="mt-3 pt-3.5 pb-1 border-t-2 border-deep-teal/15 flex items-center justify-between gap-3 flex-wrap shrink-0 bg-white/95">
                   {/* Previous Button */}
                   <Button
                     variant="outline"
                     disabled={currentLessonPage === 1}
                     onClick={() => setCurrentLessonPage((p) => Math.max(1, p - 1))}
-                    className="text-xs sm:text-sm font-semibold border-deep-teal/25 text-deep-teal hover:bg-light-teal/30 disabled:opacity-40 cursor-pointer"
+                    className="text-xs sm:text-sm md:text-base font-bold h-11 sm:h-12 px-4 sm:px-5 rounded-xl border-deep-teal/25 text-deep-teal hover:bg-light-teal/30 disabled:opacity-40 cursor-pointer shadow-2xs"
                   >
                     <ArrowLeft className="w-4 h-4 mr-1.5" />
-                    <span>Previous Page</span>
+                    <span>Previous Slide</span>
                   </Button>
 
-                  {/* Page Indicator with Interactive Dots */}
-                  <div className="flex items-center gap-2">
-                    <span className="text-xs sm:text-sm font-bold text-charcoal/70 font-sans hidden sm:inline">
-                      Page {currentLessonPage} of {lessonPages.length}
+                  {/* Slide Indicator with Interactive Dots */}
+                  <div className="flex items-center gap-2.5">
+                    <span className="text-xs sm:text-sm md:text-base font-bold text-deep-teal font-sans hidden sm:inline">
+                      Slide {currentLessonPage} of {lessonPages.length}
                     </span>
                     <div className="flex items-center gap-1.5">
                       {lessonPages.map((p) => (
@@ -1538,31 +1739,31 @@ export function HubView({ initialCategory }: HubViewProps) {
                           key={p.id}
                           onClick={() => setCurrentLessonPage(p.id)}
                           title={`Go to ${p.title}`}
-                          className={`w-2.5 h-2.5 rounded-full transition-all cursor-pointer ${
+                          className={`h-2.5 rounded-full transition-all cursor-pointer ${
                             currentLessonPage === p.id
-                              ? "bg-deep-teal w-6"
+                              ? "bg-deep-teal w-7"
                               : currentLessonPage > p.id
-                              ? "bg-emerald-600"
-                              : "bg-slate-300 hover:bg-slate-400"
+                              ? "bg-emerald-600 w-2.5"
+                              : "bg-slate-300 hover:bg-slate-400 w-2.5"
                           }`}
                         />
                       ))}
                     </div>
                   </div>
 
-                  {/* Next Page / Complete Button */}
+                  {/* Next Slide / Complete Button */}
                   {currentLessonPage < lessonPages.length ? (
                     <Button
                       onClick={() => setCurrentLessonPage((p) => Math.min(lessonPages.length, p + 1))}
-                      className={`text-xs sm:text-sm font-bold gap-1.5 cursor-pointer ${topicTheme.buttonClass}`}
+                      className={`text-xs sm:text-sm md:text-base font-bold h-11 sm:h-12 px-5 sm:px-6 rounded-xl gap-2 cursor-pointer shadow-xs ${topicTheme.buttonClass}`}
                     >
-                      <span>Next Page</span>
+                      <span>Next Slide</span>
                       <ArrowRight className="w-4 h-4" />
                     </Button>
                   ) : (
                     <Button
                       onClick={() => handleCompleteTopic(selectedTopic)}
-                      className="bg-emerald-600 text-white hover:bg-emerald-700 text-xs sm:text-sm font-bold gap-1.5 cursor-pointer shadow-xs"
+                      className="bg-emerald-600 text-white hover:bg-emerald-700 text-xs sm:text-sm md:text-base font-bold h-11 sm:h-12 px-5 sm:px-6 rounded-xl gap-2 cursor-pointer shadow-xs"
                     >
                       <CheckCircle className="w-4 h-4" />
                       <span>

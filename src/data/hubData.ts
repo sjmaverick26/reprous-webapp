@@ -57,6 +57,20 @@ export interface ClinicalQuote {
   year?: string;
 }
 
+export interface RoleplayOption {
+  text: string;
+  isBest: boolean;
+  feedback: string;
+  xpBonus: number;
+}
+
+export interface RoleplayScenario {
+  setting: string;
+  character: string;
+  statement: string;
+  options: RoleplayOption[];
+}
+
 export interface HubTopic {
   id: string;
   name: string;
@@ -66,6 +80,7 @@ export interface HubTopic {
   readTime?: string;
   summary: string;
   clinicalQuote?: ClinicalQuote;
+  roleplayScenario?: RoleplayScenario;
   keyTakeaways: string[];
   visualCards?: VisualCard[];
   diagram?: LessonDiagram;
@@ -1796,4 +1811,246 @@ export function getTopicClinicalQuote(topic: HubTopic, categoryId?: string): Cli
   const matchedCat = categoryId || topic.id.split("-")[0];
   return categoryQuotes[matchedCat] || categoryQuotes.body;
 }
+
+/**
+ * Returns an interactive Roleplay Scenario Game simulation tailored to the topic and category.
+ * Simulates real encounters with doctors, coaches, and administrators to build youth self-advocacy skills.
+ */
+export function getTopicRoleplayScenario(topic: HubTopic, categoryId?: string): RoleplayScenario {
+  if (topic.roleplayScenario) {
+    return topic.roleplayScenario;
+  }
+
+  const categoryScenarios: Record<string, RoleplayScenario> = {
+    body: {
+      setting: "Annual Adolescent Well-Visit with Pediatrician",
+      character: "Dr. Chen, Pediatrician",
+      statement: "“You look healthy. Don't stress over why your friends are developing faster or slower than you — everyone's body is different, so let's just skip to the vaccinations.”",
+      options: [
+        {
+          text: "“Okay, I won't ask about it. I guess it's embarrassing anyway.”",
+          isBest: false,
+          feedback: "Notice how staying silent leaves your questions unanswered. Doctors expect adolescents to have questions about anatomy and puberty.",
+          xpBonus: 5,
+        },
+        {
+          text: "“Thank you, Dr. Chen. I know development happens on its own genetic timeline, but I have specific questions about what Tanner stage I'm in and what biological changes to expect next. Can we take five minutes to review that?”",
+          isBest: true,
+          feedback: "✦ Master Self-Advocate! By referencing clinical Tanner staging and asking for a dedicated 5-minute window, you guide the clinician to prioritize your physical literacy without confrontation.",
+          xpBonus: 30,
+        },
+        {
+          text: "“You're ignoring me! Why won't you tell me why I haven't grown as much as everyone else?”",
+          isBest: false,
+          feedback: "While venting frustration is understandable, pairing your emotional concern with objective questions yields much better clinical results.",
+          xpBonus: 10,
+        },
+      ],
+    },
+    cycle: {
+      setting: "Clinic Exam Room for Debilitating Period Pain",
+      character: "Dr. Adams, Physician",
+      statement: "“Bad cramps and heavy bleeding are just a normal part of becoming a woman. Take ibuprofen and try using a heating pad during your cycle.”",
+      options: [
+        {
+          text: "“I guess I just have a low pain tolerance. Sorry for taking up your time.”",
+          isBest: false,
+          feedback: "Dismissing your own pain normalizes suffering. Incapacitating dysmenorrhea is a medical symptom, never a character flaw.",
+          xpBonus: 5,
+        },
+        {
+          text: "“ACOG guidelines emphasize that the menstrual cycle is a vital sign. My pain causes me to miss school and doesn't respond to maximum OTC doses of ibuprofen. Could we schedule a pelvic ultrasound and evaluate for underlying causes like endometriosis?”",
+          isBest: true,
+          feedback: "✦ Outstanding Clinical Advocacy! You cited official ACOG clinical guidance, quantified the functional impairment (missing school), and requested a specific non-invasive diagnostic step.",
+          xpBonus: 30,
+        },
+        {
+          text: "“I'm never coming back here again, you don't know what you're doing.”",
+          isBest: false,
+          feedback: "Walking out leaves you without care. Asking for your symptoms and the provider's refusal to be documented in your chart holds them clinically accountable.",
+          xpBonus: 10,
+        },
+      ],
+    },
+    play: {
+      setting: "Track & Field Team Meeting in Coach's Office",
+      character: "Coach Henderson, Distance Coach",
+      statement: "“If you've stopped getting your period, it just means your body fat is low and you're in peak race shape. All elite runners lose their period — consider it a competitive advantage!”",
+      options: [
+        {
+          text: "“Awesome, less hassle on race day! I'll keep pushing my mileage.”",
+          isBest: false,
+          feedback: "Dangerous misconception! Amenorrhea causes accelerated bone mineral loss and significantly increases lifetime risks of stress fractures and cardiovascular damage.",
+          xpBonus: 5,
+        },
+        {
+          text: "“Actually Coach, the International Olympic Committee consensus on RED-S states that losing my period is a sign of Low Energy Availability. It impairs performance and causes bone stress injuries. I need to work with our sports nutritionist to adjust my fueling.”",
+          isBest: true,
+          feedback: "✦ Elite Athletic Self-Advocacy! You cited the IOC medical consensus, corrected the myth with scientific authority, and protected your long-term bone health and athletic longevity.",
+          xpBonus: 30,
+        },
+        {
+          text: "“You don't care about our health at all! I'm quitting the team today.”",
+          isBest: false,
+          feedback: "Educating the coach with IOC medical consensus statements protects both yourself and your teammates from institutionalized under-fueling culture.",
+          xpBonus: 10,
+        },
+      ],
+    },
+    pcos: {
+      setting: "Consultation on Irregular Cycles & Persistent Acne",
+      character: "Dr. Wright, Primary Care Clinician",
+      statement: "“At your age, cycles are often erratic. If you're concerned about acne or weight, just cut carbs and we can put you on birth control right away without doing any blood tests.”",
+      options: [
+        {
+          text: "“Okay, whatever is easiest. I'll just take the pill.”",
+          isBest: false,
+          feedback: "Starting oral contraceptives before baseline bloodwork permanently masks underlying hormonal imbalances, delaying a formal diagnosis.",
+          xpBonus: 5,
+        },
+        {
+          text: "“Under the Rotterdam criteria for PCOS, we need to assess for clinical hyperandrogenism and ovulatory dysfunction. Could we run a morning fasted total/free testosterone, DHEA-S, and metabolic panel before starting birth control so we don't mask the baseline?”",
+          isBest: true,
+          feedback: "✦ Diagnostic Mastery! By requesting baseline fasted testing prior to hormonal therapy, you preserve critical clinical data needed for an accurate diagnosis.",
+          xpBonus: 30,
+        },
+        {
+          text: "“You're just judging me because of my weight! I want a different doctor right now.”",
+          isBest: false,
+          feedback: "Weight stigma in healthcare is real and harmful. Framing your request through specific diagnostic lab orders forces the clinician to address pathology rather than weight.",
+          xpBonus: 10,
+        },
+      ],
+    },
+    endo: {
+      setting: "Outpatient Clinic Following a 'Normal' Pelvic Ultrasound",
+      character: "Dr. Patel, Gynecologic Provider",
+      statement: "“Good news! Your ultrasound scan came back completely clear and unremarkable. There is nothing physically wrong with your pelvis, so your pain must be gastrointestinal or stress-related.”",
+      options: [
+        {
+          text: "“I guess the scans don't lie. Maybe I'm just exaggerating the pain.”",
+          isBest: false,
+          feedback: "Over 75% of adolescent endometriosis consists of superficial peritoneal lesions that are completely invisible on ultrasound scans. Never doubt your bodily symptoms.",
+          xpBonus: 5,
+        },
+        {
+          text: "“ACOG Committee Opinion No. 760 notes that a normal ultrasound cannot rule out superficial endometriosis. Since my cyclical pain causes school absence and doesn't respond to NSAIDs, could you refer me to a Minimally Invasive Gynecologic Surgeon (MIGS)?”",
+          isBest: true,
+          feedback: "✦ Life-Changing Clinical Self-Advocacy! You cited the exact ACOG standard on imaging limitations and requested a referral to an excision specialist.",
+          xpBonus: 30,
+        },
+        {
+          text: "“You don't believe me! Why did I even waste money on this scan?”",
+          isBest: false,
+          feedback: "Channeling your frustration into requesting a documented specialist referral creates a paper trail and gets you closer to specialized care.",
+          xpBonus: 10,
+        },
+      ],
+    },
+    mind: {
+      setting: "Clinical Consultation for Severe Cyclical Mood Shifts",
+      character: "Dr. Miller, Healthcare Provider",
+      statement: "“Every girl feels irritable or emotional before her period. Just drink more herbal tea, practice meditation, and don't make a big deal out of PMS.”",
+      options: [
+        {
+          text: "“I guess I'm just weak mentally. I'll try to meditate more.”",
+          isBest: false,
+          feedback: "PMDD is a severe neuroendocrine sensitivity disorder, not a lack of willpower or ordinary moodiness.",
+          xpBonus: 5,
+        },
+        {
+          text: "“I have tracked my symptoms prospectively across two consecutive cycles. My severe depression and panic only emerge in the luteal phase and vanish 48 hours into bleeding. This aligns with DSM-5 PMDD diagnostic criteria. Can we discuss evidence-based medical treatment?”",
+          isBest: true,
+          feedback: "✦ Clinical Precision! Prospective 2-cycle daily symptom charting is the gold standard for PMDD diagnosis. Presenting real data makes your condition undeniable.",
+          xpBonus: 30,
+        },
+        {
+          text: "“You have no idea how hard my life is! You're completely unhelpful.”",
+          isBest: false,
+          feedback: "Presenting documented prospective tracking logs commands immediate medical respect and bypasses dismissive advice.",
+          xpBonus: 10,
+        },
+      ],
+    },
+    realtalk: {
+      setting: "Student Health Center Front Desk",
+      character: "Intake Coordinator",
+      statement: "“If you want confidential STI screening or reproductive care, we normally bill your family insurance, which sends a detailed Explanation of Benefits (EOB) itemizing all tests to your home address.”",
+      options: [
+        {
+          text: "“Never mind then, I can't risk my parents seeing that. I'll just skip getting tested.”",
+          isBest: false,
+          feedback: "Skipping asymptomatic STI testing puts your health and partner's health at risk. Confidential pathways always exist.",
+          xpBonus: 5,
+        },
+        {
+          text: "“Under Title X federal guidelines and state minor consent laws, I have the legal right to confidential reproductive healthcare. Can we utilize Title X sliding-scale funding or a confidential billing waiver so no EOB is generated?”",
+          isBest: true,
+          feedback: "✦ Legal & Healthcare Rights Mastery! Invoking Title X sliding-scale grant funding guarantees zero insurance statements are mailed to your household.",
+          xpBonus: 30,
+        },
+        {
+          text: "“Why are you trying to get me in trouble with my family?”",
+          isBest: false,
+          feedback: "Front desk staff often default to standard commercial billing unless patients explicitly request Title X confidential billing protocols.",
+          xpBonus: 10,
+        },
+      ],
+    },
+    conditions: {
+      setting: "Consultation on Reproductive Care Options",
+      character: "Clinical Provider",
+      statement: "“At your age, I usually only prescribe the combined pill. Let's just write that prescription right now without confusing you with other options.”",
+      options: [
+        {
+          text: "“Sure, whatever you think is simplest.”",
+          isBest: false,
+          feedback: "Shared decision-making requires understanding all available options, including progestin-only pills, rings, patches, implants, and IUDs.",
+          xpBonus: 5,
+        },
+        {
+          text: "“I would like to practice shared decision-making. Could we review the effectiveness, side effect profiles, and dosing schedules of different methods so I can choose what best matches my medical history and daily routine?”",
+          isBest: true,
+          feedback: "✦ Shared Decision-Making Champion! You asserted your autonomy as a patient to review the full spectrum of evidence-based choices.",
+          xpBonus: 30,
+        },
+        {
+          text: "“I don't trust pharmaceuticals at all, never mind.”",
+          isBest: false,
+          feedback: "Exploring options collaboratively with your provider ensures you find a solution tailored to your personal comfort and health goals.",
+          xpBonus: 10,
+        },
+      ],
+    },
+    factors: {
+      setting: "High School District Board Meeting on Menstrual Hygiene Supplies",
+      character: "School Board Trustee",
+      statement: "“Installing free pad and tampon dispensers in all student bathrooms will just lead to vandalism and waste our limited school maintenance budget.”",
+      options: [
+        {
+          text: "“I guess that makes sense. We'll just keep asking friends for emergency supplies.”",
+          isBest: false,
+          feedback: "Accepting period poverty in schools causes students to miss instructional hours and disproportionately harms lower-income youth.",
+          xpBonus: 5,
+        },
+        {
+          text: "“Menstrual products are non-negotiable hygiene supplies, exactly like hand soap and toilet paper. Research from Menstrual Equity campaigns shows that providing free supplies reduces absenteeism by over 20% and costs less than $3 per student per year. We are requesting a formal line-item allocation for educational parity.”",
+          isBest: true,
+          feedback: "✦ Civic & Community Advocacy Master! You framed menstrual access as fundamental educational parity and refuted budget concerns with empirical cost-benefit data.",
+          xpBonus: 30,
+        },
+        {
+          text: "“You hate female students and you are all completely out of touch!”",
+          isBest: false,
+          feedback: "Grounding your advocacy in educational attendance statistics and comparing supplies to toilet paper makes your policy argument airtight.",
+          xpBonus: 10,
+        },
+      ],
+    },
+  };
+
+  const matchedCat = categoryId || topic.id.split("-")[0];
+  return categoryScenarios[matchedCat] || categoryScenarios.body;
+}
+
 
