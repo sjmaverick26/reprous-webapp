@@ -24,6 +24,7 @@ import {
   Smile,
   Wind,
   RefreshCw,
+  RotateCcw,
   ShieldCheck,
   ExternalLink,
   Trash2,
@@ -1123,10 +1124,150 @@ function AnatomyCalloutDiagram({ diagram }: { diagram: LessonDiagram; themeColor
 // 7. Athlete Fueling Plate & Interactive Nourishment Bowl Builder
 // --------------------------------------------------------------------------
 
+function FoodIllustration({ foodId, className }: { foodId: string; className?: string }) {
+  const cls = className || "w-full h-full";
+  switch (foodId) {
+    case "sweet_potato":
+      return (
+        <svg viewBox="0 0 64 64" fill="none" className={cls}>
+          <ellipse cx="32" cy="34" rx="26" ry="16" transform="rotate(-15 32 34)" fill="#C2410C" />
+          <ellipse cx="32" cy="34" rx="22" ry="12" transform="rotate(-15 32 34)" fill="#EA580C" />
+          <ellipse cx="32" cy="34" rx="17" ry="8" transform="rotate(-15 32 34)" fill="#FB923C" />
+          <path d="M 24 22 Q 26 14 30 16" stroke="#FED7AA" strokeWidth="2" strokeLinecap="round" opacity="0.8" />
+          <path d="M 34 20 Q 36 12 40 14" stroke="#FED7AA" strokeWidth="2" strokeLinecap="round" opacity="0.8" />
+        </svg>
+      );
+    case "quinoa_rice":
+      return (
+        <svg viewBox="0 0 64 64" fill="none" className={cls}>
+          <path d="M 14 30 C 14 48 22 54 32 54 C 42 54 50 48 50 30 Z" fill="#D97706" />
+          <ellipse cx="32" cy="30" rx="18" ry="8" fill="#FEF3C7" stroke="#B45309" strokeWidth="1.5" />
+          <circle cx="26" cy="29" r="1.5" fill="#92400E" />
+          <circle cx="31" cy="28" r="1.5" fill="#92400E" />
+          <circle cx="37" cy="29" r="1.5" fill="#92400E" />
+          <circle cx="28" cy="32" r="1.5" fill="#B45309" />
+          <circle cx="34" cy="32" r="1.5" fill="#B45309" />
+          <path d="M 28 20 Q 26 14 28 10" stroke="#F59E0B" strokeWidth="1.5" strokeLinecap="round" opacity="0.8" />
+          <path d="M 34 18 Q 36 12 34 8" stroke="#F59E0B" strokeWidth="1.5" strokeLinecap="round" opacity="0.8" />
+        </svg>
+      );
+    case "rolled_oats":
+      return (
+        <svg viewBox="0 0 64 64" fill="none" className={cls}>
+          <path d="M 14 32 C 14 46 22 52 32 52 C 42 52 50 46 50 32 Z" fill="#CA8A04" />
+          <ellipse cx="32" cy="32" rx="18" ry="7" fill="#FEF08A" stroke="#A16207" strokeWidth="1.5" />
+          <ellipse cx="28" cy="31" rx="4" ry="2" transform="rotate(-20 28 31)" fill="#EAB308" />
+          <ellipse cx="35" cy="31" rx="4" ry="2" transform="rotate(30 35 31)" fill="#EAB308" />
+          <ellipse cx="31" cy="33" rx="3" ry="1.5" fill="#CA8A04" />
+          <path d="M 38 12 L 34 26" stroke="#CA8A04" strokeWidth="2" strokeLinecap="round" />
+          <ellipse cx="36" cy="14" rx="3" ry="1.5" transform="rotate(45 36 14)" fill="#EAB308" />
+          <ellipse cx="37" cy="18" rx="3" ry="1.5" transform="rotate(-30 37 18)" fill="#EAB308" />
+        </svg>
+      );
+    case "wild_salmon":
+      return (
+        <svg viewBox="0 0 64 64" fill="none" className={cls}>
+          <path d="M 12 34 C 18 22 36 20 48 24 C 54 26 54 36 48 42 C 34 46 20 44 12 34 Z" fill="#F43F5E" stroke="#BE123C" strokeWidth="1.5" />
+          <path d="M 22 26 C 26 31 28 39 28 42" stroke="#FDA4AF" strokeWidth="2" strokeLinecap="round" />
+          <path d="M 31 25 C 35 31 37 38 37 42" stroke="#FDA4AF" strokeWidth="2" strokeLinecap="round" />
+          <path d="M 40 26 C 43 31 44 38 45 41" stroke="#FDA4AF" strokeWidth="2" strokeLinecap="round" />
+          <path d="M 38 43 A 10 10 0 0 1 48 43 Z" fill="#FACC15" stroke="#CA8A04" strokeWidth="1.5" />
+        </svg>
+      );
+    case "pastured_eggs":
+      return (
+        <svg viewBox="0 0 64 64" fill="none" className={cls}>
+          <ellipse cx="26" cy="34" rx="13" ry="17" transform="rotate(-20 26 34)" fill="#F8FAFC" stroke="#94A3B8" strokeWidth="1.5" />
+          <path d="M 32 44 C 42 48 52 40 48 28 C 44 20 32 26 32 44 Z" fill="#FFFBEB" stroke="#CBD5E1" strokeWidth="1.5" />
+          <circle cx="41" cy="34" r="8" fill="#F59E0B" />
+          <circle cx="39" cy="32" r="2" fill="#FEF3C7" />
+        </svg>
+      );
+    case "edamame_lentils":
+      return (
+        <svg viewBox="0 0 64 64" fill="none" className={cls}>
+          <path d="M 10 38 C 20 20 44 20 54 34 C 42 42 22 46 10 38 Z" fill="#16A34A" stroke="#15803D" strokeWidth="1.5" />
+          <circle cx="22" cy="33" r="5" fill="#4ADE80" stroke="#16A34A" strokeWidth="1.5" />
+          <circle cx="33" cy="31" r="5" fill="#4ADE80" stroke="#16A34A" strokeWidth="1.5" />
+          <circle cx="44" cy="33" r="4.5" fill="#4ADE80" stroke="#16A34A" strokeWidth="1.5" />
+          <circle cx="28" cy="46" r="3" fill="#D97706" />
+          <circle cx="36" cy="47" r="3" fill="#B45309" />
+        </svg>
+      );
+    case "avocado":
+      return (
+        <svg viewBox="0 0 64 64" fill="none" className={cls}>
+          <path d="M 32 10 C 22 10 16 22 16 36 C 16 48 23 54 32 54 C 41 54 48 48 48 36 C 48 22 42 10 32 10 Z" fill="#365314" />
+          <path d="M 32 14 C 24 14 20 24 20 36 C 20 46 25 50 32 50 C 39 50 44 46 44 36 C 44 24 40 14 32 14 Z" fill="#84CC16" />
+          <path d="M 32 20 C 27 20 24 28 24 37 C 24 44 27 47 32 47 C 37 47 40 44 40 37 C 40 28 37 20 32 20 Z" fill="#BEF264" />
+          <circle cx="32" cy="38" r="9" fill="#78350F" stroke="#451A03" strokeWidth="1.5" />
+          <circle cx="30" cy="36" r="2.5" fill="#92400E" />
+        </svg>
+      );
+    case "walnuts_chia":
+      return (
+        <svg viewBox="0 0 64 64" fill="none" className={cls}>
+          <path d="M 28 16 C 18 18 14 28 14 38 C 14 48 22 52 30 52 C 34 52 36 46 36 34 C 36 22 34 16 28 16 Z" fill="#A16207" stroke="#713F12" strokeWidth="1.5" />
+          <path d="M 22 24 C 20 30 26 34 22 42" stroke="#CA8A04" strokeWidth="2" strokeLinecap="round" />
+          <path d="M 26 22 C 28 28 28 36 28 44" stroke="#713F12" strokeWidth="1.5" strokeLinecap="round" />
+          <circle cx="44" cy="26" r="2" fill="#1E293B" />
+          <circle cx="48" cy="32" r="2" fill="#334155" />
+          <circle cx="43" cy="38" r="2" fill="#1E293B" />
+          <circle cx="47" cy="44" r="2" fill="#334155" />
+        </svg>
+      );
+    case "olive_oil":
+      return (
+        <svg viewBox="0 0 64 64" fill="none" className={cls}>
+          <path d="M 28 12 L 36 12 L 36 18 L 44 24 L 44 50 C 44 53 41 54 38 54 L 26 54 C 23 54 20 53 20 50 L 20 24 L 28 18 Z" fill="#65A30D" opacity="0.3" stroke="#4D7C0F" strokeWidth="2" />
+          <path d="M 22 32 L 42 32 L 42 50 C 42 52 40 52 38 52 L 26 52 C 24 52 22 52 22 50 Z" fill="#EAB308" opacity="0.85" />
+          <path d="M 32 38 C 30 42 28 44 32 46 C 36 44 34 42 32 38 Z" fill="#FACC15" />
+          <rect x="29" y="8" width="6" height="4" rx="1" fill="#78350F" />
+        </svg>
+      );
+    case "spinach_kale":
+      return (
+        <svg viewBox="0 0 64 64" fill="none" className={cls}>
+          <path d="M 18 48 C 12 36 16 18 32 14 C 44 20 46 36 40 48 C 34 44 26 44 18 48 Z" fill="#15803D" stroke="#166534" strokeWidth="1.5" />
+          <path d="M 30 18 L 28 52" stroke="#86EFAC" strokeWidth="2" strokeLinecap="round" />
+          <path d="M 29 28 Q 36 26 38 29" stroke="#86EFAC" strokeWidth="1.5" strokeLinecap="round" />
+          <path d="M 29 36 Q 22 34 20 37" stroke="#86EFAC" strokeWidth="1.5" strokeLinecap="round" />
+          <path d="M 28 42 Q 35 40 37 43" stroke="#86EFAC" strokeWidth="1.5" strokeLinecap="round" />
+        </svg>
+      );
+    case "wild_berries":
+      return (
+        <svg viewBox="0 0 64 64" fill="none" className={cls}>
+          <path d="M 32 14 C 40 12 46 16 46 24 C 38 24 34 20 32 14 Z" fill="#16A34A" />
+          <circle cx="25" cy="30" r="10" fill="#1E3A8A" stroke="#172554" strokeWidth="1.5" />
+          <circle cx="23" cy="27" r="2.5" fill="#60A5FA" opacity="0.6" />
+          <circle cx="39" cy="28" r="9.5" fill="#4C1D95" stroke="#2E1065" strokeWidth="1.5" />
+          <circle cx="37" cy="25" r="2.5" fill="#A78BFA" opacity="0.6" />
+          <circle cx="32" cy="42" r="10" fill="#1D4ED8" stroke="#1E3A8A" strokeWidth="1.5" />
+          <circle cx="30" cy="39" r="2.5" fill="#93C5FD" opacity="0.6" />
+        </svg>
+      );
+    case "bell_peppers":
+      return (
+        <svg viewBox="0 0 64 64" fill="none" className={cls}>
+          <path d="M 32 12 Q 34 8 38 8" stroke="#15803D" strokeWidth="3" strokeLinecap="round" />
+          <path d="M 20 22 C 20 18 26 18 32 20 C 38 18 44 18 44 22 C 48 30 46 48 38 52 C 34 54 30 54 26 52 C 18 48 16 30 20 22 Z" fill="#DC2626" stroke="#991B1B" strokeWidth="1.5" />
+          <path d="M 28 22 C 26 30 26 42 29 52" stroke="#EF4444" strokeWidth="2" strokeLinecap="round" />
+          <path d="M 36 22 C 38 30 38 42 35 52" stroke="#B91C1C" strokeWidth="2" strokeLinecap="round" />
+        </svg>
+      );
+    default:
+      return (
+        <svg viewBox="0 0 64 64" fill="none" className={cls}>
+          <circle cx="32" cy="32" r="24" fill="#E2E8F0" stroke="#94A3B8" strokeWidth="2" />
+        </svg>
+      );
+  }
+}
+
 interface BowlFoodItem {
   id: string;
   name: string;
-  emoji: string;
   category: "carbs" | "protein" | "fats" | "colors";
   categoryLabel: string;
   badgeClass: string;
@@ -1140,7 +1281,6 @@ const ATHLETE_BOWL_FOODS: BowlFoodItem[] = [
   {
     id: "sweet_potato",
     name: "Roasted Sweet Potato",
-    emoji: "🍠",
     category: "carbs",
     categoryLabel: "Complex Power Carb",
     badgeClass: "bg-amber-100 text-amber-900 border-amber-300",
@@ -1152,7 +1292,6 @@ const ATHLETE_BOWL_FOODS: BowlFoodItem[] = [
   {
     id: "quinoa_rice",
     name: "Quinoa & Brown Rice Blend",
-    emoji: "🍚",
     category: "carbs",
     categoryLabel: "Glycogen & Mineral Carb",
     badgeClass: "bg-amber-100 text-amber-900 border-amber-300",
@@ -1164,7 +1303,6 @@ const ATHLETE_BOWL_FOODS: BowlFoodItem[] = [
   {
     id: "rolled_oats",
     name: "Steel-Cut Rolled Oats",
-    emoji: "🥣",
     category: "carbs",
     categoryLabel: "Slow-Burn Energy",
     badgeClass: "bg-amber-100 text-amber-900 border-amber-300",
@@ -1176,7 +1314,6 @@ const ATHLETE_BOWL_FOODS: BowlFoodItem[] = [
   {
     id: "wild_salmon",
     name: "Wild Sockeye Salmon",
-    emoji: "🐟",
     category: "protein",
     categoryLabel: "Anti-Inflammatory Protein",
     badgeClass: "bg-rose-100 text-rose-900 border-rose-300",
@@ -1188,7 +1325,6 @@ const ATHLETE_BOWL_FOODS: BowlFoodItem[] = [
   {
     id: "pastured_eggs",
     name: "Pasture-Raised Eggs",
-    emoji: "🥚",
     category: "protein",
     categoryLabel: "Hormone-Building Protein",
     badgeClass: "bg-rose-100 text-rose-900 border-rose-300",
@@ -1200,7 +1336,6 @@ const ATHLETE_BOWL_FOODS: BowlFoodItem[] = [
   {
     id: "edamame_lentils",
     name: "Steamed Edamame & Lentils",
-    emoji: "🫘",
     category: "protein",
     categoryLabel: "Plant Iron & Phyto-Nutrients",
     badgeClass: "bg-rose-100 text-rose-900 border-rose-300",
@@ -1212,7 +1347,6 @@ const ATHLETE_BOWL_FOODS: BowlFoodItem[] = [
   {
     id: "avocado",
     name: "Fresh Sliced Avocado",
-    emoji: "🥑",
     category: "fats",
     categoryLabel: "Hormone Precursor Fat",
     badgeClass: "bg-lime-100 text-lime-900 border-lime-300",
@@ -1224,7 +1358,6 @@ const ATHLETE_BOWL_FOODS: BowlFoodItem[] = [
   {
     id: "walnuts_chia",
     name: "Walnuts & Chia Seeds",
-    emoji: "🌰",
     category: "fats",
     categoryLabel: "Essential Fatty Acids",
     badgeClass: "bg-lime-100 text-lime-900 border-lime-300",
@@ -1236,7 +1369,6 @@ const ATHLETE_BOWL_FOODS: BowlFoodItem[] = [
   {
     id: "olive_oil",
     name: "Extra Virgin Olive Oil",
-    emoji: "🫒",
     category: "fats",
     categoryLabel: "Cellular Recovery Oil",
     badgeClass: "bg-lime-100 text-lime-900 border-lime-300",
@@ -1248,7 +1380,6 @@ const ATHLETE_BOWL_FOODS: BowlFoodItem[] = [
   {
     id: "spinach_kale",
     name: "Dark Baby Spinach & Kale",
-    emoji: "🥬",
     category: "colors",
     categoryLabel: "Blood & Bone Greens",
     badgeClass: "bg-emerald-100 text-emerald-900 border-emerald-300",
@@ -1260,7 +1391,6 @@ const ATHLETE_BOWL_FOODS: BowlFoodItem[] = [
   {
     id: "wild_berries",
     name: "Wild Blueberries & Cherries",
-    emoji: "🫐",
     category: "colors",
     categoryLabel: "Antioxidant Muscle Shield",
     badgeClass: "bg-emerald-100 text-emerald-900 border-emerald-300",
@@ -1272,7 +1402,6 @@ const ATHLETE_BOWL_FOODS: BowlFoodItem[] = [
   {
     id: "bell_peppers",
     name: "Sweet Bell Peppers & Citrus",
-    emoji: "🍊",
     category: "colors",
     categoryLabel: "Iron Booster & Collagen",
     badgeClass: "bg-emerald-100 text-emerald-900 border-emerald-300",
@@ -1449,7 +1578,7 @@ function AthletePlateDiagram({ diagram }: { diagram: LessonDiagram; themeColor: 
                     : "text-charcoal/70 hover:text-charcoal"
                 }`}
               >
-                <span>🥗 Fuel Bowl Studio</span>
+                <span>Fuel Bowl Studio</span>
               </button>
               <button
                 type="button"
@@ -1460,7 +1589,7 @@ function AthletePlateDiagram({ diagram }: { diagram: LessonDiagram; themeColor: 
                     : "text-charcoal/70 hover:text-charcoal"
                 }`}
               >
-                <span>🍽️ 5-Stage Athlete Plate</span>
+                <span>5-Stage Athlete Plate</span>
               </button>
             </div>
 
@@ -1469,17 +1598,17 @@ function AthletePlateDiagram({ diagram }: { diagram: LessonDiagram; themeColor: 
                 type="button"
                 onClick={() => setIsFullscreen(!isFullscreen)}
                 className="px-3 py-1.5 rounded-xl bg-amber-100 hover:bg-amber-200 text-amber-950 font-bold text-xs transition-all flex items-center gap-1.5 font-sans border border-amber-300 shadow-2xs"
-                title={isFullscreen ? "Exit Fullscreen Game Mode" : "Expand to Fullscreen Game Mode"}
+                title={isFullscreen ? "Exit Fullscreen View" : "Expand to Fullscreen View"}
               >
                 {isFullscreen ? (
                   <>
                     <Minimize2 className="w-3.5 h-3.5 text-amber-900" />
-                    <span>Exit Game View</span>
+                    <span>Exit Fullscreen</span>
                   </>
                 ) : (
                   <>
                     <Maximize2 className="w-3.5 h-3.5 text-amber-900" />
-                    <span>🎮 Fullscreen Game</span>
+                    <span>Fullscreen View</span>
                   </>
                 )}
               </button>
@@ -1488,15 +1617,14 @@ function AthletePlateDiagram({ diagram }: { diagram: LessonDiagram; themeColor: 
         </div>
 
         {/* =========================================================================
-            MODE 1: NOURISHMENT BOWL BUILDER (DRAG & DROP / TAP-TO-ADD GAME)
+            MODE 1: NOURISHMENT BOWL BUILDER (DRAG & DROP / TAP-TO-ADD)
            ========================================================================= */}
         {viewMode === "bowl" && (
           <div className="space-y-4 sm:space-y-5">
             {/* Top Explainer with Clear Instruction Label */}
             <div className="rounded-2xl border-2 border-coral/30 bg-gradient-to-r from-coral/15 via-amber-50/70 to-teal-50/50 p-4 sm:p-5 shadow-xs space-y-2">
               <div className="flex items-center gap-2 flex-wrap">
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-coral text-white text-xs font-extrabold uppercase tracking-wider font-sans shadow-xs">
-                  <Sparkles className="w-3.5 h-3.5 text-white animate-spin-slow" />
+                <span className="inline-flex items-center px-3 py-1 rounded-full bg-coral text-white text-xs font-extrabold uppercase tracking-wider font-sans shadow-xs">
                   Instructions:
                 </span>
                 <h5 className="font-serif font-bold text-base sm:text-lg text-deep-teal m-0">
@@ -1511,49 +1639,53 @@ function AthletePlateDiagram({ diagram }: { diagram: LessonDiagram; themeColor: 
               </p>
             </div>
 
-            {/* Preset Bowls & Reset Bar */}
-            <div className="flex flex-wrap items-center justify-between gap-2 text-xs font-sans">
-              <div className="flex items-center gap-1.5 flex-wrap">
-                <span className="font-bold text-charcoal/70 text-[11px]">Quick Sample Bowls:</span>
+            {/* Presets & Prominent BIG Reset Bowl Button */}
+            <div className="flex flex-wrap items-center justify-between gap-3 p-3.5 rounded-2xl bg-slate-50 border border-slate-200">
+              <div className="flex items-center gap-2 flex-wrap">
+                <span className="font-bold text-charcoal/80 text-xs sm:text-sm font-sans">Sample Bowls:</span>
                 <button
                   type="button"
                   onClick={() => loadPreset("pregame")}
-                  className="px-3 py-1 rounded-xl bg-amber-100/90 hover:bg-amber-200 text-amber-900 border border-amber-300 text-xs font-bold transition-all shadow-2xs"
+                  className="px-3.5 py-1.5 rounded-xl bg-white hover:bg-amber-50 text-amber-950 border border-amber-300 text-xs font-bold transition-all shadow-xs"
                 >
-                  ⚡ Pre-Game Primer
+                  Pre-Game
                 </button>
                 <button
                   type="button"
                   onClick={() => loadPreset("postgame")}
-                  className="px-3 py-1 rounded-xl bg-emerald-100/90 hover:bg-emerald-200 text-emerald-900 border border-emerald-300 text-xs font-bold transition-all shadow-2xs"
+                  className="px-3.5 py-1.5 rounded-xl bg-white hover:bg-emerald-50 text-emerald-950 border border-emerald-300 text-xs font-bold transition-all shadow-xs"
                 >
-                  🏆 Post-Game Recovery
+                  Post-Game
                 </button>
                 <button
                   type="button"
                   onClick={() => loadPreset("cramp")}
-                  className="px-3 py-1 rounded-xl bg-rose-100/90 hover:bg-rose-200 text-rose-900 border border-rose-300 text-xs font-bold transition-all shadow-2xs"
+                  className="px-3.5 py-1.5 rounded-xl bg-white hover:bg-rose-50 text-rose-950 border border-rose-300 text-xs font-bold transition-all shadow-xs"
                 >
-                  🌸 Cramp &amp; Hormone Defense
+                  Recovery &amp; Hormones
                 </button>
               </div>
 
-              {bowlItems.length > 0 && (
-                <button
-                  type="button"
-                  onClick={() => {
-                    setBowlItems([]);
-                    setSelectedFoodId("");
-                  }}
-                  className="inline-flex items-center gap-1 px-3 py-1 rounded-xl text-rose-700 bg-rose-50 hover:bg-rose-100 border border-rose-200 text-xs font-bold transition-all shadow-2xs"
-                >
-                  <Trash2 className="w-3.5 h-3.5" />
-                  <span>Reset Bowl</span>
-                </button>
-              )}
+              {/* Prominent BIG Reset Bowl Button */}
+              <button
+                type="button"
+                onClick={() => {
+                  setBowlItems([]);
+                  setSelectedFoodId("");
+                }}
+                disabled={bowlItems.length === 0}
+                className={`px-5 py-2.5 rounded-xl font-bold text-sm sm:text-base transition-all flex items-center gap-2 font-sans shadow-sm ${
+                  bowlItems.length > 0
+                    ? "bg-rose-600 hover:bg-rose-700 text-white cursor-pointer hover:scale-105 active:scale-95 shadow-md ring-2 ring-rose-300"
+                    : "bg-slate-200 text-slate-400 border border-slate-300 cursor-not-allowed"
+                }`}
+              >
+                <RotateCcw className="w-5 h-5" />
+                <span>Reset Bowl</span>
+              </button>
             </div>
 
-            {/* The Bowl Drop Zone Canvas — Much Bigger, Interactive & Game-Style */}
+            {/* The Bowl Drop Zone Canvas */}
             <div
               onDragOver={(e) => {
                 e.preventDefault();
@@ -1572,6 +1704,22 @@ function AthletePlateDiagram({ diagram }: { diagram: LessonDiagram; themeColor: 
                   : "border-deep-teal/25 bg-gradient-to-b from-[#F5FAF8] via-white to-amber-50/40"
               }`}
             >
+              {/* Secondary Reset Button in Top-Right when foods are in the bowl */}
+              {bowlItems.length > 0 && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setBowlItems([]);
+                    setSelectedFoodId("");
+                  }}
+                  className="absolute top-4 right-4 z-20 px-4 py-2 rounded-xl font-bold text-xs sm:text-sm bg-white/95 hover:bg-rose-50 text-rose-700 border-2 border-rose-300 shadow-md flex items-center gap-1.5 transition-all hover:scale-105"
+                  title="Empty all foods from the bowl"
+                >
+                  <RotateCcw className="w-4 h-4" />
+                  <span>Reset Bowl</span>
+                </button>
+              )}
+
               {/* Ceramic Bowl Graphic Backdrop */}
               <div className="relative w-full max-w-xl sm:max-w-2xl flex flex-col items-center">
                 {/* Large Bowl Illustration SVG */}
@@ -1624,19 +1772,19 @@ function AthletePlateDiagram({ diagram }: { diagram: LessonDiagram; themeColor: 
                     </g>
                   </svg>
 
-                  {/* Ingredients Floating Inside the Bowl */}
+                  {/* Ingredients Inside the Bowl */}
                   <div className="absolute inset-0 pt-7 sm:pt-9 px-6 sm:px-10 pb-4 flex flex-wrap items-center justify-center gap-2 overflow-y-auto z-10 custom-scrollbar max-h-48 sm:max-h-60">
                     {bowlItems.length === 0 ? (
                       <div className="text-center space-y-2 py-3 animate-in fade-in duration-300">
-                        <div className="w-14 h-14 sm:w-16 sm:h-16 mx-auto rounded-full bg-gradient-to-br from-amber-100 to-orange-100 border-2 border-dashed border-coral flex items-center justify-center text-3xl sm:text-4xl shadow-inner animate-bounce">
-                          🥣
+                        <div className="w-12 h-12 mx-auto rounded-full bg-slate-100 border border-slate-300 flex items-center justify-center text-slate-500 shadow-inner">
+                          <RotateCcw className="w-5 h-5 text-deep-teal/60" />
                         </div>
                         <div className="space-y-0.5">
                           <h6 className="text-sm sm:text-base font-serif font-bold text-deep-teal m-0">
-                            Your Athlete Fuel Bowl is Empty!
+                            Bowl is Empty
                           </h6>
                           <p className="text-xs text-charcoal/70 font-sans max-w-xs sm:max-w-sm mx-auto m-0">
-                            Drag nutrient-dense foods here from the pantry below or tap <strong className="text-coral">+ Add</strong> to build your energy powerhouse.
+                            Select or drag foods below to add them to your bowl.
                           </p>
                         </div>
                       </div>
@@ -1657,20 +1805,17 @@ function AthletePlateDiagram({ diagram }: { diagram: LessonDiagram; themeColor: 
                                 : "bg-white text-charcoal hover:bg-slate-50 hover:scale-105 border-2 border-slate-300"
                             }`}
                           >
-                            <span className="text-2xl sm:text-3xl drop-shadow-xs">{food.emoji}</span>
-                            <div className="text-left">
-                              <span className="block leading-tight font-bold">{food.name}</span>
-                              <span className={`text-[10px] font-extrabold uppercase tracking-wider block ${isSelected ? "text-amber-300" : "text-charcoal/60"}`}>
-                                {food.categoryLabel.split(" ")[0]}
-                              </span>
+                            <div className="w-6 h-6 sm:w-7 sm:h-7 flex-shrink-0">
+                              <FoodIllustration foodId={food.id} />
                             </div>
+                            <span className="block leading-tight font-bold">{food.name}</span>
                             <span
                               onClick={(e) => {
                                 e.stopPropagation();
                                 removeFoodFromBowl(food.id);
                               }}
                               className="ml-1 w-5 h-5 rounded-full flex items-center justify-center bg-black/10 hover:bg-rose-500 hover:text-white transition-colors text-xs font-black"
-                              title="Remove from bowl"
+                              title="Remove"
                             >
                               ×
                             </span>
@@ -1684,10 +1829,10 @@ function AthletePlateDiagram({ diagram }: { diagram: LessonDiagram; themeColor: 
 
               <span className="text-xs font-semibold text-charcoal/70 mt-3 block font-sans">
                 {isDraggingOver
-                  ? "✨ Release to drop this food into your bowl!"
+                  ? "Drop food into your bowl"
                   : bowlItems.length === 0
-                  ? "👆 Choose from the 12 food items in the pantry below to start!"
-                  : `Active Ingredients: ${bowlItems.length} added · Tap any ingredient above or below to view its benefits`}
+                  ? "Bowl is empty. Choose foods from the pantry below."
+                  : `${bowlItems.length} foods added. Click any food to view benefits.`}
               </span>
             </div>
 
@@ -1695,7 +1840,7 @@ function AthletePlateDiagram({ diagram }: { diagram: LessonDiagram; themeColor: 
             <div className="rounded-2xl border border-deep-teal/15 bg-white p-3 sm:p-4 space-y-2 shadow-2xs">
               <div className="flex items-center justify-between gap-2">
                 <span className="text-xs font-bold uppercase tracking-wider text-deep-teal font-sans">
-                  4-Pillar Hormone &amp; Performance Balance Meter:
+                  4-Pillar Balance Meter:
                 </span>
                 <span
                   className={`text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full font-sans ${
@@ -1704,7 +1849,7 @@ function AthletePlateDiagram({ diagram }: { diagram: LessonDiagram; themeColor: 
                       : "bg-slate-100 text-charcoal/70"
                   }`}
                 >
-                  {isFullyBalanced ? "✓ Perfectly Balanced" : `${(carbsCount > 0 ? 1 : 0) + (proteinCount > 0 ? 1 : 0) + (fatsCount > 0 ? 1 : 0) + (colorsCount > 0 ? 1 : 0)} / 4 Pillars Added`}
+                  {isFullyBalanced ? "Fully Balanced" : `${(carbsCount > 0 ? 1 : 0) + (proteinCount > 0 ? 1 : 0) + (fatsCount > 0 ? 1 : 0) + (colorsCount > 0 ? 1 : 0)} / 4 Pillars Added`}
                 </span>
               </div>
 
@@ -1714,48 +1859,51 @@ function AthletePlateDiagram({ diagram }: { diagram: LessonDiagram; themeColor: 
                     carbsCount > 0 ? "bg-amber-50 border-amber-300 text-amber-950 font-bold" : "bg-slate-50 border-slate-200 text-charcoal/60"
                   }`}
                 >
-                  <span>🍠 Carbs ({carbsCount})</span>
-                  <span className="text-[10.5px]">{carbsCount > 0 ? "✓ Added" : "Missing"}</span>
+                  <span>Carbs ({carbsCount})</span>
+                  <span className="text-[10.5px]">{carbsCount > 0 ? "Added" : "Missing"}</span>
                 </div>
                 <div
                   className={`p-2 rounded-xl border flex items-center justify-between ${
                     proteinCount > 0 ? "bg-rose-50 border-rose-300 text-rose-950 font-bold" : "bg-slate-50 border-slate-200 text-charcoal/60"
                   }`}
                 >
-                  <span>🐟 Protein ({proteinCount})</span>
-                  <span className="text-[10.5px]">{proteinCount > 0 ? "✓ Added" : "Missing"}</span>
+                  <span>Protein ({proteinCount})</span>
+                  <span className="text-[10.5px]">{proteinCount > 0 ? "Added" : "Missing"}</span>
                 </div>
                 <div
                   className={`p-2 rounded-xl border flex items-center justify-between ${
                     fatsCount > 0 ? "bg-lime-50 border-lime-300 text-lime-950 font-bold" : "bg-slate-50 border-slate-200 text-charcoal/60"
                   }`}
                 >
-                  <span>🥑 Fats ({fatsCount})</span>
-                  <span className="text-[10.5px]">{fatsCount > 0 ? "✓ Added" : "Missing"}</span>
+                  <span>Healthy Fats ({fatsCount})</span>
+                  <span className="text-[10.5px]">{fatsCount > 0 ? "Added" : "Missing"}</span>
                 </div>
                 <div
                   className={`p-2 rounded-xl border flex items-center justify-between ${
                     colorsCount > 0 ? "bg-emerald-50 border-emerald-300 text-emerald-950 font-bold" : "bg-slate-50 border-slate-200 text-charcoal/60"
                   }`}
                 >
-                  <span>🫐 Colors ({colorsCount})</span>
-                  <span className="text-[10.5px]">{colorsCount > 0 ? "✓ Added" : "Missing"}</span>
+                  <span>Produce ({colorsCount})</span>
+                  <span className="text-[10.5px]">{colorsCount > 0 ? "Added" : "Missing"}</span>
                 </div>
               </div>
 
               {isFullyBalanced && (
-                <div className="rounded-xl bg-emerald-50 border border-emerald-200 p-2.5 text-xs text-emerald-950 font-sans leading-relaxed">
-                  🎉 <strong>Perfect Fueling Synergy Achieved!</strong> You have provided your body with all 4 vital pillars: muscle glycogen, cellular repair, sex steroid building blocks, and menstrual iron replenishment to safeguard your ovulatory cycles and prevent RED-S!
+                <div className="rounded-xl bg-emerald-50 border border-emerald-200 p-2.5 text-xs text-emerald-950 font-sans flex items-center gap-2">
+                  <Check className="w-4 h-4 text-emerald-600 shrink-0" />
+                  <span><strong>Balanced Fueling:</strong> Contains carbohydrates, protein, healthy fats, and produce.</span>
                 </div>
               )}
             </div>
 
-            {/* Selected Food Superpower & Female Body Benefits Card */}
+            {/* Selected Food Benefits Breakdown */}
             {selectedFood && (
               <div className="rounded-2xl border-2 border-coral/30 bg-gradient-to-br from-rose-50/50 via-white to-amber-50/30 p-4 sm:p-5 space-y-3 shadow-xs animate-in fade-in">
                 <div className="flex flex-wrap items-start justify-between gap-2 border-b border-coral/15 pb-2.5">
-                  <div className="flex items-center gap-2.5">
-                    <span className="text-3xl sm:text-4xl">{selectedFood.emoji}</span>
+                  <div className="flex items-center gap-3">
+                    <div className="w-12 h-12 rounded-2xl bg-amber-50 border border-amber-200 p-1.5 flex-shrink-0 shadow-xs">
+                      <FoodIllustration foodId={selectedFood.id} />
+                    </div>
                     <div>
                       <span className="block text-base sm:text-lg font-serif font-bold text-deep-teal">
                         {selectedFood.name}
@@ -1774,7 +1922,7 @@ function AthletePlateDiagram({ diagram }: { diagram: LessonDiagram; themeColor: 
                       <button
                         type="button"
                         onClick={() => removeFoodFromBowl(selectedFood.id)}
-                        className="text-xs font-bold text-rose-700 bg-rose-50 hover:bg-rose-100 border border-rose-200 px-2.5 py-1 rounded-full font-sans"
+                        className="text-xs font-bold text-rose-700 bg-rose-50 hover:bg-rose-100 border border-rose-200 px-3 py-1 rounded-full font-sans"
                       >
                         Remove from Bowl
                       </button>
@@ -1782,7 +1930,7 @@ function AthletePlateDiagram({ diagram }: { diagram: LessonDiagram; themeColor: 
                       <button
                         type="button"
                         onClick={() => addFoodToBowl(selectedFood.id)}
-                        className="text-xs font-bold text-white bg-coral hover:bg-coral/90 px-3 py-1 rounded-full shadow-2xs font-sans"
+                        className="text-xs font-bold text-white bg-coral hover:bg-coral/90 px-3.5 py-1 rounded-full shadow-2xs font-sans"
                       >
                         + Add to Bowl
                       </button>
@@ -1807,7 +1955,7 @@ function AthletePlateDiagram({ diagram }: { diagram: LessonDiagram; themeColor: 
                   <div className="rounded-xl border border-coral/30 bg-rose-50/70 p-3 space-y-1">
                     <span className="font-bold text-[#B83F68] flex items-center gap-1.5 text-xs uppercase tracking-wider">
                       <Heart className="w-3.5 h-3.5 text-[#B83F68]" />
-                      What It Does for Your Female Body:
+                      Female Body Benefit:
                     </span>
                     <p className="text-charcoal/85 leading-relaxed m-0 text-xs sm:text-sm">
                       {selectedFood.femaleBodyBenefit}
@@ -1825,23 +1973,22 @@ function AthletePlateDiagram({ diagram }: { diagram: LessonDiagram; themeColor: 
               </div>
             )}
 
-            {/* Interactive Pantry & Food Selection Shelf with BIG PICTURES */}
+            {/* Food Pantry Shelf */}
             <div className="space-y-3 pt-2">
               <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-200/80 pb-2">
                 <div>
-                  <span className="text-sm sm:text-base font-bold text-charcoal font-sans flex items-center gap-2">
-                    <span>🏪 Athletic Food Pantry</span>
-                    <span className="text-xs font-normal text-charcoal/60">(Drag items to bowl or tap &ldquo;+ Add&rdquo;)</span>
+                  <span className="text-sm sm:text-base font-bold text-charcoal font-sans">
+                    Food Pantry
                   </span>
                 </div>
                 {/* Category Filter Pills */}
                 <div className="flex items-center gap-1.5 text-xs font-sans overflow-x-auto pb-1">
                   {[
-                    { id: "all", label: "All Foods (12)" },
-                    { id: "carbs", label: "🍠 Carbs (3)" },
-                    { id: "protein", label: "🐟 Protein (3)" },
-                    { id: "fats", label: "🥑 Healthy Fats (3)" },
-                    { id: "colors", label: "🫐 Colors (3)" },
+                    { id: "all", label: "All (12)" },
+                    { id: "carbs", label: "Carbs (3)" },
+                    { id: "protein", label: "Protein (3)" },
+                    { id: "fats", label: "Healthy Fats (3)" },
+                    { id: "colors", label: "Produce (3)" },
                   ].map((f) => (
                     <button
                       key={f.id}
@@ -1859,7 +2006,7 @@ function AthletePlateDiagram({ diagram }: { diagram: LessonDiagram; themeColor: 
                 </div>
               </div>
 
-              {/* Pantry Grid of Foods: BIG GAME CARDS */}
+              {/* Pantry Grid of Foods: BIG GAME CARDS WITH VECTOR ILLUSTRATIONS */}
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 sm:gap-4">
                 {ATHLETE_BOWL_FOODS.filter((item) => pantryFilter === "all" || item.category === pantryFilter).map((food) => {
                   const inBowl = bowlItems.includes(food.id);
@@ -1884,19 +2031,16 @@ function AthletePlateDiagram({ diagram }: { diagram: LessonDiagram; themeColor: 
                           : "border-slate-200 bg-white hover:border-deep-teal/50 hover:bg-slate-50/80"
                       }`}
                     >
-                      {/* Top drag grip & category indicator */}
-                      <div className="w-full flex items-center justify-between text-[10px] font-bold text-charcoal/45 mb-1 font-sans">
-                        <span className="uppercase tracking-wider">👆 Drag</span>
-                        <span className={`px-1.5 py-0.5 rounded-full text-[9px] uppercase font-bold border ${food.badgeClass}`}>
+                      {/* Top category indicator */}
+                      <div className="w-full flex items-center justify-end text-[10px] font-bold text-charcoal/45 mb-1 font-sans">
+                        <span className={`px-2 py-0.5 rounded-full text-[9px] uppercase font-bold border ${food.badgeClass}`}>
                           {food.category}
                         </span>
                       </div>
 
-                      {/* BIG Picture of the Food */}
-                      <div className="w-20 h-20 sm:w-24 sm:h-24 my-1 rounded-3xl bg-gradient-to-br from-amber-50 via-white to-orange-100/70 border-2 border-amber-200/90 flex items-center justify-center shadow-inner group-hover:scale-115 group-hover:rotate-6 transition-all duration-300">
-                        <span className="text-4xl sm:text-5xl filter drop-shadow-md group-hover:drop-shadow-lg transition-all">
-                          {food.emoji}
-                        </span>
+                      {/* BIG Vector Food Illustration */}
+                      <div className="w-20 h-20 sm:w-24 sm:h-24 my-1 rounded-3xl bg-gradient-to-br from-amber-50/60 via-white to-orange-50/50 border-2 border-amber-200/80 p-3.5 flex items-center justify-center shadow-inner group-hover:scale-110 transition-all duration-300">
+                        <FoodIllustration foodId={food.id} />
                       </div>
 
                       {/* Food Name & Category */}
