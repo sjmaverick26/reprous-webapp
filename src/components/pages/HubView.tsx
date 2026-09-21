@@ -73,6 +73,7 @@ export function HubView({ initialCategory }: HubViewProps) {
   const [quizScore, setQuizScore] = useState<number>(0);
   const [activeQuizAnswer, setActiveQuizAnswer] = useState<number | null>(null);
   const [isQuizSubmitted, setIsQuizSubmitted] = useState<boolean>(false);
+  const [copiedScript, setCopiedScript] = useState<boolean>(false);
 
   // Sync if initialCategory prop changes from external nav
   React.useEffect(() => {
@@ -454,18 +455,27 @@ export function HubView({ initialCategory }: HubViewProps) {
                           onClick={() => setOpenPanelId(isOpen ? null : topic.id)}
                           className="flex flex-col items-center gap-2 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-deep-teal rounded-full p-2"
                         >
+                          {topic.isAdvocateCapstone && (
+                            <span className="text-[9.5px] font-bold tracking-wider uppercase px-2.5 py-0.5 rounded-full bg-gradient-to-r from-deep-teal via-coral to-raspberry text-white shadow-2xs">
+                              ✦ ADVOCATE CAPSTONE
+                            </span>
+                          )}
                           <div
                             className={`w-16 h-16 rounded-full flex items-center justify-center transition-all shadow-node group-hover:scale-105 ${
                               isDone
                                 ? "text-white shadow-node ring-2 ring-white"
+                                : topic.isAdvocateCapstone
+                                ? "text-white ring-4 ring-raspberry/50 shadow-lg scale-105"
                                 : `text-white ring-4 ${currentTheme.nodeRing}`
                             }`}
                             style={{
-                              backgroundColor: currentTheme.primaryHex,
+                              backgroundColor: topic.isAdvocateCapstone ? "#B83F68" : currentTheme.primaryHex,
                             }}
                           >
                             {isDone ? (
                               <CheckCircle className="w-7 h-7 text-white" />
+                            ) : topic.isAdvocateCapstone ? (
+                              <Shield className="w-7 h-7 text-white" />
                             ) : (
                               getTopicIcon(topic.type)
                             )}
@@ -475,7 +485,7 @@ export function HubView({ initialCategory }: HubViewProps) {
                               {topic.name}
                             </div>
                             <div className="text-[10.5px] font-bold uppercase tracking-wider text-charcoal/60 mt-0.5">
-                              {topic.type} • {topic.xp} XP
+                              {topic.isAdvocateCapstone ? "Advocacy Capstone" : `${topic.type} • ${topic.xp} XP`}
                             </div>
                           </div>
                         </button>
@@ -483,9 +493,15 @@ export function HubView({ initialCategory }: HubViewProps) {
 
                       {/* Popover Panel */}
                       {isOpen && (
-                        <div className={`w-full max-w-sm my-3 rounded-2xl bg-white p-5 shadow-xl border ${currentTheme.popoverBorder} animate-in fade-in zoom-in-95 duration-150`}>
+                        <div className={`w-full max-w-sm my-3 rounded-2xl bg-white p-5 shadow-xl border-2 ${topic.isAdvocateCapstone ? "border-raspberry/40" : currentTheme.popoverBorder} animate-in fade-in zoom-in-95 duration-150`}>
+                          {topic.isAdvocateCapstone && (
+                            <div className="mb-2.5 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10.5px] font-bold tracking-wider uppercase bg-gradient-to-r from-light-teal via-[#FFE1DB] to-soft-pink text-deep-teal border border-raspberry/20">
+                              <Shield className="w-3.5 h-3.5 text-raspberry" />
+                              <span>Learn · Recognize · Advocate Capstone</span>
+                            </div>
+                          )}
                           <div className="flex items-center justify-between mb-2">
-                            <span className={`text-[11px] font-bold uppercase tracking-wider ${currentTheme.textPrimary}`}>
+                            <span className={`text-[11px] font-bold uppercase tracking-wider ${topic.isAdvocateCapstone ? "text-raspberry" : currentTheme.textPrimary}`}>
                               {topic.type}
                             </span>
                             <span className="text-xs font-bold text-charcoal/70">
@@ -501,7 +517,7 @@ export function HubView({ initialCategory }: HubViewProps) {
                           <div className="flex items-center gap-3">
                             <Button
                               onClick={() => openTopic(topic)}
-                              className={`w-full text-xs h-10 ${currentTheme.buttonClass}`}
+                              className={`w-full text-xs h-10 ${topic.isAdvocateCapstone ? "bg-raspberry text-white hover:bg-raspberry/90" : currentTheme.buttonClass}`}
                             >
                               {isDone ? "Review Again" : topic.type === "game" ? "Play Game" : "Start Lesson"}
                             </Button>
@@ -831,6 +847,78 @@ export function HubView({ initialCategory }: HubViewProps) {
                           })}
                         </div>
                       </div>
+
+                      {/* Self-Advocacy Action Blueprint (Learn · Recognize · Advocate Capstone) */}
+                      {selectedTopic.advocacyScript && (
+                        <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-br from-[#FFE1DB]/70 via-soft-pink/40 to-light-teal/50 border-2 border-raspberry/30 shadow-xs space-y-3.5">
+                          <div className="flex items-center justify-between flex-wrap gap-2">
+                            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold tracking-wider uppercase bg-raspberry text-white shadow-2xs">
+                              <Shield className="w-3.5 h-3.5" />
+                              Self-Advocacy Action Blueprint · How to Speak Up
+                            </span>
+                            <span className="text-[11px] font-bold text-deep-teal bg-white/90 px-2.5 py-0.5 rounded-full border border-deep-teal/20">
+                              Real-Life Appointment Script
+                            </span>
+                          </div>
+
+                          {/* The Real-World Scenario */}
+                          <div className="p-3 rounded-xl bg-white/90 border border-coral/30 text-xs sm:text-sm">
+                            <strong className="text-coral font-bold block mb-1 uppercase tracking-wider text-[10.5px]">
+                              When this happens:
+                            </strong>
+                            <p className="text-charcoal/90 italic m-0 font-sans">
+                              {selectedTopic.advocacyScript.situation}
+                            </p>
+                          </div>
+
+                          {/* The Script Speech Bubble */}
+                          <div className="p-4 rounded-xl bg-white border-2 border-raspberry/40 shadow-xs relative">
+                            <div className="flex items-center justify-between mb-1.5">
+                              <span className="text-[11px] font-bold uppercase tracking-wider text-raspberry flex items-center gap-1.5">
+                                <Sparkles className="w-3.5 h-3.5 text-raspberry" />
+                                Exactly what to say:
+                              </span>
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  if (selectedTopic?.advocacyScript?.doctorScript) {
+                                    navigator.clipboard.writeText(selectedTopic.advocacyScript.doctorScript);
+                                    setCopiedScript(true);
+                                    setTimeout(() => setCopiedScript(false), 2000);
+                                  }
+                                }}
+                                className="inline-flex items-center gap-1 text-[11px] font-bold text-deep-teal hover:text-raspberry transition-colors bg-slate-50 px-2 py-0.5 rounded border border-slate-200 cursor-pointer"
+                              >
+                                {copiedScript ? "Copied! ✓" : "Copy Script 📋"}
+                              </button>
+                            </div>
+                            <p className="text-sm sm:text-[15px] font-medium text-deep-teal leading-relaxed m-0 font-serif">
+                              {selectedTopic.advocacyScript.doctorScript}
+                            </p>
+                          </div>
+
+                          {/* Why It Works & What If Dismissed */}
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                            <div className="p-3 rounded-xl bg-light-teal/60 border border-deep-teal/20">
+                              <strong className="text-deep-teal font-bold block mb-1">
+                                💡 Why this works:
+                              </strong>
+                              <p className="text-charcoal/85 leading-relaxed m-0">
+                                {selectedTopic.advocacyScript.whyItWorks}
+                              </p>
+                            </div>
+
+                            <div className="p-3 rounded-xl bg-amber-50/80 border border-amber-200">
+                              <strong className="text-amber-950 font-bold block mb-1">
+                                🛡️ If you are dismissed:
+                              </strong>
+                              <p className="text-charcoal/85 leading-relaxed m-0">
+                                {selectedTopic.advocacyScript.whatIfDismissed}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      )}
 
                       {/* Little Health Dictionary for quick lookups */}
                       <div className="pt-2">

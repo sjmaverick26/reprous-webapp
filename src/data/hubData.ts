@@ -43,6 +43,13 @@ export interface VisualCard {
   highlight?: string;
 }
 
+export interface AdvocacyScript {
+  situation: string;
+  doctorScript: string;
+  whyItWorks: string;
+  whatIfDismissed: string;
+}
+
 export interface HubTopic {
   id: string;
   name: string;
@@ -58,6 +65,8 @@ export interface HubTopic {
   sorterGame?: LessonSorterGame;
   quiz?: QuizQuestion[];
   gameType?: "match" | "sort" | "scenarios";
+  isAdvocateCapstone?: boolean;
+  advocacyScript?: AdvocacyScript;
 }
 
 export interface HubCategory {
@@ -288,6 +297,48 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
           title: "Interactive Female Reproductive Anatomy Guide",
           caption: "Tap on the uterus, ovaries, fallopian tubes, cervix, and lining to explore what each organ does in plain English."
         }
+      },
+      {
+        id: "body-5",
+        name: "Advocate: Speaking Up for Your Body",
+        type: "lesson",
+        isAdvocateCapstone: true,
+        desc: "Learn your anatomy, recognize changes or pain, and advocate confidently without embarrassment.",
+        xp: 50,
+        readTime: "4 min read",
+        summary: "Your body belongs to you. Using correct anatomical words removes awkwardness and gives you the exact terms needed to describe changes, lumps, skin flares, or pain to doctors and trusted adults without shame.",
+        keyTakeaways: [
+          "Learn: Biological development is unique to each person; asking questions about bodily changes is healthy, normal self-care.",
+          "Recognize: Red flags include unexplained lumps, severe itching, persistent pelvic discomfort, or sudden asymmetrical swelling.",
+          "Advocate: You have the right to request a female clinician, bring a trusted parent or friend, or ask the doctor to pause the exam at any moment.",
+          "If a clinician minimizes your concern as 'just growing pains,' firmly request: 'I know my body and this symptom is new. What else could explain this?'"
+        ],
+        visualCards: [
+          {
+            title: "1. LEARN",
+            iconName: "Sparkles",
+            text: "Accurate anatomical names (vulva, uterus, lymph nodes) remove shame and turn awkward questions into clear medical facts.",
+            highlight: "Knowledge removes shame"
+          },
+          {
+            title: "2. RECOGNIZE",
+            iconName: "AlertTriangle",
+            text: "Spotting when a change isn't 'just puberty'—like painful lumps, burning sensations, or sudden asymmetry that lasts more than 2 weeks.",
+            highlight: "Spot red flags"
+          },
+          {
+            title: "3. ADVOCATE",
+            iconName: "Shield",
+            text: "You are the leading expert on what you feel inside your own body. You have the right to gentle explanations and a chaperone at any visit.",
+            highlight: "You have patient rights"
+          }
+        ],
+        advocacyScript: {
+          situation: "You noticed a painful change or lump, but you feel nervous or embarrassed to bring it up to a doctor or adult.",
+          doctorScript: "“I have noticed a persistent change in my body that is causing me discomfort. I want to explain what I am feeling using the correct terms so we can evaluate it together.”",
+          whyItWorks: "Frames the issue objectively as physical data, which helps doctors immediately focus on clinical assessment rather than dismissing it as awkwardness.",
+          whatIfDismissed: "“If you believe this requires no further testing, can you explain which physical findings rule out other causes, and what signs mean I should come back?”"
+        }
       }
     ]
   },
@@ -476,6 +527,48 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
           "Choose products based on your comfort, flow, and activity level.",
           "Wash external genitalia with warm water; avoid internal douching or scented products that disrupt vaginal flora."
         ]
+      },
+      {
+        id: "cycle-5",
+        name: "Advocate: Speaking Up on Period Pain & Irregularity",
+        type: "lesson",
+        isAdvocateCapstone: true,
+        desc: "Learn cycle norms, recognize red-flag symptoms, and advocate to doctors when bleeding or pain disrupts your life.",
+        xp: 50,
+        readTime: "4 min read",
+        summary: "Your menstrual cycle is recognized by physicians as your 5th vital sign. Period pain that leaves you curled in bed, missing classes, or throwing up is never 'just part of being a woman.' Concrete data and clear scripts ensure you are taken seriously.",
+        keyTakeaways: [
+          "Learn: A normal period shouldn't prevent you from attending school, work, or sports.",
+          "Recognize: Red flags include soaking a pad/tampon every hour for 2+ hours, passing clots larger than a quarter, or missing 3+ periods in a row.",
+          "Advocate: Bring a 2-to-3 month symptom log showing exact dates, pain levels (1-10), and days of school or activities missed.",
+          "If told 'it's just bad cramps, take Midol,' use the magic chart line: 'Please note in my chart that I am losing school days to debilitating pain and you are declining an ultrasound.'"
+        ],
+        visualCards: [
+          {
+            title: "1. LEARN",
+            iconName: "Calendar",
+            text: "Your period is a vital sign like your pulse. Healthy periods have mild discomfort that easily eases with a heat pad or light snack.",
+            highlight: "The 5th Vital Sign"
+          },
+          {
+            title: "2. RECOGNIZE",
+            iconName: "AlertTriangle",
+            text: "Debilitating pain that resists standard pain relievers or bleeding through clothes are biological alarms, not normal teenage milestones.",
+            highlight: "Pain is a signal"
+          },
+          {
+            title: "3. ADVOCATE",
+            iconName: "Shield",
+            text: "Concrete data stops medical dismissal. Showing a written symptom log with missed school days forces clinicians to take your pain seriously.",
+            highlight: "Bring written logs"
+          }
+        ],
+        advocacyScript: {
+          situation: "Doctor tells you: 'Cramps are normal for young girls, just take some ibuprofen and rest.'",
+          doctorScript: "“My pain reaches an 8 out of 10 and causes me to miss school every month despite taking ibuprofen. Because this interferes with my daily life, I would like to order a pelvic ultrasound to investigate secondary causes like endometriosis.”",
+          whyItWorks: "Physicians are trained to intervene when symptoms cause functional impairment (missed school/work). Quantifying pain and functional loss requires a clinical response.",
+          whatIfDismissed: "“If you are not comfortable evaluating my cycle further today, please refer me to an adolescent gynecologist who specializes in pelvic pain, and record your refusal in my chart.”"
+        }
       }
     ]
   },
@@ -525,6 +618,48 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
           "Most ovarian cysts are fluid-filled sacs that form naturally during normal ovulation.",
           "Sudden sharp pelvic pain requires immediate medical assessment to rule out ovarian torsion."
         ]
+      },
+      {
+        id: "conditions-3",
+        name: "Advocate: Confidential Care & Patient Rights",
+        type: "lesson",
+        isAdvocateCapstone: true,
+        desc: "Learn your healthcare privacy rights, recognize clinical boundary crossings, and advocate for confidential, respectful care.",
+        xp: 50,
+        readTime: "4 min read",
+        summary: "Every patient deserves dignity, comprehensive information, and confidential healthcare. Knowing your rights under Title X and minor consent laws empowers you to access reproductive care without fear, judgment, or unwanted disclosures.",
+        keyTakeaways: [
+          "Learn: In almost all jurisdictions, Title X-funded clinics provide confidential contraception, STI testing, and counseling without parental notification.",
+          "Recognize: Red flags include a clinician lecturing or judging you, refusing to explain why an exam is performed, or threatening to disclose private conversations.",
+          "Advocate: State your privacy expectations upfront: 'I am here under confidential care guidelines. Please explain every step before proceeding.'",
+          "You have the absolute right to request a chaperone in the room, ask for another provider, or stop any examination immediately."
+        ],
+        visualCards: [
+          {
+            title: "1. LEARN",
+            iconName: "BookOpen",
+            text: "Title X clinics and community health centers exist to protect confidential healthcare access regardless of age, income, or health insurance.",
+            highlight: "Title X protections"
+          },
+          {
+            title: "2. RECOGNIZE",
+            iconName: "AlertTriangle",
+            text: "Any clinician who lectures, shames, or rushes through an invasive physical exam without your explicit verbal consent is violating medical ethics.",
+            highlight: "Spot boundary crossing"
+          },
+          {
+            title: "3. ADVOCATE",
+            iconName: "Shield",
+            text: "You always have the legal right to say: 'Pause. Please explain what this exam entails and why it is clinically necessary before we continue.'",
+            highlight: "Enforce boundaries"
+          }
+        ],
+        advocacyScript: {
+          situation: "You are visiting a clinic for birth control or pregnancy counseling and want to ensure complete confidentiality.",
+          doctorScript: "“Before we begin, I want to confirm that all services, lab results, and billing today are handled strictly under confidential Title X adolescent care protocols.”",
+          whyItWorks: "Citing specific legal protections (Title X) immediately alerts clinic staff to activate their confidential billing suppressions and private contact flags.",
+          whatIfDismissed: "“If your clinic policy does not provide confidential billing or care for minor reproductive services, please direct me to the nearest Title X federally qualified health center.”"
+        }
       }
     ]
   },
@@ -678,6 +813,48 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
           "Ovulation predictor kits may show false positives due to elevated LH baselines.",
           "Tracking cervical fluid and temperature provides more reliable confirmation of ovulation."
         ]
+      },
+      {
+        id: "pcos-4",
+        name: "Advocate: Getting Taken Seriously for PCOS",
+        type: "lesson",
+        isAdvocateCapstone: true,
+        desc: "Learn the Rotterdam criteria, recognize dismissal tactics, and advocate for comprehensive hormone panels and ultrasound.",
+        xp: 50,
+        readTime: "4 min read",
+        summary: "PCOS is one of the most underdiagnosed endocrine conditions, frequently dismissed with lazy advice like 'just lose weight and take the pill.' You have the right to thorough diagnostic bloodwork and whole-body metabolic care.",
+        keyTakeaways: [
+          "Learn: Under the Rotterdam Criteria, diagnosis requires at least 2 of 3: irregular ovulation, elevated androgens (testosterone), or polycystic ovaries on ultrasound.",
+          "Recognize: Red flags include doctors prescribing birth control without running hormone panels first, or blaming missed periods solely on body weight.",
+          "Advocate: Request a morning fasted blood panel (total/free testosterone, DHEA-S, fasting insulin, HbA1c, thyroid panel) and a pelvic ultrasound.",
+          "If a clinician refuses bloodwork, say: 'Please document in my medical record that I requested diagnostic hormone testing for suspected PCOS and that you declined.'"
+        ],
+        visualCards: [
+          {
+            title: "1. LEARN",
+            iconName: "Sparkles",
+            text: "The Rotterdam Criteria are the international medical standard. You only need 2 of 3 criteria—you don't even need ovarian cysts to have PCOS!",
+            highlight: "Rotterdam Standards"
+          },
+          {
+            title: "2. RECOGNIZE",
+            iconName: "AlertTriangle",
+            text: "Medical gaslighting occurs when a provider tells you to 'just lose weight' without testing your fasting insulin or hormone levels.",
+            highlight: "Reject weight blame"
+          },
+          {
+            title: "3. ADVOCATE",
+            iconName: "Shield",
+            text: "Birth control masks PCOS symptoms without diagnosing the underlying insulin or androgen imbalance. Demand baseline testing first.",
+            highlight: "Request bloodwork"
+          }
+        ],
+        advocacyScript: {
+          situation: "Doctor says: 'Your periods are irregular because you need to lose weight. Just take this birth control pill.'",
+          doctorScript: "“I want to identify the biological root cause of my irregular cycles before starting hormonal suppression. I am requesting a morning lab panel for total and free testosterone, DHEA-S, and fasting insulin, plus a pelvic ultrasound under Rotterdam diagnostic guidelines.”",
+          whyItWorks: "Citing the 'Rotterdam diagnostic guidelines' demonstrates medical literacy and shifts the conversation from subjective weight bias to evidence-based clinical protocols.",
+          whatIfDismissed: "“If you decline to order these diagnostic labs today, please enter your clinical reasoning and refusal into my chart so I have it for my records, and provide me with a referral to a reproductive endocrinologist.”"
+        }
       }
     ]
   },
@@ -827,16 +1004,45 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
       },
       {
         id: "endo-3",
-        name: "Speaking Up to Clinicians",
+        name: "Advocate: Overcoming the Endometriosis Delay",
         type: "lesson",
-        desc: "Scripted questions and symptom logs to prevent medical gaslighting.",
+        isAdvocateCapstone: true,
+        desc: "Learn the diagnostic pathway, recognize dismissive 'just cramps' gaslighting, and advocate for an excision specialist.",
         xp: 50,
         readTime: "4 min read",
-        summary: "Concrete tools to advocate for yourself in the exam room: keeping a symptom journal, asking for second opinions, and bringing an advocate.",
+        summary: "The average person with endometriosis waits 7 to 10 years and sees 8 doctors before receiving a diagnosis. Armed with clinical facts, a structured symptom log, and assertive scripts, you can cut through the dismissal and get effective care.",
         keyTakeaways: [
-          "Record frequency, severity (1-10), and interference with daily activities in writing.",
-          "You have the right to request a referral to an endometriosis specialist or pelvic pain clinician."
-        ]
+          "Learn: Endometriosis is a systemic inflammatory disease where tissue similar to the uterine lining grows outside the uterus on pelvic organs.",
+          "Recognize: Warning signs include pain with bowel movements or urination during periods, pain radiating down thighs, and pain unresponsive to NSAIDs.",
+          "Advocate: Emphasize functional impairment: 'My pain causes me to miss classes and affects my mobility. I need a referral to a minimally invasive gynecologic surgeon (MIGS).'",
+          "Always remember: Normal pelvic ultrasounds DO NOT rule out endometriosis; superficial peritoneal lesions are invisible on standard ultrasound."
+        ],
+        visualCards: [
+          {
+            title: "1. LEARN",
+            iconName: "Heart",
+            text: "Endometriosis affects 1 in 10 individuals. Superficial lesions frequently do NOT show up on standard ultrasound—a clear ultrasound does not mean you're fine!",
+            highlight: "Ultrasound limits"
+          },
+          {
+            title: "2. RECOGNIZE",
+            iconName: "AlertTriangle",
+            text: "Dismissal sounds like: 'Every woman deals with pain, you just have a low pain tolerance.' Pain that interferes with life is NEVER normal.",
+            highlight: "Reject gaslighting"
+          },
+          {
+            title: "3. ADVOCATE",
+            iconName: "Shield",
+            text: "Request a referral to a Minimally Invasive Gynecologic Surgeon (MIGS) who performs laparoscopic excision rather than temporary burning (ablation).",
+            highlight: "Demand excision"
+          }
+        ],
+        advocacyScript: {
+          situation: "Doctor says: 'Your pelvic ultrasound came back completely clear, so there is nothing wrong with you. You just have painful periods.'",
+          doctorScript: "“According to ACOG guidelines, a normal pelvic ultrasound cannot rule out peritoneal endometriosis. Because my pain remains severe and debilitating, I am requesting a referral to an endometriosis specialist or MIGS surgeon for advanced diagnostic evaluation.”",
+          whyItWorks: "Holding up the official clinical guideline (that ultrasound cannot rule out endometriosis) leaves no room for a provider to dismiss the case based on an imaging report alone.",
+          whatIfDismissed: "“Please document in my chart that my symptoms include chronic pelvic pain and functional disruption, that ultrasound was normal, and that you are declining a specialist referral.”"
+        }
       }
     ]
   },
@@ -925,6 +1131,48 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
           "Using water- or silicone-based lube prevents condom breakage.",
           "Get tested annually or between new sexual partners."
         ]
+      },
+      {
+        id: "realtalk-6",
+        name: "Advocate: Talking Testing & Boundaries",
+        type: "lesson",
+        isAdvocateCapstone: true,
+        desc: "Learn sexual health communication, recognize manipulation, and advocate for mutual STI testing and firm boundaries.",
+        xp: 50,
+        readTime: "4 min read",
+        summary: "Advocating for your sexual health isn't awkward—it is the highest form of self-respect and mutual care. Asking for barrier protection and mutual STI screening before intimacy protects both your physical health and your peace of mind.",
+        keyTakeaways: [
+          "Learn: Most STIs have zero symptoms in early stages; testing is the only accurate way to know status for sure.",
+          "Recognize: Manipulation sounds like 'If you really loved me you wouldn't ask for a test' or 'Condoms ruin the mood.' These are boundary violations.",
+          "Advocate: Make safer sex non-negotiable: 'I care about both of our bodies. Getting tested together and using condoms is my standard for intimacy.'",
+          "You have the absolute legal and personal right to change your mind and withdraw consent at any point, without guilt or explanation."
+        ],
+        visualCards: [
+          {
+            title: "1. LEARN",
+            iconName: "Heart",
+            text: "Over 70% of people with chlamydia or HPV have zero visible symptoms. Asking for a test is an act of shared care, never an accusation.",
+            highlight: "Testing = Care"
+          },
+          {
+            title: "2. RECOGNIZE",
+            iconName: "AlertTriangle",
+            text: "Red flags include pressure to abandon protection, stealthing (removing a condom without consent), or making you feel guilty for setting limits.",
+            highlight: "Spot manipulation"
+          },
+          {
+            title: "3. ADVOCATE",
+            iconName: "Shield",
+            text: "Clear, proactive communication: 'Here is what I need to feel comfortable and safe.' Anyone who respects you will enthusiastically agree.",
+            highlight: "Set firm limits"
+          }
+        ],
+        advocacyScript: {
+          situation: "A partner pushes back against wearing a condom or getting tested, claiming: 'I'm clean, don't you trust me?'",
+          doctorScript: "“This isn't about trust—it's about basic healthcare. Many STIs have zero symptoms. Getting tested together and using condoms is how I protect my health, and it's non-negotiable for me.”",
+          whyItWorks: "Decouples testing from emotional trust and frames it firmly as standard personal healthcare hygiene, removing space for guilt trips.",
+          whatIfDismissed: "“If you aren't comfortable prioritizing both of our health with testing and condoms, then we aren't compatible for intimacy.”"
+        }
       }
     ]
   },
@@ -999,6 +1247,48 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
           "Mutual respect, open communication, privacy boundaries, and independence are non-negotiable.",
           "Trust your intuition if someone makes you feel diminished or unsafe."
         ]
+      },
+      {
+        id: "mind-5",
+        name: "Advocate: Speaking Up for Mental Wellness",
+        type: "lesson",
+        isAdvocateCapstone: true,
+        desc: "Learn the hormone-mood connection, recognize PMDD and burnout, and advocate for mental health care without stigma.",
+        xp: 50,
+        readTime: "4 min read",
+        summary: "Hormonal shifts and mental health are profoundly linked. Severe premenstrual depression, chronic anxiety, or emotional burnout are real physiological responses in the brain, not personal weakness or 'being dramatic.'",
+        keyTakeaways: [
+          "Learn: Premenstrual Dysphoric Disorder (PMDD) is a severe neurobiological reaction to natural progesterone and allopregnanolone shifts in the luteal phase.",
+          "Recognize: Warning signs include severe mood plunges, rage, panic attacks, or feelings of hopelessness that vanish within 24-48 hours of your period starting.",
+          "Advocate: Track your symptoms across 2 consecutive cycles using a daily calendar to demonstrate the strict cyclical timing to a clinician or therapist.",
+          "If a doctor dismisses your feelings as 'teen moodiness,' advocate: 'My symptoms strictly follow the luteal phase and interfere with my functioning. I want to be evaluated for PMDD.'"
+        ],
+        visualCards: [
+          {
+            title: "1. LEARN",
+            iconName: "Sparkles",
+            text: "PMDD is an official DSM-5 medical condition involving brain receptor sensitivity to hormone shifts, not an emotional flaw.",
+            highlight: "Biological, not dramatic"
+          },
+          {
+            title: "2. RECOGNIZE",
+            iconName: "AlertTriangle",
+            text: "Spotting the 'Jekyll and Hyde' cycle: feeling vibrant during the follicular phase, followed by sudden, overwhelming despair during the luteal phase.",
+            highlight: "Cyclical despair"
+          },
+          {
+            title: "3. ADVOCATE",
+            iconName: "Shield",
+            text: "Bringing a daily 2-month mood log provides indisputable proof of cyclical timing, securing access to targeted SSRIs or hormonal stabilization.",
+            highlight: "Bring written logs"
+          }
+        ],
+        advocacyScript: {
+          situation: "Doctor or parent dismisses severe premenstrual depression with: 'You're just an emotional teenager, everyone gets moody.'",
+          doctorScript: "“I have tracked my symptoms for two full cycles. For exactly 7 days before my period, I experience disabling mood drops and severe anxiety that disappear as soon as bleeding begins. This cyclical pattern indicates PMDD, and I want an evaluation for targeted treatment.”",
+          whyItWorks: "Presenting a two-cycle prospective tracking log directly fulfills the American Psychiatric Association diagnostic criteria for PMDD.",
+          whatIfDismissed: "“If you are unfamiliar with adolescent PMDD management, please refer me to a reproductive psychiatrist or an adolescent medicine specialist who treats endocrine-mood disorders.”"
+        }
       }
     ]
   },
@@ -1255,6 +1545,48 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
           "Luteal Phase (Days 15–28): Higher progesterone slightly elevates basal body temperature, making pre-cooling, electrolytes, and steady-state endurance especially effective.",
           "Peak bone mass is built predominantly before age 25; maintaining regular menstrual cycles with adequate estrogen is the single most important factor in lifelong skeletal strength."
         ]
+      },
+      {
+        id: "play-7",
+        name: "Advocate: Speaking Up to Coaches & Clinicians",
+        type: "lesson",
+        isAdvocateCapstone: true,
+        desc: "Learn athlete rights, recognize unhealthy coaching pressures, and advocate for proper fueling, rest, and period recovery.",
+        xp: 50,
+        readTime: "4 min read",
+        summary: "Athletes are humans first and competitors second. When coaches pressure you to cut weight, praise skipped meals, or normalize missing periods, speaking up protects your lifelong bone density and hormonal health.",
+        keyTakeaways: [
+          "Learn: Missing periods (amenorrhea) and bone stress fractures are clinical signs of low energy availability (RED-S), not signs of athletic dedication.",
+          "Recognize: Toxic coaching behaviors include public weigh-ins, body shaming, dismissing recurring injuries, and telling athletes that periods slow them down.",
+          "Advocate: Involve sports medicine clinicians and registered dietitians to mandate training load adjustments and protect your recovery.",
+          "Speak with authority: 'My sports medicine physician has informed me that missing my period compromises my bone density and increases my fracture risk. I am modifying my training volume.'"
+        ],
+        visualCards: [
+          {
+            title: "1. LEARN",
+            iconName: "Zap",
+            text: "The International Olympic Committee (IOC) recognizes RED-S as a serious medical condition that causes irreversible early bone loss if ignored.",
+            highlight: "IOC Medical Consensus"
+          },
+          {
+            title: "2. RECOGNIZE",
+            iconName: "AlertTriangle",
+            text: "Coaches who demand weight cuts, mandate weigh-ins, or celebrate missing periods are violating modern sports safety guidelines.",
+            highlight: "Reject weigh-in culture"
+          },
+          {
+            title: "3. ADVOCATE",
+            iconName: "Shield",
+            text: "Your body is your lifelong home. Speaking up to modify training or demand proper fueling breaks the cycle of injury and burnout.",
+            highlight: "Protect your bones"
+          }
+        ],
+        advocacyScript: {
+          situation: "A coach demands that you drop weight to 'run faster' or tells you that missing your period is a normal part of training.",
+          doctorScript: "“My physician explained that losing my period is a clinical distress signal of Relative Energy Deficiency in Sport (RED-S), which degrades bone density and leads to stress fractures. I am working with a sports dietitian to fuel adequately, and I need my training load adjusted to protect my long-term health.”",
+          whyItWorks: "Invoking clinical authority (sports physician and RED-S guidelines) removes the conversation from personal opinion and frames training adjustments as a medical necessity.",
+          whatIfDismissed: "“If my health concerns are disregarded, I will request that my sports physician provide a formal medical restriction note for the athletic director and team trainer.”"
+        }
       }
     ]
   },
@@ -1315,6 +1647,48 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
         keyTakeaways: [
           "Knowing your local healthcare rights and trusted community centers creates resilient support networks."
         ]
+      },
+      {
+        id: "factors-4",
+        name: "Advocate: Community & Policy Action",
+        type: "lesson",
+        isAdvocateCapstone: true,
+        desc: "Learn systemic barriers, recognize inequities, and advocate for menstrual equity, free products, and health justice.",
+        xp: 50,
+        readTime: "4 min read",
+        summary: "Health literacy is the first step; collective advocacy changes the world. Whether it's lobbying school boards for free period products in restrooms or demanding translation access at clinics, you have the power to create lasting policy change.",
+        keyTakeaways: [
+          "Learn: Over 84% of students have missed class time due to lack of menstrual products; period supplies are basic hygiene necessities like toilet paper.",
+          "Recognize: Systemic obstacles include the sales tax on menstrual items (tampon tax), transit deserts, and lack of certified medical interpreters.",
+          "Advocate: Organize campus petitions, testify at school board meetings, and partner with national campaigns (like PERIOD. and ReproUs) to pass local equity policies.",
+          "Use civic tools: 'We are requesting the school district allocate funding under the Menstrual Equity in Schools Act to supply free period dispensers in every student restroom.'"
+        ],
+        visualCards: [
+          {
+            title: "1. LEARN",
+            iconName: "Globe",
+            text: "Period products are not luxuries. Just like hand soap and toilet paper are provided freely in public restrooms, menstrual supplies are an essential human need.",
+            highlight: "Period Equity = Hygiene"
+          },
+          {
+            title: "2. RECOGNIZE",
+            iconName: "AlertTriangle",
+            text: "Inequity happens when low-income youth are forced to use makeshift supplies, miss school days, or risk infection because products are priced out of reach.",
+            highlight: "End Period Poverty"
+          },
+          {
+            title: "3. ADVOCATE",
+            iconName: "Users",
+            text: "Grassroots youth advocacy has already changed laws in over 25 states. Partner with student councils and state reps to pass menstrual equity bills.",
+            highlight: "Youth civic power"
+          }
+        ],
+        advocacyScript: {
+          situation: "Your school or university does not provide free menstrual products in restrooms, forcing students to leave campus or miss classes.",
+          doctorScript: "“Under the Menstrual Equity for All initiative, access to period products is an educational equity issue. A survey of our students shows that over 80% have experienced an emergency without supplies. We are proposing the school board allocate a budget line to install and stock free dispensers in all student restrooms.”",
+          whyItWorks: "Frames menstrual supplies as an attendance and educational parity issue rather than an optional perk, aligning with state educational equity standards.",
+          whatIfDismissed: "“We will gather student petition signatures and present our proposal along with data from the national Menstrual Movement at the next public school board meeting.”"
+        }
       }
     ]
   }
