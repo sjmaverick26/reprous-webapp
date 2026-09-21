@@ -346,10 +346,10 @@ export function RoleplayInteractiveStage({
                   {chosenOpt !== null && (
                     <span
                       className={`text-[10px] font-bold uppercase px-2 py-0.5 rounded-full ${
-                        isBest ? "bg-emerald-600 text-white" : "bg-amber-200 text-amber-900"
+                        isBest ? "bg-emerald-600 text-white" : "bg-amber-600 text-white"
                       }`}
                     >
-                      {isBest ? "✦ Evidence Cited" : "⚠️ Passive Response"}
+                      {isBest ? "✅ Correct Response" : "❌ Suboptimal Response"}
                     </span>
                   )}
                 </div>
@@ -489,13 +489,13 @@ export function RoleplayInteractiveStage({
               }
             : isBest
             ? {
-                title: "Diagnostic Care Plan Approved! (100%)",
+                title: "✅ Correct: Care Plan Approved! (100%)",
                 sub: "Full medical evaluation ordered! By citing documented tracking and clinical standards, you gave the clinician objective evidence they cannot ethically or legally ignore.",
                 badgeBg: "bg-emerald-100 text-emerald-900 border-emerald-300",
                 barColor: "bg-emerald-600",
               }
             : {
-                title: "High Risk of Medical Dismissal (25%)",
+                title: "❌ Incorrect: High Dismissal Risk (25%)",
                 sub: "Symptoms brushed off without testing! Without documented logs or clinical guidelines, the provider defaulted to reassurance or “wait and see.” No diagnostic evaluation was ordered.",
                 badgeBg: "bg-amber-100 text-amber-900 border-amber-300",
                 barColor: "bg-amber-500",
@@ -594,46 +594,17 @@ export function RoleplayInteractiveStage({
             </div>
           </div>
 
-          {/* Educational Bridge: Why Written Records Matter in Dialogue */}
-          <div className="rounded-2xl border border-deep-teal/20 bg-teal-50/75 p-3.5 space-y-2">
+          {/* Documented Evidence Guidance */}
+          <div className="rounded-2xl border border-deep-teal/20 bg-teal-50/75 p-3.5 space-y-1.5">
             <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-deep-teal font-sans">
               <Lightbulb className="w-4 h-4 text-amber-500 shrink-0" />
-              <span>How Your Evidence Powers Your Dialogue:</span>
+              <span>Why Documented Evidence Matters in Clinical Encounters:</span>
             </div>
             <p className="text-xs sm:text-sm text-charcoal/85 leading-relaxed font-sans m-0">
-              Doctors cannot diagnose based on vague feelings alone—they look for{" "}
+              Doctors cannot diagnose based on vague impressions alone—clinical standards require{" "}
               <strong className="text-deep-teal font-semibold">verifiable data</strong>{" "}
-              (frequency, pain scales, clinical criteria). Below, notice how each dialogue choice handles this evidence:
+              (frequency, pain scales, durations, and diagnostic criteria). Review your documented portfolio above, then choose the dialogue response below that most effectively advocates for your care.
             </p>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-1 text-[11px] font-sans">
-              <div className="rounded-xl border border-emerald-200 bg-white p-2.5 space-y-0.5">
-                <span className="font-bold text-emerald-800 flex items-center gap-1">
-                  <CheckCircle2 className="w-3 h-3 text-emerald-600 shrink-0" />
-                  Cites Evidence (Winning)
-                </span>
-                <span className="text-charcoal/70 block leading-tight">
-                  Pulls concrete numbers from this card to legally justify testing.
-                </span>
-              </div>
-              <div className="rounded-xl border border-slate-200 bg-white p-2.5 space-y-0.5">
-                <span className="font-bold text-slate-700 flex items-center gap-1">
-                  <FileSpreadsheet className="w-3 h-3 text-slate-400 shrink-0" />
-                  Leaves in Bag (Passive)
-                </span>
-                <span className="text-charcoal/70 block leading-tight">
-                  Keeps the log hidden, resulting in dismissal and no tests.
-                </span>
-              </div>
-              <div className="rounded-xl border border-amber-200 bg-white p-2.5 space-y-0.5">
-                <span className="font-bold text-amber-800 flex items-center gap-1">
-                  <AlertTriangle className="w-3 h-3 text-amber-600 shrink-0" />
-                  Omits Evidence (Venting)
-                </span>
-                <span className="text-charcoal/70 block leading-tight">
-                  Expresses anger without facts, allowing the doctor to brush it off.
-                </span>
-              </div>
-            </div>
           </div>
 
           {/* Metric Highlight Box */}
@@ -652,17 +623,17 @@ export function RoleplayInteractiveStage({
             {chosenOpt === null ? (
               <span className="flex items-center gap-1.5 text-deep-teal">
                 <Sparkles className="w-3.5 h-3.5" />
-                Evidence Ready in Hand: Review your records above, then select the response below that presents this data to your provider!
+                Evidence Ready in Hand: Review your records above, then choose the response below that best presents this data to your provider!
               </span>
             ) : isBest ? (
               <span className="flex items-center gap-1.5 text-emerald-800">
                 <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
-                Evidence successfully admitted to medical record! Clinicians cannot legally ignore documented symptoms matching clinical standards.
+                ✅ Correct: Evidence admitted to medical record! Clinicians cannot legally ignore documented symptoms matching clinical guidelines.
               </span>
             ) : (
               <span className="flex items-center gap-1.5 text-amber-800">
                 <AlertTriangle className="w-3.5 h-3.5 text-amber-600" />
-                Evidence stayed hidden in your bag! Try selecting the option that actively cites this documented log.
+                ❌ Incorrect: Documented evidence was not cited. Try selecting a response that actively references this log!
               </span>
             )}
           </div>
@@ -671,12 +642,16 @@ export function RoleplayInteractiveStage({
 
       {/* 4. ADVOCACY RESPONSE CHOICES */}
       <div className="space-y-3">
-        <div className="flex items-center justify-between gap-2">
+        <div className="flex flex-wrap items-center justify-between gap-2">
           <span className="block text-base sm:text-lg font-bold text-charcoal/90 font-sans">
             How do you respond to advocate for yourself?
           </span>
           <span className="text-xs font-semibold text-charcoal/60 font-sans">
-            3 Dialogue Options · Citing Evidence is Key
+            {chosenOpt === null
+              ? "3 Dialogue Options · Select the best clinical response"
+              : isBest
+              ? "✅ Correct Option Selected"
+              : "❌ Suboptimal Option · Review explanation below"}
           </span>
         </div>
 
@@ -694,8 +669,10 @@ export function RoleplayInteractiveStage({
                 className={`w-full rounded-3xl border-2 p-5 sm:p-6 text-left transition-all cursor-pointer shadow-2xs ${
                   isSelected
                     ? opt.isBest
-                      ? "border-emerald-500 bg-emerald-50 shadow-md ring-2 ring-emerald-500/25"
-                      : "border-amber-400 bg-amber-50 shadow-sm"
+                      ? "border-emerald-500 bg-emerald-50/90 shadow-md ring-2 ring-emerald-500/25"
+                      : "border-amber-400 bg-amber-50/90 shadow-sm ring-2 ring-amber-400/25"
+                    : selectedOption !== null
+                    ? "border-deep-teal/15 bg-white/85 opacity-80 hover:opacity-100 hover:border-deep-teal/40 hover:bg-light-teal/20"
                     : "border-deep-teal/15 bg-white hover:border-deep-teal/40 hover:bg-light-teal/20"
                 }`}
               >
@@ -706,41 +683,68 @@ export function RoleplayInteractiveStage({
                         className={`inline-block rounded-full px-2.5 py-0.5 text-[11px] font-bold uppercase tracking-wider font-sans ${
                           isSelected
                             ? opt.isBest
-                              ? "bg-emerald-200/80 text-emerald-900"
-                              : "bg-amber-200/80 text-amber-900"
-                            : "bg-slate-100 text-charcoal/70"
+                              ? "bg-emerald-200/90 text-emerald-950 border border-emerald-300"
+                              : "bg-amber-200/90 text-amber-950 border border-amber-300"
+                            : "bg-slate-100 text-charcoal/70 border border-slate-200"
                         }`}
                       >
                         {optionLabels[optIdx] || `Option ${optIdx + 1}`}
                       </span>
 
-                      {/* Evidence Connection Tag */}
-                      <span
-                        className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider border font-sans ${strategy.badgeClass}`}
-                      >
-                        {strategy.tag}
-                      </span>
+                      {/* Result and Strategy badges: ONLY revealed AFTER selection */}
+                      {isSelected && (
+                        <>
+                          <span
+                            className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider font-sans text-white ${
+                              opt.isBest ? "bg-emerald-600" : "bg-amber-600"
+                            }`}
+                          >
+                            {opt.isBest ? "✅ Correct" : "❌ Incorrect"}
+                          </span>
+
+                          <span
+                            className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider border font-sans ${strategy.badgeClass}`}
+                          >
+                            {strategy.tag}
+                          </span>
+                        </>
+                      )}
                     </div>
 
                     <p
                       className={`text-base sm:text-lg md:text-[19px] leading-relaxed font-sans m-0 ${
                         isSelected && opt.isBest
                           ? "font-semibold text-emerald-950"
+                          : isSelected && !opt.isBest
+                          ? "font-semibold text-amber-950"
                           : "font-medium text-charcoal/90"
                       }`}
                     >
                       {opt.text}
                     </p>
 
-                    <p className="text-xs text-charcoal/65 font-sans m-0">
-                      💡 {strategy.desc}
-                    </p>
+                    {/* Explanatory description: ONLY revealed AFTER selection */}
+                    {isSelected && (
+                      <p
+                        className={`text-xs font-sans m-0 pt-0.5 ${
+                          opt.isBest ? "text-emerald-900 font-medium" : "text-amber-900 font-medium"
+                        }`}
+                      >
+                        💡 {strategy.desc}
+                      </p>
+                    )}
                   </div>
 
                   {isSelected && opt.isBest && (
                     <span className="mt-1 inline-flex shrink-0 items-center gap-1 rounded-full bg-emerald-600 px-3 py-1 text-xs font-bold text-white shadow-2xs font-sans">
                       <Check className="w-3.5 h-3.5" />
                       <span>+{opt.xpBonus} XP</span>
+                    </span>
+                  )}
+                  {isSelected && !opt.isBest && (
+                    <span className="mt-1 inline-flex shrink-0 items-center gap-1 rounded-full bg-amber-500 px-3 py-1 text-xs font-bold text-white shadow-2xs font-sans">
+                      <AlertTriangle className="w-3.5 h-3.5" />
+                      <span>0 XP</span>
                     </span>
                   )}
                 </div>
@@ -756,18 +760,29 @@ export function RoleplayInteractiveStage({
           className={`rounded-3xl border-2 p-5 sm:p-6 space-y-3 animate-in fade-in ${
             isBest
               ? "border-emerald-400 bg-emerald-50 text-emerald-950"
-              : "border-amber-300 bg-amber-50 text-amber-950"
+              : "border-amber-400 bg-amber-50 text-amber-950"
           }`}
         >
-          <div className="flex items-center gap-2">
+          <div className="flex items-center justify-between flex-wrap gap-2">
+            <div className="flex items-center gap-2">
+              {isBest ? (
+                <CheckCircle2 className="w-5 h-5 shrink-0 text-emerald-700" />
+              ) : (
+                <AlertTriangle className="w-5 h-5 shrink-0 text-amber-700" />
+              )}
+              <span className="text-sm sm:text-base font-bold uppercase tracking-wider font-sans">
+                {isBest ? "✅ Correct — Self-Advocacy Goal Achieved!" : "❌ Incorrect — Medical Dismissal Risk"}
+              </span>
+            </div>
             {isBest ? (
-              <CheckCircle2 className="w-5 h-5 shrink-0 text-emerald-700" />
+              <span className="rounded-full bg-emerald-600 px-3 py-1 text-xs font-bold text-white shadow-2xs font-sans">
+                +{chosenOpt.xpBonus} XP Earned
+              </span>
             ) : (
-              <AlertTriangle className="w-5 h-5 shrink-0 text-amber-700" />
+              <span className="rounded-full bg-amber-200 border border-amber-300 px-3 py-1 text-xs font-bold text-amber-900 font-sans">
+                Suboptimal Response · Try Again
+              </span>
             )}
-            <span className="text-sm sm:text-base font-bold uppercase tracking-wider font-sans">
-              {isBest ? "✦ Self-Advocacy Mastery Unlocked!" : "Clinical Coaching Tip:"}
-            </span>
           </div>
 
           <p className="text-base sm:text-lg md:text-[19px] leading-relaxed font-sans m-0">
@@ -779,7 +794,7 @@ export function RoleplayInteractiveStage({
             <div className="mt-2 rounded-2xl border border-emerald-300/80 bg-white/95 p-3.5 space-y-2">
               <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-emerald-900 font-sans">
                 <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-                <span>How Your Evidence Won Care:</span>
+                <span>Why This Response Succeeded:</span>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs font-sans">
                 <div className="rounded-xl bg-emerald-50/80 p-2.5 border border-emerald-200">
@@ -796,7 +811,7 @@ export function RoleplayInteractiveStage({
                 </div>
               </div>
               <p className="text-xs text-charcoal/80 leading-relaxed font-sans m-0 pt-0.5">
-                <strong>The Medical Takeaway:</strong> Clinicians are guided by clinical practice standards. Presenting structured logs turns subjective complaints into clinical evidence that requires investigation.
+                <strong>The Medical Takeaway:</strong> Clinicians are bound by clinical practice guidelines. Presenting structured logs converts subjective complaints into documented medical necessity that requires investigation and testing.
               </p>
               {onNextSimulation && simulationIndex !== undefined && totalSimulations !== undefined && simulationIndex < totalSimulations - 1 && (
                 <div className="pt-2 flex justify-end">
@@ -815,19 +830,18 @@ export function RoleplayInteractiveStage({
             <div className="mt-2 rounded-2xl border border-amber-300/80 bg-white/95 p-3.5 space-y-2">
               <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-amber-900 font-sans">
                 <AlertTriangle className="w-4 h-4 text-amber-600" />
-                <span>Why Leaving Out Evidence Caused Dismissal:</span>
+                <span>Why This Response Was Dismissed:</span>
               </div>
               <div className="rounded-xl bg-amber-50/80 p-2.5 border border-amber-200 text-xs font-sans space-y-1">
                 <span className="font-bold text-amber-950 block">
-                  Unused Document: {scenario.evidence?.title}
+                  Unused Documented Evidence: {scenario.evidence?.title}
                 </span>
                 <p className="text-charcoal/80 m-0">
                   Your documented record ({scenario.evidence?.metric}) stayed hidden in your bag. Because doctors see patients for only 12–15 minutes, they default to “it’s probably normal” unless you present verifiable numbers.
                 </p>
               </div>
               <p className="text-xs text-charcoal/80 leading-relaxed font-sans m-0 pt-0.5">
-                <strong>Try This:</strong> Tap{" "}
-                <strong>Option {scenario.options.findIndex((o) => o.isBest) + 1}</strong> above to see how presenting your {scenario.evidence?.badge} completely changes the clinician’s stance!
+                <strong>Try Again:</strong> Choose another dialogue option above to see how presenting your documented {scenario.evidence?.badge || "records"} changes the clinician’s decision and secures an evaluation!
               </p>
             </div>
           )}
