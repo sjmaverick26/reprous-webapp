@@ -52,6 +52,7 @@ import {
   HubTopic,
   getTopicClinicalQuote,
   getTopicRoleplayScenario,
+  getTopicRoleplayScenarios,
   RoleplayScenario,
 } from "@/data/hubData";
 import { Button } from "@/components/ui/button";
@@ -94,7 +95,10 @@ export function HubView({ initialCategory }: HubViewProps) {
   const [checkedSignals, setCheckedSignals] = useState<Set<number>>(new Set());
   const [curiosityRevealed, setCuriosityRevealed] = useState<boolean>(false);
 
-  // Roleplay Scenario Game State
+  // Roleplay Scenario Game State (Multi-Simulation Support)
+  const [activeSimulationIdx, setActiveSimulationIdx] = useState<number>(0);
+  const [simulationSelections, setSimulationSelections] = useState<Record<number, number>>({});
+  const [simulationBonuses, setSimulationBonuses] = useState<Record<number, boolean>>({});
   const [selectedRoleplayOption, setSelectedRoleplayOption] = useState<number | null>(null);
   const [roleplayBonusEarned, setRoleplayBonusEarned] = useState<boolean>(false);
 
@@ -159,6 +163,9 @@ export function HubView({ initialCategory }: HubViewProps) {
     setCurrentLessonPage(1);
     setCheckedSignals(new Set());
     setCuriosityRevealed(false);
+    setActiveSimulationIdx(0);
+    setSimulationSelections({});
+    setSimulationBonuses({});
     setSelectedRoleplayOption(null);
     setRoleplayBonusEarned(false);
     setActiveLessonTab("lesson");
@@ -176,6 +183,9 @@ export function HubView({ initialCategory }: HubViewProps) {
     setCurrentLessonPage(1);
     setCheckedSignals(new Set());
     setCuriosityRevealed(false);
+    setActiveSimulationIdx(0);
+    setSimulationSelections({});
+    setSimulationBonuses({});
     setSelectedRoleplayOption(null);
     setRoleplayBonusEarned(false);
     setActiveLessonTab("lesson");
@@ -788,7 +798,9 @@ export function HubView({ initialCategory }: HubViewProps) {
             const currentQ = quizList[quizStep];
             const isQuizFinished = isQuizActive && quizStep >= quizList.length;
             const clinicalQuote = getTopicClinicalQuote(selectedTopic, activeCategoryId || undefined);
-            const roleplayData = getTopicRoleplayScenario(selectedTopic, activeCategoryId || undefined);
+            const roleplayScenarios = getTopicRoleplayScenarios(selectedTopic, activeCategoryId || undefined);
+            const activeScenario = roleplayScenarios[activeSimulationIdx] || roleplayScenarios[0];
+            const hasSorter = !!selectedTopic.sorterGame;
 
             const advocacyData = selectedTopic.advocacyScript || {
               situation: `When discussing ${selectedTopic.name.toLowerCase()} or questions about your body with a physician, gynecologist, or nurse practitioner.`,
@@ -804,7 +816,14 @@ export function HubView({ initialCategory }: HubViewProps) {
               { id: 4, title: "4. Signal Detective", shortTitle: "Signals" },
               { id: 5, title: "5. Roleplay Game", shortTitle: "Roleplay" },
               { id: 6, title: "6. Doctor Script", shortTitle: "Script" },
-              { id: 7, title: isQuizActive ? "7. Mini-Quiz & XP" : "7. Practice & XP", shortTitle: isQuizActive ? "Quiz" : "Complete" },
+              ...(hasSorter
+                ? [
+                    { id: 7, title: "7. Sorter Game", shortTitle: "Sorter" },
+                    { id: 8, title: isQuizActive ? "8. Mini-Quiz & XP" : "8. Practice & XP", shortTitle: isQuizActive ? "Quiz" : "Complete" },
+                  ]
+                : [
+                    { id: 7, title: isQuizActive ? "7. Mini-Quiz & XP" : "7. Practice & XP", shortTitle: isQuizActive ? "Quiz" : "Complete" },
+                  ]),
             ];
 
             return (
@@ -1261,22 +1280,101 @@ export function HubView({ initialCategory }: HubViewProps) {
                         </p>
                       </div>
 
+                      {/* Multi-Simulation Track Selector */}
+                      {roleplayScenarios.length > 1 && (
+                        <div className="rounded-3xl border-2 border-raspberry/25 bg-gradient-to-r from-raspberry/5 via-white to-light-teal/15 p-3.5 sm:p-4 space-y-2.5 shadow-2xs">
+                          <div className="flex items-center justify-between gap-2 flex-wrap text-xs font-sans">
+                            <span className="font-bold text-deep-teal uppercase tracking-wider flex items-center gap-1.5">
+                              <Sparkles className="w-3.5 h-3.5 text-raspberry" />
+                              <span>Clinical Simulation Track ({activeSimulationIdx + 1} of {roleplayScenarios.length}):</span>
+                            </span>
+                            <span className="font-bold text-emerald-800 bg-emerald-100/90 px-2.5 py-0.5 rounded-full text-[11px] border border-emerald-200">
+                              {Object.values(simulationBonuses).filter(Boolean).length} of {roleplayScenarios.length} Scenarios Solved · +{Object.values(simulationBonuses).filter(Boolean).length * 30} XP
+                            </span>
+                          </div>
+
+                          <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                            {roleplayScenarios.map((sim, idx) => {
+                              const isSimActive = activeSimulationIdx === idx;
+                              const isSolved = simulationBonuses[idx];
+                              return (
+                                <button
+                                  key={idx}
+                                  type="button"
+                                  onClick={() => {
+                                    setActiveSimulationIdx(idx);
+                                    if (simulationSelections[idx] !== undefined) {
+                                      setSelectedRoleplayOption(simulationSelections[idx]);
+                                    } else {
+                                      setSelectedRoleplayOption(null);
+                                    }
+                                  }}
+                                  className={`flex items-center justify-between gap-2 p-2.5 rounded-2xl border text-left transition-all cursor-pointer font-sans text-xs sm:text-[13px] ${
+                                    isSimActive
+                                      ? "bg-raspberry text-white border-raspberry shadow-xs font-bold"
+                                      : isSolved
+                                      ? "bg-emerald-50/90 text-emerald-950 border-emerald-300 font-semibold hover:bg-emerald-100/70"
+                                      : "bg-white text-charcoal/80 border-slate-200 hover:border-deep-teal/40 font-medium hover:bg-slate-50"
+                                  }`}
+                                >
+                                  <div className="flex items-center gap-2 min-w-0">
+                                    <span
+                                      className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold shrink-0 ${
+                                        isSimActive
+                                          ? "bg-white text-raspberry"
+                                          : isSolved
+                                          ? "bg-emerald-600 text-white"
+                                          : "bg-slate-200 text-charcoal/70"
+                                      }`}
+                                    >
+                                      {isSolved ? "✓" : idx + 1}
+                                    </span>
+                                    <span className="truncate">{sim.phaseName || `Simulation ${idx + 1}`}</span>
+                                  </div>
+                                  <span
+                                    className={`text-[10px] font-bold px-1.5 py-0.5 rounded-md shrink-0 ${
+                                      isSimActive
+                                        ? "bg-white/20 text-white"
+                                        : isSolved
+                                        ? "bg-emerald-200 text-emerald-900"
+                                        : "bg-slate-100 text-charcoal/60"
+                                    }`}
+                                  >
+                                    +30 XP
+                                  </span>
+                                </button>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      )}
+
                       {/* Interactive Visual Consultation Stage with Animated Characters */}
                       <RoleplayInteractiveStage
-                        scenario={roleplayData}
-                        selectedOption={selectedRoleplayOption}
+                        scenario={activeScenario}
+                        selectedOption={simulationSelections[activeSimulationIdx] ?? null}
                         onSelectOption={(optIdx) => {
+                          setSimulationSelections((prev) => ({ ...prev, [activeSimulationIdx]: optIdx }));
                           setSelectedRoleplayOption(optIdx);
-                          if (roleplayData.options[optIdx].isBest && !roleplayBonusEarned) {
+                          if (activeScenario.options[optIdx].isBest && !simulationBonuses[activeSimulationIdx]) {
+                            setSimulationBonuses((prev) => ({ ...prev, [activeSimulationIdx]: true }));
                             setRoleplayBonusEarned(true);
-                            setXp((x) => x + roleplayData.options[optIdx].xpBonus);
+                            setXp((x) => x + activeScenario.options[optIdx].xpBonus);
                           }
                         }}
-                        bonusEarned={roleplayBonusEarned}
+                        bonusEarned={simulationBonuses[activeSimulationIdx] ?? false}
+                        simulationIndex={activeSimulationIdx}
+                        totalSimulations={roleplayScenarios.length}
+                        simulationTitle={activeScenario.phaseName || activeScenario.title}
+                        onNextSimulation={
+                          activeSimulationIdx < roleplayScenarios.length - 1
+                            ? () => setActiveSimulationIdx((i) => i + 1)
+                            : undefined
+                        }
                       />
 
                       {/* Medically Reviewed Clinical Source Box */}
-                      {roleplayData.sourceCitation && (
+                      {activeScenario.sourceCitation && (
                         <div className="rounded-3xl border-2 border-emerald-600/25 bg-emerald-50/75 p-5 sm:p-6 text-xs font-sans text-emerald-950 space-y-3 shadow-2xs">
                           <div className="flex items-start justify-between gap-3 flex-wrap">
                             <div className="flex items-center gap-2.5">
@@ -1288,30 +1386,30 @@ export function HubView({ initialCategory }: HubViewProps) {
                                   Medically Reviewed & Verified Source
                                 </span>
                                 <span className="text-sm sm:text-base font-bold text-emerald-950 block font-serif">
-                                  {roleplayData.sourceCitation.organization}
+                                  {activeScenario.sourceCitation.organization}
                                 </span>
                               </div>
                             </div>
-                            {roleplayData.sourceCitation.year && (
+                            {activeScenario.sourceCitation.year && (
                               <span className="text-xs font-bold text-emerald-800 bg-white/80 px-3 py-1 rounded-full border border-emerald-200">
-                                {roleplayData.sourceCitation.year}
+                                {activeScenario.sourceCitation.year}
                               </span>
                             )}
                           </div>
 
                           <div className="space-y-1">
                             <p className="font-bold text-emerald-950 text-sm sm:text-base leading-snug m-0">
-                              {roleplayData.sourceCitation.guideline}
+                              {activeScenario.sourceCitation.guideline}
                             </p>
                             <p className="text-xs sm:text-sm text-emerald-800/90 font-medium m-0">
                               Clinical Reference & Patient Advocacy Framework: Peer-reviewed medical guidelines establish the patient&apos;s legal and clinical right to comprehensive evaluation and diagnostic workups.
                             </p>
                           </div>
 
-                          {roleplayData.sourceCitation.url && (
+                          {activeScenario.sourceCitation.url && (
                             <div className="pt-1 flex justify-start">
                               <a
-                                href={roleplayData.sourceCitation.url}
+                                href={activeScenario.sourceCitation.url}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white border border-emerald-600/30 hover:border-emerald-600 hover:bg-emerald-100/60 text-emerald-900 font-bold text-xs sm:text-sm transition-colors cursor-pointer shadow-2xs"
@@ -1324,11 +1422,24 @@ export function HubView({ initialCategory }: HubViewProps) {
                         </div>
                       )}
 
-                      {/* In-content Continue Button */}
-                      <div className="pt-2 flex justify-end">
+                      {/* In-content Navigation Buttons */}
+                      <div className="pt-2 flex items-center justify-between gap-3 flex-wrap">
+                        {activeSimulationIdx < roleplayScenarios.length - 1 ? (
+                          <Button
+                            variant="outline"
+                            onClick={() => setActiveSimulationIdx((i) => i + 1)}
+                            className="border-raspberry/40 text-raspberry hover:bg-raspberry/10 text-xs sm:text-sm h-11 px-5 rounded-xl font-bold cursor-pointer gap-2"
+                          >
+                            <span>Next Simulation: Stage {activeSimulationIdx + 2}</span>
+                            <ArrowRight className="w-4 h-4" />
+                          </Button>
+                        ) : (
+                          <div />
+                        )}
+
                         <Button
                           onClick={() => setCurrentLessonPage(6)}
-                          className="bg-deep-teal text-white hover:bg-deep-teal/90 text-base sm:text-lg h-12 sm:h-14 px-7 rounded-2xl gap-2.5 font-bold shadow-sm cursor-pointer"
+                          className="bg-deep-teal text-white hover:bg-deep-teal/90 text-base sm:text-lg h-12 sm:h-14 px-7 rounded-2xl gap-2.5 font-bold shadow-sm cursor-pointer ml-auto"
                         >
                           <span>Continue to Doctor Script</span>
                           <ArrowRight className="w-5 h-5" />
@@ -1342,7 +1453,7 @@ export function HubView({ initialCategory }: HubViewProps) {
                     <div className="space-y-6 animate-in fade-in duration-200 py-1">
                       <div>
                         <span className="text-xs sm:text-sm font-bold uppercase tracking-wider text-raspberry font-sans block mb-1">
-                          Slide 6 of 7 · Appointment Blueprint
+                          Slide 6 of {lessonPages.length} · Appointment Blueprint
                         </span>
                         <h4 className="text-3xl sm:text-4xl font-serif font-bold text-deep-teal leading-tight mb-2">
                           Word-for-Word Appointment Script
@@ -1438,19 +1549,76 @@ export function HubView({ initialCategory }: HubViewProps) {
                           onClick={() => setCurrentLessonPage(7)}
                           className="bg-deep-teal text-white hover:bg-deep-teal/90 text-base sm:text-lg h-12 sm:h-14 px-7 rounded-2xl gap-2.5 font-bold shadow-sm cursor-pointer"
                         >
-                          <span>Continue to Practice & Complete</span>
+                          <span>{hasSorter ? "Continue to Sorter Challenge" : "Continue to Practice & Complete"}</span>
                           <ArrowRight className="w-5 h-5" />
                         </Button>
                       </div>
                     </div>
                   )}
 
-                  {/* SLIDE 7: PRACTICE, QUIZ & CLAIM XP */}
-                  {currentLessonPage === 7 && (
+                  {/* SLIDE 7: DEDICATED CLINICAL SORTER ARCADE CHALLENGE (when topic has sorterGame) */}
+                  {currentLessonPage === 7 && hasSorter && selectedTopic.sorterGame && (
+                    <div className="space-y-6 animate-in fade-in duration-200 py-1">
+                      <div>
+                        <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-raspberry text-white shadow-2xs font-sans mb-2">
+                          <Gamepad2 className="w-4 h-4" />
+                          <span>Interactive Arcade Sorter Game</span>
+                        </div>
+                        <span className="text-xs sm:text-sm font-bold uppercase tracking-wider text-raspberry font-sans block mb-1">
+                          Slide 7 of {lessonPages.length} · Clinical Classification Challenge
+                        </span>
+                        <h4 className="text-3xl sm:text-4xl font-serif font-bold text-deep-teal leading-tight mb-2">
+                          {selectedTopic.sorterGame.title}
+                        </h4>
+                        <p className="text-charcoal/85 text-lg sm:text-xl font-sans leading-relaxed">
+                          {selectedTopic.sorterGame.instructions}
+                        </p>
+                      </div>
+
+                      {/* Video (if present on this topic) */}
+                      {selectedTopic.video && (
+                        <div className="space-y-3.5">
+                          <h5 className="font-bold text-deep-teal text-xs sm:text-sm uppercase tracking-wider flex items-center gap-2 font-sans">
+                            <Video className="w-4 h-4 text-emerald-600" />
+                            Clinical Video Explanation:
+                          </h5>
+                          <LessonVideoCard
+                            video={selectedTopic.video}
+                            themeColor={topicTheme.primaryHex}
+                          />
+                        </div>
+                      )}
+
+                      {/* Dedicated Sorter Game Component */}
+                      <div className="space-y-3.5">
+                        <LessonSorterGameComponent
+                          game={selectedTopic.sorterGame}
+                          themeColor={topicTheme.primaryHex}
+                          onGameComplete={(bonus) => {
+                            setXp((x) => x + bonus);
+                          }}
+                        />
+                      </div>
+
+                      {/* In-content Continue to Quiz Button */}
+                      <div className="pt-4 flex justify-end">
+                        <Button
+                          onClick={() => setCurrentLessonPage(8)}
+                          className="bg-deep-teal text-white hover:bg-deep-teal/90 text-base sm:text-lg h-12 sm:h-14 px-7 rounded-2xl gap-2.5 font-bold shadow-sm cursor-pointer"
+                        >
+                          <span>{isQuizActive ? "Continue to Knowledge Mini-Quiz" : "Continue to Complete & Claim XP"}</span>
+                          <ArrowRight className="w-5 h-5" />
+                        </Button>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* DEDICATED KNOWLEDGE CHECK SLIDE: Slide 8 (if hasSorter) or Slide 7 (if !hasSorter) */}
+                  {currentLessonPage === (hasSorter ? 8 : 7) && (
                     <div className="space-y-6 animate-in fade-in duration-200 py-1">
                       <div>
                         <span className="text-xs sm:text-sm font-bold uppercase tracking-wider text-deep-teal/70 font-sans block mb-1">
-                          Slide 7 of 7 · Knowledge Check & Completion
+                          Slide {hasSorter ? 8 : 7} of {lessonPages.length} · Knowledge Check & Completion
                         </span>
                         <h4 className="text-3xl sm:text-4xl font-serif font-bold text-deep-teal leading-tight mb-2">
                           Validate Knowledge & Claim XP
@@ -1460,8 +1628,8 @@ export function HubView({ initialCategory }: HubViewProps) {
                         </p>
                       </div>
 
-                      {/* VIDEO CONTENT (if topic has video) */}
-                      {selectedTopic.video && (
+                      {/* VIDEO CONTENT (if topic has video and does not have sorter) */}
+                      {selectedTopic.video && !hasSorter && (
                         <div className="space-y-3.5">
                           <h5 className="font-bold text-deep-teal text-xs sm:text-sm uppercase tracking-wider flex items-center gap-2 font-sans">
                             <Video className="w-4 h-4 text-emerald-600" />
@@ -1470,23 +1638,6 @@ export function HubView({ initialCategory }: HubViewProps) {
                           <LessonVideoCard
                             video={selectedTopic.video}
                             themeColor={topicTheme.primaryHex}
-                          />
-                        </div>
-                      )}
-
-                      {/* INTERACTIVE CHALLENGE (if topic has sorter game) */}
-                      {selectedTopic.sorterGame && (
-                        <div className="space-y-3.5">
-                          <h5 className="font-bold text-deep-teal text-xs sm:text-sm uppercase tracking-wider flex items-center gap-2 font-sans">
-                            <Gamepad2 className="w-4 h-4 text-raspberry" />
-                            Interactive Clinical Sorter Challenge:
-                          </h5>
-                          <LessonSorterGameComponent
-                            game={selectedTopic.sorterGame}
-                            themeColor={topicTheme.primaryHex}
-                            onGameComplete={(bonus) => {
-                              setXp((x) => x + bonus);
-                            }}
                           />
                         </div>
                       )}
@@ -1502,7 +1653,7 @@ export function HubView({ initialCategory }: HubViewProps) {
                       )}
 
                       {/* Fallback completion card if topic does not have a quiz */}
-                      {!isQuizActive && !selectedTopic.sorterGame && !selectedTopic.video && (
+                      {!isQuizActive && (
                         <div className="p-7 sm:p-9 rounded-3xl bg-white border-2 border-deep-teal/20 text-center space-y-4 shadow-sm">
                           <div className="w-16 h-16 rounded-full bg-light-teal text-deep-teal flex items-center justify-center mx-auto shadow-sm">
                             <Sparkles className="w-9 h-9 text-coral" />
@@ -1512,7 +1663,7 @@ export function HubView({ initialCategory }: HubViewProps) {
                               Lesson Complete!
                             </h5>
                             <p className="text-lg text-charcoal/85 mt-2 font-sans max-w-lg mx-auto leading-relaxed">
-                              You have mastered the biological concept, reviewed verified clinical guidelines, checked off clinical signals, practiced the roleplay scenario game, and learned the appointment script for <strong>{selectedTopic.name}</strong>.
+                              You have mastered the biological concept, reviewed verified clinical guidelines, checked off clinical signals, practiced the multi-stage roleplay scenario game, and learned the appointment script for <strong>{selectedTopic.name}</strong>.
                             </p>
                           </div>
                           <div className="pt-3">

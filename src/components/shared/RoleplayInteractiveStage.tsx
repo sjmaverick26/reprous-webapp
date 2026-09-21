@@ -16,6 +16,7 @@ import {
   MessageSquare,
   Award,
   Lightbulb,
+  ArrowRight,
 } from "lucide-react";
 
 interface RoleplayInteractiveStageProps {
@@ -23,6 +24,10 @@ interface RoleplayInteractiveStageProps {
   selectedOption: number | null;
   onSelectOption: (optionIdx: number) => void;
   bonusEarned: boolean;
+  simulationIndex?: number;
+  totalSimulations?: number;
+  simulationTitle?: string;
+  onNextSimulation?: () => void;
 }
 
 export function RoleplayInteractiveStage({
@@ -30,6 +35,10 @@ export function RoleplayInteractiveStage({
   selectedOption,
   onSelectOption,
   bonusEarned,
+  simulationIndex,
+  totalSimulations,
+  simulationTitle,
+  onNextSimulation,
 }: RoleplayInteractiveStageProps) {
   const chosenOpt = selectedOption !== null ? scenario.options[selectedOption] : null;
   const isBest = chosenOpt?.isBest ?? false;
@@ -138,7 +147,12 @@ export function RoleplayInteractiveStage({
             <span>📍 {scenario.setting}</span>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 flex-wrap">
+            {simulationIndex !== undefined && totalSimulations !== undefined && (
+              <span className="rounded-full border border-raspberry/30 bg-raspberry/10 px-2.5 py-0.5 text-[11px] font-bold uppercase tracking-wider text-raspberry font-sans">
+                Stage {simulationIndex + 1} of {totalSimulations}
+              </span>
+            )}
             <span className="rounded-full border border-deep-teal/15 bg-light-teal/70 px-2.5 py-0.5 text-[11px] font-bold uppercase tracking-wider text-deep-teal font-sans">
               Clinical Dialogue Simulation
             </span>
@@ -784,6 +798,18 @@ export function RoleplayInteractiveStage({
               <p className="text-xs text-charcoal/80 leading-relaxed font-sans m-0 pt-0.5">
                 <strong>The Medical Takeaway:</strong> Clinicians are legally and ethically bound by peer-reviewed guidelines. Presenting structured logs turns subjective complaints into clinical evidence that requires investigation.
               </p>
+              {onNextSimulation && simulationIndex !== undefined && totalSimulations !== undefined && simulationIndex < totalSimulations - 1 && (
+                <div className="pt-2 flex justify-end">
+                  <button
+                    type="button"
+                    onClick={onNextSimulation}
+                    className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs sm:text-sm transition-all shadow-xs cursor-pointer font-sans"
+                  >
+                    <span>Advance to Simulation {simulationIndex + 2}</span>
+                    <ArrowRight className="w-4 h-4" />
+                  </button>
+                </div>
+              )}
             </div>
           ) : (
             <div className="mt-2 rounded-2xl border border-amber-300/80 bg-white/95 p-3.5 space-y-2">

@@ -79,6 +79,9 @@ export interface RoleplaySourceCitation {
 }
 
 export interface RoleplayScenario {
+  id?: string;
+  title?: string;
+  phaseName?: string;
   setting: string;
   character: string;
   characterRole?: string;
@@ -98,6 +101,7 @@ export interface HubTopic {
   summary: string;
   clinicalQuote?: ClinicalQuote;
   roleplayScenario?: RoleplayScenario;
+  roleplayScenarios?: RoleplayScenario[];
   keyTakeaways: string[];
   visualCards?: VisualCard[];
   diagram?: LessonDiagram;
@@ -2457,358 +2461,1179 @@ export function getTopicClinicalQuote(topic: HubTopic, categoryId?: string): Cli
  * Returns an interactive Roleplay Scenario Game simulation tailored to the topic and category.
  * Simulates real encounters with doctors, coaches, and administrators to build youth self-advocacy skills.
  */
-export function getTopicRoleplayScenario(topic: HubTopic, categoryId?: string): RoleplayScenario {
-  if (topic.roleplayScenario) {
-    return topic.roleplayScenario;
-  }
+/**
+ * Returns an array of 2 to 3 interactive Roleplay Scenario Game simulations tailored to the topic and category.
+ * Guides learners through the full clinical advocacy journey:
+ * Stage 1: Initial Presentation & Dismissal Defense
+ * Stage 2: Diagnostic Orders, Bloodwork & Imaging Pushback
+ * Stage 3: Specialist Referral & Official Chart Refusal Accountability
+ */
+export function getTopicRoleplayScenarios(topic: HubTopic, categoryId?: string): RoleplayScenario[] {
+  const matchedCat = categoryId || topic.id.split("-")[0];
 
-  const categoryScenarios: Record<string, RoleplayScenario> = {
-    body: {
-      setting: "Annual Adolescent Well-Visit with Pediatrician",
-      character: "Dr. Chen",
-      characterRole: "Primary Care Pediatrician",
-      statement: "“You look healthy. Don't stress over why your friends are developing faster or slower than you — everyone's body is different, so let's just skip to the vaccinations.”",
-      evidence: {
-        badge: "Milestone Log",
-        title: "Adolescent Tanner Stage & Growth Chart",
-        metric: "12-Month Longitudinal Physical Milestone Log",
-        description: "Documents individual breast and pubic hair development against Tanner stages 1–5 to evaluate developmental progress objectively.",
+  const categoryScenarios: Record<string, RoleplayScenario[]> = {
+    body: [
+      {
+        id: "body-sim-1",
+        title: "Initial Milestone Discussion",
+        phaseName: "1. Tanner Stage & Development",
+        setting: "Annual Adolescent Well-Visit with Pediatrician",
+        character: "Dr. Chen",
+        characterRole: "Primary Care Pediatrician",
+        statement: "“You look healthy. Don't stress over why your friends are developing faster or slower than you — everyone's body is different, so let's just skip to the vaccinations.”",
+        evidence: {
+          badge: "Milestone Log",
+          title: "Adolescent Tanner Stage & Growth Chart",
+          metric: "12-Month Longitudinal Physical Milestone Log",
+          description: "Documents individual breast and pubic hair development against Tanner stages 1–5 to evaluate developmental progress objectively.",
+        },
+        sourceCitation: {
+          organization: "Global Library of Women's Medicine (GLOWM) & FIGO",
+          guideline: "GLOWM Clinical Guidelines on Adolescent Pubertal Development & Tanner Staging",
+          year: "2023",
+          url: "https://www.glowm.com",
+        },
+        options: [
+          {
+            text: "“Okay, I won't ask about it. I guess it's embarrassing anyway.”",
+            isBest: false,
+            feedback: "Notice how staying silent leaves your questions unanswered. Doctors expect adolescents to have questions about anatomy and puberty.",
+            xpBonus: 5,
+          },
+          {
+            text: "“Thank you, Dr. Chen. I know development happens on its own genetic timeline, but I have specific questions about what Tanner stage I'm in and what biological changes to expect next. Can we take five minutes to review that?”",
+            isBest: true,
+            feedback: "✦ Master Self-Advocate! By referencing clinical Tanner staging and asking for a dedicated 5-minute window, you guide the clinician to prioritize your physical literacy without confrontation.",
+            xpBonus: 30,
+          },
+          {
+            text: "“You're ignoring me! Why won't you tell me why I haven't grown as much as everyone else?”",
+            isBest: false,
+            feedback: "While venting frustration is understandable, pairing your emotional concern with objective questions yields much better clinical results.",
+            xpBonus: 10,
+          },
+        ],
       },
-      sourceCitation: {
-        organization: "Global Library of Women's Medicine (GLOWM) & FIGO",
-        guideline: "GLOWM Clinical Guidelines on Adolescent Pubertal Development & Tanner Staging",
-        year: "2023",
-        url: "https://www.glowm.com",
+      {
+        id: "body-sim-2",
+        title: "Diagnostic Hormone Evaluation",
+        phaseName: "2. Hormone & Growth Plate Testing",
+        setting: "6-Month Pubertal Delay Follow-Up Consultation",
+        character: "Dr. Chen",
+        characterRole: "Primary Care Pediatrician",
+        statement: "“Since you haven't started your period by age 15, let's just give it another year or two without doing any bloodwork. Delayed puberty usually fixes itself eventually.”",
+        evidence: {
+          badge: "ACOG Protocol",
+          title: "Primary Amenorrhea Diagnostic Workup Checklist",
+          metric: "Age 15+ · Tanner Stage 4 Breast Development >3 Years Without Menarche",
+          description: "ACOG guideline criteria requiring morning LH, FSH, prolactin, TSH, and pelvic ultrasound for adolescents without menarche by age 15.",
+        },
+        sourceCitation: {
+          organization: "American College of Obstetricians and Gynecologists (ACOG)",
+          guideline: "ACOG Committee Opinion No. 651: Menstruation in Girls and Adolescents: Using the Menstrual Cycle as a Vital Sign",
+          year: "Reaffirmed 2022",
+          url: "https://www.acog.org/clinical/clinical-guidance/committee-opinion/articles/2015/12/menstruation-in-girls-and-adolescents-using-the-menstrual-cycle-as-a-vital-sign",
+        },
+        options: [
+          {
+            text: "“I guess two more years of waiting won't hurt. I'll just check back when I'm 17.”",
+            isBest: false,
+            feedback: "Waiting until age 17 risks untreated primary amenorrhea, missed congenital structural variations, and irreversible bone mineral density loss.",
+            xpBonus: 5,
+          },
+          {
+            text: "“ACOG guidelines recommend initiating an evaluation if menarche hasn't occurred by age 15, or within three years of thelarche. Could we run baseline morning LH, FSH, prolactin, and a pelvic ultrasound to confirm normal anatomy and hormonal axis signaling?”",
+            isBest: true,
+            feedback: "✦ Diagnostic Mastery! Citing the ACOG 3-year thelarche rule and requesting specific baseline gonadotropins establishes clinical necessity for testing.",
+            xpBonus: 30,
+          },
+          {
+            text: "“You never take anything seriously! I knew coming to this clinic was a mistake.”",
+            isBest: false,
+            feedback: "Frustration is valid, but citing specific ACOG diagnostic timelines gives the physician medical justification to submit lab orders.",
+            xpBonus: 10,
+          },
+        ],
       },
-      options: [
-        {
-          text: "“Okay, I won't ask about it. I guess it's embarrassing anyway.”",
-          isBest: false,
-          feedback: "Notice how staying silent leaves your questions unanswered. Doctors expect adolescents to have questions about anatomy and puberty.",
-          xpBonus: 5,
+      {
+        id: "body-sim-3",
+        title: "Specialist Referral & Medical Charting",
+        phaseName: "3. Specialist Referral & Charting",
+        setting: "Consultation Request for Pediatric Endocrinology",
+        character: "Dr. Chen",
+        characterRole: "Primary Care Pediatrician",
+        statement: "“A pediatric endocrinology referral takes 6 months to get and causes too much family anxiety. We don't need to consult a subspecialist right now.”",
+        evidence: {
+          badge: "Chart Rights",
+          title: "EHR Clinical Documentation & Subspecialty Referral Mandate",
+          metric: "Formal Referral Request · Electronic Medical Record (EMR) Entry",
+          description: "Statutory patient rights ensuring requested subspecialty referrals or provider clinical justifications for refusal are recorded in the permanent health record.",
         },
-        {
-          text: "“Thank you, Dr. Chen. I know development happens on its own genetic timeline, but I have specific questions about what Tanner stage I'm in and what biological changes to expect next. Can we take five minutes to review that?”",
-          isBest: true,
-          feedback: "✦ Master Self-Advocate! By referencing clinical Tanner staging and asking for a dedicated 5-minute window, you guide the clinician to prioritize your physical literacy without confrontation.",
-          xpBonus: 30,
+        sourceCitation: {
+          organization: "American Academy of Pediatrics (AAP) & AMA",
+          guideline: "AAP Principles of Pediatric Subspecialty Care & AMA Patient Rights",
+          year: "2023",
+          url: "https://publications.aap.org",
         },
-        {
-          text: "“You're ignoring me! Why won't you tell me why I haven't grown as much as everyone else?”",
-          isBest: false,
-          feedback: "While venting frustration is understandable, pairing your emotional concern with objective questions yields much better clinical results.",
-          xpBonus: 10,
-        },
-      ],
-    },
-    cycle: {
-      setting: "Clinic Exam Room for Debilitating Period Pain",
-      character: "Dr. Adams",
-      characterRole: "Adolescent Care Physician",
-      statement: "“Bad cramps and heavy bleeding are just a normal part of becoming a woman. Take ibuprofen and try using a heating pad during your cycle.”",
-      evidence: {
-        badge: "Vital Sign Tracker",
-        title: "3-Month Menstrual Vital Sign & Pain Severity Log",
-        metric: "Pain: 8/10 · 2 Days School Missed/Cycle · NSAID Refractory",
-        description: "Quantifies daily functional impairment, pad saturation rate (>1/hour), and non-responsiveness to maximum over-the-counter NSAIDs.",
+        options: [
+          {
+            text: "“Okay, if you think an endocrinologist is unnecessary, I won't ask again.”",
+            isBest: false,
+            feedback: "Conceding your request delays specialized pediatric endocrine evaluation. You have the right to subspecialty consultation.",
+            xpBonus: 5,
+          },
+          {
+            text: "“Given my pubertal milestone delay, an evaluation by a pediatric endocrinologist or adolescent gynecologist is the clinical standard of care. If you are declining this referral today, could you please document in my medical chart that I requested this consult and record your clinical rationale for denying it?”",
+            isBest: true,
+            feedback: "✦ Ultimate Clinical Self-Advocacy! Asking for a documented refusal in the permanent electronic medical record (EMR) is the single most effective legal and clinical technique to prompt immediate physician reconsideration.",
+            xpBonus: 30,
+          },
+          {
+            text: "“I'm calling the hospital board to report you right this second!”",
+            isBest: false,
+            feedback: "Requesting clear chart documentation in the room achieves immediate compliance far more reliably than threats.",
+            xpBonus: 10,
+          },
+        ],
       },
-      sourceCitation: {
-        organization: "American College of Obstetricians and Gynecologists (ACOG)",
-        guideline: "ACOG Committee Opinion No. 651: Menstruation in Girls and Adolescents: Using the Menstrual Cycle as a Vital Sign",
-        year: "Reaffirmed 2022",
-        url: "https://www.acog.org/clinical/clinical-guidance/committee-opinion/articles/2015/12/menstruation-in-girls-and-adolescents-using-the-menstrual-cycle-as-a-vital-sign",
+    ],
+
+    cycle: [
+      {
+        id: "cycle-sim-1",
+        title: "Debilitating Period Pain Dismissal",
+        phaseName: "1. Pain Severity & Dysmenorrhea",
+        setting: "Clinic Exam Room for Debilitating Period Pain",
+        character: "Dr. Adams",
+        characterRole: "Adolescent Care Physician",
+        statement: "“Bad cramps and heavy bleeding are just a normal part of becoming a woman. Take ibuprofen and try using a heating pad during your cycle.”",
+        evidence: {
+          badge: "Vital Sign Tracker",
+          title: "3-Month Menstrual Vital Sign & Pain Severity Log",
+          metric: "Pain: 8/10 · 2 Days School Missed/Cycle · NSAID Refractory",
+          description: "Quantifies daily functional impairment, pad saturation rate (>1/hour), and non-responsiveness to maximum over-the-counter NSAIDs.",
+        },
+        sourceCitation: {
+          organization: "American College of Obstetricians and Gynecologists (ACOG)",
+          guideline: "ACOG Committee Opinion No. 651: Menstruation in Girls and Adolescents: Using the Menstrual Cycle as a Vital Sign",
+          year: "Reaffirmed 2022",
+          url: "https://www.acog.org/clinical/clinical-guidance/committee-opinion/articles/2015/12/menstruation-in-girls-and-adolescents-using-the-menstrual-cycle-as-a-vital-sign",
+        },
+        options: [
+          {
+            text: "“I guess I just have a low pain tolerance. Sorry for taking up your time.”",
+            isBest: false,
+            feedback: "Dismissing your own pain normalizes suffering. Incapacitating dysmenorrhea is a medical symptom, never a character flaw.",
+            xpBonus: 5,
+          },
+          {
+            text: "“ACOG guidelines emphasize that the menstrual cycle is a vital sign. My pain causes me to miss school and doesn't respond to maximum OTC doses of ibuprofen. Could we schedule a pelvic ultrasound and evaluate for underlying causes like endometriosis?”",
+            isBest: true,
+            feedback: "✦ Outstanding Clinical Advocacy! You cited official ACOG clinical guidance, quantified the functional impairment (missing school), and requested a specific non-invasive diagnostic step.",
+            xpBonus: 30,
+          },
+          {
+            text: "“I'm never coming back here again, you don't know what you're doing.”",
+            isBest: false,
+            feedback: "Walking out leaves you without care. Asking for your symptoms and the provider's refusal to be documented in your chart holds them clinically accountable.",
+            xpBonus: 10,
+          },
+        ],
       },
-      options: [
-        {
-          text: "“I guess I just have a low pain tolerance. Sorry for taking up your time.”",
-          isBest: false,
-          feedback: "Dismissing your own pain normalizes suffering. Incapacitating dysmenorrhea is a medical symptom, never a character flaw.",
-          xpBonus: 5,
+      {
+        id: "cycle-sim-2",
+        title: "Heavy Menstrual Flow & Ferritin Evaluation",
+        phaseName: "2. Heavy Bleeding & Iron Workup",
+        setting: "Follow-Up Consultation for Chronic Period Exhaustion",
+        character: "Dr. Adams",
+        characterRole: "Adolescent Care Physician",
+        statement: "“Your routine complete blood count shows a hemoglobin of 12.1, which is within the normal range. Your dizziness and exhaustion during periods is likely just academic stress.”",
+        evidence: {
+          badge: "Iron Panel",
+          title: "Iron Deficiency Without Anemia (IDWA) Lab Requisition",
+          metric: "Serum Ferritin: 11 ng/mL [Depleted Marrow Iron] · >80 mL Blood Loss/Cycle",
+          description: "Clinical evidence proving that normal hemoglobin masks severe non-anemic iron deficiency, causing profound physical and cognitive fatigue.",
         },
-        {
-          text: "“ACOG guidelines emphasize that the menstrual cycle is a vital sign. My pain causes me to miss school and doesn't respond to maximum OTC doses of ibuprofen. Could we schedule a pelvic ultrasound and evaluate for underlying causes like endometriosis?”",
-          isBest: true,
-          feedback: "✦ Outstanding Clinical Advocacy! You cited official ACOG clinical guidance, quantified the functional impairment (missing school), and requested a specific non-invasive diagnostic step.",
-          xpBonus: 30,
+        sourceCitation: {
+          organization: "International Federation of Gynecology and Obstetrics (FIGO) & ACOG",
+          guideline: "FIGO System 2: Causes of Abnormal Uterine Bleeding (AUB) & ACOG Clinical Consensus on IDWA",
+          year: "2023",
+          url: "https://www.figo.org",
         },
-        {
-          text: "“I'm never coming back here again, you don't know what you're doing.”",
-          isBest: false,
-          feedback: "Walking out leaves you without care. Asking for your symptoms and the provider's refusal to be documented in your chart holds them clinically accountable.",
-          xpBonus: 10,
-        },
-      ],
-    },
-    play: {
-      setting: "Track & Field Team Meeting in Coach's Office",
-      character: "Coach Henderson",
-      characterRole: "Varsity Distance Running Coach",
-      statement: "“If you've stopped getting your period, it just means your body fat is low and you're in peak race shape. All elite runners lose their period — consider it a competitive advantage!”",
-      evidence: {
-        badge: "RED-S Ledger",
-        title: "IOC RED-S Screening & Training Energy Availability Log",
-        metric: "Amenorrhea: 90+ Days · Energy Deficit · Tibial Stress Reaction",
-        description: "Clinical log tracking training volume, missing menses, recurrent bone stress injuries, and resting bradycardia.",
+        options: [
+          {
+            text: "“Good to know my hemoglobin is fine. I'll just drink more coffee when I'm tired.”",
+            isBest: false,
+            feedback: "Relying on caffeine ignores cellular iron depletion. A serum ferritin under 15–30 ng/mL indicates depleted organ stores requiring therapeutic replacement.",
+            xpBonus: 5,
+          },
+          {
+            text: "“Standard hemoglobin only drops after bone marrow iron stores are completely exhausted. My serum ferritin of 11 ng/mL demonstrates Iron Deficiency Without Anemia secondary to heavy menstrual bleeding. Could we order a coagulation panel to screen for von Willebrand disease and start therapeutic iron supplementation?”",
+            isBest: true,
+            feedback: "✦ Clinical Hematology Mastery! Distinguishing serum ferritin from hemoglobin and screening for bleeding disorders aligns with international FIGO guidelines.",
+            xpBonus: 30,
+          },
+          {
+            text: "“Why does every doctor blame stress? You never listen!”",
+            isBest: false,
+            feedback: "Highlighting the difference between serum ferritin and hemoglobin provides objective clinical proof of iron deficiency.",
+            xpBonus: 10,
+          },
+        ],
       },
-      sourceCitation: {
-        organization: "International Olympic Committee (IOC)",
-        guideline: "2023 IOC Consensus Statement on Relative Energy Deficiency in Sport (REDs), British Journal of Sports Medicine (57:1073–1097)",
-        year: "2023",
-        url: "https://bjsm.bmj.com/content/57/17/1073",
+      {
+        id: "cycle-sim-3",
+        title: "Specialist Referral & Chart Accountability",
+        phaseName: "3. Specialist Referral & Chart Refusal",
+        setting: "Referral Request for Pediatric & Adolescent Gynecology (PAG)",
+        character: "Dr. Adams",
+        characterRole: "Adolescent Care Physician",
+        statement: "“Adolescent gynecologists are rare and booking an appointment takes months. Let's just double your over-the-counter naproxen and see how you feel in 6 months.”",
+        evidence: {
+          badge: "PAG Standard",
+          title: "NASPAG Refractory Dysmenorrhea Referral Guidelines",
+          metric: "Secondary Dysmenorrhea Screening · Medical Record Documentation",
+          description: "North American Society for Pediatric and Adolescent Gynecology (NASPAG) clinical consensus mandating subspecialty referral when pelvic pain resists NSAID/progestin monotherapy.",
+        },
+        sourceCitation: {
+          organization: "North American Society for Pediatric and Adolescent Gynecology (NASPAG)",
+          guideline: "NASPAG Position Statement: Management of Complex Adolescent Dysmenorrhea & Pelvic Pain",
+          year: "2023",
+          url: "https://www.naspag.org",
+        },
+        options: [
+          {
+            text: "“Okay, I'll just take double the painkillers and wait another 6 months.”",
+            isBest: false,
+            feedback: "Doubling NSAID dosages risks gastric ulceration without treating the underlying gynecological condition.",
+            xpBonus: 5,
+          },
+          {
+            text: "“NASPAG and ACOG guidelines recommend referral to a pediatric and adolescent gynecologist when pain resists first-line treatments. If you are declining to write this referral today, please document in my medical chart that I requested a specialist consult and specify your clinical reasoning for denying it.”",
+            isBest: true,
+            feedback: "✦ Unbreakable Advocacy! Requesting written documentation of a denied referral invokes professional clinical accountability and frequently results in immediate referral authorization.",
+            xpBonus: 30,
+          },
+          {
+            text: "“You don't care about my health at all! I'm leaving a bad review online.”",
+            isBest: false,
+            feedback: "Asserting your legal right to chart documentation produces tangible medical results directly in the exam room.",
+            xpBonus: 10,
+          },
+        ],
       },
-      options: [
-        {
-          text: "“Awesome, less hassle on race day! I'll keep pushing my mileage.”",
-          isBest: false,
-          feedback: "Dangerous misconception! Amenorrhea causes accelerated bone mineral loss and significantly increases lifetime risks of stress fractures and cardiovascular damage.",
-          xpBonus: 5,
+    ],
+
+    play: [
+      {
+        id: "play-sim-1",
+        title: "The 'Leaner is Faster' Athletic Myth",
+        phaseName: "1. Amenorrhea & Performance Myth",
+        setting: "Track & Field Team Meeting in Coach's Office",
+        character: "Coach Henderson",
+        characterRole: "Varsity Distance Running Coach",
+        statement: "“If you've stopped getting your period, it just means your body fat is low and you're in peak race shape. All elite runners lose their period — consider it a competitive advantage!”",
+        evidence: {
+          badge: "RED-S Ledger",
+          title: "IOC RED-S Screening & Training Energy Availability Log",
+          metric: "Amenorrhea: 90+ Days · Energy Deficit · Tibial Stress Reaction",
+          description: "Clinical log tracking training volume, missing menses, recurrent bone stress injuries, and resting bradycardia.",
         },
-        {
-          text: "“Actually Coach, the International Olympic Committee consensus on RED-S states that losing my period is a sign of Low Energy Availability. It impairs performance and causes bone stress injuries. I need to work with our sports nutritionist to adjust my fueling.”",
-          isBest: true,
-          feedback: "✦ Elite Athletic Self-Advocacy! You cited the IOC medical consensus, corrected the myth with scientific authority, and protected your long-term bone health and athletic longevity.",
-          xpBonus: 30,
+        sourceCitation: {
+          organization: "International Olympic Committee (IOC)",
+          guideline: "2023 IOC Consensus Statement on Relative Energy Deficiency in Sport (REDs), British Journal of Sports Medicine (57:1073–1097)",
+          year: "2023",
+          url: "https://bjsm.bmj.com/content/57/17/1073",
         },
-        {
-          text: "“You don't care about our health at all! I'm quitting the team today.”",
-          isBest: false,
-          feedback: "Educating the coach with IOC medical consensus statements protects both yourself and your teammates from institutionalized under-fueling culture.",
-          xpBonus: 10,
-        },
-      ],
-    },
-    pcos: {
-      setting: "Consultation on Irregular Cycles & Persistent Acne",
-      character: "Dr. Wright",
-      characterRole: "Primary Care Physician",
-      statement: "“At your age, cycles are often erratic. If you're concerned about acne or weight, just cut carbs and we can put you on birth control right away without doing any blood tests.”",
-      evidence: {
-        badge: "Diagnostic Workup",
-        title: "Rotterdam Diagnostic Checklist & Fasted Lab Requisition",
-        metric: "Oligomenorrhea (50–65 Day Cycles) · Severe Cystic Acne · Hirsutism",
-        description: "Evidence checklist documenting the Rotterdam criteria requirements (ovulatory dysfunction, clinical/biochemical hyperandrogenism).",
+        options: [
+          {
+            text: "“Awesome, less hassle on race day! I'll keep pushing my mileage.”",
+            isBest: false,
+            feedback: "Dangerous misconception! Amenorrhea causes accelerated bone mineral loss and significantly increases lifetime risks of stress fractures and cardiovascular damage.",
+            xpBonus: 5,
+          },
+          {
+            text: "“Actually Coach, the International Olympic Committee consensus on RED-S states that losing my period is a sign of Low Energy Availability. It impairs performance and causes bone stress injuries. I need to work with our sports nutritionist to adjust my fueling.”",
+            isBest: true,
+            feedback: "✦ Elite Athletic Self-Advocacy! You cited the IOC medical consensus, corrected the myth with scientific authority, and protected your long-term bone health and athletic longevity.",
+            xpBonus: 30,
+          },
+          {
+            text: "“You don't care about our health at all! I'm quitting the team today.”",
+            isBest: false,
+            feedback: "Educating the coach with IOC medical consensus statements protects both yourself and your teammates from institutionalized under-fueling culture.",
+            xpBonus: 10,
+          },
+        ],
       },
-      sourceCitation: {
-        organization: "American College of Obstetricians and Gynecologists (ACOG)",
-        guideline: "ACOG Practice Bulletin No. 194: Polycystic Ovary Syndrome & International Evidence-Based Guidelines",
-        year: "2021",
-        url: "https://www.acog.org/clinical/clinical-guidance/practice-bulletin/articles/2018/06/polycystic-ovary-syndrome",
+      {
+        id: "play-sim-2",
+        title: "Bone Stress Injury & DXA Scan Request",
+        phaseName: "2. Bone Stress & DXA Scan Request",
+        setting: "Athletic Training Room for Recurrent Tibial Pain",
+        character: "Athletic Trainer Marcus",
+        characterRole: "Certified Athletic Trainer (ATC)",
+        statement: "“It's just shin splints. Ice them, roll your calves, and you're good to run in tomorrow's invitational.”",
+        evidence: {
+          badge: "RED-S Clinical Assessment",
+          title: "IOC RED-S Clinical Assessment Tool (CAT) & Amenorrhea Record",
+          metric: "90-Day Amenorrhea · Recurrent Tibial Pain with Hopping Test Positive",
+          description: "Clinical diagnostic criteria identifying high risk for cortical bone stress fracture in an under-fueled female athlete.",
+        },
+        sourceCitation: {
+          organization: "American College of Sports Medicine (ACSM) & IOC",
+          guideline: "ACSM Female Athlete Triad Consensus & IOC RED-S Clinical Assessment",
+          year: "2023",
+          url: "https://www.sportsmedicine.org",
+        },
+        options: [
+          {
+            text: "“Okay, I'll take three ibuprofen and tape my shins so I can run tomorrow.”",
+            isBest: false,
+            feedback: "Running on a bone stress reaction masks pain with NSAIDs and can turn a microfracture into a complete tibial fracture requiring months in a cast.",
+            xpBonus: 5,
+          },
+          {
+            text: "“Recurrent focal tibial pain combined with three months of amenorrhea is a red flag for a bone stress injury under IOC RED-S criteria. Continuing to run risks a full cortical fracture. Can you refer me to a sports medicine physician for an MRI and a DXA bone mineral density scan?”",
+            isBest: true,
+            feedback: "✦ Sports Medicine Mastery! You linked missing menses to bone demineralization and requested the clinical gold standard (MRI and DXA) to prevent catastrophic fracture.",
+            xpBonus: 30,
+          },
+          {
+            text: "“You're trying to break my legs! You have no idea what you're doing!”",
+            isBest: false,
+            feedback: "Grounding your concern in IOC clinical criteria commands professional respect from athletic training staff.",
+            xpBonus: 10,
+          },
+        ],
       },
-      options: [
-        {
-          text: "“Okay, whatever is easiest. I'll just take the pill.”",
-          isBest: false,
-          feedback: "Starting oral contraceptives before baseline bloodwork permanently masks underlying hormonal imbalances, delaying a formal diagnosis.",
-          xpBonus: 5,
+      {
+        id: "play-sim-3",
+        title: "Safe Return-to-Play & Athletic Protections",
+        phaseName: "3. Safe Return-to-Play & Protections",
+        setting: "Coach's Office Return-to-Play Meeting",
+        character: "Coach Henderson",
+        characterRole: "Varsity Distance Running Coach",
+        statement: "“If you take two weeks off for nutrition counseling and cross-training, I have to strip your varsity captaincy and give your spot away.”",
+        evidence: {
+          badge: "Athlete Rights",
+          title: "Interscholastic Safe Return-to-Play Medical Clearance Model",
+          metric: "Physician-Directed Energy Availability Re-feeding Protocol",
+          description: "High school athletic association regulations protecting student-athletes from retaliatory roster demotions when following prescribed medical treatment.",
         },
-        {
-          text: "“Under the Rotterdam criteria for PCOS, we need to assess for clinical hyperandrogenism and ovulatory dysfunction. Could we run a morning fasted total/free testosterone, DHEA-S, and metabolic panel before starting birth control so we don't mask the baseline?”",
-          isBest: true,
-          feedback: "✦ Diagnostic Mastery! By requesting baseline fasted testing prior to hormonal therapy, you preserve critical clinical data needed for an accurate diagnosis.",
-          xpBonus: 30,
+        sourceCitation: {
+          organization: "National Federation of State High School Associations (NFHS) & IOC",
+          guideline: "NFHS Sports Medicine Advisory Committee: Return to Play Protocols & Athlete Safety",
+          year: "2023",
+          url: "https://www.nfhs.org",
         },
-        {
-          text: "“You're just judging me because of my weight! I want a different doctor right now.”",
-          isBest: false,
-          feedback: "Weight stigma in healthcare is real and harmful. Framing your request through specific diagnostic lab orders forces the clinician to address pathology rather than weight.",
-          xpBonus: 10,
-        },
-      ],
-    },
-    endo: {
-      setting: "Outpatient Clinic Following a 'Normal' Pelvic Ultrasound",
-      character: "Dr. Patel",
-      characterRole: "General Gynecologic Clinician",
-      statement: "“Good news! Your ultrasound scan came back completely clear and unremarkable. There is nothing physically wrong with your pelvis, so your pain must be gastrointestinal or stress-related.”",
-      evidence: {
-        badge: "Imaging Limitations File",
-        title: "Peritoneal Endometriosis Ultrasound Sensitivity Data",
-        metric: "Normal Scan Recorded · Severe Dyschezia & Pelvic Pain · 7-Year Diagnosis Gap",
-        description: "Official medical consensus showing that standard transabdominal/transvaginal ultrasound fails to detect over 75% of superficial peritoneal endometriosis lesions.",
+        options: [
+          {
+            text: "“I can't lose my captaincy. I'll just skip the doctor's nutrition plan and race anyway.”",
+            isBest: false,
+            feedback: "Sacrificing your medical recovery for a sports title risks permanent reproductive and skeletal damage.",
+            xpBonus: 5,
+          },
+          {
+            text: "“Under NFHS and IOC return-to-play guidelines, following a physician-prescribed medical fueling protocol is a protected health necessity. Stripping leadership for complying with sports medicine clearance violates student safety policies. Let's work with the athletic trainer and sports dietitian on a modified training schedule that safely restores my energy availability.”",
+            isBest: true,
+            feedback: "✦ Champion Athletic Leadership! You asserted institutional athlete safety rules while proposing a constructive collaborative solution with the sports medicine team.",
+            xpBonus: 30,
+          },
+          {
+            text: "“You're a terrible coach and I'm quitting the sport forever!”",
+            isBest: false,
+            feedback: "Invoking NFHS and IOC safety protocols protects your roster standing while keeping your medical recovery on track.",
+            xpBonus: 10,
+          },
+        ],
       },
-      sourceCitation: {
-        organization: "American College of Obstetricians and Gynecologists (ACOG)",
-        guideline: "ACOG Committee Opinion No. 760: Dysmenorrhea and Endometriosis in the Adolescent",
-        year: "Reaffirmed 2023",
-        url: "https://www.acog.org/clinical/clinical-guidance/committee-opinion/articles/2018/12/dysmenorrhea-and-endometriosis-in-the-adolescent",
+    ],
+
+    pcos: [
+      {
+        id: "pcos-sim-1",
+        title: "Premature Birth Control Masking",
+        phaseName: "1. Baseline Testing vs. Pill Masking",
+        setting: "Consultation on Irregular Cycles & Persistent Acne",
+        character: "Dr. Wright",
+        characterRole: "Primary Care Physician",
+        statement: "“At your age, cycles are often erratic. If you're concerned about acne or weight, just cut carbs and we can put you on birth control right away without doing any blood tests.”",
+        evidence: {
+          badge: "Diagnostic Workup",
+          title: "Rotterdam Diagnostic Checklist & Fasted Lab Requisition",
+          metric: "Oligomenorrhea (50–65 Day Cycles) · Severe Cystic Acne · Hirsutism",
+          description: "Evidence checklist documenting the Rotterdam criteria requirements (ovulatory dysfunction, clinical/biochemical hyperandrogenism).",
+        },
+        sourceCitation: {
+          organization: "American College of Obstetricians and Gynecologists (ACOG)",
+          guideline: "ACOG Practice Bulletin No. 194: Polycystic Ovary Syndrome & International Evidence-Based Guidelines",
+          year: "2021",
+          url: "https://www.acog.org/clinical/clinical-guidance/practice-bulletin/articles/2018/06/polycystic-ovary-syndrome",
+        },
+        options: [
+          {
+            text: "“Okay, whatever is easiest. I'll just take the pill.”",
+            isBest: false,
+            feedback: "Starting oral contraceptives before baseline bloodwork permanently masks underlying hormonal imbalances, delaying a formal diagnosis.",
+            xpBonus: 5,
+          },
+          {
+            text: "“Under the Rotterdam criteria for PCOS, we need to assess for clinical hyperandrogenism and ovulatory dysfunction. Could we run a morning fasted total/free testosterone, DHEA-S, and metabolic panel before starting birth control so we don't mask the baseline?”",
+            isBest: true,
+            feedback: "✦ Diagnostic Mastery! By requesting baseline fasted testing prior to hormonal therapy, you preserve critical clinical data needed for an accurate diagnosis.",
+            xpBonus: 30,
+          },
+          {
+            text: "“You're just judging me because of my weight! I want a different doctor right now.”",
+            isBest: false,
+            feedback: "Weight stigma in healthcare is real and harmful. Framing your request through specific diagnostic lab orders forces the clinician to address pathology rather than weight.",
+            xpBonus: 10,
+          },
+        ],
       },
-      options: [
-        {
-          text: "“I guess the scans don't lie. Maybe I'm just exaggerating the pain.”",
-          isBest: false,
-          feedback: "Over 75% of adolescent endometriosis consists of superficial peritoneal lesions that are completely invisible on ultrasound scans. Never doubt your bodily symptoms.",
-          xpBonus: 5,
+      {
+        id: "pcos-sim-2",
+        title: "Metabolic & Insulin Resistance Screening",
+        phaseName: "2. Insulin & Cardiometabolic Screening",
+        setting: "Lab Review for High Free Androgens",
+        character: "Dr. Wright",
+        characterRole: "Primary Care Physician",
+        statement: "“Your free testosterone was slightly elevated, but since your BMI is normal, you don't need any testing for insulin resistance or blood sugar issues.”",
+        evidence: {
+          badge: "Metabolic Panel",
+          title: "International Evidence-Based PCOS Guidelines Metabolic Screening",
+          metric: "Lean PCOS Phenotype · Fasting Insulin / 2-Hour 75g OGTT Recommended",
+          description: "International guidelines establishing that up to 75% of lean adolescent PCOS patients harbor intrinsic cellular insulin resistance requiring metabolic monitoring.",
         },
-        {
-          text: "“ACOG Committee Opinion No. 760 notes that a normal ultrasound cannot rule out superficial endometriosis. Since my cyclical pain causes school absence and doesn't respond to NSAIDs, could you refer me to a Minimally Invasive Gynecologic Surgeon (MIGS)?”",
-          isBest: true,
-          feedback: "✦ Life-Changing Clinical Self-Advocacy! You cited the exact ACOG standard on imaging limitations and requested a referral to an excision specialist.",
-          xpBonus: 30,
+        sourceCitation: {
+          organization: "Monash University & International PCOS Network",
+          guideline: "Recommendations from the 2023 International Evidence-Based Guideline for the Assessment and Management of Polycystic Ovary Syndrome",
+          year: "2023",
+          url: "https://www.monash.edu/medicine/mchri/pcos",
         },
-        {
-          text: "“You don't believe me! Why did I even waste money on this scan?”",
-          isBest: false,
-          feedback: "Channeling your frustration into requesting a documented specialist referral creates a paper trail and gets you closer to specialized care.",
-          xpBonus: 10,
-        },
-      ],
-    },
-    mind: {
-      setting: "Clinical Consultation for Severe Cyclical Mood Shifts",
-      character: "Dr. Miller",
-      characterRole: "Pediatric Primary Care Clinician",
-      statement: "“Every girl feels irritable or emotional before her period. Just drink more herbal tea, practice meditation, and don't make a big deal out of PMS.”",
-      evidence: {
-        badge: "Psychiatric Endocrine Chart",
-        title: "Prospective 2-Cycle Daily PMDD Mood & Luteal Graph",
-        metric: "DRSP Peak in Late Luteal · Rapid Remission Within 48h of Menses",
-        description: "Daily Record of Severity of Problems (DRSP) prospectively logged across 60 days, differentiating DSM-5 PMDD from generalized depression.",
+        options: [
+          {
+            text: "“Great, if my BMI is fine then I don't have to worry about insulin at all.”",
+            isBest: false,
+            feedback: "Misconception! Insulin resistance in PCOS is cellular and post-receptor mediated, frequently present in lean patients without elevated BMI.",
+            xpBonus: 5,
+          },
+          {
+            text: "“The 2023 International PCOS Evidence-Based Guidelines emphasize that insulin resistance occurs independently of BMI in adolescents with PCOS. Guidelines recommend a 2-hour 75g oral glucose tolerance test (OGTT) and a fasting lipid panel at diagnosis. Can we order these baseline metabolic screenings today?”",
+            isBest: true,
+            feedback: "✦ Endocrine Expertise! Citing international consensus on lean PCOS insulin resistance ensures comprehensive metabolic protection.",
+            xpBonus: 30,
+          },
+          {
+            text: "“You have no idea what lean PCOS is, I read about it online and you're wrong!”",
+            isBest: false,
+            feedback: "Citing the Monash 2023 International Guideline by name is far more authoritative than mentioning generic online reading.",
+            xpBonus: 10,
+          },
+        ],
       },
-      sourceCitation: {
-        organization: "American Academy of Child & Adolescent Psychiatry (AACAP)",
-        guideline: "AACAP Practice Parameter on Child & Adolescent Mood Disorders & DSM-5 PMDD Criteria",
-        year: "2023",
-        url: "https://www.aacap.org",
+      {
+        id: "pcos-sim-3",
+        title: "Subspecialty Referral & Medical Chart Refusal",
+        phaseName: "3. Reproductive Endocrine Referral",
+        setting: "Specialist Referral Request Consultation",
+        character: "Dr. Wright",
+        characterRole: "Primary Care Physician",
+        statement: "“There is no reason to see a reproductive endocrinologist until you are ready to get pregnant years down the road. Primary care can handle this with birth control.”",
+        evidence: {
+          badge: "Referral Rights",
+          title: "Endocrine Society Clinical Practice Guidelines",
+          metric: "Adolescent Multidisciplinary PCOS Care Model · Charting Protocol",
+          description: "Clinical mandate recommending adolescent endocrine consultation for comprehensive ovulatory restoration, metabolic optimization, and dermatological management.",
+        },
+        sourceCitation: {
+          organization: "The Endocrine Society",
+          guideline: "Diagnosis and Treatment of Polycystic Ovary Syndrome: An Endocrine Society Clinical Practice Guideline",
+          year: "2022",
+          url: "https://www.endocrine.org",
+        },
+        options: [
+          {
+            text: "“I guess you're right, I'll wait until I want kids to see an endocrinologist.”",
+            isBest: false,
+            feedback: "PCOS is an endocrine condition that impacts metabolic, bone, and mental health throughout your lifespan, not merely when conceiving.",
+            xpBonus: 5,
+          },
+          {
+            text: "“PCOS is a lifelong endocrine and cardiometabolic condition with systemic impacts on ovulatory signaling and metabolic health, not just fertility. I would like a referral to a pediatric or reproductive endocrinologist. If you are declining this referral today, please document your refusal and clinical rationale in my medical chart.”",
+            isBest: true,
+            feedback: "✦ Elite Healthcare Self-Advocacy! Documenting refusal in the EMR protects your continuity of care and compels providers to justify deviations from subspecialty standards.",
+            xpBonus: 30,
+          },
+          {
+            text: "“I don't need your permission, I'll find a doctor who actually cares!”",
+            isBest: false,
+            feedback: "Requiring the refusal to be documented in your current chart establishes an official clinical record before transitioning providers.",
+            xpBonus: 10,
+          },
+        ],
       },
-      options: [
-        {
-          text: "“I guess I'm just weak mentally. I'll try to meditate more.”",
-          isBest: false,
-          feedback: "PMDD is a severe neuroendocrine sensitivity disorder, not a lack of willpower or ordinary moodiness.",
-          xpBonus: 5,
+    ],
+
+    endo: [
+      {
+        id: "endo-sim-1",
+        title: "The 'Clear Ultrasound' Fallacy",
+        phaseName: "1. Normal Ultrasound Fallacy",
+        setting: "Outpatient Clinic Following a 'Normal' Pelvic Ultrasound",
+        character: "Dr. Patel",
+        characterRole: "General Gynecologic Clinician",
+        statement: "“Good news! Your ultrasound scan came back completely clear and unremarkable. There is nothing physically wrong with your pelvis, so your pain must be gastrointestinal or stress-related.”",
+        evidence: {
+          badge: "Imaging Limitations File",
+          title: "Peritoneal Endometriosis Ultrasound Sensitivity Data",
+          metric: "Normal Scan Recorded · Severe Dyschezia & Pelvic Pain · 7-Year Diagnosis Gap",
+          description: "Official medical consensus showing that standard transabdominal/transvaginal ultrasound fails to detect over 75% of superficial peritoneal endometriosis lesions.",
         },
-        {
-          text: "“I have tracked my symptoms prospectively across two consecutive cycles. My severe depression and panic only emerge in the luteal phase and vanish 48 hours into bleeding. This aligns with DSM-5 PMDD diagnostic criteria. Can we discuss evidence-based medical treatment?”",
-          isBest: true,
-          feedback: "✦ Clinical Precision! Prospective 2-cycle daily symptom charting is the gold standard for PMDD diagnosis. Presenting real data makes your condition undeniable.",
-          xpBonus: 30,
+        sourceCitation: {
+          organization: "American College of Obstetricians and Gynecologists (ACOG)",
+          guideline: "ACOG Committee Opinion No. 760: Dysmenorrhea and Endometriosis in the Adolescent",
+          year: "Reaffirmed 2023",
+          url: "https://www.acog.org/clinical/clinical-guidance/committee-opinion/articles/2018/12/dysmenorrhea-and-endometriosis-in-the-adolescent",
         },
-        {
-          text: "“You have no idea how hard my life is! You're completely unhelpful.”",
-          isBest: false,
-          feedback: "Presenting documented prospective tracking logs commands immediate medical respect and bypasses dismissive advice.",
-          xpBonus: 10,
-        },
-      ],
-    },
-    realtalk: {
-      setting: "Student Health Center Front Desk",
-      character: "Alex",
-      characterRole: "Intake & Billing Coordinator",
-      statement: "“If you want confidential STI screening or reproductive care, we normally bill your family insurance, which sends a detailed Explanation of Benefits (EOB) itemizing all tests to your home address.”",
-      evidence: {
-        badge: "Legal Rights Form",
-        title: "Title X Minor Confidentiality Protection & Billing Waiver",
-        metric: "Statutory Minor Privacy Protections · Request for Zero Home EOB",
-        description: "Official federal Title X regulations establishing that adolescent patients may receive confidential reproductive screenings via sliding-scale federal grant allocations.",
+        options: [
+          {
+            text: "“I guess the scans don't lie. Maybe I'm just exaggerating the pain.”",
+            isBest: false,
+            feedback: "Over 75% of adolescent endometriosis consists of superficial peritoneal lesions that are completely invisible on ultrasound scans. Never doubt your bodily symptoms.",
+            xpBonus: 5,
+          },
+          {
+            text: "“ACOG Committee Opinion No. 760 notes that a normal ultrasound cannot rule out superficial endometriosis. Since my cyclical pain causes school absence and doesn't respond to NSAIDs, could you refer me to a Minimally Invasive Gynecologic Surgeon (MIGS)?”",
+            isBest: true,
+            feedback: "✦ Life-Changing Clinical Self-Advocacy! You cited the exact ACOG standard on imaging limitations and requested a referral to an excision specialist.",
+            xpBonus: 30,
+          },
+          {
+            text: "“You don't believe me! Why did I even waste money on this scan?”",
+            isBest: false,
+            feedback: "Channeling your frustration into requesting a documented specialist referral creates a paper trail and gets you closer to specialized care.",
+            xpBonus: 10,
+          },
+        ],
       },
-      sourceCitation: {
-        organization: "American College of Obstetricians and Gynecologists (ACOG)",
-        guideline: "ACOG Committee Opinion No. 803: Confidentiality in Adolescent Health Care",
-        year: "2020",
-        url: "https://www.acog.org/clinical/clinical-guidance/committee-opinion/articles/2020/04/confidentiality-in-adolescent-health-care",
+      {
+        id: "endo-sim-2",
+        title: "Cyclic Bowel & Bladder Pain Evaluation",
+        phaseName: "2. Deep Pelvic & Bowel Symptoms",
+        setting: "Symptom Deep-Dive Consultation for Catamenial GI Pain",
+        character: "Dr. Patel",
+        characterRole: "General Gynecologic Clinician",
+        statement: "“Teenagers don't get deep endometriosis. Your sharp rectal spasms and painful bowel movements during bleeding are just irritable bowel syndrome (IBS).”",
+        evidence: {
+          badge: "Catamenial Log",
+          title: "Catamenial Dyschezia & Dysuria Symptom Log",
+          metric: "Severe Rectal Spasms During Menses · Zero Mid-Cycle GI Symptoms",
+          description: "Detailed tracking proving GI and urinary symptoms are strictly cyclical and synchronous with menstrual bleeding, indicating uterosacral and pouch of Douglas peritoneal implants.",
+        },
+        sourceCitation: {
+          organization: "World Endometriosis Society (WES) & ESHRE",
+          guideline: "ESHRE Guideline: Endometriosis (European Society of Human Reproduction and Embryology)",
+          year: "2022",
+          url: "https://www.eshre.eu/Guidelines-and-Legal/Guidelines/Endometriosis-guideline",
+        },
+        options: [
+          {
+            text: "“I'll try taking fiber supplements and cut out dairy, maybe it's just my diet.”",
+            isBest: false,
+            feedback: "Dietary adjustments will not treat ectopic endometrial implants on the bowel wall or uterosacral ligaments.",
+            xpBonus: 5,
+          },
+          {
+            text: "“Catamenial dyschezia—painful bowel movements occurring strictly during menstruation—is a classic cardinal symptom of posterior compartment endometriosis in adolescents. ESHRE and ACOG guidelines recommend evaluating cyclic GI symptoms as gynecological pathology rather than isolated IBS. Can we evaluate these symptoms as endometriosis?”",
+            isBest: true,
+            feedback: "✦ Diagnostic Precision! Using the clinical term ‘catamenial dyschezia’ demonstrates medical literacy that refutes misdiagnosis as ordinary IBS.",
+            xpBonus: 30,
+          },
+          {
+            text: "“I do not have IBS! Why does every doctor assume girls are just having stomach aches?”",
+            isBest: false,
+            feedback: "Highlighting the strict monthly synchrony of the symptoms provides the medical proof needed to rule out isolated GI disease.",
+            xpBonus: 10,
+          },
+        ],
       },
-      options: [
-        {
-          text: "“Never mind then, I can't risk my parents seeing that. I'll just skip getting tested.”",
-          isBest: false,
-          feedback: "Skipping asymptomatic STI testing puts your health and partner's health at risk. Confidential pathways always exist.",
-          xpBonus: 5,
+      {
+        id: "endo-sim-3",
+        title: "Laparoscopic Excision vs. Ablation Referral",
+        phaseName: "3. Excision (MIGS) Referral & Charting",
+        setting: "Surgical Consultation Decision",
+        character: "Dr. Patel",
+        characterRole: "General Gynecologic Clinician",
+        statement: "“If you insist on surgery, I can do a quick diagnostic laparoscopy next week and burn off whatever spots I see with electrocautery. There is no need to see an excision specialist.”",
+        evidence: {
+          badge: "Surgical Evidence",
+          title: "Excision vs. Ablation Recurrence Rate Comparative Study",
+          metric: "Ablation Recurrence: 40–60% at 2 Years · Excision Recurrence: <15%",
+          description: "Peer-reviewed surgical research demonstrating that superficial cautery (ablation) leaves deep disease in the pelvic floor, whereas wide laparoscopic excision removes the entire lesion base.",
         },
-        {
-          text: "“Under Title X federal guidelines and state minor consent laws, I have the legal right to confidential reproductive healthcare. Can we utilize Title X sliding-scale funding or a confidential billing waiver so no EOB is generated?”",
-          isBest: true,
-          feedback: "✦ Legal & Healthcare Rights Mastery! Invoking Title X sliding-scale grant funding guarantees zero insurance statements are mailed to your household.",
-          xpBonus: 30,
+        sourceCitation: {
+          organization: "Journal of Minimally Invasive Gynecology (JMIG) & AAGL",
+          guideline: "AAGL Guidelines on Laparoscopic Excision of Endometriosis & Adolescent Pelvic Surgery",
+          year: "2023",
+          url: "https://www.jmig.org",
         },
-        {
-          text: "“Why are you trying to get me in trouble with my family?”",
-          isBest: false,
-          feedback: "Front desk staff often default to standard commercial billing unless patients explicitly request Title X confidential billing protocols.",
-          xpBonus: 10,
-        },
-      ],
-    },
-    conditions: {
-      setting: "Consultation on Reproductive Care Options",
-      character: "Dr. Rivera",
-      characterRole: "Reproductive Health Specialist",
-      statement: "“At your age, I usually only prescribe the combined pill. Let's just write that prescription right now without confusing you with other options.”",
-      evidence: {
-        badge: "Decision Matrix",
-        title: "Adolescent Contraception Shared Decision-Making Guide",
-        metric: "Comparative Efficacy, Side Effects & Dosing Schedules Evaluated",
-        description: "Clinical comparison grid showing Tier 1 (IUD/implant), Tier 2 (pill/patch/ring/shot), and Tier 3 barrier methods matched with patient preferences.",
+        options: [
+          {
+            text: "“Sounds good, burning them off sounds fast and easy. Let's schedule it.”",
+            isBest: false,
+            feedback: "Ablation frequently leaves deep inflammatory tissue intact and causes pelvic adhesions. Fellowship-trained excision offers far superior long-term relief.",
+            xpBonus: 5,
+          },
+          {
+            text: "“Peer-reviewed surgical data in JMIG shows laparoscopic excision has significantly lower recurrence rates and better symptom resolution than ablation, which can leave deep lesions behind. I am requesting a referral to a fellowship-trained Minimally Invasive Gynecologic Surgeon (MIGS). If you are declining to write this referral, please document your refusal in my medical record today.”",
+            isBest: true,
+            feedback: "✦ Master Healthcare Advocacy! You cited surgical recurrence comparative trials and requested written documentation of refusal, protecting yourself from substandard surgery.",
+            xpBonus: 30,
+          },
+          {
+            text: "“I won't let you touch me with a laser! You're going to butcher my organs!”",
+            isBest: false,
+            feedback: "Calmly citing surgical literature and requesting a documented MIGS referral maintains control of your medical trajectory.",
+            xpBonus: 10,
+          },
+        ],
       },
-      sourceCitation: {
-        organization: "American Academy of Pediatrics (AAP) & ACOG",
-        guideline: "AAP Clinical Report: Contraception for Adolescents & ACOG Adolescent Practice Guidelines",
-        year: "2022",
-        url: "https://publications.aap.org/pediatrics/article/134/4/e1244/32971/Contraception-for-Adolescents",
+    ],
+
+    mind: [
+      {
+        id: "mind-sim-1",
+        title: "Dismissing PMDD as Everyday PMS",
+        phaseName: "1. DSM-5 PMDD vs. PMS",
+        setting: "Clinical Consultation for Severe Cyclical Mood Shifts",
+        character: "Dr. Miller",
+        characterRole: "Pediatric Primary Care Clinician",
+        statement: "“Every girl feels irritable or emotional before her period. Just drink more herbal tea, practice meditation, and don't make a big deal out of PMS.”",
+        evidence: {
+          badge: "Psychiatric Endocrine Chart",
+          title: "Prospective 2-Cycle Daily PMDD Mood & Luteal Graph",
+          metric: "DRSP Peak in Late Luteal · Rapid Remission Within 48h of Menses",
+          description: "Daily Record of Severity of Problems (DRSP) prospectively logged across 60 days, differentiating DSM-5 PMDD from generalized depression.",
+        },
+        sourceCitation: {
+          organization: "American Academy of Child & Adolescent Psychiatry (AACAP)",
+          guideline: "AACAP Practice Parameter on Child & Adolescent Mood Disorders & DSM-5 PMDD Criteria",
+          year: "2023",
+          url: "https://www.aacap.org",
+        },
+        options: [
+          {
+            text: "“I guess I'm just weak mentally. I'll try to meditate more.”",
+            isBest: false,
+            feedback: "PMDD is a severe neuroendocrine sensitivity disorder, not a lack of willpower or ordinary moodiness.",
+            xpBonus: 5,
+          },
+          {
+            text: "“I have tracked my symptoms prospectively across two consecutive cycles. My severe depression and panic only emerge in the luteal phase and vanish 48 hours into bleeding. This aligns with DSM-5 PMDD diagnostic criteria. Can we discuss evidence-based medical treatment?”",
+            isBest: true,
+            feedback: "✦ Clinical Precision! Prospective 2-cycle daily symptom charting is the gold standard for PMDD diagnosis. Presenting real data makes your condition undeniable.",
+            xpBonus: 30,
+          },
+          {
+            text: "“You have no idea how hard my life is! You're completely unhelpful.”",
+            isBest: false,
+            feedback: "Presenting documented prospective tracking logs commands immediate medical respect and bypasses dismissive advice.",
+            xpBonus: 10,
+          },
+        ],
       },
-      options: [
-        {
-          text: "“Sure, whatever you think is simplest.”",
-          isBest: false,
-          feedback: "Shared decision-making requires understanding all available options, including progestin-only pills, rings, patches, implants, and IUDs.",
-          xpBonus: 5,
+      {
+        id: "mind-sim-2",
+        title: "Intermittent Luteal Dosing vs. Continuous Sedatives",
+        phaseName: "2. Luteal Dosing Pharmacotherapy",
+        setting: "Medication Review for Premenstrual Dysphoria",
+        character: "Dr. Miller",
+        characterRole: "Pediatric Primary Care Clinician",
+        statement: "“Since your mood drops are severe, I want to prescribe continuous daily high-dose antidepressants and a sedative to take all month long.”",
+        evidence: {
+          badge: "Neuroendocrine Profile",
+          title: "DRSP Confirmed Strictly Confined Luteal-Phase Presentation",
+          metric: "Follicular Phase Score: 0 (Normal) · Luteal Phase Score: Severe Impairment",
+          description: "Clinical evidence proving GABA-A receptor sensitivity to allopregnanolone fluctuations, responsive to targeted intermittent luteal-phase SSRI dosing.",
         },
-        {
-          text: "“I would like to practice shared decision-making. Could we review the effectiveness, side effect profiles, and dosing schedules of different methods so I can choose what best matches my medical history and daily routine?”",
-          isBest: true,
-          feedback: "✦ Shared Decision-Making Champion! You asserted your autonomy as a patient to review the full spectrum of evidence-based choices.",
-          xpBonus: 30,
+        sourceCitation: {
+          organization: "International Society for Premenstrual Disorders (ISPMD) & ACOG",
+          guideline: "ISPMD Consensus on the Management of Premenstrual Dysphoric Disorder & ACOG Practice Guidelines",
+          year: "2023",
+          url: "https://www.ispmd.org",
         },
-        {
-          text: "“I don't trust pharmaceuticals at all, never mind.”",
-          isBest: false,
-          feedback: "Exploring options collaboratively with your provider ensures you find a solution tailored to your personal comfort and health goals.",
-          xpBonus: 10,
-        },
-      ],
-    },
-    factors: {
-      setting: "High School District Board Meeting on Menstrual Hygiene Supplies",
-      character: "Trustee Morales",
-      characterRole: "School Board Member",
-      statement: "“Installing free pad and tampon dispensers in all student bathrooms will just lead to vandalism and waste our limited school maintenance budget.”",
-      evidence: {
-        badge: "Policy Impact Report",
-        title: "Menstrual Equity School Attendance & Fiscal Impact Brief",
-        metric: "84% Student Absenteeism Link · <$3/Student Annual Cost",
-        description: "Data-driven research proving free menstrual dispensers decrease classroom absenteeism by >20% and protect student health equity.",
+        options: [
+          {
+            text: "“Okay, I'll take heavy sedatives every single day of the month even when I feel great.”",
+            isBest: false,
+            feedback: "Continuous daily sedatives cause side effects and ignore the biological trigger of PMDD, which is confined to the post-ovulatory luteal window.",
+            xpBonus: 5,
+          },
+          {
+            text: "“Because my prospective DRSP charting confirms my symptoms are strictly confined to the luteal phase and completely absent in the follicular phase, ACOG and ISPMD first-line guidelines recommend intermittent luteal-phase SSRI dosing (starting at ovulation and stopping on day 1 of menses). Can we trial this targeted protocol first?”",
+            isBest: true,
+            feedback: "✦ Neuroendocrine Pharmacology Mastery! Intermittent luteal dosing has rapid efficacy within hours in PMDD due to unique neurosteroid mechanisms.",
+            xpBonus: 30,
+          },
+          {
+            text: "“I'm not taking pills every day! You're trying to turn me into a zombie!”",
+            isBest: false,
+            feedback: "Educating the provider on intermittent luteal dosing provides a targeted evidence-based alternative to continuous daily medication.",
+            xpBonus: 10,
+          },
+        ],
       },
-      sourceCitation: {
-        organization: "Alliance for Period Supplies & GLOWM",
-        guideline: "National Study on Period Poverty and School Attendance & GLOWM Social Determinants",
-        year: "2023",
-        url: "https://period.org",
+      {
+        id: "mind-sim-3",
+        title: "Academic Accommodations & Chart Verification",
+        phaseName: "3. School Accommodations & Charting",
+        setting: "School Accommodation Request with Clinician",
+        character: "Dr. Miller",
+        characterRole: "Pediatric Primary Care Clinician",
+        statement: "“I cannot sign a medical accommodation form for a high school. Schools don't grant testing flexibility or attendance passes for menstrual emotional symptoms.”",
+        evidence: {
+          badge: "Legal Rights Form",
+          title: "Section 504 / ADA Medical Verification for Neuroendocrine Impairment",
+          metric: "DSM-5-TR 625.4 (PMDD) · Protected Functional Disability Status",
+          description: "Federal civil rights protections under Section 504 guaranteeing reasonable educational accommodations for chronic health conditions that impair major life activities.",
+        },
+        sourceCitation: {
+          organization: "U.S. Department of Education & American Psychiatric Association (APA)",
+          guideline: "Section 504 Rehabilitation Act Protections for Chronic Medical Conditions & DSM-5-TR PMDD Criteria",
+          year: "2023",
+          url: "https://www.ed.gov/ocr",
+        },
+        options: [
+          {
+            text: "“I guess I'll just fail my exams when they land on my luteal week.”",
+            isBest: false,
+            feedback: "Surrendering your rights causes unnecessary academic harm. PMDD is a federally recognized impairment eligible for 504 protections.",
+            xpBonus: 5,
+          },
+          {
+            text: "“PMDD is a recognized neuroendocrine disorder in the DSM-5 that substantially impairs concentration during the luteal window. Under Section 504 of the Rehabilitation Act, students with chronic medical impairments are legally entitled to reasonable exam rescheduling accommodations. Can you sign this medical verification form, or refer me to a reproductive psychiatrist who can?”",
+            isBest: true,
+            feedback: "✦ Civil Rights & Healthcare Mastery! Invoking Section 504 federal statute transforms a request into a protected civil right for educational equity.",
+            xpBonus: 30,
+          },
+          {
+            text: "“You don't care about my education! You want me to flunk out of school!”",
+            isBest: false,
+            feedback: "Presenting the formal Section 504 medical verification form directly establishes your legal entitlement to educational accommodations.",
+            xpBonus: 10,
+          },
+        ],
       },
-      options: [
-        {
-          text: "“I guess that makes sense. We'll just keep asking friends for emergency supplies.”",
-          isBest: false,
-          feedback: "Accepting period poverty in schools causes students to miss instructional hours and disproportionately harms lower-income youth.",
-          xpBonus: 5,
+    ],
+
+    realtalk: [
+      {
+        id: "realtalk-sim-1",
+        title: "Title X Minor Privacy & Insurance EOB Protection",
+        phaseName: "1. Title X Minor Confidentiality",
+        setting: "Student Health Center Front Desk",
+        character: "Alex",
+        characterRole: "Intake & Billing Coordinator",
+        statement: "“If you want confidential STI screening or reproductive care, we normally bill your family insurance, which sends a detailed Explanation of Benefits (EOB) itemizing all tests to your home address.”",
+        evidence: {
+          badge: "Legal Rights Form",
+          title: "Title X Minor Confidentiality Protection & Billing Waiver",
+          metric: "Statutory Minor Privacy Protections · Request for Zero Home EOB",
+          description: "Official federal Title X regulations establishing that adolescent patients may receive confidential reproductive screenings via sliding-scale federal grant allocations.",
         },
-        {
-          text: "“Menstrual products are non-negotiable hygiene supplies, exactly like hand soap and toilet paper. Research from Menstrual Equity campaigns shows that providing free supplies reduces absenteeism by over 20% and costs less than $3 per student per year. We are requesting a formal line-item allocation for educational parity.”",
-          isBest: true,
-          feedback: "✦ Civic & Community Advocacy Master! You framed menstrual access as fundamental educational parity and refuted budget concerns with empirical cost-benefit data.",
-          xpBonus: 30,
+        sourceCitation: {
+          organization: "American College of Obstetricians and Gynecologists (ACOG)",
+          guideline: "ACOG Committee Opinion No. 803: Confidentiality in Adolescent Health Care",
+          year: "2020",
+          url: "https://www.acog.org/clinical/clinical-guidance/committee-opinion/articles/2020/04/confidentiality-in-adolescent-health-care",
         },
-        {
-          text: "“You hate female students and you are all completely out of touch!”",
-          isBest: false,
-          feedback: "Grounding your advocacy in educational attendance statistics and comparing supplies to toilet paper makes your policy argument airtight.",
-          xpBonus: 10,
+        options: [
+          {
+            text: "“Never mind then, I can't risk my parents seeing that. I'll just skip getting tested.”",
+            isBest: false,
+            feedback: "Skipping asymptomatic STI testing puts your health and partner's health at risk. Confidential pathways always exist.",
+            xpBonus: 5,
+          },
+          {
+            text: "“Under Title X federal guidelines and state minor consent laws, I have the legal right to confidential reproductive healthcare. Can we utilize Title X sliding-scale funding or a confidential billing waiver so no EOB is generated?”",
+            isBest: true,
+            feedback: "✦ Legal & Healthcare Rights Mastery! Invoking Title X sliding-scale grant funding guarantees zero insurance statements are mailed to your household.",
+            xpBonus: 30,
+          },
+          {
+            text: "“Why are you trying to get me in trouble with my family?”",
+            isBest: false,
+            feedback: "Front desk staff often default to standard commercial billing unless patients explicitly request Title X confidential billing protocols.",
+            xpBonus: 10,
+          },
+        ],
+      },
+      {
+        id: "realtalk-sim-2",
+        title: "First-Line LARC Contraceptive Counseling",
+        phaseName: "2. Tier 1 Contraceptive Access",
+        setting: "Contraceptive Counseling Consultation",
+        character: "Clinician Taylor",
+        characterRole: "Adolescent Health Specialist",
+        statement: "“You're too young to consider an IUD or contraceptive implant. Let's just put you on the daily birth control pill.”",
+        evidence: {
+          badge: "Efficacy Hierarchy",
+          title: "Contraceptive Efficacy Tier Hierarchy Chart",
+          metric: "Tier 1 LARCs: <0.1–0.2% Failure Rate vs. Oral Pill: 7–9% Typical Failure",
+          description: "Clinical comparison demonstrating that Long-Acting Reversible Contraception (LARCs) provides the highest satisfaction and pregnancy prevention in youth.",
         },
-      ],
-    },
+        sourceCitation: {
+          organization: "American Academy of Pediatrics (AAP) & ACOG",
+          guideline: "AAP Policy Statement: Contraception for Adolescents & ACOG Committee Opinion No. 710",
+          year: "2022",
+          url: "https://publications.aap.org",
+        },
+        options: [
+          {
+            text: "“Okay, I'll take the pill, even though I know I'll probably forget it every week.”",
+            isBest: false,
+            feedback: "Typical use failure rates for oral pills in teenagers exceed 7–9% due to missed pills. You have the right to evaluate all options.",
+            xpBonus: 5,
+          },
+          {
+            text: "“ACOG and AAP clinical consensus statements explicitly designate LARCs—such as the hormonal implant and intrauterine devices—as first-line recommendations for adolescents due to their safety and superior >99% efficacy. I would like to review the benefits and insertion procedures for an implant.”",
+            isBest: true,
+            feedback: "✦ Shared Decision-Making Champion! You cited national pediatric guidelines that establish LARCs as first-line options for adolescents.",
+            xpBonus: 30,
+          },
+          {
+            text: "“You're gatekeeping birth control! Why won't you let me choose?”",
+            isBest: false,
+            feedback: "Referencing AAP and ACOG consensus guidelines provides the clinical rationale needed to access Tier 1 methods.",
+            xpBonus: 10,
+          },
+        ],
+      },
+      {
+        id: "realtalk-sim-3",
+        title: "Emergency Contraceptive OTC Dispensing Rights",
+        phaseName: "3. Pharmacy OTC Rights",
+        setting: "Community Pharmacy Counter for Emergency Contraception",
+        character: "Pharmacist Greg",
+        characterRole: "Retail Pharmacist",
+        statement: "“You look under 18. You need a doctor's prescription and an adult parent present to purchase emergency contraception from this pharmacy counter.”",
+        evidence: {
+          badge: "Federal Mandate",
+          title: "FDA Over-the-Counter Levonorgestrel Regulatory Ruling",
+          metric: "Zero Age Restrictions · No ID Required · Point-of-Sale Access Mandated",
+          description: "2013 FDA federal ruling and American Society for Emergency Contraception regulations establishing unrestricted OTC access to levonorgestrel for all individuals.",
+        },
+        sourceCitation: {
+          organization: "U.S. Food and Drug Administration (FDA) & ASEC",
+          guideline: "FDA Regulatory Approval of Over-the-Counter Levonorgestrel Without Age Restrictions",
+          year: "Reaffirmed 2023",
+          url: "https://www.fda.gov",
+        },
+        options: [
+          {
+            text: "“Sorry, I didn't know the rules. I'll go home and ask my parents.”",
+            isBest: false,
+            feedback: "Levonorgestrel's efficacy drops dramatically with each passing hour. Federal law does not require parental permission or prescriptions.",
+            xpBonus: 5,
+          },
+          {
+            text: "“Under federal FDA regulations established in 2013, levonorgestrel emergency contraception is approved for over-the-counter sale to all individuals regardless of age, with no prescription or parental consent required. Federal regulations protect my right to purchase this medication immediately.”",
+            isBest: true,
+            feedback: "✦ Uncompromising Regulatory Literacy! Citing FDA 2013 over-the-counter deregulation corrects erroneous pharmacy gatekeeping immediately.",
+            xpBonus: 30,
+          },
+          {
+            text: "“You're breaking the law! Give it to me right now or I'm calling the police!”",
+            isBest: false,
+            feedback: "Calmly reciting the FDA regulation prompts the pharmacist to check official policy without unnecessary escalation.",
+            xpBonus: 10,
+          },
+        ],
+      },
+    ],
+
+    factors: [
+      {
+        id: "factors-sim-1",
+        title: "School Bathroom Dispenser Budget Policy",
+        phaseName: "1. Menstrual Product Equity",
+        setting: "High School District Board Meeting on Menstrual Hygiene Supplies",
+        character: "Trustee Morales",
+        characterRole: "School Board Member",
+        statement: "“Installing free pad and tampon dispensers in all student bathrooms will just lead to vandalism and waste our limited school maintenance budget.”",
+        evidence: {
+          badge: "Policy Impact Report",
+          title: "Menstrual Equity School Attendance & Fiscal Impact Brief",
+          metric: "84% Student Absenteeism Link · <$3/Student Annual Cost",
+          description: "Data-driven research proving free menstrual dispensers decrease classroom absenteeism by >20% and protect student health equity.",
+        },
+        sourceCitation: {
+          organization: "Alliance for Period Supplies & GLOWM",
+          guideline: "National Study on Period Poverty and School Attendance & GLOWM Social Determinants",
+          year: "2023",
+          url: "https://period.org",
+        },
+        options: [
+          {
+            text: "“I guess that makes sense. We'll just keep asking friends for emergency supplies.”",
+            isBest: false,
+            feedback: "Accepting period poverty in schools causes students to miss instructional hours and disproportionately harms lower-income youth.",
+            xpBonus: 5,
+          },
+          {
+            text: "“Menstrual products are non-negotiable hygiene supplies, exactly like hand soap and toilet paper. Research from Menstrual Equity campaigns shows that providing free supplies reduces absenteeism by over 20% and costs less than $3 per student per year. We are requesting a formal line-item allocation for educational parity.”",
+            isBest: true,
+            feedback: "✦ Civic & Community Advocacy Master! You framed menstrual access as fundamental educational parity and refuted budget concerns with empirical cost-benefit data.",
+            xpBonus: 30,
+          },
+          {
+            text: "“You hate female students and you are all completely out of touch!”",
+            isBest: false,
+            feedback: "Grounding your advocacy in educational attendance statistics and comparing supplies to toilet paper makes your policy argument airtight.",
+            xpBonus: 10,
+          },
+        ],
+      },
+      {
+        id: "factors-sim-2",
+        title: "Restroom Access & Hall Pass Disciplinary Penalties",
+        phaseName: "2. Restroom Access & Safety",
+        setting: "Vice Principal's Office on Restroom Policies",
+        character: "Vice Principal Davis",
+        characterRole: "School Administrator",
+        statement: "“Our school policy strictly limits students to two hall passes per semester. If you leave class during heavy flow days, you will receive unexcused absence detention points.”",
+        evidence: {
+          badge: "Health Protocol",
+          title: "Menstrual Hygiene Safety & Toxic Shock Syndrome (TSS) Prevention",
+          metric: "Product Change Interval: Every 4–8 Hours Max · Involuntary Bleeding Protection",
+          description: "Clinical evidence from the AAP and CDC establishing that restricting bathroom access during heavy menses elevates risks for bacterial overgrowth and toxic shock syndrome.",
+        },
+        sourceCitation: {
+          organization: "American Academy of Pediatrics (AAP) & CDC",
+          guideline: "AAP Guidance on Menstrual Health and Hygiene Management in Schools",
+          year: "2023",
+          url: "https://www.cdc.gov",
+        },
+        options: [
+          {
+            text: "“I'll just try to hold it and leave the same tampon in all day to avoid detention.”",
+            isBest: false,
+            feedback: "Leaving tampons in place for extended hours drastically elevates the risk of life-threatening Toxic Shock Syndrome (TSS).",
+            xpBonus: 5,
+          },
+          {
+            text: "“Medical guidelines from the AAP and CDC require sanitary products to be changed every four to eight hours to prevent severe bacterial infections like Toxic Shock Syndrome. Punishing students with detention for attending to involuntary biological needs violates health safety standards. I am requesting an individualized health plan accommodation for unrestricted restroom access without academic penalty.”",
+            isBest: true,
+            feedback: "✦ Institutional Advocacy Champion! Linking bathroom restrictions to AAP bacterial safety protocols provides the legal foundation for an Individualized Health Plan (IHP).",
+            xpBonus: 30,
+          },
+          {
+            text: "“This school is a prison and you're violating human rights!”",
+            isBest: false,
+            feedback: "Requesting a formal Individualized Health Plan through the school nurse and referencing CDC safety standards protects you legally.",
+            xpBonus: 10,
+          },
+        ],
+      },
+      {
+        id: "factors-sim-3",
+        title: "Language Equity & Title VI Healthcare Interpretation",
+        phaseName: "3. Language Equity & Title VI",
+        setting: "Community Health Clinic Reception",
+        character: "Clinic Manager Vance",
+        characterRole: "Clinic Administrator",
+        statement: "“We don't have medical interpreters available today. You must bring a teenage sibling into the exam room to translate your pelvic examination and clinical history.”",
+        evidence: {
+          badge: "Civil Rights Mandate",
+          title: "Title VI of the Civil Rights Act & HHS Office for Civil Rights Policy",
+          metric: "Federal Prohibition on Using Minors or Family Members as Medical Interpreters",
+          description: "Federal law requiring federally funded healthcare facilities to provide qualified, certified medical interpreters at zero cost to patients, explicitly barring reliance on family members.",
+        },
+        sourceCitation: {
+          organization: "U.S. Department of Health and Human Services (HHS) Office for Civil Rights",
+          guideline: "Section 1557 of the Affordable Care Act & Title VI Language Access Regulations",
+          year: "2023",
+          url: "https://www.hhs.gov/ocr",
+        },
+        options: [
+          {
+            text: "“Okay, I'll have my younger brother come in and translate my pelvic exam.”",
+            isBest: false,
+            feedback: "Using minor family members violates privacy, causes severe emotional distress, and leads to dangerous medical translation errors.",
+            xpBonus: 5,
+          },
+          {
+            text: "“Under Title VI of the Civil Rights Act and Section 1557 of the ACA, healthcare facilities are legally prohibited from requiring minor family members to translate confidential medical examinations. You are required to provide qualified telephone or video medical interpreter services at no cost to the patient. Please connect us with a certified interpreter before we begin.”",
+            isBest: true,
+            feedback: "✦ Civil Rights Mastery! Invoking Title VI and Section 1557 guarantees confidential, certified medical translation and protects patient dignity.",
+            xpBonus: 30,
+          },
+          {
+            text: "“This clinic is completely discriminatory and I'm suing you!”",
+            isBest: false,
+            feedback: "Stating the federal mandate for free telephone/video interpreter services prompts clinic staff to dial their language line immediately.",
+            xpBonus: 10,
+          },
+        ],
+      },
+    ],
+
+    conditions: [
+      {
+        id: "cond-sim-1",
+        title: "Reproductive Options & Shared Decision-Making",
+        phaseName: "1. Shared Decision-Making",
+        setting: "Consultation on Reproductive Care Options",
+        character: "Dr. Rivera",
+        characterRole: "Reproductive Health Specialist",
+        statement: "“At your age, I usually only prescribe the combined pill. Let's just write that prescription right now without confusing you with other options.”",
+        evidence: {
+          badge: "Decision Matrix",
+          title: "Adolescent Contraception Shared Decision-Making Guide",
+          metric: "Comparative Efficacy, Side Effects & Dosing Schedules Evaluated",
+          description: "Clinical comparison grid showing Tier 1 (IUD/implant), Tier 2 (pill/patch/ring/shot), and Tier 3 barrier methods matched with patient preferences.",
+        },
+        sourceCitation: {
+          organization: "American Academy of Pediatrics (AAP) & ACOG",
+          guideline: "AAP Clinical Report: Contraception for Adolescents & ACOG Adolescent Practice Guidelines",
+          year: "2022",
+          url: "https://publications.aap.org/pediatrics/article/134/4/e1244/32971/Contraception-for-Adolescents",
+        },
+        options: [
+          {
+            text: "“Sure, whatever you think is simplest.”",
+            isBest: false,
+            feedback: "Shared decision-making requires understanding all available options, including progestin-only pills, rings, patches, implants, and IUDs.",
+            xpBonus: 5,
+          },
+          {
+            text: "“I would like to practice shared decision-making. Could we review the effectiveness, side effect profiles, and dosing schedules of different methods so I can choose what best matches my medical history and daily routine?”",
+            isBest: true,
+            feedback: "✦ Shared Decision-Making Champion! You asserted your autonomy as a patient to review the full spectrum of evidence-based choices.",
+            xpBonus: 30,
+          },
+          {
+            text: "“I don't trust pharmaceuticals at all, never mind.”",
+            isBest: false,
+            feedback: "Exploring options collaboratively with your provider ensures you find a solution tailored to your personal comfort and health goals.",
+            xpBonus: 10,
+          },
+        ],
+      },
+      {
+        id: "cond-sim-2",
+        title: "Pelvic Pain Differential Diagnosis Workup",
+        phaseName: "2. Structural Differential Diagnosis",
+        setting: "Differential Diagnosis Consultation for Persistent Pelvic Aching",
+        character: "Dr. Rivera",
+        characterRole: "Reproductive Health Specialist",
+        statement: "“Your pelvic discomfort is likely just muscular or irritable bowel symptoms. There is no reason to order any pelvic imaging or screening for structural reproductive conditions.”",
+        evidence: {
+          badge: "Diagnostic Algorithm",
+          title: "Adolescent Chronic Pelvic Pain Structural Differential Algorithm",
+          metric: "Evaluation for Obstructive Müllerian Anomalies, Adenomyosis & Cysts",
+          description: "Clinical guidelines recommending high-resolution transabdominal and transperineal ultrasound to evaluate structural anomalies in adolescents with chronic pelvic pain.",
+        },
+        sourceCitation: {
+          organization: "ACOG & North American Society for Pediatric and Adolescent Gynecology",
+          guideline: "ACOG Practice Bulletin: Chronic Pelvic Pain & NASPAG Structural Evaluation Protocols",
+          year: "2023",
+          url: "https://www.acog.org",
+        },
+        options: [
+          {
+            text: "“Okay, if you think it's just muscle aches, I'll take hot baths and stretch more.”",
+            isBest: false,
+            feedback: "Assuming pain is muscular overlooks potential congenital obstructive anomalies or early adenomyosis that benefit from early detection.",
+            xpBonus: 5,
+          },
+          {
+            text: "“Chronic pelvic pain in adolescents has diverse etiologies, including obstructive Müllerian anomalies, adenomyosis, and ovarian cysts. Clinical guidelines from ACOG recommend pelvic imaging to evaluate structural anatomy when pain persists. Can we order a dedicated pelvic ultrasound to rule out these anatomical causes?”",
+            isBest: true,
+            feedback: "✦ Diagnostic Thoroughness! Citing specific structural differentials like Müllerian variations provides the medical justification needed to schedule imaging.",
+            xpBonus: 30,
+          },
+          {
+            text: "“You think I'm making this up! Why do you never believe patients?”",
+            isBest: false,
+            feedback: "Pairing your symptoms with specific anatomical conditions prompts the clinician to order appropriate imaging.",
+            xpBonus: 10,
+          },
+        ],
+      },
+      {
+        id: "cond-sim-3",
+        title: "Second Opinion & Comprehensive Records Access",
+        phaseName: "3. Second Opinion & Records Rights",
+        setting: "Second Opinion Consultation Request",
+        character: "Dr. Rivera",
+        characterRole: "Reproductive Health Specialist",
+        statement: "“If you're questioning my assessment, there's no other treatment modern medicine can offer you for this. Seeking another doctor will just waste your time.”",
+        evidence: {
+          badge: "Patient Rights",
+          title: "HIPAA Right of Access (45 CFR § 164.524) & AMA Ethics",
+          metric: "Complete Medical Records Copy · Formal Referral to Specialized Academic Center",
+          description: "Statutory rights under HIPAA ensuring patients receive uninhibited access to all clinical notes, imaging, and lab reports, paired with AMA ethical protections for second opinions.",
+        },
+        sourceCitation: {
+          organization: "American Medical Association (AMA) & HHS HIPAA Privacy Rule",
+          guideline: "AMA Code of Medical Ethics: Opinions on Consultation and Second Opinions & 45 CFR § 164.524",
+          year: "2023",
+          url: "https://www.ama-assn.org",
+        },
+        options: [
+          {
+            text: "“I guess I'm stuck with this clinic then. I won't ask for a second opinion.”",
+            isBest: false,
+            feedback: "Never settle for a provider who discourages a second opinion. Medicine is collaborative and complex.",
+            xpBonus: 5,
+          },
+          {
+            text: "“Under the AMA Code of Medical Ethics, patients have the fundamental right to seek a second opinion. Under HIPAA, I am requesting a complete copy of my medical records, lab reports, and imaging today, alongside a formal referral to a specialized adolescent gynecologic center.”",
+            isBest: true,
+            feedback: "✦ Legal Empowerment Champion! Invoking the AMA Code of Medical Ethics and your federal HIPAA right of access ensures you control your medical data and transition to specialized care.",
+            xpBonus: 30,
+          },
+          {
+            text: "“You're the worst doctor I've ever seen and you're holding my health hostage!”",
+            isBest: false,
+            feedback: "Asserting your legal HIPAA rights to your complete chart records ensures an orderly and documented transition to a new specialist.",
+            xpBonus: 10,
+          },
+        ],
+      },
+    ],
   };
 
-  const matchedCat = categoryId || topic.id.split("-")[0];
+  // If topic has custom multiple scenarios defined, use them
+  if (topic.roleplayScenarios && topic.roleplayScenarios.length > 0) {
+    return topic.roleplayScenarios;
+  }
+
+  // If topic has a single custom scenario, prepend it to the category's follow-up simulations
+  if (topic.roleplayScenario) {
+    const baseSims = categoryScenarios[matchedCat] || categoryScenarios.body;
+    return [
+      {
+        ...topic.roleplayScenario,
+        phaseName: topic.roleplayScenario.phaseName || "1. Initial Clinical Encounter",
+      },
+      ...baseSims.slice(1),
+    ];
+  }
+
   return categoryScenarios[matchedCat] || categoryScenarios.body;
+}
+
+/**
+ * Returns a single Roleplay Scenario (defaults to the first simulation in the multi-stage array).
+ * Maintained for full backward compatibility across the application.
+ */
+export function getTopicRoleplayScenario(topic: HubTopic, categoryId?: string): RoleplayScenario {
+  const scenarios = getTopicRoleplayScenarios(topic, categoryId);
+  return scenarios[0];
 }
 
 
