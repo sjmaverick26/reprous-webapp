@@ -36,6 +36,7 @@ import { MYTHS_DATA, MythItem } from "@/data/mythsData";
 
 interface HomeViewProps {
   onNavigate: (page: PageId, categoryId?: string) => void;
+  onSelectLang?: (lang: string) => void;
 }
 
 interface SymptomDetail {
@@ -288,7 +289,7 @@ const SYMPTOMS_DATA: SymptomDetail[] = [
   },
 ];
 
-export function HomeView({ onNavigate }: HomeViewProps) {
+export function HomeView({ onNavigate, onSelectLang }: HomeViewProps) {
   const [selectedSymptomId, setSelectedSymptomId] = useState<string>("painful-periods");
   const [toolkitModalOpen, setToolkitModalOpen] = useState(false);
   const [activeToolkitTab, setActiveToolkitTab] = useState<"track" | "prepare" | "language" | "speak">("prepare");
@@ -384,8 +385,20 @@ export function HomeView({ onNavigate }: HomeViewProps) {
           <AccessMini
             text="Healthcare should be easier to navigate."
             subtext="Languages · Accessibility · Free resources · Find support"
-            languages={["English", "Español", "한국어", "Tiếng Việt", "العربية"]}
+            languages={[
+              "English",
+              "Español",
+              "中文 (Chinese)",
+              "العربية (Arabic)",
+              "Français (French)",
+              "اردو (Urdu)",
+              "Kiswahili (Swahili)",
+              "دری (Dari / Afghan Persian)",
+              "한국어",
+              "Tiếng Việt",
+            ]}
             onNavigate={onNavigate}
+            onSelectLang={onSelectLang}
           />
         </div>
       </section>

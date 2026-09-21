@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { Globe2, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface LanguageBarProps {
@@ -8,18 +9,113 @@ interface LanguageBarProps {
   onSelectLang: (lang: string) => void;
 }
 
+export interface LanguageOption {
+  code: string;
+  label: string;
+  englishName: string;
+  dir?: "ltr" | "rtl";
+  greeting: string;
+  motto: string;
+}
+
+export const SUPPORTED_LANGUAGES: LanguageOption[] = [
+  {
+    code: "en",
+    label: "English",
+    englishName: "English",
+    dir: "ltr",
+    greeting: "Welcome to ReproUs — Know your body. Know what to ask.",
+    motto: "Learn · Recognize · Advocate",
+  },
+  {
+    code: "es",
+    label: "Español",
+    englishName: "Spanish",
+    dir: "ltr",
+    greeting: "Bienvenido a ReproUs — Conoce tu cuerpo, aprende qué preguntar.",
+    motto: "Aprende · Reconoce · Defiende",
+  },
+  {
+    code: "zh",
+    label: "中文",
+    englishName: "Chinese",
+    dir: "ltr",
+    greeting: "欢迎来到 ReproUs — 了解自己的身体，知道该问什么。",
+    motto: "学习 · 识别 · 倡导",
+  },
+  {
+    code: "ar",
+    label: "العربية",
+    englishName: "Arabic",
+    dir: "rtl",
+    greeting: "مرحبًا بكِ في ReproUs — اعرفي جسمكِ، واعرفي ما تسألين عنه.",
+    motto: "تعلّمي · تعرّفي · دافعي",
+  },
+  {
+    code: "fr",
+    label: "Français",
+    englishName: "French",
+    dir: "ltr",
+    greeting: "Bienvenue sur ReproUs — Comprenez votre corps, sachez quoi demander.",
+    motto: "Apprendre · Reconnaître · Défendre",
+  },
+  {
+    code: "ur",
+    label: "اردو",
+    englishName: "Urdu",
+    dir: "rtl",
+    greeting: "ReproUs میں خوش آمدید — اپنے جسم کو سمجھیں اور جانیں کہ کیا پوچھنا ہے۔",
+    motto: "سیکھیں · پہچانیں · آواز اٹھائیں",
+  },
+  {
+    code: "sw",
+    label: "Kiswahili",
+    englishName: "Swahili",
+    dir: "ltr",
+    greeting: "Karibu ReproUs — Elewa mwili wako, na ujue cha kuuliza.",
+    motto: "Jifunze · Tambua · Jitetea",
+  },
+  {
+    code: "prs",
+    label: "دری (Dari)",
+    englishName: "Dari (Afghan Persian)",
+    dir: "rtl",
+    greeting: "به ReproUs خوش آمدید — بدن خود را بشناسید و بدانید چه بپرسید.",
+    motto: "بیاموزید · تشخیص دهید · دفاع کنید",
+  },
+  {
+    code: "ko",
+    label: "한국어",
+    englishName: "Korean",
+    dir: "ltr",
+    greeting: "ReproUs에 오신 것을 환영합니다 — 내 몸을 알고, 무엇을 물어볼지 알아보세요.",
+    motto: "배우기 · 인식하기 · 옹호하기",
+  },
+  {
+    code: "vi",
+    label: "Tiếng Việt",
+    englishName: "Vietnamese",
+    dir: "ltr",
+    greeting: "Chào mừng đến với ReproUs — Hiểu cơ thể bạn, biết những gì cần hỏi.",
+    motto: "Học hỏi · Nhận biết · Tự vận động",
+  },
+];
+
 export function LanguageBar({ currentLang, onSelectLang }: LanguageBarProps) {
   const [textSize, setTextSize] = useState<"" | "text-lg" | "text-xl">("");
   const [isHighContrast, setIsHighContrast] = useState(false);
 
-  const languages = [
-    { code: "en", label: "English" },
-    { code: "es", label: "Español" },
-    { code: "ko", label: "한국어" },
-    { code: "vi", label: "Tiếng Việt" },
-    { code: "ar", label: "العربية" },
-    { code: "more", label: "+ More" },
-  ];
+  const activeLang = SUPPORTED_LANGUAGES.find((l) => l.code === currentLang);
+
+  const handleSelectLang = (code: string) => {
+    onSelectLang(code);
+    const selected = SUPPORTED_LANGUAGES.find((l) => l.code === code);
+    if (typeof document !== "undefined") {
+      document.documentElement.lang = code;
+      // Set dir attribute if RTL or LTR
+      document.documentElement.dir = selected?.dir || "ltr";
+    }
+  };
 
   const handleTextSize = (size: "" | "text-lg" | "text-xl") => {
     setTextSize(size);
@@ -42,20 +138,22 @@ export function LanguageBar({ currentLang, onSelectLang }: LanguageBarProps) {
       <div className="max-w-[1140px] mx-auto px-4 sm:px-6 py-2 flex items-center justify-between gap-4 flex-wrap">
         {/* Language Switcher */}
         <div className="flex items-center gap-1.5 flex-wrap">
-          <span className="text-[12.5px] font-semibold font-sans uppercase tracking-wider text-plum/70 mr-1">
-            Viewing in:
+          <span className="text-[12px] font-bold font-sans uppercase tracking-wider text-plum/70 mr-1 flex items-center gap-1">
+            <Globe2 className="w-3.5 h-3.5 text-coral inline-block" />
+            <span>Language:</span>
           </span>
-          {languages.map((lang) => {
+          {SUPPORTED_LANGUAGES.map((lang) => {
             const isActive = currentLang === lang.code;
             return (
               <button
                 key={lang.code}
-                onClick={() => onSelectLang(lang.code)}
+                onClick={() => handleSelectLang(lang.code)}
+                title={`${lang.label} (${lang.englishName})`}
                 className={cn(
-                  "px-2.5 py-0.5 rounded text-[13px] font-medium font-sans transition-all",
+                  "px-2.5 py-0.5 rounded text-[12.5px] font-medium font-sans transition-all",
                   isActive
                     ? "bg-deep-teal text-white font-bold shadow-xs hover:bg-deep-teal hover:text-white active:text-white focus:text-white"
-                    : "text-deep-teal/80 hover:text-raspberry hover:bg-soft-pink active:text-raspberry focus:text-deep-teal"
+                    : "text-deep-teal/85 hover:text-raspberry hover:bg-soft-pink active:text-raspberry focus:text-deep-teal"
                 )}
               >
                 {lang.label}
@@ -119,6 +217,44 @@ export function LanguageBar({ currentLang, onSelectLang }: LanguageBarProps) {
           </button>
         </div>
       </div>
+
+      {/* Multilingual Notice Banner when non-English is active */}
+      {activeLang && activeLang.code !== "en" && (
+        <div
+          className="w-full bg-soft-pink/60 border-t border-deep-teal/10 py-2.5 px-4 text-center font-sans text-[13.5px] text-deep-teal shadow-xs animate-in fade-in duration-200"
+          dir={activeLang.dir || "ltr"}
+        >
+          <div className="max-w-[1140px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
+            <div className="flex items-center gap-2 flex-wrap justify-center sm:justify-start">
+              <span className="inline-flex items-center gap-1 font-bold text-raspberry uppercase tracking-wider text-xs">
+                <Globe2 className="w-3.5 h-3.5" />
+                <span>{activeLang.label} ({activeLang.englishName})</span>
+              </span>
+              <span className="hidden sm:inline text-deep-teal/30">•</span>
+              <span className="font-medium text-charcoal/90">
+                &ldquo;{activeLang.greeting}&rdquo;
+              </span>
+              <span className="hidden md:inline px-2 py-0.5 rounded-full bg-white/80 text-[11.5px] font-bold text-coral border border-coral/30">
+                {activeLang.motto}
+              </span>
+            </div>
+
+            <div className="flex items-center gap-3 shrink-0">
+              <span className="text-xs text-charcoal/70 hidden lg:inline">
+                Clinical translation in progress
+              </span>
+              <button
+                onClick={() => handleSelectLang("en")}
+                className="text-xs font-bold text-raspberry hover:text-raspberry-dark hover:underline underline flex items-center gap-1"
+                dir="ltr"
+              >
+                <span>Reset to English</span>
+                <X className="w-3 h-3" />
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -56,7 +56,7 @@ export default function App() {
 
       {/* Main Page Views */}
       <main className="flex-1 w-full transition-all">
-        {activePage === "home" && <HomeView onNavigate={handleNavigate} />}
+        {activePage === "home" && <HomeView onNavigate={handleNavigate} onSelectLang={setCurrentLang} />}
         {activePage === "story" && <StoryView />}
         {activePage === "hub" && <HubView initialCategory={hubCategory} />}
         {activePage === "workshops" && <WorkshopsView />}

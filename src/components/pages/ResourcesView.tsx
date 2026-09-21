@@ -684,6 +684,12 @@ export function ResourcesView({ onNavigate }: ResourcesViewProps) {
                       </span>
                     )}
                   </div>
+                  {clinic.languages && clinic.languages.length > 0 && (
+                    <p className="text-[11.5px] text-plum/85 m-0 font-sans mt-0.5">
+                      🌐 <strong className="text-plum">Languages &amp; Interpretation:</strong>{" "}
+                      <span className="text-ink/80">{clinic.languages.join(", ")}</span>
+                    </p>
+                  )}
                 </div>
               ))
             )}

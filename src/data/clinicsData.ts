@@ -32,7 +32,7 @@ export const CLINICS_DATA: Clinic[] = [
     services: ["Free STI Testing", "Confidential Birth Control", "Pregnancy Testing", "General Checkups"],
     slidingScale: true,
     busAccessible: true,
-    languages: ["English", "Español", "Tiếng Việt"]
+    languages: ["English", "Español", "中文 (Chinese)", "Tiếng Việt", "Français (French)", "Certified Tele-Interpreters"]
   },
   {
     id: "clinic-2",
@@ -45,7 +45,7 @@ export const CLINICS_DATA: Clinic[] = [
     services: ["Teen & Youth Care", "Confidential Consults", "Free Condoms & Emergency Contraception", "Mental Health"],
     slidingScale: true,
     busAccessible: true,
-    languages: ["English", "Español", "Kreyòl", "العربية"]
+    languages: ["English", "Español", "العربية (Arabic)", "اردو (Urdu)", "دری (Dari)", "Kiswahili (Swahili)"]
   },
   {
     id: "clinic-3",
@@ -58,7 +58,7 @@ export const CLINICS_DATA: Clinic[] = [
     services: ["Reproductive Health", "Pap Smears", "PrEP & HIV Services", "Nutritional Counseling"],
     slidingScale: true,
     busAccessible: true,
-    languages: ["English", "Español"]
+    languages: ["English", "Español", "한국어 (Korean)", "中文 (Chinese)", "24/7 Medical Interpretation Line"]
   }
 ];
 

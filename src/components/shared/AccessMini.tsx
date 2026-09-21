@@ -17,7 +17,18 @@ interface AccessMiniProps {
 export function AccessMini({
   text = "Healthcare should be easier to navigate.",
   subtext = "Languages · Accessibility · Free resources · Find support",
-  languages = ["English", "Español", "한국어", "Tiếng Việt", "العربية"],
+  languages = [
+    "English",
+    "Español",
+    "中文 (Chinese)",
+    "العربية (Arabic)",
+    "Français (French)",
+    "اردو (Urdu)",
+    "Kiswahili (Swahili)",
+    "دری (Dari / Afghan Persian)",
+    "한국어",
+    "Tiếng Việt",
+  ],
   onNavigate,
   onSelectLang,
   className = "",
@@ -98,18 +109,39 @@ export function AccessMini({
           <span className="font-semibold text-berry uppercase tracking-wider text-[11px] mr-1">
             Available In:
           </span>
-          {languages.map((lang, idx) => (
-            <React.Fragment key={lang}>
-              {idx > 0 && <span className="text-plum/30">·</span>}
-              <button
-                type="button"
-                onClick={() => onSelectLang?.(lang)}
-                className="px-2 py-0.5 rounded bg-white border border-plum/10 hover:border-berry hover:text-berry font-medium transition-colors"
-              >
-                {lang}
-              </button>
-            </React.Fragment>
-          ))}
+          {languages.map((lang, idx) => {
+            const langCodeMap: Record<string, string> = {
+              English: "en",
+              Español: "es",
+              "中文 (Chinese)": "zh",
+              "العربية (Arabic)": "ar",
+              "Français (French)": "fr",
+              "اردو (Urdu)": "ur",
+              "Kiswahili (Swahili)": "sw",
+              "دری (Dari / Afghan Persian)": "prs",
+              한국어: "ko",
+              "Tiếng Việt": "vi",
+            };
+
+            return (
+              <React.Fragment key={lang}>
+                {idx > 0 && <span className="text-plum/30">·</span>}
+                <button
+                  type="button"
+                  onClick={() => {
+                    const resolved = langCodeMap[lang] || lang;
+                    onSelectLang?.(resolved);
+                    if (typeof window !== "undefined") {
+                      window.scrollTo({ top: 0, behavior: "smooth" });
+                    }
+                  }}
+                  className="px-2.5 py-1 rounded bg-white border border-plum/15 hover:border-coral hover:text-raspberry font-medium transition-colors text-xs"
+                >
+                  {lang}
+                </button>
+              </React.Fragment>
+            );
+          })}
         </div>
       )}
     </div>
