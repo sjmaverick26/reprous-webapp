@@ -644,7 +644,7 @@ export function HomeView({ onNavigate, onSelectLang }: HomeViewProps) {
               <span>THE GENDER RESEARCH GAP &amp; PATIENT ADVOCACY</span>
             </div>
             <h2 className="text-3xl md:text-[44px] lg:text-[50px] font-bold font-serif text-light-teal !text-light-teal leading-[1.12] mb-5 tracking-tight max-w-3xl">
-              How the Medical Research Gap Affects Women&apos;s Treatment — And Why Advocacy Matters
+              What happens when questions aren&apos;t asked?
             </h2>
             <p className="text-[17px] md:text-[18.5px] text-white/90 leading-relaxed font-sans max-w-3xl">
               Until the 1993 NIH Revitalization Act, women of reproductive age were routinely excluded from clinical trials. For generations, medical textbooks, dosage recommendations, and diagnostic criteria were calibrated almost exclusively on male physiology. Today, that enduring data gap directly influences diagnostic delays, medication safety, and how seriously female pain is treated.
