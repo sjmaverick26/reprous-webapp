@@ -15,6 +15,7 @@ import {
   Scale,
   MessageSquare,
   Award,
+  Lightbulb,
 } from "lucide-react";
 
 interface RoleplayInteractiveStageProps {
@@ -33,8 +34,95 @@ export function RoleplayInteractiveStage({
   const chosenOpt = selectedOption !== null ? scenario.options[selectedOption] : null;
   const isBest = chosenOpt?.isBest ?? false;
 
-  // Alignment Percentage: 50% baseline -> 30% dismissal -> 100% full alignment
-  const alignmentPercent = chosenOpt === null ? 50 : isBest ? 100 : 30;
+  // Appointment Outcome Percentage: 50% baseline -> 25% dismissal risk -> 100% care plan approved
+  const alignmentPercent = chosenOpt === null ? 50 : isBest ? 100 : 25;
+
+  // Helper to determine the evidence strategy of each dialogue option
+  const getOptionEvidenceStrategy = (
+    opt: { isBest: boolean; text: string },
+    optIdx: number
+  ) => {
+    if (opt.isBest) {
+      return {
+        type: "best" as const,
+        tag: `🎯 Cites Your Evidence (${scenario.evidence?.badge || "Tracked Log"})`,
+        desc: "Presents documented metrics & clinical guidelines to compel diagnostic testing.",
+        badgeClass: "bg-emerald-100 text-emerald-900 border-emerald-300",
+      };
+    }
+
+    const isPassive =
+      optIdx === 0 ||
+      /sorry|guess|won't|embarrassing|whatever|never mind|fine|weak|easiest|less hassle|don't stress/i.test(
+        opt.text
+      );
+
+    if (isPassive) {
+      return {
+        type: "passive" as const,
+        tag: "📁 Leaves Evidence in Bag (Silent Acceptance)",
+        desc: "Keeps your symptom log hidden; accepts dismissal with zero evaluation.",
+        badgeClass: "bg-slate-100 text-slate-700 border-slate-300",
+      };
+    }
+
+    return {
+      type: "frustrated" as const,
+      tag: "⚠️ Omits Evidence (Venting Without Proof)",
+      desc: "Expresses understandable frustration, but without data the clinician can easily dismiss it.",
+      badgeClass: "bg-amber-100 text-amber-900 border-amber-300",
+    };
+  };
+
+  // Dynamic Provider Response that directly reacts to whether evidence was presented
+  const getProviderReaction = () => {
+    if (chosenOpt === null) return scenario.statement;
+
+    if (isBest) {
+      if (scenario.characterRole?.includes("Coach")) {
+        return `“I appreciate you sharing this ${scenario.evidence?.badge || "training log"} and the ${scenario.sourceCitation?.organization || "IOC"} guidelines. You're right—amenorrhea is a clinical red flag, not a badge of honor. Let's pull back your mileage and consult the sports dietitian.”`;
+      }
+      if (scenario.characterRole?.includes("Coordinator")) {
+        return `“Thank you for clarifying Title X protections and confidential billing waivers. You are completely right—we will process your visit confidentially with zero mail or Explanation of Benefits sent home.”`;
+      }
+      if (scenario.characterRole?.includes("Board")) {
+        return `“Reviewing these attendance impact statistics and peer-reviewed fiscal data changes the calculation. I will sponsor a motion to include menstrual hygiene dispensers in the district budget.”`;
+      }
+      return `“Looking at your documented ${scenario.evidence?.title || "symptom log"} and the ${scenario.sourceCitation?.organization || "clinical"} criteria, you meet the standard for an evaluation. Let's order this diagnostic workup today.”`;
+    }
+
+    // Suboptimal option
+    const isPassive =
+      selectedOption === 0 ||
+      (chosenOpt &&
+        /sorry|guess|won't|embarrassing|whatever|never mind|fine|weak|easiest|less hassle/i.test(
+          chosenOpt.text
+        ));
+
+    if (isPassive) {
+      if (scenario.characterRole?.includes("Coach")) {
+        return `“That's the spirit! Keep pushing the pace and don't let anything distract you from the championship meet.”`;
+      }
+      if (scenario.characterRole?.includes("Coordinator")) {
+        return `“Understood. If you'd rather not test through standard insurance, we won't process any screenings today.”`;
+      }
+      if (scenario.characterRole?.includes("Board")) {
+        return `“Thank you for understanding. We must remain fiscally conservative with school district funds.”`;
+      }
+      return `“Glad we're on the same page. Since you don't have documented tracking or severe red flags to review, we'll just wait and see how things look next year.”`;
+    }
+
+    if (scenario.characterRole?.includes("Coach")) {
+      return `“There's no need to take that tone with me. If you don't want to follow the training program, that's your decision.”`;
+    }
+    if (scenario.characterRole?.includes("Coordinator")) {
+      return `“I'm just explaining standard clinic billing policies. There is no reason to be combative.”`;
+    }
+    if (scenario.characterRole?.includes("Board")) {
+      return `“Emotional outbursts won't change fiscal realities. Please respect the board's public comment time limits.”`;
+    }
+    return `“I understand you're frustrated, but without concrete symptom logs or clinical criteria in front of me, standard medical protocol doesn't justify ordering specialized tests today.”`;
+  };
 
   return (
     <div className="space-y-5">
@@ -110,23 +198,13 @@ export function RoleplayInteractiveStage({
                     {chosenOpt === null
                       ? "Provider Statement"
                       : isBest
-                      ? "✅ Aligned Reaction"
+                      ? "✅ Care Plan Approved"
                       : "⚠️ Dismissive Stance"}
                   </span>
                 </div>
 
                 <p className="text-sm sm:text-base font-serif text-deep-teal leading-snug m-0">
-                  {chosenOpt === null ? (
-                    scenario.statement
-                  ) : isBest ? (
-                    <span className="text-emerald-950 font-medium">
-                      &ldquo;I see your documented 3-month log and the ACOG criteria. You&apos;re completely right to bring this up. Let&apos;s schedule that diagnostic workup immediately.&rdquo;
-                    </span>
-                  ) : (
-                    <span className="text-amber-950 font-medium">
-                      &ldquo;Like I said, that sounds pretty typical for someone your age. Let&apos;s just observe for now and see if things settle down naturally.&rdquo;
-                    </span>
-                  )}
+                  {getProviderReaction()}
                 </p>
 
                 {/* Speech Bubble Tail */}
@@ -385,26 +463,26 @@ export function RoleplayInteractiveStage({
         </div>
       </div>
 
-      {/* 2. DYNAMIC ADVOCACY IMPACT & CLINICAL ALIGNMENT GAUGE */}
+      {/* 2. DYNAMIC APPOINTMENT CARE METER (Likelihood of Action vs. Dismissal) */}
       {(() => {
         const statusConfig =
           chosenOpt === null
             ? {
-                title: "Initial Consultation Baseline",
-                sub: "Review your evidence below and select the dialogue response that directly asserts your symptoms and clinical guidelines.",
+                title: "Pending Your Response (50% Baseline)",
+                sub: "Every appointment starts here. Presenting objective data from your evidence log is what moves the needle from being dismissed to getting tested.",
                 badgeBg: "bg-slate-100 text-slate-800 border-slate-300",
                 barColor: "bg-deep-teal",
               }
             : isBest
             ? {
-                title: "Full Clinical Alignment (100%)",
-                sub: "Medical provider acknowledges clinical criteria and orders diagnostic evaluation! Chart records officially admitted.",
+                title: "Diagnostic Care Plan Approved! (100%)",
+                sub: "Full medical evaluation ordered! By citing documented tracking and clinical standards, you gave the clinician objective evidence they cannot ethically or legally ignore.",
                 badgeBg: "bg-emerald-100 text-emerald-900 border-emerald-300",
                 barColor: "bg-emerald-600",
               }
             : {
-                title: "Dismissal Risk (30%)",
-                sub: "Provider dismissed symptoms without diagnostic testing. Re-evaluate and cite your symptom logs and clinical standards!",
+                title: "High Risk of Medical Dismissal (25%)",
+                sub: "Symptoms brushed off without testing! Without documented logs or clinical guidelines, the provider defaulted to reassurance or “wait and see.” No diagnostic evaluation was ordered.",
                 badgeBg: "bg-amber-100 text-amber-900 border-amber-300",
                 barColor: "bg-amber-500",
               };
@@ -413,12 +491,14 @@ export function RoleplayInteractiveStage({
           <div className="rounded-3xl border-2 border-deep-teal/20 bg-white p-4 sm:p-5 shadow-2xs space-y-3">
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div className="flex items-center gap-2">
-                <Scale className="w-4 h-4 text-deep-teal" />
+                <Activity className="w-4 h-4 text-deep-teal" />
                 <span className="font-bold text-xs sm:text-sm uppercase tracking-wider text-deep-teal font-sans">
-                  Provider-Patient Clinical Alignment Gauge
+                  Appointment Outcome Meter: Medical Action vs. Dismissal
                 </span>
               </div>
-              <span className={`text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full border font-sans ${statusConfig.badgeBg}`}>
+              <span
+                className={`text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full border font-sans ${statusConfig.badgeBg}`}
+              >
                 {statusConfig.title}
               </span>
             </div>
@@ -433,13 +513,19 @@ export function RoleplayInteractiveStage({
               </div>
               <div className="flex justify-between px-1 text-[11px] font-sans font-semibold text-charcoal/60">
                 <span className={alignmentPercent <= 35 ? "font-bold text-amber-700" : ""}>
-                  Dismissal Risk (0–35%)
+                  Brushed Off · High Dismissal Risk (0–35%)
                 </span>
-                <span className={alignmentPercent > 35 && alignmentPercent <= 70 ? "font-bold text-deep-teal" : ""}>
-                  Standard Intake (36–70%)
+                <span
+                  className={
+                    alignmentPercent > 35 && alignmentPercent <= 70
+                      ? "font-bold text-deep-teal"
+                      : ""
+                  }
+                >
+                  Uncertain · “Wait & See” (36–70%)
                 </span>
                 <span className={alignmentPercent > 70 ? "font-bold text-emerald-700" : ""}>
-                  Clinical Alignment (71–100%)
+                  Taken Seriously · Care Plan Approved (71–100%)
                 </span>
               </div>
             </div>
@@ -454,7 +540,7 @@ export function RoleplayInteractiveStage({
       {/* 3. PATIENT EVIDENCE DECK (Documented Clinical Portfolio) */}
       {scenario.evidence && (
         <div
-          className={`rounded-3xl border-2 p-5 sm:p-6 transition-all shadow-2xs space-y-3 ${
+          className={`rounded-3xl border-2 p-5 sm:p-6 transition-all shadow-2xs space-y-3.5 ${
             chosenOpt === null
               ? "border-dashed border-deep-teal/30 bg-slate-50/90"
               : isBest
@@ -473,7 +559,7 @@ export function RoleplayInteractiveStage({
               </div>
               <div>
                 <span className="block text-[11px] font-bold uppercase tracking-wider text-deep-teal/80 font-sans">
-                  Your Documented Patient Evidence
+                  Your Clinical Evidence Deck
                 </span>
                 <span className="text-xs sm:text-sm font-bold text-charcoal font-sans">
                   {scenario.evidence.title}
@@ -488,9 +574,51 @@ export function RoleplayInteractiveStage({
               {isBest && (
                 <span className="flex items-center gap-1 rounded-full bg-emerald-600 px-2.5 py-1 text-[11px] font-bold text-white shadow-2xs font-sans">
                   <Check className="w-3 h-3" />
-                  <span>Admitted to Chart</span>
+                  <span>Admitted to Medical Chart</span>
                 </span>
               )}
+            </div>
+          </div>
+
+          {/* Educational Bridge: Why Written Records Matter in Dialogue */}
+          <div className="rounded-2xl border border-deep-teal/20 bg-teal-50/75 p-3.5 space-y-2">
+            <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-deep-teal font-sans">
+              <Lightbulb className="w-4 h-4 text-amber-500 shrink-0" />
+              <span>How Your Evidence Powers Your Dialogue:</span>
+            </div>
+            <p className="text-xs sm:text-sm text-charcoal/85 leading-relaxed font-sans m-0">
+              Doctors cannot diagnose based on vague feelings alone—they look for{" "}
+              <strong className="text-deep-teal font-semibold">verifiable data</strong>{" "}
+              (frequency, pain scales, clinical criteria). Below, notice how each dialogue choice handles this evidence:
+            </p>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-1 text-[11px] font-sans">
+              <div className="rounded-xl border border-emerald-200 bg-white p-2.5 space-y-0.5">
+                <span className="font-bold text-emerald-800 flex items-center gap-1">
+                  <CheckCircle2 className="w-3 h-3 text-emerald-600 shrink-0" />
+                  Cites Evidence (Winning)
+                </span>
+                <span className="text-charcoal/70 block leading-tight">
+                  Pulls concrete numbers from this card to legally justify testing.
+                </span>
+              </div>
+              <div className="rounded-xl border border-slate-200 bg-white p-2.5 space-y-0.5">
+                <span className="font-bold text-slate-700 flex items-center gap-1">
+                  <FileSpreadsheet className="w-3 h-3 text-slate-400 shrink-0" />
+                  Leaves in Bag (Passive)
+                </span>
+                <span className="text-charcoal/70 block leading-tight">
+                  Keeps the log hidden, resulting in dismissal and no tests.
+                </span>
+              </div>
+              <div className="rounded-xl border border-amber-200 bg-white p-2.5 space-y-0.5">
+                <span className="font-bold text-amber-800 flex items-center gap-1">
+                  <AlertTriangle className="w-3 h-3 text-amber-600 shrink-0" />
+                  Omits Evidence (Venting)
+                </span>
+                <span className="text-charcoal/70 block leading-tight">
+                  Expresses anger without facts, allowing the doctor to brush it off.
+                </span>
+              </div>
             </div>
           </div>
 
@@ -510,17 +638,17 @@ export function RoleplayInteractiveStage({
             {chosenOpt === null ? (
               <span className="flex items-center gap-1.5 text-deep-teal">
                 <Sparkles className="w-3.5 h-3.5" />
-                Evidence Ready in Hand: Select the response below that presents these documented logs to your doctor.
+                Evidence Ready in Hand: Review your records above, then select the response below that presents this data to your provider!
               </span>
             ) : isBest ? (
               <span className="flex items-center gap-1.5 text-emerald-800">
                 <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
-                Evidence successfully entered into chart! Clinicians cannot legally ignore documented symptoms.
+                Evidence successfully admitted to medical record! Clinicians cannot legally ignore documented symptoms matching clinical standards.
               </span>
             ) : (
               <span className="flex items-center gap-1.5 text-amber-800">
                 <AlertTriangle className="w-3.5 h-3.5 text-amber-600" />
-                Evidence was not cited! Try selecting the answer that actively introduces this documentation.
+                Evidence stayed hidden in your bag! Try selecting the option that actively cites this documented log.
               </span>
             )}
           </div>
@@ -534,7 +662,7 @@ export function RoleplayInteractiveStage({
             How do you respond to advocate for yourself?
           </span>
           <span className="text-xs font-semibold text-charcoal/60 font-sans">
-            3 Dialogue Options
+            3 Dialogue Options · Citing Evidence is Key
           </span>
         </div>
 
@@ -542,6 +670,7 @@ export function RoleplayInteractiveStage({
           {scenario.options.map((opt, optIdx) => {
             const isSelected = selectedOption === optIdx;
             const optionLabels = ["Option A", "Option B", "Option C"];
+            const strategy = getOptionEvidenceStrategy(opt, optIdx);
 
             return (
               <button
@@ -557,18 +686,28 @@ export function RoleplayInteractiveStage({
                 }`}
               >
                 <div className="flex items-start justify-between gap-3">
-                  <div className="space-y-1.5">
-                    <span
-                      className={`inline-block rounded-full px-2.5 py-0.5 text-[11px] font-bold uppercase tracking-wider font-sans ${
-                        isSelected
-                          ? opt.isBest
-                            ? "bg-emerald-200/80 text-emerald-900"
-                            : "bg-amber-200/80 text-amber-900"
-                          : "bg-slate-100 text-charcoal/70"
-                      }`}
-                    >
-                      {optionLabels[optIdx] || `Option ${optIdx + 1}`}
-                    </span>
+                  <div className="space-y-2 flex-1">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span
+                        className={`inline-block rounded-full px-2.5 py-0.5 text-[11px] font-bold uppercase tracking-wider font-sans ${
+                          isSelected
+                            ? opt.isBest
+                              ? "bg-emerald-200/80 text-emerald-900"
+                              : "bg-amber-200/80 text-amber-900"
+                            : "bg-slate-100 text-charcoal/70"
+                        }`}
+                      >
+                        {optionLabels[optIdx] || `Option ${optIdx + 1}`}
+                      </span>
+
+                      {/* Evidence Connection Tag */}
+                      <span
+                        className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider border font-sans ${strategy.badgeClass}`}
+                      >
+                        {strategy.tag}
+                      </span>
+                    </div>
+
                     <p
                       className={`text-base sm:text-lg md:text-[19px] leading-relaxed font-sans m-0 ${
                         isSelected && opt.isBest
@@ -577,6 +716,10 @@ export function RoleplayInteractiveStage({
                       }`}
                     >
                       {opt.text}
+                    </p>
+
+                    <p className="text-xs text-charcoal/65 font-sans m-0">
+                      💡 {strategy.desc}
                     </p>
                   </div>
 
@@ -596,7 +739,7 @@ export function RoleplayInteractiveStage({
       {/* 5. CLINICAL FEEDBACK & COACHING CARD */}
       {chosenOpt !== null && (
         <div
-          className={`rounded-3xl border-2 p-5 sm:p-6 space-y-2.5 animate-in fade-in ${
+          className={`rounded-3xl border-2 p-5 sm:p-6 space-y-3 animate-in fade-in ${
             isBest
               ? "border-emerald-400 bg-emerald-50 text-emerald-950"
               : "border-amber-300 bg-amber-50 text-amber-950"
@@ -617,10 +760,50 @@ export function RoleplayInteractiveStage({
             {chosenOpt.feedback}
           </p>
 
-          {!isBest && (
-            <p className="pt-1 text-xs sm:text-sm font-semibold text-amber-800 font-sans">
-              Tip: Tap the other options above to see how presenting your symptom log changes the doctor&apos;s stance!
-            </p>
+          {/* Evidence Impact Breakdown */}
+          {isBest ? (
+            <div className="mt-2 rounded-2xl border border-emerald-300/80 bg-white/95 p-3.5 space-y-2">
+              <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-emerald-900 font-sans">
+                <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+                <span>How Your Evidence Won Care:</span>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs font-sans">
+                <div className="rounded-xl bg-emerald-50/80 p-2.5 border border-emerald-200">
+                  <span className="font-bold text-emerald-950 block">📊 Objective Data Cited:</span>
+                  <span className="text-charcoal/80">{scenario.evidence?.metric}</span>
+                </div>
+                <div className="rounded-xl bg-emerald-50/80 p-2.5 border border-emerald-200">
+                  <span className="font-bold text-emerald-950 block">📋 Clinical Guideline Cited:</span>
+                  <span className="text-charcoal/80">
+                    {scenario.sourceCitation?.guideline ||
+                      scenario.sourceCitation?.organization ||
+                      "Peer-Reviewed Medical Guidance"}
+                  </span>
+                </div>
+              </div>
+              <p className="text-xs text-charcoal/80 leading-relaxed font-sans m-0 pt-0.5">
+                <strong>The Medical Takeaway:</strong> Clinicians are legally and ethically bound by peer-reviewed guidelines. Presenting structured logs turns subjective complaints into clinical evidence that requires investigation.
+              </p>
+            </div>
+          ) : (
+            <div className="mt-2 rounded-2xl border border-amber-300/80 bg-white/95 p-3.5 space-y-2">
+              <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-amber-900 font-sans">
+                <AlertTriangle className="w-4 h-4 text-amber-600" />
+                <span>Why Leaving Out Evidence Caused Dismissal:</span>
+              </div>
+              <div className="rounded-xl bg-amber-50/80 p-2.5 border border-amber-200 text-xs font-sans space-y-1">
+                <span className="font-bold text-amber-950 block">
+                  Unused Document: {scenario.evidence?.title}
+                </span>
+                <p className="text-charcoal/80 m-0">
+                  Your documented record ({scenario.evidence?.metric}) stayed hidden in your bag. Because doctors see patients for only 12–15 minutes, they default to “it’s probably normal” unless you present verifiable numbers.
+                </p>
+              </div>
+              <p className="text-xs text-charcoal/80 leading-relaxed font-sans m-0 pt-0.5">
+                <strong>Try This:</strong> Tap{" "}
+                <strong>Option {scenario.options.findIndex((o) => o.isBest) + 1}</strong> above to see how presenting your {scenario.evidence?.badge} completely changes the clinician’s stance!
+              </p>
+            </div>
           )}
         </div>
       )}
