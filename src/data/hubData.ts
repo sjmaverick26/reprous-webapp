@@ -199,7 +199,7 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
     badge: "Reproductive Care Pro",
     badgeDesc: "Mastered knowledge on pregnancy basics, postpartum healing, and ovarian wellness.",
     description: "Pregnancy basics, postpartum recovery, and ovarian health.",
-    colorSwatch: "#205B5C",
+    colorSwatch: "#F47A6A",
     topics: [
       {
         id: "conditions-0",
@@ -460,7 +460,7 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
     badge: "Mind & Self Aware",
     badgeDesc: "Earned after exploring the connection between mental wellness, hormone cycles, and healthy relationships.",
     description: "Mood changes, stress and hormones, body confidence, relationships.",
-    colorSwatch: "#205B5C",
+    colorSwatch: "#175B5C",
     topics: [
       {
         id: "mind-0",
@@ -532,60 +532,132 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
     id: "play",
     title: "Play Strong · Female Athlete Health",
     badge: "Play Strong Athlete",
-    badgeDesc: "Earned by mastering cycle-aware training, sports nutrition, and overtraining prevention.",
-    description: "Reproductive health for active bodies — training, nutrition, cycle-aware performance.",
-    colorSwatch: "#205B5C",
+    badgeDesc: "Earned by mastering sports nutrition, overworking recovery, body image, and cycle-aware performance.",
+    description: "Reproductive health for active bodies — nutrition, overworking signs, body image, and bone health.",
+    colorSwatch: "#175B5C",
     topics: [
       {
         id: "play-0",
-        name: "Training Around Your Cycle",
+        name: "Nutrition & Fueling Active Bodies",
         type: "lesson",
-        desc: "Working with your body's rhythm, not against it.",
+        desc: "Sports nutrition: energy availability, carbs, and fats for hormones.",
         xp: 50,
         readTime: "5 min read",
-        summary: "Understanding how follicular (high energy, strength gains) and luteal phases (steady endurance, heat sensitivity) affect athletic performance.",
+        summary: "To train and compete sustainably, active bodies require adequate energy availability (EA). Under-fueling puts stress on reproductive hormones, metabolism, and immune defenses. Carbohydrates power high-intensity muscular work, while healthy dietary fats provide the necessary building blocks for estrogen and progesterone.",
         keyTakeaways: [
-          "Follicular phase: High insulin sensitivity and faster recovery make it ideal for high-intensity training.",
-          "Luteal phase: Slightly higher core temperature means extra hydration and electrolyte intake is crucial."
+          "Energy availability (EA) = dietary energy intake minus exercise energy expenditure normalized to lean mass.",
+          "Complex carbohydrates are the primary fuel for muscle glycogen; cutting carbs impairs athletic power and mental focus.",
+          "Dietary fats (nuts, seeds, olive oil, avocados) are essential precursors for female steroid hormone production.",
+          "Consistently eating too little triggers Relative Energy Deficiency in Sport (RED-S), stalling growth and performance."
         ]
       },
       {
         id: "play-1",
-        name: "Fuel Up Quiz",
+        name: "Fuel Up & Nutrition Quiz",
         type: "game",
-        desc: "Quick-fire quiz on pre- and post-workout nutrition.",
+        desc: "Interactive quiz on pre/post-workout fueling, carb timing, and hydration.",
         xp: 75,
-        summary: "Test your sports nutrition knowledge for carbs, protein timing, iron intake, and hydration.",
+        summary: "Test your knowledge on sports nutrition, protein recovery windows, iron replenishment for endurance, and pre-competition meals.",
         keyTakeaways: [
-          "Adequate caloric intake prevents Relative Energy Deficiency in Sport (RED-S).",
-          "Iron replenishment is essential for menstruating endurance athletes."
+          "Consuming carbohydrates and protein within 30 to 60 minutes post-training speeds glycogen replenishment and tissue repair.",
+          "Menstruating athletes lose iron each cycle; iron-rich foods or verified supplementation prevent sports anemia and fatigue."
         ],
-        gameType: "match"
+        gameType: "match",
+        quiz: [
+          {
+            question: "Why do female athletes need sufficient dietary fats?",
+            options: [
+              "Fats are strictly for storing excess weight",
+              "Fats provide the essential building blocks for estrogen and progesterone hormones",
+              "Athletes should eliminate all dietary fats",
+              "Fats only matter for male athletes"
+            ],
+            correctIndex: 1,
+            explanation: "Steroid hormones like estrogen and progesterone are synthesized from lipids and cholesterol. Severe fat restriction disrupts the endocrine axis and cycle regularity."
+          }
+        ]
       },
       {
         id: "play-2",
-        name: "Nutrition for Active Bodies",
+        name: "Overworking & Overtraining Signs",
         type: "lesson",
-        desc: "Fueling properly during every phase.",
+        desc: "Recognizing fatigue, missing periods, and the Female Athlete Triad.",
         xp: 50,
-        readTime: "4 min read",
-        summary: "Carbohydrate availability, dietary fats for hormone production, and avoiding energy deficits in competitive sports.",
+        readTime: "5 min read",
+        summary: "Pushing through exhaustion without sufficient rest leads to overtraining syndrome. One of the clearest biological red flags is hypothalamic amenorrhea (losing your period). Losing your period is never a badge of honor or proof of hard training — it is your body shutting down reproduction to conserve survival energy, directly compromising bone density.",
         keyTakeaways: [
-          "Healthy fats (avocados, nuts, olive oil) are structural building blocks for steroid hormones.",
-          "Under-eating damages bone density, immunity, and athletic performance."
+          "The Female Athlete Triad is the interrelationship between low energy availability, menstrual dysfunction (amenorrhea), and declining bone mineral density.",
+          "Missing 3 consecutive menstrual cycles requires medical assessment; it places you at high risk for irreversible early bone loss (osteopenia/osteoporosis).",
+          "Warning signs of overworking: elevated resting morning heart rate, lingering muscle soreness, chronic mood dips, and frequent respiratory infections.",
+          "Adaptation and muscle growth happen during rest and sleep, not during the workout itself."
         ]
       },
       {
         id: "play-3",
-        name: "Recognizing Overtraining Signs",
+        name: "Rest vs. Burnout Sorter",
+        type: "game",
+        desc: "Sort healthy training fatigue from chronic overtraining red flags.",
+        xp: 75,
+        summary: "Distinguish between productive training adaptation and dangerous overworking signals (amenorrhea, persistent sleep disruption, recurring stress fractures).",
+        keyTakeaways: [
+          "Productive fatigue resolves within 24–48 hours with adequate nutrition and sleep.",
+          "Loss of menstrual flow, recurring shin splints or stress fractures, and unshakeable brain fog indicate dangerous overtraining and energy deficit."
+        ],
+        gameType: "sort"
+      },
+      {
+        id: "play-4",
+        name: "Body Image & Weight Pressures in Sport",
         type: "article",
-        desc: "When missed periods or fatigue mean it's time to check in.",
+        desc: "Decoupling body shape from athletic performance and rejecting aesthetic pressure.",
         xp: 40,
         readTime: "4 min read",
-        summary: "The Female Athlete Triad and RED-S: why losing your period is a warning sign of bone and metabolic stress, not a trophy of hard training.",
+        summary: "Many female athletes encounter toxic messaging from coaches, peers, or social media claiming that shrinking your body automatically increases performance. In reality, under-fueling to reach an arbitrary weight or aesthetic causes muscle wasting, sluggish reaction times, and heightened injury risk. Embracing body neutrality helps athletes value their physical power, endurance, and skill rather than appearance.",
         keyTakeaways: [
-          "Amenorrhea (missed periods) in athletes requires adjusting training volume and nutritional intake.",
-          "Rest days are where actual muscle repair and adaptation occur."
+          "Athletic capability is driven by strength, cardiovascular capacity, technique, and mental agility — not a specific body silhouette.",
+          "Weigh-ins and public body scrutiny in team sports are outdated practices strongly linked to disordered eating and RED-S.",
+          "Body neutrality shifts focus from 'How do I look?' to 'What is my body capable of achieving today?'",
+          "You deserve to be respected and coached as a whole human being, never as a number on a scale."
+        ]
+      },
+      {
+        id: "play-5",
+        name: "Spotting Toxic Fitness Pressures",
+        type: "game",
+        desc: "Quiz: identifying harmful diet culture myths vs healthy athletic coaching.",
+        xp: 75,
+        summary: "Learn how to spot red flags in fitness trends, extreme cutting diets, and peer pressure, and discover confident boundaries to protect your physical and mental health.",
+        keyTakeaways: [
+          "A coach or trainer who encourages you to skip meals or ignores missed periods is putting your health at risk.",
+          "Real athletic fuel includes balanced macronutrients: unrefined carbs, lean proteins, healthy fats, and ample hydration."
+        ],
+        gameType: "scenarios",
+        quiz: [
+          {
+            question: "A teammate says losing your period means you are finally 'in peak competition shape.' What is the medical reality?",
+            options: [
+              "They are correct; periods are unnecessary during season",
+              "Losing your period is a warning sign of low energy availability and bone density loss",
+              "It only matters if you plan to get pregnant this year",
+              "It indicates optimal cardiovascular conditioning"
+            ],
+            correctIndex: 1,
+            explanation: "Amenorrhea is a clinical symptom of low energy availability (RED-S). When estrogen drops, bone mineral loss begins rapidly, leading to stress fractures."
+          }
+        ]
+      },
+      {
+        id: "play-6",
+        name: "Cycle-Aware Performance & Bone Health",
+        type: "lesson",
+        desc: "Training with your body's hormonal phases and protecting lifelong bone density.",
+        xp: 50,
+        readTime: "5 min read",
+        summary: "Hormone fluctuations across the follicular and luteal phases naturally influence body temperature, metabolic substrate use, and recovery rates. By syncing training intensity with your menstrual phases and ensuring adequate calcium and vitamin D intake, you can optimize power while protecting bone density.",
+        keyTakeaways: [
+          "Follicular Phase (Days 1–14): Lower core temperature and higher insulin sensitivity create ideal conditions for high-intensity intervals and progressive strength loads.",
+          "Luteal Phase (Days 15–28): Higher progesterone slightly elevates basal body temperature, making pre-cooling, electrolytes, and steady-state endurance especially effective.",
+          "Peak bone mass is built predominantly before age 25; maintaining regular menstrual cycles with adequate estrogen is the single most important factor in lifelong skeletal strength."
         ]
       }
     ]
@@ -596,7 +668,7 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
     badge: "Bigger Picture Thinker",
     badgeDesc: "Earned by understanding healthcare equity, language access, and community advocacy.",
     description: "How transportation, language, and location shape access to this education.",
-    colorSwatch: "#205B5C",
+    colorSwatch: "#175B5C",
     topics: [
       {
         id: "factors-0",
