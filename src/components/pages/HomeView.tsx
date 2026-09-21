@@ -25,7 +25,10 @@ import {
   X,
   Stethoscope,
   Activity,
-  Download
+  Download,
+  ClipboardList,
+  CalendarCheck,
+  MessageSquare
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -915,20 +918,25 @@ export function HomeView({ onNavigate, onSelectLang }: HomeViewProps) {
                 setActiveToolkitTab("track");
                 setToolkitModalOpen(true);
               }}
-              className="p-6 rounded-2xl bg-white text-charcoal border border-white/50 shadow-card hover:shadow-hover hover:-translate-y-1 transition-all cursor-pointer flex flex-col justify-between group"
+              className="p-6 md:p-7 rounded-2xl bg-white text-charcoal border border-white/70 shadow-card hover:shadow-hover hover:-translate-y-1 transition-all cursor-pointer flex flex-col justify-between group"
             >
               <div>
-                <span className="text-2xl mb-3 block">📝</span>
-                <h3 className="text-lg font-serif font-bold text-deep-teal group-hover:text-raspberry transition-colors mb-2">
+                <div className="w-11 h-11 rounded-xl bg-light-teal text-deep-teal flex items-center justify-center border border-deep-teal/20 shadow-2xs mb-4">
+                  <ClipboardList className="w-5 h-5 text-deep-teal" />
+                </div>
+                <h3 className="text-xl font-serif font-bold text-deep-teal group-hover:text-raspberry transition-colors leading-snug mb-2.5">
                   Track your symptoms
                 </h3>
-                <p className="text-[14px] text-charcoal/75 leading-relaxed font-sans m-0">
+                <p className="text-[14.5px] text-charcoal/80 leading-relaxed font-sans m-0">
                   Download a symptom tracker to document frequency, severity, and cycle patterns.
                 </p>
               </div>
-              <span className="text-xs font-bold text-raspberry mt-4 block font-sans">
-                Open tracker guide →
-              </span>
+              <div className="pt-5 mt-5 border-t border-deep-teal/10 flex items-center justify-between">
+                <span className="text-xs font-bold text-raspberry font-sans group-hover:underline">
+                  Open tracker guide
+                </span>
+                <ArrowRight className="w-3.5 h-3.5 text-raspberry group-hover:translate-x-1 transition-transform" />
+              </div>
             </div>
 
             {/* Card 2: Prepare for an appointment */}
@@ -937,20 +945,25 @@ export function HomeView({ onNavigate, onSelectLang }: HomeViewProps) {
                 setActiveToolkitTab("prepare");
                 setToolkitModalOpen(true);
               }}
-              className="p-6 rounded-2xl bg-white text-charcoal border border-white/50 shadow-card hover:shadow-hover hover:-translate-y-1 transition-all cursor-pointer flex flex-col justify-between group"
+              className="p-6 md:p-7 rounded-2xl bg-white text-charcoal border border-white/70 shadow-card hover:shadow-hover hover:-translate-y-1 transition-all cursor-pointer flex flex-col justify-between group"
             >
               <div>
-                <span className="text-2xl mb-3 block">💬</span>
-                <h3 className="text-lg font-serif font-bold text-deep-teal group-hover:text-raspberry transition-colors mb-2">
+                <div className="w-11 h-11 rounded-xl bg-[#FFE1DB] text-coral flex items-center justify-center border border-coral/30 shadow-2xs mb-4">
+                  <CalendarCheck className="w-5 h-5 text-[#B83F68]" />
+                </div>
+                <h3 className="text-xl font-serif font-bold text-deep-teal group-hover:text-raspberry transition-colors leading-snug mb-2.5">
                   Prepare for an appointment
                 </h3>
-                <p className="text-[14px] text-charcoal/75 leading-relaxed font-sans m-0">
+                <p className="text-[14.5px] text-charcoal/80 leading-relaxed font-sans m-0">
                   Build a personalized list of prioritized questions before seeing a healthcare provider.
                 </p>
               </div>
-              <span className="text-xs font-bold text-raspberry mt-4 block font-sans">
-                Build question list →
-              </span>
+              <div className="pt-5 mt-5 border-t border-deep-teal/10 flex items-center justify-between">
+                <span className="text-xs font-bold text-raspberry font-sans group-hover:underline">
+                  Build question list
+                </span>
+                <ArrowRight className="w-3.5 h-3.5 text-raspberry group-hover:translate-x-1 transition-transform" />
+              </div>
             </div>
 
             {/* Card 3: Learn the language */}
@@ -959,20 +972,25 @@ export function HomeView({ onNavigate, onSelectLang }: HomeViewProps) {
                 setActiveToolkitTab("language");
                 setToolkitModalOpen(true);
               }}
-              className="p-6 rounded-2xl bg-white text-charcoal border border-white/50 shadow-card hover:shadow-hover hover:-translate-y-1 transition-all cursor-pointer flex flex-col justify-between group"
+              className="p-6 md:p-7 rounded-2xl bg-white text-charcoal border border-white/70 shadow-card hover:shadow-hover hover:-translate-y-1 transition-all cursor-pointer flex flex-col justify-between group"
             >
               <div>
-                <span className="text-2xl mb-3 block">📚</span>
-                <h3 className="text-lg font-serif font-bold text-deep-teal group-hover:text-raspberry transition-colors mb-2">
+                <div className="w-11 h-11 rounded-xl bg-soft-pink text-raspberry flex items-center justify-center border border-raspberry/25 shadow-2xs mb-4">
+                  <BookOpen className="w-5 h-5 text-raspberry" />
+                </div>
+                <h3 className="text-xl font-serif font-bold text-deep-teal group-hover:text-raspberry transition-colors leading-snug mb-2.5">
                   Learn the language
                 </h3>
-                <p className="text-[14px] text-charcoal/75 leading-relaxed font-sans m-0">
+                <p className="text-[14.5px] text-charcoal/80 leading-relaxed font-sans m-0">
                   Understand terms like PCOS, endometriosis, energy availability, and amenorrhea.
                 </p>
               </div>
-              <span className="text-xs font-bold text-raspberry mt-4 block font-sans">
-                Explore terminology →
-              </span>
+              <div className="pt-5 mt-5 border-t border-deep-teal/10 flex items-center justify-between">
+                <span className="text-xs font-bold text-raspberry font-sans group-hover:underline">
+                  Explore terminology
+                </span>
+                <ArrowRight className="w-3.5 h-3.5 text-raspberry group-hover:translate-x-1 transition-transform" />
+              </div>
             </div>
 
             {/* Card 4: Speak up */}
@@ -981,20 +999,25 @@ export function HomeView({ onNavigate, onSelectLang }: HomeViewProps) {
                 setActiveToolkitTab("speak");
                 setToolkitModalOpen(true);
               }}
-              className="p-6 rounded-2xl bg-white text-charcoal border border-white/50 shadow-card hover:shadow-hover hover:-translate-y-1 transition-all cursor-pointer flex flex-col justify-between group"
+              className="p-6 md:p-7 rounded-2xl bg-white text-charcoal border border-white/70 shadow-card hover:shadow-hover hover:-translate-y-1 transition-all cursor-pointer flex flex-col justify-between group"
             >
               <div>
-                <span className="text-2xl mb-3 block">🗣️</span>
-                <h3 className="text-lg font-serif font-bold text-deep-teal group-hover:text-raspberry transition-colors mb-2">
+                <div className="w-11 h-11 rounded-xl bg-light-teal text-deep-teal flex items-center justify-center border border-deep-teal/20 shadow-2xs mb-4">
+                  <MessageSquare className="w-5 h-5 text-deep-teal" />
+                </div>
+                <h3 className="text-xl font-serif font-bold text-deep-teal group-hover:text-raspberry transition-colors leading-snug mb-2.5">
                   Speak up
                 </h3>
-                <p className="text-[14px] text-charcoal/75 leading-relaxed font-sans m-0">
+                <p className="text-[14.5px] text-charcoal/80 leading-relaxed font-sans m-0">
                   Practice explaining your symptoms clearly and responding when you feel dismissed.
                 </p>
               </div>
-              <span className="text-xs font-bold text-raspberry mt-4 block font-sans">
-                Practice conversation scripts →
-              </span>
+              <div className="pt-5 mt-5 border-t border-deep-teal/10 flex items-center justify-between">
+                <span className="text-xs font-bold text-raspberry font-sans group-hover:underline">
+                  Practice conversation scripts
+                </span>
+                <ArrowRight className="w-3.5 h-3.5 text-raspberry group-hover:translate-x-1 transition-transform" />
+              </div>
             </div>
           </div>
         </div>
@@ -1269,43 +1292,47 @@ export function HomeView({ onNavigate, onSelectLang }: HomeViewProps) {
             <div className="flex items-center gap-2 border-b border-deep-teal/10 pb-2 overflow-x-auto font-sans text-[13.5px]">
               <button
                 onClick={() => setActiveToolkitTab("prepare")}
-                className={`px-3 py-1.5 rounded-lg font-semibold whitespace-nowrap transition-colors ${
+                className={`px-3.5 py-2 rounded-xl font-semibold whitespace-nowrap transition-colors flex items-center gap-2 ${
                   activeToolkitTab === "prepare"
-                    ? "bg-raspberry text-white hover:bg-raspberry hover:text-white active:text-white focus:text-white"
+                    ? "bg-raspberry text-white hover:bg-raspberry hover:text-white active:text-white focus:text-white shadow-2xs"
                     : "text-charcoal/80 hover:bg-light-teal hover:text-deep-teal active:text-charcoal focus:text-deep-teal"
                 }`}
               >
-                💬 Prepare for Appointment
+                <CalendarCheck className="w-4 h-4 text-current" />
+                <span>Prepare for Appointment</span>
               </button>
               <button
                 onClick={() => setActiveToolkitTab("track")}
-                className={`px-3 py-1.5 rounded-lg font-semibold whitespace-nowrap transition-colors ${
+                className={`px-3.5 py-2 rounded-xl font-semibold whitespace-nowrap transition-colors flex items-center gap-2 ${
                   activeToolkitTab === "track"
-                    ? "bg-raspberry text-white hover:bg-raspberry hover:text-white active:text-white focus:text-white"
+                    ? "bg-raspberry text-white hover:bg-raspberry hover:text-white active:text-white focus:text-white shadow-2xs"
                     : "text-charcoal/80 hover:bg-light-teal hover:text-deep-teal active:text-charcoal focus:text-deep-teal"
                 }`}
               >
-                📝 Symptom Tracker
+                <ClipboardList className="w-4 h-4 text-current" />
+                <span>Symptom Tracker</span>
               </button>
               <button
                 onClick={() => setActiveToolkitTab("language")}
-                className={`px-3 py-1.5 rounded-lg font-semibold whitespace-nowrap transition-colors ${
+                className={`px-3.5 py-2 rounded-xl font-semibold whitespace-nowrap transition-colors flex items-center gap-2 ${
                   activeToolkitTab === "language"
-                    ? "bg-raspberry text-white hover:bg-raspberry hover:text-white active:text-white focus:text-white"
+                    ? "bg-raspberry text-white hover:bg-raspberry hover:text-white active:text-white focus:text-white shadow-2xs"
                     : "text-charcoal/80 hover:bg-light-teal hover:text-deep-teal active:text-charcoal focus:text-deep-teal"
                 }`}
               >
-                📚 Learn the Language
+                <BookOpen className="w-4 h-4 text-current" />
+                <span>Learn the Language</span>
               </button>
               <button
                 onClick={() => setActiveToolkitTab("speak")}
-                className={`px-3 py-1.5 rounded-lg font-semibold whitespace-nowrap transition-colors ${
+                className={`px-3.5 py-2 rounded-xl font-semibold whitespace-nowrap transition-colors flex items-center gap-2 ${
                   activeToolkitTab === "speak"
-                    ? "bg-raspberry text-white hover:bg-raspberry hover:text-white active:text-white focus:text-white"
+                    ? "bg-raspberry text-white hover:bg-raspberry hover:text-white active:text-white focus:text-white shadow-2xs"
                     : "text-charcoal/80 hover:bg-light-teal hover:text-deep-teal active:text-charcoal focus:text-deep-teal"
                 }`}
               >
-                🗣️ Practice Speaking Up
+                <MessageSquare className="w-4 h-4 text-current" />
+                <span>Practice Speaking Up</span>
               </button>
             </div>
 
