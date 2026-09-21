@@ -29,7 +29,11 @@ import {
   ClipboardList,
   CalendarCheck,
   MessageSquare,
-  Globe
+  Globe,
+  Scale,
+  AlertTriangle,
+  Shield,
+  FileCheck
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -569,24 +573,172 @@ export function HomeView({ onNavigate, onSelectLang }: HomeViewProps) {
         </div>
       </section>
 
-      {/* 4. "THE RESEARCH GAP" SECTION: Full-Bleed Deep Teal (#174C4F) */}
+      {/* 4. "THE RESEARCH GAP & PATIENT ADVOCACY" SECTION: Full-Bleed Deep Teal (#174C4F) */}
       <section className="w-full bg-[#174C4F] text-white py-16 md:py-24 relative overflow-hidden">
-        <div className="max-w-[1100px] mx-auto px-6 relative z-10">
-          {/* Small label: THE RESEARCH GAP (Coral #F47A6A) */}
-          <div className="inline-flex items-center gap-2 font-sans font-bold text-xs uppercase tracking-widest text-coral mb-3">
-            <span className="w-2 h-2 rounded-full bg-coral" />
-            <span>THE RESEARCH GAP</span>
+        <div className="max-w-[1100px] mx-auto px-6 relative z-10 space-y-12">
+          {/* Header */}
+          <div>
+            <div className="inline-flex items-center gap-2 font-sans font-bold text-xs uppercase tracking-widest text-coral mb-3">
+              <span className="w-2 h-2 rounded-full bg-coral" />
+              <span>THE GENDER RESEARCH GAP &amp; PATIENT ADVOCACY</span>
+            </div>
+            <h2 className="text-3xl md:text-[44px] lg:text-[50px] font-bold font-serif text-light-teal !text-light-teal leading-[1.12] mb-5 tracking-tight max-w-3xl">
+              How the Medical Research Gap Affects Women&apos;s Treatment — And Why Advocacy Matters
+            </h2>
+            <p className="text-[17px] md:text-[18.5px] text-white/90 leading-relaxed font-sans max-w-3xl">
+              Until the 1993 NIH Revitalization Act, women of reproductive age were routinely excluded from clinical trials. For generations, medical textbooks, dosage recommendations, and diagnostic criteria were calibrated almost exclusively on male physiology. Today, that enduring data gap directly influences diagnostic delays, medication safety, and how seriously female pain is treated.
+            </p>
           </div>
 
-          {/* Large heading */}
-          <h2 className="text-3xl md:text-[44px] lg:text-[50px] font-bold font-serif text-light-teal !text-light-teal leading-[1.12] mb-5 tracking-tight max-w-3xl">
-            What happens when questions aren&apos;t asked?
-          </h2>
+          {/* 3 Evidence Cards: How the Gap Directly Affects Medical Treatment */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {/* Card 1: Diagnostic Delays */}
+            <div className="rounded-2xl bg-white/10 border border-white/20 p-6 sm:p-7 flex flex-col justify-between shadow-card hover:bg-white/[0.13] transition-all">
+              <div>
+                <div className="flex items-center justify-between gap-2 mb-3">
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-coral font-sans bg-coral/10 px-2.5 py-1 rounded-full border border-coral/30">
+                    DIAGNOSTIC DELAYS
+                  </span>
+                  <span className="text-xs font-bold text-white/60 font-sans">Avg. 7–10 Years</span>
+                </div>
+                <h3 className="text-xl sm:text-2xl font-serif font-bold text-white mb-3 leading-snug">
+                  Conditions are minimized as &ldquo;just bad periods.&rdquo;
+                </h3>
+                <p className="text-[14.5px] text-white/85 leading-relaxed font-sans mb-4">
+                  Endometriosis takes an average of <strong>7 to 10 years</strong> to be diagnosed, with patients consulting 4 to 5 clinicians. Because heavy menstrual bleeding and debilitating pelvic pain were historically dismissed as emotional or &ldquo;normal,&rdquo; progressive inflammatory damage is often caught late.
+                </p>
+              </div>
+              <div className="pt-4 border-t border-white/15">
+                <a
+                  href="https://www.acog.org/clinical/clinical-guidance/committee-opinion/articles/2018/12/dysmenorrhea-and-endometriosis-in-the-adolescent"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 text-xs font-bold text-coral hover:underline font-sans"
+                >
+                  <span>ACOG Committee Opinion No. 760</span>
+                  <ExternalLink className="w-3.5 h-3.5" />
+                </a>
+              </div>
+            </div>
 
-          {/* Explanatory text */}
-          <p className="text-[17px] md:text-[18.5px] text-white/90 leading-relaxed font-sans mb-10 max-w-3xl">
-            For generations, gaps in medical research have contributed to important questions about women&apos;s health receiving less attention. That can make it harder for girls and women to recognize symptoms, understand their bodies, and advocate for the care they need.
-          </p>
+            {/* Card 2: Adverse Drug Reactions */}
+            <div className="rounded-2xl bg-white/10 border border-white/20 p-6 sm:p-7 flex flex-col justify-between shadow-card hover:bg-white/[0.13] transition-all">
+              <div>
+                <div className="flex items-center justify-between gap-2 mb-3">
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-coral font-sans bg-coral/10 px-2.5 py-1 rounded-full border border-coral/30">
+                    MEDICATION SAFETY
+                  </span>
+                  <span className="text-xs font-bold text-white/60 font-sans">2x Adverse Reactions</span>
+                </div>
+                <h3 className="text-xl sm:text-2xl font-serif font-bold text-white mb-3 leading-snug">
+                  Dosages were tested primarily on male biology.
+                </h3>
+                <p className="text-[14.5px] text-white/85 leading-relaxed font-sans mb-4">
+                  Women experience adverse drug reactions at <strong>nearly twice the rate of men</strong>. Because pharmaceutical trials historically excluded female hormonal cycles, differences in gastrointestinal transit, fat distribution, and liver enzyme clearance were overlooked. In 2013, the FDA had to halve the recommended dose of zolpidem for women.
+                </p>
+              </div>
+              <div className="pt-4 border-t border-white/15">
+                <a
+                  href="https://bsd.biomedcentral.com/articles/10.1186/s13293-020-00308-5"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 text-xs font-bold text-coral hover:underline font-sans"
+                >
+                  <span>Nature: Sex-Bias in Biomedical Research</span>
+                  <ExternalLink className="w-3.5 h-3.5" />
+                </a>
+              </div>
+            </div>
+
+            {/* Card 3: The Pain Disparity */}
+            <div className="rounded-2xl bg-white/10 border border-white/20 p-6 sm:p-7 flex flex-col justify-between shadow-card hover:bg-white/[0.13] transition-all">
+              <div>
+                <div className="flex items-center justify-between gap-2 mb-3">
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-coral font-sans bg-coral/10 px-2.5 py-1 rounded-full border border-coral/30">
+                    PAIN TREATMENT GAP
+                  </span>
+                  <span className="text-xs font-bold text-white/60 font-sans">+16 Min Wait Time</span>
+                </div>
+                <h3 className="text-xl sm:text-2xl font-serif font-bold text-white mb-3 leading-snug">
+                  Female pain is more often labeled psychological.
+                </h3>
+                <p className="text-[14.5px] text-white/85 leading-relaxed font-sans mb-4">
+                  Peer-reviewed studies in emergency care show women wait an average of <strong>16 minutes longer</strong> to receive pain medication than men presenting with identical pain scores. Furthermore, female patients are statistically more likely to be prescribed sedatives or told their symptoms are anxiety-driven rather than biological.
+                </p>
+              </div>
+              <div className="pt-4 border-t border-white/15">
+                <a
+                  href="https://onlinelibrary.wiley.com/doi/10.1111/j.1553-2712.2008.00100.x"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 text-xs font-bold text-coral hover:underline font-sans"
+                >
+                  <span>Academic Emergency Medicine Study</span>
+                  <ExternalLink className="w-3.5 h-3.5" />
+                </a>
+              </div>
+            </div>
+          </div>
+
+          {/* Self-Advocacy Action Box: The Patient Toolkit */}
+          <div className="rounded-3xl bg-white text-charcoal p-7 sm:p-9 shadow-card border-2 border-coral/40">
+            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-6">
+              <div>
+                <span className="text-xs font-bold uppercase tracking-wider text-raspberry font-sans flex items-center gap-1.5 mb-1">
+                  <ShieldCheck className="w-4 h-4 text-raspberry" />
+                  PRACTICAL CLINICAL EMPOWERMENT
+                </span>
+                <h3 className="text-2xl sm:text-3xl font-serif font-bold text-deep-teal">
+                  How Patient Self-Advocacy Levels the Playing Field
+                </h3>
+              </div>
+              <Button
+                onClick={() => onNavigate("hub", "factors")}
+                className="bg-raspberry text-white hover:bg-raspberry/90 font-bold text-sm rounded-xl shadow-xs"
+              >
+                <span>Learn Self-Advocacy in Hub</span>
+                <ArrowRight className="w-4 h-4 ml-1.5" />
+              </Button>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 font-sans">
+              <div className="p-4 rounded-xl bg-slate-50 border border-slate-200">
+                <span className="text-xs font-bold text-deep-teal uppercase block mb-1">
+                  1. Track Longitudinal Data
+                </span>
+                <p className="text-xs text-charcoal/80 leading-relaxed m-0">
+                  Bring a 3-cycle log of pain intensity (1–10), bleeding flow, and missed work/school. Clinicians prioritize documented patterns over general recollections.
+                </p>
+              </div>
+
+              <div className="p-4 rounded-xl bg-slate-50 border border-slate-200">
+                <span className="text-xs font-bold text-deep-teal uppercase block mb-1">
+                  2. Use Clinical Terminology
+                </span>
+                <p className="text-xs text-charcoal/80 leading-relaxed m-0">
+                  Replace &ldquo;really bad cramps&rdquo; with <em>dysmenorrhea interfering with daily living</em>. Framing in clinical terms activates formal diagnostic protocols.
+                </p>
+              </div>
+
+              <div className="p-4 rounded-xl bg-slate-50 border border-slate-200">
+                <span className="text-xs font-bold text-deep-teal uppercase block mb-1">
+                  3. Request Chart Documentation
+                </span>
+                <p className="text-xs text-charcoal/80 leading-relaxed m-0">
+                  If a clinician dismisses a request for bloodwork or an ultrasound, say: <em>&ldquo;Please document in my chart that you are declining to order this test and your clinical rationale.&rdquo;</em>
+                </p>
+              </div>
+
+              <div className="p-4 rounded-xl bg-slate-50 border border-slate-200">
+                <span className="text-xs font-bold text-deep-teal uppercase block mb-1">
+                  4. Ask for Differential Diagnoses
+                </span>
+                <p className="text-xs text-charcoal/80 leading-relaxed m-0">
+                  Ask: <em>&ldquo;What other biological explanations could account for these symptoms besides stress, diet, or anxiety?&rdquo;</em> It prompts providers to look deeper.
+                </p>
+              </div>
+            </div>
+          </div>
 
           {/* Horizontal Visual Pathway: 6 connected steps */}
           <div className="pt-6 border-t border-white/15">
@@ -722,39 +874,118 @@ export function HomeView({ onNavigate, onSelectLang }: HomeViewProps) {
             </div>
           </div>
 
-          {/* Evidence & Credible Sources Links */}
-          <div className="mt-8 pt-6 border-t border-white/15">
-            <div className="text-xs uppercase font-bold tracking-wider text-coral mb-3 font-sans flex items-center gap-1.5">
-              <BookOpen className="w-3.5 h-3.5 text-coral" />
-              <span>Credible Research Evidence &amp; Medical Grounding:</span>
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs font-sans text-white/80">
-              <div className="p-2.5 rounded-lg bg-white/5 border border-white/10">
-                <strong className="text-coral block mb-0.5">NIH ORWH Policy:</strong>
-                Inclusion of Women in Clinical Trials and Biomedical Research Mandates
+          {/* Curated Research Library: Direct External Citations */}
+          <div className="pt-6 border-t border-white/15">
+            <div className="flex items-center justify-between flex-wrap gap-2 mb-4">
+              <div className="text-xs uppercase font-bold tracking-wider text-coral font-sans flex items-center gap-1.5">
+                <BookOpen className="w-3.5 h-3.5 text-coral" />
+                <span>Peer-Reviewed Literature &amp; Institutional Research Citations:</span>
               </div>
-              <div className="p-2.5 rounded-lg bg-white/5 border border-white/10">
-                <strong className="text-coral block mb-0.5">The Lancet:</strong>
-                Advancing the Science of Women&apos;s Health &amp; Eliminating Evidence Gaps
-              </div>
-              <div className="p-2.5 rounded-lg bg-white/5 border border-white/10">
-                <strong className="text-coral block mb-0.5">ACOG Guideline 760:</strong>
-                Adolescent Dysmenorrhea &amp; Endometriosis Early Diagnosis Protocols
-              </div>
-              <div className="p-2.5 rounded-lg bg-white/5 border border-white/10">
-                <strong className="text-coral block mb-0.5">BJSM / IOC Consensus:</strong>
-                Relative Energy Deficiency in Sport (RED-S) &amp; Skeletal Health Criteria
-              </div>
+              <span className="text-[11px] text-white/60 font-sans italic">
+                Educational reference links · Not medical advice
+              </span>
             </div>
 
-            <div className="mt-4 flex items-center justify-between gap-4 text-xs font-sans text-white/70 flex-wrap">
-              <span>All statistics and guidelines verified through our medical advisory network.</span>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 text-xs font-sans text-white/90">
+              <a
+                href="https://orwh.od.nih.gov/sex-gender/nih-policy-sex-biological-variable"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-3.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 hover:border-coral/50 transition-all flex items-start justify-between gap-2 group"
+              >
+                <div>
+                  <strong className="text-coral block mb-0.5 group-hover:underline">
+                    NIH ORWH Policy
+                  </strong>
+                  <span>Inclusion of Women in Clinical Research &amp; Sex as a Biological Variable Mandate</span>
+                </div>
+                <ExternalLink className="w-3.5 h-3.5 text-coral shrink-0 mt-0.5" />
+              </a>
+
+              <a
+                href="https://bsd.biomedcentral.com/articles/10.1186/s13293-020-00308-5"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-3.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 hover:border-coral/50 transition-all flex items-start justify-between gap-2 group"
+              >
+                <div>
+                  <strong className="text-coral block mb-0.5 group-hover:underline">
+                    Nature / BMC (Zucker &amp; Prendergast)
+                  </strong>
+                  <span>A century of sex-bias in research: how male models impact female health</span>
+                </div>
+                <ExternalLink className="w-3.5 h-3.5 text-coral shrink-0 mt-0.5" />
+              </a>
+
+              <a
+                href="https://www.thelancet.com/series/gender-equality-norms-health"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-3.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 hover:border-coral/50 transition-all flex items-start justify-between gap-2 group"
+              >
+                <div>
+                  <strong className="text-coral block mb-0.5 group-hover:underline">
+                    The Lancet Series
+                  </strong>
+                  <span>Advancing the Science of Women&apos;s Health &amp; Eliminating Evidence Gaps</span>
+                </div>
+                <ExternalLink className="w-3.5 h-3.5 text-coral shrink-0 mt-0.5" />
+              </a>
+
+              <a
+                href="https://www.acog.org/clinical/clinical-guidance/committee-opinion/articles/2018/12/dysmenorrhea-and-endometriosis-in-the-adolescent"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-3.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 hover:border-coral/50 transition-all flex items-start justify-between gap-2 group"
+              >
+                <div>
+                  <strong className="text-coral block mb-0.5 group-hover:underline">
+                    ACOG Practice Opinion 760
+                  </strong>
+                  <span>Adolescent Dysmenorrhea &amp; Endometriosis Early Diagnosis Protocols</span>
+                </div>
+                <ExternalLink className="w-3.5 h-3.5 text-coral shrink-0 mt-0.5" />
+              </a>
+
+              <a
+                href="https://onlinelibrary.wiley.com/doi/10.1111/j.1553-2712.2008.00100.x"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-3.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 hover:border-coral/50 transition-all flex items-start justify-between gap-2 group"
+              >
+                <div>
+                  <strong className="text-coral block mb-0.5 group-hover:underline">
+                    Academic Emergency Medicine
+                  </strong>
+                  <span>Gender Disparities in Analgesic Administration &amp; Pain Treatment Delays</span>
+                </div>
+                <ExternalLink className="w-3.5 h-3.5 text-coral shrink-0 mt-0.5" />
+              </a>
+
+              <a
+                href="https://www.fda.gov/consumers/womens-health"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-3.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 hover:border-coral/50 transition-all flex items-start justify-between gap-2 group"
+              >
+                <div>
+                  <strong className="text-coral block mb-0.5 group-hover:underline">
+                    FDA Office of Women&apos;s Health
+                  </strong>
+                  <span>Sex-Specific Dosage Adjustments &amp; Drug Safety in Female Patients</span>
+                </div>
+                <ExternalLink className="w-3.5 h-3.5 text-coral shrink-0 mt-0.5" />
+              </a>
+            </div>
+
+            <div className="mt-5 flex items-center justify-between gap-4 text-xs font-sans text-white/70 flex-wrap">
+              <span>Educational synthesis based on published public health literature and clinical guidelines. This is health education, not medical advice.</span>
               <button
                 onClick={() => onNavigate("story")}
-                className="text-coral hover:underline font-semibold flex items-center gap-1"
+                className="text-coral hover:underline font-semibold flex items-center gap-1 cursor-pointer"
               >
-                <span>Read full research background</span>
-                <ExternalLink className="w-3 h-3" />
+                <span>Read our founding story &amp; research mission</span>
+                <ArrowRight className="w-3.5 h-3.5" />
               </button>
             </div>
           </div>

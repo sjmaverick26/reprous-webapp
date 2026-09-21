@@ -1625,6 +1625,34 @@ export function HubView({ initialCategory }: HubViewProps) {
                             </p>
                           </div>
                         </div>
+
+                        {/* Research Context: Why Patient Advocacy is Crucial */}
+                        <div className="p-5 rounded-2xl bg-white border border-deep-teal/20 shadow-xs space-y-3 font-sans">
+                          <div className="flex items-center justify-between flex-wrap gap-2">
+                            <div className="flex items-center gap-2 text-xs uppercase font-bold tracking-wider text-deep-teal">
+                              <Scale className="w-4 h-4 text-coral shrink-0" />
+                              <span>The Gender Research Gap: Why This Script Protects You</span>
+                            </div>
+                            <span className="text-[11px] text-charcoal/60 italic">
+                              Clinical Evidence · Educational Reference
+                            </span>
+                          </div>
+                          <p className="text-sm sm:text-base text-charcoal/85 leading-relaxed m-0">
+                            Until the 1993 NIH Revitalization Act, female biological models and women were largely excluded from clinical research trials. Today, conditions like endometriosis still carry a <strong>7–10 year diagnostic delay</strong>, and women wait an average of 16 minutes longer for pain medication in emergency settings (<a href="https://onlinelibrary.wiley.com/doi/10.1111/j.1553-2712.2008.00100.x" target="_blank" rel="noopener noreferrer" className="text-deep-teal underline hover:text-coral font-medium inline-flex items-center gap-0.5">Chen et al., 2008<ExternalLink className="w-3 h-3 inline" /></a>). Using objective cycle tracking and formal medical vocabulary counteracts subjective dismissal and prompts evidence-based diagnostic protocols.
+                          </p>
+                          <div className="pt-2 border-t border-deep-teal/10 flex items-center justify-between flex-wrap gap-2 text-xs text-charcoal/70">
+                            <span className="flex items-center gap-1.5">
+                              <BookOpen className="w-3.5 h-3.5 text-coral shrink-0" />
+                              <span>Explore study:</span>
+                              <a href="https://bsd.biomedcentral.com/articles/10.1186/s13293-020-00308-5" target="_blank" rel="noopener noreferrer" className="text-deep-teal underline hover:text-coral font-medium inline-flex items-center gap-0.5">
+                                Nature / BMC Sex-Bias in Biomedical Research <ExternalLink className="w-3 h-3 inline" />
+                              </a>
+                            </span>
+                            <span className="italic text-charcoal/60">
+                              Educational reference · Not medical advice
+                            </span>
+                          </div>
+                        </div>
                       </div>
 
                       {/* In-content Continue Button */}

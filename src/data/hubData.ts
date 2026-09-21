@@ -598,11 +598,11 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
         desc: "Learn cycle norms, recognize red-flag symptoms, and advocate to doctors when bleeding or pain disrupts your life.",
         xp: 50,
         readTime: "4 min read",
-        summary: "Your menstrual cycle is recognized by physicians as your 5th vital sign. Period pain that leaves you curled in bed, missing classes, or throwing up is never 'just part of being a woman.' Concrete data and clear scripts ensure you are taken seriously.",
+        summary: "Your menstrual cycle is recognized by physicians as your 5th vital sign. Because female biology was historically excluded from clinical trials until the 1993 NIH Revitalization Act, menstrual distress has often been minimized as subjective. Period pain that leaves you curled in bed, missing classes, or vomiting is never 'just part of being a woman.' Concrete data and clear scripts bridge this historical gap to ensure you are taken seriously.",
         keyTakeaways: [
-          "Learn: A normal period shouldn't prevent you from attending school, work, or sports.",
+          "Learn: A normal period shouldn't prevent you from attending school, work, or sports. Science confirms menstrual distress reflects real inflammatory biomarkers, not psychogenic oversensitivity.",
           "Recognize: Red flags include soaking a pad/tampon every hour for 2+ hours, passing clots larger than a quarter, or missing 3+ periods in a row.",
-          "Advocate: Bring a 2-to-3 month symptom log showing exact dates, pain levels (1-10), and days of school or activities missed.",
+          "Advocate: Bring a 2-to-3 month symptom log showing exact dates, pain levels (1-10), and days of school or activities missed to counteract research and diagnosis gaps.",
           "If told 'it's just bad cramps, take Midol,' use the magic chart line: 'Please note in my chart that I am losing school days to debilitating pain and you are declining an ultrasound.'"
         ],
         visualCards: [
@@ -621,8 +621,8 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
           {
             title: "3. ADVOCATE",
             iconName: "Shield",
-            text: "Concrete data stops medical dismissal. Showing a written symptom log with missed school days forces clinicians to take your pain seriously.",
-            highlight: "Bring written logs"
+            text: "Data closes the gender research gap. Presenting a written symptom log with functional impairment (missed classes) compels clinicians to order diagnostic imaging.",
+            highlight: "Data closes the gap"
           }
         ],
         advocacyScript: {
@@ -889,11 +889,11 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
         desc: "Learn the Rotterdam criteria, recognize dismissal tactics, and advocate for comprehensive hormone panels and ultrasound.",
         xp: 50,
         readTime: "4 min read",
-        summary: "PCOS is one of the most underdiagnosed endocrine conditions, frequently dismissed with lazy advice like 'just lose weight and take the pill.' You have the right to thorough diagnostic bloodwork and whole-body metabolic care.",
+        summary: "PCOS affects up to 10% of reproductive-age individuals, yet up to 70% remain undiagnosed due to historical research gaps where female metabolic profiles were excluded from early endocrine trials. Frequently dismissed with lazy advice like 'just lose weight and take the pill,' patients have the right to comprehensive hormone panels and metabolic evaluation under Rotterdam criteria.",
         keyTakeaways: [
           "Learn: Under the Rotterdam Criteria, diagnosis requires at least 2 of 3: irregular ovulation, elevated androgens (testosterone), or polycystic ovaries on ultrasound.",
-          "Recognize: Red flags include doctors prescribing birth control without running hormone panels first, or blaming missed periods solely on body weight.",
-          "Advocate: Request a morning fasted blood panel (total/free testosterone, DHEA-S, fasting insulin, HbA1c, thyroid panel) and a pelvic ultrasound.",
+          "Recognize: Historically excluded from early metabolic studies, PCOS was long misclassified as cosmetic rather than an endocrine insulin-resistance syndrome. Red flags include prescribing birth control without baseline hormone testing.",
+          "Advocate: Request a morning fasted blood panel (total/free testosterone, DHEA-S, fasting insulin, HbA1c, thyroid panel) and a pelvic ultrasound to secure definitive medical care.",
           "If a clinician refuses bloodwork, say: 'Please document in my medical record that I requested diagnostic hormone testing for suspected PCOS and that you declined.'"
         ],
         visualCards: [
@@ -1082,11 +1082,11 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
         desc: "Learn the diagnostic pathway, recognize dismissive 'just cramps' gaslighting, and advocate for an excision specialist.",
         xp: 50,
         readTime: "4 min read",
-        summary: "The average person with endometriosis waits 7 to 10 years and sees 8 doctors before receiving a diagnosis. Armed with clinical facts, a structured symptom log, and assertive scripts, you can cut through the dismissal and get effective care.",
+        summary: "The average person with endometriosis waits 7 to 10 years and sees 8 doctors before receiving a diagnosis. This delay is directly tied to the gender research gap: endometriosis affects 190 million people worldwide, yet receives less than 0.03% of federal health research funding. Armed with clinical guidelines, a structured symptom log, and assertive scripts, you can cut through the dismissal and get effective care.",
         keyTakeaways: [
-          "Learn: Endometriosis is a systemic inflammatory disease where tissue similar to the uterine lining grows outside the uterus on pelvic organs.",
-          "Recognize: Warning signs include pain with bowel movements or urination during periods, pain radiating down thighs, and pain unresponsive to NSAIDs.",
-          "Advocate: Emphasize functional impairment: 'My pain causes me to miss classes and affects my mobility. I need a referral to a minimally invasive gynecologic surgeon (MIGS).'",
+          "Learn: Endometriosis is a systemic inflammatory disease where tissue similar to the uterine lining grows outside the uterus. Decades of research underfunding mean non-invasive blood biomarkers are still emerging, making patient self-advocacy vital.",
+          "Recognize: Warning signs include pain with bowel movements or urination during periods, pain radiating down thighs, and pain unresponsive to standard NSAIDs.",
+          "Advocate: Emphasize functional impairment: 'My pain causes me to miss classes and affects my mobility. Under ACOG Opinion 760, normal ultrasounds do not rule out endometriosis; I need a referral to a minimally invasive gynecologic surgeon (MIGS).'",
           "Always remember: Normal pelvic ultrasounds DO NOT rule out endometriosis; superficial peritoneal lesions are invisible on standard ultrasound."
         ],
         visualCards: [
@@ -2349,11 +2349,11 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
         desc: "Learn systemic barriers, recognize inequities, and advocate for menstrual equity, free products, and health justice.",
         xp: 50,
         readTime: "4 min read",
-        summary: "Health literacy is the first step; collective advocacy changes the world. Whether it's lobbying school boards for free period products in restrooms or demanding translation access at clinics, you have the power to create lasting policy change.",
+        summary: "Health literacy is the first step; collective advocacy changes the world. The gender research gap—stemming from decades of female exclusion from clinical drug trials—means women still suffer twice as many adverse drug reactions and face systematic pain dismissal. Whether demanding sex-specific biomedical research, lobbying school boards for free period products, or expanding clinic translation access, youth advocacy bridges this divide.",
         keyTakeaways: [
-          "Learn: Over 84% of students have missed class time due to lack of menstrual products; period supplies are basic hygiene necessities like toilet paper.",
-          "Recognize: Systemic obstacles include the sales tax on menstrual items (tampon tax), transit deserts, and lack of certified medical interpreters.",
-          "Advocate: Organize campus petitions, testify at school board meetings, and partner with national campaigns (like PERIOD. and ReproUs) to pass local equity policies.",
+          "Learn: Decades of male-model research bias (Nature / BSD, Zucker & Prendergast) created persistent gaps: less than 2% of health research funding goes to female-specific conditions outside cancer, directly affecting diagnostic timelines.",
+          "Recognize: Research gaps translate directly into treatment gaps: women wait 16 minutes longer for pain relief in ERs, face 7–10 year endometriosis delays, and experience twice the rate of adverse drug reactions.",
+          "Advocate: Organize campus petitions, testify at school board meetings, and demand sex-disaggregated clinical data and free period product access in public facilities.",
           "Use civic tools: 'We are requesting the school district allocate funding under the Menstrual Equity in Schools Act to supply free period dispensers in every student restroom.'"
         ],
         visualCards: [
