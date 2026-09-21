@@ -2484,7 +2484,7 @@ export function getTopicRoleplayScenarios(topic: HubTopic, categoryId?: string):
         evidence: {
           badge: "Milestone Log",
           title: "Adolescent Tanner Stage & Growth Chart",
-          metric: "12-Month Longitudinal Physical Milestone Log",
+          metric: "12-Month Physical Milestone Log",
           description: "Documents individual breast and pubic hair development against Tanner stages 1–5 to evaluate developmental progress objectively.",
         },
         sourceCitation: {

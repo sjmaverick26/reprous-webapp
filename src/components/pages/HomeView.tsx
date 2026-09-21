@@ -765,7 +765,7 @@ export function HomeView({ onNavigate, onSelectLang }: HomeViewProps) {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 font-sans">
               <div className="p-4 rounded-xl bg-slate-50 border border-slate-200">
                 <span className="text-xs font-bold text-deep-teal uppercase block mb-1">
-                  1. Track Longitudinal Data
+                  1. Track Symptoms Over Time
                 </span>
                 <p className="text-xs text-charcoal/80 leading-relaxed m-0">
                   Bring a 3-cycle log of pain intensity (1–10), bleeding flow, and missed work/school. Clinicians prioritize documented patterns over general recollections.

@@ -1009,7 +1009,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     categoryColor: "bg-light-teal text-deep-teal border-deep-teal/30",
     chartJargon: "Clinical intake: “Patient presents with structured 90-day objective symptom log documenting pain frequency, bleeding volume, and medication response.”",
     plainEnglish: "The practice of keeping a concrete, dated record of symptoms (timing, 1–10 pain scale, interference with school/sports, pad count, and medications taken). Presenting objective data transforms vague conversations into undeniable clinical evidence that doctors take seriously.",
-    doctorDefinition: "The prospective, systematic recording of quantifiable patient-reported outcomes (PROs), pain scales, and physiological events to facilitate accurate differential diagnosis and longitudinal assessment.",
+    doctorDefinition: "The prospective, systematic recording of quantifiable patient-reported outcomes (PROs), pain scales, and physiological events to facilitate accurate differential diagnosis and ongoing tracking over time.",
     howToSayIt: "“I brought a 3-month objective symptom journal detailing my pain scores, school absences, and exact medication responses so we can evaluate the patterns together.”",
   },
   {
