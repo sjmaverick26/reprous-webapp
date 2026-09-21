@@ -7,6 +7,42 @@ export interface QuizQuestion {
   explanation: string;
 }
 
+export interface LessonDiagram {
+  type: "cycle-wheel" | "energy-balance" | "pcos-loop" | "pelvic-map" | "anatomy-callout" | "timeline";
+  title: string;
+  caption: string;
+}
+
+export interface LessonVideo {
+  title: string;
+  source: string;
+  duration: string;
+  youtubeId: string;
+  medicalReviewer: string;
+  keyHighlights: string[];
+}
+
+export interface SorterItem {
+  id: string;
+  text: string;
+  correctCategory: string;
+  explanation: string;
+}
+
+export interface LessonSorterGame {
+  title: string;
+  instructions: string;
+  categories: { id: string; name: string; colorClass: string }[];
+  items: SorterItem[];
+}
+
+export interface VisualCard {
+  title: string;
+  iconName: string;
+  text: string;
+  highlight?: string;
+}
+
 export interface HubTopic {
   id: string;
   name: string;
@@ -16,6 +52,10 @@ export interface HubTopic {
   readTime?: string;
   summary: string;
   keyTakeaways: string[];
+  visualCards?: VisualCard[];
+  diagram?: LessonDiagram;
+  video?: LessonVideo;
+  sorterGame?: LessonSorterGame;
   quiz?: QuizQuestion[];
   gameType?: "match" | "sort" | "scenarios";
 }
@@ -52,12 +92,95 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
           "Everyone develops on their own genetic clock; starting earlier or later does not mean anything is wrong.",
           "Emotional shifts and mood fluctuations are biological responses to hormonal changes.",
         ],
+        visualCards: [
+          {
+            title: "The Brain-Body Cascade",
+            iconName: "Sparkles",
+            text: "The hypothalamus and pituitary gland start producing gonadotropins (LH and FSH), sending chemical messengers to ovaries and adrenal glands.",
+            highlight: "Biological trigger"
+          },
+          {
+            title: "Physical Milestones",
+            iconName: "Activity",
+            text: "Physical changes unfold over several years: breast bud formation (thelarche), height acceleration, body hair growth, and eventual menarche.",
+            highlight: "Individual timeline"
+          },
+          {
+            title: "Normal Variance",
+            iconName: "Heart",
+            text: "Starting at age 9 or age 14 is clinically within the healthy normal range. Genetics, nutrition, and personal biology determine your schedule.",
+            highlight: "No single 'right' age"
+          }
+        ],
+        diagram: {
+          type: "timeline",
+          title: "Puberty Progression & Developmental Milestones",
+          caption: "Step through the stages of puberty to explore timelines, hormonal triggers, and physical developments."
+        },
+        video: {
+          title: "Puberty: How Your Body and Brain Change",
+          source: "TED-Ed Education & Biology",
+          duration: "4:00",
+          youtubeId: "TRyOzsm_xvg",
+          medicalReviewer: "Reviewed by Board-Certified Pediatricians and Adolescent Medicine Specialists",
+          keyHighlights: [
+            "Puberty is governed by complex hormonal cascades between the brain and endocrine glands.",
+            "Bone mineral consolidation and body composition changes prepare the body for adult vitality.",
+            "Mental and emotional fluctuations reflect ongoing neurodevelopmental remodeling in the brain."
+          ]
+        },
+        sorterGame: {
+          title: "Puberty Changes: Physical vs. Emotional",
+          instructions: "Categorize each hallmark change of puberty to test your understanding.",
+          categories: [
+            { id: "physical", name: "Physical Development", colorClass: "bg-light-teal border-deep-teal text-deep-teal" },
+            { id: "emotional", name: "Emotional & Social Shift", colorClass: "bg-soft-pink border-raspberry text-raspberry" }
+          ],
+          items: [
+            {
+              id: "p1",
+              text: "Rapid growth spurt in height and widening of the pelvic bones",
+              correctCategory: "physical",
+              explanation: "Growth spurts are driven by growth hormone and rising estrogen levels consolidating bone growth."
+            },
+            {
+              id: "p2",
+              text: "Heightened desire for independence and evolving peer relationships",
+              correctCategory: "emotional",
+              explanation: "Adolescent neurodevelopment reorganizes social cognitive pathways and identity formation."
+            },
+            {
+              id: "p3",
+              text: "Increased sweat gland activity and emergence of body odor",
+              correctCategory: "physical",
+              explanation: "Adrenarche activates apocrine sweat glands and sebaceous glands across the skin."
+            },
+            {
+              id: "p4",
+              text: "Occasional sudden mood swings or feeling emotionally overwhelmed",
+              correctCategory: "emotional",
+              explanation: "Fluctuating hormone levels interact directly with neurotransmitters in the limbic system."
+            }
+          ]
+        },
         quiz: [
           {
             question: "What is the typical age range when puberty begins?",
             options: ["Strictly at age 12 for everyone", "Anywhere between 8 and 14+", "Only after age 16", "Between 5 and 7"],
             correctIndex: 1,
             explanation: "Puberty timelines vary widely based on genetics and health, typically starting between 8 and 14+."
+          },
+          {
+            question: "Which part of the brain initiates puberty by releasing hormone messengers?",
+            options: ["Hypothalamus", "Visual cortex", "Brain stem", "Ear canal"],
+            correctIndex: 0,
+            explanation: "The hypothalamus signals the pituitary gland to begin producing LH and FSH, orchestrating puberty."
+          },
+          {
+            question: "Is it normal for friends to begin puberty at completely different ages?",
+            options: ["Yes, normal development spans a wide multi-year window", "No, everyone develops on the exact same schedule", "Only if they live in different climates", "No, delayed puberty is always an emergency"],
+            correctIndex: 0,
+            explanation: "Every person's genetic blueprint determines their personal timeline, and a multi-year spread is completely normal."
           }
         ]
       },
@@ -127,16 +250,107 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
     topics: [
       {
         id: "cycle-0",
-        name: "Period Basics",
+        name: "Period Basics & Cycle Waves",
         type: "lesson",
-        desc: "What's typical, what's a range, and what to actually expect.",
+        desc: "Hormone fluctuations across the 4 phases, cycle ranges, and what to expect.",
         xp: 50,
         readTime: "4 min read",
-        summary: "The menstrual cycle averages 21–35 days. Menstruation is the shedding of the uterine lining when pregnancy hasn't occurred.",
+        summary: "The menstrual cycle averages 21–35 days. Menstruation is the shedding of the uterine lining when pregnancy hasn't occurred, orchestrated by a dance between brain and ovarian hormones.",
         keyTakeaways: [
           "Bleeding typically lasts 3 to 7 days.",
           "Flow can range from light spotting to heavier days; total blood loss is usually just 2 to 3 tablespoons.",
           "Color ranges normally from bright red to deep brown or rust."
+        ],
+        visualCards: [
+          {
+            title: "4 Coordinated Phases",
+            iconName: "Calendar",
+            text: "Menstrual, Follicular, Ovulatory, and Luteal phases repeat cyclically to regulate physical vitality, energy, and fertility.",
+            highlight: "Continuous rhythm"
+          },
+          {
+            title: "Key Hormonal Drivers",
+            iconName: "Sparkles",
+            text: "Estrogen fuels energy and builds the endometrial lining; Progesterone stabilizes the lining and supports nervous system calm.",
+            highlight: "Estrogen & Progesterone"
+          },
+          {
+            title: "Vital Sign of Health",
+            iconName: "Heart",
+            text: "Medical organizations (ACOG & AAP) recognize the menstrual cycle as a 5th vital sign reflecting thyroid, bone, and metabolic wellness.",
+            highlight: "The 5th Vital Sign"
+          }
+        ],
+        diagram: {
+          type: "cycle-wheel",
+          title: "Interactive Hormone & Cycle Wave Explorer",
+          caption: "Click through the 4 cycle phases to explore how Estrogen, Progesterone, LH, and FSH fluctuate across days 1–28."
+        },
+        video: {
+          title: "How the Menstrual Cycle Actually Works",
+          source: "TED-Ed Biological Sciences",
+          duration: "4:15",
+          youtubeId: "ayzN5f3qN8g",
+          medicalReviewer: "Reviewed by ACOG Fellow Obstetrician-Gynecologists",
+          keyHighlights: [
+            "The brain (pituitary gland) and ovaries communicate continuously via FSH and LH.",
+            "Ovulation is the central physiological event triggering the luteal phase.",
+            "Cycle lengths between 21 and 35 days are clinically recognized as healthy adult variance."
+          ]
+        },
+        sorterGame: {
+          title: "Cycle Phase Matcher",
+          instructions: "Sort these bodily signals into the correct half of the menstrual cycle.",
+          categories: [
+            { id: "follicular", name: "Follicular / Ovulation (Days 1–14)", colorClass: "bg-light-teal border-deep-teal text-deep-teal" },
+            { id: "luteal", name: "Luteal / Pre-Menstrual (Days 15–28)", colorClass: "bg-soft-pink border-raspberry text-raspberry" }
+          ],
+          items: [
+            {
+              id: "c1",
+              text: "Surge in Estrogen producing clear, stretchy, fertile cervical fluid",
+              correctCategory: "follicular",
+              explanation: "Estrogen peaks right before ovulation, stimulating the cervix to produce thin, clear, stretchy mucus."
+            },
+            {
+              id: "c2",
+              text: "Rise in Progesterone causing a subtle ~0.5°F increase in basal body temperature",
+              correctCategory: "luteal",
+              explanation: "Progesterone secreted by the corpus luteum has a thermogenic effect on the hypothalamus."
+            },
+            {
+              id: "c3",
+              text: "Pituitary gland releases FSH to recruit and mature a dominant ovarian follicle",
+              correctCategory: "follicular",
+              explanation: "Follicle-stimulating hormone is highest during the early-to-mid follicular phase."
+            },
+            {
+              id: "c4",
+              text: "Corpus luteum dissolves if no pregnancy occurs, prompting PMS signals",
+              correctCategory: "luteal",
+              explanation: "The drop in progesterone at the end of the luteal phase triggers the uterine lining to shed."
+            }
+          ]
+        },
+        quiz: [
+          {
+            question: "Which hormone surges to trigger the release of an egg during ovulation?",
+            options: ["Luteinizing Hormone (LH)", "Thyroid hormone", "Melatonin", "Insulin"],
+            correctIndex: 0,
+            explanation: "A rapid LH surge from the pituitary gland signals the ovary to release the mature egg."
+          },
+          {
+            question: "What is the typical medical definition of a healthy cycle length?",
+            options: ["Exactly 28 days every single month without variation", "Between 21 and 35 days for most adults", "Under 14 days", "45 to 60 days"],
+            correctIndex: 1,
+            explanation: "While 28 days is an average, healthy adult cycles generally range from 21 to 35 days."
+          },
+          {
+            question: "Why is the menstrual cycle called the '5th vital sign' by major medical groups?",
+            options: ["It indicates overall endocrine, metabolic, and bone health", "It only matters for athletes", "It is just an advertising phrase", "It only relates to pregnancy"],
+            correctIndex: 0,
+            explanation: "Cycle regularity reflects balanced thyroid function, adequate energy availability, and hypothalamic health."
+          }
         ]
       },
       {
@@ -252,15 +466,106 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
     topics: [
       {
         id: "pcos-0",
-        name: "PCOS Fundamentals",
+        name: "PCOS Demystified: The Whole-Body Axis",
         type: "lesson",
-        desc: "What it is, common signs, and evidence-based next steps.",
+        desc: "Metabolic drivers, Rotterdam criteria, and evidence-based hormone care.",
         xp: 50,
         readTime: "4 min read",
-        summary: "Polycystic Ovary Syndrome affects roughly 1 in 10 individuals with ovaries. Key markers include irregular ovulation, elevated androgens, and metabolic factors.",
+        summary: "Polycystic Ovary Syndrome affects roughly 1 in 10 individuals with ovaries. Rather than just an ovarian condition, it is a metabolic and endocrine condition involving insulin sensitivity and androgen balance.",
         keyTakeaways: [
           "Common hallmarks include irregular periods, hormonal acne, and excess hair growth.",
-          "Lifestyle adjustments and targeted medical support make PCOS highly manageable."
+          "Lifestyle adjustments, resistance exercise, and targeted medical support make PCOS highly manageable."
+        ],
+        visualCards: [
+          {
+            title: "Rotterdam Diagnostic Rule",
+            iconName: "CheckCircle2",
+            text: "Diagnosis requires at least 2 of 3: irregular or absent ovulation, clinical/biochemical elevated androgens, or polycystic ovarian morphology.",
+            highlight: "At least 2 of 3"
+          },
+          {
+            title: "The Insulin Connection",
+            iconName: "Activity",
+            text: "Up to 70% of people with PCOS experience cellular insulin resistance, which prompts ovaries to produce more androgens.",
+            highlight: "Metabolic driver"
+          },
+          {
+            title: "Empowered Longevity",
+            iconName: "Sparkles",
+            text: "PCOS does not mean infertility or poor health; proactive nutrition, muscle training, and cycle support restore thriving vitality.",
+            highlight: "High management success"
+          }
+        ],
+        diagram: {
+          type: "pcos-loop",
+          title: "Interactive Endocrine & Metabolic Feedback Cycle",
+          caption: "Explore the feedback loop between insulin, androgen production, and follicle development to see where interventions work."
+        },
+        video: {
+          title: "Polycystic Ovary Syndrome (PCOS) Explained",
+          source: "Boston Children's / Harvard Medical",
+          duration: "4:48",
+          youtubeId: "Fm5eF5-hHlU",
+          medicalReviewer: "Reviewed by Pediatric & Adolescent Reproductive Endocrinologists",
+          keyHighlights: [
+            "PCOS is a whole-body endocrine condition, not a disease exclusive to the ovaries.",
+            "The 'cysts' seen on ultrasound are actually small, immature follicles paused in growth.",
+            "Combining balanced nutrition, strength training, and tailored medications yields exceptional symptom control."
+          ]
+        },
+        sorterGame: {
+          title: "PCOS Myths vs. Medical Realities",
+          instructions: "Classify each statement to bust common PCOS misconceptions.",
+          categories: [
+            { id: "myth", name: "Outdated Myth", colorClass: "bg-red-50 border-red-300 text-red-900" },
+            { id: "fact", name: "Medical Reality", colorClass: "bg-emerald-50 border-emerald-300 text-emerald-900" }
+          ],
+          items: [
+            {
+              id: "pc1",
+              text: "You can only have PCOS if you are clinically overweight",
+              correctCategory: "myth",
+              explanation: "PCOS affects people of all body weights; lean PCOS is a well-documented clinical phenotype."
+            },
+            {
+              id: "pc2",
+              text: "PCOS is deeply linked to cellular insulin resistance and metabolic signaling",
+              correctCategory: "fact",
+              explanation: "Elevated circulating insulin stimulates ovarian theca cells to overproduce testosterone."
+            },
+            {
+              id: "pc3",
+              text: "A PCOS diagnosis means you can never have biological children",
+              correctCategory: "myth",
+              explanation: "With lifestyle interventions and ovulation support medications (letrozole), pregnancy rates are comparable to the general population."
+            },
+            {
+              id: "pc4",
+              text: "Resistance training and dietary fiber significantly improve insulin sensitivity",
+              correctCategory: "fact",
+              explanation: "Skeletal muscle is the primary site of glucose clearance; strength training directly enhances insulin receptivity."
+            }
+          ]
+        },
+        quiz: [
+          {
+            question: "Under the international Rotterdam criteria, how many criteria are required to diagnose PCOS?",
+            options: ["All 3 criteria must be present", "At least 2 out of 3 criteria", "Only an ultrasound finding", "A single abnormal blood test"],
+            correctIndex: 1,
+            explanation: "The Rotterdam consensus requires at least 2 of: irregular ovulation, elevated androgens, or polycystic ovaries on ultrasound."
+          },
+          {
+            question: "What underlying metabolic factor is present in up to 70% of PCOS cases?",
+            options: ["Insulin resistance", "Low calcium levels", "Excess Vitamin C", "Low sodium"],
+            correctIndex: 0,
+            explanation: "Insulin resistance is a central driver, prompting the ovaries to produce extra androgens and impairing follicle growth."
+          },
+          {
+            question: "What are the small 'cysts' commonly seen on an ultrasound in PCOS?",
+            options: ["Dangerous tumors", "Immature follicles paused in development", "Infected fluid pockets", "Scar tissue"],
+            correctIndex: 1,
+            explanation: "They are benign, immature egg follicles that halted development before reaching full maturity."
+          }
         ]
       },
       {
@@ -314,15 +619,112 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
     topics: [
       {
         id: "endo-0",
-        name: "What Is Endometriosis?",
+        name: "Endometriosis: Beyond Bad Cramps",
         type: "lesson",
-        desc: "Symptoms, diagnosis journey, and whole-body impacts.",
+        desc: "Tissue implants, inflammation cascades, and navigating clinical validation.",
         xp: 50,
         readTime: "5 min read",
-        summary: "Endometriosis occurs when tissue similar to the lining of the uterus grows outside the uterus, causing localized inflammation and chronic pain.",
+        summary: "Endometriosis occurs when tissue similar to the lining of the uterus grows outside the uterus, causing cyclical internal bleeding, nerve inflammation, and chronic pelvic pain.",
         keyTakeaways: [
           "Pain during periods, bowel movements, or intercourse warrants thorough medical investigation.",
-          "Laparoscopy and high-resolution imaging by specialists are current diagnostic standards."
+          "Laparoscopy and high-resolution imaging by trained specialists are current diagnostic standards."
+        ],
+        visualCards: [
+          {
+            title: "Ectopic Growth",
+            iconName: "Heart",
+            text: "Endometrial-like lesions implant on the ovaries, fallopian tubes, peritoneum, bowel, and bladder, shedding blood internally during cycles.",
+            highlight: "Grows outside uterus"
+          },
+          {
+            title: "The Diagnostic Delay",
+            iconName: "Clock",
+            text: "Because severe pelvic pain has been historically dismissed as 'normal cramps', the average patient waits 7 to 10 years for a diagnosis.",
+            highlight: "7–10 year average delay"
+          },
+          {
+            title: "Pain Severity vs. Stage",
+            iconName: "Shield",
+            text: "Symptom intensity does not strictly match lesion stage; microscopic superficial implants near pelvic nerves can trigger severe pain.",
+            highlight: "Pain is real and valid"
+          }
+        ],
+        diagram: {
+          type: "pelvic-map",
+          title: "Interactive Pelvic Anatomy & Endometriosis Mapping",
+          caption: "Click on anatomical locations to examine where endometriosis lesions form and how they cause localized inflammation."
+        },
+        video: {
+          title: "Understanding Endometriosis: Symptoms & Clinical Care",
+          source: "Stanford Medicine Health Care",
+          duration: "5:12",
+          youtubeId: "cK9_Z0rW8r0",
+          medicalReviewer: "Reviewed by Endometriosis Specialists & Minimally Invasive Gynecologic Surgeons",
+          keyHighlights: [
+            "Endometriosis lesions respond to cyclical hormones, bleeding internally with nowhere to drain.",
+            "Pain that disrupts school, sports, work, or basic mobility is never 'just bad cramps.'",
+            "Specialized excision surgery, pelvic floor PT, and targeted hormonal therapies offer proven relief."
+          ]
+        },
+        sorterGame: {
+          title: "Period Discomfort vs. Endometriosis Red Flags",
+          instructions: "Distinguish between typical menstrual discomfort and signs requiring specialist evaluation.",
+          categories: [
+            { id: "typical", name: "Typical Menstrual Cramps", colorClass: "bg-light-teal border-deep-teal text-deep-teal" },
+            { id: "redflag", name: "Endometriosis Red Flag", colorClass: "bg-red-50 border-red-300 text-red-900" }
+          ],
+          items: [
+            {
+              id: "ed1",
+              text: "Mild lower abdomen cramping on Day 1 that quickly eases with a heating pad or ibuprofen",
+              correctCategory: "typical",
+              explanation: "Mild cramping due to localized prostaglandins is common and responds well to standard NSAIDs."
+            },
+            {
+              id: "ed2",
+              text: "Excruciating pain that causes vomiting, fainting, or missing school/work consistently",
+              correctCategory: "redflag",
+              explanation: "Debilitating pain that halts daily life indicates secondary dysmenorrhea such as endometriosis."
+            },
+            {
+              id: "ed3",
+              text: "Deep, stabbing pelvic pain during bowel movements or urination during menstruation",
+              correctCategory: "redflag",
+              explanation: "Painful bowel movements (dyschezia) point to lesions in the Pouch of Douglas or rectovaginal septum."
+            },
+            {
+              id: "ed4",
+              text: "A mild, dull ache in the lower back that resolves after the heaviest bleeding day",
+              correctCategory: "typical",
+              explanation: "Referred lower back sensations during peak uterine contractions are common physiological experiences."
+            },
+            {
+              id: "ed5",
+              text: "Chronic pelvic pain that persists even on non-bleeding weeks of the month",
+              correctCategory: "redflag",
+              explanation: "Endometriosis creates ongoing inflammatory cytokines and central nerve sensitization beyond bleeding days."
+            }
+          ]
+        },
+        quiz: [
+          {
+            question: "Where does endometriosis tissue grow in the body?",
+            options: ["Only inside the stomach cavity", "Outside the uterus on pelvic organs like ovaries, bladder, and bowel", "Inside the bloodstream exclusively", "Inside the thyroid gland"],
+            correctIndex: 1,
+            explanation: "Endometriosis is characterized by endometrium-like tissue growing outside the uterine cavity on surrounding pelvic structures."
+          },
+          {
+            question: "If severe period pain prevents you from attending school or work despite medication, what is the best next step?",
+            options: ["Wait 10 years until it goes away", "Consult a healthcare provider or gynecologist for specialized evaluation", "Stop eating all food", "Assume everyone suffers equally and push through"],
+            correctIndex: 1,
+            explanation: "Debilitating pain is never something you have to silently endure; seeking a medical evaluation is essential."
+          },
+          {
+            question: "Does the anatomical stage (Stage 1 vs. Stage 4) always match how much pain a person feels?",
+            options: ["No, microscopic Stage 1 lesions near nerves can cause extreme pain", "Yes, Stage 1 has zero pain ever", "Yes, pain is always exactly proportional to stage", "Stage has nothing to do with medicine"],
+            correctIndex: 0,
+            explanation: "Pain is mediated by nerve infiltration and inflammatory mediators, meaning Stage 1 can cause severe pain while Stage 4 can sometimes be asymptomatic."
+          }
         ]
       },
       {
@@ -538,17 +940,114 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
     topics: [
       {
         id: "play-0",
-        name: "Nutrition & Fueling Active Bodies",
+        name: "Nutrition & Female Athlete Fueling (RED-S)",
         type: "lesson",
-        desc: "Sports nutrition: energy availability, carbs, and fats for hormones.",
+        desc: "Energy availability, carb timing, and protecting bone & hormone health in sport.",
         xp: 50,
         readTime: "5 min read",
-        summary: "To train and compete sustainably, active bodies require adequate energy availability (EA). Under-fueling puts stress on reproductive hormones, metabolism, and immune defenses. Carbohydrates power high-intensity muscular work, while healthy dietary fats provide the necessary building blocks for estrogen and progesterone.",
+        summary: "To train and compete sustainably, active bodies require adequate energy availability (EA). Under-fueling puts severe stress on reproductive hormones, metabolism, and bone density. Carbohydrates power high-intensity muscular work, while healthy dietary fats provide the essential precursors for estrogen and progesterone.",
         keyTakeaways: [
           "Energy availability (EA) = dietary energy intake minus exercise energy expenditure normalized to lean mass.",
           "Complex carbohydrates are the primary fuel for muscle glycogen; cutting carbs impairs athletic power and mental focus.",
           "Dietary fats (nuts, seeds, olive oil, avocados) are essential precursors for female steroid hormone production.",
           "Consistently eating too little triggers Relative Energy Deficiency in Sport (RED-S), stalling growth and performance."
+        ],
+        visualCards: [
+          {
+            title: "Energy Availability (EA)",
+            iconName: "Zap",
+            text: "EA is the amount of dietary energy left for basic body functioning after subtracting the energy burned during training and competition.",
+            highlight: "Intake minus training"
+          },
+          {
+            title: "RED-S Warning Signs",
+            iconName: "AlertTriangle",
+            text: "Irregular or missed periods, recurring bone stress fractures or shin splints, chronic fatigue, and poor recovery are biological red flags.",
+            highlight: "Missing period is NEVER normal"
+          },
+          {
+            title: "The Fueling Protocol",
+            iconName: "Activity",
+            text: "Consuming carbohydrates before hard workouts and pairing protein with carbs within 45 minutes of training speeds recovery and protects hormones.",
+            highlight: "Fuel your performance"
+          }
+        ],
+        diagram: {
+          type: "energy-balance",
+          title: "Athlete Energy Availability & Health Scale",
+          caption: "Drag the fueling slider to simulate how daily caloric energy availability impacts athletic performance, bone density, and menstrual health."
+        },
+        video: {
+          title: "Female Athlete Triad & RED-S Explained",
+          source: "Boston Children's Hospital Sports Medicine",
+          duration: "4:32",
+          youtubeId: "cK2_iJ0gZ2Y",
+          medicalReviewer: "Reviewed by Board-Certified Sports Medicine & Adolescent Gynecologists",
+          keyHighlights: [
+            "RED-S affects athletes across all body shapes, sports, and competitive tiers.",
+            "Losing your period is never a normal badge of athletic dedication — it is a biological distress signal.",
+            "Timely nutritional intervention preserves lifetime bone density during peak teen and young adult bone-building years."
+          ]
+        },
+        sorterGame: {
+          title: "Optimal Fueling vs. RED-S Warning Signs",
+          instructions: "Sort each athletic habit or symptom into the correct category.",
+          categories: [
+            { id: "optimal", name: "Optimal Athletic Fueling", colorClass: "bg-emerald-50 border-emerald-300 text-emerald-900" },
+            { id: "reds", name: "RED-S / Under-Fueling Sign", colorClass: "bg-red-50 border-red-300 text-red-900" }
+          ],
+          items: [
+            {
+              id: "at1",
+              text: "Eating a nutrient-dense carbohydrate snack 1 to 2 hours before a high-intensity workout",
+              correctCategory: "optimal",
+              explanation: "Pre-workout carbohydrates maximize muscle glycogen stores and sustain blood glucose during exertion."
+            },
+            {
+              id: "at2",
+              text: "Skipping meals after morning practice to 'cut weight' or stay lean",
+              correctCategory: "reds",
+              explanation: "Post-workout under-fueling spikes cortisol and deprives recovering muscles of vital amino acids and glycogen."
+            },
+            {
+              id: "at3",
+              text: "Maintaining regular, predictable menstrual cycles throughout a heavy training season",
+              correctCategory: "optimal",
+              explanation: "Consistent ovulatory cycles prove that the body has adequate energy availability for both athletics and reproductive health."
+            },
+            {
+              id: "at4",
+              text: "Developing recurrent shin splints, stress reactions, or bone fractures during training",
+              correctCategory: "reds",
+              explanation: "Suppressed estrogen from under-fueling accelerates bone resorption, leaving bones brittle and vulnerable."
+            },
+            {
+              id: "at5",
+              text: "Consuming adequate dietary fats (avocados, nuts, seeds) to support steroid hormone synthesis",
+              correctCategory: "optimal",
+              explanation: "Dietary fats supply the cholesterol backbone required to produce estrogen and progesterone."
+            }
+          ]
+        },
+        quiz: [
+          {
+            question: "Is losing your period (amenorrhea) a normal byproduct of intense athletic training?",
+            options: ["Yes, it proves you are training hard enough", "No, it is a primary clinical sign of low energy availability (RED-S)", "Only for distance runners", "Yes, if you eat enough protein"],
+            correctIndex: 1,
+            explanation: "Menstrual dysfunction is never a normal badge of fitness. It is the body conserving energy because caloric intake is insufficient."
+          },
+          {
+            question: "What is the primary driver of RED-S (Relative Energy Deficiency in Sport)?",
+            options: ["Drinking too much water", "Mismatch between dietary caloric intake and athletic energy expenditure", "Too much strength training", "Genetic factors alone"],
+            correctIndex: 1,
+            explanation: "RED-S occurs when dietary energy intake is insufficient to support both training demands and foundational physiological functioning."
+          },
+          {
+            question: "Why are teenage and young adult years especially crucial for bone health in female athletes?",
+            options: ["Bones stop growing completely at age 10", "Over 90% of peak lifetime bone mineral density is laid down during this window", "Bones do not use calcium until age 30", "Exercise weakens bones permanently"],
+            correctIndex: 1,
+            explanation: "Peak bone mass is established in your teens and early 20s; low estrogen and under-fueling during this time can cause irreversible bone loss."
+          }
         ]
       },
       {
