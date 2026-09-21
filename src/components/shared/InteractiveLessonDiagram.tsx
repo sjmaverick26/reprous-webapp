@@ -53,6 +53,8 @@ export function InteractiveLessonDiagram({ diagram, themeColor = "#175B5C" }: In
       return <IronFerritinDiagram diagram={diagram} themeColor={themeColor} />;
     case "cycle-training":
       return <CycleTrainingMatrixDiagram diagram={diagram} themeColor={themeColor} />;
+    case "cycle-fueling":
+      return <CycleFuelingPlateDiagram diagram={diagram} themeColor={themeColor} />;
     case "timeline":
     default:
       return <PubertyTimelineDiagram diagram={diagram} themeColor={themeColor} />;
@@ -2340,3 +2342,310 @@ function CycleTrainingMatrixDiagram({ diagram }: { diagram: LessonDiagram; theme
     </div>
   );
 }
+
+// --------------------------------------------------------------------------
+// 14. Interactive Cycle-Synced Fueling Plate & Monthly Nutrition Matrix
+// --------------------------------------------------------------------------
+function CycleFuelingPlateDiagram({ diagram }: { diagram: LessonDiagram; themeColor: string }) {
+  const [activePhase, setActivePhase] = useState<number>(3); // Default to Luteal to highlight metabolic burn
+  const [selectedFoodType, setSelectedFoodType] = useState<"all" | "carbs" | "proteins" | "micronutrients">("all");
+
+  const phases = [
+    {
+      id: 0,
+      name: "1. Menstrual Phase",
+      days: "Days 1–5",
+      badge: "🩸 Replenish & Ease Cramps",
+      color: "#F47A6A",
+      tagline: "Iron Restock & Anti-Inflammatory Comfort",
+      metabolism: "Baseline Caloric Burn",
+      hungerLevel: "Moderate / Digestive Sensitivity",
+      plateRatios: { carbs: 35, protein: 25, veggies: 30, fats: 10 },
+      biologicalTruth: "Blood loss depletes iron stores, while uterine prostaglandins cause smooth-muscle cramping and digestive sensitivity. Warm, easily digestible stews and magnesium calm pelvic nerves.",
+      superFoods: [
+        { name: "Lentils & Black Beans", type: "carbs", benefit: "Rich in plant iron; pair with bell peppers or lime juice for 300% absorption." },
+        { name: "Wild Salmon / Chia Seeds", type: "proteins", benefit: "High in Omega-3 EPA/DHA fatty acids that suppress cramp-causing prostaglandins." },
+        { name: "Warm Ginger & Peppermint Tea", type: "micronutrients", benefit: "Clinically proven to soothe uterine spasms and nausea as effectively as ibuprofen." },
+        { name: "Dark Chocolate (70%+)", type: "micronutrients", benefit: "Loaded with magnesium to relax uterine muscles and curb low-estrogen cravings." },
+        { name: "Bone or Veggie Broth", type: "micronutrients", benefit: "Warm, sodium-rich fluid that supports blood pressure during heavy menstrual flow." },
+      ],
+    },
+    {
+      id: 1,
+      name: "2. Follicular Phase",
+      days: "Days 6–13",
+      badge: "⚡ High-Octane Glycogen Engine",
+      color: "#175B5C",
+      tagline: "Peak Insulin Sensitivity & Carbohydrate Burning",
+      metabolism: "High Carb Efficiency",
+      hungerLevel: "Steady Energy / Low Cravings",
+      plateRatios: { carbs: 45, protein: 25, veggies: 20, fats: 10 },
+      biologicalTruth: "Rising estrogen peaks your insulin sensitivity! Your muscles easily absorb glucose and convert it into stored muscle glycogen. This is your best window to fuel high-intensity lifting and sprints.",
+      superFoods: [
+        { name: "Sweet Potatoes & Brown Rice", type: "carbs", benefit: "Provides clean, slow-burning glycogen to fuel high-intensity sprint workouts." },
+        { name: "Rolled Oats with Berries", type: "carbs", benefit: "Complex beta-glucan carbs for long-lasting stamina without blood sugar spikes." },
+        { name: "Eggs, Tofu, & Chicken", type: "proteins", benefit: "Supplies essential amino acids for rapid muscle protein synthesis post-training." },
+        { name: "Broccoli & Brussels Sprouts", type: "micronutrients", benefit: "Contains DIM (diindolylmethane) and fiber to help liver clear estrogen metabolites." },
+        { name: "Fermented Foods (Kefir/Kimchi)", type: "micronutrients", benefit: "Supports the estrobolome (gut bacteria that maintain optimal hormone balance)." },
+      ],
+    },
+    {
+      id: 2,
+      name: "3. Ovulatory Window",
+      days: "Days 14–16",
+      badge: "🌟 Antioxidant & Energy Peak",
+      color: "#991B4B",
+      tagline: "Cellular Recovery & Neuromuscular Power",
+      metabolism: "Ramping Up",
+      hungerLevel: "High Confidence / Normal Appetite",
+      plateRatios: { carbs: 40, protein: 30, veggies: 20, fats: 10 },
+      biologicalTruth: "Estrogen hits its absolute monthly peak and body temperature begins rising. Because you can generate maximum neuromuscular power, colorful antioxidants protect recovering muscle cells.",
+      superFoods: [
+        { name: "Dark Blueberries & Strawberries", type: "micronutrients", benefit: "Packed with polyphenols to neutralize cellular oxidative stress from max-effort workouts." },
+        { name: "Avocados & Olive Oil", type: "micronutrients", benefit: "Healthy monounsaturated fats supporting steroid hormone balance and cell membranes." },
+        { name: "Pumpkin & Sunflower Seeds", type: "micronutrients", benefit: "Rich in zinc to support luteinizing hormone and ovarian follicular release." },
+        { name: "Greek Yogurt or Tempeh", type: "proteins", benefit: "Dense source of leucine and calcium to initiate rapid muscle remodeling." },
+        { name: "Leafy Spinach & Arugula", type: "micronutrients", benefit: "Natural dietary nitrates that dilate capillaries, boosting oxygen flow to working muscles." },
+      ],
+    },
+    {
+      id: 3,
+      name: "4. Luteal Phase",
+      days: "Days 17–28",
+      badge: "🍂 +100 to 300 kcal Burn & Protein Defense",
+      color: "#D97706",
+      tagline: "Higher Metabolic Rate, Increased Protein Needs & Hydration",
+      metabolism: "✦ +100–300 kcal/day Extra Burn!",
+      hungerLevel: "Intense Biological Hunger (Normal & Necessary)",
+      plateRatios: { carbs: 35, protein: 35, veggies: 20, fats: 10 },
+      biologicalTruth: "Progesterone raises your basal body temperature by ~0.5°C, burning an extra 100 to 300 calories every single day! Progesterone also breaks down muscle protein faster. You need more food and extra protein (25–30g/meal) to feel grounded and energized.",
+      superFoods: [
+        { name: "25–30g Protein per Meal", type: "proteins", benefit: "Crucial to halt progesterone-induced muscle breakdown and preserve lean muscle mass." },
+        { name: "Slow-Burning Roasted Squash", type: "carbs", benefit: "Starchy complex carbs stimulate serotonin synthesis, curbing mood swings and fatigue." },
+        { name: "Sodium & Electrolyte Water", type: "micronutrients", benefit: "Replaces blood plasma fluid that shifts into tissues; eliminates pre-menstrual headaches." },
+        { name: "Bananas & Chickpeas (Vitamin B6)", type: "micronutrients", benefit: "Vitamin B6 assists in dopamine and serotonin production, soothing PMS mood changes." },
+        { name: "Dark Chocolate & Almonds (Magnesium)", type: "micronutrients", benefit: "Reduces water retention, calms muscle twitching, and supports deeper nighttime sleep." },
+      ],
+    },
+  ];
+
+  const current = phases[activePhase];
+
+  const filteredFoods = selectedFoodType === "all"
+    ? current.superFoods
+    : current.superFoods.filter((f) => f.type === selectedFoodType);
+
+  return (
+    <div className="rounded-2xl border border-deep-teal/20 bg-white p-4 md:p-5 shadow-xs space-y-4">
+      {/* Header */}
+      <div className="flex items-start justify-between gap-2 border-b border-deep-teal/10 pb-3">
+        <div>
+          <div className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-deep-teal">
+            <Zap className="w-3.5 h-3.5 text-amber-500" />
+            Interactive Cycle Nutrition & Fueling Plate
+          </div>
+          <h4 className="text-base md:text-lg font-serif font-bold text-deep-teal mt-0.5">
+            {diagram.title}
+          </h4>
+        </div>
+        <span className="text-[11px] font-semibold bg-amber-50 px-2.5 py-1 rounded-full text-amber-800 border border-amber-200">
+          Explore changing metabolic needs
+        </span>
+      </div>
+
+      {/* 4 Phase Selector Tabs */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+        {phases.map((p) => (
+          <button
+            key={p.id}
+            type="button"
+            onClick={() => setActivePhase(p.id)}
+            className={`p-2.5 rounded-xl text-left border transition-all ${
+              activePhase === p.id
+                ? "bg-amber-50 border-amber-400 text-amber-950 font-bold shadow-xs scale-[1.01] ring-2 ring-amber-400/20"
+                : "bg-gray-50 border-gray-200 text-charcoal/70 hover:bg-white"
+            }`}
+          >
+            <div className="text-[10px] uppercase tracking-wider opacity-75">{p.days}</div>
+            <div className="text-xs font-bold mt-0.5 leading-tight">{p.name.split(". ")[1]}</div>
+            <div className="text-[9.5px] mt-1 font-semibold text-amber-700">{p.metabolism}</div>
+          </button>
+        ))}
+      </div>
+
+      {/* Phase Nutrition Banner */}
+      <div className="p-4 rounded-2xl bg-gradient-to-r from-amber-50 via-orange-50 to-teal-50 border border-amber-200 space-y-2">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-amber-200/60 pb-2">
+          <div>
+            <span className="text-[10px] font-bold uppercase tracking-wider text-amber-800 bg-white px-2 py-0.5 rounded-full border border-amber-200">
+              {current.badge}
+            </span>
+            <h5 className="font-serif font-bold text-lg text-deep-teal mt-1 mb-0">{current.tagline}</h5>
+          </div>
+          <div className="text-right sm:shrink-0">
+            <span className="text-xs font-bold text-amber-900 bg-amber-200/70 px-2.5 py-1 rounded-full block">
+              Metabolic Burn: {current.metabolism}
+            </span>
+            <span className="text-[10.5px] text-charcoal/70 mt-1 block">Hunger Cue: {current.hungerLevel}</span>
+          </div>
+        </div>
+
+        <p className="text-xs md:text-sm text-charcoal/90 m-0 leading-relaxed font-sans">
+          {current.biologicalTruth}
+        </p>
+      </div>
+
+      {/* Visual Fueling Plate Breakdown */}
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-center bg-white p-4 rounded-2xl border border-gray-200">
+        {/* Dynamic Plate Diagram */}
+        <div className="md:col-span-5 flex flex-col items-center justify-center">
+          <div className="relative w-48 h-48 sm:w-52 sm:h-52">
+            {/* SVG Plate Circle with Proportions */}
+            <svg viewBox="0 0 200 200" className="w-full h-full drop-shadow-sm">
+              {/* Outer Plate Rim */}
+              <circle cx="100" cy="100" r="95" fill="#f8fafc" stroke="#cbd5e1" strokeWidth="6" />
+              <circle cx="100" cy="100" r="85" fill="#ffffff" stroke="#e2e8f0" strokeWidth="2" />
+
+              {/* Complex Carbs Slice (Top Left: Orange/Gold) */}
+              <path
+                d="M 100 100 L 100 15 A 85 85 0 0 1 185 100 Z"
+                fill="#f59e0b"
+                opacity="0.85"
+              />
+              {/* Protein Slice (Bottom Right: Crimson/Rose) */}
+              <path
+                d="M 100 100 L 185 100 A 85 85 0 0 1 100 185 Z"
+                fill="#b83f68"
+                opacity="0.85"
+              />
+              {/* Veggies / Anti-inflammatory Slice (Bottom Left: Teal/Green) */}
+              <path
+                d="M 100 100 L 100 185 A 85 85 0 0 1 15 100 Z"
+                fill="#175b5c"
+                opacity="0.85"
+              />
+              {/* Healthy Fats Slice (Top Left: Soft Amber) */}
+              <path
+                d="M 100 100 L 15 100 A 85 85 0 0 1 100 15 Z"
+                fill="#38bdf8"
+                opacity="0.75"
+              />
+
+              {/* Center Plate Badge */}
+              <circle cx="100" cy="100" r="34" fill="#ffffff" stroke="#cbd5e1" strokeWidth="2" />
+              <text x="100" y="97" fill="#0f172a" fontSize="10" fontWeight="bold" textAnchor="middle">
+                {activePhase === 3 ? "+300 kcal" : "Balanced"}
+              </text>
+              <text x="100" y="110" fill="#64748b" fontSize="8" textAnchor="middle">
+                {activePhase === 3 ? "Extra Burn" : "Optimal"}
+              </text>
+            </svg>
+          </div>
+
+          <span className="text-[11px] font-bold text-charcoal/75 mt-2 text-center">
+            Recommended Plate Ratios for {current.name}
+          </span>
+        </div>
+
+        {/* Plate Proportions Legend */}
+        <div className="md:col-span-7 space-y-2 text-xs">
+          <div className="grid grid-cols-2 gap-2">
+            <div className="p-2.5 rounded-xl border border-amber-200 bg-amber-50/60">
+              <div className="flex items-center justify-between font-bold text-amber-900 text-xs">
+                <span className="flex items-center gap-1">
+                  <span className="w-2.5 h-2.5 rounded-full bg-amber-500 inline-block"></span>
+                  Complex Carbs
+                </span>
+                <span>{current.plateRatios.carbs}%</span>
+              </div>
+              <p className="text-[10.5px] text-charcoal/70 m-0 mt-0.5">Sweet potatoes, oats, quinoa, brown rice</p>
+            </div>
+
+            <div className="p-2.5 rounded-xl border border-raspberry/20 bg-soft-pink/40">
+              <div className="flex items-center justify-between font-bold text-raspberry text-xs">
+                <span className="flex items-center gap-1">
+                  <span className="w-2.5 h-2.5 rounded-full bg-raspberry inline-block"></span>
+                  Muscle Protein
+                </span>
+                <span>{current.plateRatios.protein}%</span>
+              </div>
+              <p className="text-[10.5px] text-charcoal/70 m-0 mt-0.5">25–30g eggs, Greek yogurt, fish, poultry, lentils</p>
+            </div>
+
+            <div className="p-2.5 rounded-xl border border-deep-teal/20 bg-light-teal/50">
+              <div className="flex items-center justify-between font-bold text-deep-teal text-xs">
+                <span className="flex items-center gap-1">
+                  <span className="w-2.5 h-2.5 rounded-full bg-deep-teal inline-block"></span>
+                  Veggies & Color
+                </span>
+                <span>{current.plateRatios.veggies}%</span>
+              </div>
+              <p className="text-[10.5px] text-charcoal/70 m-0 mt-0.5">Dark greens, berries, cruciferous veggies</p>
+            </div>
+
+            <div className="p-2.5 rounded-xl border border-blue-200 bg-blue-50/60">
+              <div className="flex items-center justify-between font-bold text-blue-900 text-xs">
+                <span className="flex items-center gap-1">
+                  <span className="w-2.5 h-2.5 rounded-full bg-blue-400 inline-block"></span>
+                  Fats & Hydration
+                </span>
+                <span>{current.plateRatios.fats}%</span>
+              </div>
+              <p className="text-[10.5px] text-charcoal/70 m-0 mt-0.5">Avocado, chia, nuts + sodium electrolytes</p>
+            </div>
+          </div>
+
+          {/* Luteal Metabolic Truth Card */}
+          {activePhase === 3 && (
+            <div className="p-2.5 rounded-xl bg-amber-100/70 border border-amber-300 text-amber-950 text-[11.5px] space-y-1">
+              <strong>✦ Why You Feel Hungrier Before Your Period:</strong>
+              <p className="m-0 leading-relaxed text-[11px]">
+                Progesterone increases body heat, elevating your basal metabolism by <strong>100 to 300 kcal/day</strong>. Feeling hungry is NOT a failure of willpower — it is biological fact. Restricting food now triggers RED-S, crashes your thyroid, and makes PMS far worse. Add a nourishing snack with protein and complex carbs!
+              </p>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Superpower Food Recommendations for Active Phase */}
+      <div className="space-y-2">
+        <div className="flex items-center justify-between">
+          <span className="text-xs font-bold text-deep-teal">Superpower Foods for {current.name}:</span>
+          <div className="flex items-center gap-1 text-[10px]">
+            {(["all", "carbs", "proteins", "micronutrients"] as const).map((ft) => (
+              <button
+                key={ft}
+                type="button"
+                onClick={() => setSelectedFoodType(ft)}
+                className={`px-2 py-0.5 rounded-md font-bold capitalize transition-all ${
+                  selectedFoodType === ft
+                    ? "bg-deep-teal text-white shadow-xs"
+                    : "bg-gray-100 text-charcoal/70 hover:bg-gray-200"
+                }`}
+              >
+                {ft}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
+          {filteredFoods.map((food, idx) => (
+            <div key={idx} className="p-3 rounded-xl bg-gray-50 border border-gray-200 hover:border-deep-teal/40 transition-all space-y-1 text-xs">
+              <div className="flex items-center justify-between">
+                <strong className="font-bold text-deep-teal text-[12px]">{food.name}</strong>
+                <span className={`text-[9px] font-bold px-1.5 py-0.5 rounded-full uppercase ${
+                  food.type === "carbs" ? "bg-amber-100 text-amber-800" : food.type === "proteins" ? "bg-rose-100 text-rose-800" : "bg-teal-100 text-teal-800"
+                }`}>
+                  {food.type}
+                </span>
+              </div>
+              <p className="text-charcoal/80 text-[11px] leading-tight m-0">{food.benefit}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+

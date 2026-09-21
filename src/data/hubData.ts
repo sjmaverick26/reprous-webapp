@@ -8,7 +8,7 @@ export interface QuizQuestion {
 }
 
 export interface LessonDiagram {
-  type: "cycle-wheel" | "energy-balance" | "pcos-loop" | "pelvic-map" | "anatomy-callout" | "timeline" | "athlete-plate" | "hormone-scale" | "reds-triangle" | "water-glass" | "sleep-recovery" | "iron-ferritin" | "cycle-training";
+  type: "cycle-wheel" | "energy-balance" | "pcos-loop" | "pelvic-map" | "anatomy-callout" | "timeline" | "athlete-plate" | "hormone-scale" | "reds-triangle" | "water-glass" | "sleep-recovery" | "iron-ferritin" | "cycle-training" | "cycle-fueling";
   title: string;
   caption: string;
 }
@@ -1857,6 +1857,83 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
       },
       {
         id: "play-8",
+        name: "Cycle-Synced Fueling: Nutrition Across Your Monthly Hormones",
+        type: "lesson",
+        desc: "How to eat for energy, muscle protein synthesis, carb cravings, and luteal metabolic burn.",
+        xp: 50,
+        readTime: "5 min read",
+        summary: "Your body's metabolic engine shifts with your hormones every single week. In the follicular phase, surging estrogen maximizes insulin sensitivity, making your muscles eagerly soak up carbohydrates for energy and explosive workouts. In the luteal phase, rising progesterone elevates your resting metabolic rate by an extra 100 to 300 calories per day and accelerates muscle protein breakdown. Honoring your hunger with high protein, complex carbs, and magnesium keeps your energy high and your period regular.",
+        clinicalQuote: {
+          quote: "Resting metabolic rate significantly increases during the luteal phase compared to the follicular phase, corresponding to a daily caloric expenditure elevation of 100 to 300 kcal. Concurrently, progesterone increases protein catabolism and alters glucose homeostasis, necessitating targeted carbohydrate periodization and elevated protein intake (1.6–2.2 g/kg/day).",
+          source: "International Society of Sports Nutrition (ISSN) & ACOG",
+          publication: "Position Stand: Nutritional Considerations for Active and Menstruating Females",
+          year: "2023"
+        },
+        keyTakeaways: [
+          "Menstrual Phase (Days 1–5): Replenish iron lost in bleeding by pairing iron-rich foods (beans, spinach, dark meat) with Vitamin C; soothe inflammation with ginger tea and magnesium.",
+          "Follicular Phase (Days 6–13): Insulin sensitivity peaks! Your body burns and stores carbs with maximum efficiency, making this the prime window for complex carbs to power high-intensity training.",
+          "Ovulatory Window (Days 14–16): High energy demands require B-vitamins, zinc, and colorful antioxidant berries to counter oxidative stress from peak training intensity.",
+          "Luteal Phase (Days 17–28): You naturally burn 100–300 extra calories/day! Progesterone also breaks down muscle faster, requiring 25–30g protein per meal plus slow-burning complex carbs to steady serotonin."
+        ],
+        visualCards: [
+          {
+            title: "The Luteal Calorie Jump",
+            iconName: "Zap",
+            text: "Feeling extra hungry before your period is 100% biological. Your body is burning an extra 100–300 kcal/day to maintain an elevated core temperature.",
+            highlight: "Feed the burn"
+          },
+          {
+            title: "Carb Sensitivity Shift",
+            iconName: "Activity",
+            text: "Follicular muscles love carbs; luteal bodies prefer slower-burning starches (sweet potato, oats, squash) paired with protein to prevent blood sugar spikes.",
+            highlight: "Smart carb timing"
+          },
+          {
+            title: "Protein Catabolism Shield",
+            iconName: "Shield",
+            text: "Progesterone speeds up muscle breakdown. Aim for 25–30g of high-quality protein within 45 minutes of training to lock in your athletic gains.",
+            highlight: "25-30g protein per meal"
+          }
+        ],
+        diagram: {
+          type: "cycle-fueling",
+          title: "Interactive Cycle Fueling Plate & Monthly Nutrition Matrix",
+          caption: "Select any phase of your menstrual cycle to explore your body's changing metabolic burn, optimal plate ratios, and nutrient superpower foods."
+        },
+        roleplayScenario: {
+          setting: "School Cafeteria or Team Training Table",
+          character: "Teammate / Diet Culture Influence",
+          statement: "“I noticed you're eating a bigger lunch and taking second helpings of carbs this week. Aren't you worried about gaining weight before our match?”",
+          options: [
+            {
+              text: "“You're right, I should probably skip dinner to make up for it.”",
+              isBest: false,
+              feedback: "Never starve through the luteal phase! Depriving your body when metabolism is elevated triggers RED-S, crashes thyroid output, and spikes cortisol.",
+              xpBonus: 5
+            },
+            {
+              text: "“Actually, I'm in my luteal phase right now. Sports nutrition research shows our basal metabolic rate increases by 100 to 300 calories per day during this phase, and progesterone accelerates muscle breakdown. Eating an extra balanced snack with complex carbs and protein protects my muscle tissue and keeps my energy steady for game day.”",
+              isBest: true,
+              feedback: "✦ Elite Nutritional Self-Advocacy! You backed up your fueling choices with peer-reviewed metabolic science and dismantled toxic diet culture.",
+              xpBonus: 30
+            },
+            {
+              text: "“Mind your own business and stop staring at my plate!”",
+              isBest: false,
+              feedback: "Educating teammates on the 100–300 kcal luteal metabolic burn normalizes healthy fueling and helps protect the whole squad from eating disorders.",
+              xpBonus: 10
+            }
+          ]
+        },
+        advocacyScript: {
+          situation: "A coach, trainer, or teammate shames you for increased hunger or eating larger portions during the luteal phase.",
+          doctorScript: "“Sports nutrition consensus from the ISSN confirms that basal metabolic expenditure increases by 100–300 calories per day in the luteal phase due to progesterone-driven thermogenesis. Restricting intake during this window triggers low energy availability and harms performance. I am fueling my body according to my biological metabolic needs.”",
+          whyItWorks: "Cites the ISSN position stand on female athlete energy expenditure, neutralizing diet culture comments with peer-reviewed physiology.",
+          whatIfDismissed: "“I will consult our team sports registered dietitian to confirm my individualized cycle fueling plan.”"
+        }
+      },
+      {
+        id: "play-9",
         name: "Body Image & Weight Pressures in Sport",
         type: "article",
         desc: "Decoupling body shape from athletic performance and rejecting aesthetic pressure.",
@@ -1871,7 +1948,7 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
         ]
       },
       {
-        id: "play-9",
+        id: "play-10",
         name: "Spotting Toxic Fitness Pressures",
         type: "game",
         desc: "Quiz: identifying harmful diet culture myths vs healthy athletic coaching.",
@@ -1897,7 +1974,7 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
         ]
       },
       {
-        id: "play-10",
+        id: "play-11",
         name: "Advocate: Speaking Up to Coaches & Clinicians",
         type: "lesson",
         isAdvocateCapstone: true,
