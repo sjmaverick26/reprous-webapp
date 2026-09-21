@@ -1604,9 +1604,10 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
         readTime: "5 min read",
         summary: "To run, compete, and feel strong, your body needs enough food energy every single day. When you don't eat enough to cover both your workouts and basic bodily functions, your hormones, bones, and recovery take a hit. Carbs give your muscles explosive power, and healthy fats help build your natural estrogen and progesterone.",
         clinicalQuote: {
-          quote: "Relative Energy Deficiency in Sport (RED-S) is a syndrome of impaired physiological functioning caused by low energy availability. Menstrual dysfunction is not a benign consequence of rigorous training, but an indicator of neuroendocrine suppression and impending bone mineral density loss.",
-          source: "International Olympic Committee (IOC) & ACOG",
-          publication: "2023 IOC Consensus Statement on RED-S & ACOG Clinical Guidelines",
+          quote: "The IOC defines Relative Energy Deficiency in Sport (REDs) as a syndrome of impaired physiological and/or psychological functioning experienced by female and male athletes that is caused by exposure to problematic (prolonged and/or severe) low energy availability (LEA).",
+          source: "International Olympic Committee (IOC)",
+          publication: "2023 International Olympic Committee’s (IOC) Consensus Statement on Relative Energy Deficiency in Sport (REDs), British Journal of Sports Medicine (57:1073–1097)",
+          year: "2023",
         },
         keyTakeaways: [
           "Energy Availability = Eating enough food calories to power both your sport and your basic body needs.",
@@ -2388,9 +2389,9 @@ export function getTopicClinicalQuote(topic: HubTopic, categoryId?: string): Cli
       year: "Reaffirmed 2022",
     },
     play: {
-      quote: "Low energy availability (LEA) remains the underlying etiological factor for the Relative Energy Deficiency in Sport (RED-S) syndrome, exerting systemic impacts across menstrual function, bone health, and athletic longevity.",
-      source: "International Olympic Committee (IOC) & ACOG",
-      publication: "IOC Consensus Statement on Relative Energy Deficiency in Sport & ACOG Guidelines",
+      quote: "The IOC defines Relative Energy Deficiency in Sport (REDs) as a syndrome of impaired physiological and/or psychological functioning experienced by female and male athletes that is caused by exposure to problematic (prolonged and/or severe) low energy availability (LEA).",
+      source: "International Olympic Committee (IOC)",
+      publication: "2023 International Olympic Committee’s (IOC) Consensus Statement on Relative Energy Deficiency in Sport (REDs), British Journal of Sports Medicine (57:1073–1097)",
       year: "2023",
     },
     pcos: {
