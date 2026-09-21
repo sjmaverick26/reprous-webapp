@@ -175,7 +175,7 @@ export function InteractiveQuizGame({
         </div>
 
         <p className="text-sm sm:text-base text-charcoal/70 max-w-md mx-auto font-sans leading-relaxed">
-          You have mastered the biological mechanisms, reviewed verified clinical guidelines, and practiced self-advocacy for <strong>{topicName}</strong>.
+          You have mastered the biological mechanisms, explored clinical practice guidelines, and practiced self-advocacy for <strong>{topicName}</strong>.
         </p>
 
         {/* Action Buttons */}

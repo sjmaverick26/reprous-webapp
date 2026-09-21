@@ -630,10 +630,11 @@ export function HubView({ initialCategory }: HubViewProps) {
             </div>
 
             {/* Serpentine Track */}
-            <div className="relative py-8">
-              <div className="absolute left-1/2 top-12 bottom-12 w-0.5 -translate-x-1/2 border-l-2 border-dashed border-deep-teal/20 z-0" />
-
-              <div className="flex flex-col gap-6 relative z-10">
+            <div className="py-8">
+              <div className="relative flex flex-col gap-6">
+                {categoryCompletedCount < categoryTotalCount && (
+                  <div className="absolute left-1/2 top-10 bottom-10 w-0.5 -translate-x-1/2 border-l-2 border-dashed border-deep-teal/20 z-0 pointer-events-none" />
+                )}
                 {activeCategory.topics.map((topic, idx) => {
                   const isLeft = idx % 2 === 0;
                   const isDone = completedTopics.has(topic.id);
@@ -1025,7 +1026,7 @@ export function HubView({ initialCategory }: HubViewProps) {
                         <div className="pt-3 border-t border-deep-teal/15 flex items-center justify-between flex-wrap gap-3 text-sm sm:text-base font-sans">
                           <div>
                             <span className="font-bold text-charcoal block">{clinicalQuote.publication}</span>
-                            <span className="text-charcoal/70 text-xs sm:text-sm italic">Peer-Reviewed Clinical Reference</span>
+                            <span className="text-charcoal/70 text-xs sm:text-sm italic">Clinical Practice Reference</span>
                           </div>
                           {clinicalQuote.year && (
                             <span className="text-xs sm:text-sm font-bold text-deep-teal bg-slate-100 px-3 py-1.5 rounded-xl border border-slate-200">
@@ -1373,7 +1374,7 @@ export function HubView({ initialCategory }: HubViewProps) {
                         }
                       />
 
-                      {/* Medically Reviewed Clinical Source Box */}
+                      {/* Clinical Evidence & Guidelines Source Box */}
                       {activeScenario.sourceCitation && (
                         <div className="rounded-3xl border-2 border-emerald-600/25 bg-emerald-50/75 p-5 sm:p-6 text-xs font-sans text-emerald-950 space-y-3 shadow-2xs">
                           <div className="flex items-start justify-between gap-3 flex-wrap">
@@ -1383,7 +1384,7 @@ export function HubView({ initialCategory }: HubViewProps) {
                               </div>
                               <div>
                                 <span className="font-bold text-xs uppercase tracking-wider text-emerald-900 bg-emerald-100/90 px-2.5 py-0.5 rounded-full border border-emerald-300/70 inline-block mb-1">
-                                  Medically Reviewed & Verified Source
+                                  Clinical Evidence & Guidelines
                                 </span>
                                 <span className="text-sm sm:text-base font-bold text-emerald-950 block font-serif">
                                   {activeScenario.sourceCitation.organization}
@@ -1402,7 +1403,7 @@ export function HubView({ initialCategory }: HubViewProps) {
                               {activeScenario.sourceCitation.guideline}
                             </p>
                             <p className="text-xs sm:text-sm text-emerald-800/90 font-medium m-0">
-                              Clinical Reference & Patient Advocacy Framework: Peer-reviewed medical guidelines establish the patient&apos;s legal and clinical right to comprehensive evaluation and diagnostic workups.
+                              Clinical Reference & Patient Advocacy Framework: Established clinical guidelines support the patient&apos;s right to comprehensive evaluation and diagnostic workups.
                             </p>
                           </div>
 
@@ -1663,7 +1664,7 @@ export function HubView({ initialCategory }: HubViewProps) {
                               Lesson Complete!
                             </h5>
                             <p className="text-lg text-charcoal/85 mt-2 font-sans max-w-lg mx-auto leading-relaxed">
-                              You have mastered the biological concept, reviewed verified clinical guidelines, checked off clinical signals, practiced the multi-stage roleplay scenario game, and learned the appointment script for <strong>{selectedTopic.name}</strong>.
+                              You have mastered the biological concept, explored evidence-based clinical guidelines, checked off clinical signals, practiced the multi-stage roleplay scenario game, and learned the appointment script for <strong>{selectedTopic.name}</strong>.
                             </p>
                           </div>
                           <div className="pt-3">

@@ -180,7 +180,7 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
           source: "TED-Ed Education & Biology",
           duration: "4:00",
           youtubeId: "TRyOzsm_xvg",
-          medicalReviewer: "Reviewed by Board-Certified Pediatricians and Adolescent Medicine Specialists",
+          medicalReviewer: "Grounded in Clinical Pediatric and Adolescent Health Guidelines",
           keyHighlights: [
             "Puberty is governed by complex hormonal cascades between the brain and endocrine glands.",
             "Bone mineral consolidation and body composition changes prepare the body for adult vitality.",
@@ -447,7 +447,7 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
           source: "TED-Ed Biological Sciences",
           duration: "4:15",
           youtubeId: "ayzN5f3qN8g",
-          medicalReviewer: "Reviewed by ACOG Fellow Obstetrician-Gynecologists",
+          medicalReviewer: "Grounded in ACOG Adolescent Gynecologic Guidelines",
           keyHighlights: [
             "The brain (pituitary gland) and ovaries communicate continuously via FSH and LH.",
             "Ovulation is the central physiological event triggering the luteal phase.",
@@ -780,7 +780,7 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
           source: "Boston Children's / Harvard Medical",
           duration: "4:48",
           youtubeId: "Fm5eF5-hHlU",
-          medicalReviewer: "Reviewed by Pediatric & Adolescent Reproductive Endocrinologists",
+          medicalReviewer: "Grounded in Pediatric & Adolescent Reproductive Endocrine Protocols",
           keyHighlights: [
             "PCOS is a whole-body endocrine condition, not a disease exclusive to the ovaries.",
             "The 'cysts' seen on ultrasound are actually small, immature follicles paused in growth.",
@@ -980,7 +980,7 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
           source: "Stanford Medicine Health Care",
           duration: "5:12",
           youtubeId: "cK9_Z0rW8r0",
-          medicalReviewer: "Reviewed by Endometriosis Specialists & Minimally Invasive Gynecologic Surgeons",
+          medicalReviewer: "Grounded in Minimally Invasive Gynecologic Care Standards",
           keyHighlights: [
             "Endometriosis lesions respond to cyclical hormones, bleeding internally with nowhere to drain.",
             "Pain that disrupts school, sports, work, or basic mobility is never 'just bad cramps.'",
@@ -1306,7 +1306,7 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
           source: "Child Mind Institute & AACAP Adolescent Neuroscience",
           duration: "4:15",
           youtubeId: "0Ol2C1FcHgs",
-          medicalReviewer: "Reviewed by Board-Certified Child & Adolescent Psychiatrists and Adolescent Medicine Physicians",
+          medicalReviewer: "Grounded in Child & Adolescent Psychiatric and Medical Standards",
           keyHighlights: [
             "Synaptic pruning and myelination rewire the adolescent brain for complex adult reasoning.",
             "Heightened emotional sensitivity is an evolutionary tool designed to encourage exploration and social bonding.",
@@ -1666,7 +1666,7 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
           source: "Boston Children's Hospital Sports Medicine",
           duration: "4:32",
           youtubeId: "cK2_iJ0gZ2Y",
-          medicalReviewer: "Reviewed by Board-Certified Sports Medicine & Adolescent Gynecologists",
+          medicalReviewer: "Grounded in Sports Medicine & Adolescent Gynecologic Protocols",
           keyHighlights: [
             "RED-S affects athletes across all body shapes, sports, and competitive tiers.",
             "Losing your period is never a normal badge of athletic dedication — it is a biological distress signal.",
@@ -2103,7 +2103,7 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
             {
               text: "“Coach Bennett, ACOG and the British Journal of Sports Medicine show that training with menstrual biology optimizes athletic longevity. During the luteal phase, higher core temperature and plasma volume shifts require electrolyte hydration and aerobic pacing, while my follicular phase is when my body hits peak power. Let's periodize my sprint loads so I peak for championship meets.”",
               isBest: true,
-              feedback: "✦ Elite Sports Literacy! You educated the coach using peer-reviewed sports medicine science and proposed a periodized training plan to peak for championships.",
+              feedback: "✦ Elite Sports Literacy! You educated the coach using evidence-based sports medicine science and proposed a periodized training plan to peak for championships.",
               xpBonus: 30
             },
             {
@@ -2180,7 +2180,7 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
             {
               text: "“Actually, I'm in my luteal phase right now. Sports nutrition research shows our basal metabolic rate increases by 100 to 300 calories per day during this phase, and progesterone accelerates muscle breakdown. Eating an extra balanced snack with complex carbs and protein protects my muscle tissue and keeps my energy steady for game day.”",
               isBest: true,
-              feedback: "✦ Elite Nutritional Self-Advocacy! You backed up your fueling choices with peer-reviewed metabolic science and dismantled toxic diet culture.",
+              feedback: "✦ Elite Nutritional Self-Advocacy! You backed up your fueling choices with evidence-based metabolic science and dismantled toxic diet culture.",
               xpBonus: 30
             },
             {
@@ -2194,7 +2194,7 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
         advocacyScript: {
           situation: "A coach, trainer, or teammate shames you for increased hunger or eating larger portions during the luteal phase.",
           doctorScript: "“Sports nutrition consensus from the ISSN confirms that basal metabolic expenditure increases by 100–300 calories per day in the luteal phase due to progesterone-driven thermogenesis. Restricting intake during this window triggers low energy availability and harms performance. I am fueling my body according to my biological metabolic needs.”",
-          whyItWorks: "Cites the ISSN position stand on female athlete energy expenditure, neutralizing diet culture comments with peer-reviewed physiology.",
+          whyItWorks: "Cites the ISSN position stand on female athlete energy expenditure, neutralizing diet culture comments with evidence-based physiology.",
           whatIfDismissed: "“I will consult our team sports registered dietitian to confirm my individualized cycle fueling plan.”"
         }
       },
@@ -3071,7 +3071,7 @@ export function getTopicRoleplayScenarios(topic: HubTopic, categoryId?: string):
           badge: "Surgical Evidence",
           title: "Excision vs. Ablation Recurrence Rate Comparative Study",
           metric: "Ablation Recurrence: 40–60% at 2 Years · Excision Recurrence: <15%",
-          description: "Peer-reviewed surgical research demonstrating that superficial cautery (ablation) leaves deep disease in the pelvic floor, whereas wide laparoscopic excision removes the entire lesion base.",
+          description: "Clinical surgical research demonstrating that superficial cautery (ablation) leaves deep disease in the pelvic floor, whereas wide laparoscopic excision removes the entire lesion base.",
         },
         sourceCitation: {
           organization: "Journal of Minimally Invasive Gynecology (JMIG) & AAGL",
@@ -3087,7 +3087,7 @@ export function getTopicRoleplayScenarios(topic: HubTopic, categoryId?: string):
             xpBonus: 5,
           },
           {
-            text: "“Peer-reviewed surgical data in JMIG shows laparoscopic excision has significantly lower recurrence rates and better symptom resolution than ablation, which can leave deep lesions behind. I am requesting a referral to a fellowship-trained Minimally Invasive Gynecologic Surgeon (MIGS). If you are declining to write this referral, please document your refusal in my medical record today.”",
+            text: "“Clinical surgical data in JMIG shows laparoscopic excision has significantly lower recurrence rates and better symptom resolution than ablation, which can leave deep lesions behind. I am requesting a referral to a fellowship-trained Minimally Invasive Gynecologic Surgeon (MIGS). If you are declining to write this referral, please document your refusal in my medical record today.”",
             isBest: true,
             feedback: "✦ Master Healthcare Advocacy! You cited surgical recurrence comparative trials and requested written documentation of refusal, protecting yourself from substandard surgery.",
             xpBonus: 30,

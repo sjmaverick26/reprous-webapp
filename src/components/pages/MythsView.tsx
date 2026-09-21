@@ -332,7 +332,7 @@ export function MythsView({ onNavigate }: MythsViewProps) {
                     <button
                       onClick={(e) => openSourceModal(e, item)}
                       className="font-semibold text-berry hover:underline inline-flex items-center gap-1 text-left"
-                      title="View full peer-reviewed clinical citation"
+                      title="View full clinical citation"
                     >
                       <span>{item.source.organization}</span>
                       <ExternalLink className="w-3 h-3 inline" />
@@ -386,7 +386,7 @@ export function MythsView({ onNavigate }: MythsViewProps) {
                 </div>
                 <div>
                   <h3 id="source-modal-title" className="text-lg font-bold font-serif text-plum m-0">
-                    Peer-Reviewed Clinical Source
+                    Verified Clinical Source
                   </h3>
                   <span className="text-xs font-medium font-sans text-plum/60">
                     Evidence-Based Verification

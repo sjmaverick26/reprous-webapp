@@ -263,7 +263,7 @@ export function ContactView({ initialTab = "feedback" }: { initialTab?: ContactT
 
               <div className="p-4 rounded-2xl bg-cream-card border border-berry/10 text-[13px] md:text-[13.5px] text-ink/75 font-sans">
                 💡 <b>Looking to ask a private health question?</b> Head to the{" "}
-                <span className="font-bold text-berry">Q&amp;A page</span> where medical reviewers answer anonymous questions.
+                <span className="font-bold text-berry">Q&amp;A page</span> where evidence-based answers to anonymous questions are published.
               </div>
             </Card>
           </div>

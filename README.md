@@ -20,7 +20,7 @@ A modern, judgment-free reproductive health learning hub and community platform 
   - Duolingo-style serpentine learning track with interactive lessons, quizzes, games, and topic modals.
 - **Workshops**: 4-step preparation guide, 90-minute agenda breakdown, past session gallery, attendee reviews, upcoming sessions with interactive RSVP booking, and school visit requests.
 - **Resources**: Verified free/sliding-scale clinic search by zip code, 24/7 confidential crisis hotlines, Youth Ambassador leadership application, and downloadable training modules.
-- **Q&A**: Expandable accordion directory and 100% anonymous question submission modal with medical review workflow.
+- **Q&A**: Expandable accordion directory and 100% anonymous question submission modal with evidence-based curation workflow.
 - **Myths & Facts**: Interactive 3D flip cards with smooth CSS animations and category filters.
 - **Youth Voices**: Community quote cards and anonymous story submission board.
 - **Inclusion & Accessibility**:

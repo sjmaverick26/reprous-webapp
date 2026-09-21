@@ -95,7 +95,7 @@ export function RoleplayInteractiveStage({
         return `“Thank you for clarifying Title X protections and confidential billing waivers. You are completely right—we will process your visit confidentially with zero mail or Explanation of Benefits sent home.”`;
       }
       if (scenario.characterRole?.includes("Board")) {
-        return `“Reviewing these attendance impact statistics and peer-reviewed fiscal data changes the calculation. I will sponsor a motion to include menstrual hygiene dispensers in the district budget.”`;
+        return `“Reviewing these attendance impact statistics and district fiscal data changes the calculation. I will sponsor a motion to include menstrual hygiene dispensers in the district budget.”`;
       }
       return `“Looking at your documented ${scenario.evidence?.title || "symptom log"} and the ${scenario.sourceCitation?.organization || "clinical"} criteria, you meet the standard for an evaluation. Let's order this diagnostic workup today.”`;
     }
@@ -791,12 +791,12 @@ export function RoleplayInteractiveStage({
                   <span className="text-charcoal/80">
                     {scenario.sourceCitation?.guideline ||
                       scenario.sourceCitation?.organization ||
-                      "Peer-Reviewed Medical Guidance"}
+                      "Clinical Practice Guidance"}
                   </span>
                 </div>
               </div>
               <p className="text-xs text-charcoal/80 leading-relaxed font-sans m-0 pt-0.5">
-                <strong>The Medical Takeaway:</strong> Clinicians are legally and ethically bound by peer-reviewed guidelines. Presenting structured logs turns subjective complaints into clinical evidence that requires investigation.
+                <strong>The Medical Takeaway:</strong> Clinicians are guided by clinical practice standards. Presenting structured logs turns subjective complaints into clinical evidence that requires investigation.
               </p>
               {onNextSimulation && simulationIndex !== undefined && totalSimulations !== undefined && simulationIndex < totalSimulations - 1 && (
                 <div className="pt-2 flex justify-end">

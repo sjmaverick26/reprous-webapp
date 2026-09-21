@@ -181,7 +181,7 @@ export function QAView({ autoOpenSubmit = false }: { autoOpenSubmit?: boolean })
               Ask a Question Anonymously
             </DialogTitle>
             <DialogDescription className="text-[14px] md:text-[15px] font-sans text-ink/80">
-              No names, no tracking. Answers are reviewed by clinicians and added to the community library.
+              No names, no tracking. Answers are curated from evidence-based clinical guidelines and added to the community library.
             </DialogDescription>
           </DialogHeader>
 

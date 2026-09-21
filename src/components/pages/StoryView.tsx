@@ -233,7 +233,7 @@ export function StoryView() {
             From a single free community workshop with endless questions to an expanding nationwide youth education network.
           </p>
           <p className="text-[15.5px] md:text-[16.5px] text-charcoal/80 leading-relaxed font-sans max-w-2xl mx-auto m-0">
-            Here is how grassroots curiosity, youth leadership, and medically reviewed resources came together to build a safe, stigma-free learning space.
+            Here is how grassroots curiosity, youth leadership, and evidence-based educational resources came together to build a safe, stigma-free learning space.
           </p>
         </div>
 

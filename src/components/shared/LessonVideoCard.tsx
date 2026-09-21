@@ -14,12 +14,12 @@ export function LessonVideoCard({ video, themeColor = "#175B5C" }: LessonVideoCa
 
   return (
     <div className="rounded-2xl border border-deep-teal/20 bg-white p-4 md:p-6 shadow-sm space-y-4">
-      {/* Header & Reviewer Badge */}
+      {/* Header & Evidence Badge */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-deep-teal/10 pb-3">
         <div>
           <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-deep-teal mb-1">
             <ShieldCheck className="w-4 h-4 text-emerald-600" />
-            <span>Medically Reviewed Video</span>
+            <span>Clinical Education Video</span>
             <span className="text-charcoal/40">•</span>
             <span className="inline-flex items-center gap-1 text-charcoal/60 font-semibold lowercase">
               <Clock className="w-3 h-3" /> {video.duration}
@@ -59,17 +59,17 @@ export function LessonVideoCard({ video, themeColor = "#175B5C" }: LessonVideoCa
               {video.title}
             </div>
             <div className="text-slate-300 text-xs mt-1">
-              Curated by ReproUs Medical Advisory • Source: {video.source}
+              Curated from Educational Sources • Source: {video.source}
             </div>
           </div>
         )}
       </div>
 
-      {/* Medical Verification Banner */}
+      {/* Clinical Guidelines Banner */}
       <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200 flex items-start gap-3">
         <ShieldCheck className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />
         <div className="text-xs md:text-sm text-charcoal/85">
-          <strong className="text-deep-teal">Medical Standard: </strong>
+          <strong className="text-deep-teal">Clinical Standard: </strong>
           {video.medicalReviewer}. Content conforms to evidence-based clinical practice guidelines.
         </div>
       </div>

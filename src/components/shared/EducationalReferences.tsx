@@ -119,7 +119,7 @@ const DEFAULT_REFERENCES: Record<string, ReferenceItem[]> = {
       number: "04",
       type: "Additional reading",
       title: "Cycle Sense: A Practical Handbook on Cramps, Flow, and Symptom Logs",
-      source: "ReproUs Medical Review Panel",
+      source: "ReproUs Advisory Resources",
       linkText: "Open Handbook",
     },
   ],
@@ -453,12 +453,12 @@ export function EducationalReferences({
             {customTitle || "Evidence & Educational References"}
           </h3>
           <p className="text-[14px] md:text-[15px] text-plum/80 font-sans mt-1 mb-0 max-w-2xl">
-            ReproUs educational materials are grounded in peer-reviewed science and clinical guidelines from the American College of Obstetricians and Gynecologists (ACOG), The Global Library of Women&apos;s Medicine (GLOWM / FIGO), the American Academy of Pediatrics (AAP), and the International Olympic Committee (IOC).
+            ReproUs educational materials are grounded in evidence-based research and clinical guidelines from the American College of Obstetricians and Gynecologists (ACOG), The Global Library of Women&apos;s Medicine (GLOWM / FIGO), the American Academy of Pediatrics (AAP), and the International Olympic Committee (IOC).
           </p>
         </div>
 
         <div className="text-xs font-semibold text-plum/70 font-sans self-start md:self-end">
-          Peer-Reviewed • Medically Verified
+          Evidence-Based • Clinically Grounded
         </div>
       </div>
 

@@ -217,7 +217,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     categoryColor: "bg-purple-100 text-purple-900 border-purple-300",
     chartJargon: "Chart note: “Initiating spironolactone 50mg daily off-label for hormonal cystic acne.”",
     plainEnglish: "When a doctor prescribes an FDA-approved medication for a symptom other than what the FDA originally approved it for. It is very common, safe, and legal in reproductive health (such as using spironolactone, a blood pressure medication, to block acne-causing testosterone).",
-    doctorDefinition: "The clinical use of a pharmaceutical agent for an unapproved indication, age group, dose, or route of administration supported by peer-reviewed clinical guidelines.",
+    doctorDefinition: "The clinical use of a pharmaceutical agent for an unapproved indication, age group, dose, or route of administration supported by evidence-based clinical practice guidelines.",
     howToSayIt: "“Are you prescribing this medication off-label for my hormonal symptoms, and what clinical evidence supports its use for this condition?”",
   },
   {

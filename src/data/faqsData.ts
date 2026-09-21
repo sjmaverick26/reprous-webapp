@@ -16,7 +16,7 @@ export const FAQS_DATA: FAQItem[] = [
     id: "faq-2",
     category: "privacy",
     question: "Can I ask something anonymously?",
-    answer: "Yes — every question submitted to ReproUs is 100% anonymous by default. No account, email, or real name is ever required. Our medical review team answers questions directly on this page to help everyone."
+    answer: "Yes — every question submitted to ReproUs is 100% anonymous by default. No account, email, or real name is ever required. Our team answers questions with evidence-based information directly on this page to help everyone."
   },
   {
     id: "faq-3",

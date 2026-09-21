@@ -35,7 +35,6 @@ export interface DiagramClinicalSource {
   guideline: string;
   year?: string;
   url?: string;
-  reviewer?: string;
 }
 
 export const DIAGRAM_CLINICAL_SOURCES: Record<string, DiagramClinicalSource> = {
@@ -44,109 +43,94 @@ export const DIAGRAM_CLINICAL_SOURCES: Record<string, DiagramClinicalSource> = {
     guideline: "ACOG Committee Opinion No. 651: Menstruation in Girls and Adolescents: Using the Menstrual Cycle as a Vital Sign",
     year: "Reaffirmed 2022",
     url: "https://www.acog.org/clinical/clinical-guidance/committee-opinion/articles/2015/12/menstruation-in-girls-and-adolescents-using-the-menstrual-cycle-as-a-vital-sign",
-    reviewer: "Medically Reviewed by Pediatric & Adolescent Gynecology Specialists",
   },
   "energy-balance": {
     organization: "International Olympic Committee (IOC)",
     guideline: "2023 IOC Consensus Statement on Relative Energy Deficiency in Sport (REDs)",
     year: "2023",
     url: "https://bjsm.bmj.com/content/57/17/1073",
-    reviewer: "Medically Reviewed by IOC Medical & Scientific Commission",
   },
   "pcos-loop": {
     organization: "International PCOS Network & ACOG",
     guideline: "International Evidence-Based Guideline for Assessment and Management of PCOS & Rotterdam Consensus",
     year: "2023",
     url: "https://www.monash.edu/medicine/mchri/pcos",
-    reviewer: "Medically Reviewed by Reproductive Endocrinology Specialists",
   },
   "pelvic-map": {
     organization: "American College of Obstetricians and Gynecologists (ACOG) & World Endometriosis Society",
     guideline: "ACOG Committee Opinion No. 760: Dysmenorrhea and Endometriosis in the Adolescent",
     year: "Reaffirmed 2023",
     url: "https://www.acog.org/clinical/clinical-guidance/committee-opinion/articles/2018/12/dysmenorrhea-and-endometriosis-in-the-adolescent",
-    reviewer: "Medically Reviewed by Minimally Invasive Gynecologic Surgery Board",
   },
   "anatomy-callout": {
     organization: "American College of Obstetricians and Gynecologists (ACOG)",
     guideline: "ACOG Adolescent Health Guidelines: Anatomy, Physiology & Menstrual Health Literacy",
     year: "2023",
     url: "https://www.acog.org/womens-health",
-    reviewer: "Medically Reviewed by ACOG Adolescent Health Care Committee",
   },
   "athlete-plate": {
     organization: "U.S. Olympic & Paralympic Committee (USOPC) & ACSM",
     guideline: "USOPC Sports Nutrition Athlete's Plate Protocols & ACSM Nutrition for Athletic Performance",
     year: "2023",
     url: "https://www.usopc.org",
-    reviewer: "Medically Reviewed by Board Certified Specialists in Sports Dietetics (CSSD)",
   },
   "hormone-scale": {
     organization: "The Endocrine Society",
     guideline: "Endocrine Society Clinical Practice Guidelines on Female Reproductive Endocrinology & Ovarian Steroids",
     year: "2022",
     url: "https://www.endocrine.org/clinical-practice-guidelines",
-    reviewer: "Medically Reviewed by Endocrine Society Clinical Review Panel",
   },
   "reds-triangle": {
     organization: "Female Athlete Triad Coalition & IOC Medical Commission",
     guideline: "Coalition Consensus on Treatment & Return to Play & 2023 IOC REDs Clinical Assessment Tool (CAT2)",
     year: "2023",
     url: "https://bjsm.bmj.com/content/57/17/1073",
-    reviewer: "Medically Reviewed by Sports Medicine & Bone Health Specialists",
   },
   "water-glass": {
     organization: "American College of Sports Medicine (ACSM)",
     guideline: "ACSM Position Stand: Exercise and Fluid Replacement & Electrolyte Homeostasis",
     year: "Reaffirmed 2022",
     url: "https://www.acsm.org",
-    reviewer: "Medically Reviewed by ACSM Exercise Physiology Review Board",
   },
   "sleep-recovery": {
     organization: "American Academy of Sleep Medicine (AASM)",
     guideline: "Consensus Statement of the AASM on Recommended Amount of Sleep for Pediatric Populations & Athletes",
     year: "2022",
     url: "https://aasm.org",
-    reviewer: "Medically Reviewed by Board Certified Sleep Medicine Clinicians",
   },
   "iron-ferritin": {
     organization: "British Journal of Sports Medicine (BJSM) & Australian Institute of Sport (AIS)",
     guideline: "Consensus Statement: Screening and Management of Iron Deficiency in Female Athletes & Hepcidin Window",
     year: "2023",
     url: "https://bjsm.bmj.com",
-    reviewer: "Medically Reviewed by Sports Hematology & Nutrition Advisory Board",
   },
   "cycle-training": {
     organization: "British Journal of Sports Medicine (BJSM) & ACSM",
     guideline: "Menstrual Cycle Phasing and Exercise Performance: Systematic Review & Evidence-Based Framework",
     year: "2021",
     url: "https://bjsm.bmj.com",
-    reviewer: "Medically Reviewed by Female Athlete Performance Research Consortium",
   },
   "cycle-fueling": {
     organization: "International Society of Sports Nutrition (ISSN)",
     guideline: "ISSN Position Stand: Nutritional Considerations for Active and Athletic Females",
     year: "2023",
     url: "https://jissn.biomedcentral.com",
-    reviewer: "Medically Reviewed by Sports Nutrition Clinical Board",
   },
   "puberty-brain": {
     organization: "Pediatric Endocrine Society & GLOWM",
     guideline: "Clinical Practice Guideline: Neuroendocrine Control of Puberty & GnRH Pulsatility",
     year: "2022",
     url: "https://www.pedsendo.org",
-    reviewer: "Medically Reviewed by Pediatric Endocrinology Faculty",
   },
   "timeline": {
     organization: "American Academy of Pediatrics (AAP) & FIGO",
     guideline: "AAP Clinical Report: Variations in Adolescent Pubertal Timing & Sexual Maturity Rating (Tanner Staging)",
     year: "2023",
     url: "https://publications.aap.org/pediatrics",
-    reviewer: "Medically Reviewed by AAP Committee on Adolescence",
   },
 };
 
-export function MedicallyReviewedSourceBanner({ citation }: { citation?: DiagramClinicalSource }) {
+export function ClinicalSourceBanner({ citation }: { citation?: DiagramClinicalSource }) {
   if (!citation) return null;
 
   return (
@@ -158,7 +142,7 @@ export function MedicallyReviewedSourceBanner({ citation }: { citation?: Diagram
         <div className="space-y-0.5">
           <div className="flex flex-wrap items-center gap-2">
             <span className="font-bold text-[11px] uppercase tracking-wider text-emerald-800 bg-emerald-100/90 px-2 py-0.5 rounded-full border border-emerald-300/60">
-              Medically Reviewed & Verified Diagram
+              Clinical Evidence & Guidelines
             </span>
             {citation.year && (
               <span className="text-[11px] font-semibold text-emerald-700">
@@ -171,7 +155,6 @@ export function MedicallyReviewedSourceBanner({ citation }: { citation?: Diagram
           </p>
           <p className="text-[11px] text-emerald-800/90 font-medium m-0">
             Source: <span className="font-semibold">{citation.organization}</span>
-            {citation.reviewer && ` · ${citation.reviewer}`}
           </p>
         </div>
       </div>
@@ -237,7 +220,7 @@ export function InteractiveLessonDiagram({ diagram, themeColor = "#175B5C" }: In
   return (
     <div className="space-y-3.5">
       {renderContent()}
-      <MedicallyReviewedSourceBanner citation={citation} />
+      <ClinicalSourceBanner citation={citation} />
     </div>
   );
 }
