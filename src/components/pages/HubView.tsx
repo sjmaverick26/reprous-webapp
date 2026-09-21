@@ -354,9 +354,13 @@ export function HubView({ initialCategory }: HubViewProps) {
               <h1 className="text-4xl md:text-[56px] lg:text-[64px] font-normal font-serif leading-[1.08] text-deep-teal mb-3">
                 What do you want to understand?
               </h1>
-              <p className="text-charcoal/80 text-[17px] md:text-[18px] mb-6 leading-relaxed font-sans">
+              <p className="text-charcoal/80 text-[17px] md:text-[18px] mb-3 leading-relaxed font-sans">
                 Every category below is judgment-free and written in plain language. Tap any card to explore interactive lessons, games, and quizzes.
               </p>
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-light-teal/70 border border-deep-teal/20 text-xs font-semibold text-deep-teal mb-6 font-sans">
+                <Shield className="w-3.5 h-3.5 text-deep-teal" />
+                <span>Educational resource for health literacy — not medical advice</span>
+              </div>
 
               <AccessMini
                 text="Every guide below is available in 10 languages and downloadable for offline reading."
@@ -842,6 +846,9 @@ export function HubView({ initialCategory }: HubViewProps) {
                     )}
                     <span className="text-sm font-bold text-deep-teal font-sans">
                       +{selectedTopic.xp} XP
+                    </span>
+                    <span className="text-[11px] text-charcoal/60 font-sans italic hidden md:inline">
+                      (Health education · not medical advice)
                     </span>
                   </div>
 

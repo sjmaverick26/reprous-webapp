@@ -453,7 +453,7 @@ export function EducationalReferences({
             {customTitle || "Evidence & Educational References"}
           </h3>
           <p className="text-[14px] md:text-[15px] text-plum/80 font-sans mt-1 mb-0 max-w-2xl">
-            ReproUs educational materials are grounded in evidence-based research and clinical guidelines from the American College of Obstetricians and Gynecologists (ACOG), The Global Library of Women&apos;s Medicine (GLOWM / FIGO), the American Academy of Pediatrics (AAP), and the International Olympic Committee (IOC).
+            ReproUs educational materials are grounded in evidence-based research and clinical guidelines from the American College of Obstetricians and Gynecologists (ACOG), The Global Library of Women&apos;s Medicine (GLOWM / FIGO), the American Academy of Pediatrics (AAP), and the International Olympic Committee (IOC). <em>This is health education, not medical advice.</em>
           </p>
         </div>
 
@@ -512,6 +512,10 @@ export function EducationalReferences({
           }
           return card;
         })}
+      </div>
+
+      <div className="mt-4 p-3 rounded-xl bg-plum/5 border border-plum/10 text-xs text-plum/75 text-center font-sans">
+        <strong>Educational Notice:</strong> All references and materials are provided for health literacy and self-advocacy education, not personalized medical advice or treatment.
       </div>
     </section>
   );

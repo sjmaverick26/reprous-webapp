@@ -113,6 +113,11 @@ export function Footer({ onNavigate, currentLang = "en", onSelectLang }: FooterP
           </div>
         </div>
 
+        {/* Educational Disclaimer Banner */}
+        <div className="p-4 rounded-2xl bg-white/10 border border-white/15 text-xs text-white/80 text-center leading-relaxed font-sans">
+          <strong className="text-light-teal">Educational Notice:</strong> ReproUs is an educational platform designed for health literacy and self-advocacy preparation. This is health education, not medical advice, diagnosis, or treatment. Always consult a qualified healthcare provider for personalized medical care or questions about your body.
+        </div>
+
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t border-white/15 text-[13px] md:text-[13.5px] text-white/70 text-center sm:text-left font-sans">
           <p className="m-0">
             © {new Date().getFullYear()} ReproUs Network. All education is provided for informational empowerment.

@@ -982,7 +982,7 @@ export function LittleHealthDictionary({
               </span>
             </div>
             <p className="text-xs sm:text-sm text-charcoal/75 m-0 font-sans mt-0.5">
-              Doctor shorthand, chart buzzwords, and tricky medical terms translated into clear, empowering language.
+              Doctor shorthand, chart buzzwords, and tricky medical terms translated into clear, empowering language. <span className="font-semibold text-deep-teal">(This is education, not medical advice.)</span>
             </p>
           </div>
         </div>

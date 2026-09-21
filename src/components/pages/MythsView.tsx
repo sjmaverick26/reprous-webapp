@@ -100,7 +100,7 @@ export function MythsView({ onNavigate }: MythsViewProps) {
           Separating Myths from Medical Reality
         </h1>
         <p className="text-[17px] md:text-[19px] text-plum/85 leading-relaxed font-sans max-w-2xl">
-          From pain and cycle regularity to athlete health and fertility, misinformation can harm your health. Tap <strong className="text-berry font-semibold">&ldquo;Reveal the facts →&rdquo;</strong> to unpack clinical explanations and verified medical sources.
+          From pain and cycle regularity to athlete health and fertility, misinformation can harm your health. Tap <strong className="text-berry font-semibold">&ldquo;Reveal the facts →&rdquo;</strong> to unpack clinical explanations and verified sources. <span className="text-plum/70 font-medium block mt-1.5 text-[14px]">(This content is for health education, not medical advice.)</span>
         </p>
 
         {/* Global Controls: Search + Reveal All */}

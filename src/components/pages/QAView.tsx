@@ -86,7 +86,10 @@ export function QAView({ autoOpenSubmit = false }: { autoOpenSubmit?: boolean })
           Questions, answered plainly
         </h1>
         <p className="text-[17px] md:text-[19px] text-ink/80 leading-relaxed max-w-xl mx-auto font-sans">
-          Every question submitted is completely anonymous. Real answers from our medical educators, with no clinical jargon.
+          Every question submitted is completely anonymous. Real answers written plainly for health literacy.
+        </p>
+        <p className="text-xs text-ink/65 font-sans mt-2 italic">
+          (Note: This is health education, not personalized medical advice or diagnosis.)
         </p>
       </div>
 
@@ -180,8 +183,8 @@ export function QAView({ autoOpenSubmit = false }: { autoOpenSubmit?: boolean })
             <DialogTitle className="font-serif text-2xl md:text-[30px] font-normal text-plum">
               Ask a Question Anonymously
             </DialogTitle>
-            <DialogDescription className="text-[14px] md:text-[15px] font-sans text-ink/80">
-              No names, no tracking. Answers are curated from evidence-based clinical guidelines and added to the community library.
+            <DialogDescription className="text-[14px] md:text-[15px] font-sans text-ink/80 leading-relaxed">
+              No names, no tracking. Answers are curated from evidence-based clinical guidelines and added to the community library. Please note: This is health education, not individualized medical advice or diagnosis.
             </DialogDescription>
           </DialogHeader>
 
