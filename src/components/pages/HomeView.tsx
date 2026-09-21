@@ -420,11 +420,11 @@ export function HomeView({ onNavigate, onSelectLang }: HomeViewProps) {
               ReproUs helps girls understand their bodies, recognize symptoms, and build the confidence to ask informed questions about their health.
             </p>
 
-            {/* 3 Small Items: LEARN · RECOGNIZE · ADVOCATE with Coral highlights */}
+            {/* 3 Small Items: LEARN (Teal) · RECOGNIZE (Coral) · ADVOCATE (Pink) */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 pt-8 border-t border-white/20">
               <div className="flex flex-col gap-2">
-                <span className="font-sans font-bold text-xs uppercase tracking-wider text-coral flex items-center gap-1.5">
-                  <span className="w-1.5 h-1.5 rounded-full bg-coral" />
+                <span className="font-sans font-bold text-xs uppercase tracking-wider text-light-teal flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-light-teal" />
                   <span>LEARN</span>
                 </span>
                 <p className="text-[15px] md:text-[16px] text-white/90 leading-relaxed font-sans m-0">
@@ -434,7 +434,7 @@ export function HomeView({ onNavigate, onSelectLang }: HomeViewProps) {
 
               <div className="flex flex-col gap-2">
                 <span className="font-sans font-bold text-xs uppercase tracking-wider text-coral flex items-center gap-1.5">
-                  <span className="w-1.5 h-1.5 rounded-full bg-coral" />
+                  <span className="w-2 h-2 rounded-full bg-coral" />
                   <span>RECOGNIZE</span>
                 </span>
                 <p className="text-[15px] md:text-[16px] text-white/90 leading-relaxed font-sans m-0">
@@ -443,8 +443,8 @@ export function HomeView({ onNavigate, onSelectLang }: HomeViewProps) {
               </div>
 
               <div className="flex flex-col gap-2">
-                <span className="font-sans font-bold text-xs uppercase tracking-wider text-coral flex items-center gap-1.5">
-                  <span className="w-1.5 h-1.5 rounded-full bg-coral" />
+                <span className="font-sans font-bold text-xs uppercase tracking-wider text-soft-pink flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-soft-pink" />
                   <span>ADVOCATE</span>
                 </span>
                 <p className="text-[15px] md:text-[16px] text-white/90 leading-relaxed font-sans m-0">
