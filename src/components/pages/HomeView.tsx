@@ -412,44 +412,62 @@ export function HomeView({ onNavigate, onSelectLang }: HomeViewProps) {
               <span>✦ THE REPROUS COMMITMENT</span>
             </div>
 
-            <h2 className="text-3xl md:text-[44px] lg:text-[50px] font-bold font-serif text-light-teal !text-light-teal leading-[1.12] mb-5 tracking-tight">
+            <h2 className="text-3xl md:text-[44px] lg:text-[52px] font-bold font-serif text-white leading-[1.12] mb-5 tracking-tight">
               You shouldn&apos;t need to become an expert to be taken seriously.
             </h2>
 
-            <p className="text-[17px] md:text-[19px] text-white/90 leading-relaxed font-sans mb-10 max-w-2xl">
+            <p className="text-[17px] md:text-[20px] font-medium text-white/95 leading-relaxed font-sans mb-10 max-w-2xl">
               ReproUs helps girls understand their bodies, recognize symptoms, and build the confidence to ask informed questions about their health.
             </p>
 
-            {/* 3 Small Items: LEARN (Teal) · RECOGNIZE (Coral) · ADVOCATE (Pink) */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 pt-8 border-t border-white/20">
-              <div className="flex flex-col gap-2">
-                <span className="font-sans font-bold text-xs uppercase tracking-wider text-light-teal flex items-center gap-1.5">
-                  <span className="w-2 h-2 rounded-full bg-light-teal" />
-                  <span>LEARN</span>
-                </span>
-                <p className="text-[15px] md:text-[16px] text-white/90 leading-relaxed font-sans m-0">
-                  Understand your body and how it works.
-                </p>
+            {/* 3 Boxed Cards: LEARN (Teal) · RECOGNIZE (Coral) · ADVOCATE (Pink) */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4">
+              {/* Box 1: LEARN (Teal) */}
+              <div className="rounded-2xl p-6 bg-[#D8EFED]/15 border-2 border-light-teal/70 shadow-md flex flex-col justify-between hover:bg-[#D8EFED]/20 hover:border-light-teal transition-all">
+                <div>
+                  <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-light-teal text-deep-teal font-extrabold text-xs tracking-wider uppercase shadow-xs mb-4">
+                    <BookOpen className="w-3.5 h-3.5 text-deep-teal" />
+                    <span>LEARN</span>
+                  </div>
+                  <h3 className="text-xl font-bold font-serif text-light-teal mb-2">
+                    Understand Your Body
+                  </h3>
+                  <p className="text-[15px] md:text-[16px] font-semibold text-white/95 leading-relaxed font-sans m-0">
+                    Grasp how your hormones, cycles, and anatomy function in clear, plain language without shame or medical jargon.
+                  </p>
+                </div>
               </div>
 
-              <div className="flex flex-col gap-2">
-                <span className="font-sans font-bold text-xs uppercase tracking-wider text-coral flex items-center gap-1.5">
-                  <span className="w-2 h-2 rounded-full bg-coral" />
-                  <span>RECOGNIZE</span>
-                </span>
-                <p className="text-[15px] md:text-[16px] text-white/90 leading-relaxed font-sans m-0">
-                  Learn about symptoms that are often misunderstood or dismissed.
-                </p>
+              {/* Box 2: RECOGNIZE (Coral) */}
+              <div className="rounded-2xl p-6 bg-[#FFE1DB]/15 border-2 border-coral/70 shadow-md flex flex-col justify-between hover:bg-[#FFE1DB]/20 hover:border-coral transition-all">
+                <div>
+                  <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-coral text-white font-extrabold text-xs tracking-wider uppercase shadow-xs mb-4">
+                    <Heart className="w-3.5 h-3.5 text-white" />
+                    <span>RECOGNIZE</span>
+                  </div>
+                  <h3 className="text-xl font-bold font-serif text-coral mb-2">
+                    Spot the Warning Signs
+                  </h3>
+                  <p className="text-[15px] md:text-[16px] font-semibold text-white/95 leading-relaxed font-sans m-0">
+                    Identify symptoms that are often dismissed or normalized—like severe period pain, missing cycles, and chronic fatigue.
+                  </p>
+                </div>
               </div>
 
-              <div className="flex flex-col gap-2">
-                <span className="font-sans font-bold text-xs uppercase tracking-wider text-soft-pink flex items-center gap-1.5">
-                  <span className="w-2 h-2 rounded-full bg-soft-pink" />
-                  <span>ADVOCATE</span>
-                </span>
-                <p className="text-[15px] md:text-[16px] text-white/90 leading-relaxed font-sans m-0">
-                  Build the confidence and vocabulary to speak up about your health.
-                </p>
+              {/* Box 3: ADVOCATE (Pink / Raspberry) */}
+              <div className="rounded-2xl p-6 bg-soft-pink/15 border-2 border-soft-pink/70 shadow-md flex flex-col justify-between hover:bg-soft-pink/20 hover:border-soft-pink transition-all">
+                <div>
+                  <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-soft-pink text-raspberry font-extrabold text-xs tracking-wider uppercase shadow-xs mb-4">
+                    <ShieldCheck className="w-3.5 h-3.5 text-raspberry" />
+                    <span>ADVOCATE</span>
+                  </div>
+                  <h3 className="text-xl font-bold font-serif text-soft-pink mb-2">
+                    Speak Up with Confidence
+                  </h3>
+                  <p className="text-[15px] md:text-[16px] font-semibold text-white/95 leading-relaxed font-sans m-0">
+                    Build the vocabulary, questions, and symptom logs to be taken seriously by clinicians, parents, and coaches.
+                  </p>
+                </div>
               </div>
             </div>
           </div>
