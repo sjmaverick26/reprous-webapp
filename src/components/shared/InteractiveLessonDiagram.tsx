@@ -19,6 +19,14 @@ export function InteractiveLessonDiagram({ diagram, themeColor = "#175B5C" }: In
       return <PelvicMapDiagram diagram={diagram} themeColor={themeColor} />;
     case "pcos-loop":
       return <PcosLoopDiagram diagram={diagram} themeColor={themeColor} />;
+    case "anatomy-callout":
+      return <AnatomyCalloutDiagram diagram={diagram} themeColor={themeColor} />;
+    case "athlete-plate":
+      return <AthletePlateDiagram diagram={diagram} themeColor={themeColor} />;
+    case "hormone-scale":
+      return <HormoneScaleDiagram diagram={diagram} themeColor={themeColor} />;
+    case "reds-triangle":
+      return <RedSTriangleDiagram diagram={diagram} themeColor={themeColor} />;
     case "timeline":
     default:
       return <PubertyTimelineDiagram diagram={diagram} themeColor={themeColor} />;
@@ -676,6 +684,686 @@ function PubertyTimelineDiagram({ diagram }: { diagram: LessonDiagram; themeColo
         <div className="p-2.5 rounded-lg bg-white border border-slate-200 text-xs text-charcoal/90">
           <strong className="text-deep-teal">Medical Reassurance: </strong>
           {current.reassurance}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// --------------------------------------------------------------------------
+// 6. Interactive Female Reproductive Anatomy Map
+// --------------------------------------------------------------------------
+function AnatomyCalloutDiagram({ diagram }: { diagram: LessonDiagram; themeColor: string }) {
+  const [selectedPart, setSelectedPart] = useState<string>("uterus");
+
+  const parts: Record<
+    string,
+    {
+      name: string;
+      plainNickname: string;
+      color: string;
+      bgClass: string;
+      borderClass: string;
+      whatItDoes: string;
+      whyItMatters: string;
+      doctorSays: string;
+    }
+  > = {
+    uterus: {
+      name: "The Uterus (Womb)",
+      plainNickname: "The Muscular Home & Cradle",
+      color: "#F47A6A",
+      bgClass: "bg-[#FFE1DB]",
+      borderClass: "border-coral",
+      whatItDoes: "A hollow, strong pear-shaped muscle about the size of a fist. During periods, it gently contracts to shed blood. If a pregnancy happens, it stretches safely to hold a baby.",
+      whyItMatters: "Mild cramps happen when this muscle flexes. Severe pain means natural chemicals (prostaglandins) or inflammation need care.",
+      doctorSays: "Evaluated during ultrasound or pelvic checks for fibroids, adenomyosis, or position (e.g. tilted/retroverted uterus, which is totally normal!).",
+    },
+    ovaries: {
+      name: "The Ovaries (Twin Glands)",
+      plainNickname: "The Egg & Hormone Factory",
+      color: "#175B5C",
+      bgClass: "bg-light-teal",
+      borderClass: "border-deep-teal",
+      whatItDoes: "Two almond-sized glands on either side of the uterus. They house all the eggs you were born with and produce your key hormones: estrogen and progesterone.",
+      whyItMatters: "Every month, one ovary matures and releases an egg (ovulation). Healthy ovaries mean steady energy, strong bones, and healthy cycles.",
+      doctorSays: "Checked for cysts, ovulation maturity, and ovarian reserve using blood hormones (AMH, FSH) and pelvic ultrasound.",
+    },
+    tubes: {
+      name: "The Fallopian Tubes",
+      plainNickname: "The Gentle Connecting Highway",
+      color: "#991B4B",
+      bgClass: "bg-soft-pink",
+      borderClass: "border-raspberry",
+      whatItDoes: "Two delicate, trumpet-ended tubes with tiny hair-like fingers (cilia) that sweep the egg from the ovary toward the uterus each month.",
+      whyItMatters: "Fertilization happens inside these tubes. Keeping them free of infections (like untreated STIs) protects your future choices.",
+      doctorSays: "Assessed if there is concern about pelvic inflammatory disease (PID) or blockages that could cause ectopic pregnancy.",
+    },
+    endometrium: {
+      name: "The Endometrium",
+      plainNickname: "The Monthly Plush Cushion",
+      color: "#E11D48",
+      bgClass: "bg-rose-100",
+      borderClass: "border-rose-300",
+      whatItDoes: "The soft, velvety inner lining of your uterus. Estrogen builds it up each cycle into a plush bed; when pregnancy doesn't occur, progesterone drops and it sheds as your period.",
+      whyItMatters: "Spotting or extra heavy periods happen when hormones build this lining up too thick or unevenly.",
+      doctorSays: "Measured on ultrasound in millimeters to check for balanced hormones or signs of endometriosis outside the uterus.",
+    },
+    cervix: {
+      name: "The Cervix",
+      plainNickname: "The Intelligent Doorway",
+      color: "#D97706",
+      bgClass: "bg-amber-100",
+      borderClass: "border-amber-400",
+      whatItDoes: "The lower neck of the uterus that connects to the vagina. It makes natural, healthy fluids that change texture across your cycle (from lotiony to stretchy egg-white).",
+      whyItMatters: "Noticing stretchy clear fluid means ovulation is near! The cervix also naturally keeps bacteria from entering the sterile uterus.",
+      doctorSays: "Screened in older teens and adults via routine, gentle Pap smears starting at age 21 to keep cervical cells healthy.",
+    },
+  };
+
+  const current = parts[selectedPart];
+
+  return (
+    <div className="rounded-2xl border-2 border-deep-teal/20 bg-white p-4 md:p-5 shadow-sm space-y-4">
+      <div className="flex items-start justify-between gap-2 border-b border-deep-teal/10 pb-3">
+        <div>
+          <div className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-deep-teal">
+            <Sparkles className="w-3.5 h-3.5 text-raspberry" />
+            Interactive Anatomy Guide
+          </div>
+          <h4 className="text-base md:text-lg font-serif font-bold text-deep-teal mt-0.5">
+            {diagram.title}
+          </h4>
+        </div>
+        <span className="text-[11px] font-semibold bg-light-teal px-2.5 py-1 rounded-full text-deep-teal border border-deep-teal/20">
+          Tap any organ to learn
+        </span>
+      </div>
+
+      {/* Interactive Visual Anatomy Canvas */}
+      <div className="rounded-2xl bg-gradient-to-b from-teal-50/60 via-white to-rose-50/40 p-4 border-2 border-deep-teal/15 flex flex-col items-center">
+        <svg viewBox="0 0 400 240" className="w-full max-w-md h-48 md:h-56">
+          {/* Uterine body */}
+          <path
+            d="M 140 100 C 140 45, 260 45, 260 100 C 260 155, 220 175, 200 175 C 180 175, 140 155, 140 100 Z"
+            fill={selectedPart === "uterus" ? "#F47A6A" : "#FEE2E2"}
+            stroke="#E11D48"
+            strokeWidth="2.5"
+            className="cursor-pointer transition-all hover:opacity-90"
+            onClick={() => setSelectedPart("uterus")}
+          />
+
+          {/* Endometrium inner cavity */}
+          <path
+            d="M 170 95 C 170 70, 230 70, 230 95 C 230 135, 205 145, 200 145 C 195 145, 170 135, 170 95 Z"
+            fill={selectedPart === "endometrium" ? "#E11D48" : "#FDA4AF"}
+            stroke="#BE123C"
+            strokeWidth="1.5"
+            className="cursor-pointer transition-all"
+            onClick={() => setSelectedPart("endometrium")}
+          />
+
+          {/* Fallopian Tubes */}
+          <path
+            d="M 148 75 C 100 50, 70 70, 50 90"
+            fill="none"
+            stroke={selectedPart === "tubes" ? "#991B4B" : "#F47A6A"}
+            strokeWidth={selectedPart === "tubes" ? "5" : "3.5"}
+            strokeLinecap="round"
+            className="cursor-pointer transition-all"
+            onClick={() => setSelectedPart("tubes")}
+          />
+          <path
+            d="M 252 75 C 300 50, 330 70, 350 90"
+            fill="none"
+            stroke={selectedPart === "tubes" ? "#991B4B" : "#F47A6A"}
+            strokeWidth={selectedPart === "tubes" ? "5" : "3.5"}
+            strokeLinecap="round"
+            className="cursor-pointer transition-all"
+            onClick={() => setSelectedPart("tubes")}
+          />
+
+          {/* Ovaries */}
+          <ellipse
+            cx="48"
+            cy="100"
+            rx="18"
+            ry="13"
+            fill={selectedPart === "ovaries" ? "#175B5C" : "#D8EFED"}
+            stroke="#175B5C"
+            strokeWidth="2"
+            className="cursor-pointer transition-all"
+            onClick={() => setSelectedPart("ovaries")}
+          />
+          <ellipse
+            cx="352"
+            cy="100"
+            rx="18"
+            ry="13"
+            fill={selectedPart === "ovaries" ? "#175B5C" : "#D8EFED"}
+            stroke="#175B5C"
+            strokeWidth="2"
+            className="cursor-pointer transition-all"
+            onClick={() => setSelectedPart("ovaries")}
+          />
+
+          {/* Cervix */}
+          <rect
+            x="185"
+            y="175"
+            width="30"
+            height="35"
+            rx="6"
+            fill={selectedPart === "cervix" ? "#D97706" : "#FEF3C7"}
+            stroke="#B45309"
+            strokeWidth="2"
+            className="cursor-pointer transition-all"
+            onClick={() => setSelectedPart("cervix")}
+          />
+
+          {/* Vagina Canal */}
+          <path d="M 180 210 L 180 235 M 220 210 L 220 235" stroke="#94A3B8" strokeWidth="2" strokeDasharray="3,3" />
+
+          {/* Clickable Badges on Diagram */}
+          <text x="48" y="104" textAnchor="middle" fill={selectedPart === "ovaries" ? "#fff" : "#175B5C"} fontSize="10" fontWeight="bold">Ovary</text>
+          <text x="352" y="104" textAnchor="middle" fill={selectedPart === "ovaries" ? "#fff" : "#175B5C"} fontSize="10" fontWeight="bold">Ovary</text>
+          <text x="200" y="85" textAnchor="middle" fill="#991B4B" fontSize="10" fontWeight="bold">Uterus</text>
+          <text x="200" y="125" textAnchor="middle" fill="#fff" fontSize="9" fontWeight="bold">Lining</text>
+          <text x="200" y="196" textAnchor="middle" fill={selectedPart === "cervix" ? "#fff" : "#92400E"} fontSize="9" fontWeight="bold">Cervix</text>
+        </svg>
+
+        {/* Quick Organ Pills */}
+        <div className="flex flex-wrap items-center justify-center gap-2 mt-2">
+          {Object.entries(parts).map(([key, item]) => (
+            <button
+              key={key}
+              onClick={() => setSelectedPart(key)}
+              className={`px-3 py-1.5 rounded-full text-xs font-bold transition-all ${
+                selectedPart === key
+                  ? `${item.bgClass} text-charcoal border-2 ${item.borderClass} shadow-xs scale-105`
+                  : "bg-white text-charcoal/70 border border-slate-200 hover:bg-slate-50"
+              }`}
+            >
+              {item.name.split(" ")[1] || item.name}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Detail Breakdown for Selected Organ */}
+      <div className={`p-4 rounded-2xl border-2 ${current.borderClass} bg-white shadow-xs space-y-2 text-xs md:text-sm`}>
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <h5 className="font-serif font-bold text-base md:text-lg text-deep-teal m-0">
+            {current.name}
+          </h5>
+          <span className={`text-[11px] font-bold px-2.5 py-0.5 rounded-full ${current.bgClass} text-charcoal`}>
+            {current.plainNickname}
+          </span>
+        </div>
+
+        <div className="space-y-2 pt-1">
+          <p className="text-charcoal/85 leading-relaxed m-0 font-sans">
+            <strong className="text-deep-teal">What It Does: </strong>
+            {current.whatItDoes}
+          </p>
+          <p className="text-charcoal/85 leading-relaxed m-0 font-sans">
+            <strong className="text-raspberry">Why It Matters For You: </strong>
+            {current.whyItMatters}
+          </p>
+          <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-200/80 text-[11.5px] text-charcoal/80">
+            <strong>🩺 What a Doctor Checks: </strong>
+            {current.doctorSays}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// --------------------------------------------------------------------------
+// 7. Athlete Fueling Plate (Nutrition & Hormonal Recovery)
+// --------------------------------------------------------------------------
+function AthletePlateDiagram({ diagram }: { diagram: LessonDiagram; themeColor: string }) {
+  const [dayType, setDayType] = useState<"easy" | "moderate" | "hard">("moderate");
+
+  const plateConfigs = {
+    easy: {
+      title: "Easy Training / Rest & Recovery Day",
+      subtitle: "Focus on cellular repair, anti-inflammatory colors, and light mobility.",
+      carbs: "25% Plate (Complex Carbs)",
+      carbDetail: "Whole grains, sweet potato, oats, brown rice for steady basal glycogen.",
+      protein: "25% Plate (Lean Protein)",
+      proteinDetail: "Eggs, tofu, chicken, lentils, Greek yogurt to rebuild muscle tissue.",
+      colors: "50% Plate (Colorful Fruits & Veggies)",
+      colorDetail: "Berries, leafy greens, peppers, carrots packed with antioxidants.",
+      fluids: "Water + herbal teas throughout the day.",
+      hormoneImpact: "Gives your digestive tract rest while maintaining stable resting blood sugar.",
+      svgCarbAngle: 90,
+      svgProteinAngle: 90,
+      svgVegAngle: 180,
+    },
+    moderate: {
+      title: "Moderate Training Day (60–90 Minutes Practice)",
+      subtitle: "Balanced fuel maintaining normal ovulatory cycles and athletic energy.",
+      carbs: "35% Plate (Performance Carbs)",
+      carbDetail: "Oats, pasta, quinoa, sourdough, banana for muscle glycogen tops.",
+      protein: "30% Plate (Lean Protein)",
+      proteinDetail: "25–30g of protein every 3–4 hours for steady muscle synthesis.",
+      colors: "35% Plate (Veggies & Fruits)",
+      colorDetail: "Spinach (iron!), broccoli, citrus (vitamin C increases iron absorption).",
+      fluids: "Electrolyte water before, during, and right after practice.",
+      hormoneImpact: "Prevents cortisol spikes and keeps kisspeptin (brain period switch) happy.",
+      svgCarbAngle: 125,
+      svgProteinAngle: 110,
+      svgVegAngle: 125,
+    },
+    hard: {
+      title: "Hard Training / Game Day / Double Sessions",
+      subtitle: "High energy availability prioritizing immediate carbohydrate replenishment.",
+      carbs: "50% Plate (High-Octane Carbs)",
+      carbDetail: "Rice, potatoes, bagels, pasta. Essential to prevent RED-S and bone loss.",
+      protein: "25% Plate (Recovery Protein)",
+      proteinDetail: "Protein snack within 30–45 mins of training to turn off muscle breakdown.",
+      colors: "25% Plate (Cooked Veggies & Berries)",
+      colorDetail: "Gentle cooked veggies that digest easily before high-intensity sprints.",
+      fluids: "Carbohydrate + electrolyte sports drink during active sweating.",
+      hormoneImpact: "CRITICAL: Under-fueling on hard days stops periods within just 5 days.",
+      svgCarbAngle: 180,
+      svgProteinAngle: 90,
+      svgVegAngle: 90,
+    },
+  };
+
+  const config = plateConfigs[dayType];
+
+  return (
+    <div className="rounded-2xl border-2 border-coral/30 bg-white p-4 md:p-5 shadow-sm space-y-4">
+      <div className="flex items-start justify-between gap-2 border-b border-coral/10 pb-3">
+        <div>
+          <div className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-coral">
+            <Zap className="w-3.5 h-3.5 text-coral" />
+            Athlete Nutrition Scale
+          </div>
+          <h4 className="text-base md:text-lg font-serif font-bold text-deep-teal mt-0.5">
+            {diagram.title}
+          </h4>
+        </div>
+        <span className="text-[11px] font-semibold bg-[#FFE1DB] px-2.5 py-1 rounded-full text-[#B83F68] border border-coral/30">
+          Switch training intensity
+        </span>
+      </div>
+
+      {/* Intensity Selector Tabs */}
+      <div className="grid grid-cols-3 gap-2">
+        {(["easy", "moderate", "hard"] as const).map((mode) => (
+          <button
+            key={mode}
+            onClick={() => setDayType(mode)}
+            className={`p-2.5 rounded-xl text-center border font-bold text-xs transition-all ${
+              dayType === mode
+                ? "bg-coral text-white border-coral shadow-xs ring-2 ring-coral/20 scale-105"
+                : "bg-white text-charcoal/75 border-slate-200 hover:bg-rose-50"
+            }`}
+          >
+            {mode === "easy" && "🧘 Rest Day"}
+            {mode === "moderate" && "🏃 Practice Day"}
+            {mode === "hard" && "⚡ Game Day"}
+          </button>
+        ))}
+      </div>
+
+      {/* Interactive Visual Plate */}
+      <div className="rounded-2xl bg-gradient-to-br from-amber-50/50 via-white to-emerald-50/40 p-4 border border-coral/20 flex flex-col sm:flex-row items-center justify-around gap-4">
+        {/* SVG Plate Representation */}
+        <div className="relative w-44 h-44 sm:w-48 sm:h-48 shrink-0 flex items-center justify-center">
+          <svg viewBox="0 0 200 200" className="w-full h-full drop-shadow-md">
+            {/* Outer Plate Rim */}
+            <circle cx="100" cy="100" r="95" fill="#F8FAFC" stroke="#E2E8F0" strokeWidth="4" />
+            <circle cx="100" cy="100" r="82" fill="#FFFFFF" stroke="#CBD5E1" strokeWidth="1.5" />
+
+            {/* Dynamic Slices based on dayType */}
+            {dayType === "easy" && (
+              <>
+                {/* 50% Veggies (Top half: 0 to 180 deg) */}
+                <path d="M 100 100 L 182 100 A 82 82 0 0 1 18 100 Z" fill="#34D399" opacity="0.85" />
+                {/* 25% Protein (Bottom left: 180 to 270 deg) */}
+                <path d="M 100 100 L 18 100 A 82 82 0 0 1 100 182 Z" fill="#F87171" opacity="0.85" />
+                {/* 25% Carbs (Bottom right: 270 to 360 deg) */}
+                <path d="M 100 100 L 100 182 A 82 82 0 0 1 182 100 Z" fill="#FBBF24" opacity="0.85" />
+              </>
+            )}
+
+            {dayType === "moderate" && (
+              <>
+                {/* ~35% Carbs */}
+                <path d="M 100 100 L 182 100 A 82 82 0 0 1 60 175 Z" fill="#FBBF24" opacity="0.85" />
+                {/* ~30% Protein */}
+                <path d="M 100 100 L 60 175 A 82 82 0 0 1 35 50 Z" fill="#F87171" opacity="0.85" />
+                {/* ~35% Veggies */}
+                <path d="M 100 100 L 35 50 A 82 82 0 0 1 182 100 Z" fill="#34D399" opacity="0.85" />
+              </>
+            )}
+
+            {dayType === "hard" && (
+              <>
+                {/* 50% Carbs (Half plate!) */}
+                <path d="M 100 100 L 182 100 A 82 82 0 0 1 18 100 Z" fill="#FBBF24" opacity="0.9" />
+                {/* 25% Protein */}
+                <path d="M 100 100 L 18 100 A 82 82 0 0 1 100 182 Z" fill="#F87171" opacity="0.85" />
+                {/* 25% Veggies */}
+                <path d="M 100 100 L 100 182 A 82 82 0 0 1 182 100 Z" fill="#34D399" opacity="0.85" />
+              </>
+            )}
+
+            {/* Inner Plate Center Circle */}
+            <circle cx="100" cy="100" r="18" fill="#FFFFFF" stroke="#CBD5E1" strokeWidth="2" />
+            <text x="100" y="104" textAnchor="middle" fontSize="10" fontWeight="bold" fill="#1E293B">Fuel</text>
+          </svg>
+        </div>
+
+        {/* Legend & Proportions */}
+        <div className="flex-1 space-y-2 text-xs">
+          <div className="flex items-center gap-2">
+            <span className="w-3.5 h-3.5 rounded-md bg-amber-400 shrink-0"></span>
+            <div>
+              <strong className="text-amber-900 block">{config.carbs}</strong>
+              <span className="text-charcoal/70 text-[11px]">{config.carbDetail}</span>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <span className="w-3.5 h-3.5 rounded-md bg-rose-400 shrink-0"></span>
+            <div>
+              <strong className="text-rose-900 block">{config.protein}</strong>
+              <span className="text-charcoal/70 text-[11px]">{config.proteinDetail}</span>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <span className="w-3.5 h-3.5 rounded-md bg-emerald-400 shrink-0"></span>
+            <div>
+              <strong className="text-emerald-900 block">{config.colors}</strong>
+              <span className="text-charcoal/70 text-[11px]">{config.colorDetail}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Hormone Protection Clinical Note */}
+      <div className="p-3.5 rounded-xl bg-[#FFE1DB]/40 border border-coral/30 text-xs text-charcoal/90">
+        <strong className="text-[#B83F68] block mb-1">💡 Why Fueling Protects Your Hormones:</strong>
+        {config.hormoneImpact}
+      </div>
+    </div>
+  );
+}
+
+// --------------------------------------------------------------------------
+// 8. Hormone Balance Scale (Seesaw)
+// --------------------------------------------------------------------------
+function HormoneScaleDiagram({ diagram }: { diagram: LessonDiagram; themeColor: string }) {
+  const [balanceMode, setBalanceMode] = useState<"balanced" | "low_fuel" | "pcos">("balanced");
+
+  const scenarios = {
+    balanced: {
+      title: "Balanced Natural Rhythm",
+      statusText: "Healthy Hormonal Harmony",
+      scaleAngle: 0,
+      estrogen: "Normal / Cyclic",
+      progesterone: "Normal (Post-Ovulation)",
+      androgens: "Healthy Low Baseline",
+      feelings: "Regular cycles, resilient moods, strong bone density, and steady athletic recovery.",
+      actionTip: "Keep maintaining consistent fueling, sleep, and iron intake.",
+    },
+    low_fuel: {
+      title: "Low Fuel / Stress / RED-S",
+      statusText: "Under-Fueling Suppression",
+      scaleAngle: -12,
+      estrogen: "Critically Suppressed ⬇️",
+      progesterone: "Missing (No Ovulation) ⬇️",
+      androgens: "Normal to Low",
+      feelings: "Periods stop (amenorrhea), frequent stress fractures, cold hands/feet, feeling chronically drained.",
+      actionTip: "Increase daily complex carbs and overall calories to signal safety to your brain.",
+    },
+    pcos: {
+      title: "PCOS Hormone Pattern",
+      statusText: "Elevated Androgens & Insulin",
+      scaleAngle: 12,
+      estrogen: "Steady but Unofficially High",
+      progesterone: "Low / Infrequent ⬇️",
+      androgens: "Elevated (Testosterone) ⬆️",
+      feelings: "Irregular cycles (40–60+ days apart), hormonal acne along jawline, stubborn fatigue, hair thinning.",
+      actionTip: "Balance blood sugar with protein + fiber meals, strength training, and talk to a doctor.",
+    },
+  };
+
+  const current = scenarios[balanceMode];
+
+  return (
+    <div className="rounded-2xl border-2 border-raspberry/30 bg-white p-4 md:p-5 shadow-sm space-y-4">
+      <div className="flex items-start justify-between gap-2 border-b border-raspberry/10 pb-3">
+        <div>
+          <div className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-raspberry">
+            <Activity className="w-3.5 h-3.5 text-raspberry" />
+            Hormone Balance Scale
+          </div>
+          <h4 className="text-base md:text-lg font-serif font-bold text-deep-teal mt-0.5">
+            {diagram.title}
+          </h4>
+        </div>
+        <span className="text-[11px] font-semibold bg-soft-pink px-2.5 py-1 rounded-full text-raspberry border border-raspberry/20">
+          Click scenario to tilt
+        </span>
+      </div>
+
+      {/* Scenario Selector */}
+      <div className="grid grid-cols-3 gap-2">
+        {(["balanced", "low_fuel", "pcos"] as const).map((mode) => (
+          <button
+            key={mode}
+            onClick={() => setBalanceMode(mode)}
+            className={`p-2.5 rounded-xl text-center border font-bold text-xs transition-all ${
+              balanceMode === mode
+                ? "bg-raspberry text-white border-raspberry shadow-xs scale-105"
+                : "bg-white text-charcoal/70 border-slate-200 hover:bg-soft-pink/40"
+            }`}
+          >
+            {mode === "balanced" && "⚖️ Balanced"}
+            {mode === "low_fuel" && "📉 Low Energy"}
+            {mode === "pcos" && "🧬 PCOS Pattern"}
+          </button>
+        ))}
+      </div>
+
+      {/* Seesaw SVG Animation */}
+      <div className="rounded-2xl bg-gradient-to-b from-purple-50/50 to-pink-50/50 p-4 border border-raspberry/20 flex flex-col items-center justify-center">
+        <svg viewBox="0 0 320 120" className="w-full max-w-xs h-28">
+          {/* Fulcrum (Triangle base) */}
+          <polygon points="160,80 145,115 175,115" fill="#175B5C" />
+
+          {/* Seesaw Beam */}
+          <g transform={`rotate(${current.scaleAngle}, 160, 80)`} className="transition-all duration-500">
+            <rect x="30" y="76" width="260" height="8" rx="4" fill="#64748B" />
+
+            {/* Left Pan: Estrogen & Progesterone */}
+            <circle cx="50" cy="70" r="16" fill="#F47A6A" />
+            <text x="50" y="74" textAnchor="middle" fill="#fff" fontSize="10" fontWeight="bold">E+P</text>
+
+            {/* Right Pan: Androgens / Stress */}
+            <circle cx="270" cy="70" r="16" fill="#B83F68" />
+            <text x="270" y="74" textAnchor="middle" fill="#fff" fontSize="10" fontWeight="bold">T/Ins</text>
+          </g>
+
+          {/* Baseline Ground */}
+          <line x1="20" y1="115" x2="300" y2="115" stroke="#CBD5E1" strokeWidth="2" strokeLinecap="round" />
+        </svg>
+
+        <div className="flex items-center justify-between w-full text-[11px] font-bold text-charcoal/70 px-4">
+          <span className="text-coral">Estrogen &amp; Progesterone</span>
+          <span className="text-raspberry">Androgens &amp; Stress</span>
+        </div>
+      </div>
+
+      {/* Dynamic Scenario Insight Card */}
+      <div className="p-4 rounded-xl bg-white border-2 border-raspberry/20 shadow-xs space-y-2 text-xs md:text-sm">
+        <div className="flex items-center justify-between">
+          <h5 className="font-bold text-deep-teal text-sm md:text-base">{current.title}</h5>
+          <span className="text-[10px] font-bold bg-soft-pink px-2.5 py-0.5 rounded-full text-raspberry">
+            {current.statusText}
+          </span>
+        </div>
+
+        <div className="grid grid-cols-3 gap-2 p-2.5 rounded-lg bg-slate-50 border border-slate-200 text-[11px]">
+          <div><strong>Estrogen:</strong> <br />{current.estrogen}</div>
+          <div><strong>Progesterone:</strong> <br />{current.progesterone}</div>
+          <div><strong>Androgens:</strong> <br />{current.androgens}</div>
+        </div>
+
+        <p className="text-charcoal/85 leading-relaxed m-0 pt-1 font-sans">
+          <strong>How It Feels: </strong>{current.feelings}
+        </p>
+
+        <div className="p-2.5 rounded-lg bg-emerald-50 border border-emerald-200 text-[11.5px] text-emerald-950 font-sans">
+          <strong>💪 Supportive Action: </strong>{current.actionTip}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// --------------------------------------------------------------------------
+// 9. Female Athlete Triad / RED-S Triangle Diagram
+// --------------------------------------------------------------------------
+function RedSTriangleDiagram({ diagram }: { diagram: LessonDiagram; themeColor: string }) {
+  const [activePillar, setActivePillar] = useState<"energy" | "cycle" | "bone">("energy");
+
+  const pillars = {
+    energy: {
+      title: "1. Low Energy Availability",
+      plainTitle: "Under-Fueling vs Energy Output",
+      color: "#F47A6A",
+      bgClass: "bg-[#FFE1DB]",
+      borderClass: "border-coral",
+      details: "Eating fewer calories than your body needs to fuel both your daily training AND your basic survival organs. Your brain recognizes an energy crisis.",
+      warningSigns: "Always feeling drained, hair thinning, feeling cold constantly, dizzy when standing.",
+      solution: "Add structured snacks (like peanut butter toast, smoothies, nuts) before and after training.",
+    },
+    cycle: {
+      title: "2. Menstrual Disruption",
+      plainTitle: "Irregular or Lost Periods",
+      color: "#B83F68",
+      bgClass: "bg-soft-pink",
+      borderClass: "border-raspberry",
+      details: "Because energy is scarce, the brain's hypothalamus turns off the signal to ovulate. Periods become spaced out or completely disappear (amenorrhea).",
+      warningSigns: "Missing 3+ periods in a row, lighter flow, or losing your period during track/cross-country season.",
+      solution: "Losing your period is NOT a badge of athletic honor. It is an emergency brake signal from your body.",
+    },
+    bone: {
+      title: "3. Impaired Bone Health",
+      plainTitle: "Fragile Bones & Stress Fractures",
+      color: "#175B5C",
+      bgClass: "bg-light-teal",
+      borderClass: "border-deep-teal",
+      details: "Without protective estrogen and adequate calcium/vitamin D, bones stop rebuilding. Young bones lose density that cannot easily be regained later in life.",
+      warningSigns: "Recurring shin splints, stress fractures in feet or hips that take months to heal.",
+      solution: "Prioritize calcium, vitamin D, and full energy availability to protect peak bone mass by age 20.",
+    },
+  };
+
+  const current = pillars[activePillar];
+
+  return (
+    <div className="rounded-2xl border-2 border-deep-teal/20 bg-white p-4 md:p-5 shadow-sm space-y-4">
+      <div className="flex items-start justify-between gap-2 border-b border-deep-teal/10 pb-3">
+        <div>
+          <div className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-deep-teal">
+            <Shield className="w-3.5 h-3.5 text-deep-teal" />
+            The Triad Triangle
+          </div>
+          <h4 className="text-base md:text-lg font-serif font-bold text-deep-teal mt-0.5">
+            {diagram.title}
+          </h4>
+        </div>
+        <span className="text-[11px] font-semibold bg-light-teal px-2.5 py-1 rounded-full text-deep-teal border border-deep-teal/20">
+          Click triangle corners
+        </span>
+      </div>
+
+      {/* Interactive SVG Triangle Canvas */}
+      <div className="rounded-2xl bg-gradient-to-b from-teal-50/50 via-white to-rose-50/50 p-4 border border-deep-teal/15 flex flex-col items-center">
+        <svg viewBox="0 0 300 220" className="w-full max-w-xs h-44 sm:h-48">
+          {/* Triangle Shape */}
+          <polygon
+            points="150,30 50,185 250,185"
+            fill="#FEF2F2"
+            stroke="#175B5C"
+            strokeWidth="3"
+            strokeDasharray="4,3"
+          />
+
+          {/* Connecting Lines to Center */}
+          <line x1="150" y1="30" x2="150" y2="135" stroke="#E2E8F0" strokeWidth="2" />
+          <line x1="50" y1="185" x2="150" y2="135" stroke="#E2E8F0" strokeWidth="2" />
+          <line x1="250" y1="185" x2="150" y2="135" stroke="#E2E8F0" strokeWidth="2" />
+
+          {/* Center Hub */}
+          <circle cx="150" cy="135" r="22" fill="#175B5C" />
+          <text x="150" y="139" textAnchor="middle" fill="#FFFFFF" fontSize="10" fontWeight="bold">RED-S</text>
+
+          {/* Corner 1: Energy (Top) */}
+          <g onClick={() => setActivePillar("energy")} className="cursor-pointer group">
+            <circle cx="150" cy="30" r={activePillar === "energy" ? "20" : "15"} fill="#F47A6A" />
+            <text x="150" y="34" textAnchor="middle" fill="#FFFFFF" fontSize="10" fontWeight="bold">Energy</text>
+          </g>
+
+          {/* Corner 2: Periods (Bottom Left) */}
+          <g onClick={() => setActivePillar("cycle")} className="cursor-pointer group">
+            <circle cx="50" cy="185" r={activePillar === "cycle" ? "20" : "15"} fill="#B83F68" />
+            <text x="50" y="189" textAnchor="middle" fill="#FFFFFF" fontSize="10" fontWeight="bold">Cycle</text>
+          </g>
+
+          {/* Corner 3: Bone (Bottom Right) */}
+          <g onClick={() => setActivePillar("bone")} className="cursor-pointer group">
+            <circle cx="250" cy="185" r={activePillar === "bone" ? "20" : "15"} fill="#175B5C" />
+            <text x="250" y="189" textAnchor="middle" fill="#FFFFFF" fontSize="10" fontWeight="bold">Bones</text>
+          </g>
+        </svg>
+
+        {/* 3 Corner Quick Buttons */}
+        <div className="flex flex-wrap items-center justify-center gap-2 mt-2">
+          {(["energy", "cycle", "bone"] as const).map((p) => (
+            <button
+              key={p}
+              onClick={() => setActivePillar(p)}
+              className={`px-3 py-1 rounded-full text-xs font-bold transition-all ${
+                activePillar === p
+                  ? `${pillars[p].bgClass} text-charcoal border-2 ${pillars[p].borderClass} shadow-xs scale-105`
+                  : "bg-white text-charcoal/70 border border-slate-200 hover:bg-slate-50"
+              }`}
+            >
+              {pillars[p].title}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Selected Corner Detail Card */}
+      <div className={`p-4 rounded-2xl border-2 ${current.borderClass} bg-white shadow-xs space-y-2 text-xs md:text-sm`}>
+        <div className="flex items-center justify-between">
+          <h5 className="font-serif font-bold text-base text-deep-teal m-0">{current.title}</h5>
+          <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${current.bgClass} text-charcoal`}>
+            {current.plainTitle}
+          </span>
+        </div>
+
+        <p className="text-charcoal/85 leading-relaxed m-0 font-sans">{current.details}</p>
+
+        <div className="p-2.5 rounded-lg bg-rose-50 border border-rose-200 text-rose-950 font-sans text-[11.5px]">
+          <strong>⚠️ Warning Signs to Notice: </strong>{current.warningSigns}
+        </div>
+
+        <div className="p-2.5 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-950 font-sans text-[11.5px]">
+          <strong>✅ Action Step: </strong>{current.solution}
         </div>
       </div>
     </div>

@@ -47,6 +47,7 @@ import { EducationalReferences } from "@/components/shared/EducationalReferences
 import { InteractiveLessonDiagram } from "@/components/shared/InteractiveLessonDiagram";
 import { LessonVideoCard } from "@/components/shared/LessonVideoCard";
 import { LessonSorterGameComponent } from "@/components/shared/LessonSorterGame";
+import { LittleHealthDictionary } from "@/components/shared/LittleHealthDictionary";
 import { updateUserProgress } from "@/lib/api";
 
 interface HubViewProps {
@@ -304,6 +305,13 @@ export function HubView({ initialCategory }: HubViewProps) {
                   <Award className="w-4 h-4 text-coral" />
                   <span>{earnedBadges.length} badges earned</span>
                 </div>
+                <a
+                  href="#health-dictionary"
+                  className="inline-flex items-center gap-2 rounded-full bg-amber-50 hover:bg-amber-100 px-4 py-2 text-[14px] font-bold font-sans text-amber-900 shadow-sm border border-amber-300 transition-colors"
+                >
+                  <BookOpen className="w-4 h-4 text-amber-700" />
+                  <span>Health Dictionary</span>
+                </a>
               </div>
             </div>
 
@@ -366,6 +374,11 @@ export function HubView({ initialCategory }: HubViewProps) {
               ))}
             </div>
 
+            {/* Little Health Dictionary & Medical Jargon Buster */}
+            <div id="health-dictionary" className="mt-8 pt-6 border-t-2 border-deep-teal/15">
+              <LittleHealthDictionary />
+            </div>
+
             {/* Clinical & Educational References */}
             <EducationalReferences categoryId="default" />
           </div>
@@ -389,9 +402,18 @@ export function HubView({ initialCategory }: HubViewProps) {
                 Back to Learn Hub
               </button>
 
-              <div className="inline-flex items-center gap-2 rounded-full bg-white px-3.5 py-1.5 text-xs font-bold text-deep-teal shadow-sm border border-deep-teal/15">
-                <Sparkles className="w-3.5 h-3.5 text-coral" />
-                {xp} XP
+              <div className="flex items-center gap-2">
+                <a
+                  href="#health-dictionary"
+                  className="inline-flex items-center gap-1.5 rounded-full bg-amber-50 hover:bg-amber-100 px-3 py-1.5 text-xs font-bold text-amber-900 shadow-sm border border-amber-300 transition-colors"
+                >
+                  <BookOpen className="w-3.5 h-3.5 text-amber-700" />
+                  <span>Dictionary</span>
+                </a>
+                <div className="inline-flex items-center gap-2 rounded-full bg-white px-3.5 py-1.5 text-xs font-bold text-deep-teal shadow-sm border border-deep-teal/15">
+                  <Sparkles className="w-3.5 h-3.5 text-coral" />
+                  {xp} XP
+                </div>
               </div>
             </div>
 
@@ -524,6 +546,11 @@ export function HubView({ initialCategory }: HubViewProps) {
                     </div>
                   </button>
                 </div>
+              </div>
+
+              {/* Little Health Dictionary & Medical Jargon Buster */}
+              <div id="health-dictionary" className="mt-8 pt-6 border-t-2 border-deep-teal/15">
+                <LittleHealthDictionary />
               </div>
 
               {/* Category Educational References */}
@@ -677,7 +704,7 @@ export function HubView({ initialCategory }: HubViewProps) {
                   {activeLessonTab === "lesson" && (
                     <div className="space-y-4">
                       {/* Hero Core Principle */}
-                      <div className={`p-4 md:p-5 rounded-2xl border leading-relaxed ${topicTheme.bgLight} ${topicTheme.borderPrimary} shadow-sm`}>
+                      <div className={`p-4 md:p-5 rounded-2xl border-2 leading-relaxed ${topicTheme.bgLight} ${topicTheme.borderPrimary} shadow-sm`}>
                         <div className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-deep-teal mb-1.5">
                           <Lightbulb className="w-4 h-4 text-raspberry" />
                           <span>Core Principle</span>
@@ -695,27 +722,36 @@ export function HubView({ initialCategory }: HubViewProps) {
                             Essential Breakdown:
                           </h5>
                           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
-                            {selectedTopic.visualCards.map((card, i) => (
-                              <div
-                                key={i}
-                                className="p-4 rounded-xl bg-white border border-deep-teal/15 shadow-sm flex flex-col justify-between hover:shadow-md transition-all"
-                              >
-                                <div>
-                                  <div className="flex items-center justify-between mb-2">
-                                    <span className="p-2 rounded-lg bg-light-teal text-deep-teal">
-                                      {getVisualCardIcon(card.iconName)}
-                                    </span>
-                                    {card.highlight && (
-                                      <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-slate-100 text-charcoal/70">
-                                        {card.highlight}
+                            {selectedTopic.visualCards.map((card, i) => {
+                              const cardPalettes = [
+                                { bg: "bg-light-teal/50", border: "border-deep-teal/30", iconBg: "bg-deep-teal text-white", badgeBg: "bg-white text-deep-teal border-deep-teal/20" },
+                                { bg: "bg-[#FFE1DB]/70", border: "border-coral/40", iconBg: "bg-coral text-white", badgeBg: "bg-white text-[#B83F68] border-coral/30" },
+                                { bg: "bg-soft-pink/70", border: "border-raspberry/35", iconBg: "bg-raspberry text-white", badgeBg: "bg-white text-raspberry border-raspberry/20" },
+                              ];
+                              const palette = cardPalettes[i % cardPalettes.length];
+
+                              return (
+                                <div
+                                  key={i}
+                                  className={`p-4 rounded-xl ${palette.bg} border-2 ${palette.border} shadow-2xs flex flex-col justify-between hover:shadow-md hover:scale-[1.01] transition-all`}
+                                >
+                                  <div>
+                                    <div className="flex items-center justify-between mb-2">
+                                      <span className={`p-2 rounded-lg ${palette.iconBg} shadow-2xs`}>
+                                        {getVisualCardIcon(card.iconName)}
                                       </span>
-                                    )}
+                                      {card.highlight && (
+                                        <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full border ${palette.badgeBg}`}>
+                                          {card.highlight}
+                                        </span>
+                                      )}
+                                    </div>
+                                    <h6 className="font-bold text-sm text-deep-teal mb-1">{card.title}</h6>
+                                    <p className="text-xs text-charcoal/85 leading-relaxed">{card.text}</p>
                                   </div>
-                                  <h6 className="font-bold text-sm text-deep-teal mb-1">{card.title}</h6>
-                                  <p className="text-xs text-charcoal/80 leading-relaxed">{card.text}</p>
                                 </div>
-                              </div>
-                            ))}
+                              );
+                            })}
                           </div>
                         </div>
                       ) : (
@@ -726,24 +762,33 @@ export function HubView({ initialCategory }: HubViewProps) {
                             Essential Concepts:
                           </h5>
                           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
-                            {selectedTopic.keyTakeaways.slice(0, 3).map((takeaway, i) => (
-                              <div
-                                key={i}
-                                className="p-4 rounded-xl bg-white border border-deep-teal/15 shadow-sm flex flex-col justify-between"
-                              >
-                                <div>
-                                  <div className="flex items-center justify-between mb-2">
-                                    <span className="p-2 rounded-lg bg-light-teal text-deep-teal">
-                                      {i === 0 ? <Sparkles className="w-4 h-4" /> : i === 1 ? <Heart className="w-4 h-4" /> : <Shield className="w-4 h-4" />}
-                                    </span>
-                                    <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-slate-100 text-charcoal/70">
-                                      Insight #{i + 1}
-                                    </span>
+                            {selectedTopic.keyTakeaways.slice(0, 3).map((takeaway, i) => {
+                              const cardPalettes = [
+                                { bg: "bg-light-teal/50", border: "border-deep-teal/30", iconBg: "bg-deep-teal text-white", badgeBg: "bg-white text-deep-teal border-deep-teal/20" },
+                                { bg: "bg-[#FFE1DB]/70", border: "border-coral/40", iconBg: "bg-coral text-white", badgeBg: "bg-white text-[#B83F68] border-coral/30" },
+                                { bg: "bg-soft-pink/70", border: "border-raspberry/35", iconBg: "bg-raspberry text-white", badgeBg: "bg-white text-raspberry border-raspberry/20" },
+                              ];
+                              const palette = cardPalettes[i % cardPalettes.length];
+
+                              return (
+                                <div
+                                  key={i}
+                                  className={`p-4 rounded-xl ${palette.bg} border-2 ${palette.border} shadow-2xs flex flex-col justify-between`}
+                                >
+                                  <div>
+                                    <div className="flex items-center justify-between mb-2">
+                                      <span className={`p-2 rounded-lg ${palette.iconBg} shadow-2xs`}>
+                                        {i === 0 ? <Sparkles className="w-4 h-4" /> : i === 1 ? <Heart className="w-4 h-4" /> : <Shield className="w-4 h-4" />}
+                                      </span>
+                                      <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full border ${palette.badgeBg}`}>
+                                        Insight #{i + 1}
+                                      </span>
+                                    </div>
+                                    <p className="text-xs text-charcoal/85 leading-relaxed">{takeaway}</p>
                                   </div>
-                                  <p className="text-xs text-charcoal/85 leading-relaxed">{takeaway}</p>
                                 </div>
-                              </div>
-                            ))}
+                              );
+                            })}
                           </div>
                         </div>
                       )}
@@ -763,18 +808,33 @@ export function HubView({ initialCategory }: HubViewProps) {
                           Key Clinical Takeaways:
                         </h5>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                          {selectedTopic.keyTakeaways.map((item, i) => (
-                            <div
-                              key={i}
-                              className="p-3.5 rounded-xl bg-slate-50 border border-slate-200/80 text-xs md:text-sm text-charcoal/85 flex items-start gap-2.5"
-                            >
-                              <span className="w-5 h-5 rounded-full bg-deep-teal/10 text-deep-teal font-bold text-[11px] flex items-center justify-center shrink-0 mt-0.5">
-                                {i + 1}
-                              </span>
-                              <span className="leading-relaxed">{item}</span>
-                            </div>
-                          ))}
+                          {selectedTopic.keyTakeaways.map((item, i) => {
+                            const badgeThemes = [
+                              { bg: "bg-light-teal/35", border: "border-deep-teal/25", numBg: "bg-deep-teal text-white" },
+                              { bg: "bg-[#FFE1DB]/50", border: "border-coral/35", numBg: "bg-coral text-white" },
+                              { bg: "bg-soft-pink/50", border: "border-raspberry/30", numBg: "bg-raspberry text-white" },
+                              { bg: "bg-amber-50/70", border: "border-amber-200/80", numBg: "bg-amber-600 text-white" },
+                            ];
+                            const t = badgeThemes[i % badgeThemes.length];
+
+                            return (
+                              <div
+                                key={i}
+                                className={`p-3.5 rounded-xl ${t.bg} border-2 ${t.border} text-xs md:text-sm text-charcoal/90 flex items-start gap-2.5 shadow-2xs`}
+                              >
+                                <span className={`w-5 h-5 rounded-full ${t.numBg} font-bold text-[11px] flex items-center justify-center shrink-0 mt-0.5 shadow-xs`}>
+                                  {i + 1}
+                                </span>
+                                <span className="leading-relaxed font-medium">{item}</span>
+                              </div>
+                            );
+                          })}
                         </div>
+                      </div>
+
+                      {/* Little Health Dictionary for quick lookups */}
+                      <div className="pt-2">
+                        <LittleHealthDictionary compact={true} />
                       </div>
 
                       {/* Educational References Section */}

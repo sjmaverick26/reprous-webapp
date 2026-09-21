@@ -8,7 +8,7 @@ export interface QuizQuestion {
 }
 
 export interface LessonDiagram {
-  type: "cycle-wheel" | "energy-balance" | "pcos-loop" | "pelvic-map" | "anatomy-callout" | "timeline";
+  type: "cycle-wheel" | "energy-balance" | "pcos-loop" | "pelvic-map" | "anatomy-callout" | "timeline" | "athlete-plate" | "hormone-scale" | "reds-triangle";
   title: string;
   caption: string;
 }
@@ -94,21 +94,21 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
         ],
         visualCards: [
           {
-            title: "The Brain-Body Cascade",
+            title: "The Brain-Body Trigger",
             iconName: "Sparkles",
-            text: "The hypothalamus and pituitary gland start producing gonadotropins (LH and FSH), sending chemical messengers to ovaries and adrenal glands.",
+            text: "Your brain sends natural chemical messengers (LH and FSH) to signal your ovaries and body that it's time to start growing.",
             highlight: "Biological trigger"
           },
           {
             title: "Physical Milestones",
             iconName: "Activity",
-            text: "Physical changes unfold over several years: breast bud formation (thelarche), height acceleration, body hair growth, and eventual menarche.",
+            text: "Changes unfold gradually over several years: breast development, growth spurts, body hair, and eventually your first period (menarche).",
             highlight: "Individual timeline"
           },
           {
             title: "Normal Variance",
             iconName: "Heart",
-            text: "Starting at age 9 or age 14 is clinically within the healthy normal range. Genetics, nutrition, and personal biology determine your schedule.",
+            text: "Starting at age 9 or age 14 is completely healthy and normal. Genetics, nutrition, and personal biology determine your body's timing.",
             highlight: "No single 'right' age"
           }
         ],
@@ -190,13 +190,38 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
         type: "lesson",
         desc: "The basics of what's driving all those changes.",
         xp: 50,
-        readTime: "5 min read",
-        summary: "Estrogen, progesterone, testosterone, and growth hormones are chemical messengers that orchestrate changes in your bones, muscles, skin, and reproductive organs.",
+        readTime: "4 min read",
+        summary: "Hormones are your body's natural chemical messengers. They travel through your blood to tell your bones to grow, your sweat glands to wake up, and your ovaries to develop.",
         keyTakeaways: [
-          "Hormones travel through your bloodstream to instruct cells how and when to grow.",
-          "Temporary breakouts and increased sweat production are direct results of androgen activity.",
-          "Balanced nutrition, sleep, and hydration help support your endocrine system."
-        ]
+          "Estrogen helps build bones and develops your feminine biology; progesterone balances your moods and cycle.",
+          "Temporary breakouts and extra sweat happen because your body is making new hormones (androgens).",
+          "Eating enough food, sleeping 8–10 hours, and drinking water are the best ways to keep hormones steady."
+        ],
+        visualCards: [
+          {
+            title: "Estrogen: The Builder",
+            iconName: "Sparkles",
+            text: "Gives you energy, protects your heart and bones, and builds up your uterine lining each month.",
+            highlight: "Energy & growth"
+          },
+          {
+            title: "Progesterone: The Calmer",
+            iconName: "Heart",
+            text: "Made after you release an egg (ovulate). Helps you sleep, calms anxiety, and balances estrogen.",
+            highlight: "Relaxation & balance"
+          },
+          {
+            title: "Androgens: Strength & Oil",
+            iconName: "Zap",
+            text: "Gives you muscle tone and confidence. Temporarily causes oily skin or pimples during puberty.",
+            highlight: "Power & skin"
+          }
+        ],
+        diagram: {
+          type: "hormone-scale",
+          title: "Interactive Hormone Balance Seesaw",
+          caption: "Click between balanced, low-fuel, and PCOS scenarios to see how your hormones tip and what your body feels."
+        }
       },
       {
         id: "body-2",
@@ -218,11 +243,11 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
         desc: "Making sense of a changing body without the comparison spiral.",
         xp: 40,
         readTime: "3 min read",
-        summary: "During rapid bodily changes, it is common to feel unfamiliar with your appearance. Recognizing curated social media imagery vs. real, diverse biology is essential for mental well-being.",
+        summary: "During puberty, it is completely normal to feel like your body is changing faster than you can keep up with. Real bodies come in every height and curve; social media filters are not reality.",
         keyTakeaways: [
-          "Bodies come in endless healthy variations of shape, height, and composition.",
-          "Social media often relies on filters, lighting, and selective angles.",
-          "Treating your body with appreciation for what it enables you to do builds sustainable confidence."
+          "Bodies are designed to change during your teens; widening hips and softer skin are healthy biological milestones.",
+          "Treating your body like a team partner instead of an ornament builds lasting confidence.",
+          "Comparing yourself to edited pictures online causes needless stress. Real health is about energy, not size."
         ]
       },
       {
@@ -231,12 +256,38 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
         type: "lesson",
         desc: "Clear, accurate, no-euphemism explanations.",
         xp: 50,
-        readTime: "6 min read",
-        summary: "A comprehensive, respectful guide to the reproductive system: uterus, ovaries, fallopian tubes, cervix, vulva, testes, and prostate.",
+        readTime: "5 min read",
+        summary: "A friendly, honest guide to the female reproductive system: the uterus, ovaries, fallopian tubes, cervix, and lining. Knowing these parts helps you explain exactly what you feel to a doctor.",
         keyTakeaways: [
-          "The vulva is the external genitalia; the vagina is the internal muscular canal.",
-          "Clear, honest anatomical knowledge removes shame and enhances self-advocacy."
-        ]
+          "The vulva is the outside part you can see; the vagina is the stretchy muscular canal on the inside.",
+          "The uterus is an amazing muscle about the size of a fist that sheds its lining during periods.",
+          "Using accurate medical words removes awkwardness and helps you advocate for yourself."
+        ],
+        visualCards: [
+          {
+            title: "The Uterus",
+            iconName: "Heart",
+            text: "A strong, hollow pear-shaped muscle that gently contracts during periods to shed blood.",
+            highlight: "The muscle house"
+          },
+          {
+            title: "The Ovaries",
+            iconName: "Sparkles",
+            text: "Twin glands holding your eggs and making estrogen and progesterone to keep you strong.",
+            highlight: "The hormone factory"
+          },
+          {
+            title: "The Cervix",
+            iconName: "Shield",
+            text: "The sturdy doorway between your uterus and vagina that makes natural, healthy fluid.",
+            highlight: "The doorway"
+          }
+        ],
+        diagram: {
+          type: "anatomy-callout",
+          title: "Interactive Female Reproductive Anatomy Guide",
+          caption: "Tap on the uterus, ovaries, fallopian tubes, cervix, and lining to explore what each organ does in plain English."
+        }
       }
     ]
   },
@@ -357,13 +408,34 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
         id: "cycle-1",
         name: "Cramps & Pain Management",
         type: "lesson",
-        desc: "Why they happen and what tends to help.",
+        desc: "Why they happen and what actually brings relief.",
         xp: 50,
-        readTime: "5 min read",
-        summary: "Prostaglandins cause the uterine muscle to contract. Mild to moderate cramping is common, but debilitating pain is not something you have to just 'endure'.",
+        readTime: "4 min read",
+        summary: "Cramps happen when your uterus makes natural chemicals called prostaglandins, which make the muscle gently squeeze to shed its lining. Mild cramps are common, but severe pain that stops your day is not something you have to just 'tough out'.",
         keyTakeaways: [
-          "Heat pads, gentle movement, hydration, and NSAIDs (like ibuprofen) can significantly reduce prostaglandin production.",
-          "Severe pain that interferes with school or daily tasks warrants a medical check for conditions like endometriosis."
+          "Heating pads, warm baths, gentle walking, and staying hydrated help relax tense pelvic muscles.",
+          "Over-the-counter pain relievers (like ibuprofen) work best when taken early because they block cramp-causing chemicals before they peak.",
+          "Severe cramps that keep you home from school or make you vomit warrant talking to a doctor to check for endometriosis."
+        ],
+        visualCards: [
+          {
+            title: "Why Cramps Happen",
+            iconName: "Heart",
+            text: "Your body releases natural chemicals called prostaglandins that prompt the uterus muscle to squeeze and shed its lining.",
+            highlight: "Natural chemical messengers"
+          },
+          {
+            title: "Proven First-Line Relief",
+            iconName: "Sparkles",
+            text: "A heating pad soothes cramping muscles just as effectively as ibuprofen. Warm tea and gentle movement also release tension.",
+            highlight: "Heat pads & gentle movement"
+          },
+          {
+            title: "When to Talk to a Doctor",
+            iconName: "AlertTriangle",
+            text: "If cramps cause you to miss school, leave you stuck in bed despite painkillers, or cause severe nausea, that is a red flag to get checked.",
+            highlight: "Pain should not stop your life"
+          }
         ]
       },
       {
@@ -945,37 +1017,37 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
         desc: "Energy availability, carb timing, and protecting bone & hormone health in sport.",
         xp: 50,
         readTime: "5 min read",
-        summary: "To train and compete sustainably, active bodies require adequate energy availability (EA). Under-fueling puts severe stress on reproductive hormones, metabolism, and bone density. Carbohydrates power high-intensity muscular work, while healthy dietary fats provide the essential precursors for estrogen and progesterone.",
+        summary: "To run, compete, and feel strong, your body needs enough food energy every single day. When you don't eat enough to cover both your workouts and basic bodily functions, your hormones, bones, and recovery take a hit. Carbs give your muscles explosive power, and healthy fats help build your natural estrogen and progesterone.",
         keyTakeaways: [
-          "Energy availability (EA) = dietary energy intake minus exercise energy expenditure normalized to lean mass.",
-          "Complex carbohydrates are the primary fuel for muscle glycogen; cutting carbs impairs athletic power and mental focus.",
-          "Dietary fats (nuts, seeds, olive oil, avocados) are essential precursors for female steroid hormone production.",
-          "Consistently eating too little triggers Relative Energy Deficiency in Sport (RED-S), stalling growth and performance."
+          "Energy Availability = Eating enough food calories to power both your sport and your basic body needs.",
+          "Carbs (oats, fruit, rice, potatoes) are your muscles' favorite fuel; cutting carbs causes heavy legs, brain fog, and poor recovery.",
+          "Healthy fats (avocados, nuts, olive oil) give your body the building blocks to make estrogen and protect your periods.",
+          "Eating too little triggers RED-S (Relative Energy Deficiency in Sport)—slowing your growth, stalling athletic gains, and weakening bones."
         ],
         visualCards: [
           {
-            title: "Energy Availability (EA)",
+            title: "Fueling Your Engine",
             iconName: "Zap",
-            text: "EA is the amount of dietary energy left for basic body functioning after subtracting the energy burned during training and competition.",
-            highlight: "Intake minus training"
+            text: "Your body needs food energy just to pump your heart and breathe. Training burns extra energy on top of that—so athletes must eat more, not less!",
+            highlight: "Fuel = Power"
           },
           {
             title: "RED-S Warning Signs",
             iconName: "AlertTriangle",
-            text: "Irregular or missed periods, recurring bone stress fractures or shin splints, chronic fatigue, and poor recovery are biological red flags.",
-            highlight: "Missing period is NEVER normal"
+            text: "Losing your period, constant exhaustion, recurring shin splints, or catching frequent colds are your body's distress signals.",
+            highlight: "Losing periods is NEVER normal"
           },
           {
-            title: "The Fueling Protocol",
+            title: "Smart Fueling Timing",
             iconName: "Activity",
-            text: "Consuming carbohydrates before hard workouts and pairing protein with carbs within 45 minutes of training speeds recovery and protects hormones.",
-            highlight: "Fuel your performance"
+            text: "Have a carb snack 1–2 hours before training, and pair protein + carbs within 45 minutes after practice to rebuild muscles fast.",
+            highlight: "Recover strong"
           }
         ],
         diagram: {
-          type: "energy-balance",
-          title: "Athlete Energy Availability & Health Scale",
-          caption: "Drag the fueling slider to simulate how daily caloric energy availability impacts athletic performance, bone density, and menstrual health."
+          type: "athlete-plate",
+          title: "Interactive Athlete Fueling Plate",
+          caption: "Toggle between Rest Day, Practice Day, and Game Day to see how your body's carbohydrate, protein, and veggie needs change for peak performance."
         },
         video: {
           title: "Female Athlete Triad & RED-S Explained",
@@ -1082,14 +1154,39 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
         type: "lesson",
         desc: "Recognizing fatigue, missing periods, and the Female Athlete Triad.",
         xp: 50,
-        readTime: "5 min read",
-        summary: "Pushing through exhaustion without sufficient rest leads to overtraining syndrome. One of the clearest biological red flags is hypothalamic amenorrhea (losing your period). Losing your period is never a badge of honor or proof of hard training — it is your body shutting down reproduction to conserve survival energy, directly compromising bone density.",
+        readTime: "4 min read",
+        summary: "Pushing through severe exhaustion without enough rest harms your body. One of the clearest warning signs is losing your period. Missing your period is never a badge of honor or proof of hard work — it's your body sounding an alarm to save emergency energy, which weakens your bones and slows recovery.",
         keyTakeaways: [
-          "The Female Athlete Triad is the interrelationship between low energy availability, menstrual dysfunction (amenorrhea), and declining bone mineral density.",
-          "Missing 3 consecutive menstrual cycles requires medical assessment; it places you at high risk for irreversible early bone loss (osteopenia/osteoporosis).",
-          "Warning signs of overworking: elevated resting morning heart rate, lingering muscle soreness, chronic mood dips, and frequent respiratory infections.",
-          "Adaptation and muscle growth happen during rest and sleep, not during the workout itself."
-        ]
+          "The Female Athlete Triad connects three things: not eating enough fuel, missing periods (amenorrhea), and weak, brittle bones.",
+          "Missing 3 periods in a row is an urgent sign to see a doctor — it puts you at risk for early, permanent bone thinning.",
+          "Warning signs of overworking: feeling constantly wiped out, heavy legs, sudden mood drops, and frequent colds.",
+          "Your muscles and bones rebuild during rest and sleep, not while you're grinding through workouts."
+        ],
+        visualCards: [
+          {
+            title: "Low Fuel Crisis",
+            iconName: "Zap",
+            text: "When workouts burn more calories than you eat, your brain enters survival mode and pauses non-essential systems like your menstrual cycle.",
+            highlight: "Energy Shortage"
+          },
+          {
+            title: "Missing Periods (Amenorrhea)",
+            iconName: "AlertTriangle",
+            text: "Skipping periods is never normal for an athlete. It means your body lacks the estrogen it needs to keep your skeleton strong.",
+            highlight: "Emergency Alarm"
+          },
+          {
+            title: "Fragile Bones & Fractures",
+            iconName: "Shield",
+            text: "Over 90% of your adult bone strength is built during your teens and early 20s. Under-fueling leads to painful shin splints and stress fractures.",
+            highlight: "Protect Peak Bone Mass"
+          }
+        ],
+        diagram: {
+          type: "reds-triangle",
+          title: "The Female Athlete Triad & RED-S Triangle",
+          caption: "Click each corner of the triad to see how under-fueling cascades into missed periods and bone fractures."
+        }
       },
       {
         id: "play-3",
