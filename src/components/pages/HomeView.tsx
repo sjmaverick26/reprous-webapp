@@ -721,10 +721,10 @@ export function HomeView({ onNavigate, onSelectLang }: HomeViewProps) {
                   <span className="text-xs font-bold text-white/60 font-sans">+16 Min Wait Time</span>
                 </div>
                 <h3 className="text-xl sm:text-2xl font-serif font-bold text-white mb-3 leading-snug">
-                  Female pain is more often dismissed or labeled psychological.
+                  Female pain is more often labeled psychological.
                 </h3>
                 <p className="text-[14.5px] text-white/85 leading-relaxed font-sans mb-4">
-                  In landmark emergency care studies on acute abdominal pain, women waited an average of <strong>16 minutes longer</strong> to receive pain medication than men presenting with identical pain scores. Clinicians frequently wave off female abdominal pain as &quot;not that serious&quot;—assuming it is routine menstrual cramping or anxiety—and are statistically more likely to prescribe sedatives rather than investigate physical causes.
+                  In a landmark emergency medicine study on acute abdominal pain, women waited an average of <strong>16 minutes longer</strong> to receive analgesia than men presenting with identical pain scores, and were significantly less likely to receive opioid pain relief. Published clinical research demonstrates that female pain is disproportionately categorized as psychogenic or emotional, resulting in higher rates of sedative prescriptions instead of appropriate pain treatment.
                 </p>
               </div>
               <div className="pt-4 border-t border-white/15">
@@ -734,7 +734,7 @@ export function HomeView({ onNavigate, onSelectLang }: HomeViewProps) {
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-1.5 text-xs font-bold text-coral hover:underline font-sans"
                 >
-                  <span>Academic Emergency Medicine: Abdominal Pain Study</span>
+                  <span>Academic Emergency Medicine: Acute Abdominal Pain Study</span>
                   <ExternalLink className="w-3.5 h-3.5" />
                 </a>
               </div>
