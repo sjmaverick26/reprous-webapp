@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { RoleplayScenario } from "@/data/hubData";
 import {
   Stethoscope,
@@ -18,6 +18,788 @@ import {
   Lightbulb,
   ArrowRight,
 } from "lucide-react";
+
+interface ProviderVisualProfile {
+  skinTone: string;
+  skinShadow: string;
+  hairColor: string;
+  hairStyle: "short-part" | "bob-sleek" | "curly-fade" | "bun" | "short-curl" | "textured-crop" | "wavy-shoulder";
+  hasGlasses: boolean;
+  glassesColor?: string;
+  clothingType: "lab-coat" | "athletic-polo" | "track-jacket" | "blazer" | "casual-sweater";
+  primaryClothColor: string;
+  accentClothColor: string;
+  accessory?: "stethoscope" | "whistle" | "badge";
+}
+
+interface PatientVisualProfile {
+  name: string;
+  role: string;
+  skinTone: string;
+  skinShadow: string;
+  hairColor: string;
+  hairStyle: "ponytail" | "braids-topknot" | "hijab" | "curly-afro" | "wavy-long" | "bob-sleek";
+  hijabColor?: string;
+  hasGlasses?: boolean;
+  glassesColor?: string;
+  topType: "track-jacket" | "hoodie" | "knit-cardigan" | "denim-jacket" | "athletic-pullover";
+  topColor: string;
+  topAccentColor: string;
+  binderColor: string;
+}
+
+const DIVERSE_PATIENT_PROFILES: PatientVisualProfile[] = [
+  {
+    name: "Maya",
+    role: "Student Athlete",
+    skinTone: "#5C3826", // Deep rich brown
+    skinShadow: "#452718",
+    hairColor: "#111827",
+    hairStyle: "braids-topknot",
+    topType: "track-jacket",
+    topColor: "#F47A6A", // ReproUs coral
+    topAccentColor: "#175B5C", // Deep teal
+    binderColor: "#175B5C",
+  },
+  {
+    name: "Sofia",
+    role: "Youth Advocate",
+    skinTone: "#B87346", // Warm golden-olive
+    skinShadow: "#96562B",
+    hairColor: "#2A1810",
+    hairStyle: "wavy-long",
+    hasGlasses: true,
+    glassesColor: "#D97706",
+    topType: "knit-cardigan",
+    topColor: "#831843", // Plum
+    topAccentColor: "#FDF2F8",
+    binderColor: "#F47A6A",
+  },
+  {
+    name: "Amina",
+    role: "Community Advocate",
+    skinTone: "#A0613A", // Warm bronze
+    skinShadow: "#854923",
+    hairColor: "#18181B",
+    hairStyle: "hijab",
+    hijabColor: "#C2410C", // Terracotta / rust
+    topType: "hoodie",
+    topColor: "#15803D", // Forest green
+    topAccentColor: "#DCFCE7",
+    binderColor: "#0284C7",
+  },
+  {
+    name: "Jordan",
+    role: "Youth Athlete",
+    skinTone: "#7B4B27", // Medium dark brown
+    skinShadow: "#5E3416",
+    hairColor: "#18181B",
+    hairStyle: "curly-afro",
+    topType: "athletic-pullover",
+    topColor: "#1D4ED8", // Royal blue
+    topAccentColor: "#94A3B8",
+    binderColor: "#334155",
+  },
+  {
+    name: "Chloe",
+    role: "Menstrual Equity Advocate",
+    skinTone: "#F7D5BA", // Fair golden-peach
+    skinShadow: "#E2B598",
+    hairColor: "#18181B",
+    hairStyle: "bob-sleek",
+    hasGlasses: true,
+    glassesColor: "#78350F",
+    topType: "denim-jacket",
+    topColor: "#2563EB", // Denim blue
+    topAccentColor: "#FFFFFF",
+    binderColor: "#0D9488",
+  },
+  {
+    name: "Priya",
+    role: "Clinical Self-Advocate",
+    skinTone: "#8D5524", // Warm South Asian bronze
+    skinShadow: "#703F15",
+    hairColor: "#1A120B",
+    hairStyle: "ponytail",
+    hasGlasses: true,
+    glassesColor: "#B45309",
+    topType: "hoodie",
+    topColor: "#D97706", // Amber gold
+    topAccentColor: "#FEF3C7",
+    binderColor: "#1E293B",
+  },
+];
+
+function getProviderVisualProfile(characterName: string, role?: string): ProviderVisualProfile {
+  const name = characterName.toLowerCase();
+  const roleText = (role || "").toLowerCase();
+
+  // 1. Dr. Chen (Asian female OB/GYN specialist)
+  if (name.includes("chen")) {
+    return {
+      skinTone: "#F7D5BA",
+      skinShadow: "#E2B598",
+      hairColor: "#18181B",
+      hairStyle: "bob-sleek",
+      hasGlasses: true,
+      glassesColor: "#B45309",
+      clothingType: "lab-coat",
+      primaryClothColor: "#FFFFFF",
+      accentClothColor: "#175B5C",
+      accessory: "stethoscope",
+    };
+  }
+
+  // 2. Dr. Patel (South Asian sports medicine physician)
+  if (name.includes("patel")) {
+    return {
+      skinTone: "#8D5524",
+      skinShadow: "#703F15",
+      hairColor: "#18181B",
+      hairStyle: "textured-crop",
+      hasGlasses: false,
+      clothingType: "lab-coat",
+      primaryClothColor: "#FFFFFF",
+      accentClothColor: "#881337",
+      accessory: "stethoscope",
+    };
+  }
+
+  // 3. Dr. Rivera (Latina gynecologic surgeon)
+  if (name.includes("rivera")) {
+    return {
+      skinTone: "#C68642",
+      skinShadow: "#A76B2F",
+      hairColor: "#2A1810",
+      hairStyle: "wavy-shoulder",
+      hasGlasses: true,
+      glassesColor: "#78350F",
+      clothingType: "lab-coat",
+      primaryClothColor: "#FFFFFF",
+      accentClothColor: "#047857",
+      accessory: "stethoscope",
+    };
+  }
+
+  // 4. Dr. Miller (Black family physician)
+  if (name.includes("dr. miller") || (name.includes("miller") && roleText.includes("physician"))) {
+    return {
+      skinTone: "#7B4B27",
+      skinShadow: "#5E3416",
+      hairColor: "#111827",
+      hairStyle: "curly-fade",
+      hasGlasses: false,
+      clothingType: "lab-coat",
+      primaryClothColor: "#FFFFFF",
+      accentClothColor: "#0D9488",
+      accessory: "stethoscope",
+    };
+  }
+
+  // 5. Dr. Wright (Distinguished endocrinologist)
+  if (name.includes("wright")) {
+    return {
+      skinTone: "#F4C9B3",
+      skinShadow: "#DFAB90",
+      hairColor: "#9CA3AF",
+      hairStyle: "short-part",
+      hasGlasses: true,
+      glassesColor: "#64748B",
+      clothingType: "lab-coat",
+      primaryClothColor: "#FFFFFF",
+      accentClothColor: "#1E3A8A",
+      accessory: "stethoscope",
+    };
+  }
+
+  // 6. Dr. Adams (Pediatrician)
+  if (name.includes("adams")) {
+    return {
+      skinTone: "#E0AC69",
+      skinShadow: "#BF8D4E",
+      hairColor: "#4A3525",
+      hairStyle: "short-part",
+      hasGlasses: false,
+      clothingType: "lab-coat",
+      primaryClothColor: "#FFFFFF",
+      accentClothColor: "#0284C7",
+      accessory: "stethoscope",
+    };
+  }
+
+  // 7. Dr. Roberts (Primary Care Physician)
+  if (name.includes("roberts")) {
+    return {
+      skinTone: "#D29774",
+      skinShadow: "#B47A57",
+      hairColor: "#37271E",
+      hairStyle: "short-part",
+      hasGlasses: true,
+      glassesColor: "#334155",
+      clothingType: "lab-coat",
+      primaryClothColor: "#FFFFFF",
+      accentClothColor: "#1D4ED8",
+      accessory: "stethoscope",
+    };
+  }
+
+  // 8. Athletic Trainer Marcus (Black certified athletic trainer)
+  if (name.includes("marcus")) {
+    return {
+      skinTone: "#5C3826",
+      skinShadow: "#452718",
+      hairColor: "#0F172A",
+      hairStyle: "curly-fade",
+      hasGlasses: false,
+      clothingType: "athletic-polo",
+      primaryClothColor: "#1E293B",
+      accentClothColor: "#F43F5E",
+      accessory: "whistle",
+    };
+  }
+
+  // 9. Coach Henderson / Coach Davis / Coach Bennett
+  if (name.includes("coach") || roleText.includes("coach")) {
+    if (name.includes("davis")) {
+      return {
+        skinTone: "#5C3826",
+        skinShadow: "#452718",
+        hairColor: "#111827",
+        hairStyle: "curly-fade",
+        hasGlasses: false,
+        clothingType: "track-jacket",
+        primaryClothColor: "#047857",
+        accentClothColor: "#F59E0B",
+        accessory: "whistle",
+      };
+    }
+    if (name.includes("bennett")) {
+      return {
+        skinTone: "#C68642",
+        skinShadow: "#A76B2F",
+        hairColor: "#18181B",
+        hairStyle: "short-part",
+        hasGlasses: false,
+        clothingType: "athletic-polo",
+        primaryClothColor: "#B91C1C",
+        accentClothColor: "#FFFFFF",
+        accessory: "whistle",
+      };
+    }
+    return {
+      skinTone: "#E8B896",
+      skinShadow: "#C79574",
+      hairColor: "#6B7280",
+      hairStyle: "short-part",
+      hasGlasses: false,
+      clothingType: "track-jacket",
+      primaryClothColor: "#1E40AF",
+      accentClothColor: "#F59E0B",
+      accessory: "whistle",
+    };
+  }
+
+  // 10. Trustee Morales (School Board Trustee)
+  if (name.includes("morales") || name.includes("trustee")) {
+    return {
+      skinTone: "#B87346",
+      skinShadow: "#96562B",
+      hairColor: "#1E1B18",
+      hairStyle: "short-part",
+      hasGlasses: false,
+      clothingType: "blazer",
+      primaryClothColor: "#334155",
+      accentClothColor: "#F8FAFC",
+      accessory: "badge",
+    };
+  }
+
+  // 11. Vice Principal Davis / School Administrator
+  if (name.includes("principal") || (name.includes("davis") && roleText.includes("principal"))) {
+    return {
+      skinTone: "#4A2E1B",
+      skinShadow: "#351F10",
+      hairColor: "#111827",
+      hairStyle: "bun",
+      hasGlasses: true,
+      glassesColor: "#0F172A",
+      clothingType: "blazer",
+      primaryClothColor: "#4C1D95",
+      accentClothColor: "#FAF5FF",
+      accessory: "badge",
+    };
+  }
+
+  // 12. Clinic Manager Vance
+  if (name.includes("vance") || roleText.includes("manager") || roleText.includes("director")) {
+    return {
+      skinTone: "#F0C4A4",
+      skinShadow: "#D49E7C",
+      hairColor: "#B45309",
+      hairStyle: "bob-sleek",
+      hasGlasses: true,
+      glassesColor: "#0284C7",
+      clothingType: "blazer",
+      primaryClothColor: "#0F766E",
+      accentClothColor: "#FFFFFF",
+      accessory: "badge",
+    };
+  }
+
+  // 13. Clinician Taylor
+  if (name.includes("taylor")) {
+    return {
+      skinTone: "#A0613A",
+      skinShadow: "#854923",
+      hairColor: "#18181B",
+      hairStyle: "bun",
+      hasGlasses: false,
+      clothingType: "lab-coat",
+      primaryClothColor: "#FFFFFF",
+      accentClothColor: "#334155",
+      accessory: "badge",
+    };
+  }
+
+  // 14. Pharmacist Greg
+  if (name.includes("greg") || name.includes("pharmacist")) {
+    return {
+      skinTone: "#E2B38F",
+      skinShadow: "#C4936F",
+      hairColor: "#3F2B1D",
+      hairStyle: "short-part",
+      hasGlasses: true,
+      glassesColor: "#64748B",
+      clothingType: "lab-coat",
+      primaryClothColor: "#FFFFFF",
+      accentClothColor: "#0284C7",
+      accessory: "badge",
+    };
+  }
+
+  // 15. Alex (Peer Educator / College Advocate)
+  if (name.includes("alex") || roleText.includes("educator") || roleText.includes("advocate")) {
+    return {
+      skinTone: "#664126",
+      skinShadow: "#4E2F18",
+      hairColor: "#18181B",
+      hairStyle: "curly-fade",
+      hasGlasses: false,
+      clothingType: "casual-sweater",
+      primaryClothColor: "#7E22CE",
+      accentClothColor: "#10B981",
+      accessory: "badge",
+    };
+  }
+
+  // Default balanced fallback
+  const hash = characterName.split("").reduce((acc, c) => acc + c.charCodeAt(0), 0);
+  const fallbacks: ProviderVisualProfile[] = [
+    {
+      skinTone: "#F7D5BA",
+      skinShadow: "#E2B598",
+      hairColor: "#18181B",
+      hairStyle: "bob-sleek",
+      hasGlasses: true,
+      glassesColor: "#B45309",
+      clothingType: "lab-coat",
+      primaryClothColor: "#FFFFFF",
+      accentClothColor: "#175B5C",
+      accessory: "stethoscope",
+    },
+    {
+      skinTone: "#8D5524",
+      skinShadow: "#703F15",
+      hairColor: "#18181B",
+      hairStyle: "textured-crop",
+      hasGlasses: false,
+      clothingType: "lab-coat",
+      primaryClothColor: "#FFFFFF",
+      accentClothColor: "#881337",
+      accessory: "stethoscope",
+    },
+    {
+      skinTone: "#5C3826",
+      skinShadow: "#452718",
+      hairColor: "#111827",
+      hairStyle: "curly-fade",
+      hasGlasses: false,
+      clothingType: "lab-coat",
+      primaryClothColor: "#FFFFFF",
+      accentClothColor: "#0D9488",
+      accessory: "stethoscope",
+    },
+    {
+      skinTone: "#C68642",
+      skinShadow: "#A76B2F",
+      hairColor: "#2A1810",
+      hairStyle: "wavy-shoulder",
+      hasGlasses: true,
+      glassesColor: "#78350F",
+      clothingType: "lab-coat",
+      primaryClothColor: "#FFFFFF",
+      accentClothColor: "#047857",
+      accessory: "stethoscope",
+    },
+  ];
+  return fallbacks[hash % fallbacks.length];
+}
+
+function ProviderAvatarSvg({
+  profile,
+  isBest,
+  chosenOpt,
+}: {
+  profile: ProviderVisualProfile;
+  isBest: boolean;
+  chosenOpt: any;
+}) {
+  return (
+    <svg
+      viewBox="0 0 120 140"
+      className="w-24 sm:w-28 h-auto drop-shadow-md transition-transform duration-300 hover:scale-105"
+    >
+      {/* Head / Face Base */}
+      <ellipse cx="60" cy="40" rx="22" ry="24" fill={profile.skinTone} />
+
+      {/* Hair Styles */}
+      {profile.hairStyle === "bob-sleek" && (
+        <path
+          d="M 36 44 C 34 16, 86 16, 84 44 C 85 54, 82 58, 80 58 C 78 50, 75 24, 60 24 C 45 24, 42 50, 40 58 C 38 58, 35 54, 36 44 Z"
+          fill={profile.hairColor}
+        />
+      )}
+      {profile.hairStyle === "wavy-shoulder" && (
+        <path
+          d="M 36 42 C 34 18, 86 18, 84 42 C 88 56, 86 68, 82 72 C 78 56, 75 24, 60 24 C 45 24, 42 56, 38 72 C 34 68, 32 56, 36 42 Z"
+          fill={profile.hairColor}
+        />
+      )}
+      {profile.hairStyle === "curly-fade" && (
+        <>
+          <path
+            d="M 38 38 C 36 18, 84 18, 82 38 C 84 26, 76 16, 60 16 C 44 16, 36 26, 38 38 Z"
+            fill={profile.hairColor}
+          />
+          <circle cx="46" cy="22" r="7" fill={profile.hairColor} />
+          <circle cx="60" cy="18" r="8" fill={profile.hairColor} />
+          <circle cx="74" cy="22" r="7" fill={profile.hairColor} />
+          <circle cx="53" cy="18" r="6" fill={profile.hairColor} />
+          <circle cx="67" cy="18" r="6" fill={profile.hairColor} />
+        </>
+      )}
+      {profile.hairStyle === "bun" && (
+        <>
+          <path
+            d="M 38 40 C 38 20, 82 20, 82 40 C 82 30, 75 22, 60 22 C 45 22, 38 30, 38 40 Z"
+            fill={profile.hairColor}
+          />
+          <circle cx="60" cy="15" r="9" fill={profile.hairColor} />
+        </>
+      )}
+      {profile.hairStyle === "textured-crop" && (
+        <>
+          <path
+            d="M 38 38 C 36 20, 84 20, 82 38 C 80 26, 74 20, 60 20 C 46 20, 40 26, 38 38 Z"
+            fill={profile.hairColor}
+          />
+          <path
+            d="M 44 24 Q 50 18 56 22 Q 62 18 68 22 Q 74 18 78 24"
+            stroke={profile.hairColor}
+            strokeWidth="3"
+            fill="none"
+            strokeLinecap="round"
+          />
+        </>
+      )}
+      {(profile.hairStyle === "short-part" || profile.hairStyle === "short-curl") && (
+        <path
+          d="M 38 40 C 38 18, 82 18, 82 40 C 82 30, 75 22, 60 22 C 45 22, 38 30, 38 40 Z"
+          fill={profile.hairColor}
+        />
+      )}
+
+      {/* Eyebrows */}
+      {isBest ? (
+        <>
+          <path d="M 47 32 Q 53 29 57 32" stroke="#1F2937" strokeWidth="2" fill="none" strokeLinecap="round" />
+          <path d="M 63 32 Q 67 29 73 32" stroke="#1F2937" strokeWidth="2" fill="none" strokeLinecap="round" />
+        </>
+      ) : chosenOpt !== null ? (
+        <>
+          <path d="M 47 34 Q 53 32 57 35" stroke="#1F2937" strokeWidth="2" fill="none" strokeLinecap="round" />
+          <path d="M 63 35 Q 67 32 73 34" stroke="#1F2937" strokeWidth="2" fill="none" strokeLinecap="round" />
+        </>
+      ) : (
+        <>
+          <path d="M 47 33 Q 53 31 57 33" stroke="#1F2937" strokeWidth="2" fill="none" strokeLinecap="round" />
+          <path d="M 63 33 Q 67 31 73 33" stroke="#1F2937" strokeWidth="2" fill="none" strokeLinecap="round" />
+        </>
+      )}
+
+      {/* Eyes */}
+      <circle cx="52" cy="39" r="2.5" fill="#1E293B" />
+      <circle cx="68" cy="39" r="2.5" fill="#1E293B" />
+
+      {/* Eyeglasses (if present) */}
+      {profile.hasGlasses && (
+        <>
+          <circle cx="52" cy="39" r="7" fill="none" stroke={profile.glassesColor || "#64748B"} strokeWidth="1.5" />
+          <circle cx="68" cy="39" r="7" fill="none" stroke={profile.glassesColor || "#64748B"} strokeWidth="1.5" />
+          <line x1="59" y1="39" x2="61" y2="39" stroke={profile.glassesColor || "#64748B"} strokeWidth="1.5" />
+        </>
+      )}
+
+      {/* Nose */}
+      <path d="M 60 41 L 58 46 L 61 46" stroke={profile.skinShadow} strokeWidth="1.5" fill="none" strokeLinecap="round" />
+
+      {/* Mouth */}
+      {isBest ? (
+        <path d="M 52 52 Q 60 59 68 52" stroke="#A84C32" strokeWidth="2" fill="none" strokeLinecap="round" />
+      ) : chosenOpt !== null ? (
+        <path d="M 54 53 L 66 53" stroke="#A84C32" strokeWidth="2" fill="none" strokeLinecap="round" />
+      ) : (
+        <path d="M 54 53 Q 60 56 66 53" stroke="#A84C32" strokeWidth="1.8" fill="none" strokeLinecap="round" />
+      )}
+
+      {/* Neck */}
+      <rect x="54" y="62" width="12" height="10" fill={profile.skinShadow} />
+
+      {/* Attire */}
+      {profile.clothingType === "lab-coat" && (
+        <>
+          <path d="M 45 70 L 60 84 L 75 70 Z" fill={profile.accentClothColor} />
+          <path
+            d="M 32 75 C 32 70, 44 68, 60 68 C 76 68, 88 70, 88 75 L 94 140 L 26 140 Z"
+            fill="#FFFFFF"
+            stroke="#CBD5E1"
+            strokeWidth="1.5"
+          />
+          <path d="M 42 70 L 48 105 L 35 140" fill="none" stroke="#94A3B8" strokeWidth="1.5" />
+          <path d="M 78 70 L 72 105 L 85 140" fill="none" stroke="#94A3B8" strokeWidth="1.5" />
+          {profile.accessory === "stethoscope" && (
+            <>
+              <path
+                d="M 46 72 Q 44 95 56 100 Q 64 100 68 85 Q 70 72 74 72"
+                fill="none"
+                stroke="#475569"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+              />
+              <circle cx="56" cy="103" r="3.5" fill="#94A3B8" stroke="#334155" strokeWidth="1.5" />
+            </>
+          )}
+          <rect x="35" y="90" width="10" height="14" rx="2" fill="#FFFFFF" stroke="#0284C7" strokeWidth="1" />
+          <rect x="37" y="93" width="6" height="4" fill="#0284C7" />
+          <line x1="37" y1="99" x2="43" y2="99" stroke="#94A3B8" strokeWidth="0.8" />
+        </>
+      )}
+
+      {(profile.clothingType === "athletic-polo" || profile.clothingType === "track-jacket") && (
+        <>
+          <path
+            d="M 32 74 C 32 68, 44 66, 60 66 C 76 66, 88 68, 88 74 L 94 140 L 26 140 Z"
+            fill={profile.primaryClothColor}
+            stroke={profile.primaryClothColor}
+            strokeWidth="1.5"
+          />
+          <path d="M 46 66 L 60 82 L 74 66 Z" fill={profile.accentClothColor} />
+          <line x1="60" y1="82" x2="60" y2="140" stroke="#FFFFFF" strokeWidth="1.5" strokeDasharray="3,3" />
+          <line x1="34" y1="74" x2="28" y2="140" stroke={profile.accentClothColor} strokeWidth="2.5" />
+          <line x1="86" y1="74" x2="92" y2="140" stroke={profile.accentClothColor} strokeWidth="2.5" />
+          <path d="M 50 68 L 60 98 L 70 68" stroke="#DC2626" strokeWidth="2" fill="none" strokeLinecap="round" />
+          <rect x="56" y="98" width="8" height="6" rx="2" fill="#E2E8F0" stroke="#475569" strokeWidth="1" />
+          <circle cx="58" cy="101" r="1.5" fill="#334155" />
+        </>
+      )}
+
+      {profile.clothingType === "blazer" && (
+        <>
+          <path d="M 48 66 L 60 84 L 72 66 Z" fill={profile.accentClothColor} />
+          <path
+            d="M 32 74 C 32 68, 44 66, 60 66 C 76 66, 88 68, 88 74 L 94 140 L 26 140 Z"
+            fill={profile.primaryClothColor}
+            stroke="#1E293B"
+            strokeWidth="1"
+          />
+          <path d="M 44 68 L 52 98 L 36 140" fill="none" stroke="#94A3B8" strokeWidth="1.5" />
+          <path d="M 76 68 L 68 98 L 84 140" fill="none" stroke="#94A3B8" strokeWidth="1.5" />
+          <rect x="36" y="88" width="10" height="13" rx="2" fill="#F8FAFC" stroke="#94A3B8" strokeWidth="1" />
+          <rect x="38" y="90" width="6" height="3" fill="#D97706" />
+        </>
+      )}
+
+      {profile.clothingType === "casual-sweater" && (
+        <>
+          <path
+            d="M 32 74 C 32 68, 44 66, 60 66 C 76 66, 88 68, 88 74 L 94 140 L 26 140 Z"
+            fill={profile.primaryClothColor}
+          />
+          <path d="M 48 68 C 48 66, 72 66, 72 68 C 72 74, 48 74, 48 68 Z" fill={profile.accentClothColor} />
+          <circle cx="40" cy="88" r="4" fill="#10B981" stroke="#FFFFFF" strokeWidth="1" />
+        </>
+      )}
+    </svg>
+  );
+}
+
+function PatientAvatarSvg({
+  profile,
+  isBest,
+  chosenOpt,
+}: {
+  profile: PatientVisualProfile;
+  isBest: boolean;
+  chosenOpt: any;
+}) {
+  return (
+    <svg
+      viewBox="0 0 120 140"
+      className="w-24 sm:w-28 h-auto drop-shadow-md transition-transform duration-300 hover:scale-105"
+    >
+      {/* Head Base */}
+      <ellipse cx="60" cy="42" rx="20" ry="22" fill={profile.skinTone} />
+
+      {/* Hair & Headcoverings */}
+      {profile.hairStyle === "hijab" && (
+        <>
+          <path
+            d="M 34 40 C 34 16, 86 16, 86 40 C 88 56, 82 72, 70 74 C 64 75, 56 75, 50 74 C 38 72, 32 56, 34 40 Z"
+            fill={profile.hijabColor || "#C2410C"}
+          />
+          <ellipse cx="60" cy="43" rx="16" ry="18" fill={profile.skinTone} />
+          <path d="M 47 29 Q 60 26 73 29" stroke="#F1F5F9" strokeWidth="2.5" fill="none" />
+          <path d="M 44 72 Q 60 84 76 72" stroke="#7C2D12" strokeWidth="1.5" fill="none" />
+        </>
+      )}
+
+      {profile.hairStyle === "braids-topknot" && (
+        <>
+          <path
+            d="M 38 40 C 38 20, 82 20, 82 40 C 82 30, 75 22, 60 22 C 45 22, 38 30, 38 40 Z"
+            fill={profile.hairColor}
+          />
+          <circle cx="60" cy="15" r="9" fill={profile.hairColor} />
+          <rect x="56" y="21" width="8" height="2.5" rx="1" fill="#F59E0B" />
+          <line x1="42" y1="36" x2="40" y2="46" stroke={profile.hairColor} strokeWidth="2.5" strokeLinecap="round" />
+          <line x1="78" y1="36" x2="80" y2="46" stroke={profile.hairColor} strokeWidth="2.5" strokeLinecap="round" />
+          <circle cx="40" cy="44" r="1.5" fill="#F59E0B" />
+          <circle cx="80" cy="44" r="1.5" fill="#F59E0B" />
+        </>
+      )}
+
+      {profile.hairStyle === "curly-afro" && (
+        <>
+          <path
+            d="M 36 40 C 34 16, 86 16, 84 40 C 88 28, 78 14, 60 14 C 42 14, 32 28, 36 40 Z"
+            fill={profile.hairColor}
+          />
+          <circle cx="42" cy="24" r="9" fill={profile.hairColor} />
+          <circle cx="60" cy="17" r="10" fill={profile.hairColor} />
+          <circle cx="78" cy="24" r="9" fill={profile.hairColor} />
+          <circle cx="37" cy="36" r="7" fill={profile.hairColor} />
+          <circle cx="83" cy="36" r="7" fill={profile.hairColor} />
+        </>
+      )}
+
+      {profile.hairStyle === "wavy-long" && (
+        <path
+          d="M 36 42 C 34 18, 86 18, 84 42 C 88 56, 88 74, 82 82 C 78 62, 75 24, 60 24 C 45 24, 42 62, 38 82 C 32 74, 32 56, 36 42 Z"
+          fill={profile.hairColor}
+        />
+      )}
+
+      {profile.hairStyle === "bob-sleek" && (
+        <>
+          <path
+            d="M 36 42 C 34 16, 86 16, 84 42 C 86 52, 84 58, 82 60 C 79 50, 76 24, 60 24 C 44 24, 41 50, 38 60 C 36 58, 34 52, 36 42 Z"
+            fill={profile.hairColor}
+          />
+          <rect x="74" y="32" width="6" height="2" rx="1" fill="#0D9488" transform="rotate(-15 74 32)" />
+        </>
+      )}
+
+      {profile.hairStyle === "ponytail" && (
+        <>
+          <path
+            d="M 38 42 C 36 20, 84 20, 82 42 C 84 32, 76 22, 60 22 C 44 22, 36 32, 38 42 Z"
+            fill={profile.hairColor}
+          />
+          <path d="M 78 35 Q 98 40 92 65 Q 86 52 78 45 Z" fill={profile.hairColor} />
+          <circle cx="80" cy="38" r="3" fill="#F47A6A" />
+        </>
+      )}
+
+      {/* Eyebrows */}
+      {isBest ? (
+        <>
+          <path d="M 49 33 Q 54 31 58 33" stroke="#1F2937" strokeWidth="2" fill="none" strokeLinecap="round" />
+          <path d="M 62 33 Q 66 31 71 33" stroke="#1F2937" strokeWidth="2" fill="none" strokeLinecap="round" />
+        </>
+      ) : chosenOpt !== null ? (
+        <>
+          <path d="M 49 34 Q 54 36 58 34" stroke="#1F2937" strokeWidth="2" fill="none" strokeLinecap="round" />
+          <path d="M 62 34 Q 66 36 71 34" stroke="#1F2937" strokeWidth="2" fill="none" strokeLinecap="round" />
+        </>
+      ) : (
+        <>
+          <path d="M 49 33 Q 54 32 58 33" stroke="#1F2937" strokeWidth="1.8" fill="none" strokeLinecap="round" />
+          <path d="M 62 33 Q 66 32 71 33" stroke="#1F2937" strokeWidth="1.8" fill="none" strokeLinecap="round" />
+        </>
+      )}
+
+      {/* Eyes */}
+      <circle cx="53" cy="40" r="2.5" fill="#1E293B" />
+      <circle cx="67" cy="40" r="2.5" fill="#1E293B" />
+      <circle cx="54" cy="39" r="0.8" fill="#FFFFFF" />
+      <circle cx="68" cy="39" r="0.8" fill="#FFFFFF" />
+
+      {/* Eyeglasses (if present) */}
+      {profile.hasGlasses && (
+        <>
+          <circle cx="53" cy="40" r="6.5" fill="none" stroke={profile.glassesColor || "#64748B"} strokeWidth="1.4" />
+          <circle cx="67" cy="40" r="6.5" fill="none" stroke={profile.glassesColor || "#64748B"} strokeWidth="1.4" />
+          <line x1="59.5" y1="40" x2="60.5" y2="40" stroke={profile.glassesColor || "#64748B"} strokeWidth="1.4" />
+        </>
+      )}
+
+      {/* Nose */}
+      <path d="M 60 42 L 59 47 L 62 47" stroke={profile.skinShadow} strokeWidth="1.3" fill="none" strokeLinecap="round" />
+
+      {/* Mouth */}
+      {isBest ? (
+        <path d="M 53 53 Q 60 61 67 53" stroke="#991B1B" strokeWidth="2.2" fill="none" strokeLinecap="round" />
+      ) : chosenOpt !== null ? (
+        <path d="M 54 55 Q 60 52 66 55" stroke="#991B1B" strokeWidth="2" fill="none" strokeLinecap="round" />
+      ) : (
+        <ellipse cx="60" cy="54" rx="3.5" ry="2.5" fill="#991B1B" />
+      )}
+
+      {/* Neck */}
+      <rect x="55" y="63" width="10" height="9" fill={profile.skinShadow} />
+
+      {/* Attire */}
+      <path
+        d="M 34 74 C 34 68, 46 66, 60 66 C 74 66, 86 68, 86 74 L 92 140 L 28 140 Z"
+        fill={profile.topColor}
+        stroke={profile.topColor}
+        strokeWidth="1.5"
+      />
+      <path d="M 48 68 L 60 82 L 72 68 Z" fill={profile.topAccentColor} />
+      <line x1="60" y1="82" x2="60" y2="140" stroke="#FFFFFF" strokeWidth="1.5" strokeDasharray="3,3" />
+
+      {/* Patient Evidence Portfolio Tablet / Binder */}
+      <g transform="translate(18, 92) rotate(-10)">
+        <rect x="0" y="0" width="30" height="38" rx="3" fill="#FFFFFF" stroke={profile.binderColor} strokeWidth="1.5" />
+        <rect x="3" y="3" width="24" height="6" fill={profile.binderColor} rx="1" />
+        <line x1="4" y1="13" x2="26" y2="13" stroke="#94A3B8" strokeWidth="1.5" />
+        <line x1="4" y1="18" x2="22" y2="18" stroke="#94A3B8" strokeWidth="1.5" />
+        <line x1="4" y1="23" x2="24" y2="23" stroke="#94A3B8" strokeWidth="1.5" />
+        {isBest && <circle cx="20" cy="28" r="5" fill="#059669" />}
+      </g>
+    </svg>
+  );
+}
 
 interface RoleplayInteractiveStageProps {
   scenario: RoleplayScenario;
@@ -42,6 +824,21 @@ export function RoleplayInteractiveStage({
 }: RoleplayInteractiveStageProps) {
   const chosenOpt = selectedOption !== null ? scenario.options[selectedOption] : null;
   const isBest = chosenOpt?.isBest ?? false;
+
+  // Distinct diverse character profiles
+  const patientProfile = useMemo(() => {
+    if (simulationIndex !== undefined) {
+      return DIVERSE_PATIENT_PROFILES[simulationIndex % DIVERSE_PATIENT_PROFILES.length];
+    }
+    const seed = (scenario.id || scenario.title || scenario.setting || "patient")
+      .split("")
+      .reduce((acc, char) => acc + char.charCodeAt(0), 0);
+    return DIVERSE_PATIENT_PROFILES[seed % DIVERSE_PATIENT_PROFILES.length];
+  }, [simulationIndex, scenario.id, scenario.title, scenario.setting]);
+
+  const providerProfile = useMemo(() => {
+    return getProviderVisualProfile(scenario.character, scenario.characterRole);
+  }, [scenario.character, scenario.characterRole]);
 
   // Appointment Outcome Percentage: 50% baseline -> 25% dismissal risk -> 100% care plan approved
   const alignmentPercent = chosenOpt === null ? 50 : isBest ? 100 : 25;
@@ -228,96 +1025,7 @@ export function RoleplayInteractiveStage({
               {/* Doctor Character Visual (SVG Illustration) */}
               <div className="flex items-end gap-3 pl-3">
                 <div className="relative group">
-                  {/* Doctor Illustrated Avatar SVG */}
-                  <svg
-                    viewBox="0 0 120 140"
-                    className="w-24 sm:w-28 h-auto drop-shadow-md transition-transform duration-300 hover:scale-105"
-                  >
-                    {/* Head / Hair */}
-                    <ellipse cx="60" cy="40" rx="22" ry="24" fill="#F8D3B8" />
-                    {/* Hair */}
-                    <path
-                      d="M 38 40 C 38 18, 82 18, 82 40 C 82 30, 75 22, 60 22 C 45 22, 38 30, 38 40 Z"
-                      fill="#3B2616"
-                    />
-                    {/* Eyebrows */}
-                    {isBest ? (
-                      // Impressed / approving raised eyebrows
-                      <>
-                        <path d="M 47 32 Q 53 29 57 32" stroke="#3B2616" strokeWidth="2" fill="none" strokeLinecap="round" />
-                        <path d="M 63 32 Q 67 29 73 32" stroke="#3B2616" strokeWidth="2" fill="none" strokeLinecap="round" />
-                      </>
-                    ) : chosenOpt !== null ? (
-                      // Skeptical / dismissive furrowed brow
-                      <>
-                        <path d="M 47 34 Q 53 32 57 35" stroke="#3B2616" strokeWidth="2" fill="none" strokeLinecap="round" />
-                        <path d="M 63 35 Q 67 32 73 34" stroke="#3B2616" strokeWidth="2" fill="none" strokeLinecap="round" />
-                      </>
-                    ) : (
-                      // Calm neutral listening
-                      <>
-                        <path d="M 47 33 Q 53 31 57 33" stroke="#3B2616" strokeWidth="2" fill="none" strokeLinecap="round" />
-                        <path d="M 63 33 Q 67 31 73 33" stroke="#3B2616" strokeWidth="2" fill="none" strokeLinecap="round" />
-                      </>
-                    )}
-
-                    {/* Eyes with gentle blinking CSS */}
-                    <circle cx="52" cy="39" r="2.5" fill="#1E293B" />
-                    <circle cx="68" cy="39" r="2.5" fill="#1E293B" />
-                    {/* Eyeglasses Frame */}
-                    <circle cx="52" cy="39" r="7" fill="none" stroke="#64748B" strokeWidth="1.5" />
-                    <circle cx="68" cy="39" r="7" fill="none" stroke="#64748B" strokeWidth="1.5" />
-                    <line x1="59" y1="39" x2="61" y2="39" stroke="#64748B" strokeWidth="1.5" />
-
-                    {/* Nose */}
-                    <path d="M 60 41 L 58 46 L 61 46" stroke="#DCA280" strokeWidth="1.5" fill="none" strokeLinecap="round" />
-
-                    {/* Mouth */}
-                    {isBest ? (
-                      // Warm approving smile
-                      <path d="M 52 52 Q 60 59 68 52" stroke="#A84C32" strokeWidth="2" fill="none" strokeLinecap="round" />
-                    ) : chosenOpt !== null ? (
-                      // Neutral / flat dismissive mouth
-                      <path d="M 54 53 L 66 53" stroke="#A84C32" strokeWidth="2" fill="none" strokeLinecap="round" />
-                    ) : (
-                      // Neutral listening mouth
-                      <path d="M 54 53 Q 60 56 66 53" stroke="#A84C32" strokeWidth="1.8" fill="none" strokeLinecap="round" />
-                    )}
-
-                    {/* Neck */}
-                    <rect x="54" y="62" width="12" height="10" fill="#E8BFA2" />
-
-                    {/* Scrubs Underneath (Teal) */}
-                    <path d="M 45 70 L 60 84 L 75 70 Z" fill="#175B5C" />
-
-                    {/* Lab Coat Shoulders & Torso (White) */}
-                    <path
-                      d="M 32 75 C 32 70, 44 68, 60 68 C 76 68, 88 70, 88 75 L 94 140 L 26 140 Z"
-                      fill="#FFFFFF"
-                      stroke="#CBD5E1"
-                      strokeWidth="1.5"
-                    />
-
-                    {/* Lab Coat Lapels */}
-                    <path d="M 42 70 L 48 105 L 35 140" fill="none" stroke="#94A3B8" strokeWidth="1.5" />
-                    <path d="M 78 70 L 72 105 L 85 140" fill="none" stroke="#94A3B8" strokeWidth="1.5" />
-
-                    {/* Stethoscope around neck */}
-                    <path
-                      d="M 46 72 Q 44 95 56 100 Q 64 100 68 85 Q 70 72 74 72"
-                      fill="none"
-                      stroke="#475569"
-                      strokeWidth="2.5"
-                      strokeLinecap="round"
-                    />
-                    <circle cx="56" cy="103" r="3.5" fill="#94A3B8" stroke="#334155" strokeWidth="1.5" />
-
-                    {/* Clinic ID Badge */}
-                    <rect x="35" y="90" width="10" height="14" rx="2" fill="#FFFFFF" stroke="#0284C7" strokeWidth="1" />
-                    <rect x="37" y="93" width="6" height="4" fill="#0284C7" />
-                    <line x1="37" y1="99" x2="43" y2="99" stroke="#94A3B8" strokeWidth="0.8" />
-                  </svg>
-
+                  <ProviderAvatarSvg profile={providerProfile} isBest={isBest} chosenOpt={chosenOpt} />
                   {/* Character Role Pill Badge under avatar */}
                   <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-deep-teal px-2.5 py-0.5 text-[10px] font-bold text-white shadow-xs">
                     {scenario.character}
@@ -341,7 +1049,7 @@ export function RoleplayInteractiveStage({
                 <div className="flex items-center justify-between gap-2 border-b border-deep-teal/10 pb-1.5 mb-1.5">
                   <span className="text-[11px] font-bold uppercase tracking-wider text-charcoal/80 font-sans flex items-center gap-1.5">
                     <MessageSquare className="w-3.5 h-3.5 text-deep-teal" />
-                    Your Advocacy Voice
+                    {patientProfile.name}&apos;s Advocacy Voice
                   </span>
                   {chosenOpt !== null && (
                     <span
@@ -379,96 +1087,10 @@ export function RoleplayInteractiveStage({
               {/* Patient Character Visual (SVG Illustration) */}
               <div className="flex items-end gap-3 pr-3">
                 <div className="relative group">
-                  {/* Patient Illustrated Avatar SVG */}
-                  <svg
-                    viewBox="0 0 120 140"
-                    className="w-24 sm:w-28 h-auto drop-shadow-md transition-transform duration-300 hover:scale-105"
-                  >
-                    {/* Head / Neck */}
-                    <ellipse cx="60" cy="42" rx="20" ry="22" fill="#E8BFA2" />
-                    {/* Hair (Youth Ponytail or Styled Waves) */}
-                    <path
-                      d="M 38 42 C 36 20, 84 20, 82 42 C 84 32, 76 22, 60 22 C 44 22, 36 32, 38 42 Z"
-                      fill="#26170B"
-                    />
-                    <path
-                      d="M 78 35 Q 98 40 92 65 Q 86 52 78 45 Z"
-                      fill="#26170B"
-                    />
-
-                    {/* Eyebrows */}
-                    {isBest ? (
-                      // Confident empowered brows
-                      <>
-                        <path d="M 49 33 Q 54 31 58 33" stroke="#26170B" strokeWidth="2" fill="none" strokeLinecap="round" />
-                        <path d="M 62 33 Q 66 31 71 33" stroke="#26170B" strokeWidth="2" fill="none" strokeLinecap="round" />
-                      </>
-                    ) : chosenOpt !== null ? (
-                      // Disappointed / hesitant brows
-                      <>
-                        <path d="M 49 34 Q 54 36 58 34" stroke="#26170B" strokeWidth="2" fill="none" strokeLinecap="round" />
-                        <path d="M 62 34 Q 66 36 71 34" stroke="#26170B" strokeWidth="2" fill="none" strokeLinecap="round" />
-                      </>
-                    ) : (
-                      // Expectant neutral brows
-                      <>
-                        <path d="M 49 33 Q 54 32 58 33" stroke="#26170B" strokeWidth="1.8" fill="none" strokeLinecap="round" />
-                        <path d="M 62 33 Q 66 32 71 33" stroke="#26170B" strokeWidth="1.8" fill="none" strokeLinecap="round" />
-                      </>
-                    )}
-
-                    {/* Eyes */}
-                    <circle cx="53" cy="40" r="2.5" fill="#1E293B" />
-                    <circle cx="67" cy="40" r="2.5" fill="#1E293B" />
-                    <circle cx="54" cy="39" r="0.8" fill="#FFFFFF" />
-                    <circle cx="68" cy="39" r="0.8" fill="#FFFFFF" />
-
-                    {/* Nose */}
-                    <path d="M 60 42 L 59 47 L 62 47" stroke="#C99572" strokeWidth="1.3" fill="none" strokeLinecap="round" />
-
-                    {/* Mouth */}
-                    {isBest ? (
-                      // Confident advocacy smile
-                      <path d="M 53 53 Q 60 61 67 53" stroke="#991B1B" strokeWidth="2.2" fill="none" strokeLinecap="round" />
-                    ) : chosenOpt !== null ? (
-                      // Hesitant slight frown
-                      <path d="M 54 55 Q 60 52 66 55" stroke="#991B1B" strokeWidth="2" fill="none" strokeLinecap="round" />
-                    ) : (
-                      // Ready to speak
-                      <ellipse cx="60" cy="54" rx="3.5" ry="2.5" fill="#991B1B" />
-                    )}
-
-                    {/* Neck */}
-                    <rect x="55" y="63" width="10" height="9" fill="#DCA280" />
-
-                    {/* Jacket / Activewear Hoodie (ReproUs Coral & Teal) */}
-                    <path
-                      d="M 34 74 C 34 68, 46 66, 60 66 C 74 66, 86 68, 86 74 L 92 140 L 28 140 Z"
-                      fill="#F47A6A"
-                      stroke="#E15A49"
-                      strokeWidth="1.5"
-                    />
-                    {/* Inner athletic collar (Teal) */}
-                    <path d="M 48 68 L 60 82 L 72 68 Z" fill="#175B5C" />
-                    <line x1="60" y1="82" x2="60" y2="140" stroke="#FFFFFF" strokeWidth="1.5" strokeDasharray="3,3" />
-
-                    {/* Patient Evidence Portfolio Tablet / Logbook held in arm */}
-                    <g transform="translate(18, 92) rotate(-10)">
-                      <rect x="0" y="0" width="30" height="38" rx="3" fill="#FFFFFF" stroke="#175B5C" strokeWidth="1.5" />
-                      <rect x="3" y="3" width="24" height="6" fill="#175B5C" rx="1" />
-                      <line x1="4" y1="13" x2="26" y2="13" stroke="#94A3B8" strokeWidth="1.5" />
-                      <line x1="4" y1="18" x2="22" y2="18" stroke="#94A3B8" strokeWidth="1.5" />
-                      <line x1="4" y1="23" x2="24" y2="23" stroke="#94A3B8" strokeWidth="1.5" />
-                      {/* Checkmark stamp on patient binder */}
-                      {isBest && (
-                        <circle cx="20" cy="28" r="5" fill="#059669" />
-                      )}
-                    </g>
-                  </svg>
-
+                  <PatientAvatarSvg profile={patientProfile} isBest={isBest} chosenOpt={chosenOpt} />
                   {/* Character Label */}
                   <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-coral px-2.5 py-0.5 text-[10px] font-bold text-white shadow-xs">
-                    Patient Advocate
+                    {patientProfile.name} · {patientProfile.role}
                   </div>
                 </div>
               </div>
