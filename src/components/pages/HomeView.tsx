@@ -389,7 +389,7 @@ export function HomeView({ onNavigate, onSelectLang }: HomeViewProps) {
               "English",
               "Español",
               "中文 (Chinese)",
-              "العربية (Arabic)",
+              "العربية",
               "Français (French)",
               "اردو (Urdu)",
               "Kiswahili (Swahili)",

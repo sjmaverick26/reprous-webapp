@@ -26,7 +26,7 @@ export function Footer({ onNavigate, currentLang = "en", onSelectLang }: FooterP
   ];
 
   return (
-    <footer className="mt-auto border-t border-deep-teal-dark bg-deep-teal text-white py-12 transition-colors font-sans">
+    <footer className="mt-auto border-t border-deep-teal-dark bg-deep-teal text-white py-12 transition-colors font-sans" dir="ltr">
       <div className="max-w-[1100px] mx-auto px-6 flex flex-col gap-8">
         <div className="flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
           <div className="flex items-center gap-3">
@@ -94,7 +94,6 @@ export function Footer({ onNavigate, currentLang = "en", onSelectLang }: FooterP
                       onSelectLang?.(lang.code);
                       if (typeof document !== "undefined") {
                         document.documentElement.lang = lang.code;
-                        document.documentElement.dir = lang.dir || "ltr";
                         window.scrollTo({ top: 0, behavior: "smooth" });
                       }
                     }}

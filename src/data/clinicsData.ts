@@ -45,7 +45,7 @@ export const CLINICS_DATA: Clinic[] = [
     services: ["Teen & Youth Care", "Confidential Consults", "Free Condoms & Emergency Contraception", "Mental Health"],
     slidingScale: true,
     busAccessible: true,
-    languages: ["English", "Español", "العربية (Arabic)", "اردو (Urdu)", "دری (Dari)", "Kiswahili (Swahili)"]
+    languages: ["English", "Español", "العربية", "اردو (Urdu)", "دری (Dari)", "Kiswahili (Swahili)"]
   },
   {
     id: "clinic-3",

@@ -46,7 +46,7 @@ export const SUPPORTED_LANGUAGES: LanguageOption[] = [
   {
     code: "ar",
     label: "العربية",
-    englishName: "Arabic",
+    englishName: "العربية",
     dir: "rtl",
     greeting: "مرحبًا بكِ في ReproUs — اعرفي جسمكِ، واعرفي ما تسألين عنه.",
     motto: "تعلّمي · تعرّفي · دافعي",
@@ -109,11 +109,11 @@ export function LanguageBar({ currentLang, onSelectLang }: LanguageBarProps) {
 
   const handleSelectLang = (code: string) => {
     onSelectLang(code);
-    const selected = SUPPORTED_LANGUAGES.find((l) => l.code === code);
     if (typeof document !== "undefined") {
       document.documentElement.lang = code;
-      // Set dir attribute if RTL or LTR
-      document.documentElement.dir = selected?.dir || "ltr";
+      // Do not mutate documentElement.dir globally: the site remains in ltr,
+      // and RTL text (Arabic/Urdu/Dari) is handled locally on its own containers.
+      // This prevents the LanguageBar from flipping under the cursor and triggering contrast!
     }
   };
 
@@ -134,7 +134,7 @@ export function LanguageBar({ currentLang, onSelectLang }: LanguageBarProps) {
   };
 
   return (
-    <div className="bg-ivory/95 border-b border-plum/10 transition-colors">
+    <div className="bg-ivory/95 border-b border-plum/10 transition-colors" dir="ltr">
       <div className="max-w-[1140px] mx-auto px-4 sm:px-6 py-2 flex items-center justify-between gap-4 flex-wrap">
         {/* Language Switcher */}
         <div className="flex items-center gap-1.5 flex-wrap">
@@ -205,7 +205,11 @@ export function LanguageBar({ currentLang, onSelectLang }: LanguageBarProps) {
           </button>
 
           <button
-            onClick={handleToggleContrast}
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              handleToggleContrast();
+            }}
             className={cn(
               "ml-1.5 px-2.5 py-0.5 rounded text-[12.5px] font-semibold font-sans transition-colors border",
               isHighContrast
@@ -228,7 +232,11 @@ export function LanguageBar({ currentLang, onSelectLang }: LanguageBarProps) {
             <div className="flex items-center gap-2 flex-wrap justify-center sm:justify-start">
               <span className="inline-flex items-center gap-1 font-bold text-raspberry uppercase tracking-wider text-xs">
                 <Globe2 className="w-3.5 h-3.5" />
-                <span>{activeLang.label} ({activeLang.englishName})</span>
+                <span>
+                  {activeLang.code === "ar"
+                    ? "العربية"
+                    : `${activeLang.label} (${activeLang.englishName})`}
+                </span>
               </span>
               <span className="hidden sm:inline text-deep-teal/30">•</span>
               <span className="font-medium text-charcoal/90">
@@ -241,15 +249,22 @@ export function LanguageBar({ currentLang, onSelectLang }: LanguageBarProps) {
 
             <div className="flex items-center gap-3 shrink-0">
               <span className="text-xs text-charcoal/70 hidden lg:inline">
-                Clinical translation in progress
+                {activeLang.code === "ar"
+                  ? "الترجمة السريرية قيد المراجعة"
+                  : "Clinical translation in progress"}
               </span>
               <button
+                type="button"
                 onClick={() => handleSelectLang("en")}
                 className="text-xs font-bold text-raspberry hover:text-raspberry-dark hover:underline underline flex items-center gap-1"
                 dir="ltr"
               >
-                <span>Reset to English</span>
-                <X className="w-3 h-3" />
+                <span>
+                  {activeLang.code === "ar"
+                    ? "العودة إلى الإنجليزية ✕"
+                    : "Reset to English"}
+                </span>
+                {activeLang.code !== "ar" && <X className="w-3 h-3" />}
               </button>
             </div>
           </div>

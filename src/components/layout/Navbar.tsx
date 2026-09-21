@@ -77,15 +77,13 @@ export function Navbar({ activePage, onNavigate, currentLang = "en", onSelectLan
 
   const handleLanguageChange = (code: string) => {
     onSelectLang?.(code);
-    const selected = SUPPORTED_LANGUAGES.find((l) => l.code === code);
     if (typeof document !== "undefined") {
       document.documentElement.lang = code;
-      document.documentElement.dir = selected?.dir || "ltr";
     }
   };
 
   return (
-    <nav className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-deep-teal/10 transition-colors shadow-xs">
+    <nav className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-deep-teal/10 transition-colors shadow-xs" dir="ltr">
       <div className="max-w-[1140px] mx-auto px-4 sm:px-6 py-3.5 flex items-center justify-between gap-4">
         {/* Brand Logo */}
         <button
@@ -288,7 +286,7 @@ export function Navbar({ activePage, onNavigate, currentLang = "en", onSelectLan
                             isSelected ? "text-white/80" : "text-plum/50 group-hover:text-raspberry/80"
                           )}
                         >
-                          {lang.englishName}
+                          {lang.code === "ar" ? "العربية" : lang.englishName}
                         </span>
                       </button>
                     );
@@ -481,7 +479,7 @@ export function Navbar({ activePage, onNavigate, currentLang = "en", onSelectLan
                   >
                     <span>{lang.label}</span>
                     <span className={cn("text-[10px]", isSelected ? "text-white/75" : "text-plum/45")}>
-                      {lang.code.toUpperCase()}
+                      {lang.code === "ar" ? "عربي" : lang.code.toUpperCase()}
                     </span>
                   </button>
                 );
