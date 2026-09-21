@@ -2,7 +2,25 @@
 
 import React, { useState } from "react";
 import { LessonDiagram } from "@/data/hubData";
-import { Activity, AlertTriangle, CheckCircle2, Info, Sparkles, Zap, Shield, Heart, Lightbulb, Stethoscope } from "lucide-react";
+import {
+  Activity,
+  AlertTriangle,
+  CheckCircle2,
+  Info,
+  Sparkles,
+  Zap,
+  Shield,
+  Heart,
+  Lightbulb,
+  Stethoscope,
+  Droplets,
+  Moon,
+  Clock,
+  Plus,
+  Minus,
+  ShieldAlert,
+  Flame,
+} from "lucide-react";
 
 interface InteractiveLessonDiagramProps {
   diagram: LessonDiagram;
@@ -27,6 +45,14 @@ export function InteractiveLessonDiagram({ diagram, themeColor = "#175B5C" }: In
       return <HormoneScaleDiagram diagram={diagram} themeColor={themeColor} />;
     case "reds-triangle":
       return <RedSTriangleDiagram diagram={diagram} themeColor={themeColor} />;
+    case "water-glass":
+      return <HydrationWaterGlassDiagram diagram={diagram} themeColor={themeColor} />;
+    case "sleep-recovery":
+      return <SleepRecoveryDiagram diagram={diagram} themeColor={themeColor} />;
+    case "iron-ferritin":
+      return <IronFerritinDiagram diagram={diagram} themeColor={themeColor} />;
+    case "cycle-training":
+      return <CycleTrainingMatrixDiagram diagram={diagram} themeColor={themeColor} />;
     case "timeline":
     default:
       return <PubertyTimelineDiagram diagram={diagram} themeColor={themeColor} />;
@@ -1382,6 +1408,932 @@ function RedSTriangleDiagram({ diagram }: { diagram: LessonDiagram; themeColor: 
           <div>
             <strong className="text-emerald-900 font-bold">Action Step: </strong>
             <span>{current.solution}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// --------------------------------------------------------------------------
+// 10. Interactive Water Glass & Cycle Hydration Tracker
+// --------------------------------------------------------------------------
+function HydrationWaterGlassDiagram({ diagram }: { diagram: LessonDiagram; themeColor: string }) {
+  const [glasses, setGlasses] = useState<number>(6); // 1 glass = 8 oz (~240ml)
+  const [phase, setPhase] = useState<"follicular" | "luteal" | "game_day">("luteal");
+
+  const targets = {
+    follicular: {
+      goal: 8,
+      ozGoal: 64,
+      name: "Follicular Phase (Days 1–14)",
+      temp: "Baseline Temp (97.6°F)",
+      shift: "Stable Plasma Volume",
+      description: "Estrogen supports sodium and water retention inside blood vessels. Standard baseline hydration maintains stamina.",
+    },
+    luteal: {
+      goal: 10,
+      ozGoal: 80,
+      name: "Luteal Phase (Days 15–28)",
+      temp: "Elevated Core Temp (+0.5°C)",
+      shift: "Fluid Shifts to Soft Tissues (Bloating)",
+      description: "Progesterone causes water to leak out of blood vessels into surrounding tissues. You feel bloated, yet your circulating blood plasma is actually lower! Adding electrolytes and +16 oz water is essential to maintain blood pressure and endurance.",
+    },
+    game_day: {
+      goal: 12,
+      ozGoal: 96,
+      name: "Game / Heavy Exertion Day",
+      temp: "High Heat & Sweat Rate",
+      shift: "Rapid Fluid & Sodium Loss",
+      description: "Intense exertion drains 16–32 oz of sweat per hour. Pre-loading with sodium and steady sipping sustains heart stroke volume.",
+    },
+  };
+
+  const currentTarget = targets[phase];
+  const currentOz = glasses * 8;
+  const currentMl = glasses * 240;
+  const fillPercentage = Math.min(100, Math.round((glasses / 12) * 100));
+  const goalPercentage = Math.min(100, Math.round((currentOz / currentTarget.ozGoal) * 100));
+
+  const getHydrationStatus = () => {
+    if (glasses < 4) {
+      return {
+        status: "Severe Dehydration Risk",
+        color: "text-rose-600",
+        bg: "bg-rose-50 border-rose-200",
+        advice: "Blood plasma is thick; heart rate increases significantly during light jogging. Drink 16 oz with electrolytes immediately.",
+      };
+    }
+    if (glasses < currentTarget.goal) {
+      return {
+        status: "Under-Hydrated for Phase",
+        color: "text-amber-600",
+        bg: "bg-amber-50 border-amber-200",
+        advice: `You need ${currentTarget.ozGoal - currentOz} oz more to reach your ${currentTarget.name} target and prevent muscle cramping.`,
+      };
+    }
+    if (glasses === currentTarget.goal) {
+      return {
+        status: "Optimal Athletic Hydration",
+        color: "text-emerald-700",
+        bg: "bg-emerald-50 border-emerald-300",
+        advice: "Target reached! Blood plasma volume is preserved, core cooling is active, and uterine prostaglandins are diluted.",
+      };
+    }
+    return {
+      status: "High-Volume Athletic Hydration",
+      color: "text-blue-700",
+      bg: "bg-blue-50 border-blue-200",
+      advice: "Excellent fluid reserve for long practices or hot weather. Remember to pair with sodium electrolytes to maintain electrolyte balance.",
+    };
+  };
+
+  const status = getHydrationStatus();
+
+  return (
+    <div className="rounded-2xl border border-deep-teal/20 bg-white p-4 md:p-5 shadow-xs space-y-4">
+      {/* Header */}
+      <div className="flex items-start justify-between gap-2 border-b border-deep-teal/10 pb-3">
+        <div>
+          <div className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-deep-teal">
+            <Droplets className="w-3.5 h-3.5 text-blue-500" />
+            Interactive Fluid & Glass Simulator
+          </div>
+          <h4 className="text-base md:text-lg font-serif font-bold text-deep-teal mt-0.5">
+            {diagram.title}
+          </h4>
+        </div>
+        <span className="text-[11px] font-semibold bg-blue-50 px-2.5 py-1 rounded-full text-blue-700 border border-blue-200">
+          Click + / - to fill glass
+        </span>
+      </div>
+
+      {/* Cycle Phase Buttons */}
+      <div className="space-y-1.5">
+        <label className="text-xs font-bold text-charcoal/80">Select Your Cycle or Training Window:</label>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+          <button
+            type="button"
+            onClick={() => setPhase("follicular")}
+            className={`p-2.5 rounded-xl text-left border transition-all ${
+              phase === "follicular"
+                ? "bg-light-teal border-deep-teal text-deep-teal font-bold shadow-xs scale-[1.01]"
+                : "bg-gray-50 border-gray-200 text-charcoal/70 hover:bg-white"
+            }`}
+          >
+            <div className="text-[10.5px] uppercase tracking-wider opacity-75">Days 1–14</div>
+            <div className="text-xs font-bold mt-0.5">Follicular (Baseline)</div>
+            <div className="text-[11px] text-deep-teal/80 mt-1">Target: 64 oz (8 glasses)</div>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setPhase("luteal")}
+            className={`p-2.5 rounded-xl text-left border transition-all ${
+              phase === "luteal"
+                ? "bg-soft-pink border-raspberry text-raspberry font-bold shadow-xs scale-[1.01]"
+                : "bg-gray-50 border-gray-200 text-charcoal/70 hover:bg-white"
+            }`}
+          >
+            <div className="text-[10.5px] uppercase tracking-wider opacity-75">Days 15–28</div>
+            <div className="text-xs font-bold mt-0.5">Luteal (Fluid Shift)</div>
+            <div className="text-[11px] text-raspberry/90 mt-1">Target: 80 oz (10 glasses)</div>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setPhase("game_day")}
+            className={`p-2.5 rounded-xl text-left border transition-all ${
+              phase === "game_day"
+                ? "bg-amber-50 border-amber-400 text-amber-900 font-bold shadow-xs scale-[1.01]"
+                : "bg-gray-50 border-gray-200 text-charcoal/70 hover:bg-white"
+            }`}
+          >
+            <div className="text-[10.5px] uppercase tracking-wider opacity-75">Heavy Exertion</div>
+            <div className="text-xs font-bold mt-0.5">Game / Match Day</div>
+            <div className="text-[11px] text-amber-800 mt-1">Target: 96 oz (12 glasses)</div>
+          </button>
+        </div>
+      </div>
+
+      {/* Main Glass Visual & Tracker Area */}
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-center bg-gradient-to-b from-blue-50/50 to-teal-50/30 p-4 rounded-2xl border border-blue-100">
+        {/* The Animated SVG Water Glass */}
+        <div className="md:col-span-5 flex flex-col items-center justify-center">
+          <div className="relative w-44 h-64 flex items-center justify-center">
+            {/* SVG Glass Illustration */}
+            <svg viewBox="0 0 160 220" className="w-full h-full drop-shadow-sm">
+              <defs>
+                <linearGradient id="waterGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stopColor="#38bdf8" stopOpacity="0.85" />
+                  <stop offset="100%" stopColor="#0284c7" stopOpacity="0.95" />
+                </linearGradient>
+                <linearGradient id="glassReflection" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="#ffffff" stopOpacity="0.5" />
+                  <stop offset="30%" stopColor="#ffffff" stopOpacity="0.1" />
+                  <stop offset="100%" stopColor="#ffffff" stopOpacity="0.3" />
+                </linearGradient>
+                <clipPath id="glassClip">
+                  <path d="M 28 20 L 40 190 Q 42 205 60 205 L 100 205 Q 118 205 120 190 L 132 20 Z" />
+                </clipPath>
+              </defs>
+
+              {/* Back Glass Wall */}
+              <path d="M 28 20 L 40 190 Q 42 205 60 205 L 100 205 Q 118 205 120 190 L 132 20 Z" fill="#f8fafc" stroke="#94a3b8" strokeWidth="2.5" />
+
+              {/* Water Content (Clipped inside glass) */}
+              <g clipPath="url(#glassClip)">
+                {/* Water Body */}
+                <rect
+                  x="0"
+                  y={205 - (fillPercentage * 1.85)}
+                  width="160"
+                  height={fillPercentage * 1.85 + 20}
+                  fill="url(#waterGrad)"
+                  className="transition-all duration-500 ease-out"
+                />
+
+                {/* Animated Liquid Waves Surface */}
+                {glasses > 0 && (
+                  <ellipse
+                    cx="80"
+                    cy={205 - (fillPercentage * 1.85)}
+                    rx="48"
+                    ry="6"
+                    fill="#7dd3fc"
+                    opacity="0.9"
+                    className="transition-all duration-500 ease-out"
+                  />
+                )}
+
+                {/* Bubble Particles */}
+                {glasses > 2 && (
+                  <>
+                    <circle cx="65" cy={180 - (fillPercentage * 0.8)} r="3" fill="#ffffff" opacity="0.6" className="animate-pulse" />
+                    <circle cx="95" cy={195 - (fillPercentage * 1.1)} r="2" fill="#ffffff" opacity="0.7" className="animate-bounce" />
+                    <circle cx="75" cy={160 - (fillPercentage * 0.5)} r="2.5" fill="#ffffff" opacity="0.5" />
+                  </>
+                )}
+              </g>
+
+              {/* Glass Measurement Tick Marks */}
+              <line x1="32" y1="50" x2="44" y2="50" stroke="#64748b" strokeWidth="1.5" />
+              <text x="48" y="53" fill="#64748b" fontSize="8" fontWeight="bold">96 oz (12 gl)</text>
+
+              <line x1="34" y1="85" x2="44" y2="85" stroke="#64748b" strokeWidth="1.5" />
+              <text x="48" y="88" fill="#64748b" fontSize="8" fontWeight="bold">80 oz (10 gl)</text>
+
+              <line x1="36" y1="120" x2="44" y2="120" stroke="#64748b" strokeWidth="1.5" />
+              <text x="48" y="123" fill="#64748b" fontSize="8" fontWeight="bold">64 oz (8 gl)</text>
+
+              <line x1="38" y1="155" x2="44" y2="155" stroke="#64748b" strokeWidth="1.5" />
+              <text x="48" y="158" fill="#64748b" fontSize="8" fontWeight="bold">32 oz (4 gl)</text>
+
+              {/* Front Glass Outline & Highlights */}
+              <path d="M 28 20 L 40 190 Q 42 205 60 205 L 100 205 Q 118 205 120 190 L 132 20 Z" fill="none" stroke="#64748b" strokeWidth="3" />
+              <ellipse cx="80" cy="20" rx="52" ry="5" fill="none" stroke="#64748b" strokeWidth="2.5" />
+              <ellipse cx="80" cy="202" rx="20" ry="3" fill="#cbd5e1" opacity="0.5" />
+              <path d="M 34 30 L 44 185" stroke="url(#glassReflection)" strokeWidth="4" strokeLinecap="round" opacity="0.8" />
+            </svg>
+
+            {/* Float Label in Center of Glass */}
+            <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none mt-6">
+              <span className="text-2xl md:text-3xl font-serif font-bold text-slate-900 drop-shadow-xs bg-white/80 px-3 py-1 rounded-full border border-white/60 backdrop-blur-xs">
+                {currentOz} <span className="text-xs font-sans font-semibold text-slate-600">oz</span>
+              </span>
+              <span className="text-[11px] font-bold text-slate-700 mt-1 bg-white/85 px-2 py-0.5 rounded-full">
+                {glasses} {glasses === 1 ? "Glass" : "Glasses"} · {currentMl} ml
+              </span>
+            </div>
+          </div>
+
+          {/* Interactive Stepper Controls */}
+          <div className="flex items-center gap-2 mt-2">
+            <button
+              type="button"
+              onClick={() => setGlasses(Math.max(0, glasses - 1))}
+              disabled={glasses === 0}
+              className="p-2 rounded-xl border border-gray-300 bg-white text-charcoal hover:bg-gray-100 disabled:opacity-40 transition-all shadow-xs"
+              title="Remove 1 glass"
+            >
+              <Minus className="w-4 h-4" />
+            </button>
+            <span className="text-xs font-bold text-charcoal px-2">
+              Adjust Intake
+            </span>
+            <button
+              type="button"
+              onClick={() => setGlasses(Math.min(12, glasses + 1))}
+              disabled={glasses === 12}
+              className="px-3.5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs flex items-center gap-1.5 transition-all shadow-xs"
+              title="Add 1 glass (8 oz)"
+            >
+              <Plus className="w-4 h-4" />
+              + 1 Glass (8 oz)
+            </button>
+          </div>
+
+          {/* Quick Presets */}
+          <div className="flex items-center gap-1.5 mt-2.5">
+            <button type="button" onClick={() => setGlasses(4)} className="text-[10px] font-semibold px-2 py-1 rounded-md bg-white border border-gray-200 text-charcoal hover:bg-gray-50">32 oz</button>
+            <button type="button" onClick={() => setGlasses(8)} className="text-[10px] font-semibold px-2 py-1 rounded-md bg-white border border-gray-200 text-charcoal hover:bg-gray-50">64 oz</button>
+            <button type="button" onClick={() => setGlasses(10)} className="text-[10px] font-semibold px-2 py-1 rounded-md bg-white border border-gray-200 text-charcoal hover:bg-gray-50">80 oz</button>
+            <button type="button" onClick={() => setGlasses(12)} className="text-[10px] font-semibold px-2 py-1 rounded-md bg-white border border-gray-200 text-charcoal hover:bg-gray-50">96 oz</button>
+          </div>
+        </div>
+
+        {/* Phase Hydration Details & Clinical Insights */}
+        <div className="md:col-span-7 space-y-3">
+          {/* Progress to Target */}
+          <div className="bg-white p-3.5 rounded-xl border border-blue-200/80 shadow-xs space-y-2">
+            <div className="flex items-center justify-between text-xs">
+              <span className="font-bold text-deep-teal">Progress to {currentTarget.name}:</span>
+              <span className="font-bold text-blue-700">{goalPercentage}% of Target</span>
+            </div>
+            <div className="w-full bg-slate-100 rounded-full h-3 overflow-hidden">
+              <div
+                className={`h-full transition-all duration-500 rounded-full ${
+                  goalPercentage >= 100 ? "bg-emerald-500" : goalPercentage >= 75 ? "bg-blue-500" : "bg-amber-400"
+                }`}
+                style={{ width: `${Math.min(100, goalPercentage)}%` }}
+              />
+            </div>
+            <div className="text-[11.5px] text-charcoal/80 flex items-center justify-between">
+              <span>Consumed: <strong>{currentOz} oz</strong> ({glasses} glasses)</span>
+              <span>Target: <strong>{currentTarget.ozGoal} oz</strong> ({currentTarget.goal} glasses)</span>
+            </div>
+          </div>
+
+          {/* Current Status Box */}
+          <div className={`p-3 rounded-xl border ${status.bg} space-y-1`}>
+            <div className="flex items-center gap-1.5 text-xs font-bold">
+              <Sparkles className="w-3.5 h-3.5 text-blue-600" />
+              <span className={status.color}>{status.status}</span>
+            </div>
+            <p className="text-[11.5px] text-charcoal/85 leading-relaxed m-0">{status.advice}</p>
+          </div>
+
+          {/* Physiological Facts for this phase */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+            <div className="p-2.5 rounded-xl bg-white border border-gray-200">
+              <div className="font-bold text-deep-teal flex items-center gap-1 text-[11px] mb-1">
+                <Activity className="w-3.5 h-3.5 text-deep-teal" />
+                Hormonal Fluid Shift
+              </div>
+              <p className="text-[11px] text-charcoal/80 m-0 leading-tight">
+                {currentTarget.shift}. Progesterone causes fluid to pool in tissues; electrolytes pull water back into the bloodstream.
+              </p>
+            </div>
+
+            <div className="p-2.5 rounded-xl bg-white border border-gray-200">
+              <div className="font-bold text-deep-teal flex items-center gap-1 text-[11px] mb-1">
+                <Heart className="w-3.5 h-3.5 text-coral" />
+                Period Cramp Defense
+              </div>
+              <p className="text-[11px] text-charcoal/80 m-0 leading-tight">
+                Dehydration concentrates local uterine prostaglandins. Proper fluid intake dilutes these inflammatory signals and reduces muscle spasms.
+              </p>
+            </div>
+          </div>
+
+          {/* Urine Hydration Spectrum Guide */}
+          <div className="bg-white p-2.5 rounded-xl border border-gray-200 text-[11px]">
+            <span className="font-bold text-charcoal/90 block mb-1">Urine Color Hydration Guide:</span>
+            <div className="grid grid-cols-5 gap-1 text-center font-bold text-[9.5px]">
+              <div className="p-1 rounded bg-[#F7FBE7] text-stone-700 border border-stone-200">1. Optimal</div>
+              <div className="p-1 rounded bg-[#EBF5B5] text-stone-800 border border-stone-200">2. Great</div>
+              <div className="p-1 rounded bg-[#DFEA85] text-stone-800 border border-stone-200">3. Baseline</div>
+              <div className="p-1 rounded bg-[#D4BF43] text-stone-900 border border-stone-200">4. Drink +16 oz</div>
+              <div className="p-1 rounded bg-[#A68618] text-white border border-stone-300">5. Dehydrated</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// --------------------------------------------------------------------------
+// 11. Interactive Sleep Cycle & Athletic Recovery Architecture
+// --------------------------------------------------------------------------
+function SleepRecoveryDiagram({ diagram }: { diagram: LessonDiagram; themeColor: string }) {
+  const [activeStage, setActiveStage] = useState<"light" | "spindles" | "slow_wave" | "rem">("slow_wave");
+  const [sleepHours, setSleepHours] = useState<number>(8);
+  const [isLuteal, setIsLuteal] = useState<boolean>(false);
+
+  const stages = {
+    light: {
+      name: "Stage 1 NREM (Light Sleep)",
+      duration: "5% of Night (1–7 mins)",
+      badge: "Transition Window",
+      color: "border-slate-300 bg-slate-50 text-slate-800",
+      description: "Heart rate slows, muscle tone softens, and breathing stabilizes. Easily disrupted by noise or light.",
+      athleticRole: "Prepares central nervous system to enter restorative deeper stages.",
+    },
+    spindles: {
+      name: "Stage 2 NREM (Sleep Spindles)",
+      duration: "45–55% of Night",
+      badge: "Metabolic Reset",
+      color: "border-teal-300 bg-teal-50 text-teal-900",
+      description: "Brain generates rapid rhythmic neural bursts called 'sleep spindles.' Core body temperature cools by 1–2°F.",
+      athleticRole: "Motor skill transfer: newly learned athletic drills are moved into short-term neural storage.",
+    },
+    slow_wave: {
+      name: "Stage 3 NREM (Slow-Wave / Deep Sleep)",
+      duration: "20–25% of Night",
+      badge: "✦ 95% HGH REPAIR CENTER",
+      color: "border-indigo-400 bg-indigo-50 text-indigo-950",
+      description: "High-voltage delta brain waves dominate. Your pituitary gland releases up to 95% of your daily Human Growth Hormone (HGH).",
+      athleticRole: "The ultimate recovery factory: repairs muscle micro-tears, synthesizes glycogen, rebuilds bone density, and clears systemic metabolic waste.",
+    },
+    rem: {
+      name: "REM Sleep (Dream / Rapid Eye Movement)",
+      duration: "20–25% of Night",
+      badge: "Neuromuscular Memory",
+      color: "border-purple-300 bg-purple-50 text-purple-900",
+      description: "Brain activity resembles waking states while muscles are temporarily paralyzed. Heart rate and breathing become variable.",
+      athleticRole: "Permanently encodes complex motor memory (footwork, tactical plays, hand-eye coordination) and balances emotional cortisol.",
+    },
+  };
+
+  const currentStage = stages[activeStage];
+
+  // Calculations for athletic metrics based on hours
+  const injuryMultiplier = sleepHours >= 8 ? "1.0x (Baseline Baseline)" : sleepHours === 7 ? "1.3x Higher Risk" : sleepHours === 6 ? "1.5x Higher Risk" : "1.7x HIGHER INJURY RISK (AAP Data)";
+  const glycogenRecovery = sleepHours >= 8 ? "100% Fully Restored" : sleepHours === 7 ? "85% Restored" : sleepHours === 6 ? "70% (Residual Fatigue)" : "55% (Severe Glycogen Debt)";
+  const reactionTimePenalty = sleepHours >= 8 ? "Optimal Sharp Reflexes" : sleepHours === 7 ? "+8% Slower" : sleepHours === 6 ? "+18% Slower Reaction" : "+28% Slower (Sluggish Agility)";
+
+  return (
+    <div className="rounded-2xl border border-deep-teal/20 bg-white p-4 md:p-5 shadow-xs space-y-4">
+      {/* Header */}
+      <div className="flex items-start justify-between gap-2 border-b border-deep-teal/10 pb-3">
+        <div>
+          <div className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-deep-teal">
+            <Moon className="w-3.5 h-3.5 text-indigo-600" />
+            Interactive Sleep Cycle & Neuroendocrine Lab
+          </div>
+          <h4 className="text-base md:text-lg font-serif font-bold text-deep-teal mt-0.5">
+            {diagram.title}
+          </h4>
+        </div>
+        <span className="text-[11px] font-semibold bg-indigo-50 px-2.5 py-1 rounded-full text-indigo-700 border border-indigo-200">
+          Click sleep stages & slider
+        </span>
+      </div>
+
+      {/* Stage Selector Tabs */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+        {(["light", "spindles", "slow_wave", "rem"] as const).map((st) => (
+          <button
+            key={st}
+            type="button"
+            onClick={() => setActiveStage(st)}
+            className={`p-2.5 rounded-xl text-left border transition-all ${
+              activeStage === st
+                ? "bg-indigo-900 text-white border-indigo-950 font-bold shadow-xs scale-[1.01]"
+                : "bg-gray-50 border-gray-200 text-charcoal/70 hover:bg-white"
+            }`}
+          >
+            <div className="text-[10px] uppercase tracking-wider opacity-75">{stages[st].badge}</div>
+            <div className="text-xs font-bold mt-0.5 leading-tight">{stages[st].name.split("(")[0]}</div>
+          </button>
+        ))}
+      </div>
+
+      {/* Visual Sleep Cycle Architecture Graph */}
+      <div className="rounded-xl bg-slate-950 text-white p-4 space-y-2 relative overflow-hidden">
+        <div className="flex items-center justify-between text-xs text-slate-400">
+          <span>90-Minute Sleep Architecture Wave (Repeats 4–5x per Night)</span>
+          <span className="text-indigo-300 font-bold text-[11px]">Slow-Wave = Muscle Repair</span>
+        </div>
+
+        <svg viewBox="0 0 600 130" className="w-full h-28 overflow-visible">
+          {/* Shading for Slow-Wave N3 */}
+          <rect x="180" y="20" width="160" height="90" fill="#4f46e5" opacity={activeStage === "slow_wave" ? "0.35" : "0.12"} rx="6" />
+          {/* Shading for REM */}
+          <rect x="420" y="20" width="140" height="90" fill="#9333ea" opacity={activeStage === "rem" ? "0.35" : "0.12"} rx="6" />
+
+          {/* Depth Axis Lines */}
+          <line x1="40" y1="30" x2="580" y2="30" stroke="#334155" strokeWidth="1" strokeDasharray="2,2" />
+          <text x="5" y="33" fill="#64748b" fontSize="9">Awake</text>
+
+          <line x1="40" y1="60" x2="580" y2="60" stroke="#334155" strokeWidth="1" strokeDasharray="2,2" />
+          <text x="5" y="63" fill="#64748b" fontSize="9">Stage 2</text>
+
+          <line x1="40" y1="100" x2="580" y2="100" stroke="#334155" strokeWidth="1" strokeDasharray="2,2" />
+          <text x="5" y="103" fill="#818cf8" fontSize="9" fontWeight="bold">Slow-Wave</text>
+
+          {/* 90-min Cycle Curve */}
+          <path
+            d="M 40 30 C 70 30, 90 55, 120 60 C 150 65, 180 100, 260 100 C 330 100, 360 40, 420 40 C 470 40, 500 45, 560 30"
+            fill="none"
+            stroke="#818cf8"
+            strokeWidth="3"
+            strokeLinecap="round"
+          />
+
+          {/* HGH Hormone Pulse Icon in Deep Sleep */}
+          <g transform="translate(250, 75)">
+            <circle cx="10" cy="10" r="14" fill="#4f46e5" className="animate-ping" opacity="0.3" />
+            <circle cx="10" cy="10" r="10" fill="#6366f1" />
+            <text x="10" y="13" fill="#ffffff" fontSize="9" fontWeight="bold" textAnchor="middle">HGH</text>
+          </g>
+
+          <text x="260" y="120" fill="#a5b4fc" fontSize="9" textAnchor="middle" fontWeight="bold">Stage 3 Deep Sleep (95% Growth Hormone Pulse)</text>
+          <text x="490" y="25" fill="#d8b4fe" fontSize="9" textAnchor="middle" fontWeight="bold">REM (Motor Memory)</text>
+        </svg>
+
+        {/* Selected Stage Detail Banner */}
+        <div className="pt-2 border-t border-slate-800 text-xs flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+          <div>
+            <strong className="text-indigo-300 font-bold">{currentStage.name}: </strong>
+            <span className="text-slate-300">{currentStage.description}</span>
+          </div>
+          <span className="text-emerald-400 font-bold shrink-0">{currentStage.athleticRole}</span>
+        </div>
+      </div>
+
+      {/* Cycle Phase Body Temperature Impact Toggle */}
+      <div className="p-3.5 rounded-xl border border-raspberry/20 bg-soft-pink/30 space-y-2">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-1.5 font-bold text-xs text-raspberry">
+            <Flame className="w-3.5 h-3.5 text-raspberry" />
+            Progesterone & Body Temperature Shift
+          </div>
+          <button
+            type="button"
+            onClick={() => setIsLuteal(!isLuteal)}
+            className={`text-xs px-3 py-1 rounded-full font-bold transition-all ${
+              isLuteal ? "bg-raspberry text-white" : "bg-white border border-raspberry/30 text-raspberry"
+            }`}
+          >
+            {isLuteal ? "Luteal Phase Active (+0.5°C Core Temp)" : "Toggle Luteal Temperature Shift"}
+          </button>
+        </div>
+
+        <p className="text-xs text-charcoal/85 m-0 leading-relaxed">
+          {isLuteal
+            ? "⚠️ Luteal Alert: Progesterone elevates resting core body temperature by ~0.5°C (1°F). Because your brain MUST cool down by 1–2°F to trigger deep Slow-Wave sleep, athletes often experience lighter, fragmented sleep and night sweats during this phase. Remedy: Keep your bedroom at 65–68°F, use breathable bedding, and consider 200–300mg magnesium glycinate."
+            : "Follicular Baseline: Estrogen keeps core body temperature lower, allowing your body to cool quickly at night and easily reach restorative Stage 3 Slow-Wave Sleep."}
+        </p>
+      </div>
+
+      {/* Interactive Sleep Hours Simulator & Injury Risk */}
+      <div className="p-3.5 rounded-xl bg-gray-50 border border-gray-200 space-y-3">
+        <div className="flex items-center justify-between">
+          <span className="text-xs font-bold text-deep-teal">Test Nightly Sleep Duration:</span>
+          <div className="flex items-center gap-1.5">
+            {[5, 6, 7, 8, 9].map((hrs) => (
+              <button
+                key={hrs}
+                type="button"
+                onClick={() => setSleepHours(hrs)}
+                className={`w-7 h-7 rounded-lg text-xs font-bold transition-all ${
+                  sleepHours === hrs
+                    ? "bg-deep-teal text-white shadow-xs"
+                    : "bg-white border border-gray-200 text-charcoal hover:bg-gray-100"
+                }`}
+              >
+                {hrs}h
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Live Metrics Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs">
+          <div className={`p-2.5 rounded-xl border ${sleepHours < 8 ? "bg-rose-50 border-rose-200 text-rose-900" : "bg-emerald-50 border-emerald-200 text-emerald-900"}`}>
+            <span className="text-[10.5px] uppercase tracking-wider block font-bold">Injury Risk (AAP Data)</span>
+            <strong className="text-sm font-bold block mt-0.5">{injuryMultiplier}</strong>
+            <span className="text-[10px] opacity-80 leading-tight block mt-0.5">Sleeping &lt;8h spikes musculoskeletal tears</span>
+          </div>
+
+          <div className="p-2.5 rounded-xl border border-gray-200 bg-white text-charcoal">
+            <span className="text-[10.5px] uppercase tracking-wider block font-bold text-deep-teal">Glycogen Resynthesis</span>
+            <strong className="text-sm font-bold block mt-0.5 text-deep-teal">{glycogenRecovery}</strong>
+            <span className="text-[10px] text-charcoal/70 leading-tight block mt-0.5">Muscles refill fuel tanks during deep sleep</span>
+          </div>
+
+          <div className="p-2.5 rounded-xl border border-gray-200 bg-white text-charcoal">
+            <span className="text-[10.5px] uppercase tracking-wider block font-bold text-deep-teal">Reaction Agility</span>
+            <strong className="text-sm font-bold block mt-0.5 text-deep-teal">{reactionTimePenalty}</strong>
+            <span className="text-[10px] text-charcoal/70 leading-tight block mt-0.5">REM sleep locks in neuromuscular reflexes</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// --------------------------------------------------------------------------
+// 12. Interactive Iron & Ferritin Cascade Diagram
+// --------------------------------------------------------------------------
+function IronFerritinDiagram({ diagram }: { diagram: LessonDiagram; themeColor: string }) {
+  const [flowRate, setFlowRate] = useState<"light" | "moderate" | "heavy">("heavy");
+  const [activeTab, setActiveTab] = useState<"vault" | "blood_loss" | "absorption">("vault");
+
+  const flowData = {
+    light: {
+      volume: "20–30 mL blood per cycle",
+      ironLost: "~10–15 mg iron",
+      ferritinDrop: "Mild depletion",
+      riskLevel: "Low risk with balanced diet",
+    },
+    moderate: {
+      volume: "35–50 mL blood per cycle",
+      ironLost: "~20–25 mg iron",
+      ferritinDrop: "Moderate ongoing drain",
+      riskLevel: "Moderate risk for endurance athletes",
+    },
+    heavy: {
+      volume: "80+ mL blood per cycle (Menorrhagia)",
+      ironLost: "40–60+ mg iron EVERY cycle!",
+      ferritinDrop: "Severe bone marrow depletion",
+      riskLevel: "CRITICAL: High risk of IDNA ('cement legs')",
+    },
+  };
+
+  const currentFlow = flowData[flowRate];
+
+  return (
+    <div className="rounded-2xl border border-deep-teal/20 bg-white p-4 md:p-5 shadow-xs space-y-4">
+      {/* Header */}
+      <div className="flex items-start justify-between gap-2 border-b border-deep-teal/10 pb-3">
+        <div>
+          <div className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-deep-teal">
+            <ShieldAlert className="w-3.5 h-3.5 text-amber-600" />
+            Interactive Iron & Ferritin Energy Lab
+          </div>
+          <h4 className="text-base md:text-lg font-serif font-bold text-deep-teal mt-0.5">
+            {diagram.title}
+          </h4>
+        </div>
+        <span className="text-[11px] font-semibold bg-amber-50 px-2.5 py-1 rounded-full text-amber-800 border border-amber-200">
+          Compare Ferritin vs Hemoglobin
+        </span>
+      </div>
+
+      {/* Mode Navigation Tabs */}
+      <div className="flex items-center gap-1.5 border-b border-gray-200 pb-2 text-xs">
+        <button
+          type="button"
+          onClick={() => setActiveTab("vault")}
+          className={`px-3 py-1.5 rounded-lg font-bold transition-all ${
+            activeTab === "vault" ? "bg-deep-teal text-white shadow-xs" : "text-charcoal/70 hover:bg-gray-100"
+          }`}
+        >
+          1. The Storage Vault vs Blood
+        </button>
+        <button
+          type="button"
+          onClick={() => setActiveTab("blood_loss")}
+          className={`px-3 py-1.5 rounded-lg font-bold transition-all ${
+            activeTab === "blood_loss" ? "bg-deep-teal text-white shadow-xs" : "text-charcoal/70 hover:bg-gray-100"
+          }`}
+        >
+          2. Menstrual & Athletic Losses
+        </button>
+        <button
+          type="button"
+          onClick={() => setActiveTab("absorption")}
+          className={`px-3 py-1.5 rounded-lg font-bold transition-all ${
+            activeTab === "absorption" ? "bg-deep-teal text-white shadow-xs" : "text-charcoal/70 hover:bg-gray-100"
+          }`}
+        >
+          3. Vitamin C Synergy & Blockers
+        </button>
+      </div>
+
+      {/* TAB 1: The Two-Level Iron Vault */}
+      {activeTab === "vault" && (
+        <div className="space-y-3">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            {/* Level 1: Hemoglobin */}
+            <div className="p-3.5 rounded-xl border-2 border-red-200 bg-red-50/40 space-y-2">
+              <div className="flex items-center justify-between">
+                <span className="text-[10px] font-bold uppercase tracking-wider text-red-700 bg-red-100 px-2 py-0.5 rounded-full">Level 1: Circulation</span>
+                <span className="text-xs font-bold text-slate-700">Checked by standard CBC</span>
+              </div>
+              <h5 className="font-serif font-bold text-base text-red-950 m-0">Hemoglobin (The Delivery Trucks)</h5>
+              <p className="text-xs text-charcoal/85 m-0 leading-relaxed">
+                Carries oxygen inside red blood cells to muscles and brain. Reference range is ~12.0–15.5 g/dL.
+              </p>
+              <div className="p-2 rounded-lg bg-white border border-red-200 text-[11px] text-charcoal/90">
+                <strong>The Blindspot:</strong> Hemoglobin only drops in <em>end-stage</em> severe anemia. You can have empty iron stores for months while hemoglobin appears normal!
+              </div>
+            </div>
+
+            {/* Level 2: Serum Ferritin */}
+            <div className="p-3.5 rounded-xl border-2 border-amber-300 bg-amber-50/50 space-y-2">
+              <div className="flex items-center justify-between">
+                <span className="text-[10px] font-bold uppercase tracking-wider text-amber-800 bg-amber-200/80 px-2 py-0.5 rounded-full">Level 2: Deep Storage Vault</span>
+                <span className="text-xs font-bold text-amber-900 font-sans">Must request separately</span>
+              </div>
+              <h5 className="font-serif font-bold text-base text-amber-950 m-0">Serum Ferritin (The Storage Bank)</h5>
+              <p className="text-xs text-charcoal/85 m-0 leading-relaxed">
+                Iron reserves stored in your liver and bone marrow. Powers mitochondrial ATP energy in muscle cells.
+              </p>
+              <div className="p-2 rounded-lg bg-white border border-amber-300 text-[11px] text-amber-950">
+                <strong>Athletic Target:</strong> Athletes need ferritin <strong>&gt;30–50 ng/mL</strong>. Under 30 ng/mL causes "cement legs," shortness of breath, and brain fog (IDNA).
+              </div>
+            </div>
+          </div>
+
+          {/* IDNA Danger Warning Card */}
+          <div className="p-3.5 rounded-xl border border-red-300 bg-red-50 text-xs text-red-950 space-y-1">
+            <div className="flex items-center gap-1.5 font-bold text-red-900">
+              <AlertTriangle className="w-4 h-4 text-red-600" />
+              <span>The Hidden Trap: Iron Deficiency Without Anemia (IDNA)</span>
+            </div>
+            <p className="leading-relaxed m-0">
+              When doctors run only a standard CBC test, an athlete with hemoglobin of 12.2 is told "your bloodwork is perfect." Yet their ferritin vault might be nearly empty at 12 ng/mL! Without enough ferritin, muscle mitochondria cannot produce ATP energy, making standard practices feel exhausting.
+            </p>
+          </div>
+        </div>
+      )}
+
+      {/* TAB 2: Menstrual & Athletic Blood Loss */}
+      {activeTab === "blood_loss" && (
+        <div className="space-y-3">
+          <div className="space-y-1.5">
+            <label className="text-xs font-bold text-charcoal/80">Select Your Monthly Menstrual Flow Level:</label>
+            <div className="grid grid-cols-3 gap-2">
+              {(["light", "moderate", "heavy"] as const).map((lvl) => (
+                <button
+                  key={lvl}
+                  type="button"
+                  onClick={() => setFlowRate(lvl)}
+                  className={`p-2.5 rounded-xl text-center border font-bold capitalize text-xs transition-all ${
+                    flowRate === lvl
+                      ? "bg-red-700 text-white border-red-800 shadow-xs"
+                      : "bg-gray-50 border-gray-200 text-charcoal hover:bg-white"
+                  }`}
+                >
+                  {lvl} Flow
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Loss Calculation Result */}
+          <div className="p-4 rounded-xl border-2 border-red-200 bg-gradient-to-r from-red-50 to-orange-50 text-xs space-y-2">
+            <div className="flex items-center justify-between">
+              <span className="font-bold text-red-900 text-sm capitalize">{flowRate} Flow Impact:</span>
+              <span className="font-bold text-red-700 bg-white px-2.5 py-1 rounded-full border border-red-200">{currentFlow.ironLost}</span>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1 text-[11.5px]">
+              <div><strong>Estimated Blood Loss:</strong> {currentFlow.volume}</div>
+              <div><strong>Ferritin Impact:</strong> {currentFlow.ferritinDrop}</div>
+            </div>
+            <div className="pt-2 border-t border-red-200 font-bold text-red-900">
+              {currentFlow.riskLevel}
+            </div>
+          </div>
+
+          {/* Athletic Compounding Factors */}
+          <div className="p-3 rounded-xl bg-gray-50 border border-gray-200 text-xs space-y-1.5">
+            <div className="font-bold text-deep-teal flex items-center gap-1">
+              <Activity className="w-3.5 h-3.5 text-deep-teal" />
+              Athletic Iron Loss Accelerators
+            </div>
+            <ul className="list-disc pl-4 space-y-1 text-charcoal/80 text-[11px] m-0">
+              <li><strong>Foot-Strike Hemolysis:</strong> Running on hard tracks crushes red blood cells inside capillaries of the feet.</li>
+              <li><strong>Sweat Loss:</strong> Hard summer practices expel 0.3–0.5 mg of iron per liter of sweat.</li>
+              <li><strong>Post-Workout Hepcidin Hormone Spike:</strong> For 3 to 6 hours after intense workouts, inflammatory hepcidin shuts down gut iron absorption channels! <em>Rule: Never take iron supplements immediately post-workout.</em></li>
+            </ul>
+          </div>
+        </div>
+      )}
+
+      {/* TAB 3: Absorption Synergy & Blockers */}
+      {activeTab === "absorption" && (
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+          {/* Boosters */}
+          <div className="p-3.5 rounded-xl border-2 border-emerald-300 bg-emerald-50/50 space-y-2">
+            <div className="flex items-center gap-1.5 font-bold text-emerald-900">
+              <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+              <span>Absorption Synergists (+300%)</span>
+            </div>
+            <p className="text-[11.5px] text-charcoal/85 m-0">
+              Plant-based (non-heme) iron is tightly bound. <strong>Vitamin C</strong> converts ferric iron into highly absorbable ferrous iron.
+            </p>
+            <div className="space-y-1 text-[11px] bg-white p-2.5 rounded-lg border border-emerald-200">
+              <strong className="text-emerald-900 block">Winning Combinations:</strong>
+              <div>• Lentils or black beans + Squeezed lime / salsa</div>
+              <div>• Spinach salad + Sliced strawberries or bell peppers</div>
+              <div>• Oatmeal or fortified cereal + Orange juice / berries</div>
+            </div>
+          </div>
+
+          {/* Blockers */}
+          <div className="p-3.5 rounded-xl border-2 border-rose-300 bg-rose-50/50 space-y-2">
+            <div className="flex items-center gap-1.5 font-bold text-rose-900">
+              <AlertTriangle className="w-4 h-4 text-rose-600" />
+              <span>Absorption Blockers (-50% to -80%)</span>
+            </div>
+            <p className="text-[11.5px] text-charcoal/85 m-0">
+              Certain compounds bind directly to iron in the digestive tract, preventing absorption.
+            </p>
+            <div className="space-y-1 text-[11px] bg-white p-2.5 rounded-lg border border-rose-200">
+              <strong className="text-rose-900 block">Space 2 Hours Away from Iron:</strong>
+              <div>• <strong>Calcium:</strong> Milk, cheese, yogurt, calcium supplements</div>
+              <div>• <strong>Tannins / Polyphenols:</strong> Coffee, black tea, green tea</div>
+              <div>• <em>Golden Rule:</em> Don't wash down iron-rich meals with milk or latte!</div>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// --------------------------------------------------------------------------
+// 13. Interactive Menstrual Cycle Training Periodization Matrix
+// --------------------------------------------------------------------------
+function CycleTrainingMatrixDiagram({ diagram }: { diagram: LessonDiagram; themeColor: string }) {
+  const [activePhase, setActivePhase] = useState<number>(1); // 0: Menstruation, 1: Follicular, 2: Ovulation, 3: Luteal
+
+  const phases = [
+    {
+      id: 0,
+      name: "1. Menstrual / Early Follicular",
+      days: "Days 1–5",
+      color: "#F47A6A",
+      tag: "Lowest Hormones",
+      stimulus: "Strength PRs or Restorative Mobility",
+      energy: "High insulin sensitivity & carb burning; high pain tolerance",
+      aclAlert: "Lowest ligament laxity — joints are mechanically stable",
+      fueling: "Focus on iron replenishment, warm anti-inflammatory foods, and hydration",
+      recommendedWorkouts: "Heavy progressive overload lifting, low-volume strength sets, or easy recovery yoga on heavy cramp days",
+    },
+    {
+      id: 1,
+      name: "2. Mid-to-Late Follicular",
+      days: "Days 6–13",
+      color: "#175B5C",
+      tag: "Estrogen Surge",
+      stimulus: "HIIT, Sprints & Max Power",
+      energy: "Rapid muscle recovery, high mental drive, peak carbohydrate utilization",
+      aclAlert: "Joints stable; tendon stiffness supports explosive velocity",
+      fueling: "Complex carbohydrates before workouts to top off glycogen tanks",
+      recommendedWorkouts: "High-Intensity Interval Training (HIIT), speed intervals, plyometrics, and challenging personal record lifts",
+    },
+    {
+      id: 2,
+      name: "3. Ovulatory Phase",
+      days: "Days 14–16",
+      color: "#991B4B",
+      tag: "Peak Power + ACL Caution",
+      stimulus: "Peak Strength with Mandatory Neuromuscular Warmup",
+      energy: "Absolute highest neuromuscular recruitment and explosive force",
+      aclAlert: "⚠️ CRITICAL ACL RISK: Estrogen peak softens collagen in ligaments! ACL tear rates are 2–3x higher during this window.",
+      fueling: "Carbohydrates + 25g protein recovery window; pre-workout warmup drills",
+      recommendedWorkouts: "Max power output, but MUST include 15-minute FIFA 11+ landing mechanics warmup before jumping or cutting",
+    },
+    {
+      id: 3,
+      name: "4. Luteal Phase",
+      days: "Days 17–28",
+      color: "#D97706",
+      tag: "Progesterone Dominance",
+      stimulus: "Aerobic Base, Skills & Recovery Deload",
+      energy: "Resting metabolic rate rises (+100–300 kcal); core temp rises +0.5°C; sweat starts later",
+      aclAlert: "Joints restabilize, but higher core temperature causes earlier fatigue",
+      fueling: "Extra protein (prevents muscle breakdown) + 80–96 oz water with sodium electrolytes",
+      recommendedWorkouts: "Zone 2 steady-state aerobic endurance, tactical skills, technical sport drills, and deload stretching in late luteal",
+    },
+  ];
+
+  const current = phases[activePhase];
+
+  return (
+    <div className="rounded-2xl border border-deep-teal/20 bg-white p-4 md:p-5 shadow-xs space-y-4">
+      {/* Header */}
+      <div className="flex items-start justify-between gap-2 border-b border-deep-teal/10 pb-3">
+        <div>
+          <div className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-deep-teal">
+            <Activity className="w-3.5 h-3.5 text-deep-teal" />
+            Hormonal Periodization & Training Matrix
+          </div>
+          <h4 className="text-base md:text-lg font-serif font-bold text-deep-teal mt-0.5">
+            {diagram.title}
+          </h4>
+        </div>
+        <span className="text-[11px] font-semibold bg-light-teal px-2.5 py-1 rounded-full text-deep-teal border border-deep-teal/20">
+          Click phases to adapt training
+        </span>
+      </div>
+
+      {/* 4 Phase Selector Buttons */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+        {phases.map((p) => (
+          <button
+            key={p.id}
+            type="button"
+            onClick={() => setActivePhase(p.id)}
+            className={`p-2.5 rounded-xl text-left border transition-all ${
+              activePhase === p.id
+                ? "bg-deep-teal text-white border-deep-teal shadow-xs font-bold scale-[1.01]"
+                : "bg-gray-50 border-gray-200 text-charcoal/70 hover:bg-white"
+            }`}
+          >
+            <div className="text-[10px] uppercase tracking-wider opacity-75">{p.days}</div>
+            <div className="text-xs font-bold mt-0.5 leading-tight">{p.name.split(". ")[1]}</div>
+            <div className={`text-[9.5px] mt-1 font-semibold ${activePhase === p.id ? "text-teal-200" : "text-deep-teal"}`}>{p.tag}</div>
+          </button>
+        ))}
+      </div>
+
+      {/* Phase Details Matrix */}
+      <div className="p-4 rounded-2xl bg-gradient-to-b from-gray-50 to-white border border-gray-200 space-y-3">
+        <div className="flex items-center justify-between border-b border-gray-200/80 pb-2">
+          <h5 className="font-serif font-bold text-base text-deep-teal m-0">{current.name}</h5>
+          <span className="text-xs font-bold px-2.5 py-0.5 rounded-full bg-light-teal text-deep-teal border border-deep-teal/20">
+            {current.stimulus}
+          </span>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+          {/* Energy & Muscle Physiology */}
+          <div className="p-3 rounded-xl bg-white border border-gray-200 space-y-1">
+            <div className="font-bold text-deep-teal flex items-center gap-1.5">
+              <Zap className="w-3.5 h-3.5 text-deep-teal" />
+              Physiology & Energy Availability
+            </div>
+            <p className="text-charcoal/85 leading-relaxed m-0 text-[11.5px]">{current.energy}</p>
+          </div>
+
+          {/* Recommended Workouts */}
+          <div className="p-3 rounded-xl bg-white border border-gray-200 space-y-1">
+            <div className="font-bold text-deep-teal flex items-center gap-1.5">
+              <Activity className="w-3.5 h-3.5 text-deep-teal" />
+              Optimal Training Focus
+            </div>
+            <p className="text-charcoal/85 leading-relaxed m-0 text-[11.5px]">{current.recommendedWorkouts}</p>
+          </div>
+        </div>
+
+        {/* Injury & Ligament Alert Box */}
+        <div className={`p-3 rounded-xl border text-xs flex items-start gap-2 ${
+          activePhase === 2 ? "bg-rose-50 border-rose-300 text-rose-950 font-medium" : "bg-teal-50 border-teal-200 text-teal-950"
+        }`}>
+          {activePhase === 2 ? (
+            <ShieldAlert className="w-4 h-4 text-rose-600 shrink-0 mt-0.5" />
+          ) : (
+            <Shield className="w-4 h-4 text-teal-700 shrink-0 mt-0.5" />
+          )}
+          <div>
+            <strong>Joint & Ligament Safety: </strong>
+            <span>{current.aclAlert}</span>
+          </div>
+        </div>
+
+        {/* Fueling Strategy for this phase */}
+        <div className="p-2.5 rounded-xl bg-white border border-gray-200 text-xs flex items-center gap-2">
+          <Lightbulb className="w-4 h-4 text-amber-600 shrink-0" />
+          <div className="text-[11.5px] text-charcoal/85">
+            <strong>Nutrition & Hydration Strategy: </strong>
+            <span>{current.fueling}</span>
           </div>
         </div>
       </div>

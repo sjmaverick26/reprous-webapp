@@ -8,7 +8,7 @@ export interface QuizQuestion {
 }
 
 export interface LessonDiagram {
-  type: "cycle-wheel" | "energy-balance" | "pcos-loop" | "pelvic-map" | "anatomy-callout" | "timeline" | "athlete-plate" | "hormone-scale" | "reds-triangle";
+  type: "cycle-wheel" | "energy-balance" | "pcos-loop" | "pelvic-map" | "anatomy-callout" | "timeline" | "athlete-plate" | "hormone-scale" | "reds-triangle" | "water-glass" | "sleep-recovery" | "iron-ferritin" | "cycle-training";
   title: string;
   caption: string;
 }
@@ -497,8 +497,10 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
         readTime: "4 min read",
         summary: "Cramps happen when your uterus makes natural chemicals called prostaglandins, which make the muscle gently squeeze to shed its lining. Mild cramps are common, but severe pain that stops your day is not something you have to just 'tough out'.",
         keyTakeaways: [
-          "Heating pads, warm baths, gentle walking, and staying hydrated help relax tense pelvic muscles.",
+          "Heating pads, warm baths, gentle walking, and staying well-hydrated help relax tense pelvic muscles.",
+          "Staying hydrated dilutes inflammatory prostaglandins in uterine tissue, easing the severity of muscle spasms.",
           "Over-the-counter pain relievers (like ibuprofen) work best when taken early because they block cramp-causing chemicals before they peak.",
+          "Heavy flow depletes ferritin iron stores; pairing iron-rich meals with Vitamin C prevents fatigue and sports anemia.",
           "Severe cramps that keep you home from school or make you vomit warrant talking to a doctor to check for endometriosis."
         ],
         visualCards: [
@@ -507,6 +509,12 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
             iconName: "Heart",
             text: "Your body releases natural chemicals called prostaglandins that prompt the uterus muscle to squeeze and shed its lining.",
             highlight: "Natural chemical messengers"
+          },
+          {
+            title: "Hydrate to Ease Spasms",
+            iconName: "Droplets",
+            text: "Dehydration concentrates prostaglandins in pelvic tissue, making spasms harsher. Consistent water intake helps soothe contractions.",
+            highlight: "Water dilutes cramps"
           },
           {
             title: "Proven First-Line Relief",
@@ -1339,8 +1347,8 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
     id: "play",
     title: "Play Strong · Female Athlete Health",
     badge: "Play Strong Athlete",
-    badgeDesc: "Earned by mastering sports nutrition, overworking recovery, body image, and cycle-aware performance.",
-    description: "Reproductive health for active bodies — nutrition, overworking signs, body image, and bone health.",
+    badgeDesc: "Earned by mastering sports nutrition, hydration, sleep cycles, iron replenishment, and cycle-synced training.",
+    description: "Reproductive health for active bodies — hydration, sleep cycles, iron levels, recovery, and cycle-synced training.",
     colorSwatch: "#175B5C",
     topics: [
       {
@@ -1541,6 +1549,314 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
       },
       {
         id: "play-4",
+        name: "Water Intake & Electrolyte Balance (Hydration Across Cycles)",
+        type: "lesson",
+        desc: "Fluid shifts across cycle phases, preventing cramps, and tracking athletic water intake.",
+        xp: 50,
+        readTime: "5 min read",
+        summary: "Water is your body's primary performance nutrient. During the luteal phase, rising progesterone and estrogen cause fluid to shift out of your blood vessels into surrounding tissues (causing bloating while leaving blood volume lower). This leads to sluggish blood flow, elevated core temperature, and early fatigue. Adding electrolytes (sodium, potassium, magnesium) and drinking 80–96 oz helps hold water inside your bloodstream to power workouts and ease cramps.",
+        clinicalQuote: {
+          quote: "Fluctuations in ovarian steroids across the menstrual cycle alter fluid regulatory mechanisms, body water distribution, and thermoregulation. During the high-hormone luteal phase, reduced intravascular volume necessitates targeted electrolyte and fluid replacement to sustain cardiovascular stroke volume during physical exertion.",
+          source: "American College of Sports Medicine (ACSM) & IOC",
+          publication: "Consensus Guidelines on Exercise and Fluid Replacement in Female Athletes",
+          year: "2023"
+        },
+        keyTakeaways: [
+          "Follicular Phase: Baseline hydration of 64–80 oz maintains blood volume; water is efficiently retained.",
+          "Luteal Phase Shift: Progesterone causes fluid retention in soft tissues (bloating) while intravascular plasma volume drops, raising heart rate and core temperature.",
+          "Electrolytes Matter: Adding a pinch of salt/sodium or an electrolyte drink pulls fluid back into blood vessels to maintain cardiac output and reduce dizziness.",
+          "Cramp Defense: Dehydration concentrates inflammatory prostaglandins in uterine muscle; consistent water intake eases menstrual cramping."
+        ],
+        visualCards: [
+          {
+            title: "Intravascular vs. Extracellular Fluid",
+            iconName: "Droplets",
+            text: "Bloating doesn't mean you're over-hydrated! It means water has leaked into tissues while your bloodstream is actually thirsty.",
+            highlight: "Plasma volume priority"
+          },
+          {
+            title: "Electrolyte Co-Transport",
+            iconName: "Zap",
+            text: "Water requires sodium and glucose transporters to be absorbed rapidly across the gut wall into the bloodstream.",
+            highlight: "Sodium absorbs water"
+          },
+          {
+            title: "Urine Color Rule",
+            iconName: "Activity",
+            text: "Aim for pale straw or lemonade color. Dark amber means your kidneys are struggling to conserve water, stressing your heart.",
+            highlight: "Pale straw = optimal"
+          }
+        ],
+        diagram: {
+          type: "water-glass",
+          title: "Interactive Athletic Water Glass & Fluid Tracker",
+          caption: "Click '+ Add Glass' or preset buttons to fill the interactive water glass, and toggle cycle phases to see how hormonal fluid shifts affect your hydration needs."
+        },
+        roleplayScenario: {
+          setting: "High School Soccer Team Sideline During Hot Pre-Season Practice",
+          character: "Coach Miller, Head Coach",
+          statement: "“Water breaks are slowing down our scrimmage! Just tough it out until the end of practice, and don't drink anything with salt or calories or you'll bloat!”",
+          options: [
+            {
+              text: "“Okay Coach, I'll wait until after practice to drink.”",
+              isBest: false,
+              feedback: "Dangerous! Withholding fluids spikes core temperature, raises heart rate, and drastically increases the risk of heat illness and muscle cramps.",
+              xpBonus: 5
+            },
+            {
+              text: "“Coach Miller, in this heat and especially during the high-hormone luteal phase, our blood plasma volume drops quickly. Sports medicine guidelines from ACSM require regular fluid and sodium breaks every 15 to 20 minutes to prevent heat illness, cramping, and cardiac strain.”",
+              isBest: true,
+              feedback: "✦ Elite Self-Advocate! You cited ACSM sports medicine guidelines, explained luteal plasma volume shifts, and protected the entire team's safety.",
+              xpBonus: 30
+            },
+            {
+              text: "“You're going to kill us! I'm calling the school board right now!”",
+              isBest: false,
+              feedback: "While frustration is valid, using clinical terminology (plasma volume, ACSM guidelines) establishes immediate professional authority.",
+              xpBonus: 10
+            }
+          ]
+        },
+        advocacyScript: {
+          situation: "A coach or trainer restricts water breaks or discourages electrolyte drinks during hot or long training sessions.",
+          doctorScript: "“Sports medicine guidelines from the ACSM demonstrate that female athletes in their luteal phase experience higher core temperatures and reduced plasma volume. Timely hydration with electrolytes is a safety requirement that prevents muscle cramping, heat exhaustion, and performance drops.”",
+          whyItWorks: "Frames hydration as an evidence-based athletic safety protocol established by national sports medicine authorities.",
+          whatIfDismissed: "“I will step to the sideline to hydrate according to athletic safety guidelines and inform our athletic trainer.”"
+        }
+      },
+      {
+        id: "play-5",
+        name: "Sleep Cycles & Deep Recovery: Muscle Repair & Hormones",
+        type: "lesson",
+        desc: "Sleep architecture, Slow-Wave growth hormone release, luteal temperature shifts, and injury prevention.",
+        xp: 50,
+        readTime: "5 min read",
+        summary: "You don't get faster or stronger during practice — you get stronger while you sleep. During Stage 3 Slow-Wave (Deep) Sleep, your pituitary gland releases up to 95% of your daily Human Growth Hormone (HGH) to rebuild muscle fibers, restore glycogen, and mineralize bones. However, after ovulation, progesterone raises your body temperature by ~0.5°C, which can fragment sleep. Strategic cooling and 8–9 hours of sleep protect you from a 1.7x higher injury risk.",
+        clinicalQuote: {
+          quote: "Slow-wave sleep serves as the primary neuroendocrine window for somatotropic axis activity, accounting for up to 95% of daily human growth hormone secretion. Adolescents who sleep fewer than 8 hours per night experience a 1.7-fold increase in athletic musculoskeletal injuries.",
+          source: "American Academy of Pediatrics (AAP) & Sleep Research Society",
+          publication: "Pediatric Sports Medicine Clinical Report on Sleep Architecture and Athletic Injury",
+          year: "2023"
+        },
+        keyTakeaways: [
+          "Stage 3 Slow-Wave Sleep is the muscle repair factory where 95% of daily Human Growth Hormone (HGH) is pulsed.",
+          "REM Sleep consolidates motor memory — locking in technique, footwork, and tactical plays from practice into permanent neural pathways.",
+          "Sleep Under 8 Hours: Associated with 1.7x higher athletic injury rates and 30% slower glycogen replenishment.",
+          "Progesterone Temperature Shift: Higher luteal core temperature causes light, restless sleep; cooling your room to 65–68°F restores deep sleep cycles."
+        ],
+        visualCards: [
+          {
+            title: "The 90-Minute Cycle",
+            iconName: "Clock",
+            text: "Every night consists of 4 to 6 repeating 90-minute sleep cycles. Cutting sleep by 2 hours eliminates the final, richest deep sleep and REM cycles.",
+            highlight: "8-9 hours required"
+          },
+          {
+            title: "HGH Growth Engine",
+            iconName: "Zap",
+            text: "Without Stage 3 Slow-Wave Sleep, muscle micro-tears from training cannot repair, leading to chronic soreness, shin splints, and fatigue.",
+            highlight: "Sleep = Muscle repair"
+          },
+          {
+            title: "Cool Room Science",
+            iconName: "Moon",
+            text: "To fall into deep sleep, your core temperature must drop by 1–2°F. In the luteal phase, use a fan, cooler sheets, and magnesium to drop body heat.",
+            highlight: "65-68°F sweet spot"
+          }
+        ],
+        diagram: {
+          type: "sleep-recovery",
+          title: "Interactive 90-Minute Sleep Cycle & Athletic Recovery Architecture",
+          caption: "Explore the 4 stages of a 90-minute sleep cycle, toggle the luteal temperature shift, and adjust sleep duration to see real-time injury risk and glycogen recovery metrics."
+        },
+        roleplayScenario: {
+          setting: "Athletic Department Locker Room at 6:00 AM",
+          character: "Coach Davis, Strength Coach",
+          statement: "“We are adding mandatory 5:30 AM lifting sessions four days a week on top of evening practice. If you want to play varsity, you don't need eight hours of sleep!”",
+          options: [
+            {
+              text: "“I'll just drink three energy drinks and push through it.”",
+              isBest: false,
+              feedback: "Dangerous approach! Energy drinks spike heart rate without repairing muscles, and chronic sleep restriction dramatically spikes injury risk.",
+              xpBonus: 5
+            },
+            {
+              text: "“Coach Davis, pediatric sports medicine data from the AAP shows that sleeping under eight hours increases adolescent injury rates by 1.7 times and impairs muscle glycogen restoration. Early morning sessions that cut into our slow-wave recovery window will increase our fracture risk and hurt game performance.”",
+              isBest: true,
+              feedback: "✦ Master Clinical Advocacy! Citing AAP injury statistics and slow-wave recovery frames sleep as a non-negotiable performance asset.",
+              xpBonus: 30
+            },
+            {
+              text: "“You're crazy! I'm sleeping in and skipping your session.”",
+              isBest: false,
+              feedback: "Communicating with AAP medical evidence protects the entire team while keeping the conversation constructive.",
+              xpBonus: 10
+            }
+          ]
+        },
+        advocacyScript: {
+          situation: "A coach schedules early morning two-a-days that reduce team sleep below 7–8 hours per night.",
+          doctorScript: "“Clinical studies published by the American Academy of Pediatrics demonstrate that adolescent athletes sleeping under 8 hours have a 1.7 times greater risk of musculoskeletal injury and slower reaction times. We request rescheduling morning lifts to preserve the 8-hour sleep window essential for tissue repair.”",
+          whyItWorks: "Uses objective epidemiological injury statistics from the AAP rather than personal complaints about being tired.",
+          whatIfDismissed: "“I will bring this AAP sports sleep consensus to our school athletic trainer and athletic director for guidance.”"
+        }
+      },
+      {
+        id: "play-6",
+        name: "Iron Deficiency & Ferritin: Protecting Athletic Energy & Stamina",
+        type: "lesson",
+        desc: "Menstrual blood loss, serum ferritin vs hemoglobin, fighting fatigue, and boosting absorption.",
+        xp: 50,
+        readTime: "5 min read",
+        summary: "If your legs feel like cement, your heart races on easy warmups, and you feel breathless despite being in good shape, your iron tank might be empty. Menstruating athletes lose iron every month with their period. Routine blood tests only check Hemoglobin (the delivery trucks in your blood), completely missing low Serum Ferritin (the iron storage vault in your bone marrow). Testing ferritin and pairing iron with Vitamin C restores your oxygen-carrying power.",
+        clinicalQuote: {
+          quote: "Iron deficiency without anemia (IDNA), defined by a serum ferritin below 30 to 50 ng/mL in the presence of normal hemoglobin, is prevalent in menstruating athletes and directly compromises aerobic capacity, energy metabolism, and cognitive clarity.",
+          source: "International Olympic Committee (IOC) & ACOG",
+          publication: "IOC Medical Consensus on Iron Management in Adolescent Female Athletes",
+          year: "2023"
+        },
+        keyTakeaways: [
+          "Hemoglobin vs. Ferritin: Hemoglobin is iron circulating in red blood cells; Ferritin is your deep storage vault. Ferritin can be empty while hemoglobin still looks 'normal'.",
+          "Menstrual Loss: Menstruating athletes lose 15–40 mg of iron per cycle (and over 60 mg with heavy flow), making iron deficiency the #1 nutritional shortfall in female sports.",
+          "Athletic Losses: Running foot-strike hemolysis (crushing red blood cells on hard surfaces) and post-workout hepcidin hormone spikes both reduce iron levels.",
+          "Nutritional Synergy: Pair non-heme iron (lentils, beans, oats, spinach) with Vitamin C (oranges, peppers, strawberries) to boost absorption by 300%; avoid calcium, tea, or coffee for 2 hours."
+        ],
+        visualCards: [
+          {
+            title: "The 'Cement Legs' Signal",
+            iconName: "AlertTriangle",
+            text: "When ferritin drops below 30 ng/mL, your muscles cannot produce ATP energy efficiently. Normal jogging feels like running through mud.",
+            highlight: "IDNA warning sign"
+          },
+          {
+            title: "The Ferritin Blood Test",
+            iconName: "Shield",
+            text: "Never settle for just a CBC test! Always ask your doctor specifically for a 'Serum Ferritin and Iron Saturation Panel'.",
+            highlight: "Ask for Ferritin"
+          },
+          {
+            title: "Vitamin C Pairing",
+            iconName: "Sparkles",
+            text: "Non-heme plant iron is tightly bound. Vitamin C transforms it into soluble ferrous iron that your intestine absorbs effortlessly.",
+            highlight: "+300% absorption"
+          }
+        ],
+        diagram: {
+          type: "iron-ferritin",
+          title: "Interactive Iron & Ferritin Cascade: Storage Vault vs. Blood Flow",
+          caption: "Explore the difference between circulating hemoglobin and ferritin reserves, calculate menstrual iron loss, and discover absorption boosters vs. blockers."
+        },
+        roleplayScenario: {
+          setting: "Pediatric Clinic Exam Room",
+          character: "Dr. Roberts, Primary Care Physician",
+          statement: "“Your Complete Blood Count (CBC) is normal — your hemoglobin is 12.2, which is totally fine. You're just an active teenager with a busy schedule, so get more rest and stop worrying about your fatigue.”",
+          options: [
+            {
+              text: "“Okay, I guess it's all in my head. I'll just push through the exhaustion.”",
+              isBest: false,
+              feedback: "Never accept unaddressed exhaustion! A normal CBC does NOT measure bone marrow ferritin stores. You may have severe tissue iron depletion.",
+              xpBonus: 5
+            },
+            {
+              text: "“Dr. Roberts, my training performance has plummeted and my legs feel like lead. IOC and ACOG sports guidelines emphasize that athletes can suffer from Iron Deficiency Without Anemia (IDNA) where hemoglobin is normal but serum ferritin is depleted below 30 ng/mL. Could we please add a Serum Ferritin and Iron Saturation panel to my lab orders?”",
+              isBest: true,
+              feedback: "✦ Life-Changing Clinical Advocacy! Requesting a Serum Ferritin panel catches iron deficiency months before anemia develops, protecting your aerobic performance.",
+              xpBonus: 30
+            },
+            {
+              text: "“You don't know anything! Look at how pale I am!”",
+              isBest: false,
+              feedback: "Frustration is natural, but referencing IOC diagnostic guidelines for ferritin testing forces the clinician to order the correct diagnostic panel.",
+              xpBonus: 10
+            }
+          ]
+        },
+        advocacyScript: {
+          situation: "A clinician dismisses severe athletic fatigue as 'normal stress' because standard CBC hemoglobin is within reference range.",
+          doctorScript: "“IOC clinical consensus notes that female athletes frequently suffer from Iron Deficiency Without Anemia, which severely impairs aerobic capacity even when hemoglobin appears normal. Because I have heavy periods and heavy training demands, I request a Serum Ferritin, Total Iron Binding Capacity, and Transferrin Saturation test.”",
+          whyItWorks: "Distinguishes between hemoglobin and ferritin using official IOC guidelines, requiring the physician to evaluate deep iron stores.",
+          whatIfDismissed: "“If you decline to order a ferritin panel, please document your refusal in my medical record and note that I reported functional exercise intolerance.”"
+        }
+      },
+      {
+        id: "play-7",
+        name: "Menstrual Cycles & Training: Periodization & Injury Prevention",
+        type: "lesson",
+        desc: "Hormonal periodization, training with your biology, and preventing ACL tears around ovulation.",
+        xp: 50,
+        readTime: "5 min read",
+        summary: "Your menstrual cycle is a built-in athletic superpower when you understand its hormonal phases. In the follicular phase (low hormones), insulin sensitivity is high and recovery is rapid, making it ideal for progressive overload and personal records. Around ovulation, surging estrogen peaks muscle power but temporarily softens tendons and ligaments, requiring neuromuscular warm-ups to prevent ACL tears. In the luteal phase, steady endurance, electrolytes, and cooling keep you strong.",
+        clinicalQuote: {
+          quote: "Neuromuscular control and ligamentous laxity fluctuate across the menstrual cycle. Estrogen-mediated increases in ligament laxity around the ovulatory peak correlate with higher rates of anterior cruciate ligament (ACL) injury, underscoring the critical need for targeted neuromuscular training protocols.",
+          source: "British Journal of Sports Medicine & ACOG",
+          publication: "Consensus Statement on Menstrual Cycle Phases, Ligament Laxity, and Musculoskeletal Injury in Athletes",
+          year: "2022"
+        },
+        keyTakeaways: [
+          "Early Follicular (Days 1–7): Lowest hormone levels; high insulin sensitivity and carb utilization make this a prime window for building strength.",
+          "Mid/Late Follicular (Days 8–13): Estrogen surge drives peak neuromuscular power, mood, and fast recovery — ideal for high-intensity intervals.",
+          "Ovulation Window (Days 14–16): Peak strength, but estrogen softens collagen in ligaments! Neuromuscular landing drills are mandatory to protect knees and ACLs.",
+          "Luteal Phase (Days 17–28): Higher core temperature (+0.5°C) and protein breakdown require steady endurance, extra protein (25–30g), and sodium electrolytes."
+        ],
+        visualCards: [
+          {
+            title: "Follicular Strength Window",
+            iconName: "Zap",
+            text: "Low hormones mimic the hormonal environment of rapid muscle adaptation. Lift heavy, push sprints, and tackle high-intensity workouts.",
+            highlight: "Max strength gains"
+          },
+          {
+            title: "Ovulatory ACL Caution",
+            iconName: "ShieldAlert",
+            text: "Relaxin and estrogen peaks loosen knee ligaments. Always do a 15-minute neuromuscular warm-up (jumping, landing on bent knees) before sports.",
+            highlight: "Protect your knees"
+          },
+          {
+            title: "Luteal Fueling Strategy",
+            iconName: "Activity",
+            text: "Metabolism rises by 100–300 kcal/day. Eat more complex carbs and protein to prevent muscle breakdown and mood crashes.",
+            highlight: "Feed your recovery"
+          }
+        ],
+        diagram: {
+          type: "cycle-training",
+          title: "Interactive Menstrual Cycle Training & Performance Matrix",
+          caption: "Click through each phase of the cycle to explore optimal training adaptations, neuromuscular injury risks (ACL protection), and fueling priorities."
+        },
+        roleplayScenario: {
+          setting: "High School Track Coach's Office",
+          character: "Coach Bennett, Sprint Coach",
+          statement: "“You looked sluggish yesterday and your splits were off. Stop using 'hormones' as an excuse — champions don't adjust their workouts for their period!”",
+          options: [
+            {
+              text: "“Sorry Coach, I'll just push until I collapse next time.”",
+              isBest: false,
+              feedback: "Ignoring physiological phases increases burnout and musculoskeletal injury risks.",
+              xpBonus: 5
+            },
+            {
+              text: "“Coach Bennett, ACOG and the British Journal of Sports Medicine show that training with menstrual biology optimizes athletic longevity. During the luteal phase, higher core temperature and plasma volume shifts require electrolyte hydration and aerobic pacing, while my follicular phase is when my body hits peak power. Let's periodize my sprint loads so I peak for championship meets.”",
+              isBest: true,
+              feedback: "✦ Elite Sports Literacy! You educated the coach using peer-reviewed sports medicine science and proposed a periodized training plan to peak for championships.",
+              xpBonus: 30
+            },
+            {
+              text: "“You don't know what it feels like! I'm not running today.”",
+              isBest: false,
+              feedback: "Proposing a scientific periodization model demonstrates athletic maturity and produces tangible training adjustments.",
+              xpBonus: 10
+            }
+          ]
+        },
+        advocacyScript: {
+          situation: "A coach dismisses cycle-aware training as an 'excuse' and refuses to adjust volume or intensity.",
+          doctorScript: "“Research published in the British Journal of Sports Medicine shows that adjusting training to hormonal phases reduces ACL tears and maximizes strength gains. I am aligning my high-intensity lifting with my follicular phase and focusing on endurance and hydration during my luteal phase to optimize performance for the team.”",
+          whyItWorks: "Frames cycle-syncing as an evidence-based strategy to win and prevent season-ending injuries.",
+          whatIfDismissed: "“I will review my cycle training plan with our certified athletic trainer for team implementation.”"
+        }
+      },
+      {
+        id: "play-8",
         name: "Body Image & Weight Pressures in Sport",
         type: "article",
         desc: "Decoupling body shape from athletic performance and rejecting aesthetic pressure.",
@@ -1555,7 +1871,7 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
         ]
       },
       {
-        id: "play-5",
+        id: "play-9",
         name: "Spotting Toxic Fitness Pressures",
         type: "game",
         desc: "Quiz: identifying harmful diet culture myths vs healthy athletic coaching.",
@@ -1581,21 +1897,7 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
         ]
       },
       {
-        id: "play-6",
-        name: "Cycle-Aware Performance & Bone Health",
-        type: "lesson",
-        desc: "Training with your body's hormonal phases and protecting lifelong bone density.",
-        xp: 50,
-        readTime: "5 min read",
-        summary: "Hormone fluctuations across the follicular and luteal phases naturally influence body temperature, metabolic substrate use, and recovery rates. By syncing training intensity with your menstrual phases and ensuring adequate calcium and vitamin D intake, you can optimize power while protecting bone density.",
-        keyTakeaways: [
-          "Follicular Phase (Days 1–14): Lower core temperature and higher insulin sensitivity create ideal conditions for high-intensity intervals and progressive strength loads.",
-          "Luteal Phase (Days 15–28): Higher progesterone slightly elevates basal body temperature, making pre-cooling, electrolytes, and steady-state endurance especially effective.",
-          "Peak bone mass is built predominantly before age 25; maintaining regular menstrual cycles with adequate estrogen is the single most important factor in lifelong skeletal strength."
-        ]
-      },
-      {
-        id: "play-7",
+        id: "play-10",
         name: "Advocate: Speaking Up to Coaches & Clinicians",
         type: "lesson",
         isAdvocateCapstone: true,
