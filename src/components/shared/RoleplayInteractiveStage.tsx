@@ -1,0 +1,629 @@
+"use client";
+
+import React, { useState } from "react";
+import { RoleplayScenario } from "@/data/hubData";
+import {
+  Stethoscope,
+  Sparkles,
+  Check,
+  CheckCircle2,
+  AlertTriangle,
+  Activity,
+  FileSpreadsheet,
+  TrendingUp,
+  ShieldCheck,
+  Scale,
+  MessageSquare,
+  Award,
+} from "lucide-react";
+
+interface RoleplayInteractiveStageProps {
+  scenario: RoleplayScenario;
+  selectedOption: number | null;
+  onSelectOption: (optionIdx: number) => void;
+  bonusEarned: boolean;
+}
+
+export function RoleplayInteractiveStage({
+  scenario,
+  selectedOption,
+  onSelectOption,
+  bonusEarned,
+}: RoleplayInteractiveStageProps) {
+  const chosenOpt = selectedOption !== null ? scenario.options[selectedOption] : null;
+  const isBest = chosenOpt?.isBest ?? false;
+
+  // Alignment Percentage: 50% baseline -> 30% dismissal -> 100% full alignment
+  const alignmentPercent = chosenOpt === null ? 50 : isBest ? 100 : 30;
+
+  return (
+    <div className="space-y-5">
+      {/* 1. VISUAL CLINIC ENCOUNTER STAGE (Illustrated Scene) */}
+      <div className="relative overflow-hidden rounded-3xl border-2 border-deep-teal/25 bg-gradient-to-b from-[#EBF5F5] via-[#F4FAFA] to-white shadow-md">
+        {/* Stage Header Bar */}
+        <div className="flex flex-wrap items-center justify-between gap-2 border-b border-deep-teal/15 bg-white/80 px-4 py-2.5 backdrop-blur-xs">
+          <div className="flex items-center gap-2 text-xs sm:text-sm font-bold text-deep-teal font-sans">
+            <span className="relative flex h-2.5 w-2.5">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75"></span>
+              <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-emerald-500"></span>
+            </span>
+            <span>📍 {scenario.setting}</span>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <span className="rounded-full border border-deep-teal/15 bg-light-teal/70 px-2.5 py-0.5 text-[11px] font-bold uppercase tracking-wider text-deep-teal font-sans">
+              Clinical Dialogue Simulation
+            </span>
+            {scenario.characterRole && (
+              <span className="rounded-full border border-emerald-600/20 bg-emerald-50 px-2.5 py-0.5 text-[11px] font-bold text-emerald-800 font-sans">
+                {scenario.characterRole}
+              </span>
+            )}
+          </div>
+        </div>
+
+        {/* The Visual Consultation Room Canvas */}
+        <div className="relative min-h-[340px] sm:min-h-[380px] p-4 sm:p-6 flex flex-col justify-between">
+          {/* Clinic Room Wall Decor Background Elements */}
+          <div className="pointer-events-none absolute inset-0 overflow-hidden opacity-30">
+            {/* Medical Diploma on Wall */}
+            <div className="absolute top-4 left-6 hidden sm:block w-16 h-12 rounded border-2 border-deep-teal/40 bg-white p-1 shadow-2xs">
+              <div className="h-1.5 w-8 bg-deep-teal/40 rounded-xs mb-1"></div>
+              <div className="h-1 w-12 bg-deep-teal/20 rounded-xs mb-0.5"></div>
+              <div className="h-1 w-10 bg-deep-teal/20 rounded-xs"></div>
+              <div className="mt-1 flex justify-center">
+                <span className="w-2.5 h-2.5 rounded-full bg-amber-400 inline-block"></span>
+              </div>
+            </div>
+
+            {/* Vitals Heart Rate Monitor */}
+            <div className="absolute top-4 right-6 hidden md:block w-32 rounded-xl border border-slate-700 bg-slate-900 p-2 shadow-xs text-white">
+              <div className="flex items-center justify-between text-[9px] text-emerald-400 font-mono">
+                <span className="flex items-center gap-1">
+                  <Activity className="w-2.5 h-2.5 text-emerald-400 animate-pulse" />
+                  ECG
+                </span>
+                <span>72 BPM</span>
+              </div>
+              <svg viewBox="0 0 100 20" className="w-full h-4 mt-1 text-emerald-400 stroke-current fill-none stroke-[1.5]">
+                <path d="M 0 10 L 25 10 L 30 2 L 35 18 L 40 10 L 65 10 L 70 4 L 75 16 L 80 10 L 100 10" />
+              </svg>
+            </div>
+
+            {/* Examination Couch silhouette */}
+            <div className="absolute bottom-0 right-10 hidden lg:block w-44 h-14 rounded-t-xl border-t-2 border-l-2 border-r-2 border-slate-300 bg-slate-100">
+              <div className="w-12 h-4 rounded-t-lg bg-teal-100/70 border-t border-teal-300 ml-2 mt-1"></div>
+            </div>
+          </div>
+
+          {/* Characters and Dialogue Stage */}
+          <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-6 items-end pb-2">
+            {/* LEFT CHARACTER: The Healthcare Provider (Doctor / Clinician) */}
+            <div className="flex flex-col items-center sm:items-start space-y-3">
+              {/* Doctor Speech Bubble */}
+              <div className="relative max-w-sm rounded-2xl border-2 border-deep-teal/30 bg-white p-3.5 sm:p-4 shadow-sm transition-all duration-300">
+                <div className="flex items-center justify-between gap-2 border-b border-deep-teal/10 pb-1.5 mb-1.5">
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-deep-teal font-sans">
+                    {scenario.character}
+                  </span>
+                  <span className="text-[10px] font-bold uppercase px-2 py-0.5 rounded-full bg-slate-100 text-charcoal/70">
+                    {chosenOpt === null
+                      ? "Provider Statement"
+                      : isBest
+                      ? "✅ Aligned Reaction"
+                      : "⚠️ Dismissive Stance"}
+                  </span>
+                </div>
+
+                <p className="text-sm sm:text-base font-serif text-deep-teal leading-snug m-0">
+                  {chosenOpt === null ? (
+                    scenario.statement
+                  ) : isBest ? (
+                    <span className="text-emerald-950 font-medium">
+                      &ldquo;I see your documented 3-month log and the ACOG criteria. You&apos;re completely right to bring this up. Let&apos;s schedule that diagnostic workup immediately.&rdquo;
+                    </span>
+                  ) : (
+                    <span className="text-amber-950 font-medium">
+                      &ldquo;Like I said, that sounds pretty typical for someone your age. Let&apos;s just observe for now and see if things settle down naturally.&rdquo;
+                    </span>
+                  )}
+                </p>
+
+                {/* Speech Bubble Tail */}
+                <div className="absolute -bottom-2.5 left-8 w-4 h-4 bg-white border-b-2 border-r-2 border-deep-teal/30 rotate-45"></div>
+              </div>
+
+              {/* Doctor Character Visual (SVG Illustration) */}
+              <div className="flex items-end gap-3 pl-3">
+                <div className="relative group">
+                  {/* Doctor Illustrated Avatar SVG */}
+                  <svg
+                    viewBox="0 0 120 140"
+                    className="w-24 sm:w-28 h-auto drop-shadow-md transition-transform duration-300 hover:scale-105"
+                  >
+                    {/* Head / Hair */}
+                    <ellipse cx="60" cy="40" rx="22" ry="24" fill="#F8D3B8" />
+                    {/* Hair */}
+                    <path
+                      d="M 38 40 C 38 18, 82 18, 82 40 C 82 30, 75 22, 60 22 C 45 22, 38 30, 38 40 Z"
+                      fill="#3B2616"
+                    />
+                    {/* Eyebrows */}
+                    {isBest ? (
+                      // Impressed / approving raised eyebrows
+                      <>
+                        <path d="M 47 32 Q 53 29 57 32" stroke="#3B2616" strokeWidth="2" fill="none" strokeLinecap="round" />
+                        <path d="M 63 32 Q 67 29 73 32" stroke="#3B2616" strokeWidth="2" fill="none" strokeLinecap="round" />
+                      </>
+                    ) : chosenOpt !== null ? (
+                      // Skeptical / dismissive furrowed brow
+                      <>
+                        <path d="M 47 34 Q 53 32 57 35" stroke="#3B2616" strokeWidth="2" fill="none" strokeLinecap="round" />
+                        <path d="M 63 35 Q 67 32 73 34" stroke="#3B2616" strokeWidth="2" fill="none" strokeLinecap="round" />
+                      </>
+                    ) : (
+                      // Calm neutral listening
+                      <>
+                        <path d="M 47 33 Q 53 31 57 33" stroke="#3B2616" strokeWidth="2" fill="none" strokeLinecap="round" />
+                        <path d="M 63 33 Q 67 31 73 33" stroke="#3B2616" strokeWidth="2" fill="none" strokeLinecap="round" />
+                      </>
+                    )}
+
+                    {/* Eyes with gentle blinking CSS */}
+                    <circle cx="52" cy="39" r="2.5" fill="#1E293B" />
+                    <circle cx="68" cy="39" r="2.5" fill="#1E293B" />
+                    {/* Eyeglasses Frame */}
+                    <circle cx="52" cy="39" r="7" fill="none" stroke="#64748B" strokeWidth="1.5" />
+                    <circle cx="68" cy="39" r="7" fill="none" stroke="#64748B" strokeWidth="1.5" />
+                    <line x1="59" y1="39" x2="61" y2="39" stroke="#64748B" strokeWidth="1.5" />
+
+                    {/* Nose */}
+                    <path d="M 60 41 L 58 46 L 61 46" stroke="#DCA280" strokeWidth="1.5" fill="none" strokeLinecap="round" />
+
+                    {/* Mouth */}
+                    {isBest ? (
+                      // Warm approving smile
+                      <path d="M 52 52 Q 60 59 68 52" stroke="#A84C32" strokeWidth="2" fill="none" strokeLinecap="round" />
+                    ) : chosenOpt !== null ? (
+                      // Neutral / flat dismissive mouth
+                      <path d="M 54 53 L 66 53" stroke="#A84C32" strokeWidth="2" fill="none" strokeLinecap="round" />
+                    ) : (
+                      // Neutral listening mouth
+                      <path d="M 54 53 Q 60 56 66 53" stroke="#A84C32" strokeWidth="1.8" fill="none" strokeLinecap="round" />
+                    )}
+
+                    {/* Neck */}
+                    <rect x="54" y="62" width="12" height="10" fill="#E8BFA2" />
+
+                    {/* Scrubs Underneath (Teal) */}
+                    <path d="M 45 70 L 60 84 L 75 70 Z" fill="#175B5C" />
+
+                    {/* Lab Coat Shoulders & Torso (White) */}
+                    <path
+                      d="M 32 75 C 32 70, 44 68, 60 68 C 76 68, 88 70, 88 75 L 94 140 L 26 140 Z"
+                      fill="#FFFFFF"
+                      stroke="#CBD5E1"
+                      strokeWidth="1.5"
+                    />
+
+                    {/* Lab Coat Lapels */}
+                    <path d="M 42 70 L 48 105 L 35 140" fill="none" stroke="#94A3B8" strokeWidth="1.5" />
+                    <path d="M 78 70 L 72 105 L 85 140" fill="none" stroke="#94A3B8" strokeWidth="1.5" />
+
+                    {/* Stethoscope around neck */}
+                    <path
+                      d="M 46 72 Q 44 95 56 100 Q 64 100 68 85 Q 70 72 74 72"
+                      fill="none"
+                      stroke="#475569"
+                      strokeWidth="2.5"
+                      strokeLinecap="round"
+                    />
+                    <circle cx="56" cy="103" r="3.5" fill="#94A3B8" stroke="#334155" strokeWidth="1.5" />
+
+                    {/* Clinic ID Badge */}
+                    <rect x="35" y="90" width="10" height="14" rx="2" fill="#FFFFFF" stroke="#0284C7" strokeWidth="1" />
+                    <rect x="37" y="93" width="6" height="4" fill="#0284C7" />
+                    <line x1="37" y1="99" x2="43" y2="99" stroke="#94A3B8" strokeWidth="0.8" />
+                  </svg>
+
+                  {/* Character Role Pill Badge under avatar */}
+                  <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-deep-teal px-2.5 py-0.5 text-[10px] font-bold text-white shadow-xs">
+                    {scenario.character}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* RIGHT CHARACTER: The Patient Advocate (Youth Athlete / Self-Advocate) */}
+            <div className="flex flex-col items-center sm:items-end space-y-3">
+              {/* Patient Speech Bubble (Populates upon choice) */}
+              <div
+                className={`relative max-w-sm rounded-2xl border-2 p-3.5 sm:p-4 shadow-sm transition-all duration-300 ${
+                  chosenOpt === null
+                    ? "border-dashed border-deep-teal/25 bg-white/70"
+                    : isBest
+                    ? "border-emerald-500 bg-emerald-50/90 text-emerald-950 ring-2 ring-emerald-500/20"
+                    : "border-amber-400 bg-amber-50/90 text-amber-950"
+                }`}
+              >
+                <div className="flex items-center justify-between gap-2 border-b border-deep-teal/10 pb-1.5 mb-1.5">
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-charcoal/80 font-sans flex items-center gap-1.5">
+                    <MessageSquare className="w-3.5 h-3.5 text-deep-teal" />
+                    Your Advocacy Voice
+                  </span>
+                  {chosenOpt !== null && (
+                    <span
+                      className={`text-[10px] font-bold uppercase px-2 py-0.5 rounded-full ${
+                        isBest ? "bg-emerald-600 text-white" : "bg-amber-200 text-amber-900"
+                      }`}
+                    >
+                      {isBest ? "✦ Evidence Cited" : "⚠️ Passive Response"}
+                    </span>
+                  )}
+                </div>
+
+                <p className="text-sm sm:text-base font-sans leading-snug m-0">
+                  {chosenOpt === null ? (
+                    <span className="italic text-charcoal/60">
+                      Tap one of the responses below to speak up and advocate for your clinical needs!
+                    </span>
+                  ) : (
+                    <span>{chosenOpt.text}</span>
+                  )}
+                </p>
+
+                {/* Speech Bubble Tail */}
+                <div
+                  className={`absolute -bottom-2.5 right-8 w-4 h-4 border-b-2 border-r-2 rotate-45 ${
+                    isBest
+                      ? "bg-emerald-50 border-emerald-500"
+                      : chosenOpt !== null
+                      ? "bg-amber-50 border-amber-400"
+                      : "bg-white border-deep-teal/25"
+                  }`}
+                ></div>
+              </div>
+
+              {/* Patient Character Visual (SVG Illustration) */}
+              <div className="flex items-end gap-3 pr-3">
+                <div className="relative group">
+                  {/* Patient Illustrated Avatar SVG */}
+                  <svg
+                    viewBox="0 0 120 140"
+                    className="w-24 sm:w-28 h-auto drop-shadow-md transition-transform duration-300 hover:scale-105"
+                  >
+                    {/* Head / Neck */}
+                    <ellipse cx="60" cy="42" rx="20" ry="22" fill="#E8BFA2" />
+                    {/* Hair (Youth Ponytail or Styled Waves) */}
+                    <path
+                      d="M 38 42 C 36 20, 84 20, 82 42 C 84 32, 76 22, 60 22 C 44 22, 36 32, 38 42 Z"
+                      fill="#26170B"
+                    />
+                    <path
+                      d="M 78 35 Q 98 40 92 65 Q 86 52 78 45 Z"
+                      fill="#26170B"
+                    />
+
+                    {/* Eyebrows */}
+                    {isBest ? (
+                      // Confident empowered brows
+                      <>
+                        <path d="M 49 33 Q 54 31 58 33" stroke="#26170B" strokeWidth="2" fill="none" strokeLinecap="round" />
+                        <path d="M 62 33 Q 66 31 71 33" stroke="#26170B" strokeWidth="2" fill="none" strokeLinecap="round" />
+                      </>
+                    ) : chosenOpt !== null ? (
+                      // Disappointed / hesitant brows
+                      <>
+                        <path d="M 49 34 Q 54 36 58 34" stroke="#26170B" strokeWidth="2" fill="none" strokeLinecap="round" />
+                        <path d="M 62 34 Q 66 36 71 34" stroke="#26170B" strokeWidth="2" fill="none" strokeLinecap="round" />
+                      </>
+                    ) : (
+                      // Expectant neutral brows
+                      <>
+                        <path d="M 49 33 Q 54 32 58 33" stroke="#26170B" strokeWidth="1.8" fill="none" strokeLinecap="round" />
+                        <path d="M 62 33 Q 66 32 71 33" stroke="#26170B" strokeWidth="1.8" fill="none" strokeLinecap="round" />
+                      </>
+                    )}
+
+                    {/* Eyes */}
+                    <circle cx="53" cy="40" r="2.5" fill="#1E293B" />
+                    <circle cx="67" cy="40" r="2.5" fill="#1E293B" />
+                    <circle cx="54" cy="39" r="0.8" fill="#FFFFFF" />
+                    <circle cx="68" cy="39" r="0.8" fill="#FFFFFF" />
+
+                    {/* Nose */}
+                    <path d="M 60 42 L 59 47 L 62 47" stroke="#C99572" strokeWidth="1.3" fill="none" strokeLinecap="round" />
+
+                    {/* Mouth */}
+                    {isBest ? (
+                      // Confident advocacy smile
+                      <path d="M 53 53 Q 60 61 67 53" stroke="#991B1B" strokeWidth="2.2" fill="none" strokeLinecap="round" />
+                    ) : chosenOpt !== null ? (
+                      // Hesitant slight frown
+                      <path d="M 54 55 Q 60 52 66 55" stroke="#991B1B" strokeWidth="2" fill="none" strokeLinecap="round" />
+                    ) : (
+                      // Ready to speak
+                      <ellipse cx="60" cy="54" rx="3.5" ry="2.5" fill="#991B1B" />
+                    )}
+
+                    {/* Neck */}
+                    <rect x="55" y="63" width="10" height="9" fill="#DCA280" />
+
+                    {/* Jacket / Activewear Hoodie (ReproUs Coral & Teal) */}
+                    <path
+                      d="M 34 74 C 34 68, 46 66, 60 66 C 74 66, 86 68, 86 74 L 92 140 L 28 140 Z"
+                      fill="#F47A6A"
+                      stroke="#E15A49"
+                      strokeWidth="1.5"
+                    />
+                    {/* Inner athletic collar (Teal) */}
+                    <path d="M 48 68 L 60 82 L 72 68 Z" fill="#175B5C" />
+                    <line x1="60" y1="82" x2="60" y2="140" stroke="#FFFFFF" strokeWidth="1.5" strokeDasharray="3,3" />
+
+                    {/* Patient Evidence Portfolio Tablet / Logbook held in arm */}
+                    <g transform="translate(18, 92) rotate(-10)">
+                      <rect x="0" y="0" width="30" height="38" rx="3" fill="#FFFFFF" stroke="#175B5C" strokeWidth="1.5" />
+                      <rect x="3" y="3" width="24" height="6" fill="#175B5C" rx="1" />
+                      <line x1="4" y1="13" x2="26" y2="13" stroke="#94A3B8" strokeWidth="1.5" />
+                      <line x1="4" y1="18" x2="22" y2="18" stroke="#94A3B8" strokeWidth="1.5" />
+                      <line x1="4" y1="23" x2="24" y2="23" stroke="#94A3B8" strokeWidth="1.5" />
+                      {/* Checkmark stamp on patient binder */}
+                      {isBest && (
+                        <circle cx="20" cy="28" r="5" fill="#059669" />
+                      )}
+                    </g>
+                  </svg>
+
+                  {/* Character Label */}
+                  <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-coral px-2.5 py-0.5 text-[10px] font-bold text-white shadow-xs">
+                    Patient Advocate
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* 2. DYNAMIC ADVOCACY IMPACT & CLINICAL ALIGNMENT GAUGE */}
+      {(() => {
+        const statusConfig =
+          chosenOpt === null
+            ? {
+                title: "Initial Consultation Baseline",
+                sub: "Review your evidence below and select the dialogue response that directly asserts your symptoms and clinical guidelines.",
+                badgeBg: "bg-slate-100 text-slate-800 border-slate-300",
+                barColor: "bg-deep-teal",
+              }
+            : isBest
+            ? {
+                title: "Full Clinical Alignment (100%)",
+                sub: "Medical provider acknowledges clinical criteria and orders diagnostic evaluation! Chart records officially admitted.",
+                badgeBg: "bg-emerald-100 text-emerald-900 border-emerald-300",
+                barColor: "bg-emerald-600",
+              }
+            : {
+                title: "Dismissal Risk (30%)",
+                sub: "Provider dismissed symptoms without diagnostic testing. Re-evaluate and cite your symptom logs and clinical standards!",
+                badgeBg: "bg-amber-100 text-amber-900 border-amber-300",
+                barColor: "bg-amber-500",
+              };
+
+        return (
+          <div className="rounded-3xl border-2 border-deep-teal/20 bg-white p-4 sm:p-5 shadow-2xs space-y-3">
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <div className="flex items-center gap-2">
+                <Scale className="w-4 h-4 text-deep-teal" />
+                <span className="font-bold text-xs sm:text-sm uppercase tracking-wider text-deep-teal font-sans">
+                  Provider-Patient Clinical Alignment Gauge
+                </span>
+              </div>
+              <span className={`text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full border font-sans ${statusConfig.badgeBg}`}>
+                {statusConfig.title}
+              </span>
+            </div>
+
+            {/* Visual Alignment Meter Track */}
+            <div className="space-y-1.5">
+              <div className="relative h-3.5 w-full rounded-full border border-slate-200 bg-slate-100 p-0.5 overflow-hidden">
+                <div
+                  className={`h-full rounded-full transition-all duration-700 ease-out ${statusConfig.barColor}`}
+                  style={{ width: `${alignmentPercent}%` }}
+                />
+              </div>
+              <div className="flex justify-between px-1 text-[11px] font-sans font-semibold text-charcoal/60">
+                <span className={alignmentPercent <= 35 ? "font-bold text-amber-700" : ""}>
+                  Dismissal Risk (0–35%)
+                </span>
+                <span className={alignmentPercent > 35 && alignmentPercent <= 70 ? "font-bold text-deep-teal" : ""}>
+                  Standard Intake (36–70%)
+                </span>
+                <span className={alignmentPercent > 70 ? "font-bold text-emerald-700" : ""}>
+                  Clinical Alignment (71–100%)
+                </span>
+              </div>
+            </div>
+
+            <p className="text-xs sm:text-sm text-charcoal/80 font-sans m-0">
+              {statusConfig.sub}
+            </p>
+          </div>
+        );
+      })()}
+
+      {/* 3. PATIENT EVIDENCE DECK (Documented Clinical Portfolio) */}
+      {scenario.evidence && (
+        <div
+          className={`rounded-3xl border-2 p-5 sm:p-6 transition-all shadow-2xs space-y-3 ${
+            chosenOpt === null
+              ? "border-dashed border-deep-teal/30 bg-slate-50/90"
+              : isBest
+              ? "border-emerald-500 bg-emerald-50/80 ring-2 ring-emerald-500/20 shadow-sm"
+              : "border-amber-300 bg-amber-50/70"
+          }`}
+        >
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div className="flex items-center gap-2.5">
+              <div
+                className={`w-8 h-8 rounded-xl flex items-center justify-center font-bold text-sm shadow-2xs ${
+                  isBest ? "bg-emerald-600 text-white" : "bg-deep-teal text-white"
+                }`}
+              >
+                <FileSpreadsheet className="w-4 h-4" />
+              </div>
+              <div>
+                <span className="block text-[11px] font-bold uppercase tracking-wider text-deep-teal/80 font-sans">
+                  Your Documented Patient Evidence
+                </span>
+                <span className="text-xs sm:text-sm font-bold text-charcoal font-sans">
+                  {scenario.evidence.title}
+                </span>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <span className="rounded-full border border-deep-teal/20 bg-white px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-deep-teal font-sans shadow-2xs">
+                {scenario.evidence.badge}
+              </span>
+              {isBest && (
+                <span className="flex items-center gap-1 rounded-full bg-emerald-600 px-2.5 py-1 text-[11px] font-bold text-white shadow-2xs font-sans">
+                  <Check className="w-3 h-3" />
+                  <span>Admitted to Chart</span>
+                </span>
+              )}
+            </div>
+          </div>
+
+          {/* Metric Highlight Box */}
+          <div className="flex items-center gap-2.5 rounded-2xl border border-deep-teal/15 bg-white/95 p-3 sm:p-3.5">
+            <TrendingUp className="w-4 h-4 shrink-0 text-deep-teal" />
+            <span className="text-xs sm:text-sm font-bold text-deep-teal font-sans">
+              Documented Record: <span className="font-medium text-charcoal">{scenario.evidence.metric}</span>
+            </span>
+          </div>
+
+          <p className="text-xs sm:text-sm text-charcoal/85 leading-relaxed font-sans m-0">
+            {scenario.evidence.description}
+          </p>
+
+          <div className="pt-0.5 text-[11px] font-bold font-sans">
+            {chosenOpt === null ? (
+              <span className="flex items-center gap-1.5 text-deep-teal">
+                <Sparkles className="w-3.5 h-3.5" />
+                Evidence Ready in Hand: Select the response below that presents these documented logs to your doctor.
+              </span>
+            ) : isBest ? (
+              <span className="flex items-center gap-1.5 text-emerald-800">
+                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
+                Evidence successfully entered into chart! Clinicians cannot legally ignore documented symptoms.
+              </span>
+            ) : (
+              <span className="flex items-center gap-1.5 text-amber-800">
+                <AlertTriangle className="w-3.5 h-3.5 text-amber-600" />
+                Evidence was not cited! Try selecting the answer that actively introduces this documentation.
+              </span>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* 4. ADVOCACY RESPONSE CHOICES */}
+      <div className="space-y-3">
+        <div className="flex items-center justify-between gap-2">
+          <span className="block text-base sm:text-lg font-bold text-charcoal/90 font-sans">
+            How do you respond to advocate for yourself?
+          </span>
+          <span className="text-xs font-semibold text-charcoal/60 font-sans">
+            3 Dialogue Options
+          </span>
+        </div>
+
+        <div className="space-y-3">
+          {scenario.options.map((opt, optIdx) => {
+            const isSelected = selectedOption === optIdx;
+            const optionLabels = ["Option A", "Option B", "Option C"];
+
+            return (
+              <button
+                key={optIdx}
+                type="button"
+                onClick={() => onSelectOption(optIdx)}
+                className={`w-full rounded-3xl border-2 p-5 sm:p-6 text-left transition-all cursor-pointer shadow-2xs ${
+                  isSelected
+                    ? opt.isBest
+                      ? "border-emerald-500 bg-emerald-50 shadow-md ring-2 ring-emerald-500/25"
+                      : "border-amber-400 bg-amber-50 shadow-sm"
+                    : "border-deep-teal/15 bg-white hover:border-deep-teal/40 hover:bg-light-teal/20"
+                }`}
+              >
+                <div className="flex items-start justify-between gap-3">
+                  <div className="space-y-1.5">
+                    <span
+                      className={`inline-block rounded-full px-2.5 py-0.5 text-[11px] font-bold uppercase tracking-wider font-sans ${
+                        isSelected
+                          ? opt.isBest
+                            ? "bg-emerald-200/80 text-emerald-900"
+                            : "bg-amber-200/80 text-amber-900"
+                          : "bg-slate-100 text-charcoal/70"
+                      }`}
+                    >
+                      {optionLabels[optIdx] || `Option ${optIdx + 1}`}
+                    </span>
+                    <p
+                      className={`text-base sm:text-lg md:text-[19px] leading-relaxed font-sans m-0 ${
+                        isSelected && opt.isBest
+                          ? "font-semibold text-emerald-950"
+                          : "font-medium text-charcoal/90"
+                      }`}
+                    >
+                      {opt.text}
+                    </p>
+                  </div>
+
+                  {isSelected && opt.isBest && (
+                    <span className="mt-1 inline-flex shrink-0 items-center gap-1 rounded-full bg-emerald-600 px-3 py-1 text-xs font-bold text-white shadow-2xs font-sans">
+                      <Check className="w-3.5 h-3.5" />
+                      <span>+{opt.xpBonus} XP</span>
+                    </span>
+                  )}
+                </div>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* 5. CLINICAL FEEDBACK & COACHING CARD */}
+      {chosenOpt !== null && (
+        <div
+          className={`rounded-3xl border-2 p-5 sm:p-6 space-y-2.5 animate-in fade-in ${
+            isBest
+              ? "border-emerald-400 bg-emerald-50 text-emerald-950"
+              : "border-amber-300 bg-amber-50 text-amber-950"
+          }`}
+        >
+          <div className="flex items-center gap-2">
+            {isBest ? (
+              <CheckCircle2 className="w-5 h-5 shrink-0 text-emerald-700" />
+            ) : (
+              <AlertTriangle className="w-5 h-5 shrink-0 text-amber-700" />
+            )}
+            <span className="text-sm sm:text-base font-bold uppercase tracking-wider font-sans">
+              {isBest ? "✦ Self-Advocacy Mastery Unlocked!" : "Clinical Coaching Tip:"}
+            </span>
+          </div>
+
+          <p className="text-base sm:text-lg md:text-[19px] leading-relaxed font-sans m-0">
+            {chosenOpt.feedback}
+          </p>
+
+          {!isBest && (
+            <p className="pt-1 text-xs sm:text-sm font-semibold text-amber-800 font-sans">
+              Tip: Tap the other options above to see how presenting your symptom log changes the doctor&apos;s stance!
+            </p>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
