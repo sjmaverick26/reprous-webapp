@@ -566,7 +566,7 @@ export function HubView({ initialCategory }: HubViewProps) {
 
               {/* Little Health Dictionary & Medical Jargon Buster */}
               <div id="health-dictionary" className="mt-8 pt-6 border-t-2 border-deep-teal/15">
-                <LittleHealthDictionary />
+                <LittleHealthDictionary initialModuleId={activeCategory.id} />
               </div>
 
               {/* Category Educational References */}
@@ -922,7 +922,7 @@ export function HubView({ initialCategory }: HubViewProps) {
 
                       {/* Little Health Dictionary for quick lookups */}
                       <div className="pt-2">
-                        <LittleHealthDictionary compact={true} />
+                        <LittleHealthDictionary compact={true} initialModuleId={activeCategoryId || undefined} />
                       </div>
 
                       {/* Educational References Section */}
