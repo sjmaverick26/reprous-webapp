@@ -892,13 +892,13 @@ export function HubView({ initialCategory }: HubViewProps) {
                         </DialogDescription>
                       </div>
 
-                      {/* Hero Core Principle in Large Editorial Typography */}
-                      <div className={`p-6 sm:p-8 md:p-9 rounded-3xl border-2 leading-relaxed ${topicTheme.bgLight} ${topicTheme.borderPrimary} shadow-sm space-y-3`}>
+                      {/* Hero Core Principle in Our Story Subtext Format */}
+                      <div className={`p-6 sm:p-7 md:p-8 rounded-3xl border-2 leading-relaxed ${topicTheme.bgLight} ${topicTheme.borderPrimary} shadow-sm space-y-2.5`}>
                         <div className="flex items-center gap-2 text-xs sm:text-sm font-bold uppercase tracking-wider text-deep-teal font-sans">
                           <Lightbulb className="w-5 h-5 text-raspberry" />
                           <span>Foundational Principle</span>
                         </div>
-                        <p className="text-xl sm:text-2xl md:text-[27px] text-deep-teal font-medium leading-relaxed font-serif">
+                        <p className="text-[17px] sm:text-[18px] md:text-[19px] font-bold text-deep-teal/90 leading-relaxed font-sans">
                           {selectedTopic.summary}
                         </p>
                       </div>
