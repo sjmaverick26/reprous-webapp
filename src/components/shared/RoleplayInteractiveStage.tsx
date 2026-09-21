@@ -38,7 +38,7 @@ interface PatientVisualProfile {
   skinTone: string;
   skinShadow: string;
   hairColor: string;
-  hairStyle: "ponytail" | "braids-topknot" | "hijab" | "curly-afro" | "wavy-long" | "bob-sleek";
+  hairStyle: "ponytail" | "braids-topknot" | "box-braids" | "hijab" | "curly-afro" | "wavy-long" | "bob-sleek";
   hijabColor?: string;
   hasGlasses?: boolean;
   glassesColor?: string;
@@ -52,10 +52,10 @@ const DIVERSE_PATIENT_PROFILES: PatientVisualProfile[] = [
   {
     name: "Maya",
     role: "Student Athlete",
-    skinTone: "#5C3826", // Deep rich brown
-    skinShadow: "#452718",
-    hairColor: "#111827",
-    hairStyle: "braids-topknot",
+    skinTone: "#523321", // Deep warm rich brown
+    skinShadow: "#3A2012",
+    hairColor: "#0B0E14", // Jet black
+    hairStyle: "box-braids",
     topType: "track-jacket",
     topColor: "#F47A6A", // ReproUs coral
     topAccentColor: "#175B5C", // Deep teal
@@ -657,6 +657,20 @@ function PatientAvatarSvg({
       viewBox="0 0 120 140"
       className="w-24 sm:w-28 h-auto drop-shadow-md transition-transform duration-300 hover:scale-105"
     >
+      {/* Back Hair for Box Braids */}
+      {profile.hairStyle === "box-braids" && (
+        <>
+          <path
+            d="M 34 44 Q 22 70 20 100 Q 18 126 22 138 L 30 138 Q 28 105 32 75 Z"
+            fill="#05070A"
+          />
+          <path
+            d="M 86 44 Q 98 70 100 100 Q 102 126 98 138 L 90 138 Q 92 105 88 75 Z"
+            fill="#05070A"
+          />
+        </>
+      )}
+
       {/* Head Base */}
       <ellipse cx="60" cy="42" rx="20" ry="22" fill={profile.skinTone} />
 
@@ -766,13 +780,19 @@ function PatientAvatarSvg({
       {/* Nose */}
       <path d="M 60 42 L 59 47 L 62 47" stroke={profile.skinShadow} strokeWidth="1.3" fill="none" strokeLinecap="round" />
 
-      {/* Mouth */}
+      {/* Mouth (Natural lips - no red lipstick) */}
       {isBest ? (
-        <path d="M 53 53 Q 60 61 67 53" stroke="#991B1B" strokeWidth="2.2" fill="none" strokeLinecap="round" />
+        <>
+          <path d="M 52 53 Q 60 60 68 53" stroke={profile.skinShadow} strokeWidth="1.8" fill="none" strokeLinecap="round" />
+          <path d="M 54 54.5 Q 60 58 66 54.5" stroke={profile.skinShadow} strokeWidth="1.2" fill="none" strokeLinecap="round" opacity="0.6" />
+        </>
       ) : chosenOpt !== null ? (
-        <path d="M 54 55 Q 60 52 66 55" stroke="#991B1B" strokeWidth="2" fill="none" strokeLinecap="round" />
+        <path d="M 54 55 Q 60 52 66 55" stroke={profile.skinShadow} strokeWidth="1.8" fill="none" strokeLinecap="round" />
       ) : (
-        <ellipse cx="60" cy="54" rx="3.5" ry="2.5" fill="#991B1B" />
+        <>
+          <path d="M 54 54 Q 60 55.5 66 54" stroke={profile.skinShadow} strokeWidth="1.8" fill="none" strokeLinecap="round" />
+          <path d="M 55 55.5 Q 60 57.5 65 55.5" stroke={profile.skinShadow} strokeWidth="1.2" fill="none" strokeLinecap="round" opacity="0.5" />
+        </>
       )}
 
       {/* Neck */}
@@ -787,6 +807,55 @@ function PatientAvatarSvg({
       />
       <path d="M 48 68 L 60 82 L 72 68 Z" fill={profile.topAccentColor} />
       <line x1="60" y1="82" x2="60" y2="140" stroke="#FFFFFF" strokeWidth="1.5" strokeDasharray="3,3" />
+
+      {/* Front Box Braids Drape */}
+      {profile.hairStyle === "box-braids" && (
+        <g>
+          {/* Scalp cap with neat parted box sections */}
+          <path
+            d="M 38 42 C 36 18, 84 18, 82 42 C 84 28, 76 20, 60 20 C 44 20, 36 28, 38 42 Z"
+            fill={profile.hairColor}
+          />
+          {/* Clean neat geometric parting lines */}
+          <line x1="60" y1="20" x2="60" y2="36" stroke="#374151" strokeWidth="0.8" />
+          <path d="M 46 25 Q 60 28 74 25" stroke="#374151" strokeWidth="0.8" fill="none" />
+          <path d="M 42 32 Q 60 35 78 32" stroke="#374151" strokeWidth="0.8" fill="none" />
+
+          {/* Left Side Braids */}
+          {/* Outer braid L1 */}
+          <path d="M 39 34 Q 28 54 27 82 Q 26 104 28 122" stroke={profile.hairColor} strokeWidth="3.6" fill="none" strokeLinecap="round" />
+          <path d="M 39 34 Q 28 54 27 82 Q 26 104 28 122" stroke="#374151" strokeWidth="1.2" fill="none" strokeDasharray="3,2.5" />
+          
+          {/* Mid braid L2 */}
+          <path d="M 44 36 Q 34 58 34 86 Q 34 110 36 128" stroke={profile.hairColor} strokeWidth="3.4" fill="none" strokeLinecap="round" />
+          <path d="M 44 36 Q 34 58 34 86 Q 34 110 36 128" stroke="#374151" strokeWidth="1.2" fill="none" strokeDasharray="3,2.5" />
+
+          {/* Inner face-framing braid L3 */}
+          <path d="M 48 40 Q 42 62 41 88 Q 40 112 43 130" stroke={profile.hairColor} strokeWidth="3" fill="none" strokeLinecap="round" />
+          <path d="M 48 40 Q 42 62 41 88 Q 40 112 43 130" stroke="#374151" strokeWidth="1" fill="none" strokeDasharray="3,2.5" />
+
+          {/* Right Side Braids */}
+          {/* Inner face-framing braid R3 */}
+          <path d="M 72 40 Q 78 62 79 88 Q 80 112 77 130" stroke={profile.hairColor} strokeWidth="3" fill="none" strokeLinecap="round" />
+          <path d="M 72 40 Q 78 62 79 88 Q 80 112 77 130" stroke="#374151" strokeWidth="1" fill="none" strokeDasharray="3,2.5" />
+
+          {/* Mid braid R2 */}
+          <path d="M 76 36 Q 86 58 86 86 Q 86 110 84 128" stroke={profile.hairColor} strokeWidth="3.4" fill="none" strokeLinecap="round" />
+          <path d="M 76 36 Q 86 58 86 86 Q 86 110 84 128" stroke="#374151" strokeWidth="1.2" fill="none" strokeDasharray="3,2.5" />
+
+          {/* Outer braid R1 */}
+          <path d="M 81 34 Q 92 54 93 82 Q 94 104 92 122" stroke={profile.hairColor} strokeWidth="3.6" fill="none" strokeLinecap="round" />
+          <path d="M 81 34 Q 92 54 93 82 Q 94 104 92 122" stroke="#374151" strokeWidth="1.2" fill="none" strokeDasharray="3,2.5" />
+
+          {/* Gold braid cuffs / rings */}
+          <rect x="25.5" y="86" width="3.2" height="3" rx="0.6" fill="#F59E0B" />
+          <rect x="91.3" y="86" width="3.2" height="3" rx="0.6" fill="#F59E0B" />
+          <rect x="34.5" y="105" width="3" height="2.8" rx="0.6" fill="#F59E0B" />
+          <rect x="82.5" y="105" width="3" height="2.8" rx="0.6" fill="#F59E0B" />
+          <rect x="41.5" y="120" width="3" height="2.5" rx="0.6" fill="#F59E0B" />
+          <rect x="75.5" y="120" width="3" height="2.5" rx="0.6" fill="#F59E0B" />
+        </g>
+      )}
 
       {/* Patient Evidence Portfolio Tablet / Binder */}
       <g transform="translate(18, 92) rotate(-10)">
