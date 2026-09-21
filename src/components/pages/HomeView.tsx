@@ -28,7 +28,8 @@ import {
   Download,
   ClipboardList,
   CalendarCheck,
-  MessageSquare
+  MessageSquare,
+  Globe
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -714,8 +715,8 @@ export function HomeView({ onNavigate, onSelectLang }: HomeViewProps) {
                     Building the confidence, vocabulary, and evidence to be taken seriously by clinicians.
                   </p>
                 </div>
-                <div className="hidden md:flex justify-end pt-2 text-white font-bold text-sm">
-                  ✓
+                <div className="hidden md:flex justify-end pt-2 text-white">
+                  <CheckCircle2 className="w-4 h-4 text-white" />
                 </div>
               </div>
             </div>
@@ -1193,13 +1194,23 @@ export function HomeView({ onNavigate, onSelectLang }: HomeViewProps) {
                         {session.date}
                       </span>
                       <span
-                        className={`text-[12px] font-bold px-2.5 py-0.5 rounded ${
+                        className={`text-[12px] font-bold px-2.5 py-0.5 rounded inline-flex items-center gap-1.5 ${
                           session.isOnline
                             ? "bg-light-teal text-deep-teal border border-deep-teal/20"
                             : "bg-soft-pink text-deep-teal border border-coral/30"
                         }`}
                       >
-                        {session.isOnline ? "🌐 Virtual Zoom" : "📍 In Person"}
+                        {session.isOnline ? (
+                          <>
+                            <Globe className="w-3 h-3 text-deep-teal" />
+                            <span>Virtual Zoom</span>
+                          </>
+                        ) : (
+                          <>
+                            <MapPin className="w-3 h-3 text-deep-teal" />
+                            <span>In Person</span>
+                          </>
+                        )}
                       </span>
                     </div>
 

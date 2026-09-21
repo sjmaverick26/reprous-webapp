@@ -36,7 +36,7 @@ export const MODULE_TABS: ModuleTab[] = [
   {
     id: "jargon",
     label: "Doctor Jargon & Chart Code",
-    shortLabel: "🩺 Doctor Jargon",
+    shortLabel: "Doctor Jargon",
     groupColor: "purple",
     tagline: "De-code patient portal notes, doctor shorthand, and clinical buzzwords (WNL, R/O, Idiopathic, Refractory).",
   },
@@ -1024,6 +1024,9 @@ export function LittleHealthDictionary({
                   tab
                 )}`}
               >
+                {tab.id === "jargon" && (
+                  <Stethoscope className="w-3 h-3 text-current shrink-0" />
+                )}
                 <span>{tab.shortLabel}</span>
                 <span
                   className={`text-[10px] px-1.5 py-0.2 rounded-full font-mono font-bold ${
@@ -1139,8 +1142,9 @@ export function LittleHealthDictionary({
 
                   {/* Plain English Translation */}
                   <div className="p-3 rounded-lg bg-amber-50/70 border border-amber-200/70 text-xs text-charcoal/90 leading-relaxed font-sans mt-2">
-                    <strong className="text-amber-950 font-bold block mb-0.5 flex items-center gap-1">
-                      <span>✨ Plain English Meaning:</span>
+                    <strong className="text-amber-950 font-bold block mb-0.5 flex items-center gap-1.5">
+                      <Sparkles className="w-3.5 h-3.5 text-amber-700 shrink-0" />
+                      <span>Plain English Meaning:</span>
                     </strong>
                     {entry.plainEnglish}
                   </div>
@@ -1151,8 +1155,8 @@ export function LittleHealthDictionary({
                   {isExpanded ? (
                     <div className="space-y-2.5 pt-2 border-t border-amber-100 text-xs animate-in fade-in duration-150">
                       <div className="p-2.5 rounded-lg bg-slate-50 border border-slate-200">
-                        <span className="text-[11px] font-bold text-slate-700 flex items-center gap-1 mb-0.5">
-                          <Stethoscope className="w-3 h-3 text-slate-600" />
+                        <span className="text-[11px] font-bold text-slate-700 flex items-center gap-1.5 mb-0.5">
+                          <Stethoscope className="w-3.5 h-3.5 text-slate-600 shrink-0" />
                           <span>Clinical Pathology Definition:</span>
                         </span>
                         <p className="text-slate-800 italic text-[11.5px] m-0 leading-relaxed">
@@ -1161,9 +1165,9 @@ export function LittleHealthDictionary({
                       </div>
 
                       <div className="p-2.5 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-950 text-[11.5px] leading-relaxed">
-                        <strong className="block mb-0.5 font-bold flex items-center gap-1 text-emerald-900">
-                          <MessageSquare className="w-3 h-3 text-emerald-700" />
-                          <span>💬 What to say in your appointment:</span>
+                        <strong className="block mb-0.5 font-bold flex items-center gap-1.5 text-emerald-900">
+                          <MessageSquare className="w-3.5 h-3.5 text-emerald-700 shrink-0" />
+                          <span>What to say in your appointment:</span>
                         </strong>
                         {entry.howToSayIt}
                       </div>

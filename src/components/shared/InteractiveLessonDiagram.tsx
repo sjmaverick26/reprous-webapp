@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { LessonDiagram } from "@/data/hubData";
-import { Activity, AlertTriangle, CheckCircle2, Info, Sparkles, Zap, Shield, Heart } from "lucide-react";
+import { Activity, AlertTriangle, CheckCircle2, Info, Sparkles, Zap, Shield, Heart, Lightbulb, Stethoscope } from "lucide-react";
 
 interface InteractiveLessonDiagramProps {
   diagram: LessonDiagram;
@@ -228,8 +228,9 @@ function CycleWheelDiagram({ diagram }: { diagram: LessonDiagram; themeColor: st
             Athletic & Daily Synergy Tip
           </div>
           <p className="text-charcoal/85 leading-relaxed">{current.workoutTip}</p>
-          <div className="mt-2.5 text-[11px] font-semibold text-deep-teal/90 bg-white/70 p-2 rounded-lg border border-deep-teal/10">
-            💡 <em>Tip:</em> Cycle phases naturally fluctuate. Using them as self-knowledge helps you train and recover with your biology, not against it.
+          <div className="mt-2.5 text-[11px] font-semibold text-deep-teal/90 bg-white/70 p-2 rounded-lg border border-deep-teal/10 flex items-center gap-1.5">
+            <Lightbulb className="w-3.5 h-3.5 text-deep-teal shrink-0" />
+            <span><em>Tip:</em> Cycle phases naturally fluctuate. Using them as self-knowledge helps you train and recover with your biology, not against it.</span>
           </div>
         </div>
       </div>
@@ -911,8 +912,11 @@ function AnatomyCalloutDiagram({ diagram }: { diagram: LessonDiagram; themeColor
             {current.whyItMatters}
           </p>
           <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-200/80 text-[11.5px] text-charcoal/80">
-            <strong>🩺 What a Doctor Checks: </strong>
-            {current.doctorSays}
+            <strong className="inline-flex items-center gap-1 text-slate-800 font-bold mb-0.5">
+              <Stethoscope className="w-3.5 h-3.5 text-slate-600 inline shrink-0" />
+              <span>What a Doctor Checks:</span>
+            </strong>
+            <p className="m-0 mt-0.5">{current.doctorSays}</p>
           </div>
         </div>
       </div>
@@ -1005,9 +1009,9 @@ function AthletePlateDiagram({ diagram }: { diagram: LessonDiagram; themeColor: 
                 : "bg-white text-charcoal/75 border-slate-200 hover:bg-rose-50"
             }`}
           >
-            {mode === "easy" && "🧘 Rest Day"}
-            {mode === "moderate" && "🏃 Practice Day"}
-            {mode === "hard" && "⚡ Game Day"}
+            {mode === "easy" && "Rest Day"}
+            {mode === "moderate" && "Practice Day"}
+            {mode === "hard" && "Game Day"}
           </button>
         ))}
       </div>
@@ -1091,7 +1095,10 @@ function AthletePlateDiagram({ diagram }: { diagram: LessonDiagram; themeColor: 
 
       {/* Hormone Protection Clinical Note */}
       <div className="p-3.5 rounded-xl bg-[#FFE1DB]/40 border border-coral/30 text-xs text-charcoal/90">
-        <strong className="text-[#B83F68] block mb-1">💡 Why Fueling Protects Your Hormones:</strong>
+        <strong className="text-[#B83F68] block mb-1 flex items-center gap-1.5">
+          <Lightbulb className="w-3.5 h-3.5 text-[#B83F68] shrink-0" />
+          <span>Why Fueling Protects Your Hormones:</span>
+        </strong>
         {config.hormoneImpact}
       </div>
     </div>
@@ -1119,8 +1126,8 @@ function HormoneScaleDiagram({ diagram }: { diagram: LessonDiagram; themeColor: 
       title: "Low Fuel / Stress / RED-S",
       statusText: "Under-Fueling Suppression",
       scaleAngle: -12,
-      estrogen: "Critically Suppressed ⬇️",
-      progesterone: "Missing (No Ovulation) ⬇️",
+      estrogen: "Critically Suppressed (Low)",
+      progesterone: "Missing (No Ovulation)",
       androgens: "Normal to Low",
       feelings: "Periods stop (amenorrhea), frequent stress fractures, cold hands/feet, feeling chronically drained.",
       actionTip: "Increase daily complex carbs and overall calories to signal safety to your brain.",
@@ -1130,8 +1137,8 @@ function HormoneScaleDiagram({ diagram }: { diagram: LessonDiagram; themeColor: 
       statusText: "Elevated Androgens & Insulin",
       scaleAngle: 12,
       estrogen: "Steady but Unofficially High",
-      progesterone: "Low / Infrequent ⬇️",
-      androgens: "Elevated (Testosterone) ⬆️",
+      progesterone: "Low / Infrequent",
+      androgens: "Elevated (High Testosterone)",
       feelings: "Irregular cycles (40–60+ days apart), hormonal acne along jawline, stubborn fatigue, hair thinning.",
       actionTip: "Balance blood sugar with protein + fiber meals, strength training, and talk to a doctor.",
     },
@@ -1168,9 +1175,9 @@ function HormoneScaleDiagram({ diagram }: { diagram: LessonDiagram; themeColor: 
                 : "bg-white text-charcoal/70 border-slate-200 hover:bg-soft-pink/40"
             }`}
           >
-            {mode === "balanced" && "⚖️ Balanced"}
-            {mode === "low_fuel" && "📉 Low Energy"}
-            {mode === "pcos" && "🧬 PCOS Pattern"}
+            {mode === "balanced" && "Balanced"}
+            {mode === "low_fuel" && "Low Fuel"}
+            {mode === "pcos" && "PCOS Pattern"}
           </button>
         ))}
       </div>
@@ -1223,8 +1230,12 @@ function HormoneScaleDiagram({ diagram }: { diagram: LessonDiagram; themeColor: 
           <strong>How It Feels: </strong>{current.feelings}
         </p>
 
-        <div className="p-2.5 rounded-lg bg-emerald-50 border border-emerald-200 text-[11.5px] text-emerald-950 font-sans">
-          <strong>💪 Supportive Action: </strong>{current.actionTip}
+        <div className="p-2.5 rounded-lg bg-emerald-50 border border-emerald-200 text-[11.5px] text-emerald-950 font-sans flex items-start gap-1.5">
+          <CheckCircle2 className="w-3.5 h-3.5 text-emerald-700 shrink-0 mt-0.5" />
+          <div>
+            <strong className="text-emerald-900 font-bold">Supportive Action: </strong>
+            <span>{current.actionTip}</span>
+          </div>
         </div>
       </div>
     </div>
@@ -1358,12 +1369,20 @@ function RedSTriangleDiagram({ diagram }: { diagram: LessonDiagram; themeColor: 
 
         <p className="text-charcoal/85 leading-relaxed m-0 font-sans">{current.details}</p>
 
-        <div className="p-2.5 rounded-lg bg-rose-50 border border-rose-200 text-rose-950 font-sans text-[11.5px]">
-          <strong>⚠️ Warning Signs to Notice: </strong>{current.warningSigns}
+        <div className="p-2.5 rounded-lg bg-rose-50 border border-rose-200 text-rose-950 font-sans text-[11.5px] flex items-start gap-1.5">
+          <AlertTriangle className="w-3.5 h-3.5 text-rose-600 shrink-0 mt-0.5" />
+          <div>
+            <strong className="text-rose-900 font-bold">Warning Signs to Notice: </strong>
+            <span>{current.warningSigns}</span>
+          </div>
         </div>
 
-        <div className="p-2.5 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-950 font-sans text-[11.5px]">
-          <strong>✅ Action Step: </strong>{current.solution}
+        <div className="p-2.5 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-950 font-sans text-[11.5px] flex items-start gap-1.5">
+          <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0 mt-0.5" />
+          <div>
+            <strong className="text-emerald-900 font-bold">Action Step: </strong>
+            <span>{current.solution}</span>
+          </div>
         </div>
       </div>
     </div>

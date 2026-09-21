@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Menu, X, ChevronDown, Globe2 } from "lucide-react";
+import { Menu, X, ChevronDown, Globe2, Sparkles } from "lucide-react";
 import { ReproUsMark } from "@/components/shared/ReproUsMark";
 import { cn } from "@/lib/utils";
 import { SUPPORTED_LANGUAGES } from "@/components/layout/LanguageBar";
@@ -163,9 +163,10 @@ export function Navbar({ activePage, onNavigate, currentLang = "en", onSelectLan
                                 onNavigate("myths");
                                 setLearnDropdownOpen(false);
                               }}
-                              className="w-full text-left px-3 py-1.5 text-[13.5px] font-bold font-sans text-berry hover:bg-berry/10 rounded-lg transition-colors"
+                              className="w-full text-left px-3 py-1.5 text-[13.5px] font-bold font-sans text-berry hover:bg-berry/10 rounded-lg transition-colors flex items-center gap-1.5"
                             >
-                              ✨ Myths &amp; Facts Interactive Cards
+                              <Sparkles className="w-3.5 h-3.5 text-berry shrink-0" />
+                              <span>Myths &amp; Facts Interactive Cards</span>
                             </button>
                           </div>
                         </div>
@@ -375,9 +376,11 @@ export function Navbar({ activePage, onNavigate, currentLang = "en", onSelectLan
                           onNavigate("myths");
                           setMobileMenuOpen(false);
                         }}
-                        className="w-full text-left px-3 py-1.5 text-[14px] font-bold text-berry rounded-lg"
+                        className="w-full text-left px-3 py-1.5 text-[14px] font-bold text-berry rounded-lg flex items-center gap-1.5"
                       >
-                        ↳ ✨ Myths &amp; Facts Interactive Cards
+                        <span className="text-charcoal/40">↳</span>
+                        <Sparkles className="w-3.5 h-3.5 text-berry shrink-0" />
+                        <span>Myths &amp; Facts Interactive Cards</span>
                       </button>
                     </div>
                   )}
