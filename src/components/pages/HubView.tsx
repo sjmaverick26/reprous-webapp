@@ -73,6 +73,7 @@ import { LessonSorterGameComponent } from "@/components/shared/LessonSorterGame"
 import { RoleplayInteractiveStage } from "@/components/shared/RoleplayInteractiveStage";
 import { InteractiveQuizGame } from "@/components/shared/InteractiveQuizGame";
 import { LittleHealthDictionary } from "@/components/shared/LittleHealthDictionary";
+import { FuelUpNutritionGame } from "@/components/shared/FuelUpNutritionGame";
 import {
   getStoredProgress,
   saveStoredProgress,
@@ -207,6 +208,11 @@ export function HubView({ initialCategory }: HubViewProps) {
 
   const openTopic = (topic: HubTopic) => {
     setSelectedTopic(topic);
+    if (topic.id === "play-1" || topic.name.toLowerCase().includes("fuel up")) {
+      setIsFullScreen(true);
+    } else {
+      setIsFullScreen(false);
+    }
     setOpenPanelId(null);
     setCurrentLessonPage(1);
     setCheckedSignals(new Set());
@@ -865,12 +871,29 @@ export function HubView({ initialCategory }: HubViewProps) {
       >
         <DialogContent
           className={
-            isFullScreen
+            selectedTopic && (selectedTopic.id === "play-1" || selectedTopic.name.toLowerCase().includes("fuel up"))
+              ? isFullScreen
+                ? "w-[98vw] sm:max-w-[98vw] max-w-[98vw] h-[95vh] max-h-[95vh] p-0 rounded-3xl flex flex-col overflow-hidden border-2 border-coral/40 shadow-2xl bg-slate-900"
+                : "max-w-4xl max-h-[90vh] p-0 rounded-2xl flex flex-col overflow-hidden border border-slate-200 shadow-xl bg-white"
+              : isFullScreen
               ? "w-[98vw] sm:max-w-[98vw] max-w-[98vw] h-[95vh] max-h-[95vh] p-4 sm:p-6 md:p-8 rounded-2xl flex flex-col overflow-hidden transition-all duration-300 border-2"
               : "max-w-3xl max-h-[90vh] p-4 sm:p-6 flex flex-col overflow-hidden"
           }
         >
           {selectedTopic && (() => {
+            const isFuelUpGame = selectedTopic.id === "play-1" || selectedTopic.name.toLowerCase().includes("fuel up");
+            if (isFuelUpGame) {
+              return (
+                <FuelUpNutritionGame
+                  topic={selectedTopic}
+                  onComplete={() => handleCompleteTopic(selectedTopic)}
+                  onClose={closeTopic}
+                  isFullScreen={isFullScreen}
+                  onToggleFullScreen={() => setIsFullScreen(!isFullScreen)}
+                />
+              );
+            }
+
             const topicTheme = getCategoryTheme(activeCategoryId || "play");
             const quizList = selectedTopic.quiz || [];
             const isQuizActive = quizList.length > 0;
