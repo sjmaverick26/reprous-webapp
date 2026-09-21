@@ -43,14 +43,15 @@ export function Navbar({ activePage, onNavigate }: NavbarProps) {
   ];
 
   const learnCategories = [
-    { id: "play", label: "Female Athlete Health", tag: "Sage" },
-    { id: "pcos", label: "PCOS & Hormonal Health", tag: "Lavender" },
-    { id: "endo", label: "Endometriosis & Reproductive Pain", tag: "Rose" },
+    { id: "play", label: "Female Athlete Health" },
+    { id: "pcos", label: "PCOS & Hormonal Health" },
+    { id: "endo", label: "Endometriosis & Reproductive Pain" },
     { id: "cycle", label: "Cycle Sense & Menstruation" },
     { id: "body", label: "Body Basics & Hormones" },
     { id: "conditions", label: "Pregnancy & Reproductive Care" },
     { id: "realtalk", label: "Real Talk & STIs" },
     { id: "mind", label: "Mind & Self-Advocacy" },
+    { id: "factors", label: "The Bigger Picture" },
   ];
 
   const aboutItems = [
@@ -137,11 +138,6 @@ export function Navbar({ activePage, onNavigate }: NavbarProps) {
                               className="w-full text-left px-3 py-1.5 text-[13.5px] font-medium font-sans text-plum hover:text-berry hover:bg-ivory-darker rounded-lg transition-colors flex items-center justify-between"
                             >
                               <span>{cat.label}</span>
-                              {cat.tag && (
-                                <span className="text-[11px] font-bold px-1.5 py-0.5 rounded bg-ivory text-plum/70">
-                                  {cat.tag}
-                                </span>
-                              )}
                             </button>
                           ))}
                           <div className="pt-1 border-t border-plum/10 mt-1">
