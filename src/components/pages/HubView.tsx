@@ -39,6 +39,12 @@ import {
   CheckSquare,
   Square,
   Info,
+  ShieldCheck,
+  ExternalLink,
+  FileSpreadsheet,
+  Scale,
+  TrendingUp,
+  Stethoscope,
 } from "lucide-react";
 import {
   HUB_CATEGORIES,
@@ -1249,45 +1255,232 @@ export function HubView({ initialCategory }: HubViewProps) {
                           Doctor & Provider Roleplay Challenge
                         </h4>
                         <p className="text-charcoal/85 text-lg sm:text-xl font-sans leading-relaxed">
-                          Simulate real encounters with doctors, coaches, and administrators. Choose the response that best asserts your rights and medical needs!
+                          Simulate real encounters with doctors, coaches, and administrators. Choose the response that best asserts your rights, presents your evidence, and references clinical guidelines!
                         </p>
                       </div>
 
-                      {/* Setting Badge */}
-                      <div className="inline-flex items-center gap-2 text-xs sm:text-sm font-bold text-deep-teal bg-light-teal px-4 py-1.5 rounded-full border border-deep-teal/20 font-sans">
-                        <span>📍 Setting: {roleplayData.setting}</span>
+                      {/* Consultation Stage & Scene Banner */}
+                      <div className="rounded-3xl border-2 border-deep-teal/20 bg-gradient-to-r from-light-teal/70 via-white to-light-teal/50 p-4 sm:p-5 shadow-2xs">
+                        <div className="flex flex-wrap items-center justify-between gap-3">
+                          <div className="flex items-center gap-2.5 text-xs sm:text-sm font-bold text-deep-teal font-sans">
+                            <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                            <span>📍 Setting: {roleplayData.setting}</span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <span className="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-charcoal/70 bg-white/95 px-3 py-1 rounded-full border border-deep-teal/15 font-sans">
+                              Active Clinical Encounter
+                            </span>
+                            {roleplayData.characterRole && (
+                              <span className="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-deep-teal bg-light-teal px-3 py-1 rounded-full border border-deep-teal/25 font-sans">
+                                {roleplayData.characterRole}
+                              </span>
+                            )}
+                          </div>
+                        </div>
                       </div>
 
                       {/* Provider Dialogue Speech Bubble Card */}
-                      <div className="p-6 sm:p-8 rounded-3xl bg-white border-2 border-deep-teal/25 shadow-md space-y-3">
-                        <div className="flex items-center gap-3">
-                          <div className="w-10 h-10 rounded-2xl bg-deep-teal text-white flex items-center justify-center font-bold text-sm shadow-xs">
-                            <Shield className="w-5 h-5 text-white" />
+                      <div className="p-6 sm:p-8 rounded-3xl bg-white border-2 border-deep-teal/25 shadow-md space-y-4 relative overflow-hidden">
+                        <div className="flex items-center justify-between gap-3 flex-wrap">
+                          <div className="flex items-center gap-3.5">
+                            <div className="relative">
+                              <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-deep-teal to-[#0d3b3c] text-white flex items-center justify-center font-bold text-base shadow-sm ring-4 ring-light-teal">
+                                <Stethoscope className="w-6 h-6 text-white" />
+                              </div>
+                              <span className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-emerald-500 border-2 border-white"></span>
+                            </div>
+                            <div>
+                              <div className="flex items-center gap-2">
+                                <span className="text-xs font-bold uppercase tracking-wider text-deep-teal/80 font-sans">
+                                  Healthcare Provider Dialogue
+                                </span>
+                                <span className="text-[10px] font-bold uppercase bg-slate-100 text-slate-700 px-2 py-0.5 rounded-md">
+                                  Initial Stance
+                                </span>
+                              </div>
+                              <span className="text-base sm:text-lg font-bold text-charcoal font-sans block">
+                                {roleplayData.character}
+                                {roleplayData.characterRole && (
+                                  <span className="text-xs sm:text-sm font-normal text-charcoal/70 ml-2">
+                                    ({roleplayData.characterRole})
+                                  </span>
+                                )}
+                              </span>
+                            </div>
                           </div>
-                          <div>
-                            <span className="text-xs font-bold uppercase tracking-wider text-deep-teal font-sans block">
-                              Healthcare Provider Statement
-                            </span>
-                            <span className="text-sm sm:text-base font-bold text-charcoal font-sans">
-                              {roleplayData.character}
-                            </span>
+
+                          <div className="hidden sm:flex items-center gap-1.5 text-xs text-charcoal/60 bg-slate-50 px-3 py-1 rounded-full border border-slate-200">
+                            <Quote className="w-3.5 h-3.5 text-deep-teal" />
+                            <span>Direct Statement</span>
                           </div>
                         </div>
 
-                        <p className="text-xl sm:text-2xl md:text-[25px] font-serif text-deep-teal leading-relaxed font-medium m-0">
-                          {roleplayData.statement}
-                        </p>
+                        <div className="relative pl-3 border-l-4 border-deep-teal/40 my-2">
+                          <p className="text-xl sm:text-2xl md:text-[25px] font-serif text-deep-teal leading-relaxed font-medium m-0">
+                            {roleplayData.statement}
+                          </p>
+                        </div>
                       </div>
+
+                      {/* Dynamic Advocacy Impact & Clinical Alignment Meter */}
+                      {(() => {
+                        const chosenOpt = selectedRoleplayOption !== null ? roleplayData.options[selectedRoleplayOption] : null;
+                        const alignmentPercent = chosenOpt === null ? 50 : chosenOpt.isBest ? 100 : 30;
+                        const statusConfig =
+                          chosenOpt === null
+                            ? {
+                                title: "Initial Consultation Baseline",
+                                sub: "Select your dialogue response below to assert your evidence and test clinical alignment.",
+                                badgeBg: "bg-slate-100 text-slate-800 border-slate-300",
+                                barColor: "bg-deep-teal",
+                              }
+                            : chosenOpt.isBest
+                            ? {
+                                title: "Full Clinical Alignment (100%)",
+                                sub: "Medical provider acknowledges clinical criteria and orders diagnostic evaluation!",
+                                badgeBg: "bg-emerald-100 text-emerald-900 border-emerald-300",
+                                barColor: "bg-emerald-600",
+                              }
+                            : {
+                                title: "Dismissal Risk (30%)",
+                                sub: "Provider dismissed symptoms without diagnostic testing. Re-evaluate and cite clinical standards!",
+                                badgeBg: "bg-amber-100 text-amber-900 border-amber-300",
+                                barColor: "bg-amber-500",
+                              };
+
+                        return (
+                          <div className="p-4 sm:p-5 rounded-3xl bg-white border-2 border-deep-teal/20 shadow-2xs space-y-3">
+                            <div className="flex items-center justify-between gap-3 flex-wrap">
+                              <div className="flex items-center gap-2">
+                                <Scale className="w-4 h-4 text-deep-teal" />
+                                <span className="font-bold text-xs sm:text-sm uppercase tracking-wider text-deep-teal font-sans">
+                                  Provider-Patient Clinical Alignment Gauge
+                                </span>
+                              </div>
+                              <span className={`text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full border font-sans ${statusConfig.badgeBg}`}>
+                                {statusConfig.title}
+                              </span>
+                            </div>
+
+                            {/* Visual Alignment Meter Track */}
+                            <div className="space-y-1.5">
+                              <div className="w-full h-3.5 bg-slate-100 rounded-full overflow-hidden p-0.5 border border-slate-200 relative">
+                                <div
+                                  className={`h-full rounded-full transition-all duration-500 ease-out ${statusConfig.barColor}`}
+                                  style={{ width: `${alignmentPercent}%` }}
+                                />
+                              </div>
+                              <div className="flex justify-between text-[11px] font-sans font-semibold text-charcoal/60 px-1">
+                                <span className={alignmentPercent <= 35 ? "text-amber-700 font-bold" : ""}>
+                                  Dismissal Risk (0–35%)
+                                </span>
+                                <span className={alignmentPercent > 35 && alignmentPercent <= 70 ? "text-deep-teal font-bold" : ""}>
+                                  Standard Intake (36–70%)
+                                </span>
+                                <span className={alignmentPercent > 70 ? "text-emerald-700 font-bold" : ""}>
+                                  Clinical Alignment (71–100%)
+                                </span>
+                              </div>
+                            </div>
+
+                            <p className="text-xs sm:text-sm text-charcoal/80 font-sans m-0">
+                              {statusConfig.sub}
+                            </p>
+                          </div>
+                        );
+                      })()}
+
+                      {/* Patient Evidence Deck Card */}
+                      {roleplayData.evidence && (
+                        <div
+                          className={`p-5 sm:p-6 rounded-3xl border-2 transition-all shadow-2xs space-y-3 ${
+                            selectedRoleplayOption === null
+                              ? "bg-slate-50/90 border-dashed border-deep-teal/30"
+                              : roleplayData.options[selectedRoleplayOption].isBest
+                              ? "bg-emerald-50/80 border-emerald-500 ring-2 ring-emerald-500/20 shadow-sm"
+                              : "bg-amber-50/70 border-amber-300"
+                          }`}
+                        >
+                          <div className="flex items-center justify-between gap-3 flex-wrap">
+                            <div className="flex items-center gap-2.5">
+                              <div className={`w-8 h-8 rounded-xl flex items-center justify-center font-bold text-sm shadow-2xs ${
+                                selectedRoleplayOption !== null && roleplayData.options[selectedRoleplayOption].isBest
+                                  ? "bg-emerald-600 text-white"
+                                  : "bg-deep-teal text-white"
+                              }`}>
+                                <FileSpreadsheet className="w-4 h-4" />
+                              </div>
+                              <div>
+                                <span className="text-[11px] font-bold uppercase tracking-wider text-deep-teal/80 font-sans block">
+                                  Your Clinical Evidence Portfolio
+                                </span>
+                                <span className="text-xs sm:text-sm font-bold text-charcoal font-sans">
+                                  {roleplayData.evidence.title}
+                                </span>
+                              </div>
+                            </div>
+
+                            <div className="flex items-center gap-2">
+                              <span className="text-[11px] font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-white border border-deep-teal/20 text-deep-teal font-sans shadow-2xs">
+                                {roleplayData.evidence.badge}
+                              </span>
+                              {selectedRoleplayOption !== null && roleplayData.options[selectedRoleplayOption].isBest && (
+                                <span className="text-[11px] font-bold bg-emerald-600 text-white px-2.5 py-1 rounded-full shadow-2xs flex items-center gap-1 font-sans">
+                                  <Check className="w-3 h-3" />
+                                  <span>Admitted to Chart</span>
+                                </span>
+                              )}
+                            </div>
+                          </div>
+
+                          {/* Metric highlight box */}
+                          <div className="rounded-2xl bg-white/90 border border-deep-teal/15 p-3 sm:p-3.5 flex items-center gap-2.5">
+                            <TrendingUp className="w-4 h-4 text-deep-teal shrink-0" />
+                            <span className="text-xs sm:text-sm font-bold text-deep-teal font-sans">
+                              Documented Patient Data: <span className="text-charcoal font-medium">{roleplayData.evidence.metric}</span>
+                            </span>
+                          </div>
+
+                          <p className="text-xs sm:text-sm text-charcoal/85 leading-relaxed font-sans m-0">
+                            {roleplayData.evidence.description}
+                          </p>
+
+                          <div className="text-[11px] font-bold font-sans flex items-center gap-1.5 pt-0.5">
+                            {selectedRoleplayOption === null ? (
+                              <span className="text-deep-teal flex items-center gap-1.5">
+                                <Info className="w-3.5 h-3.5" />
+                                Evidence Ready: Choose the response below that presents these documented logs to your doctor.
+                              </span>
+                            ) : roleplayData.options[selectedRoleplayOption].isBest ? (
+                              <span className="text-emerald-800 flex items-center gap-1.5">
+                                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
+                                Evidence successfully presented! The doctor cannot ignore documented objective clinical data.
+                              </span>
+                            ) : (
+                              <span className="text-amber-800 flex items-center gap-1.5">
+                                <AlertTriangle className="w-3.5 h-3.5 text-amber-600" />
+                                Evidence was not cited! Try selecting the answer that actively introduces this documentation.
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                      )}
 
                       {/* Interactive Options Choice */}
                       <div className="space-y-3">
-                        <span className="text-base sm:text-lg font-bold text-charcoal/90 block font-sans">
-                          How do you respond to advocate for yourself?
-                        </span>
+                        <div className="flex items-center justify-between gap-2">
+                          <span className="text-base sm:text-lg font-bold text-charcoal/90 block font-sans">
+                            How do you respond to advocate for yourself?
+                          </span>
+                          <span className="text-xs font-semibold text-charcoal/60 font-sans">
+                            3 Advocacy Options
+                          </span>
+                        </div>
 
                         <div className="space-y-3">
                           {roleplayData.options.map((opt, optIdx) => {
                             const isSelected = selectedRoleplayOption === optIdx;
+                            const optionLabels = ["Option A", "Option B", "Option C"];
 
                             return (
                               <button
@@ -1309,13 +1502,28 @@ export function HubView({ initialCategory }: HubViewProps) {
                                 }`}
                               >
                                 <div className="flex items-start justify-between gap-3">
-                                  <p className={`text-base sm:text-lg md:text-[19px] leading-relaxed font-sans m-0 ${
-                                    isSelected && opt.isBest ? "text-emerald-950 font-semibold" : "text-charcoal/90 font-medium"
-                                  }`}>
-                                    {opt.text}
-                                  </p>
+                                  <div className="space-y-1.5">
+                                    <span className={`text-[11px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full inline-block font-sans ${
+                                      isSelected
+                                        ? opt.isBest
+                                          ? "bg-emerald-200/80 text-emerald-900"
+                                          : "bg-amber-200/80 text-amber-900"
+                                        : "bg-slate-100 text-charcoal/70"
+                                    }`}>
+                                      {optionLabels[optIdx] || `Option ${optIdx + 1}`}
+                                    </span>
+                                    <p
+                                      className={`text-base sm:text-lg md:text-[19px] leading-relaxed font-sans m-0 ${
+                                        isSelected && opt.isBest
+                                          ? "text-emerald-950 font-semibold"
+                                          : "text-charcoal/90 font-medium"
+                                      }`}
+                                    >
+                                      {opt.text}
+                                    </p>
+                                  </div>
                                   {isSelected && opt.isBest && (
-                                    <span className="shrink-0 inline-flex items-center gap-1 text-xs font-bold bg-emerald-600 text-white px-3 py-1 rounded-full shadow-2xs font-sans">
+                                    <span className="shrink-0 inline-flex items-center gap-1 text-xs font-bold bg-emerald-600 text-white px-3 py-1 rounded-full shadow-2xs font-sans mt-1">
                                       <Check className="w-3.5 h-3.5" />
                                       <span>+{opt.xpBonus} XP</span>
                                     </span>
@@ -1360,6 +1568,55 @@ export function HubView({ initialCategory }: HubViewProps) {
                           </div>
                         );
                       })()}
+
+                      {/* Medically Reviewed Clinical Source Box */}
+                      {roleplayData.sourceCitation && (
+                        <div className="rounded-3xl border-2 border-emerald-600/25 bg-emerald-50/75 p-5 sm:p-6 text-xs font-sans text-emerald-950 space-y-3 shadow-2xs">
+                          <div className="flex items-start justify-between gap-3 flex-wrap">
+                            <div className="flex items-center gap-2.5">
+                              <div className="w-9 h-9 rounded-xl bg-emerald-600 text-white flex items-center justify-center shrink-0 shadow-xs">
+                                <ShieldCheck className="w-5 h-5" />
+                              </div>
+                              <div>
+                                <span className="font-bold text-xs uppercase tracking-wider text-emerald-900 bg-emerald-100/90 px-2.5 py-0.5 rounded-full border border-emerald-300/70 inline-block mb-1">
+                                  Medically Reviewed & Verified Source
+                                </span>
+                                <span className="text-sm sm:text-base font-bold text-emerald-950 block font-serif">
+                                  {roleplayData.sourceCitation.organization}
+                                </span>
+                              </div>
+                            </div>
+                            {roleplayData.sourceCitation.year && (
+                              <span className="text-xs font-bold text-emerald-800 bg-white/80 px-3 py-1 rounded-full border border-emerald-200">
+                                {roleplayData.sourceCitation.year}
+                              </span>
+                            )}
+                          </div>
+
+                          <div className="space-y-1">
+                            <p className="font-bold text-emerald-950 text-sm sm:text-base leading-snug m-0">
+                              {roleplayData.sourceCitation.guideline}
+                            </p>
+                            <p className="text-xs sm:text-sm text-emerald-800/90 font-medium m-0">
+                              Clinical Reference & Patient Advocacy Framework: Peer-reviewed medical guidelines establish the patient&apos;s legal and clinical right to comprehensive evaluation and diagnostic workups.
+                            </p>
+                          </div>
+
+                          {roleplayData.sourceCitation.url && (
+                            <div className="pt-1 flex justify-start">
+                              <a
+                                href={roleplayData.sourceCitation.url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white border border-emerald-600/30 hover:border-emerald-600 hover:bg-emerald-100/60 text-emerald-900 font-bold text-xs sm:text-sm transition-colors cursor-pointer shadow-2xs"
+                              >
+                                <span>View Official Clinical Guideline</span>
+                                <ExternalLink className="w-4 h-4 text-emerald-700" />
+                              </a>
+                            </div>
+                          )}
+                        </div>
+                      )}
 
                       {/* In-content Continue Button */}
                       <div className="pt-2 flex justify-end">

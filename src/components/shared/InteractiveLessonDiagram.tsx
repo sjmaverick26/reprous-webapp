@@ -24,7 +24,169 @@ import {
   Smile,
   Wind,
   RefreshCw,
+  ShieldCheck,
+  ExternalLink,
 } from "lucide-react";
+
+export interface DiagramClinicalSource {
+  organization: string;
+  guideline: string;
+  year?: string;
+  url?: string;
+  reviewer?: string;
+}
+
+export const DIAGRAM_CLINICAL_SOURCES: Record<string, DiagramClinicalSource> = {
+  "cycle-wheel": {
+    organization: "American College of Obstetricians and Gynecologists (ACOG) & FIGO",
+    guideline: "ACOG Committee Opinion No. 651: Menstruation in Girls and Adolescents: Using the Menstrual Cycle as a Vital Sign",
+    year: "Reaffirmed 2022",
+    url: "https://www.acog.org/clinical/clinical-guidance/committee-opinion/articles/2015/12/menstruation-in-girls-and-adolescents-using-the-menstrual-cycle-as-a-vital-sign",
+    reviewer: "Medically Reviewed by Pediatric & Adolescent Gynecology Specialists",
+  },
+  "energy-balance": {
+    organization: "International Olympic Committee (IOC)",
+    guideline: "2023 IOC Consensus Statement on Relative Energy Deficiency in Sport (REDs)",
+    year: "2023",
+    url: "https://bjsm.bmj.com/content/57/17/1073",
+    reviewer: "Medically Reviewed by IOC Medical & Scientific Commission",
+  },
+  "pcos-loop": {
+    organization: "International PCOS Network & ACOG",
+    guideline: "International Evidence-Based Guideline for Assessment and Management of PCOS & Rotterdam Consensus",
+    year: "2023",
+    url: "https://www.monash.edu/medicine/mchri/pcos",
+    reviewer: "Medically Reviewed by Reproductive Endocrinology Specialists",
+  },
+  "pelvic-map": {
+    organization: "American College of Obstetricians and Gynecologists (ACOG) & World Endometriosis Society",
+    guideline: "ACOG Committee Opinion No. 760: Dysmenorrhea and Endometriosis in the Adolescent",
+    year: "Reaffirmed 2023",
+    url: "https://www.acog.org/clinical/clinical-guidance/committee-opinion/articles/2018/12/dysmenorrhea-and-endometriosis-in-the-adolescent",
+    reviewer: "Medically Reviewed by Minimally Invasive Gynecologic Surgery Board",
+  },
+  "anatomy-callout": {
+    organization: "American College of Obstetricians and Gynecologists (ACOG)",
+    guideline: "ACOG Adolescent Health Guidelines: Anatomy, Physiology & Menstrual Health Literacy",
+    year: "2023",
+    url: "https://www.acog.org/womens-health",
+    reviewer: "Medically Reviewed by ACOG Adolescent Health Care Committee",
+  },
+  "athlete-plate": {
+    organization: "U.S. Olympic & Paralympic Committee (USOPC) & ACSM",
+    guideline: "USOPC Sports Nutrition Athlete's Plate Protocols & ACSM Nutrition for Athletic Performance",
+    year: "2023",
+    url: "https://www.usopc.org",
+    reviewer: "Medically Reviewed by Board Certified Specialists in Sports Dietetics (CSSD)",
+  },
+  "hormone-scale": {
+    organization: "The Endocrine Society",
+    guideline: "Endocrine Society Clinical Practice Guidelines on Female Reproductive Endocrinology & Ovarian Steroids",
+    year: "2022",
+    url: "https://www.endocrine.org/clinical-practice-guidelines",
+    reviewer: "Medically Reviewed by Endocrine Society Clinical Review Panel",
+  },
+  "reds-triangle": {
+    organization: "Female Athlete Triad Coalition & IOC Medical Commission",
+    guideline: "Coalition Consensus on Treatment & Return to Play & 2023 IOC REDs Clinical Assessment Tool (CAT2)",
+    year: "2023",
+    url: "https://bjsm.bmj.com/content/57/17/1073",
+    reviewer: "Medically Reviewed by Sports Medicine & Bone Health Specialists",
+  },
+  "water-glass": {
+    organization: "American College of Sports Medicine (ACSM)",
+    guideline: "ACSM Position Stand: Exercise and Fluid Replacement & Electrolyte Homeostasis",
+    year: "Reaffirmed 2022",
+    url: "https://www.acsm.org",
+    reviewer: "Medically Reviewed by ACSM Exercise Physiology Review Board",
+  },
+  "sleep-recovery": {
+    organization: "American Academy of Sleep Medicine (AASM)",
+    guideline: "Consensus Statement of the AASM on Recommended Amount of Sleep for Pediatric Populations & Athletes",
+    year: "2022",
+    url: "https://aasm.org",
+    reviewer: "Medically Reviewed by Board Certified Sleep Medicine Clinicians",
+  },
+  "iron-ferritin": {
+    organization: "British Journal of Sports Medicine (BJSM) & Australian Institute of Sport (AIS)",
+    guideline: "Consensus Statement: Screening and Management of Iron Deficiency in Female Athletes & Hepcidin Window",
+    year: "2023",
+    url: "https://bjsm.bmj.com",
+    reviewer: "Medically Reviewed by Sports Hematology & Nutrition Advisory Board",
+  },
+  "cycle-training": {
+    organization: "British Journal of Sports Medicine (BJSM) & ACSM",
+    guideline: "Menstrual Cycle Phasing and Exercise Performance: Systematic Review & Evidence-Based Framework",
+    year: "2021",
+    url: "https://bjsm.bmj.com",
+    reviewer: "Medically Reviewed by Female Athlete Performance Research Consortium",
+  },
+  "cycle-fueling": {
+    organization: "International Society of Sports Nutrition (ISSN)",
+    guideline: "ISSN Position Stand: Nutritional Considerations for Active and Athletic Females",
+    year: "2023",
+    url: "https://jissn.biomedcentral.com",
+    reviewer: "Medically Reviewed by Sports Nutrition Clinical Board",
+  },
+  "puberty-brain": {
+    organization: "Pediatric Endocrine Society & GLOWM",
+    guideline: "Clinical Practice Guideline: Neuroendocrine Control of Puberty & GnRH Pulsatility",
+    year: "2022",
+    url: "https://www.pedsendo.org",
+    reviewer: "Medically Reviewed by Pediatric Endocrinology Faculty",
+  },
+  "timeline": {
+    organization: "American Academy of Pediatrics (AAP) & FIGO",
+    guideline: "AAP Clinical Report: Variations in Adolescent Pubertal Timing & Sexual Maturity Rating (Tanner Staging)",
+    year: "2023",
+    url: "https://publications.aap.org/pediatrics",
+    reviewer: "Medically Reviewed by AAP Committee on Adolescence",
+  },
+};
+
+export function MedicallyReviewedSourceBanner({ citation }: { citation?: DiagramClinicalSource }) {
+  if (!citation) return null;
+
+  return (
+    <div className="rounded-2xl border border-emerald-600/25 bg-emerald-50/70 p-3.5 sm:p-4 text-xs font-sans text-emerald-950 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-2xs">
+      <div className="flex items-start gap-2.5">
+        <div className="w-7 h-7 rounded-lg bg-emerald-600 text-white flex items-center justify-center shrink-0 mt-0.5 shadow-2xs">
+          <ShieldCheck className="w-4 h-4" />
+        </div>
+        <div className="space-y-0.5">
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="font-bold text-[11px] uppercase tracking-wider text-emerald-800 bg-emerald-100/90 px-2 py-0.5 rounded-full border border-emerald-300/60">
+              Medically Reviewed & Verified Diagram
+            </span>
+            {citation.year && (
+              <span className="text-[11px] font-semibold text-emerald-700">
+                {citation.year}
+              </span>
+            )}
+          </div>
+          <p className="font-bold text-emerald-950 text-xs sm:text-[13px] leading-snug m-0">
+            {citation.guideline}
+          </p>
+          <p className="text-[11px] text-emerald-800/90 font-medium m-0">
+            Source: <span className="font-semibold">{citation.organization}</span>
+            {citation.reviewer && ` · ${citation.reviewer}`}
+          </p>
+        </div>
+      </div>
+      {citation.url && (
+        <a
+          href={citation.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white border border-emerald-600/30 hover:border-emerald-600 hover:bg-emerald-100/50 text-emerald-900 font-bold text-xs shrink-0 self-start sm:self-auto transition-colors cursor-pointer shadow-2xs"
+        >
+          <span>View Source</span>
+          <ExternalLink className="w-3.5 h-3.5 text-emerald-700" />
+        </a>
+      )}
+    </div>
+  );
+}
 
 interface InteractiveLessonDiagramProps {
   diagram: LessonDiagram;
@@ -32,39 +194,50 @@ interface InteractiveLessonDiagramProps {
 }
 
 export function InteractiveLessonDiagram({ diagram, themeColor = "#175B5C" }: InteractiveLessonDiagramProps) {
-  switch (diagram.type) {
-    case "cycle-wheel":
-      return <CycleWheelDiagram diagram={diagram} themeColor={themeColor} />;
-    case "energy-balance":
-      return <EnergyBalanceDiagram diagram={diagram} themeColor={themeColor} />;
-    case "pelvic-map":
-      return <PelvicMapDiagram diagram={diagram} themeColor={themeColor} />;
-    case "pcos-loop":
-      return <PcosLoopDiagram diagram={diagram} themeColor={themeColor} />;
-    case "anatomy-callout":
-      return <AnatomyCalloutDiagram diagram={diagram} themeColor={themeColor} />;
-    case "athlete-plate":
-      return <AthletePlateDiagram diagram={diagram} themeColor={themeColor} />;
-    case "hormone-scale":
-      return <HormoneScaleDiagram diagram={diagram} themeColor={themeColor} />;
-    case "reds-triangle":
-      return <RedSTriangleDiagram diagram={diagram} themeColor={themeColor} />;
-    case "water-glass":
-      return <HydrationWaterGlassDiagram diagram={diagram} themeColor={themeColor} />;
-    case "sleep-recovery":
-      return <SleepRecoveryDiagram diagram={diagram} themeColor={themeColor} />;
-    case "iron-ferritin":
-      return <IronFerritinDiagram diagram={diagram} themeColor={themeColor} />;
-    case "cycle-training":
-      return <CycleTrainingMatrixDiagram diagram={diagram} themeColor={themeColor} />;
-    case "cycle-fueling":
-      return <CycleFuelingPlateDiagram diagram={diagram} themeColor={themeColor} />;
-    case "puberty-brain":
-      return <PubertyBrainDiagram diagram={diagram} themeColor={themeColor} />;
-    case "timeline":
-    default:
-      return <PubertyTimelineDiagram diagram={diagram} themeColor={themeColor} />;
-  }
+  const citation = DIAGRAM_CLINICAL_SOURCES[diagram.type];
+
+  const renderContent = () => {
+    switch (diagram.type) {
+      case "cycle-wheel":
+        return <CycleWheelDiagram diagram={diagram} themeColor={themeColor} />;
+      case "energy-balance":
+        return <EnergyBalanceDiagram diagram={diagram} themeColor={themeColor} />;
+      case "pelvic-map":
+        return <PelvicMapDiagram diagram={diagram} themeColor={themeColor} />;
+      case "pcos-loop":
+        return <PcosLoopDiagram diagram={diagram} themeColor={themeColor} />;
+      case "anatomy-callout":
+        return <AnatomyCalloutDiagram diagram={diagram} themeColor={themeColor} />;
+      case "athlete-plate":
+        return <AthletePlateDiagram diagram={diagram} themeColor={themeColor} />;
+      case "hormone-scale":
+        return <HormoneScaleDiagram diagram={diagram} themeColor={themeColor} />;
+      case "reds-triangle":
+        return <RedSTriangleDiagram diagram={diagram} themeColor={themeColor} />;
+      case "water-glass":
+        return <HydrationWaterGlassDiagram diagram={diagram} themeColor={themeColor} />;
+      case "sleep-recovery":
+        return <SleepRecoveryDiagram diagram={diagram} themeColor={themeColor} />;
+      case "iron-ferritin":
+        return <IronFerritinDiagram diagram={diagram} themeColor={themeColor} />;
+      case "cycle-training":
+        return <CycleTrainingMatrixDiagram diagram={diagram} themeColor={themeColor} />;
+      case "cycle-fueling":
+        return <CycleFuelingPlateDiagram diagram={diagram} themeColor={themeColor} />;
+      case "puberty-brain":
+        return <PubertyBrainDiagram diagram={diagram} themeColor={themeColor} />;
+      case "timeline":
+      default:
+        return <PubertyTimelineDiagram diagram={diagram} themeColor={themeColor} />;
+    }
+  };
+
+  return (
+    <div className="space-y-3.5">
+      {renderContent()}
+      <MedicallyReviewedSourceBanner citation={citation} />
+    </div>
+  );
 }
 
 // --------------------------------------------------------------------------

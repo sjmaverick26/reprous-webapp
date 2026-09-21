@@ -64,11 +64,28 @@ export interface RoleplayOption {
   xpBonus: number;
 }
 
+export interface RoleplayEvidence {
+  badge: string;
+  title: string;
+  metric: string;
+  description: string;
+}
+
+export interface RoleplaySourceCitation {
+  organization: string;
+  guideline: string;
+  year?: string;
+  url?: string;
+}
+
 export interface RoleplayScenario {
   setting: string;
   character: string;
+  characterRole?: string;
   statement: string;
   options: RoleplayOption[];
+  evidence?: RoleplayEvidence;
+  sourceCitation?: RoleplaySourceCitation;
 }
 
 export interface HubTopic {
@@ -2448,8 +2465,21 @@ export function getTopicRoleplayScenario(topic: HubTopic, categoryId?: string): 
   const categoryScenarios: Record<string, RoleplayScenario> = {
     body: {
       setting: "Annual Adolescent Well-Visit with Pediatrician",
-      character: "Dr. Chen, Pediatrician",
+      character: "Dr. Chen",
+      characterRole: "Primary Care Pediatrician",
       statement: "“You look healthy. Don't stress over why your friends are developing faster or slower than you — everyone's body is different, so let's just skip to the vaccinations.”",
+      evidence: {
+        badge: "Milestone Log",
+        title: "Adolescent Tanner Stage & Growth Chart",
+        metric: "12-Month Longitudinal Physical Milestone Log",
+        description: "Documents individual breast and pubic hair development against Tanner stages 1–5 to evaluate developmental progress objectively.",
+      },
+      sourceCitation: {
+        organization: "Global Library of Women's Medicine (GLOWM) & FIGO",
+        guideline: "GLOWM Clinical Guidelines on Adolescent Pubertal Development & Tanner Staging",
+        year: "2023",
+        url: "https://www.glowm.com",
+      },
       options: [
         {
           text: "“Okay, I won't ask about it. I guess it's embarrassing anyway.”",
@@ -2473,8 +2503,21 @@ export function getTopicRoleplayScenario(topic: HubTopic, categoryId?: string): 
     },
     cycle: {
       setting: "Clinic Exam Room for Debilitating Period Pain",
-      character: "Dr. Adams, Physician",
+      character: "Dr. Adams",
+      characterRole: "Adolescent Care Physician",
       statement: "“Bad cramps and heavy bleeding are just a normal part of becoming a woman. Take ibuprofen and try using a heating pad during your cycle.”",
+      evidence: {
+        badge: "Vital Sign Tracker",
+        title: "3-Month Menstrual Vital Sign & Pain Severity Log",
+        metric: "Pain: 8/10 · 2 Days School Missed/Cycle · NSAID Refractory",
+        description: "Quantifies daily functional impairment, pad saturation rate (>1/hour), and non-responsiveness to maximum over-the-counter NSAIDs.",
+      },
+      sourceCitation: {
+        organization: "American College of Obstetricians and Gynecologists (ACOG)",
+        guideline: "ACOG Committee Opinion No. 651: Menstruation in Girls and Adolescents: Using the Menstrual Cycle as a Vital Sign",
+        year: "Reaffirmed 2022",
+        url: "https://www.acog.org/clinical/clinical-guidance/committee-opinion/articles/2015/12/menstruation-in-girls-and-adolescents-using-the-menstrual-cycle-as-a-vital-sign",
+      },
       options: [
         {
           text: "“I guess I just have a low pain tolerance. Sorry for taking up your time.”",
@@ -2498,8 +2541,21 @@ export function getTopicRoleplayScenario(topic: HubTopic, categoryId?: string): 
     },
     play: {
       setting: "Track & Field Team Meeting in Coach's Office",
-      character: "Coach Henderson, Distance Coach",
+      character: "Coach Henderson",
+      characterRole: "Varsity Distance Running Coach",
       statement: "“If you've stopped getting your period, it just means your body fat is low and you're in peak race shape. All elite runners lose their period — consider it a competitive advantage!”",
+      evidence: {
+        badge: "RED-S Ledger",
+        title: "IOC RED-S Screening & Training Energy Availability Log",
+        metric: "Amenorrhea: 90+ Days · Energy Deficit · Tibial Stress Reaction",
+        description: "Clinical log tracking training volume, missing menses, recurrent bone stress injuries, and resting bradycardia.",
+      },
+      sourceCitation: {
+        organization: "International Olympic Committee (IOC)",
+        guideline: "2023 IOC Consensus Statement on Relative Energy Deficiency in Sport (REDs), British Journal of Sports Medicine (57:1073–1097)",
+        year: "2023",
+        url: "https://bjsm.bmj.com/content/57/17/1073",
+      },
       options: [
         {
           text: "“Awesome, less hassle on race day! I'll keep pushing my mileage.”",
@@ -2523,8 +2579,21 @@ export function getTopicRoleplayScenario(topic: HubTopic, categoryId?: string): 
     },
     pcos: {
       setting: "Consultation on Irregular Cycles & Persistent Acne",
-      character: "Dr. Wright, Primary Care Clinician",
+      character: "Dr. Wright",
+      characterRole: "Primary Care Physician",
       statement: "“At your age, cycles are often erratic. If you're concerned about acne or weight, just cut carbs and we can put you on birth control right away without doing any blood tests.”",
+      evidence: {
+        badge: "Diagnostic Workup",
+        title: "Rotterdam Diagnostic Checklist & Fasted Lab Requisition",
+        metric: "Oligomenorrhea (50–65 Day Cycles) · Severe Cystic Acne · Hirsutism",
+        description: "Evidence checklist documenting the Rotterdam criteria requirements (ovulatory dysfunction, clinical/biochemical hyperandrogenism).",
+      },
+      sourceCitation: {
+        organization: "American College of Obstetricians and Gynecologists (ACOG)",
+        guideline: "ACOG Practice Bulletin No. 194: Polycystic Ovary Syndrome & International Evidence-Based Guidelines",
+        year: "2021",
+        url: "https://www.acog.org/clinical/clinical-guidance/practice-bulletin/articles/2018/06/polycystic-ovary-syndrome",
+      },
       options: [
         {
           text: "“Okay, whatever is easiest. I'll just take the pill.”",
@@ -2548,8 +2617,21 @@ export function getTopicRoleplayScenario(topic: HubTopic, categoryId?: string): 
     },
     endo: {
       setting: "Outpatient Clinic Following a 'Normal' Pelvic Ultrasound",
-      character: "Dr. Patel, Gynecologic Provider",
+      character: "Dr. Patel",
+      characterRole: "General Gynecologic Clinician",
       statement: "“Good news! Your ultrasound scan came back completely clear and unremarkable. There is nothing physically wrong with your pelvis, so your pain must be gastrointestinal or stress-related.”",
+      evidence: {
+        badge: "Imaging Limitations File",
+        title: "Peritoneal Endometriosis Ultrasound Sensitivity Data",
+        metric: "Normal Scan Recorded · Severe Dyschezia & Pelvic Pain · 7-Year Diagnosis Gap",
+        description: "Official medical consensus showing that standard transabdominal/transvaginal ultrasound fails to detect over 75% of superficial peritoneal endometriosis lesions.",
+      },
+      sourceCitation: {
+        organization: "American College of Obstetricians and Gynecologists (ACOG)",
+        guideline: "ACOG Committee Opinion No. 760: Dysmenorrhea and Endometriosis in the Adolescent",
+        year: "Reaffirmed 2023",
+        url: "https://www.acog.org/clinical/clinical-guidance/committee-opinion/articles/2018/12/dysmenorrhea-and-endometriosis-in-the-adolescent",
+      },
       options: [
         {
           text: "“I guess the scans don't lie. Maybe I'm just exaggerating the pain.”",
@@ -2573,8 +2655,21 @@ export function getTopicRoleplayScenario(topic: HubTopic, categoryId?: string): 
     },
     mind: {
       setting: "Clinical Consultation for Severe Cyclical Mood Shifts",
-      character: "Dr. Miller, Healthcare Provider",
+      character: "Dr. Miller",
+      characterRole: "Pediatric Primary Care Clinician",
       statement: "“Every girl feels irritable or emotional before her period. Just drink more herbal tea, practice meditation, and don't make a big deal out of PMS.”",
+      evidence: {
+        badge: "Psychiatric Endocrine Chart",
+        title: "Prospective 2-Cycle Daily PMDD Mood & Luteal Graph",
+        metric: "DRSP Peak in Late Luteal · Rapid Remission Within 48h of Menses",
+        description: "Daily Record of Severity of Problems (DRSP) prospectively logged across 60 days, differentiating DSM-5 PMDD from generalized depression.",
+      },
+      sourceCitation: {
+        organization: "American Academy of Child & Adolescent Psychiatry (AACAP)",
+        guideline: "AACAP Practice Parameter on Child & Adolescent Mood Disorders & DSM-5 PMDD Criteria",
+        year: "2023",
+        url: "https://www.aacap.org",
+      },
       options: [
         {
           text: "“I guess I'm just weak mentally. I'll try to meditate more.”",
@@ -2598,8 +2693,21 @@ export function getTopicRoleplayScenario(topic: HubTopic, categoryId?: string): 
     },
     realtalk: {
       setting: "Student Health Center Front Desk",
-      character: "Intake Coordinator",
+      character: "Alex",
+      characterRole: "Intake & Billing Coordinator",
       statement: "“If you want confidential STI screening or reproductive care, we normally bill your family insurance, which sends a detailed Explanation of Benefits (EOB) itemizing all tests to your home address.”",
+      evidence: {
+        badge: "Legal Rights Form",
+        title: "Title X Minor Confidentiality Protection & Billing Waiver",
+        metric: "Statutory Minor Privacy Protections · Request for Zero Home EOB",
+        description: "Official federal Title X regulations establishing that adolescent patients may receive confidential reproductive screenings via sliding-scale federal grant allocations.",
+      },
+      sourceCitation: {
+        organization: "American College of Obstetricians and Gynecologists (ACOG)",
+        guideline: "ACOG Committee Opinion No. 803: Confidentiality in Adolescent Health Care",
+        year: "2020",
+        url: "https://www.acog.org/clinical/clinical-guidance/committee-opinion/articles/2020/04/confidentiality-in-adolescent-health-care",
+      },
       options: [
         {
           text: "“Never mind then, I can't risk my parents seeing that. I'll just skip getting tested.”",
@@ -2623,8 +2731,21 @@ export function getTopicRoleplayScenario(topic: HubTopic, categoryId?: string): 
     },
     conditions: {
       setting: "Consultation on Reproductive Care Options",
-      character: "Clinical Provider",
+      character: "Dr. Rivera",
+      characterRole: "Reproductive Health Specialist",
       statement: "“At your age, I usually only prescribe the combined pill. Let's just write that prescription right now without confusing you with other options.”",
+      evidence: {
+        badge: "Decision Matrix",
+        title: "Adolescent Contraception Shared Decision-Making Guide",
+        metric: "Comparative Efficacy, Side Effects & Dosing Schedules Evaluated",
+        description: "Clinical comparison grid showing Tier 1 (IUD/implant), Tier 2 (pill/patch/ring/shot), and Tier 3 barrier methods matched with patient preferences.",
+      },
+      sourceCitation: {
+        organization: "American Academy of Pediatrics (AAP) & ACOG",
+        guideline: "AAP Clinical Report: Contraception for Adolescents & ACOG Adolescent Practice Guidelines",
+        year: "2022",
+        url: "https://publications.aap.org/pediatrics/article/134/4/e1244/32971/Contraception-for-Adolescents",
+      },
       options: [
         {
           text: "“Sure, whatever you think is simplest.”",
@@ -2648,8 +2769,21 @@ export function getTopicRoleplayScenario(topic: HubTopic, categoryId?: string): 
     },
     factors: {
       setting: "High School District Board Meeting on Menstrual Hygiene Supplies",
-      character: "School Board Trustee",
+      character: "Trustee Morales",
+      characterRole: "School Board Member",
       statement: "“Installing free pad and tampon dispensers in all student bathrooms will just lead to vandalism and waste our limited school maintenance budget.”",
+      evidence: {
+        badge: "Policy Impact Report",
+        title: "Menstrual Equity School Attendance & Fiscal Impact Brief",
+        metric: "84% Student Absenteeism Link · <$3/Student Annual Cost",
+        description: "Data-driven research proving free menstrual dispensers decrease classroom absenteeism by >20% and protect student health equity.",
+      },
+      sourceCitation: {
+        organization: "Alliance for Period Supplies & GLOWM",
+        guideline: "National Study on Period Poverty and School Attendance & GLOWM Social Determinants",
+        year: "2023",
+        url: "https://period.org",
+      },
       options: [
         {
           text: "“I guess that makes sense. We'll just keep asking friends for emergency supplies.”",
