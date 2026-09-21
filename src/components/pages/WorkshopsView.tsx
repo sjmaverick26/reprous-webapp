@@ -106,25 +106,47 @@ export function WorkshopsView() {
 
       {/* 4 Steps Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        {WORKSHOP_STEPS.map((step) => (
-          <Card key={step.step} className="p-6 text-center hover:shadow-hover transition-all">
-            <div className="w-10 h-10 rounded-full bg-berry text-cream-card flex items-center justify-center font-bold text-base mx-auto mb-3">
-              {step.step}
-            </div>
-            <h3 className="text-xl md:text-[22px] font-normal font-serif text-plum mb-2 leading-snug">{step.title}</h3>
-            <p className="text-[14px] text-ink/80 leading-relaxed m-0 font-sans">{step.desc}</p>
-          </Card>
-        ))}
+        {WORKSHOP_STEPS.map((step, idx) => {
+          const borderOutline =
+            idx % 3 === 0
+              ? "border-2 border-deep-teal"
+              : idx % 3 === 1
+              ? "border-2 border-coral"
+              : "border-2 border-raspberry";
+          const numBg =
+            idx % 3 === 0
+              ? "bg-deep-teal text-white"
+              : idx % 3 === 1
+              ? "bg-coral text-white"
+              : "bg-raspberry text-white";
+
+          return (
+            <Card
+              key={step.step}
+              className={`p-6 text-center bg-white ${borderOutline} shadow-xs hover:shadow-hover transition-all`}
+            >
+              <div className={`w-10 h-10 rounded-full ${numBg} flex items-center justify-center font-bold text-base mx-auto mb-3 font-sans`}>
+                {step.step}
+              </div>
+              <h3 className="text-xl md:text-[22px] font-normal font-serif text-deep-teal mb-2 leading-snug">
+                {step.title}
+              </h3>
+              <p className="text-[14px] text-charcoal/80 leading-relaxed m-0 font-sans">
+                {step.desc}
+              </p>
+            </Card>
+          );
+        })}
       </div>
 
       {/* Sample Agenda */}
       <div className="max-w-2xl mx-auto w-full">
         <div className="text-center mb-6">
-          <div className="text-xs font-extrabold uppercase tracking-wider text-berry/75">
+          <div className="text-xs font-extrabold uppercase tracking-wider text-deep-teal">
             Sample Agenda • 90 Minutes
           </div>
         </div>
-        <Card className="p-4 md:p-8 divide-y divide-berry/10">
+        <Card className="p-4 md:p-8 divide-y divide-deep-teal/10 bg-white shadow-xs border-2 border-deep-teal">
           {SAMPLE_AGENDA.map((item, idx) => (
             <div key={idx} className="flex flex-col sm:flex-row gap-4 py-4 first:pt-0 last:pb-0 items-baseline">
               <div className="font-serif font-bold text-berry w-24 flex-shrink-0 text-base">
@@ -170,56 +192,74 @@ export function WorkshopsView() {
           </div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {WORKSHOP_REVIEWS.map((r, i) => (
-            <Card key={i} className="p-6 flex flex-col justify-between">
-              <p className="font-serif text-base text-berry leading-relaxed mb-4 italic">
-                &ldquo;{r.quote}&rdquo;
-              </p>
-              <div className="text-xs font-extrabold text-ink/70">
-                — {r.attendee}, age {r.age}
-              </div>
-            </Card>
-          ))}
+          {WORKSHOP_REVIEWS.map((r, i) => {
+            const borderOutline =
+              i % 3 === 0
+                ? "border-2 border-deep-teal"
+                : i % 3 === 1
+                ? "border-2 border-coral"
+                : "border-2 border-raspberry";
+
+            return (
+              <Card key={i} className={`p-6 flex flex-col justify-between bg-white shadow-xs ${borderOutline}`}>
+                <p className="font-serif text-base text-deep-teal leading-relaxed mb-4 italic">
+                  &ldquo;{r.quote}&rdquo;
+                </p>
+                <div className="text-xs font-extrabold text-charcoal/70 font-sans">
+                  — {r.attendee}, age {r.age}
+                </div>
+              </Card>
+            );
+          })}
         </div>
       </div>
 
       {/* Upcoming Sessions Grid */}
       <div>
         <div className="text-center mb-8">
-          <div className="text-[13px] font-bold font-sans uppercase tracking-wider text-berry/75 mb-2">
+          <div className="text-[13px] font-bold font-sans uppercase tracking-wider text-deep-teal mb-2">
             Upcoming Sessions
           </div>
-          <h2 className="text-3xl md:text-[44px] lg:text-[50px] font-normal font-serif text-plum leading-[1.15]">
+          <h2 className="text-3xl md:text-[44px] lg:text-[50px] font-normal font-serif text-deep-teal leading-[1.15]">
             Join an upcoming free workshop
           </h2>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {UPCOMING_SESSIONS.map((session) => (
-            <Card key={session.id} className="p-7 flex flex-col justify-between text-center items-center">
-              <div>
-                <div className="font-serif text-3xl font-bold text-berry mb-2">
-                  {session.date}
+          {UPCOMING_SESSIONS.map((session, idx) => {
+            const borderOutline =
+              idx % 3 === 0
+                ? "border-2 border-deep-teal"
+                : idx % 3 === 1
+                ? "border-2 border-coral"
+                : "border-2 border-raspberry";
+
+            return (
+              <Card key={session.id} className={`p-7 flex flex-col justify-between text-center items-center bg-white shadow-xs ${borderOutline}`}>
+                <div>
+                  <div className="font-serif text-3xl font-bold text-deep-teal mb-2">
+                    {session.date}
+                  </div>
+                  <div className="text-[13px] font-bold font-sans text-raspberry uppercase tracking-wider mb-2">
+                    {session.topic}
+                  </div>
+                  <p className="text-[14px] text-charcoal/75 mb-4 font-sans">
+                    {session.time} • {session.location}
+                  </p>
+                  <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-light-teal/50 text-deep-teal border border-deep-teal/20 text-[13px] font-semibold mb-6 font-sans">
+                    <Users className="w-3.5 h-3.5" />
+                    {session.spotsLeft} spots available
+                  </div>
                 </div>
-                <div className="text-[13px] font-bold font-sans text-yellow-deep uppercase tracking-wider mb-2">
-                  {session.topic}
-                </div>
-                <p className="text-[14px] text-ink/70 mb-4 font-sans">
-                  {session.time} • {session.location}
-                </p>
-                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blush-deep/30 text-berry text-[13px] font-semibold mb-6 font-sans">
-                  <Users className="w-3.5 h-3.5" />
-                  {session.spotsLeft} spots available
-                </div>
-              </div>
-              <Button
-                onClick={() => setSelectedSession(session)}
-                className="w-full text-[14px] font-semibold"
-              >
-                RSVP for Free
-              </Button>
-            </Card>
-          ))}
+                <Button
+                  onClick={() => setSelectedSession(session)}
+                  className="w-full text-[14px] font-semibold bg-raspberry hover:bg-raspberry/90 text-white"
+                >
+                  RSVP for Free
+                </Button>
+              </Card>
+            );
+          })}
         </div>
       </div>
 

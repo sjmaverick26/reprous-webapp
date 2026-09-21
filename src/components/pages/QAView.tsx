@@ -119,20 +119,39 @@ export function QAView({ autoOpenSubmit = false }: { autoOpenSubmit?: boolean })
         </div>
       </div>
 
-      {/* Accordion FAQ list */}
-      <div className="bg-cream-card rounded-3xl p-6 md:p-8 shadow-card">
+      {/* Accordion FAQ list: Main white text boxes outlined with Teal, Coral, and Raspberry */}
+      <div className="w-full">
         {filteredFaqs.length === 0 ? (
-          <p className="text-sm text-ink/70 text-center py-6">
-            No matching questions found. Feel free to submit your own below!
-          </p>
+          <div className="p-8 text-center bg-white rounded-2xl border-2 border-deep-teal shadow-xs">
+            <p className="text-[15px] text-ink/70 m-0 font-sans">
+              No matching questions found. Feel free to submit your own below!
+            </p>
+          </div>
         ) : (
-          <Accordion type="single" collapsible className="w-full">
-            {filteredFaqs.map((faq) => (
-              <AccordionItem key={faq.id} value={faq.id}>
-                <AccordionTrigger>{faq.question}</AccordionTrigger>
-                <AccordionContent>{faq.answer}</AccordionContent>
-              </AccordionItem>
-            ))}
+          <Accordion type="single" collapsible className="w-full space-y-4">
+            {filteredFaqs.map((faq, idx) => {
+              const borderOutline =
+                idx % 3 === 0
+                  ? "border-2 border-deep-teal"
+                  : idx % 3 === 1
+                  ? "border-2 border-coral"
+                  : "border-2 border-raspberry";
+
+              return (
+                <AccordionItem
+                  key={faq.id}
+                  value={faq.id}
+                  className={`bg-white rounded-2xl px-6 py-2 shadow-xs transition-all ${borderOutline} border-b-0`}
+                >
+                  <AccordionTrigger className="text-deep-teal hover:text-raspberry font-serif text-[18px] md:text-[20px] font-normal py-4">
+                    {faq.question}
+                  </AccordionTrigger>
+                  <AccordionContent className="text-[15px] md:text-[16px] text-charcoal/85 leading-relaxed pt-1 pb-4">
+                    {faq.answer}
+                  </AccordionContent>
+                </AccordionItem>
+              );
+            })}
           </Accordion>
         )}
       </div>

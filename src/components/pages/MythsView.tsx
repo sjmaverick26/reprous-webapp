@@ -198,16 +198,22 @@ export function MythsView({ onNavigate }: MythsViewProps) {
 
       {/* Interactive Myth & Fact Cards Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-7">
-        {filteredMyths.map((item) => {
+        {filteredMyths.map((item, idx) => {
           const isRevealed = revealedIds.has(item.id);
+          const borderOutline =
+            idx % 3 === 0
+              ? "border-2 border-deep-teal"
+              : idx % 3 === 1
+              ? "border-2 border-coral"
+              : "border-2 border-raspberry";
 
           return (
             <div
               key={item.id}
-              className={`rounded-2xl transition-all duration-200 flex flex-col justify-between border ${
+              className={`rounded-2xl transition-all duration-200 flex flex-col justify-between bg-white ${borderOutline} ${
                 isRevealed
-                  ? "bg-white border-plum/30 shadow-md ring-1 ring-plum/10"
-                  : "bg-white border-plum/15 shadow-card hover:shadow-hover hover:border-plum/30"
+                  ? "shadow-md ring-1 ring-deep-teal/20"
+                  : "shadow-card hover:shadow-hover"
               }`}
             >
               {/* Card Main Body */}
