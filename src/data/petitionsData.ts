@@ -9,6 +9,17 @@ export interface PetitionItem {
   category: "schools" | "policy" | "access" | "healthcare";
   location: string;
   organizer: string;
+  realWorldCampaign: string;
+  billOrInitiative?: string;
+  externalUrl: string;
+}
+
+export interface AdvocacyCampaignLink {
+  title: string;
+  organization: string;
+  description: string;
+  url: string;
+  badge: string;
 }
 
 export const PETITIONS_DATA: PetitionItem[] = [
@@ -26,7 +37,10 @@ export const PETITIONS_DATA: PetitionItem[] = [
     targetSignatures: 10000,
     category: "schools",
     location: "Statewide Campaign",
-    organizer: "Youth Reproductive Equity Coalition"
+    organizer: "Youth Reproductive Equity Coalition",
+    realWorldCampaign: "PERIOD. (The Menstrual Movement) & Alliance for Period Supplies",
+    billOrInitiative: "Menstrual Equity for All Act (H.R. 3646)",
+    externalUrl: "https://period.org"
   },
   {
     id: "petition-2",
@@ -42,7 +56,10 @@ export const PETITIONS_DATA: PetitionItem[] = [
     targetSignatures: 7500,
     category: "policy",
     location: "Statewide / Multi-District",
-    organizer: "ReproUs Youth Advocates & Student Leaders"
+    organizer: "ReproUs Youth Advocates & Student Leaders",
+    realWorldCampaign: "Advocates for Youth & SIECUS (Sex Ed for Social Change)",
+    billOrInitiative: "Real Education and Access for Healthy Youth Act (REHYA)",
+    externalUrl: "https://advocatesforyouth.org/issue/sex-education/"
   },
   {
     id: "petition-3",
@@ -58,7 +75,10 @@ export const PETITIONS_DATA: PetitionItem[] = [
     targetSignatures: 5000,
     category: "healthcare",
     location: "National Initiative",
-    organizer: "Adolescent Health Rights Alliance"
+    organizer: "Adolescent Health Rights Alliance",
+    realWorldCampaign: "National Family Planning & Reproductive Health Association (NFPRHA)",
+    billOrInitiative: "Title X Minor Confidentiality Protection Framework",
+    externalUrl: "https://www.nationalfamilyplanning.org"
   },
   {
     id: "petition-4",
@@ -74,6 +94,54 @@ export const PETITIONS_DATA: PetitionItem[] = [
     targetSignatures: 5000,
     category: "access",
     location: "City & County Hubs",
-    organizer: "Urban Youth Health Project"
+    organizer: "Urban Youth Health Project",
+    realWorldCampaign: "National Coalition of STD Directors (NCSD) & CDC GetTested",
+    billOrInitiative: "Community Adolescent STI Testing & Prevention Grants",
+    externalUrl: "https://www.ncsddc.org"
   }
+];
+
+export const REAL_WORLD_ADVOCACY_LINKS: AdvocacyCampaignLink[] = [
+  {
+    title: "Menstrual Equity for All Act & Free School Supplies",
+    organization: "PERIOD.org & Alliance for Period Supplies",
+    description: "National grassroots movement demanding free menstrual products in public school restrooms and recurring federal Title I funding.",
+    url: "https://period.org",
+    badge: "Period Equity",
+  },
+  {
+    title: "Real Education and Access for Healthy Youth Act (REHYA)",
+    organization: "Advocates for Youth & SIECUS",
+    description: "Federal legislative campaign requiring science-backed, LGBTQ+-inclusive, medically accurate sex education across all public school districts.",
+    url: "https://advocatesforyouth.org/issue/sex-education/",
+    badge: "Sex Ed Reform",
+  },
+  {
+    title: "Title X Youth Privacy & Minor Healthcare Protection",
+    organization: "NFPRHA & Guttmacher Institute",
+    description: "National campaign safeguarding confidentiality for youth seeking STI screening, birth control, and mental health care without parent billing notices.",
+    url: "https://www.nationalfamilyplanning.org",
+    badge: "Youth Privacy",
+  },
+  {
+    title: "National Coalition of STD Directors (NCSD)",
+    organization: "NCSD Health Coalition",
+    description: "Public health advocacy network fighting for dedicated funding for community-based rapid STI testing, barrier access, and youth clinics.",
+    url: "https://www.ncsddc.org",
+    badge: "Community Testing",
+  },
+  {
+    title: "Change.org Reproductive Health & Student Rights Petitions",
+    organization: "Change.org Youth Coalition",
+    description: "Explore and sign hundreds of live, citizen-led petitions for period equity, local school policies, and reproductive health rights nationwide.",
+    url: "https://www.change.org/t/reproductive-rights-en-us",
+    badge: "Live Petitions",
+  },
+  {
+    title: "Congress.gov H.R. 3646 Legislative Bill Tracker",
+    organization: "U.S. House of Representatives",
+    description: "Read the official federal bill text, committee schedules, and list of co-sponsors for the Menstrual Equity for All Act on Congress.gov.",
+    url: "https://www.congress.gov/bill/118th-congress/house-bill/3646",
+    badge: "Federal Tracker",
+  },
 ];
