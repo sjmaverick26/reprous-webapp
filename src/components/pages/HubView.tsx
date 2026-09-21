@@ -1,11 +1,12 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import {
   Flame,
   Award,
   Trophy,
   ArrowLeft,
+  ArrowRight,
   BookOpen,
   FileText,
   Gamepad2,
@@ -14,6 +15,7 @@ import {
   Clock,
   Sparkles,
   ChevronRight,
+  ChevronLeft,
   Activity,
   Heart,
   Shield,
@@ -33,8 +35,12 @@ import {
   Check,
   ShieldAlert,
   AlertTriangle,
+  Quote,
+  CheckSquare,
+  Square,
+  Info,
 } from "lucide-react";
-import { HUB_CATEGORIES, HubCategory, HubTopic } from "@/data/hubData";
+import { HUB_CATEGORIES, HubCategory, HubTopic, getTopicClinicalQuote } from "@/data/hubData";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -67,8 +73,13 @@ export function HubView({ initialCategory }: HubViewProps) {
   const [streak, setStreak] = useState<number>(4);
   const [earnedBadges, setEarnedBadges] = useState<string[]>(["Body Basics Champion", "Cycle Sense Pro"]);
 
-  // Interactive Lesson Experience State
+  // Interactive Multi-Page Lesson State
   const [isFullScreen, setIsFullScreen] = useState<boolean>(false);
+  const [currentLessonPage, setCurrentLessonPage] = useState<number>(1);
+  const [checkedSignals, setCheckedSignals] = useState<Set<number>>(new Set());
+  const [curiosityRevealed, setCuriosityRevealed] = useState<boolean>(false);
+
+  // Lesson Tabs & Quiz State
   const [activeLessonTab, setActiveLessonTab] = useState<"lesson" | "video" | "challenge" | "quiz">("lesson");
   const [quizStep, setQuizStep] = useState<number>(0);
   const [quizAnswers, setQuizAnswers] = useState<Record<number, number>>({});
@@ -89,6 +100,24 @@ export function HubView({ initialCategory }: HubViewProps) {
     ? HUB_CATEGORIES[activeCategoryId]
     : undefined;
 
+  // Overall Learning Journey Progress Computations
+  const allTopics = useMemo(() => {
+    return Object.values(HUB_CATEGORIES).flatMap((cat) => cat.topics);
+  }, []);
+  const overallTotal = allTopics.length;
+  const overallCompleted = useMemo(() => {
+    return allTopics.filter((t) => completedTopics.has(t.id)).length;
+  }, [allTopics, completedTopics]);
+  const overallPercent = Math.round((overallCompleted / (overallTotal || 1)) * 100);
+
+  // Category Progress Computations
+  const categoryTotalCount = activeCategory?.topics.length || 0;
+  const categoryCompletedCount = useMemo(() => {
+    if (!activeCategory) return 0;
+    return activeCategory.topics.filter((t) => completedTopics.has(t.id)).length;
+  }, [activeCategory, completedTopics]);
+  const categoryPercentage = Math.round((categoryCompletedCount / (categoryTotalCount || 1)) * 100);
+
   const handleCompleteTopic = async (topic: HubTopic) => {
     if (!completedTopics.has(topic.id)) {
       const nextSet = new Set(completedTopics);
@@ -108,6 +137,9 @@ export function HubView({ initialCategory }: HubViewProps) {
   const openTopic = (topic: HubTopic) => {
     setSelectedTopic(topic);
     setOpenPanelId(null);
+    setCurrentLessonPage(1);
+    setCheckedSignals(new Set());
+    setCuriosityRevealed(false);
     setActiveLessonTab("lesson");
     setQuizStep(0);
     setQuizAnswers({});
@@ -120,6 +152,9 @@ export function HubView({ initialCategory }: HubViewProps) {
   const closeTopic = () => {
     setSelectedTopic(null);
     setIsFullScreen(false);
+    setCurrentLessonPage(1);
+    setCheckedSignals(new Set());
+    setCuriosityRevealed(false);
     setActiveLessonTab("lesson");
     setQuizStep(0);
     setQuizAnswers({});
@@ -317,6 +352,43 @@ export function HubView({ initialCategory }: HubViewProps) {
                   <span>Health Dictionary</span>
                 </a>
               </div>
+
+              {/* Overall Learning Journey Progress Card */}
+              <div className="mt-8 max-w-2xl mx-auto w-full bg-white rounded-3xl p-6 md:p-7 shadow-card border-2 border-deep-teal/15 text-left transition-all">
+                <div className="flex items-center justify-between gap-4 mb-3 flex-wrap">
+                  <div>
+                    <span className="text-[11px] font-bold uppercase tracking-wider text-deep-teal/70 font-sans block mb-1">
+                      Your Learning Journey
+                    </span>
+                    <h2 className="text-xl md:text-2xl font-serif font-bold text-deep-teal leading-tight">
+                      Overall Lesson Progress
+                    </h2>
+                  </div>
+                  <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold font-sans bg-light-teal text-deep-teal border border-deep-teal/20">
+                    <Sparkles className="w-3.5 h-3.5 text-coral" />
+                    <span>{overallPercent}% Completed</span>
+                  </div>
+                </div>
+
+                {/* Progress Bar */}
+                <div className="w-full bg-slate-100 rounded-full h-3.5 p-0.5 overflow-hidden border border-slate-200/80 mb-3">
+                  <div
+                    className="h-full rounded-full bg-gradient-to-r from-deep-teal via-coral to-raspberry transition-all duration-700 shadow-xs"
+                    style={{ width: `${Math.max(overallPercent, 4)}%` }}
+                  />
+                </div>
+
+                <div className="flex items-center justify-between text-xs sm:text-[13.5px] font-medium text-charcoal/70 font-sans">
+                  <span>
+                    <strong className="text-deep-teal font-bold">{overallCompleted}</strong> of{" "}
+                    <strong>{overallTotal}</strong> lessons mastered
+                  </span>
+                  <span className="text-deep-teal font-bold flex items-center gap-1">
+                    <Flame className="w-3.5 h-3.5 text-coral fill-coral" />
+                    Keep up the momentum!
+                  </span>
+                </div>
+              </div>
             </div>
 
             {/* Category Cards Grouped by Color: 3 Teal, 3 Pink, 3 Coral */}
@@ -340,6 +412,9 @@ export function HubView({ initialCategory }: HubViewProps) {
                       const cat = HUB_CATEGORIES[id];
                       if (!cat) return null;
                       const theme = getCategoryTheme(cat.id);
+                      const catCompleted = cat.topics.filter((t) => completedTopics.has(t.id)).length;
+                      const catTotal = cat.topics.length;
+                      const catPercent = Math.round((catCompleted / (catTotal || 1)) * 100);
 
                       return (
                         <button
@@ -351,11 +426,19 @@ export function HubView({ initialCategory }: HubViewProps) {
                           className={`group rounded-3xl p-7 text-left border-2 shadow-card hover:shadow-hover hover:-translate-y-0.5 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-raspberry flex flex-col justify-between ${theme.cardBg}`}
                         >
                           <div>
-                            <div
-                              className="w-12 h-12 rounded-2xl mb-4 shadow-sm flex items-center justify-center font-bold text-xs"
-                              style={{ backgroundColor: theme.primaryHex }}
-                            >
-                              {getCategoryIcon(cat.id)}
+                            <div className="flex items-center justify-between mb-4">
+                              <div
+                                className="w-12 h-12 rounded-2xl shadow-sm flex items-center justify-center font-bold text-xs"
+                                style={{ backgroundColor: theme.primaryHex }}
+                              >
+                                {getCategoryIcon(cat.id)}
+                              </div>
+                              {catCompleted === catTotal && catTotal > 0 && (
+                                <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-bold bg-white text-emerald-700 border border-emerald-300 shadow-2xs">
+                                  <CheckCircle className="w-3.5 h-3.5 text-emerald-600" />
+                                  <span>Mastered</span>
+                                </span>
+                              )}
                             </div>
                             <h3 className="text-2xl md:text-[28px] font-normal font-serif text-deep-teal mb-2 group-hover:text-raspberry transition-colors leading-snug">
                               {cat.title}
@@ -363,6 +446,23 @@ export function HubView({ initialCategory }: HubViewProps) {
                             <p className="text-[15.5px] md:text-[16.5px] text-charcoal/85 leading-relaxed mb-4 font-sans">
                               {cat.description}
                             </p>
+
+                            {/* Mini Category Progress Bar */}
+                            <div className="mb-4">
+                              <div className="flex items-center justify-between text-xs font-semibold text-charcoal/70 mb-1.5 font-sans">
+                                <span>Module Progress</span>
+                                <span>{catCompleted} of {catTotal} completed</span>
+                              </div>
+                              <div className="w-full bg-white/70 rounded-full h-2 overflow-hidden border border-black/5">
+                                <div
+                                  className="h-full rounded-full transition-all duration-500"
+                                  style={{
+                                    width: `${catPercent}%`,
+                                    backgroundColor: theme.primaryHex,
+                                  }}
+                                />
+                              </div>
+                            </div>
                           </div>
                           <div className={`flex items-center justify-between pt-3 text-[13.5px] font-semibold font-sans border-t ${theme.footerStyle}`}>
                             <span>{cat.topics.length} interactive topics</span>
@@ -436,6 +536,66 @@ export function HubView({ initialCategory }: HubViewProps) {
               </p>
             </div>
 
+            {/* Category Progress Tracker Card */}
+            <div className="bg-white rounded-3xl p-5 sm:p-6 shadow-card border-2 border-deep-teal/15 text-left">
+              <div className="flex items-center justify-between gap-3 mb-2 flex-wrap">
+                <div className="flex items-center gap-2.5">
+                  <div
+                    className="w-9 h-9 rounded-xl flex items-center justify-center text-white text-xs font-bold shadow-xs"
+                    style={{ backgroundColor: currentTheme.primaryHex }}
+                  >
+                    {categoryCompletedCount === categoryTotalCount && categoryTotalCount > 0 ? (
+                      <Trophy className="w-5 h-5 text-white" />
+                    ) : (
+                      <BookOpen className="w-5 h-5 text-white" />
+                    )}
+                  </div>
+                  <div>
+                    <h4 className="text-base sm:text-lg font-serif font-bold text-deep-teal">
+                      {activeCategory.title} Mastery
+                    </h4>
+                    <p className="text-xs text-charcoal/70 font-sans">
+                      Progress toward category completion & badge
+                    </p>
+                  </div>
+                </div>
+                <div
+                  className="px-3 py-1.5 rounded-full text-xs font-bold border shadow-2xs font-sans"
+                  style={{
+                    backgroundColor: `${currentTheme.primaryHex}15`,
+                    color: currentTheme.primaryHex,
+                    borderColor: `${currentTheme.primaryHex}35`,
+                  }}
+                >
+                  {categoryCompletedCount} of {categoryTotalCount} Completed ({categoryPercentage}%)
+                </div>
+              </div>
+
+              {/* Progress Bar */}
+              <div className="w-full bg-slate-100 rounded-full h-3 overflow-hidden border border-slate-200 mt-3 mb-2.5">
+                <div
+                  className="h-full rounded-full transition-all duration-500 shadow-xs"
+                  style={{
+                    width: `${Math.max(categoryPercentage, 3)}%`,
+                    backgroundColor: currentTheme.primaryHex,
+                  }}
+                />
+              </div>
+
+              <div className="flex items-center justify-between text-xs text-charcoal/75 font-sans">
+                <span>
+                  {categoryCompletedCount === categoryTotalCount && categoryTotalCount > 0
+                    ? "🏆 Category Mastered! Badge unlocked!"
+                    : `Complete ${categoryTotalCount - categoryCompletedCount} more ${
+                        categoryTotalCount - categoryCompletedCount === 1 ? "lesson" : "lessons"
+                      } to unlock the ${activeCategory.badge}!`}
+                </span>
+                <span className="font-bold text-deep-teal">
+                  +{categoryCompletedCount * 50} XP earned
+                </span>
+              </div>
+            </div>
+
             {/* Serpentine Track */}
             <div className="relative py-8">
               <div className="absolute left-1/2 top-12 bottom-12 w-0.5 -translate-x-1/2 border-l-2 border-dashed border-deep-teal/20 z-0" />
@@ -460,7 +620,7 @@ export function HubView({ initialCategory }: HubViewProps) {
                         >
                           {topic.isAdvocateCapstone && (
                             <span className="text-[9.5px] font-bold tracking-wider uppercase px-2.5 py-0.5 rounded-full bg-gradient-to-r from-deep-teal via-coral to-raspberry text-white shadow-2xs">
-                              ✦ ADVOCATE CAPSTONE
+                              ✦ SELF-ADVOCACY ACTION
                             </span>
                           )}
                           <div
@@ -488,7 +648,7 @@ export function HubView({ initialCategory }: HubViewProps) {
                               {topic.name}
                             </div>
                             <div className="text-[10.5px] font-bold uppercase tracking-wider text-charcoal/60 mt-0.5">
-                              {topic.isAdvocateCapstone ? "Advocacy Capstone" : `${topic.type} • ${topic.xp} XP`}
+                              {topic.isAdvocateCapstone ? "Self-Advocacy Action" : `${topic.type} • ${topic.xp} XP`}
                             </div>
                           </div>
                         </button>
@@ -500,7 +660,7 @@ export function HubView({ initialCategory }: HubViewProps) {
                           {topic.isAdvocateCapstone && (
                             <div className="mb-2.5 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10.5px] font-bold tracking-wider uppercase bg-gradient-to-r from-light-teal via-[#FFE1DB] to-soft-pink text-deep-teal border border-raspberry/20">
                               <Shield className="w-3.5 h-3.5 text-raspberry" />
-                              <span>Learn · Recognize · Advocate Capstone</span>
+                              <span>Learn · Recognize · Advocate</span>
                             </div>
                           )}
                           <div className="flex items-center justify-between mb-2">
@@ -604,21 +764,37 @@ export function HubView({ initialCategory }: HubViewProps) {
             const isQuizActive = quizList.length > 0;
             const currentQ = quizList[quizStep];
             const isQuizFinished = isQuizActive && quizStep >= quizList.length;
+            const clinicalQuote = getTopicClinicalQuote(selectedTopic, activeCategoryId || undefined);
+
+            const advocacyData = selectedTopic.advocacyScript || {
+              situation: `When discussing ${selectedTopic.name.toLowerCase()} or questions about your body with a physician, gynecologist, or nurse practitioner.`,
+              doctorScript: `“I have questions and observations regarding ${selectedTopic.name.toLowerCase()}. Here is what I have been tracking over recent cycles. What clinical evaluation or diagnostic steps do you recommend to investigate this further?”`,
+              whyItWorks: "Framing your questions around objective symptom tracking and clinical definitions invites your clinician into shared problem-solving.",
+              whatIfDismissed: "Ask calmly: ‘Could you please document in my electronic health record that I reported these symptoms today and note why further evaluation is not indicated at this time?’",
+            };
+
+            const lessonPages = [
+              { id: 1, title: "Concept & Evidence", shortTitle: "Concept" },
+              { id: 2, title: "Visual Anatomy", shortTitle: "Visuals" },
+              { id: 3, title: "Clinical Signals", shortTitle: "Signals" },
+              { id: 4, title: "Self-Advocacy", shortTitle: "Advocacy" },
+              { id: 5, title: isQuizActive ? "Mini-Quiz & XP" : "Practice & Review", shortTitle: isQuizActive ? "Quiz" : "Practice" },
+            ];
 
             return (
               <div className="flex flex-col h-full overflow-hidden">
                 {/* Top Control Bar */}
-                <div className="flex items-center justify-between gap-3 border-b border-deep-teal/10 pb-3 mb-3 pr-7 shrink-0">
+                <div className="flex items-center justify-between gap-3 border-b border-deep-teal/10 pb-3 mb-2 pr-7 shrink-0">
                   <div className="flex items-center gap-2 flex-wrap">
-                    <span className={`text-[11px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full border ${topicTheme.pillClass}`}>
-                      {selectedTopic.type}
+                    <span className={`text-[11.5px] font-bold uppercase tracking-wider px-3 py-0.5 rounded-full border shadow-2xs ${topicTheme.pillClass}`}>
+                      {selectedTopic.isAdvocateCapstone ? "Self-Advocacy Action" : selectedTopic.type}
                     </span>
                     {selectedTopic.readTime && (
-                      <span className="text-xs text-charcoal/70 inline-flex items-center gap-1 font-semibold">
+                      <span className="text-xs sm:text-sm text-charcoal/70 inline-flex items-center gap-1 font-semibold">
                         <Clock className="w-3.5 h-3.5 text-deep-teal" /> {selectedTopic.readTime}
                       </span>
                     )}
-                    <span className="text-xs font-bold text-deep-teal">
+                    <span className="text-xs sm:text-sm font-bold text-deep-teal">
                       +{selectedTopic.xp} XP
                     </span>
                   </div>
@@ -645,102 +821,181 @@ export function HubView({ initialCategory }: HubViewProps) {
                   </div>
                 </div>
 
-                {/* Dialog Header */}
-                <DialogHeader className="mb-3 text-left shrink-0">
-                  <DialogTitle className="text-xl sm:text-2xl md:text-3xl font-bold font-serif text-deep-teal leading-tight">
-                    {selectedTopic.name}
-                  </DialogTitle>
-                  <DialogDescription className="text-charcoal/80 font-sans text-xs sm:text-sm mt-1 leading-relaxed">
-                    {selectedTopic.desc}
-                  </DialogDescription>
-                </DialogHeader>
+                {/* Page Navigation Stepper Pills */}
+                <div className="flex items-center gap-1.5 p-1.5 bg-slate-100/90 rounded-2xl mb-3 overflow-x-auto border border-slate-200/80 shrink-0">
+                  {lessonPages.map((p) => {
+                    const isActive = currentLessonPage === p.id;
+                    const isPast = currentLessonPage > p.id;
 
-                {/* 4-Tab Navigation Strip */}
-                <div className="flex items-center gap-1.5 p-1.5 bg-slate-100 rounded-xl mb-4 overflow-x-auto border border-slate-200/80 shrink-0">
-                  <button
-                    onClick={() => setActiveLessonTab("lesson")}
-                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all shrink-0 ${
-                      activeLessonTab === "lesson"
-                        ? "bg-white text-deep-teal shadow-sm ring-1 ring-black/5"
-                        : "text-charcoal/70 hover:text-deep-teal hover:bg-white/60"
-                    }`}
-                  >
-                    <BookOpen className="w-3.5 h-3.5" />
-                    <span>Visual Lesson</span>
-                  </button>
-
-                  {selectedTopic.video && (
-                    <button
-                      onClick={() => setActiveLessonTab("video")}
-                      className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all shrink-0 ${
-                        activeLessonTab === "video"
-                          ? "bg-white text-deep-teal shadow-sm ring-1 ring-black/5"
-                          : "text-charcoal/70 hover:text-deep-teal hover:bg-white/60"
-                      }`}
-                    >
-                      <Video className="w-3.5 h-3.5 text-emerald-600" />
-                      <span>Clinical Video</span>
-                      <span className="w-2 h-2 rounded-full bg-emerald-500 inline-block animate-pulse"></span>
-                    </button>
-                  )}
-
-                  {(selectedTopic.sorterGame || selectedTopic.type === "game") && (
-                    <button
-                      onClick={() => setActiveLessonTab("challenge")}
-                      className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all shrink-0 ${
-                        activeLessonTab === "challenge"
-                          ? "bg-white text-deep-teal shadow-sm ring-1 ring-black/5"
-                          : "text-charcoal/70 hover:text-deep-teal hover:bg-white/60"
-                      }`}
-                    >
-                      <Gamepad2 className="w-3.5 h-3.5 text-raspberry" />
-                      <span>Interactive Challenge</span>
-                      <span className="text-[10px] font-bold text-raspberry bg-soft-pink px-1.5 py-0.2 rounded-full">+25 XP</span>
-                    </button>
-                  )}
-
-                  {isQuizActive && (
-                    <button
-                      onClick={() => setActiveLessonTab("quiz")}
-                      className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all shrink-0 ${
-                        activeLessonTab === "quiz"
-                          ? "bg-white text-deep-teal shadow-sm ring-1 ring-black/5"
-                          : "text-charcoal/70 hover:text-deep-teal hover:bg-white/60"
-                      }`}
-                    >
-                      <HelpCircle className="w-3.5 h-3.5 text-deep-teal" />
-                      <span>Mini-Quiz</span>
-                      <span className="text-[10px] font-bold bg-slate-200 text-charcoal/80 px-1.5 py-0.2 rounded-full">
-                        {quizList.length}Q
-                      </span>
-                    </button>
-                  )}
+                    return (
+                      <button
+                        key={p.id}
+                        onClick={() => setCurrentLessonPage(p.id)}
+                        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs sm:text-[13px] font-bold transition-all shrink-0 ${
+                          isActive
+                            ? "bg-white text-deep-teal shadow-sm ring-1 ring-black/5"
+                            : isPast
+                            ? "text-deep-teal/70 hover:text-deep-teal hover:bg-white/50"
+                            : "text-charcoal/60 hover:text-deep-teal hover:bg-white/40"
+                        }`}
+                      >
+                        <span
+                          className={`w-5 h-5 rounded-full flex items-center justify-center text-[11px] font-bold ${
+                            isActive
+                              ? "bg-deep-teal text-white"
+                              : isPast
+                              ? "bg-emerald-100 text-emerald-700"
+                              : "bg-slate-200 text-charcoal/70"
+                          }`}
+                        >
+                          {isPast ? "✓" : p.id}
+                        </span>
+                        <span className="hidden sm:inline">{p.title}</span>
+                        <span className="sm:hidden">{p.shortTitle}</span>
+                      </button>
+                    );
+                  })}
                 </div>
 
-                {/* Scrollable Main Content Canvas */}
-                <div className="flex-1 overflow-y-auto pr-1 sm:pr-2 space-y-4">
-                  {/* TAB 1: VISUAL LESSON & DIAGRAM */}
-                  {activeLessonTab === "lesson" && (
-                    <div className="space-y-4">
+                {/* Scrollable Main Content Area */}
+                <div className="flex-1 overflow-y-auto pr-1 sm:pr-2 space-y-5">
+                  {/* PAGE 1: CORE CONCEPT & CLINICAL EVIDENCE */}
+                  {currentLessonPage === 1 && (
+                    <div className="space-y-5 animate-in fade-in duration-200">
+                      <div>
+                        <DialogTitle className="text-2xl sm:text-3xl md:text-4xl font-normal font-serif text-deep-teal leading-tight mb-2">
+                          {selectedTopic.name}
+                        </DialogTitle>
+                        <DialogDescription className="text-charcoal/80 font-sans text-sm sm:text-base leading-relaxed">
+                          {selectedTopic.desc}
+                        </DialogDescription>
+                      </div>
+
                       {/* Hero Core Principle */}
-                      <div className={`p-4 md:p-5 rounded-2xl border-2 leading-relaxed ${topicTheme.bgLight} ${topicTheme.borderPrimary} shadow-sm`}>
-                        <div className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-deep-teal mb-1.5">
+                      <div className={`p-5 sm:p-6 rounded-2xl border-2 leading-relaxed ${topicTheme.bgLight} ${topicTheme.borderPrimary} shadow-xs space-y-2`}>
+                        <div className="flex items-center gap-2 text-xs sm:text-sm font-bold uppercase tracking-wider text-deep-teal">
                           <Lightbulb className="w-4 h-4 text-raspberry" />
                           <span>Core Principle</span>
                         </div>
-                        <p className="text-sm md:text-base text-charcoal/90 font-medium leading-relaxed">
+                        <p className="text-base sm:text-lg md:text-xl text-charcoal/95 font-medium leading-relaxed font-sans">
                           {selectedTopic.summary}
                         </p>
                       </div>
 
+                      {/* Clinical Authority Direct Quote Card */}
+                      <div className="p-5 sm:p-6 rounded-2xl bg-white border-2 border-deep-teal/20 shadow-sm space-y-4">
+                        <div className="flex items-center justify-between flex-wrap gap-2">
+                          <div className="flex items-center gap-2">
+                            <div className="w-8 h-8 rounded-full bg-deep-teal/10 flex items-center justify-center">
+                              <Quote className="w-4 h-4 text-deep-teal" />
+                            </div>
+                            <span className="text-xs font-bold uppercase tracking-wider text-deep-teal font-sans">
+                              Verified Clinical Guidance
+                            </span>
+                          </div>
+                          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-light-teal text-deep-teal border border-deep-teal/20">
+                            <Shield className="w-3.5 h-3.5 text-deep-teal" />
+                            <span>{clinicalQuote.source.includes("ACOG") ? "ACOG Guidelines" : "GLOWM / FIGO Evidence"}</span>
+                          </span>
+                        </div>
+
+                        <blockquote className="border-l-4 border-deep-teal pl-4 py-1">
+                          <p className="text-base sm:text-lg md:text-xl font-serif italic text-deep-teal leading-relaxed">
+                            &ldquo;{clinicalQuote.quote}&rdquo;
+                          </p>
+                        </blockquote>
+
+                        <div className="pt-2 border-t border-deep-teal/10 flex items-center justify-between flex-wrap gap-2 text-xs sm:text-sm">
+                          <div>
+                            <span className="font-bold text-charcoal block">{clinicalQuote.source}</span>
+                            <span className="text-charcoal/70 text-xs italic">{clinicalQuote.publication}</span>
+                          </div>
+                          {clinicalQuote.year && (
+                            <span className="text-xs font-semibold text-deep-teal bg-slate-100 px-2.5 py-1 rounded-md">
+                              {clinicalQuote.year}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* Interactive Clinical Curiosity Check */}
+                      <div className="rounded-2xl border-2 border-dashed border-deep-teal/25 bg-amber-50/50 p-4 sm:p-5 transition-all">
+                        <button
+                          type="button"
+                          onClick={() => setCuriosityRevealed(!curiosityRevealed)}
+                          className="w-full flex items-center justify-between text-left gap-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-deep-teal rounded-lg cursor-pointer"
+                        >
+                          <div className="flex items-center gap-2.5">
+                            <Sparkles className="w-5 h-5 text-amber-700 shrink-0" />
+                            <div>
+                              <span className="text-xs font-bold uppercase tracking-wider text-amber-900 block">
+                                Clinical Curiosity Check
+                              </span>
+                              <h5 className="text-sm sm:text-base font-bold text-charcoal">
+                                Why does medical self-advocacy matter for this topic?
+                              </h5>
+                            </div>
+                          </div>
+                          <span className="text-xs font-bold text-deep-teal bg-white px-3 py-1 rounded-full border border-deep-teal/20 shadow-2xs shrink-0">
+                            {curiosityRevealed ? "Hide Pearl ▲" : "Tap to Reveal ▼"}
+                          </span>
+                        </button>
+                        {curiosityRevealed && (
+                          <div className="mt-3 pt-3 border-t border-amber-200/80 text-sm sm:text-base text-charcoal/90 leading-relaxed animate-in fade-in space-y-2 font-sans">
+                            <p>
+                              Historical medical encounters have sometimes downplayed adolescent reproductive symptoms or cyclical pain as mere &ldquo;growing pains.&rdquo;
+                            </p>
+                            <p className="font-medium text-deep-teal">
+                              By understanding the official criteria from leading authorities like ACOG and GLOWM, you can articulate your bodily experiences using the exact clinical parameters doctors recognize, significantly reducing diagnostic delays.
+                            </p>
+                          </div>
+                        )}
+                      </div>
+
+                      {/* In-content Continue Button */}
+                      <div className="pt-2 flex justify-end">
+                        <Button
+                          onClick={() => setCurrentLessonPage(2)}
+                          className="bg-deep-teal text-white hover:bg-deep-teal/90 text-sm h-11 px-5 rounded-xl gap-2 font-semibold shadow-xs cursor-pointer"
+                        >
+                          <span>Continue to Visual Anatomy</span>
+                          <ArrowRight className="w-4 h-4" />
+                        </Button>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* PAGE 2: VISUAL ANATOMY & INTERACTIVE DIAGRAM */}
+                  {currentLessonPage === 2 && (
+                    <div className="space-y-5 animate-in fade-in duration-200">
+                      <div>
+                        <div className="text-xs font-bold uppercase tracking-wider text-deep-teal mb-1">
+                          Step 2 of 5 · Anatomy & Mechanics
+                        </div>
+                        <h4 className="text-2xl sm:text-3xl font-serif font-bold text-deep-teal leading-tight">
+                          Visual Breakdown & Biological Anatomy
+                        </h4>
+                        <p className="text-charcoal/80 text-sm sm:text-base font-sans mt-1">
+                          Explore the physiological mechanics and structure behind {selectedTopic.name.toLowerCase()}.
+                        </p>
+                      </div>
+
+                      {/* Interactive Diagram (if available for topic) */}
+                      {selectedTopic.diagram && (
+                        <InteractiveLessonDiagram
+                          diagram={selectedTopic.diagram}
+                          themeColor={topicTheme.primaryHex}
+                        />
+                      )}
+
                       {/* Bite-Sized Visual Cards */}
                       {selectedTopic.visualCards && selectedTopic.visualCards.length > 0 ? (
                         <div>
-                          <h5 className="font-bold text-deep-teal text-xs uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                          <h5 className="font-bold text-deep-teal text-xs uppercase tracking-wider mb-3 flex items-center gap-1.5">
                             <Layers className="w-4 h-4 text-deep-teal" />
-                            Essential Breakdown:
+                            Key Anatomical Components:
                           </h5>
-                          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+                          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3.5">
                             {selectedTopic.visualCards.map((card, i) => {
                               const cardPalettes = [
                                 { bg: "bg-light-teal/50", border: "border-deep-teal/30", iconBg: "bg-deep-teal text-white", badgeBg: "bg-white text-deep-teal border-deep-teal/20" },
@@ -752,21 +1007,21 @@ export function HubView({ initialCategory }: HubViewProps) {
                               return (
                                 <div
                                   key={i}
-                                  className={`p-4 rounded-xl ${palette.bg} border-2 ${palette.border} shadow-2xs flex flex-col justify-between hover:shadow-md hover:scale-[1.01] transition-all`}
+                                  className={`p-4 sm:p-5 rounded-2xl ${palette.bg} border-2 ${palette.border} shadow-2xs flex flex-col justify-between hover:shadow-md hover:scale-[1.01] transition-all`}
                                 >
                                   <div>
-                                    <div className="flex items-center justify-between mb-2">
-                                      <span className={`p-2 rounded-lg ${palette.iconBg} shadow-2xs`}>
+                                    <div className="flex items-center justify-between mb-2.5">
+                                      <span className={`p-2.5 rounded-xl ${palette.iconBg} shadow-xs`}>
                                         {getVisualCardIcon(card.iconName)}
                                       </span>
                                       {card.highlight && (
-                                        <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full border ${palette.badgeBg}`}>
+                                        <span className={`text-[10.5px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full border ${palette.badgeBg}`}>
                                           {card.highlight}
                                         </span>
                                       )}
                                     </div>
-                                    <h6 className="font-bold text-sm text-deep-teal mb-1">{card.title}</h6>
-                                    <p className="text-xs text-charcoal/85 leading-relaxed">{card.text}</p>
+                                    <h6 className="font-bold text-base sm:text-lg text-deep-teal mb-1.5">{card.title}</h6>
+                                    <p className="text-sm sm:text-base text-charcoal/85 leading-relaxed font-sans">{card.text}</p>
                                   </div>
                                 </div>
                               );
@@ -776,11 +1031,11 @@ export function HubView({ initialCategory }: HubViewProps) {
                       ) : (
                         /* Fallback spaced visual cards generated from key takeaways */
                         <div>
-                          <h5 className="font-bold text-deep-teal text-xs uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                          <h5 className="font-bold text-deep-teal text-xs uppercase tracking-wider mb-3 flex items-center gap-1.5">
                             <Layers className="w-4 h-4 text-deep-teal" />
                             Essential Concepts:
                           </h5>
-                          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+                          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3.5">
                             {selectedTopic.keyTakeaways.slice(0, 3).map((takeaway, i) => {
                               const cardPalettes = [
                                 { bg: "bg-light-teal/50", border: "border-deep-teal/30", iconBg: "bg-deep-teal text-white", badgeBg: "bg-white text-deep-teal border-deep-teal/20" },
@@ -792,18 +1047,18 @@ export function HubView({ initialCategory }: HubViewProps) {
                               return (
                                 <div
                                   key={i}
-                                  className={`p-4 rounded-xl ${palette.bg} border-2 ${palette.border} shadow-2xs flex flex-col justify-between`}
+                                  className={`p-4 sm:p-5 rounded-2xl ${palette.bg} border-2 ${palette.border} shadow-2xs flex flex-col justify-between`}
                                 >
                                   <div>
-                                    <div className="flex items-center justify-between mb-2">
-                                      <span className={`p-2 rounded-lg ${palette.iconBg} shadow-2xs`}>
+                                    <div className="flex items-center justify-between mb-2.5">
+                                      <span className={`p-2.5 rounded-xl ${palette.iconBg} shadow-xs`}>
                                         {i === 0 ? <Sparkles className="w-4 h-4" /> : i === 1 ? <Heart className="w-4 h-4" /> : <Shield className="w-4 h-4" />}
                                       </span>
-                                      <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full border ${palette.badgeBg}`}>
-                                        Insight #{i + 1}
+                                      <span className={`text-[10.5px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full border ${palette.badgeBg}`}>
+                                        Concept #{i + 1}
                                       </span>
                                     </div>
-                                    <p className="text-xs text-charcoal/85 leading-relaxed">{takeaway}</p>
+                                    <p className="text-sm sm:text-base text-charcoal/85 leading-relaxed font-sans">{takeaway}</p>
                                   </div>
                                 </div>
                               );
@@ -812,353 +1067,511 @@ export function HubView({ initialCategory }: HubViewProps) {
                         </div>
                       )}
 
-                      {/* Interactive Diagram (if available for topic) */}
-                      {selectedTopic.diagram && (
-                        <InteractiveLessonDiagram
-                          diagram={selectedTopic.diagram}
-                          themeColor={topicTheme.primaryHex}
-                        />
-                      )}
+                      {/* In-content Continue Button */}
+                      <div className="pt-2 flex justify-end">
+                        <Button
+                          onClick={() => setCurrentLessonPage(3)}
+                          className="bg-deep-teal text-white hover:bg-deep-teal/90 text-sm h-11 px-5 rounded-xl gap-2 font-semibold shadow-xs cursor-pointer"
+                        >
+                          <span>Continue to Clinical Signals</span>
+                          <ArrowRight className="w-4 h-4" />
+                        </Button>
+                      </div>
+                    </div>
+                  )}
 
-                      {/* Key Clinical Takeaways List */}
+                  {/* PAGE 3: CLINICAL SIGNALS & INTERACTIVE CHECKLIST */}
+                  {currentLessonPage === 3 && (
+                    <div className="space-y-5 animate-in fade-in duration-200">
                       <div>
-                        <h5 className="font-bold text-deep-teal text-xs uppercase tracking-wider mb-2 flex items-center gap-1.5">
-                          <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-                          Key Clinical Takeaways:
-                        </h5>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                          {selectedTopic.keyTakeaways.map((item, i) => {
-                            const badgeThemes = [
-                              { bg: "bg-light-teal/35", border: "border-deep-teal/25", numBg: "bg-deep-teal text-white" },
-                              { bg: "bg-[#FFE1DB]/50", border: "border-coral/35", numBg: "bg-coral text-white" },
-                              { bg: "bg-soft-pink/50", border: "border-raspberry/30", numBg: "bg-raspberry text-white" },
-                              { bg: "bg-amber-50/70", border: "border-amber-200/80", numBg: "bg-amber-600 text-white" },
-                            ];
-                            const t = badgeThemes[i % badgeThemes.length];
+                        <div className="text-xs font-bold uppercase tracking-wider text-deep-teal mb-1">
+                          Step 3 of 5 · Clinical Signals
+                        </div>
+                        <h4 className="text-2xl sm:text-3xl font-serif font-bold text-deep-teal leading-tight">
+                          Clinical Signals & Recognition Checklist
+                        </h4>
+                        <p className="text-charcoal/80 text-sm sm:text-base font-sans mt-1">
+                          Tap each signal below to verify your recognition and reinforce your symptom literacy.
+                        </p>
+                      </div>
 
-                            return (
-                              <div
-                                key={i}
-                                className={`p-3.5 rounded-xl ${t.bg} border-2 ${t.border} text-xs md:text-sm text-charcoal/90 flex items-start gap-2.5 shadow-2xs`}
-                              >
-                                <span className={`w-5 h-5 rounded-full ${t.numBg} font-bold text-[11px] flex items-center justify-center shrink-0 mt-0.5 shadow-xs`}>
-                                  {i + 1}
-                                </span>
-                                <span className="leading-relaxed font-medium">{item}</span>
+                      {/* Interactive Recognition Checklist */}
+                      <div className="space-y-3">
+                        {selectedTopic.keyTakeaways.map((item, i) => {
+                          const isChecked = checkedSignals.has(i);
+
+                          return (
+                            <button
+                              key={i}
+                              type="button"
+                              onClick={() => {
+                                const next = new Set(checkedSignals);
+                                if (isChecked) {
+                                  next.delete(i);
+                                } else {
+                                  next.add(i);
+                                }
+                                setCheckedSignals(next);
+                              }}
+                              className={`w-full p-4 sm:p-5 rounded-2xl border-2 text-left transition-all flex items-start gap-3.5 shadow-2xs cursor-pointer ${
+                                isChecked
+                                  ? "bg-emerald-50/80 border-emerald-500 shadow-sm"
+                                  : "bg-white border-deep-teal/15 hover:border-deep-teal/40 hover:bg-light-teal/20"
+                              }`}
+                            >
+                              <div className="shrink-0 mt-0.5">
+                                {isChecked ? (
+                                  <CheckSquare className="w-5 h-5 text-emerald-600 fill-emerald-100" />
+                                ) : (
+                                  <Square className="w-5 h-5 text-charcoal/40" />
+                                )}
                               </div>
-                            );
-                          })}
+                              <div className="flex-1">
+                                <span className={`text-sm sm:text-base md:text-[16.5px] leading-relaxed font-sans ${isChecked ? "text-emerald-950 font-semibold" : "text-charcoal/90 font-medium"}`}>
+                                  {item}
+                                </span>
+                              </div>
+                            </button>
+                          );
+                        })}
+                      </div>
+
+                      {/* Checklist Progress Tracker */}
+                      <div className="p-4 rounded-2xl bg-white border border-deep-teal/20 shadow-xs flex items-center justify-between flex-wrap gap-3">
+                        <div className="flex items-center gap-2">
+                          <CheckCircle2 className="w-5 h-5 text-emerald-600" />
+                          <span className="text-xs sm:text-sm font-bold text-deep-teal font-sans">
+                            Recognized {checkedSignals.size} of {selectedTopic.keyTakeaways.length} signals
+                          </span>
+                        </div>
+                        {checkedSignals.size === selectedTopic.keyTakeaways.length ? (
+                          <span className="text-xs font-bold text-emerald-800 bg-emerald-100 px-3 py-1 rounded-full border border-emerald-300 animate-in fade-in">
+                            ✦ All signals reviewed! Ready for self-advocacy.
+                          </span>
+                        ) : (
+                          <span className="text-xs text-charcoal/60 font-sans">
+                            Tap signals above to check them off
+                          </span>
+                        )}
+                      </div>
+
+                      {/* In-content Continue Button */}
+                      <div className="pt-2 flex justify-end">
+                        <Button
+                          onClick={() => setCurrentLessonPage(4)}
+                          className="bg-deep-teal text-white hover:bg-deep-teal/90 text-sm h-11 px-5 rounded-xl gap-2 font-semibold shadow-xs cursor-pointer"
+                        >
+                          <span>Continue to Self-Advocacy Action</span>
+                          <ArrowRight className="w-4 h-4" />
+                        </Button>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* PAGE 4: SELF-ADVOCACY ACTION & DOCTOR SCRIPT */}
+                  {currentLessonPage === 4 && (
+                    <div className="space-y-5 animate-in fade-in duration-200">
+                      <div>
+                        <div className="text-xs font-bold uppercase tracking-wider text-raspberry mb-1">
+                          Step 4 of 5 · Speak Up & Advocate
+                        </div>
+                        <h4 className="text-2xl sm:text-3xl font-serif font-bold text-deep-teal leading-tight">
+                          Self-Advocacy Action & Doctor Script
+                        </h4>
+                        <p className="text-charcoal/80 text-sm sm:text-base font-sans mt-1">
+                          Exact phrases to use with a physician, why they work, and what to do if dismissed.
+                        </p>
+                      </div>
+
+                      {/* The Blueprint Card */}
+                      <div className="p-5 sm:p-6 rounded-2xl bg-gradient-to-br from-[#FFE1DB]/70 via-soft-pink/40 to-light-teal/50 border-2 border-raspberry/30 shadow-sm space-y-4">
+                        <div className="flex items-center justify-between flex-wrap gap-2">
+                          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold tracking-wider uppercase bg-raspberry text-white shadow-2xs">
+                            <Shield className="w-3.5 h-3.5" />
+                            Self-Advocacy Action Blueprint
+                          </span>
+                          <span className="text-xs font-bold text-deep-teal bg-white/95 px-3 py-1 rounded-full border border-deep-teal/20">
+                            Real-Life Appointment Script
+                          </span>
+                        </div>
+
+                        {/* Scenario */}
+                        <div className="p-4 rounded-xl bg-white/95 border border-coral/30 text-sm sm:text-base font-sans">
+                          <strong className="text-coral font-bold block mb-1 uppercase tracking-wider text-xs font-sans">
+                            When this happens:
+                          </strong>
+                          <p className="text-charcoal/90 italic m-0">
+                            {advocacyData.situation}
+                          </p>
+                        </div>
+
+                        {/* Doctor Script Speech Bubble */}
+                        <div className="p-5 rounded-2xl bg-white border-2 border-raspberry/40 shadow-xs space-y-2.5">
+                          <div className="flex items-center justify-between">
+                            <span className="text-xs font-bold uppercase tracking-wider text-raspberry flex items-center gap-1.5">
+                              <Sparkles className="w-4 h-4 text-raspberry" />
+                              Exactly what to say:
+                            </span>
+                            <button
+                              type="button"
+                              onClick={() => {
+                                navigator.clipboard.writeText(advocacyData.doctorScript);
+                                setCopiedScript(true);
+                                setTimeout(() => setCopiedScript(false), 2000);
+                              }}
+                              className="inline-flex items-center gap-1.5 text-xs font-bold text-deep-teal hover:text-raspberry transition-colors bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-200 cursor-pointer shadow-2xs"
+                            >
+                              {copiedScript ? (
+                                <>
+                                  <Check className="w-3.5 h-3.5 text-emerald-600" />
+                                  <span>Copied to Clipboard!</span>
+                                </>
+                              ) : (
+                                <>
+                                  <Copy className="w-3.5 h-3.5 text-deep-teal" />
+                                  <span>Copy Script</span>
+                                </>
+                              )}
+                            </button>
+                          </div>
+                          <p className="text-base sm:text-lg md:text-xl font-serif text-deep-teal font-medium leading-relaxed m-0">
+                            {advocacyData.doctorScript}
+                          </p>
+                        </div>
+
+                        {/* Why It Works & What If Dismissed */}
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 text-xs sm:text-sm font-sans">
+                          <div className="p-4 rounded-xl bg-light-teal/60 border border-deep-teal/20 space-y-1.5">
+                            <strong className="text-deep-teal font-bold block flex items-center gap-1.5 text-xs uppercase tracking-wider">
+                              <Lightbulb className="w-4 h-4 text-deep-teal shrink-0" />
+                              <span>Why this works:</span>
+                            </strong>
+                            <p className="text-charcoal/85 leading-relaxed m-0">
+                              {advocacyData.whyItWorks}
+                            </p>
+                          </div>
+
+                          <div className="p-4 rounded-xl bg-amber-50/80 border border-amber-200 space-y-1.5">
+                            <strong className="text-amber-950 font-bold block flex items-center gap-1.5 text-xs uppercase tracking-wider">
+                              <ShieldAlert className="w-4 h-4 text-amber-800 shrink-0" />
+                              <span>If you are dismissed:</span>
+                            </strong>
+                            <p className="text-charcoal/85 leading-relaxed m-0">
+                              {advocacyData.whatIfDismissed}
+                            </p>
+                          </div>
                         </div>
                       </div>
 
-                      {/* Self-Advocacy Action Blueprint (Learn · Recognize · Advocate Capstone) */}
-                      {selectedTopic.advocacyScript && (
-                        <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-br from-[#FFE1DB]/70 via-soft-pink/40 to-light-teal/50 border-2 border-raspberry/30 shadow-xs space-y-3.5">
-                          <div className="flex items-center justify-between flex-wrap gap-2">
-                            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold tracking-wider uppercase bg-raspberry text-white shadow-2xs">
-                              <Shield className="w-3.5 h-3.5" />
-                              Self-Advocacy Action Blueprint · How to Speak Up
-                            </span>
-                            <span className="text-[11px] font-bold text-deep-teal bg-white/90 px-2.5 py-0.5 rounded-full border border-deep-teal/20">
-                              Real-Life Appointment Script
-                            </span>
-                          </div>
-
-                          {/* The Real-World Scenario */}
-                          <div className="p-3 rounded-xl bg-white/90 border border-coral/30 text-xs sm:text-sm">
-                            <strong className="text-coral font-bold block mb-1 uppercase tracking-wider text-[10.5px]">
-                              When this happens:
-                            </strong>
-                            <p className="text-charcoal/90 italic m-0 font-sans">
-                              {selectedTopic.advocacyScript.situation}
-                            </p>
-                          </div>
-
-                          {/* The Script Speech Bubble */}
-                          <div className="p-4 rounded-xl bg-white border-2 border-raspberry/40 shadow-xs relative">
-                            <div className="flex items-center justify-between mb-1.5">
-                              <span className="text-[11px] font-bold uppercase tracking-wider text-raspberry flex items-center gap-1.5">
-                                <Sparkles className="w-3.5 h-3.5 text-raspberry" />
-                                Exactly what to say:
-                              </span>
-                              <button
-                                type="button"
-                                onClick={() => {
-                                  if (selectedTopic?.advocacyScript?.doctorScript) {
-                                    navigator.clipboard.writeText(selectedTopic.advocacyScript.doctorScript);
-                                    setCopiedScript(true);
-                                    setTimeout(() => setCopiedScript(false), 2000);
-                                  }
-                                }}
-                                className="inline-flex items-center gap-1.5 text-[11px] font-bold text-deep-teal hover:text-raspberry transition-colors bg-slate-50 px-2.5 py-1 rounded-md border border-slate-200 cursor-pointer shadow-2xs"
-                              >
-                                {copiedScript ? (
-                                  <>
-                                    <Check className="w-3 h-3 text-emerald-600" />
-                                    <span>Copied!</span>
-                                  </>
-                                ) : (
-                                  <>
-                                    <Copy className="w-3 h-3 text-deep-teal" />
-                                    <span>Copy Script</span>
-                                  </>
-                                )}
-                              </button>
-                            </div>
-                            <p className="text-sm sm:text-[15px] font-medium text-deep-teal leading-relaxed m-0 font-serif">
-                              {selectedTopic.advocacyScript.doctorScript}
-                            </p>
-                          </div>
-
-                          {/* Why It Works & What If Dismissed */}
-                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
-                            <div className="p-3.5 rounded-xl bg-light-teal/60 border border-deep-teal/20">
-                              <strong className="text-deep-teal font-bold block mb-1.5 flex items-center gap-1.5">
-                                <Lightbulb className="w-3.5 h-3.5 text-deep-teal shrink-0" />
-                                <span>Why this works:</span>
-                              </strong>
-                              <p className="text-charcoal/85 leading-relaxed m-0">
-                                {selectedTopic.advocacyScript.whyItWorks}
-                              </p>
-                            </div>
-
-                            <div className="p-3.5 rounded-xl bg-amber-50/80 border border-amber-200">
-                              <strong className="text-amber-950 font-bold block mb-1.5 flex items-center gap-1.5">
-                                <ShieldAlert className="w-3.5 h-3.5 text-amber-800 shrink-0" />
-                                <span>If you are dismissed:</span>
-                              </strong>
-                              <p className="text-charcoal/85 leading-relaxed m-0">
-                                {selectedTopic.advocacyScript.whatIfDismissed}
-                              </p>
-                            </div>
-                          </div>
-                        </div>
-                      )}
-
-                      {/* Little Health Dictionary for quick lookups */}
-                      <div className="pt-2">
+                      {/* Quick Health Dictionary Lookups */}
+                      <div className="pt-1">
                         <LittleHealthDictionary compact={true} initialModuleId={activeCategoryId || undefined} />
                       </div>
 
-                      {/* Educational References Section */}
-                      <EducationalReferences
-                        categoryId={activeCategoryId}
-                        compact={true}
-                      />
+                      {/* In-content Continue Button */}
+                      <div className="pt-2 flex justify-end">
+                        <Button
+                          onClick={() => setCurrentLessonPage(5)}
+                          className="bg-deep-teal text-white hover:bg-deep-teal/90 text-sm h-11 px-5 rounded-xl gap-2 font-semibold shadow-xs cursor-pointer"
+                        >
+                          <span>Continue to Practice & Quiz</span>
+                          <ArrowRight className="w-4 h-4" />
+                        </Button>
+                      </div>
                     </div>
                   )}
 
-                  {/* TAB 2: CLINICAL VIDEO */}
-                  {activeLessonTab === "video" && selectedTopic.video && (
-                    <LessonVideoCard
-                      video={selectedTopic.video}
-                      themeColor={topicTheme.primaryHex}
-                    />
-                  )}
+                  {/* PAGE 5: PRACTICE, QUIZ & CLAIM XP */}
+                  {currentLessonPage === 5 && (
+                    <div className="space-y-5 animate-in fade-in duration-200">
+                      <div>
+                        <div className="text-xs font-bold uppercase tracking-wider text-deep-teal mb-1">
+                          Step 5 of 5 · Knowledge Check & Completion
+                        </div>
+                        <h4 className="text-2xl sm:text-3xl font-serif font-bold text-deep-teal leading-tight">
+                          Validate Knowledge & Claim XP
+                        </h4>
+                        <p className="text-charcoal/80 text-sm sm:text-base font-sans mt-1">
+                          Confirm your mastery against clinical standards and lock in your +{selectedTopic.xp} XP!
+                        </p>
+                      </div>
 
-                  {/* TAB 3: INTERACTIVE CHALLENGE */}
-                  {activeLessonTab === "challenge" && (
-                    <div>
-                      {selectedTopic.sorterGame ? (
-                        <LessonSorterGameComponent
-                          game={selectedTopic.sorterGame}
-                          themeColor={topicTheme.primaryHex}
-                          onGameComplete={(bonus) => {
-                            setXp((x) => x + bonus);
-                          }}
-                        />
-                      ) : (
-                        <div className="p-6 rounded-2xl bg-white border border-deep-teal/20 text-center space-y-3">
-                          <Gamepad2 className="w-10 h-10 text-deep-teal mx-auto" />
-                          <h5 className="text-lg font-bold text-deep-teal">Interactive Review Challenge</h5>
-                          <p className="text-sm text-charcoal/80 max-w-md mx-auto">
-                            Test your knowledge with our quick interactive check in the Mini-Quiz tab, or explore the Visual Lesson diagram!
-                          </p>
-                          <Button
-                            onClick={() => setActiveLessonTab("quiz")}
-                            className="bg-deep-teal text-white hover:bg-deep-teal/90 text-xs mt-2"
-                          >
-                            Go to Mini-Quiz
-                          </Button>
+                      {/* VIDEO CONTENT (if topic has video) */}
+                      {selectedTopic.video && (
+                        <div className="space-y-3">
+                          <h5 className="font-bold text-deep-teal text-xs uppercase tracking-wider flex items-center gap-1.5">
+                            <Video className="w-4 h-4 text-emerald-600" />
+                            Clinical Explanation Video:
+                          </h5>
+                          <LessonVideoCard
+                            video={selectedTopic.video}
+                            themeColor={topicTheme.primaryHex}
+                          />
                         </div>
                       )}
-                    </div>
-                  )}
 
-                  {/* TAB 4: MINI-QUIZ (Multi-Question Interactive) */}
-                  {activeLessonTab === "quiz" && isQuizActive && (
-                    <div className="p-4 md:p-6 rounded-2xl bg-white border border-deep-teal/20 shadow-sm space-y-4">
-                      {!isQuizFinished ? (
-                        <div className="space-y-4">
-                          {/* Quiz Progress Header */}
-                          <div className="flex items-center justify-between border-b border-deep-teal/10 pb-3">
-                            <div>
-                              <span className="text-[11px] font-bold uppercase tracking-wider text-deep-teal">
-                                Question {quizStep + 1} of {quizList.length}
-                              </span>
-                              <div className="w-36 h-2 bg-slate-100 rounded-full mt-1.5 overflow-hidden">
-                                <div
-                                  className="bg-deep-teal h-full transition-all duration-300"
-                                  style={{ width: `${((quizStep + 1) / quizList.length) * 100}%` }}
-                                />
-                              </div>
-                            </div>
-                            <div className="text-right text-xs font-semibold text-charcoal/70">
-                              Score: <strong className="text-emerald-700">{quizScore}</strong> / {quizList.length}
-                            </div>
-                          </div>
-
-                          {/* Question Prompt */}
-                          <h5 className="text-base md:text-lg font-bold text-deep-teal">
-                            {currentQ.question}
+                      {/* INTERACTIVE CHALLENGE (if topic has sorter game) */}
+                      {selectedTopic.sorterGame && (
+                        <div className="space-y-3">
+                          <h5 className="font-bold text-deep-teal text-xs uppercase tracking-wider flex items-center gap-1.5">
+                            <Gamepad2 className="w-4 h-4 text-raspberry" />
+                            Interactive Clinical Sorter Challenge:
                           </h5>
+                          <LessonSorterGameComponent
+                            game={selectedTopic.sorterGame}
+                            themeColor={topicTheme.primaryHex}
+                            onGameComplete={(bonus) => {
+                              setXp((x) => x + bonus);
+                            }}
+                          />
+                        </div>
+                      )}
 
-                          {/* Options */}
-                          <div className="flex flex-col gap-2.5">
-                            {currentQ.options.map((opt, optIdx) => {
-                              const chosen = quizAnswers[quizStep];
-                              const isAnswered = chosen !== undefined;
-                              const isCorrectOpt = optIdx === currentQ.correctIndex;
-                              const isSelectedOpt = chosen === optIdx;
-
-                              return (
-                                <button
-                                  key={optIdx}
-                                  onClick={() => {
-                                    if (isAnswered) return;
-                                    setQuizAnswers((prev) => ({ ...prev, [quizStep]: optIdx }));
-                                    setQuizSubmitted(true);
-                                    if (optIdx === currentQ.correctIndex) {
-                                      setQuizScore((s) => s + 1);
-                                    }
-                                  }}
-                                  className={`p-3.5 rounded-xl text-left text-xs sm:text-sm font-semibold transition-all border ${
-                                    isAnswered
-                                      ? isCorrectOpt
-                                        ? "bg-emerald-50 border-emerald-500 text-emerald-950 font-bold ring-2 ring-emerald-500/20"
-                                        : isSelectedOpt
-                                        ? "bg-red-50 border-red-400 text-red-950"
-                                        : "bg-white border-gray-200 opacity-50"
-                                      : "bg-white border-deep-teal/20 hover:border-deep-teal hover:bg-light-teal/30 text-charcoal"
-                                  }`}
-                                >
-                                  <div className="flex items-center justify-between">
-                                    <span>{opt}</span>
-                                    {isAnswered && isCorrectOpt && (
-                                      <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 ml-2" />
-                                    )}
+                      {/* MINI-QUIZ (if topic has quiz) */}
+                      {isQuizActive && (
+                        <div className="p-5 sm:p-6 rounded-2xl bg-white border-2 border-deep-teal/20 shadow-sm space-y-4">
+                          {!isQuizFinished ? (
+                            <div className="space-y-4">
+                              {/* Quiz Progress Header */}
+                              <div className="flex items-center justify-between border-b border-deep-teal/10 pb-3">
+                                <div>
+                                  <span className="text-xs font-bold uppercase tracking-wider text-deep-teal font-sans">
+                                    Question {quizStep + 1} of {quizList.length}
+                                  </span>
+                                  <div className="w-40 h-2 bg-slate-100 rounded-full mt-1.5 overflow-hidden">
+                                    <div
+                                      className="bg-deep-teal h-full transition-all duration-300"
+                                      style={{ width: `${((quizStep + 1) / quizList.length) * 100}%` }}
+                                    />
                                   </div>
-                                </button>
-                              );
-                            })}
-                          </div>
+                                </div>
+                                <div className="text-right text-xs sm:text-sm font-semibold text-charcoal/70 font-sans">
+                                  Score: <strong className="text-emerald-700">{quizScore}</strong> / {quizList.length}
+                                </div>
+                              </div>
 
-                          {/* Feedback Explanation */}
-                          {quizAnswers[quizStep] !== undefined && (
-                            <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200 text-xs md:text-sm text-charcoal/90 leading-relaxed animate-in fade-in">
-                              <strong className="text-deep-teal inline-flex items-center gap-1.5 mr-1 font-bold">
-                                <Lightbulb className="w-3.5 h-3.5 text-deep-teal shrink-0 inline" />
-                                <span>Clinical Insight:</span>
-                              </strong>
-                              {currentQ.explanation}
-                            </div>
-                          )}
+                              {/* Question Prompt */}
+                              <h5 className="text-base sm:text-lg md:text-xl font-bold text-deep-teal font-serif">
+                                {currentQ.question}
+                              </h5>
 
-                          {/* Next / Finish Question Button */}
-                          {quizAnswers[quizStep] !== undefined && (
-                            <div className="pt-2 flex justify-end">
-                              {quizStep < quizList.length - 1 ? (
-                                <Button
-                                  onClick={() => {
-                                    setQuizStep((s) => s + 1);
-                                    setQuizSubmitted(false);
-                                  }}
-                                  className="bg-deep-teal text-white hover:bg-deep-teal/90 text-xs"
-                                >
-                                  Next Question →
-                                </Button>
-                              ) : (
-                                <Button
-                                  onClick={() => {
-                                    setQuizStep((s) => s + 1);
-                                  }}
-                                  className="bg-emerald-600 text-white hover:bg-emerald-700 text-xs inline-flex items-center gap-1.5"
-                                >
-                                  <span>View Quiz Results</span>
-                                  <Check className="w-3.5 h-3.5" />
-                                </Button>
+                              {/* Options */}
+                              <div className="flex flex-col gap-2.5">
+                                {currentQ.options.map((opt, optIdx) => {
+                                  const chosen = quizAnswers[quizStep];
+                                  const isAnswered = chosen !== undefined;
+                                  const isCorrectOpt = optIdx === currentQ.correctIndex;
+                                  const isSelectedOpt = chosen === optIdx;
+
+                                  return (
+                                    <button
+                                      key={optIdx}
+                                      onClick={() => {
+                                        if (isAnswered) return;
+                                        setQuizAnswers((prev) => ({ ...prev, [quizStep]: optIdx }));
+                                        setQuizSubmitted(true);
+                                        if (optIdx === currentQ.correctIndex) {
+                                          setQuizScore((s) => s + 1);
+                                        }
+                                      }}
+                                      className={`p-4 rounded-xl text-left text-sm sm:text-base font-semibold transition-all border cursor-pointer ${
+                                        isAnswered
+                                          ? isCorrectOpt
+                                            ? "bg-emerald-50 border-emerald-500 text-emerald-950 font-bold ring-2 ring-emerald-500/20"
+                                            : isSelectedOpt
+                                            ? "bg-red-50 border-red-400 text-red-950"
+                                            : "bg-white border-gray-200 opacity-50"
+                                          : "bg-white border-deep-teal/20 hover:border-deep-teal hover:bg-light-teal/30 text-charcoal"
+                                      }`}
+                                    >
+                                      <div className="flex items-center justify-between">
+                                        <span>{opt}</span>
+                                        {isAnswered && isCorrectOpt && (
+                                          <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0 ml-2" />
+                                        )}
+                                      </div>
+                                    </button>
+                                  );
+                                })}
+                              </div>
+
+                              {/* Feedback Explanation */}
+                              {quizAnswers[quizStep] !== undefined && (
+                                <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 text-sm sm:text-base text-charcoal/90 leading-relaxed animate-in fade-in">
+                                  <strong className="text-deep-teal inline-flex items-center gap-1.5 mr-1 font-bold">
+                                    <Lightbulb className="w-4 h-4 text-deep-teal shrink-0 inline" />
+                                    <span>Clinical Insight:</span>
+                                  </strong>
+                                  {currentQ.explanation}
+                                </div>
+                              )}
+
+                              {/* Next / Finish Question Button */}
+                              {quizAnswers[quizStep] !== undefined && (
+                                <div className="pt-2 flex justify-end">
+                                  {quizStep < quizList.length - 1 ? (
+                                    <Button
+                                      onClick={() => {
+                                        setQuizStep((s) => s + 1);
+                                        setQuizSubmitted(false);
+                                      }}
+                                      className="bg-deep-teal text-white hover:bg-deep-teal/90 text-sm h-10 px-4 rounded-xl cursor-pointer"
+                                    >
+                                      Next Question →
+                                    </Button>
+                                  ) : (
+                                    <Button
+                                      onClick={() => {
+                                        setQuizStep((s) => s + 1);
+                                      }}
+                                      className="bg-emerald-600 text-white hover:bg-emerald-700 text-sm h-10 px-4 rounded-xl inline-flex items-center gap-1.5 cursor-pointer"
+                                    >
+                                      <span>View Quiz Results</span>
+                                      <Check className="w-4 h-4" />
+                                    </Button>
+                                  )}
+                                </div>
                               )}
                             </div>
+                          ) : (
+                            /* Quiz Finished Summary */
+                            <div className="text-center py-6 space-y-4">
+                              <div className="w-16 h-16 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center mx-auto shadow-sm">
+                                <Trophy className="w-8 h-8" />
+                              </div>
+                              <div>
+                                <h5 className="text-2xl font-bold font-serif text-deep-teal">
+                                  Knowledge Check Completed!
+                                </h5>
+                                <p className="text-base text-charcoal/80 mt-1 font-sans">
+                                  You scored <strong>{quizScore}</strong> out of <strong>{quizList.length}</strong>!
+                                </p>
+                              </div>
+                              <p className="text-sm text-charcoal/70 max-w-sm mx-auto font-sans leading-relaxed">
+                                Exceptional work validating your reproductive literacy against clinical standards. You are ready to claim your XP and complete this module.
+                              </p>
+                              <div className="flex justify-center gap-3 pt-2">
+                                <Button
+                                  onClick={() => {
+                                    setQuizStep(0);
+                                    setQuizAnswers({});
+                                    setQuizSubmitted(false);
+                                    setQuizScore(0);
+                                  }}
+                                  variant="outline"
+                                  className="text-sm border-deep-teal/30 text-deep-teal cursor-pointer"
+                                >
+                                  <RotateCcw className="w-4 h-4 mr-1" />
+                                  Retake Quiz
+                                </Button>
+                                <Button
+                                  onClick={() => handleCompleteTopic(selectedTopic)}
+                                  className="bg-deep-teal text-white hover:bg-deep-teal/90 text-sm cursor-pointer"
+                                >
+                                  <CheckCircle className="w-4 h-4 mr-1" />
+                                  Complete & Claim +{selectedTopic.xp} XP
+                                </Button>
+                              </div>
+                            </div>
                           )}
                         </div>
-                      ) : (
-                        /* Quiz Finished Summary */
-                        <div className="text-center py-6 space-y-4">
-                          <div className="w-16 h-16 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center mx-auto shadow-sm">
-                            <Trophy className="w-8 h-8" />
+                      )}
+
+                      {/* Fallback completion card if topic does not have a quiz */}
+                      {!isQuizActive && !selectedTopic.sorterGame && !selectedTopic.video && (
+                        <div className="p-6 rounded-2xl bg-white border-2 border-deep-teal/20 text-center space-y-4 shadow-sm">
+                          <div className="w-16 h-16 rounded-full bg-light-teal text-deep-teal flex items-center justify-center mx-auto shadow-sm">
+                            <Sparkles className="w-8 h-8 text-coral" />
                           </div>
                           <div>
-                            <h5 className="text-xl font-bold font-serif text-deep-teal">
-                              Mini-Quiz Completed!
+                            <h5 className="text-2xl font-bold font-serif text-deep-teal">
+                              Lesson Complete!
                             </h5>
-                            <p className="text-sm text-charcoal/80 mt-1">
-                              You scored <strong>{quizScore}</strong> out of <strong>{quizList.length}</strong>!
+                            <p className="text-base text-charcoal/80 mt-1 font-sans">
+                              You have reviewed the biological concept, anatomy, clinical signals, and self-advocacy script for <strong>{selectedTopic.name}</strong>.
                             </p>
                           </div>
-                          <p className="text-xs text-charcoal/70 max-w-sm mx-auto">
-                            Great work validating your knowledge against clinical standards. You are ready to complete this module.
-                          </p>
-                          <div className="flex justify-center gap-2 pt-2">
-                            <Button
-                              onClick={() => {
-                                setQuizStep(0);
-                                setQuizAnswers({});
-                                setQuizSubmitted(false);
-                                setQuizScore(0);
-                              }}
-                              variant="outline"
-                              className="text-xs border-deep-teal/30 text-deep-teal"
-                            >
-                              <RotateCcw className="w-3.5 h-3.5 mr-1" />
-                              Retake Quiz
-                            </Button>
+                          <div className="pt-2">
                             <Button
                               onClick={() => handleCompleteTopic(selectedTopic)}
-                              className="bg-deep-teal text-white hover:bg-deep-teal/90 text-xs"
+                              className="bg-deep-teal text-white hover:bg-deep-teal/90 text-base h-12 px-6 rounded-xl font-bold cursor-pointer"
                             >
-                              <CheckCircle className="w-3.5 h-3.5 mr-1" />
-                              Complete & Claim XP
+                              <CheckCircle className="w-5 h-5 mr-1.5" />
+                              Complete & Claim +{selectedTopic.xp} XP
                             </Button>
                           </div>
                         </div>
                       )}
+
+                      {/* Educational References Section */}
+                      <div className="pt-2">
+                        <EducationalReferences
+                          categoryId={activeCategoryId}
+                          compact={true}
+                        />
+                      </div>
                     </div>
                   )}
                 </div>
 
-                {/* Fixed Modal Footer */}
-                <div className="mt-3 pt-3 border-t border-deep-teal/10 flex items-center justify-between gap-3 flex-wrap shrink-0">
-                  <div className="text-xs text-charcoal/60">
-                    {completedTopics.has(selectedTopic.id) ? (
-                      <span className="inline-flex items-center gap-1 text-emerald-700 font-semibold">
-                        <CheckCircle2 className="w-3.5 h-3.5" />
-                        <span>Completed module</span>
-                      </span>
-                    ) : (
-                      `Completing module awards +${selectedTopic.xp} XP`
-                    )}
-                  </div>
+                {/* Sticky Bottom Navigation Bar */}
+                <div className="mt-3 pt-3 border-t-2 border-deep-teal/10 flex items-center justify-between gap-3 flex-wrap shrink-0 bg-white/95">
+                  {/* Previous Button */}
+                  <Button
+                    variant="outline"
+                    disabled={currentLessonPage === 1}
+                    onClick={() => setCurrentLessonPage((p) => Math.max(1, p - 1))}
+                    className="text-xs sm:text-sm font-semibold border-deep-teal/25 text-deep-teal hover:bg-light-teal/30 disabled:opacity-40 cursor-pointer"
+                  >
+                    <ArrowLeft className="w-4 h-4 mr-1.5" />
+                    <span>Previous Page</span>
+                  </Button>
+
+                  {/* Page Indicator with Interactive Dots */}
                   <div className="flex items-center gap-2">
+                    <span className="text-xs sm:text-sm font-bold text-charcoal/70 font-sans hidden sm:inline">
+                      Page {currentLessonPage} of {lessonPages.length}
+                    </span>
+                    <div className="flex items-center gap-1.5">
+                      {lessonPages.map((p) => (
+                        <button
+                          key={p.id}
+                          onClick={() => setCurrentLessonPage(p.id)}
+                          title={`Go to ${p.title}`}
+                          className={`w-2.5 h-2.5 rounded-full transition-all cursor-pointer ${
+                            currentLessonPage === p.id
+                              ? "bg-deep-teal w-6"
+                              : currentLessonPage > p.id
+                              ? "bg-emerald-600"
+                              : "bg-slate-300 hover:bg-slate-400"
+                          }`}
+                        />
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Next Page / Complete Button */}
+                  {currentLessonPage < lessonPages.length ? (
+                    <Button
+                      onClick={() => setCurrentLessonPage((p) => Math.min(lessonPages.length, p + 1))}
+                      className={`text-xs sm:text-sm font-bold gap-1.5 cursor-pointer ${topicTheme.buttonClass}`}
+                    >
+                      <span>Next Page</span>
+                      <ArrowRight className="w-4 h-4" />
+                    </Button>
+                  ) : (
                     <Button
                       onClick={() => handleCompleteTopic(selectedTopic)}
-                      className={`gap-2 text-xs h-9 ${topicTheme.buttonClass}`}
+                      className="bg-emerald-600 text-white hover:bg-emerald-700 text-xs sm:text-sm font-bold gap-1.5 cursor-pointer shadow-xs"
                     >
                       <CheckCircle className="w-4 h-4" />
-                      {completedTopics.has(selectedTopic.id)
-                        ? "Completed (Review Done)"
-                        : `Complete & Claim +${selectedTopic.xp} XP`}
+                      <span>
+                        {completedTopics.has(selectedTopic.id)
+                          ? "Completed (Review Done)"
+                          : `Complete & Claim +${selectedTopic.xp} XP`}
+                      </span>
                     </Button>
-                  </div>
+                  )}
                 </div>
               </div>
             );

@@ -25,31 +25,31 @@ const DEFAULT_REFERENCES: Record<string, ReferenceItem[]> = {
   default: [
     {
       number: "01",
+      type: "Clinical guideline",
+      title: "Menstruation in Girls and Adolescents: Using the Menstrual Cycle as a Vital Sign",
+      source: "American College of Obstetricians and Gynecologists (ACOG Committee Opinion No. 651)",
+      linkText: "Read ACOG Clinical Opinion",
+    },
+    {
+      number: "02",
+      type: "Clinical guideline",
+      title: "Textbook of Adolescent Gynecology & Pubertal Endocrinology",
+      source: "The Global Library of Women's Medicine (GLOWM / FIGO)",
+      linkText: "Explore GLOWM Guidelines",
+    },
+    {
+      number: "03",
       type: "Research article",
       title: "Adolescent Menstrual & Reproductive Health: A Population-Level Review",
       source: "Journal of Adolescent Health / National Institutes of Health",
       linkText: "View Clinical Study",
     },
     {
-      number: "02",
-      type: "Clinical guideline",
-      title: "Menstruation in Girls and Adolescents: Using the Menstrual Cycle as a Vital Sign",
-      source: "American Academy of Pediatrics (AAP) & ACOG Committee Opinion",
-      linkText: "Read Joint Statement",
-    },
-    {
-      number: "03",
+      number: "04",
       type: "Patient education resource",
       title: "Reproductive & Endocrine Health for Youth: Fact Sheets & Diagrams",
       source: "MedlinePlus / U.S. National Library of Medicine",
       linkText: "Browse Health Guides",
-    },
-    {
-      number: "04",
-      type: "Additional reading",
-      title: "ReproUs Curriculum Framework: De-Stigmatizing Care for Every Body",
-      source: "ReproUs Medical Advisory & Youth Education Board",
-      linkText: "Read Curriculum Note",
     },
   ],
   body: [
@@ -393,7 +393,7 @@ export function EducationalReferences({
             {customTitle || "Evidence & Educational References"}
           </h3>
           <p className="text-[14px] md:text-[15px] text-plum/80 font-sans mt-1 mb-0 max-w-2xl">
-            ReproUs educational materials are grounded in peer-reviewed science, clinical society guidelines, and vetted patient advocacy frameworks.
+            ReproUs educational materials are grounded in peer-reviewed science and clinical guidelines from the American College of Obstetricians and Gynecologists (ACOG), The Global Library of Women&apos;s Medicine (GLOWM / FIGO), the American Academy of Pediatrics (AAP), and the International Olympic Committee (IOC).
           </p>
         </div>
 
