@@ -1,9 +1,10 @@
 "use client";
 
 import React, { useState } from "react";
-import { Menu, X, ChevronDown } from "lucide-react";
+import { Menu, X, ChevronDown, Globe2 } from "lucide-react";
 import { ReproUsMark } from "@/components/shared/ReproUsMark";
 import { cn } from "@/lib/utils";
+import { SUPPORTED_LANGUAGES } from "@/components/layout/LanguageBar";
 
 export type PageId =
   | "home"
@@ -19,12 +20,15 @@ export type PageId =
 interface NavbarProps {
   activePage: PageId;
   onNavigate: (page: PageId, categoryId?: string) => void;
+  currentLang?: string;
+  onSelectLang?: (lang: string) => void;
 }
 
-export function Navbar({ activePage, onNavigate }: NavbarProps) {
+export function Navbar({ activePage, onNavigate, currentLang = "en", onSelectLang }: NavbarProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [learnDropdownOpen, setLearnDropdownOpen] = useState(false);
   const [aboutDropdownOpen, setAboutDropdownOpen] = useState(false);
+  const [langDropdownOpen, setLangDropdownOpen] = useState(false);
   const [mobileLearnExpanded, setMobileLearnExpanded] = useState(false);
   const [mobileAboutExpanded, setMobileAboutExpanded] = useState(false);
 
@@ -66,6 +70,18 @@ export function Navbar({ activePage, onNavigate }: NavbarProps) {
       return activePage === "story" || activePage === "contact";
     }
     return activePage === id;
+  };
+
+  const currentLanguageObj =
+    SUPPORTED_LANGUAGES.find((l) => l.code === currentLang) || SUPPORTED_LANGUAGES[0];
+
+  const handleLanguageChange = (code: string) => {
+    onSelectLang?.(code);
+    const selected = SUPPORTED_LANGUAGES.find((l) => l.code === code);
+    if (typeof document !== "undefined") {
+      document.documentElement.lang = code;
+      document.documentElement.dir = selected?.dir || "ltr";
+    }
   };
 
   return (
@@ -225,6 +241,63 @@ export function Navbar({ activePage, onNavigate }: NavbarProps) {
             })}
           </ul>
 
+          {/* Desktop Language Selector Dropdown */}
+          <div
+            className="relative"
+            onMouseEnter={() => setLangDropdownOpen(true)}
+            onMouseLeave={() => setLangDropdownOpen(false)}
+          >
+            <button
+              onClick={() => setLangDropdownOpen(!langDropdownOpen)}
+              className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-[13.5px] font-semibold font-sans text-deep-teal hover:text-raspberry hover:bg-soft-pink/50 transition-colors border border-deep-teal/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral shrink-0"
+              aria-label={`Language selector. Current language is ${currentLanguageObj.label}`}
+              aria-expanded={langDropdownOpen}
+            >
+              <Globe2 className="w-4 h-4 text-coral shrink-0" />
+              <span>{currentLanguageObj.label}</span>
+              <ChevronDown className="w-3.5 h-3.5 opacity-70" />
+            </button>
+
+            {langDropdownOpen && (
+              <div className="absolute right-0 top-full pt-2 w-64 z-50 animate-in fade-in zoom-in-95 duration-150">
+                <div className="rounded-xl bg-white p-2 shadow-xl border border-plum/15 flex flex-col gap-1 max-h-80 overflow-y-auto font-sans">
+                  <div className="px-3 py-1.5 text-[11.5px] font-bold uppercase tracking-wider text-charcoal/60 border-b border-plum/10 flex items-center justify-between">
+                    <span>Languages</span>
+                    <span className="text-coral font-semibold">10 Available</span>
+                  </div>
+                  {SUPPORTED_LANGUAGES.map((lang) => {
+                    const isSelected = currentLanguageObj.code === lang.code;
+                    return (
+                      <button
+                        key={lang.code}
+                        onClick={() => {
+                          handleLanguageChange(lang.code);
+                          setLangDropdownOpen(false);
+                        }}
+                        className={cn(
+                          "w-full text-left px-3 py-2 rounded-lg text-[13.5px] font-medium transition-colors flex items-center justify-between group",
+                          isSelected
+                            ? "bg-deep-teal text-white font-bold"
+                            : "text-plum hover:text-raspberry hover:bg-soft-pink/40"
+                        )}
+                      >
+                        <span className="font-medium">{lang.label}</span>
+                        <span
+                          className={cn(
+                            "text-[12px]",
+                            isSelected ? "text-white/80" : "text-plum/50 group-hover:text-raspberry/80"
+                          )}
+                        >
+                          {lang.englishName}
+                        </span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+          </div>
+
           {/* Visually Distinct Button: Ask a Question → */}
           <button
             onClick={() => onNavigate("qa", "ask")}
@@ -377,6 +450,44 @@ export function Navbar({ activePage, onNavigate }: NavbarProps) {
               </button>
             );
           })}
+
+          {/* Mobile Language Selector */}
+          <div className="pt-3 pb-2 border-t border-plum/10 mt-2">
+            <div className="flex items-center justify-between px-1 pb-2">
+              <span className="text-[12px] font-bold uppercase tracking-wider text-charcoal/70 flex items-center gap-1.5">
+                <Globe2 className="w-3.5 h-3.5 text-coral" />
+                <span>Languages ({SUPPORTED_LANGUAGES.length})</span>
+              </span>
+              <span className="text-[11px] font-semibold text-coral">
+                Current: {currentLanguageObj.label}
+              </span>
+            </div>
+            <div className="grid grid-cols-2 gap-1.5">
+              {SUPPORTED_LANGUAGES.map((lang) => {
+                const isSelected = currentLanguageObj.code === lang.code;
+                return (
+                  <button
+                    key={lang.code}
+                    onClick={() => {
+                      handleLanguageChange(lang.code);
+                      setMobileMenuOpen(false);
+                    }}
+                    className={cn(
+                      "px-2.5 py-1.5 rounded-lg text-[13px] font-medium text-left transition-colors flex items-center justify-between",
+                      isSelected
+                        ? "bg-deep-teal text-white font-bold shadow-xs ring-1 ring-coral"
+                        : "bg-white/80 border border-plum/15 text-plum hover:bg-white hover:text-raspberry"
+                    )}
+                  >
+                    <span>{lang.label}</span>
+                    <span className={cn("text-[10px]", isSelected ? "text-white/75" : "text-plum/45")}>
+                      {lang.code.toUpperCase()}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
 
           {/* Distinct CTA Button in Mobile Menu */}
           <button

@@ -138,9 +138,9 @@ export function LanguageBar({ currentLang, onSelectLang }: LanguageBarProps) {
       <div className="max-w-[1140px] mx-auto px-4 sm:px-6 py-2 flex items-center justify-between gap-4 flex-wrap">
         {/* Language Switcher */}
         <div className="flex items-center gap-1.5 flex-wrap">
-          <span className="text-[12px] font-bold font-sans uppercase tracking-wider text-plum/70 mr-1 flex items-center gap-1">
+          <span className="text-[12px] font-bold font-sans uppercase tracking-wider text-plum mr-1 flex items-center gap-1.5">
             <Globe2 className="w-3.5 h-3.5 text-coral inline-block" />
-            <span>Language:</span>
+            <span>Languages:</span>
           </span>
           {SUPPORTED_LANGUAGES.map((lang) => {
             const isActive = currentLang === lang.code;
@@ -150,10 +150,10 @@ export function LanguageBar({ currentLang, onSelectLang }: LanguageBarProps) {
                 onClick={() => handleSelectLang(lang.code)}
                 title={`${lang.label} (${lang.englishName})`}
                 className={cn(
-                  "px-2.5 py-0.5 rounded text-[12.5px] font-medium font-sans transition-all",
+                  "px-2.5 py-0.5 rounded-full text-[12px] font-medium font-sans transition-all border",
                   isActive
-                    ? "bg-deep-teal text-white font-bold shadow-xs hover:bg-deep-teal hover:text-white active:text-white focus:text-white"
-                    : "text-deep-teal/85 hover:text-raspberry hover:bg-soft-pink active:text-raspberry focus:text-deep-teal"
+                    ? "bg-deep-teal border-deep-teal text-white font-bold shadow-xs ring-2 ring-coral/40"
+                    : "bg-white/80 border-deep-teal/20 text-deep-teal hover:text-raspberry hover:border-coral hover:bg-white"
                 )}
               >
                 {lang.label}

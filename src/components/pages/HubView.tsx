@@ -197,7 +197,7 @@ export function HubView({ initialCategory }: HubViewProps) {
               </p>
 
               <AccessMini
-                text="Every guide below is available in 5 languages and downloadable for offline reading."
+                text="Every guide below is available in 10 languages and downloadable for offline reading."
                 className="mx-auto shadow-sm mb-6"
               />
 

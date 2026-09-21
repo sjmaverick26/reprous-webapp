@@ -1,13 +1,17 @@
 import React from "react";
+import { Globe2 } from "lucide-react";
 import { ReproUsMark } from "@/components/shared/ReproUsMark";
 import { PageId } from "@/components/layout/Navbar";
 import { cn } from "@/lib/utils";
+import { SUPPORTED_LANGUAGES } from "@/components/layout/LanguageBar";
 
 interface FooterProps {
   onNavigate?: (page: PageId, categoryOrTab?: string) => void;
+  currentLang?: string;
+  onSelectLang?: (lang: string) => void;
 }
 
-export function Footer({ onNavigate }: FooterProps) {
+export function Footer({ onNavigate, currentLang = "en", onSelectLang }: FooterProps) {
   const links: { id: PageId; label: string; tab?: string }[] = [
     { id: "home", label: "Home" },
     { id: "story", label: "About" },
@@ -72,6 +76,43 @@ export function Footer({ onNavigate }: FooterProps) {
             })}
           </div>
         )}
+
+        {/* Languages in Footer */}
+        <div className="pt-4 border-t border-white/15 flex flex-col sm:flex-row items-center justify-between gap-3 text-[13px] text-white/80 font-sans">
+          <div className="flex items-center gap-2 flex-wrap justify-center sm:justify-start">
+            <span className="font-bold text-coral text-xs uppercase tracking-wider flex items-center gap-1">
+              <Globe2 className="w-3.5 h-3.5" />
+              <span>Languages:</span>
+            </span>
+            {SUPPORTED_LANGUAGES.map((lang, idx) => {
+              const isSelected = currentLang === lang.code;
+              return (
+                <React.Fragment key={lang.code}>
+                  {idx > 0 && <span className="text-white/30">•</span>}
+                  <button
+                    onClick={() => {
+                      onSelectLang?.(lang.code);
+                      if (typeof document !== "undefined") {
+                        document.documentElement.lang = lang.code;
+                        document.documentElement.dir = lang.dir || "ltr";
+                        window.scrollTo({ top: 0, behavior: "smooth" });
+                      }
+                    }}
+                    className={cn(
+                      "transition-colors text-[13px]",
+                      isSelected
+                        ? "text-coral font-bold underline"
+                        : "text-white/80 hover:text-coral hover:underline"
+                    )}
+                    title={`${lang.label} (${lang.englishName})`}
+                  >
+                    {lang.label}
+                  </button>
+                </React.Fragment>
+              );
+            })}
+          </div>
+        </div>
 
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t border-white/15 text-[13px] md:text-[13.5px] text-white/70 text-center sm:text-left font-sans">
           <p className="m-0">

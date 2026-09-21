@@ -49,7 +49,12 @@ export default function App() {
   return (
     <div className="min-h-screen flex flex-col bg-ivory text-plum selection:bg-gold/30 transition-colors">
       {/* Top Navbar */}
-      <Navbar activePage={activePage} onNavigate={handleNavigate} />
+      <Navbar
+        activePage={activePage}
+        onNavigate={handleNavigate}
+        currentLang={currentLang}
+        onSelectLang={setCurrentLang}
+      />
 
       {/* Language & Accessibility Bar */}
       <LanguageBar currentLang={currentLang} onSelectLang={setCurrentLang} />
@@ -68,7 +73,11 @@ export default function App() {
       </main>
 
       {/* Footer */}
-      <Footer onNavigate={handleNavigate} />
+      <Footer
+        onNavigate={handleNavigate}
+        currentLang={currentLang}
+        onSelectLang={setCurrentLang}
+      />
     </div>
   );
 }
