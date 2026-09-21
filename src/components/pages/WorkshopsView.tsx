@@ -93,14 +93,18 @@ export function WorkshopsView() {
     <div className="max-w-[1100px] mx-auto px-6 py-12 flex flex-col gap-16">
       {/* Header */}
       <div className="text-center max-w-2xl mx-auto">
-        <div className="text-[13px] font-bold font-sans uppercase tracking-wider text-berry mb-2">
-          Workshops
+        <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-xs font-bold font-sans uppercase tracking-wider bg-amber-50 text-amber-900 border border-amber-300 mb-3 shadow-2xs">
+          <Sparkles className="w-3.5 h-3.5 text-amber-600" />
+          <span>Workshops &amp; Sessions (Sample Placeholders)</span>
         </div>
         <h1 className="text-4xl md:text-[64px] lg:text-[72px] font-normal font-serif text-plum leading-[1.08] mb-4">
           Free, interactive workshops
         </h1>
-        <p className="text-[17px] md:text-[18px] text-ink/80 leading-relaxed mb-6 font-sans">
+        <p className="text-[17px] md:text-[18px] text-ink/80 leading-relaxed mb-3 font-sans">
           Hands-on 90-minute sessions in schools and community centers. No tests, no awkwardness — just real facts, honest discussion, and practical skills.
+        </p>
+        <p className="text-xs text-charcoal/60 font-sans italic m-0">
+          (Note: All workshop dates, locations, schedules, and reviews shown below are sample placeholders for demonstration purposes)
         </p>
       </div>
 
@@ -143,7 +147,7 @@ export function WorkshopsView() {
       <div className="max-w-2xl mx-auto w-full">
         <div className="text-center mb-6">
           <div className="text-xs font-extrabold uppercase tracking-wider text-deep-teal">
-            Sample Agenda • 90 Minutes
+            Sample Agenda • 90 Minutes (Placeholder Format)
           </div>
         </div>
         <Card className="p-4 md:p-8 divide-y divide-deep-teal/10 bg-white shadow-xs border-2 border-deep-teal">
@@ -165,7 +169,7 @@ export function WorkshopsView() {
       <div>
         <div className="text-center mb-6">
           <div className="text-xs font-extrabold uppercase tracking-wider text-berry/75">
-            From Past Workshops
+            From Past Workshops (Placeholder Photo Gallery)
           </div>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -221,11 +225,14 @@ export function WorkshopsView() {
       <div>
         <div className="text-center mb-8">
           <div className="text-[13px] font-bold font-sans uppercase tracking-wider text-deep-teal mb-2">
-            Upcoming Sessions
+            Upcoming Sessions (Sample Placeholders)
           </div>
           <h2 className="text-3xl md:text-[44px] lg:text-[50px] font-normal font-serif text-deep-teal leading-[1.15]">
             Join an upcoming free workshop
           </h2>
+          <p className="text-xs text-charcoal/60 font-sans mt-2">
+            (All workshop sessions listed below are placeholders for demonstration purposes)
+          </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -240,6 +247,11 @@ export function WorkshopsView() {
             return (
               <Card key={session.id} className={`p-7 flex flex-col justify-between text-center items-center bg-white shadow-xs ${borderOutline}`}>
                 <div>
+                  <div className="mb-2">
+                    <span className="inline-block px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-amber-100 text-amber-900 border border-amber-300">
+                      Placeholder Workshop
+                    </span>
+                  </div>
                   <div className="font-serif text-3xl font-bold text-deep-teal mb-2">
                     {session.date}
                   </div>
@@ -256,9 +268,9 @@ export function WorkshopsView() {
                 </div>
                 <Button
                   onClick={() => setSelectedSession(session)}
-                  className="w-full text-[14px] font-semibold bg-raspberry hover:bg-raspberry/90 text-white"
+                  className="w-full text-[14px] font-semibold bg-raspberry hover:bg-raspberry/90 text-white cursor-pointer"
                 >
-                  RSVP for Free
+                  RSVP for Free (Placeholder Demo)
                 </Button>
               </Card>
             );
@@ -269,6 +281,9 @@ export function WorkshopsView() {
       {/* Request Workshop for School or Group Banner */}
       <div className="rounded-3xl bg-berry text-cream-card p-8 md:p-12 flex flex-col md:flex-row items-center justify-between gap-6 shadow-lg">
         <div className="max-w-xl text-center md:text-left">
+          <div className="inline-block px-3 py-0.5 rounded-full text-xs font-bold bg-white/20 text-white mb-2">
+            Inquiry &amp; Interest Form (Placeholder Demonstration)
+          </div>
           <h2 className="text-3xl md:text-[42px] lg:text-[48px] font-normal font-serif text-cream-card mb-2 leading-[1.15]">
             Bring ReproUs to your school or group
           </h2>
@@ -279,9 +294,9 @@ export function WorkshopsView() {
         <Button
           onClick={() => setIsRequestModalOpen(true)}
           size="lg"
-          className="bg-white text-raspberry font-bold hover:bg-white/95 hover:text-raspberry active:bg-white/90 active:text-raspberry focus-visible:text-raspberry shadow-md whitespace-nowrap flex-shrink-0"
+          className="bg-white text-raspberry font-bold hover:bg-white/95 hover:text-raspberry active:bg-white/90 active:text-raspberry focus-visible:text-raspberry shadow-md whitespace-nowrap flex-shrink-0 cursor-pointer"
         >
-          Request a workshop
+          Request a workshop (Demo)
         </Button>
       </div>
 
@@ -290,12 +305,16 @@ export function WorkshopsView() {
         <DialogContent className="max-w-md">
           {selectedSession && (
             <div>
-              <DialogHeader className="mb-4">
-                <DialogTitle>Reserve Your Free Spot</DialogTitle>
+              <DialogHeader className="mb-3">
+                <DialogTitle>Reserve Your Free Spot (Placeholder Demo)</DialogTitle>
                 <DialogDescription>
                   {selectedSession.topic} • {selectedSession.date} ({selectedSession.time})
                 </DialogDescription>
               </DialogHeader>
+
+              <div className="p-3 rounded-xl bg-amber-50 border border-amber-300 text-amber-900 text-xs font-sans mb-3 leading-relaxed">
+                <strong>Demonstration Note:</strong> This workshop listing is a mockup placeholder for illustration. Submitting an RSVP is for demonstration only.
+              </div>
 
               {rsvpSuccess ? (
                 <div className="p-6 text-center flex flex-col items-center gap-2">
@@ -343,9 +362,9 @@ export function WorkshopsView() {
       <Dialog open={isRequestModalOpen} onOpenChange={setIsRequestModalOpen}>
         <DialogContent className="max-w-lg">
           <DialogHeader className="mb-4">
-            <DialogTitle>Request a ReproUs Workshop</DialogTitle>
+            <DialogTitle>Request a ReproUs Workshop (Placeholder Demo)</DialogTitle>
             <DialogDescription>
-              Tell us about your group and we will coordinate dates and curriculum fit with you.
+              Tell us about your group and we will coordinate dates and curriculum fit with you (Demonstration form).
             </DialogDescription>
           </DialogHeader>
 

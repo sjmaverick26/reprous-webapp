@@ -1154,13 +1154,16 @@ export function HomeView({ onNavigate, onSelectLang }: HomeViewProps) {
               <div>
                 <div className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-raspberry mb-2 font-sans">
                   <Calendar className="w-3.5 h-3.5 text-coral" />
-                  Latest &amp; Upcoming Workshops
+                  Latest &amp; Upcoming Workshops (Sample Placeholders)
                 </div>
                 <h2 className="text-3xl md:text-[42px] lg:text-[48px] font-normal font-serif text-deep-teal leading-[1.15]">
                   Join a free, honest workshop
                 </h2>
-                <p className="text-[17px] md:text-[18px] text-charcoal/80 max-w-xl mt-2 mb-0 font-sans">
+                <p className="text-[17px] md:text-[18px] text-charcoal/80 max-w-xl mt-2 mb-1 font-sans">
                   Interactive, non-judgmental sessions led by youth educators. Reserve your free spot or view full workshop agendas.
+                </p>
+                <p className="text-xs text-charcoal/60 font-sans italic m-0">
+                  (Note: All workshop sessions listed below are sample placeholders for demonstration)
                 </p>
               </div>
 
@@ -1169,7 +1172,7 @@ export function HomeView({ onNavigate, onSelectLang }: HomeViewProps) {
                 variant="default"
                 className="bg-raspberry text-white hover:bg-raspberry/90 gap-2 self-start md:self-end whitespace-nowrap shadow-sm text-[15px]"
               >
-                See All Workshops
+                See All Workshops (Placeholders)
                 <ArrowRight className="w-4 h-4" />
               </Button>
             </div>
@@ -1193,25 +1196,30 @@ export function HomeView({ onNavigate, onSelectLang }: HomeViewProps) {
                       <span className="font-serif text-2xl font-bold text-deep-teal">
                         {session.date}
                       </span>
-                      <span
-                        className={`text-[12px] font-bold px-2.5 py-0.5 rounded inline-flex items-center gap-1.5 ${
-                          session.isOnline
-                            ? "bg-light-teal text-deep-teal border border-deep-teal/20"
-                            : "bg-soft-pink text-deep-teal border border-coral/30"
-                        }`}
-                      >
-                        {session.isOnline ? (
-                          <>
-                            <Globe className="w-3 h-3 text-deep-teal" />
-                            <span>Virtual Zoom</span>
-                          </>
-                        ) : (
-                          <>
-                            <MapPin className="w-3 h-3 text-deep-teal" />
-                            <span>In Person</span>
-                          </>
-                        )}
-                      </span>
+                      <div className="flex items-center gap-1.5 flex-wrap justify-end">
+                        <span className="text-[11px] font-bold px-2 py-0.5 rounded bg-amber-50 text-amber-900 border border-amber-300">
+                          Placeholder
+                        </span>
+                        <span
+                          className={`text-[12px] font-bold px-2.5 py-0.5 rounded inline-flex items-center gap-1.5 ${
+                            session.isOnline
+                              ? "bg-light-teal text-deep-teal border border-deep-teal/20"
+                              : "bg-soft-pink text-deep-teal border border-coral/30"
+                          }`}
+                        >
+                          {session.isOnline ? (
+                            <>
+                              <Globe className="w-3 h-3 text-deep-teal" />
+                              <span>Virtual Zoom</span>
+                            </>
+                          ) : (
+                            <>
+                              <MapPin className="w-3 h-3 text-deep-teal" />
+                              <span>In Person</span>
+                            </>
+                          )}
+                        </span>
+                      </div>
                     </div>
 
                     <h3 className="text-lg md:text-xl font-bold text-deep-teal mb-2 line-clamp-2 leading-snug">
@@ -1239,7 +1247,7 @@ export function HomeView({ onNavigate, onSelectLang }: HomeViewProps) {
                       variant="secondary"
                       className="w-full text-[14px] font-semibold gap-1.5 text-deep-teal border-deep-teal/30 hover:bg-deep-teal/5 hover:text-deep-teal active:text-deep-teal focus-visible:text-deep-teal"
                     >
-                      Reserve on Workshop Page →
+                      Reserve on Workshop Page (Demo) →
                     </Button>
                   </div>
                 </Card>

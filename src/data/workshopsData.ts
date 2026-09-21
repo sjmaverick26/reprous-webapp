@@ -7,6 +7,7 @@ export interface WorkshopSession {
   spotsLeft: string;
   isOnline: boolean;
   topic: string;
+  isPlaceholder?: boolean;
 }
 
 export interface WorkshopReview {
@@ -62,7 +63,8 @@ export const UPCOMING_SESSIONS: WorkshopSession[] = [
     address: "450 Main St, Central City",
     spotsLeft: "8 spots left",
     isOnline: false,
-    topic: "Cycle Sense & Pain Management"
+    topic: "Cycle Sense & Pain Management",
+    isPlaceholder: true
   },
   {
     id: "session-2",
@@ -72,7 +74,8 @@ export const UPCOMING_SESSIONS: WorkshopSession[] = [
     address: "1200 MLK Jr Blvd, Eastside",
     spotsLeft: "Open enrollment",
     isOnline: false,
-    topic: "Body Basics & Anatomy 101"
+    topic: "Body Basics & Anatomy 101",
+    isPlaceholder: true
   },
   {
     id: "session-3",
@@ -82,6 +85,7 @@ export const UPCOMING_SESSIONS: WorkshopSession[] = [
     address: "Zoom link sent upon RSVP",
     spotsLeft: "Open enrollment",
     isOnline: true,
-    topic: "Real Talk: STIs, Consent & Safe Choices"
+    topic: "Real Talk: STIs, Consent & Safe Choices",
+    isPlaceholder: true
   }
 ];
