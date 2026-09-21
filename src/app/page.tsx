@@ -42,7 +42,16 @@ export default function App() {
     }
 
     if (typeof window !== "undefined") {
-      window.scrollTo({ top: 0, behavior: "smooth" });
+      if (page === "home" && categoryOrTab) {
+        setTimeout(() => {
+          const el = document.getElementById(categoryOrTab);
+          if (el) {
+            el.scrollIntoView({ behavior: "smooth", block: "start" });
+          }
+        }, 60);
+      } else {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
     }
   };
 

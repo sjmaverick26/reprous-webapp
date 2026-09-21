@@ -26,24 +26,36 @@ interface NavbarProps {
 
 export function Navbar({ activePage, onNavigate, currentLang = "en", onSelectLang }: NavbarProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [homeDropdownOpen, setHomeDropdownOpen] = useState(false);
   const [learnDropdownOpen, setLearnDropdownOpen] = useState(false);
   const [aboutDropdownOpen, setAboutDropdownOpen] = useState(false);
   const [langDropdownOpen, setLangDropdownOpen] = useState(false);
+  const [mobileHomeExpanded, setMobileHomeExpanded] = useState(false);
   const [mobileLearnExpanded, setMobileLearnExpanded] = useState(false);
   const [mobileAboutExpanded, setMobileAboutExpanded] = useState(false);
 
   const navItems: {
     id: PageId;
     label: string;
-    dropdownType?: "learn" | "about";
+    dropdownType?: "home" | "learn" | "about";
   }[] = [
-    { id: "home", label: "Home" },
+    { id: "home", label: "Home", dropdownType: "home" },
     { id: "story", label: "About", dropdownType: "about" },
     { id: "hub", label: "Learn", dropdownType: "learn" },
     { id: "workshops", label: "Workshops" },
     { id: "resources", label: "Resources" },
     { id: "qa", label: "Q&A" },
     { id: "voices", label: "Youth Voices" },
+  ];
+
+  const homeSections = [
+    { id: "commitment", number: "01", label: "The Commitment", description: "Learn · Recognize · Advocate framework" },
+    { id: "curriculum", number: "02", label: "Curriculum Focus", description: "Athlete health, cycles & conditions" },
+    { id: "research-gap", number: "03", label: "Gender Research Gap", description: "Delays, drug safety & study citations" },
+    { id: "symptom-explorer", number: "04", label: "Symptom Explorer", description: "Interactive 10-symptom breakdown" },
+    { id: "advocacy-toolkit", number: "05", label: "Self-Advocacy Toolkit", description: "Doctor prep, logs & chart scripts" },
+    { id: "myth-buster", number: "06", label: "Medical Myth-Buster", description: "Debunking myths with clinical science" },
+    { id: "workshops-community", number: "07", label: "Workshops & Community", description: "Free student workshops & youth stories" },
   ];
 
   const learnCategories = [
@@ -110,6 +122,70 @@ export function Navbar({ activePage, onNavigate, currentLang = "en", onSelectLan
           <ul className="flex items-center gap-5 xl:gap-6 list-none m-0 p-0">
             {navItems.map((item) => {
               const active = isItemActive(item.id);
+
+              if (item.dropdownType === "home") {
+                return (
+                  <li
+                    key={item.id}
+                    className="relative"
+                    onMouseEnter={() => setHomeDropdownOpen(true)}
+                    onMouseLeave={() => setHomeDropdownOpen(false)}
+                  >
+                    <button
+                      onClick={() => onNavigate("home")}
+                      className={cn(
+                        "flex items-center gap-1 text-[14.5px] font-medium font-sans py-1 transition-colors relative focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-berry rounded",
+                        active
+                          ? "text-plum font-bold after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[2px] after:bg-berry"
+                          : "text-plum/80 hover:text-berry"
+                      )}
+                    >
+                      <span>{item.label}</span>
+                      <ChevronDown className="w-3.5 h-3.5 opacity-70" />
+                    </button>
+
+                    {/* Home Sections Dropdown */}
+                    {homeDropdownOpen && (
+                      <div className="absolute left-0 top-full pt-2 w-72 z-50 animate-in fade-in zoom-in-95 duration-150">
+                        <div className="rounded-xl bg-white p-2 shadow-xl border border-plum/15 flex flex-col gap-0.5">
+                          <button
+                            onClick={() => {
+                              onNavigate("home");
+                              setHomeDropdownOpen(false);
+                            }}
+                            className="w-full text-left px-3 py-2 text-[13.5px] font-bold font-sans text-plum rounded-lg hover:bg-ivory-darker transition-colors border-b border-plum/10 pb-2 mb-1 flex items-center justify-between"
+                          >
+                            <span>Home Page Overview</span>
+                            <span className="text-[11px] font-medium text-coral uppercase tracking-wider">Top ↑</span>
+                          </button>
+                          {homeSections.map((sec) => (
+                            <button
+                              key={sec.id}
+                              onClick={() => {
+                                onNavigate("home", sec.id);
+                                setHomeDropdownOpen(false);
+                              }}
+                              className="w-full text-left px-3 py-1.5 rounded-lg hover:bg-ivory-darker transition-colors group flex items-start gap-2.5 cursor-pointer"
+                            >
+                              <span className="text-[11px] font-mono font-bold text-coral bg-coral/10 px-1.5 py-0.5 rounded shrink-0 mt-0.5">
+                                {sec.number}
+                              </span>
+                              <div className="min-w-0">
+                                <span className="text-[13.5px] font-semibold font-sans text-plum group-hover:text-berry block leading-snug">
+                                  {sec.label}
+                                </span>
+                                <span className="text-[11.5px] font-normal font-sans text-plum/70 block leading-tight truncate">
+                                  {sec.description}
+                                </span>
+                              </div>
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </li>
+                );
+              }
 
               if (item.dropdownType === "learn") {
                 return (
@@ -326,6 +402,57 @@ export function Navbar({ activePage, onNavigate, currentLang = "en", onSelectLan
         <div className="lg:hidden bg-ivory border-b border-plum/15 px-6 py-5 flex flex-col gap-2 shadow-lg animate-in slide-in-from-top-4 duration-200 max-h-[85vh] overflow-y-auto font-sans">
           {navItems.map((item) => {
             const active = isItemActive(item.id);
+
+            if (item.dropdownType === "home") {
+              return (
+                <div key={item.id} className="flex flex-col border-b border-plum/10 pb-1">
+                  <div className="flex items-center justify-between">
+                    <button
+                      onClick={() => {
+                        onNavigate("home");
+                        setMobileMenuOpen(false);
+                      }}
+                      className={cn(
+                        "flex-1 text-left px-3 py-2.5 rounded-lg font-semibold text-[15px] transition-colors",
+                        active ? "text-berry font-bold" : "text-plum hover:bg-ivory-darker"
+                      )}
+                    >
+                      {item.label}
+                    </button>
+                    <button
+                      onClick={() => setMobileHomeExpanded(!mobileHomeExpanded)}
+                      className="p-2 text-plum hover:bg-ivory-darker rounded-lg ml-1"
+                      aria-label="Expand Home sections"
+                    >
+                      <ChevronDown
+                        className={cn(
+                          "w-4 h-4 transition-transform duration-200",
+                          mobileHomeExpanded && "rotate-180"
+                        )}
+                      />
+                    </button>
+                  </div>
+
+                  {mobileHomeExpanded && (
+                    <div className="pl-4 pr-2 py-1.5 flex flex-col gap-1">
+                      {homeSections.map((sec) => (
+                        <button
+                          key={sec.id}
+                          onClick={() => {
+                            onNavigate("home", sec.id);
+                            setMobileMenuOpen(false);
+                          }}
+                          className="w-full text-left px-3 py-1.5 text-[13.5px] font-medium text-plum/85 hover:text-berry rounded-lg flex items-center gap-2"
+                        >
+                          <span className="text-coral font-mono text-[11px] font-bold">{sec.number}</span>
+                          <span>{sec.label}</span>
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              );
+            }
 
             if (item.dropdownType === "learn") {
               return (
