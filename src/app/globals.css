@@ -109,17 +109,222 @@ html.text-xl {
   font-size: 128%;
 }
 
+/* ==========================================================================
+   HIGH CONTRAST MODE (WCAG AAA Compliant)
+   Stark monochrome contrasts, high-contrast borders, razor-sharp focus states
+   ========================================================================== */
 html.contrast {
   --page-bg: #FFFFFF;
+  --card-bg: #FFFFFF;
+  --headings: #000000;
+  --body-text: #000000;
   --plum: #000000;
-  --berry: #5E1F35;
+  --berry: #000000;
   --charcoal: #000000;
   --ink: #000000;
   --cream-card: #FFFFFF;
+  --ivory: #FFFFFF;
+  --light-teal: #FFFFFF;
+  --soft-pink: #FFFFFF;
+  --warm-cream: #FFFFFF;
+  color-scheme: light;
 }
 
-html.contrast .border-contrast {
-  border: 1.5px solid #000000;
+/* 1. Base Body, Root & Page Backgrounds */
+html.contrast,
+html.contrast body,
+html.contrast main,
+html.contrast [class*="bg-ivory"],
+html.contrast [class*="bg-light-teal"],
+html.contrast [class*="bg-warm-cream"],
+html.contrast [class*="bg-soft-pink"],
+html.contrast [class*="bg-[#FFE1DB]"] {
+  background-color: #FFFFFF !important;
+  color: #000000 !important;
+}
+
+/* 2. Headings — Pure Black & Bold */
+html.contrast h1,
+html.contrast h2,
+html.contrast h3,
+html.contrast h4,
+html.contrast h5,
+html.contrast h6,
+html.contrast .text-h1,
+html.contrast .text-h2,
+html.contrast .text-h3,
+html.contrast [class*="font-serif"] {
+  color: #000000 !important;
+  font-weight: 800 !important;
+}
+
+/* 3. Text Elements — Stark Black Legibility */
+html.contrast p,
+html.contrast li,
+html.contrast label,
+html.contrast blockquote,
+html.contrast [class*="text-charcoal"],
+html.contrast [class*="text-plum"],
+html.contrast [class*="text-ink"],
+html.contrast [class*="text-deep-teal"] {
+  color: #000000 !important;
+}
+
+/* 4. Cards, Containers, Boxes & Modals */
+html.contrast [class*="bg-white"],
+html.contrast [class*="bg-cream-card"],
+html.contrast [class*="card"],
+html.contrast [class*="rounded-xl"]:not(button):not(a),
+html.contrast [class*="rounded-2xl"]:not(button):not(a),
+html.contrast [class*="rounded-3xl"]:not(button):not(a) {
+  background-color: #FFFFFF !important;
+  border: 2px solid #000000 !important;
+  box-shadow: none !important;
+}
+
+/* 5. Sharp Borders & Dividers */
+html.contrast [class*="border-plum"],
+html.contrast [class*="border-deep-teal"],
+html.contrast [class*="border-raspberry"],
+html.contrast [class*="border-coral"],
+html.contrast [class*="border-white/"],
+html.contrast [class*="divide-"],
+html.contrast hr {
+  border-color: #000000 !important;
+}
+
+/* 6. High Contrast Navigation Header & Language Bar */
+html.contrast nav {
+  background-color: #FFFFFF !important;
+  border-bottom: 3px solid #000000 !important;
+}
+
+html.contrast nav a,
+html.contrast nav button {
+  color: #000000 !important;
+  font-weight: 700 !important;
+}
+
+html.contrast [class*="LanguageBar"],
+html.contrast div[dir="ltr"] {
+  border-bottom-color: #000000 !important;
+}
+
+/* 7. Buttons — Stark Black & White Inversion */
+html.contrast button[class*="bg-berry"],
+html.contrast button[class*="bg-deep-teal"],
+html.contrast a[class*="bg-berry"],
+html.contrast a[class*="bg-deep-teal"] {
+  background-color: #000000 !important;
+  color: #FFFFFF !important;
+  border: 2.5px solid #000000 !important;
+  font-weight: 800 !important;
+}
+
+html.contrast button[class*="bg-berry"] *,
+html.contrast button[class*="bg-deep-teal"] * {
+  color: #FFFFFF !important;
+}
+
+html.contrast button[class*="bg-berry"]:hover,
+html.contrast button[class*="bg-deep-teal"]:hover {
+  background-color: #FFFFFF !important;
+  color: #000000 !important;
+  border: 2.5px solid #000000 !important;
+}
+
+html.contrast button[class*="bg-berry"]:hover *,
+html.contrast button[class*="bg-deep-teal"]:hover * {
+  color: #000000 !important;
+}
+
+html.contrast button[class*="border-"],
+html.contrast button[class*="variant-outline"] {
+  background-color: #FFFFFF !important;
+  color: #000000 !important;
+  border: 2px solid #000000 !important;
+  font-weight: 700 !important;
+}
+
+html.contrast button[class*="border-"]:hover {
+  background-color: #000000 !important;
+  color: #FFFFFF !important;
+}
+
+/* 8. Form Inputs, Textareas, & Selects */
+html.contrast input,
+html.contrast textarea,
+html.contrast select {
+  background-color: #FFFFFF !important;
+  color: #000000 !important;
+  border: 2.5px solid #000000 !important;
+  font-weight: 700 !important;
+}
+
+html.contrast input::placeholder,
+html.contrast textarea::placeholder {
+  color: #444444 !important;
+  font-weight: 500 !important;
+}
+
+html.contrast input:focus,
+html.contrast textarea:focus,
+html.contrast select:focus {
+  outline: 3px solid #000000 !important;
+  outline-offset: 2px !important;
+}
+
+/* 9. Dark Sections & Footer (Pitch Black Inversion with Yellow Highlights) */
+html.contrast section[class*="bg-deep-teal"],
+html.contrast footer {
+  background-color: #000000 !important;
+  color: #FFFFFF !important;
+  border-top: 3px solid #FFFFFF !important;
+  border-bottom: 3px solid #FFFFFF !important;
+}
+
+html.contrast section[class*="bg-deep-teal"] *,
+html.contrast footer * {
+  color: #FFFFFF !important;
+}
+
+html.contrast section[class*="bg-deep-teal"] h1,
+html.contrast section[class*="bg-deep-teal"] h2,
+html.contrast section[class*="bg-deep-teal"] h3,
+html.contrast footer h1,
+html.contrast footer h2,
+html.contrast footer h3 {
+  color: #FFFFFF !important;
+}
+
+html.contrast section[class*="bg-deep-teal"] [class*="text-coral"],
+html.contrast section[class*="bg-deep-teal"] [class*="text-light-teal"],
+html.contrast footer [class*="text-coral"],
+html.contrast footer [class*="text-light-teal"] {
+  color: #FFE600 !important; /* Bright accessible yellow */
+}
+
+/* 10. Links & Underlines */
+html.contrast a:not([class*="btn"]):not([class*="button"]):not([class*="rounded-full"]) {
+  color: #000000 !important;
+  text-decoration: underline !important;
+  text-decoration-thickness: 2px !important;
+  text-underline-offset: 3px !important;
+  font-weight: 700 !important;
+}
+
+/* 11. Badges, Pills & Topic Swatches */
+html.contrast [class*="rounded-full"]:not(button):not(a) {
+  background-color: #FFFFFF !important;
+  border: 2px solid #000000 !important;
+  color: #000000 !important;
+  font-weight: 700 !important;
+}
+
+/* 12. Focus Visibility */
+html.contrast *:focus-visible {
+  outline: 3px solid #000000 !important;
+  outline-offset: 2px !important;
 }
 
 @media (prefers-reduced-motion: reduce) {

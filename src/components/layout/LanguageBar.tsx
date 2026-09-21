@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Globe2, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -105,6 +105,12 @@ export function LanguageBar({ currentLang, onSelectLang }: LanguageBarProps) {
   const [textSize, setTextSize] = useState<"" | "text-lg" | "text-xl">("");
   const [isHighContrast, setIsHighContrast] = useState(false);
 
+  useEffect(() => {
+    if (typeof document !== "undefined") {
+      setIsHighContrast(document.documentElement.classList.contains("contrast"));
+    }
+  }, []);
+
   const activeLang = SUPPORTED_LANGUAGES.find((l) => l.code === currentLang);
 
   const handleSelectLang = (code: string) => {
@@ -129,7 +135,11 @@ export function LanguageBar({ currentLang, onSelectLang }: LanguageBarProps) {
     const nextVal = !isHighContrast;
     setIsHighContrast(nextVal);
     if (typeof document !== "undefined") {
-      document.documentElement.classList.toggle("contrast", nextVal);
+      if (nextVal) {
+        document.documentElement.classList.add("contrast");
+      } else {
+        document.documentElement.classList.remove("contrast");
+      }
     }
   };
 
@@ -211,13 +221,15 @@ export function LanguageBar({ currentLang, onSelectLang }: LanguageBarProps) {
               handleToggleContrast();
             }}
             className={cn(
-              "ml-1.5 px-2.5 py-0.5 rounded text-[12.5px] font-semibold font-sans transition-colors border",
+              "ml-1.5 px-3 py-1 rounded-md text-[12.5px] font-bold font-sans transition-all border",
               isHighContrast
-                ? "bg-deep-teal border-deep-teal text-white font-bold ring-2 ring-coral hover:bg-deep-teal hover:text-white active:text-white focus:text-white"
+                ? "bg-black border-2 border-black text-white ring-2 ring-[#FFE600] shadow-md hover:bg-black hover:text-white"
                 : "border-deep-teal/20 text-deep-teal hover:bg-soft-pink hover:text-deep-teal active:text-deep-teal"
             )}
+            aria-pressed={isHighContrast}
+            aria-label="Toggle High Contrast Mode"
           >
-            {isHighContrast ? "High Contrast On" : "High Contrast"}
+            {isHighContrast ? "High Contrast: ON ✓" : "High Contrast"}
           </button>
         </div>
       </div>
