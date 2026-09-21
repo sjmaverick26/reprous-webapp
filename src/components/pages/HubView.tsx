@@ -1004,7 +1004,7 @@ export function HubView({ initialCategory }: HubViewProps) {
                             </div>
                             <div>
                               <span className="text-xs sm:text-sm font-bold uppercase tracking-wider text-deep-teal font-sans block">
-                                Verified Clinical Guideline
+                                Clinical Guideline Citation <span className="font-normal lowercase text-[11px] text-charcoal/60">(mockup quote)</span>
                               </span>
                               <span className="text-sm sm:text-base font-bold text-charcoal">
                                 {clinicalQuote.source}
@@ -1013,7 +1013,7 @@ export function HubView({ initialCategory }: HubViewProps) {
                           </div>
                           <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs sm:text-sm font-bold bg-light-teal text-deep-teal border border-deep-teal/20 shadow-2xs font-sans">
                             <Shield className="w-4 h-4 text-deep-teal" />
-                            <span>Evidence Grounded</span>
+                            <span>Evidence Grounded (Mockup)</span>
                           </span>
                         </div>
 
@@ -1026,7 +1026,9 @@ export function HubView({ initialCategory }: HubViewProps) {
                         <div className="pt-3 border-t border-deep-teal/15 flex items-center justify-between flex-wrap gap-3 text-sm sm:text-base font-sans">
                           <div>
                             <span className="font-bold text-charcoal block">{clinicalQuote.publication}</span>
-                            <span className="text-charcoal/70 text-xs sm:text-sm italic">Clinical Practice Reference</span>
+                            <span className="text-charcoal/70 text-xs sm:text-sm italic">
+                              Clinical Practice Reference <span className="font-normal">(these quotes are mockups for demonstration)</span>
+                            </span>
                           </div>
                           {clinicalQuote.year && (
                             <span className="text-xs sm:text-sm font-bold text-deep-teal bg-slate-100 px-3 py-1.5 rounded-xl border border-slate-200">

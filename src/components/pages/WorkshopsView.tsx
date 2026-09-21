@@ -190,6 +190,9 @@ export function WorkshopsView() {
           <div className="text-xs font-extrabold uppercase tracking-wider text-berry/75">
             What People Said
           </div>
+          <p className="text-xs text-charcoal/60 font-sans mt-1">
+            (These quotes are mockups for demonstration purposes)
+          </p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {WORKSHOP_REVIEWS.map((r, i) => {
@@ -206,7 +209,7 @@ export function WorkshopsView() {
                   &ldquo;{r.quote}&rdquo;
                 </p>
                 <div className="text-xs font-extrabold text-charcoal/70 font-sans">
-                  — {r.attendee}, age {r.age}
+                  — {r.attendee}, age {r.age} <span className="font-normal text-charcoal/50">(mockup quote)</span>
                 </div>
               </Card>
             );

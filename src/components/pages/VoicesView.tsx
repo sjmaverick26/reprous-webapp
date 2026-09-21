@@ -60,7 +60,7 @@ export function VoicesView() {
           Real stories, shared on purpose
         </h1>
         <p className="text-[17px] md:text-[19px] text-ink/80 leading-relaxed mb-6 font-sans">
-          Personal stories, questions, and reflections from young people who have navigated the exact same bodily changes, anxieties, and discoveries.
+          Personal stories, questions, and reflections from young people who have navigated the exact same bodily changes, anxieties, and discoveries. <span className="font-medium text-ink/70">(Note: These quotes are mockups for demonstration purposes.)</span>
         </p>
         <AccessMini
           text="Stories can be submitted by text, voice memo, or in your own language — we'll translate it."
@@ -82,7 +82,7 @@ export function VoicesView() {
             </div>
             <div className="flex items-center justify-between pt-4 border-t border-berry/10">
               <span className="text-[13.5px] md:text-[14px] font-bold text-ink/75 font-sans">
-                — {voice.author}, age {voice.age}
+                — {voice.author}, age {voice.age} <span className="font-normal text-xs text-ink/50">(mockup quote)</span>
               </span>
               {voice.category && (
                 <span className="text-[12px] md:text-[13px] font-bold text-berry bg-blush px-2.5 py-0.5 rounded-full font-sans">
