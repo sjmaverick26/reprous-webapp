@@ -218,19 +218,19 @@ export function HubView({ initialCategory }: HubViewProps) {
 
   const CATEGORY_GROUPS = [
     {
-      name: "Teal Modules",
+      name: "Female athlete health & Accessibility",
       badgeClass: "bg-light-teal border-deep-teal/30 text-deep-teal",
       dotClass: "bg-deep-teal",
       ids: ["play", "mind", "factors"],
     },
     {
-      name: "Pink Modules",
+      name: "Hormonal Health",
       badgeClass: "bg-soft-pink border-raspberry/30 text-raspberry",
       dotClass: "bg-raspberry",
       ids: ["pcos", "cycle", "realtalk"],
     },
     {
-      name: "Coral Modules",
+      name: "Reproductive Health",
       badgeClass: "bg-[#FFE1DB] border-coral/40 text-[#B83F68]",
       dotClass: "bg-coral",
       ids: ["endo", "body", "conditions"],
@@ -406,14 +406,14 @@ export function HubView({ initialCategory }: HubViewProps) {
               </div>
             </div>
 
-            {/* Category Cards Grouped by Color: 3 Teal, 3 Pink, 3 Coral */}
+            {/* Category Cards Grouped: Female Athlete Health & Accessibility, Hormonal Health, Reproductive Health */}
             <div className="space-y-12">
               {CATEGORY_GROUPS.map((group) => (
                 <div key={group.name} className="space-y-5">
-                  {/* Color Group Header Badge & Divider */}
+                  {/* Category Group Header Badge & Divider */}
                   <div className="flex items-center gap-3">
                     <span
-                      className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold font-sans tracking-wider uppercase border shadow-2xs ${group.badgeClass}`}
+                      className={`inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-xs sm:text-[13px] font-bold font-sans tracking-wide border shadow-2xs ${group.badgeClass}`}
                     >
                       <span className={`w-2 h-2 rounded-full ${group.dotClass}`} />
                       <span>{group.name}</span>
