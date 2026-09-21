@@ -93,16 +93,37 @@ export function HubView({ initialCategory }: HubViewProps) {
     }
   };
 
+  const CATEGORY_GROUPS = [
+    {
+      name: "Teal Modules",
+      badgeClass: "bg-light-teal border-deep-teal/30 text-deep-teal",
+      dotClass: "bg-deep-teal",
+      ids: ["play", "mind", "factors"],
+    },
+    {
+      name: "Pink Modules",
+      badgeClass: "bg-soft-pink border-raspberry/30 text-raspberry",
+      dotClass: "bg-raspberry",
+      ids: ["pcos", "cycle", "realtalk"],
+    },
+    {
+      name: "Coral Modules",
+      badgeClass: "bg-[#FFE1DB] border-coral/40 text-[#B83F68]",
+      dotClass: "bg-coral",
+      ids: ["endo", "body", "conditions"],
+    },
+  ];
+
   const CATEGORY_ORDER = [
     "play",       // Female Athlete Health (Teal)
-    "pcos",       // PCOS & Hormonal Health (Raspberry)
-    "endo",       // Endometriosis & Reproductive Health (Coral)
-    "cycle",      // Cycle Sense (Raspberry)
-    "body",       // Body Basics (Coral)
     "mind",       // Mind & Self (Teal)
-    "conditions", // Pregnancy & Care (Coral)
-    "realtalk",   // Real Talk (Raspberry)
     "factors",    // The Bigger Picture (Teal)
+    "pcos",       // PCOS & Hormonal Health (Pink/Raspberry)
+    "cycle",      // Cycle Sense (Pink/Raspberry)
+    "realtalk",   // Real Talk (Pink/Raspberry)
+    "endo",       // Endometriosis & Reproductive Health (Coral)
+    "body",       // Body Basics (Coral)
+    "conditions", // Pregnancy & Care (Coral)
   ];
 
   const getCategoryIcon = (id: string) => {
@@ -218,45 +239,63 @@ export function HubView({ initialCategory }: HubViewProps) {
               </div>
             </div>
 
-            {/* Category Cards Grid with dedicated palette colors */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {CATEGORY_ORDER.map((id) => {
-                const cat = HUB_CATEGORIES[id];
-                if (!cat) return null;
-                const theme = getCategoryTheme(cat.id);
+            {/* Category Cards Grouped by Color: 3 Teal, 3 Pink, 3 Coral */}
+            <div className="space-y-12">
+              {CATEGORY_GROUPS.map((group) => (
+                <div key={group.name} className="space-y-5">
+                  {/* Color Group Header Badge & Divider */}
+                  <div className="flex items-center gap-3">
+                    <span
+                      className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold font-sans tracking-wider uppercase border shadow-2xs ${group.badgeClass}`}
+                    >
+                      <span className={`w-2 h-2 rounded-full ${group.dotClass}`} />
+                      <span>{group.name}</span>
+                    </span>
+                    <div className="h-px bg-deep-teal/15 flex-1" />
+                  </div>
 
-                return (
-                  <button
-                    key={cat.id}
-                    onClick={() => {
-                      setActiveCategoryId(cat.id);
-                      setOpenPanelId(null);
-                    }}
-                    className={`group rounded-3xl p-7 text-left border-2 shadow-card hover:shadow-hover hover:-translate-y-0.5 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-raspberry flex flex-col justify-between ${theme.cardBg}`}
-                  >
-                    <div>
-                      <div
-                        className="w-12 h-12 rounded-2xl mb-4 shadow-sm flex items-center justify-center font-bold text-xs"
-                        style={{ backgroundColor: theme.primaryHex }}
-                      >
-                        {getCategoryIcon(cat.id)}
-                      </div>
-                      <h3 className="text-2xl md:text-[28px] font-normal font-serif text-deep-teal mb-2 group-hover:text-raspberry transition-colors leading-snug">
-                        {cat.title}
-                      </h3>
-                      <p className="text-[15.5px] md:text-[16.5px] text-charcoal/85 leading-relaxed mb-4 font-sans">
-                        {cat.description}
-                      </p>
-                    </div>
-                    <div className={`flex items-center justify-between pt-3 text-[13.5px] font-semibold font-sans border-t ${theme.footerStyle}`}>
-                      <span>{cat.topics.length} interactive topics</span>
-                      <span className="inline-flex items-center gap-1 group-hover:translate-x-1 transition-transform font-bold">
-                        See topics <ChevronRight className="w-4 h-4" />
-                      </span>
-                    </div>
-                  </button>
-                );
-              })}
+                  {/* 3 Modules in this color group */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {group.ids.map((id) => {
+                      const cat = HUB_CATEGORIES[id];
+                      if (!cat) return null;
+                      const theme = getCategoryTheme(cat.id);
+
+                      return (
+                        <button
+                          key={cat.id}
+                          onClick={() => {
+                            setActiveCategoryId(cat.id);
+                            setOpenPanelId(null);
+                          }}
+                          className={`group rounded-3xl p-7 text-left border-2 shadow-card hover:shadow-hover hover:-translate-y-0.5 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-raspberry flex flex-col justify-between ${theme.cardBg}`}
+                        >
+                          <div>
+                            <div
+                              className="w-12 h-12 rounded-2xl mb-4 shadow-sm flex items-center justify-center font-bold text-xs"
+                              style={{ backgroundColor: theme.primaryHex }}
+                            >
+                              {getCategoryIcon(cat.id)}
+                            </div>
+                            <h3 className="text-2xl md:text-[28px] font-normal font-serif text-deep-teal mb-2 group-hover:text-raspberry transition-colors leading-snug">
+                              {cat.title}
+                            </h3>
+                            <p className="text-[15.5px] md:text-[16.5px] text-charcoal/85 leading-relaxed mb-4 font-sans">
+                              {cat.description}
+                            </p>
+                          </div>
+                          <div className={`flex items-center justify-between pt-3 text-[13.5px] font-semibold font-sans border-t ${theme.footerStyle}`}>
+                            <span>{cat.topics.length} interactive topics</span>
+                            <span className="inline-flex items-center gap-1 group-hover:translate-x-1 transition-transform font-bold">
+                              See topics <ChevronRight className="w-4 h-4" />
+                            </span>
+                          </div>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              ))}
             </div>
 
             {/* Clinical & Educational References */}

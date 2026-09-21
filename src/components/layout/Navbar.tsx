@@ -47,15 +47,18 @@ export function Navbar({ activePage, onNavigate, currentLang = "en", onSelectLan
   ];
 
   const learnCategories = [
+    // Teal Modules
     { id: "play", label: "Female Athlete Health" },
-    { id: "pcos", label: "PCOS & Hormonal Health" },
-    { id: "endo", label: "Endometriosis & Reproductive Pain" },
-    { id: "cycle", label: "Cycle Sense & Menstruation" },
-    { id: "body", label: "Body Basics & Hormones" },
-    { id: "conditions", label: "Pregnancy & Reproductive Care" },
-    { id: "realtalk", label: "Real Talk & STIs" },
     { id: "mind", label: "Mind & Self-Advocacy" },
     { id: "factors", label: "The Bigger Picture" },
+    // Pink Modules
+    { id: "pcos", label: "PCOS & Hormonal Health" },
+    { id: "cycle", label: "Cycle Sense & Menstruation" },
+    { id: "realtalk", label: "Real Talk & STIs" },
+    // Coral Modules
+    { id: "endo", label: "Endometriosis & Reproductive Pain" },
+    { id: "body", label: "Body Basics & Hormones" },
+    { id: "conditions", label: "Pregnancy & Reproductive Care" },
   ];
 
   const aboutItems = [
