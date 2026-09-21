@@ -420,34 +420,34 @@ export function HomeView({ onNavigate, onSelectLang }: HomeViewProps) {
               ReproUs helps girls understand their bodies, recognize symptoms, and build the confidence to ask informed questions about their health.
             </p>
 
-            {/* 3 Small Items: LEARN (Teal) · RECOGNIZE (Coral) · ADVOCATE (Pink) */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 pt-8 border-t border-white/20">
-              <div className="flex flex-col gap-2">
-                <span className="font-sans font-bold text-xs uppercase tracking-wider text-light-teal flex items-center gap-1.5">
-                  <span className="w-2 h-2 rounded-full bg-light-teal" />
+            {/* 3 White Text Boxes: LEARN (Teal) · RECOGNIZE (Coral) · ADVOCATE (Raspberry) */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-8 border-t border-white/20">
+              <div className="flex flex-col gap-2.5 bg-white rounded-2xl p-6 shadow-sm border-2 border-deep-teal">
+                <span className="font-sans font-bold text-xs uppercase tracking-wider text-deep-teal flex items-center gap-2">
+                  <span className="w-2.5 h-2.5 rounded-full bg-deep-teal" />
                   <span>LEARN</span>
                 </span>
-                <p className="text-[15px] md:text-[16px] text-white/90 leading-relaxed font-sans m-0">
+                <p className="text-[15px] md:text-[16px] text-charcoal/85 leading-relaxed font-sans m-0">
                   Understand your body and how it works.
                 </p>
               </div>
 
-              <div className="flex flex-col gap-2">
-                <span className="font-sans font-bold text-xs uppercase tracking-wider text-coral flex items-center gap-1.5">
-                  <span className="w-2 h-2 rounded-full bg-coral" />
+              <div className="flex flex-col gap-2.5 bg-white rounded-2xl p-6 shadow-sm border-2 border-coral">
+                <span className="font-sans font-bold text-xs uppercase tracking-wider text-coral flex items-center gap-2">
+                  <span className="w-2.5 h-2.5 rounded-full bg-coral" />
                   <span>RECOGNIZE</span>
                 </span>
-                <p className="text-[15px] md:text-[16px] text-white/90 leading-relaxed font-sans m-0">
+                <p className="text-[15px] md:text-[16px] text-charcoal/85 leading-relaxed font-sans m-0">
                   Learn about symptoms that are often misunderstood or dismissed.
                 </p>
               </div>
 
-              <div className="flex flex-col gap-2">
-                <span className="font-sans font-bold text-xs uppercase tracking-wider text-soft-pink flex items-center gap-1.5">
-                  <span className="w-2 h-2 rounded-full bg-soft-pink" />
+              <div className="flex flex-col gap-2.5 bg-white rounded-2xl p-6 shadow-sm border-2 border-raspberry">
+                <span className="font-sans font-bold text-xs uppercase tracking-wider text-raspberry flex items-center gap-2">
+                  <span className="w-2.5 h-2.5 rounded-full bg-raspberry" />
                   <span>ADVOCATE</span>
                 </span>
-                <p className="text-[15px] md:text-[16px] text-white/90 leading-relaxed font-sans m-0">
+                <p className="text-[15px] md:text-[16px] text-charcoal/85 leading-relaxed font-sans m-0">
                   Build the confidence and vocabulary to speak up about your health.
                 </p>
               </div>

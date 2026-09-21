@@ -13,8 +13,9 @@ export function StoryView() {
       title: "Learn",
       tag: "TEAL PILLAR",
       color: "teal",
+      borderClass: "border-2 border-deep-teal",
       topBorder: "border-t-4 border-t-deep-teal",
-      cardBg: "bg-white hover:bg-light-teal/20 border-deep-teal/20",
+      cardBg: "bg-white hover:bg-light-teal/20",
       activeRing: "ring-2 ring-deep-teal",
       badgeClass: "bg-light-teal text-deep-teal border-deep-teal/30",
       iconBg: "bg-light-teal text-deep-teal border border-deep-teal/20",
@@ -27,8 +28,9 @@ export function StoryView() {
       title: "Recognize",
       tag: "CORAL PILLAR",
       color: "coral",
+      borderClass: "border-2 border-coral",
       topBorder: "border-t-4 border-t-coral",
-      cardBg: "bg-white hover:bg-[#FFE1DB]/20 border-coral/25",
+      cardBg: "bg-white hover:bg-[#FFE1DB]/20",
       activeRing: "ring-2 ring-coral",
       badgeClass: "bg-[#FFE1DB] text-[#B83F68] border-coral/40",
       iconBg: "bg-[#FFE1DB] text-coral border border-coral/30",
@@ -41,8 +43,9 @@ export function StoryView() {
       title: "Advocate",
       tag: "PINK PILLAR",
       color: "pink",
+      borderClass: "border-2 border-raspberry",
       topBorder: "border-t-4 border-t-raspberry",
-      cardBg: "bg-white hover:bg-soft-pink/20 border-raspberry/20",
+      cardBg: "bg-white hover:bg-soft-pink/20",
       activeRing: "ring-2 ring-raspberry",
       badgeClass: "bg-soft-pink text-raspberry border-raspberry/30",
       iconBg: "bg-soft-pink text-raspberry border border-raspberry/20",
@@ -56,6 +59,7 @@ export function StoryView() {
     {
       year: "Spark",
       stepNumber: "01",
+      borderClass: "border-2 border-deep-teal",
       topBorder: "border-t-4 border-t-deep-teal",
       badgeClass: "bg-light-teal text-deep-teal border-deep-teal/25",
       yearColor: "text-deep-teal",
@@ -66,6 +70,7 @@ export function StoryView() {
     {
       year: "Growth",
       stepNumber: "02",
+      borderClass: "border-2 border-coral",
       topBorder: "border-t-4 border-t-coral",
       badgeClass: "bg-[#FFE1DB] text-[#B83F68] border-coral/30",
       yearColor: "text-[#B83F68]",
@@ -76,6 +81,7 @@ export function StoryView() {
     {
       year: "Online",
       stepNumber: "03",
+      borderClass: "border-2 border-raspberry",
       topBorder: "border-t-4 border-t-raspberry",
       badgeClass: "bg-soft-pink text-raspberry border-raspberry/25",
       yearColor: "text-raspberry",
@@ -86,6 +92,7 @@ export function StoryView() {
     {
       year: "Today",
       stepNumber: "04",
+      borderClass: "border-2 border-deep-teal",
       topBorder: "border-t-4 border-t-deep-teal",
       badgeClass: "bg-light-teal text-deep-teal border-deep-teal/25",
       yearColor: "text-deep-teal",
@@ -131,13 +138,13 @@ export function StoryView() {
         <div className="flex flex-wrap items-center justify-center gap-3 mb-12">
           <button
             onClick={() => setSelectedPillar(selectedPillar === "learn" ? null : "learn")}
-            className={`font-sans font-bold text-xs uppercase tracking-wider px-5 py-2.5 rounded-full transition-all shadow-xs flex items-center gap-2 border ${
+            className={`font-sans font-bold text-xs uppercase tracking-wider px-5 py-2.5 rounded-full transition-all shadow-xs flex items-center gap-2 border-2 ${
               selectedPillar === "learn"
                 ? "bg-deep-teal text-white border-deep-teal ring-2 ring-deep-teal/30 scale-105"
-                : "bg-[#D8EFED] text-[#175B5C] border-[#175B5C]/30 hover:bg-[#175B5C] hover:text-white"
+                : "bg-white text-deep-teal border-deep-teal hover:bg-light-teal/40"
             }`}
           >
-            <span className={`w-2 h-2 rounded-full ${selectedPillar === "learn" ? "bg-white" : "bg-[#175B5C]"}`} />
+            <span className={`w-2 h-2 rounded-full ${selectedPillar === "learn" ? "bg-white" : "bg-deep-teal"}`} />
             <span>LEARN</span>
           </button>
 
@@ -145,10 +152,10 @@ export function StoryView() {
 
           <button
             onClick={() => setSelectedPillar(selectedPillar === "recognize" ? null : "recognize")}
-            className={`font-sans font-bold text-xs uppercase tracking-wider px-5 py-2.5 rounded-full transition-all shadow-xs flex items-center gap-2 border ${
+            className={`font-sans font-bold text-xs uppercase tracking-wider px-5 py-2.5 rounded-full transition-all shadow-xs flex items-center gap-2 border-2 ${
               selectedPillar === "recognize"
                 ? "bg-coral text-white border-coral ring-2 ring-coral/30 scale-105"
-                : "bg-[#FFE1DB] text-[#B83F68] border-coral/40 hover:bg-coral hover:text-white"
+                : "bg-white text-[#B83F68] border-coral hover:bg-[#FFE1DB]/40"
             }`}
           >
             <span className={`w-2 h-2 rounded-full ${selectedPillar === "recognize" ? "bg-white" : "bg-coral"}`} />
@@ -159,10 +166,10 @@ export function StoryView() {
 
           <button
             onClick={() => setSelectedPillar(selectedPillar === "advocate" ? null : "advocate")}
-            className={`font-sans font-bold text-xs uppercase tracking-wider px-5 py-2.5 rounded-full transition-all shadow-xs flex items-center gap-2 border ${
+            className={`font-sans font-bold text-xs uppercase tracking-wider px-5 py-2.5 rounded-full transition-all shadow-xs flex items-center gap-2 border-2 ${
               selectedPillar === "advocate"
                 ? "bg-raspberry text-white border-raspberry ring-2 ring-raspberry/30 scale-105"
-                : "bg-soft-pink text-raspberry border-raspberry/30 hover:bg-raspberry hover:text-white"
+                : "bg-white text-raspberry border-raspberry hover:bg-soft-pink/40"
             }`}
           >
             <span className={`w-2 h-2 rounded-full ${selectedPillar === "advocate" ? "bg-white" : "bg-raspberry"}`} />
@@ -170,7 +177,7 @@ export function StoryView() {
           </button>
         </div>
 
-        {/* 3 Pillar Cards */}
+        {/* 3 Pillar Cards: White text boxes boldly outlined with Teal, Coral, and Raspberry */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-left">
           {pillars.map((pillar) => {
             const isHighlighted = selectedPillar === pillar.id;
@@ -180,7 +187,7 @@ export function StoryView() {
               <Card
                 key={pillar.id}
                 onClick={() => setSelectedPillar(pillar.id === selectedPillar ? null : pillar.id)}
-                className={`p-7 transition-all cursor-pointer ${pillar.topBorder} ${pillar.cardBg} ${
+                className={`p-7 transition-all cursor-pointer ${pillar.borderClass} ${pillar.topBorder} ${pillar.cardBg} ${
                   isHighlighted
                     ? `${pillar.activeRing} shadow-lg scale-[1.02]`
                     : isFaded
@@ -208,7 +215,7 @@ export function StoryView() {
         </div>
       </div>
 
-      {/* Timeline: How ReproUs grew */}
+      {/* Timeline: How ReproUs grew - White text boxes boldly outlined with Teal, Coral, and Raspberry */}
       <div>
         <div className="text-center mb-8">
           <div className="text-[13px] font-bold font-sans uppercase tracking-wider text-deep-teal mb-2">
@@ -221,7 +228,7 @@ export function StoryView() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {timeline.map((step, idx) => (
-            <Card key={idx} className={`p-6 relative bg-white shadow-xs hover:shadow-md transition-all ${step.topBorder}`}>
+            <Card key={idx} className={`p-6 relative bg-white shadow-xs hover:shadow-md transition-all ${step.borderClass} ${step.topBorder}`}>
               <div className="flex items-center justify-between mb-3">
                 <span className={`font-serif text-2xl font-bold ${step.yearColor}`}>
                   {step.year}
@@ -243,4 +250,5 @@ export function StoryView() {
     </div>
   );
 }
+
 
