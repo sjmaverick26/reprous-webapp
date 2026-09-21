@@ -19,7 +19,7 @@ import {
   ArrowRight
 } from "lucide-react";
 import { CLINICS_DATA, HOTLINES_DATA, Clinic } from "@/data/clinicsData";
-import { PETITIONS_DATA, PetitionItem, REAL_WORLD_ADVOCACY_LINKS } from "@/data/petitionsData";
+import { PETITIONS_DATA, PetitionItem } from "@/data/petitionsData";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -343,13 +343,13 @@ export function ResourcesView({ onNavigate }: ResourcesViewProps) {
           <div>
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-yellow/50 text-berry text-[13px] font-bold font-sans uppercase tracking-wider mb-2.5">
               <PenLine className="w-3.5 h-3.5" />
-              Grassroots Advocacy &amp; Policy
+              Real-World Advocacy &amp; Policy
             </div>
             <h2 className="text-3xl md:text-[44px] lg:text-[50px] font-normal font-serif text-plum leading-[1.15]">
               Active Youth Petitions
             </h2>
-            <p className="text-[17px] md:text-[18px] text-ink/80 max-w-xl mt-1 mb-0 font-sans">
-              Add your name to student and community-driven campaigns fighting for equitable health policy, free period products, and youth privacy protections.
+            <p className="text-[17px] md:text-[18px] text-ink/80 max-w-2xl mt-1 mb-0 font-sans leading-relaxed">
+              Real-world advocacy &amp; legislative petitions: Add your name to student and community-driven campaigns fighting for equitable health policy, free period products, and youth privacy protections.
             </p>
           </div>
 
@@ -515,58 +515,6 @@ export function ResourcesView({ onNavigate }: ResourcesViewProps) {
           })}
         </div>
 
-        {/* Verified National Petitions & Real-World Grassroots Campaigns */}
-        <div className="rounded-3xl bg-white p-7 md:p-9 border border-deep-teal/15 shadow-sm mt-2">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-5 border-b border-deep-teal/10 mb-6">
-            <div>
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-light-teal text-deep-teal text-[12.5px] font-bold font-sans uppercase tracking-wider mb-2 border border-deep-teal/20">
-                <ExternalLink className="w-3.5 h-3.5" />
-                Live Verified Campaigns &amp; Petitions
-              </div>
-              <h3 className="text-2xl md:text-[30px] font-normal font-serif text-deep-teal">
-                Real-World Advocacy &amp; Legislative Petitions
-              </h3>
-              <p className="text-[15.5px] md:text-[16.5px] text-charcoal/80 font-sans mt-1 max-w-2xl leading-relaxed">
-                The petitions on ReproUs reflect real active grassroots campaigns across school boards, state legislatures, and Congress. You can take direct action and sign live petitions hosted by verified non-profit partner organizations or track official federal bills below:
-              </p>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-            {REAL_WORLD_ADVOCACY_LINKS.map((link) => (
-              <div
-                key={link.title}
-                className="rounded-2xl p-5 bg-[#FFF8F0] border border-deep-teal/15 flex flex-col justify-between hover:shadow-hover hover:border-deep-teal/30 transition-all group"
-              >
-                <div>
-                  <div className="flex items-center justify-between gap-2 mb-2.5">
-                    <span className="text-[11.5px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-white border border-deep-teal/15 text-deep-teal">
-                      {link.badge}
-                    </span>
-                    <span className="text-xs font-semibold text-charcoal/60 truncate">
-                      {link.organization}
-                    </span>
-                  </div>
-                  <h4 className="font-serif text-lg font-normal text-deep-teal mb-2 leading-snug group-hover:text-raspberry transition-colors">
-                    {link.title}
-                  </h4>
-                  <p className="text-[13.5px] text-charcoal/80 leading-relaxed font-sans mb-4">
-                    {link.description}
-                  </p>
-                </div>
-                <a
-                  href={link.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center justify-between w-full pt-3 text-[13px] font-bold font-sans text-raspberry border-t border-deep-teal/10 group-hover:underline"
-                >
-                  <span>Visit Official Campaign</span>
-                  <ExternalLink className="w-3.5 h-3.5" />
-                </a>
-              </div>
-            ))}
-          </div>
-        </div>
       </section>
 
       {/* Sign Petition Modal */}
