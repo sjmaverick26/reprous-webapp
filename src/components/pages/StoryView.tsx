@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { BookOpen, Sparkles, MessageSquare, Compass, Lightbulb, Globe, ArrowRight } from "lucide-react";
+import { BookOpen, Sparkles, MessageSquare, Compass, Lightbulb, Globe } from "lucide-react";
 import { Card } from "@/components/ui/card";
 
 export function StoryView() {
@@ -103,39 +103,44 @@ export function StoryView() {
   ];
 
   return (
-    <div className="max-w-[1100px] mx-auto px-6 py-12 flex flex-col gap-16">
-      {/* Story Hero */}
+    <div className="max-w-[1100px] mx-auto px-6 py-12 flex flex-col gap-20">
+      {/* Section 1: Story Hero */}
       <div className="text-center max-w-3xl mx-auto">
-        <div className="text-[13px] font-bold font-sans uppercase tracking-wider text-deep-teal mb-2">
-          Our Story
+        <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-xs font-extrabold font-sans uppercase tracking-wider bg-light-teal/50 text-deep-teal border border-deep-teal/25 mb-3.5 shadow-2xs">
+          <span>✦ OUR STORY</span>
         </div>
-        <h1 className="text-4xl md:text-[56px] lg:text-[64px] font-normal font-serif text-deep-teal leading-[1.1] mb-6">
+        <h1 className="text-3xl md:text-[42px] lg:text-[46px] font-bold font-serif text-deep-teal leading-[1.16] tracking-tight mb-4">
           Why ReproUs Exists
         </h1>
-        <div className="space-y-4 text-center">
-          <p className="text-[18px] md:text-[21px] font-serif text-deep-teal leading-snug max-w-2xl mx-auto">
+        <div className="space-y-3.5 text-center">
+          <p className="text-[17px] md:text-[19px] font-medium text-deep-teal/90 leading-relaxed font-sans max-w-2xl mx-auto m-0">
             Too many girls grow up knowing what a &ldquo;normal&rdquo; period is supposed to look like &mdash; but not what to do when something feels wrong.
           </p>
-          <p className="text-[16.5px] md:text-[18px] text-charcoal/80 leading-relaxed font-sans max-w-2xl mx-auto">
+          <p className="text-[15.5px] md:text-[16.5px] text-charcoal/80 leading-relaxed font-sans max-w-2xl mx-auto m-0">
             For generations, gaps in health research and education have left important questions about girls&apos; and women&apos;s health unanswered, misunderstood, or overlooked. Conditions like PCOS, endometriosis, and the Female Athlete Triad can be difficult to recognize, especially when young people aren&apos;t taught what signs to look for or what questions to ask. We believe understanding your body is the first step toward advocating for your health.
           </p>
         </div>
       </div>
 
-      {/* Mission & Core Pillars */}
-      <div className="text-center">
-        <div className="text-[13px] font-bold font-sans uppercase tracking-wider text-deep-teal mb-2">
-          Our Mission
+      {/* Section 2: Mission & Core Pillars */}
+      <div className="text-center max-w-4xl mx-auto w-full">
+        <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-xs font-extrabold font-sans uppercase tracking-wider bg-[#FFE1DB] text-[#B83F68] border border-coral/30 mb-3.5 shadow-2xs">
+          <span>✦ OUR MISSION</span>
         </div>
-        <h2 className="text-2xl md:text-[34px] lg:text-[40px] font-normal font-serif text-deep-teal mb-5 max-w-3xl mx-auto leading-[1.2]">
-          ReproUs gives girls accessible health education focused on reproductive health, female athlete health, and under-recognized conditions such as PCOS and endometriosis.
+        <h2 className="text-3xl md:text-[42px] lg:text-[46px] font-bold font-serif text-deep-teal leading-[1.16] tracking-tight mb-4">
+          Accessible Education for Every Girl
         </h2>
-        <p className="text-[17px] md:text-[18.5px] text-charcoal/80 max-w-2xl mx-auto leading-relaxed mb-6 font-sans">
-          Through interactive learning, workshops, and self-advocacy tools, we turn complicated health information into knowledge that young people can actually use.
-        </p>
+        <div className="space-y-3.5 text-center mb-8">
+          <p className="text-[17px] md:text-[19px] font-medium text-deep-teal/90 leading-relaxed font-sans max-w-2xl mx-auto m-0">
+            ReproUs gives girls accessible health education focused on reproductive biology, female athlete physiology, and under-recognized conditions like PCOS and endometriosis.
+          </p>
+          <p className="text-[15.5px] md:text-[16.5px] text-charcoal/80 leading-relaxed font-sans max-w-2xl mx-auto m-0">
+            Through interactive learning, workshops, and self-advocacy tools, we turn complicated health information into knowledge that young people can actually use.
+          </p>
+        </div>
 
         {/* Learn · Recognize · Advocate Interactive Buttons with Teal, Coral, and Pink Palette */}
-        <div className="flex flex-wrap items-center justify-center gap-3 mb-12">
+        <div className="flex flex-wrap items-center justify-center gap-3 mb-10">
           <button
             onClick={() => setSelectedPillar(selectedPillar === "learn" ? null : "learn")}
             className={`font-sans font-bold text-xs uppercase tracking-wider px-5 py-2.5 rounded-full transition-all shadow-xs flex items-center gap-2 border-2 ${
@@ -187,7 +192,7 @@ export function StoryView() {
               <Card
                 key={pillar.id}
                 onClick={() => setSelectedPillar(pillar.id === selectedPillar ? null : pillar.id)}
-                className={`p-7 transition-all cursor-pointer ${pillar.borderClass} ${pillar.topBorder} ${pillar.cardBg} ${
+                className={`p-6 md:p-7 transition-all cursor-pointer ${pillar.borderClass} ${pillar.topBorder} ${pillar.cardBg} ${
                   isHighlighted
                     ? `${pillar.activeRing} shadow-lg scale-[1.02]`
                     : isFaded
@@ -199,14 +204,14 @@ export function StoryView() {
                   <div className={`w-12 h-12 rounded-2xl flex items-center justify-center ${pillar.iconBg}`}>
                     {pillar.icon}
                   </div>
-                  <span className={`text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full border ${pillar.badgeClass}`}>
+                  <span className={`text-[10.5px] font-extrabold uppercase tracking-wider px-2.5 py-0.5 rounded-full border ${pillar.badgeClass}`}>
                     {pillar.tag}
                   </span>
                 </div>
-                <h3 className={`text-2xl md:text-[28px] font-normal font-serif mb-2 leading-snug ${pillar.titleColor}`}>
+                <h3 className={`text-xl md:text-[22px] font-bold font-serif mb-2 leading-snug ${pillar.titleColor}`}>
                   {pillar.title}
                 </h3>
-                <p className="text-[16px] text-charcoal/85 leading-relaxed m-0 font-sans">
+                <p className="text-[15px] md:text-[15.5px] text-charcoal/85 leading-relaxed m-0 font-sans">
                   {pillar.desc}
                 </p>
               </Card>
@@ -215,34 +220,42 @@ export function StoryView() {
         </div>
       </div>
 
-      {/* Timeline: How ReproUs grew - White text boxes boldly outlined with Teal, Coral, and Raspberry */}
-      <div>
-        <div className="text-center mb-8">
-          <div className="text-[13px] font-bold font-sans uppercase tracking-wider text-deep-teal mb-2">
-            The Journey
-          </div>
-          <h2 className="text-3xl md:text-[44px] lg:text-[50px] font-normal font-serif text-deep-teal leading-[1.15]">
-            How ReproUs grew
-          </h2>
+      {/* Section 3: Timeline / The Journey */}
+      <div className="text-center max-w-5xl mx-auto w-full">
+        <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-xs font-extrabold font-sans uppercase tracking-wider bg-soft-pink text-raspberry border border-raspberry/25 mb-3.5 shadow-2xs">
+          <span>✦ THE JOURNEY</span>
+        </div>
+        <h2 className="text-3xl md:text-[42px] lg:text-[46px] font-bold font-serif text-deep-teal leading-[1.16] tracking-tight mb-4">
+          How ReproUs Grew
+        </h2>
+        <div className="space-y-3.5 text-center mb-10">
+          <p className="text-[17px] md:text-[19px] font-medium text-deep-teal/90 leading-relaxed font-sans max-w-2xl mx-auto m-0">
+            From a single free community workshop with endless questions to an expanding nationwide youth education network.
+          </p>
+          <p className="text-[15.5px] md:text-[16.5px] text-charcoal/80 leading-relaxed font-sans max-w-2xl mx-auto m-0">
+            Here is how grassroots curiosity, youth leadership, and medically reviewed resources came together to build a safe, stigma-free learning space.
+          </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 text-left">
           {timeline.map((step, idx) => (
-            <Card key={idx} className={`p-6 relative bg-white shadow-xs hover:shadow-md transition-all ${step.borderClass} ${step.topBorder}`}>
-              <div className="flex items-center justify-between mb-3">
-                <span className={`font-serif text-2xl font-bold ${step.yearColor}`}>
-                  {step.year}
-                </span>
-                <div className={`p-2 rounded-xl ${step.iconBg}`}>
-                  {step.icon}
+            <Card key={idx} className={`p-6 relative bg-white shadow-xs hover:shadow-md transition-all flex flex-col justify-between ${step.borderClass} ${step.topBorder}`}>
+              <div>
+                <div className="flex items-center justify-between mb-3">
+                  <span className={`font-serif text-xl md:text-[22px] font-bold ${step.yearColor}`}>
+                    {step.year}
+                  </span>
+                  <div className={`p-2 rounded-xl ${step.iconBg}`}>
+                    {step.icon}
+                  </div>
                 </div>
+                <span className={`text-[10.5px] font-extrabold uppercase tracking-wider px-2.5 py-0.5 rounded-full border inline-block mb-3 ${step.badgeClass}`}>
+                  Phase {step.stepNumber}
+                </span>
+                <p className="text-[15px] md:text-[15.5px] text-charcoal/85 leading-relaxed m-0 font-sans">
+                  {step.text}
+                </p>
               </div>
-              <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full border inline-block mb-2 ${step.badgeClass}`}>
-                Phase {step.stepNumber}
-              </span>
-              <p className="text-[14.5px] md:text-[15.5px] text-charcoal/80 leading-relaxed m-0 font-sans">
-                {step.text}
-              </p>
             </Card>
           ))}
         </div>
@@ -250,5 +263,3 @@ export function StoryView() {
     </div>
   );
 }
-
-
