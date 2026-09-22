@@ -1736,11 +1736,11 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
       },
       {
         id: "play-1",
-        name: "Fuel Up & Nutrition Quiz",
+        name: "Fuel Up: Athlete Nutrition Arcade",
         type: "game",
-        desc: "Full-screen sports nutrition game: pre-game fueling, 45-min recovery windows, iron synthesis, and RED-S prevention.",
+        desc: "Picture matching, 3:1 recovery blender, and game-day timing arcade. High visuals, drawings, zero text walls.",
         xp: 75,
-        summary: "Championship sports nutrition game: step onto the field, master glycogen timing, protect endocrine hormones, and test your precision in the lightning truth test.",
+        summary: "Visual sports nutrition arcade: play picture matching, build your 3:1 recovery shake in the interactive blender, and sort athletic fuels with zero walls of text.",
         keyTakeaways: [
           "Consuming carbohydrates and protein within 30 to 60 minutes post-training speeds glycogen replenishment and tissue repair.",
           "Menstruating athletes lose iron each cycle; iron-rich foods or verified supplementation prevent sports anemia and fatigue."
