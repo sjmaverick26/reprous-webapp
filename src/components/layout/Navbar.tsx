@@ -29,21 +29,23 @@ export function Navbar({ activePage, onNavigate, currentLang = "en", onSelectLan
   const [homeDropdownOpen, setHomeDropdownOpen] = useState(false);
   const [learnDropdownOpen, setLearnDropdownOpen] = useState(false);
   const [aboutDropdownOpen, setAboutDropdownOpen] = useState(false);
+  const [resourcesDropdownOpen, setResourcesDropdownOpen] = useState(false);
   const [langDropdownOpen, setLangDropdownOpen] = useState(false);
   const [mobileHomeExpanded, setMobileHomeExpanded] = useState(false);
   const [mobileLearnExpanded, setMobileLearnExpanded] = useState(false);
   const [mobileAboutExpanded, setMobileAboutExpanded] = useState(false);
+  const [mobileResourcesExpanded, setMobileResourcesExpanded] = useState(false);
 
   const navItems: {
     id: PageId;
     label: string;
-    dropdownType?: "home" | "learn" | "about";
+    dropdownType?: "home" | "learn" | "about" | "resources";
   }[] = [
     { id: "home", label: "Home", dropdownType: "home" },
     { id: "story", label: "About", dropdownType: "about" },
     { id: "hub", label: "Learn", dropdownType: "learn" },
     { id: "workshops", label: "Workshops" },
-    { id: "resources", label: "Resources" },
+    { id: "resources", label: "Resources", dropdownType: "resources" },
     { id: "qa", label: "Q&A" },
     { id: "voices", label: "Youth Voices" },
   ];
@@ -78,6 +80,23 @@ export function Navbar({ activePage, onNavigate, currentLang = "en", onSelectLan
     { id: "contact" as PageId, tab: "ambassador", label: "Youth Ambassadors", description: "Join student leadership cohort" },
     { id: "contact" as PageId, tab: "inquiry", label: "Contact Us", description: "Direct questions & partnerships" },
     { id: "contact" as PageId, tab: "feedback", label: "Program Feedback", description: "Anonymous input & suggestions" },
+  ];
+
+  const resourceDropdownItems = [
+    {
+      tab: "help",
+      label: "How to Get Help",
+      tag: "Immediate Care",
+      icon: "🆘",
+      description: "24/7 confidential hotlines, free & sliding-scale clinics, crisis text lines & minor privacy rights"
+    },
+    {
+      tab: "petitions",
+      label: "Petitions & Take Action",
+      tag: "Advocacy",
+      icon: "✍️",
+      description: "Active youth campaigns, Black Maternal Health Momnibus, period equity & school action toolkit"
+    },
   ];
 
   const isItemActive = (id: PageId) => {
@@ -290,6 +309,72 @@ export function Navbar({ activePage, onNavigate, currentLang = "en", onSelectLan
                                 {sub.label}
                               </span>
                               <span className="text-[12px] font-normal font-sans text-plum/70 block">
+                                {sub.description}
+                              </span>
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </li>
+                );
+              }
+
+              if (item.dropdownType === "resources") {
+                return (
+                  <li
+                    key={item.id}
+                    className="relative"
+                    onMouseEnter={() => setResourcesDropdownOpen(true)}
+                    onMouseLeave={() => setResourcesDropdownOpen(false)}
+                  >
+                    <button
+                      onClick={() => onNavigate("resources", "all")}
+                      className={cn(
+                        "flex items-center gap-1 text-[14.5px] font-medium font-sans py-1 transition-colors relative focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-berry rounded",
+                        active
+                          ? "text-plum font-bold after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[2px] after:bg-berry"
+                          : "text-plum/80 hover:text-berry"
+                      )}
+                    >
+                      <span>{item.label}</span>
+                      <ChevronDown className="w-3.5 h-3.5 opacity-70" />
+                    </button>
+
+                    {/* Resources Dropdown */}
+                    {resourcesDropdownOpen && (
+                      <div className="absolute left-0 top-full pt-2 w-80 z-50 animate-in fade-in zoom-in-95 duration-150">
+                        <div className="rounded-xl bg-white p-2.5 shadow-xl border border-plum/15 flex flex-col gap-1.5">
+                          <button
+                            onClick={() => {
+                              onNavigate("resources", "all");
+                              setResourcesDropdownOpen(false);
+                            }}
+                            className="w-full text-left px-3 py-2 text-[13.5px] font-bold font-sans text-plum rounded-lg hover:bg-ivory-darker transition-colors border-b border-plum/10 pb-2 mb-0.5 flex items-center justify-between"
+                          >
+                            <span>All Resources Directory</span>
+                            <span className="text-[11px] font-medium text-coral uppercase tracking-wider">Overview →</span>
+                          </button>
+
+                          {resourceDropdownItems.map((sub) => (
+                            <button
+                              key={sub.tab}
+                              onClick={() => {
+                                onNavigate("resources", sub.tab);
+                                setResourcesDropdownOpen(false);
+                              }}
+                              className="w-full text-left px-3 py-2.5 rounded-lg hover:bg-ivory-darker transition-colors group flex flex-col gap-0.5 cursor-pointer text-left"
+                            >
+                              <div className="flex items-center justify-between">
+                                <span className="text-[14px] font-bold font-sans text-plum group-hover:text-berry flex items-center gap-1.5">
+                                  <span>{sub.icon}</span>
+                                  <span>{sub.label}</span>
+                                </span>
+                                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-coral/10 text-coral border border-coral/20">
+                                  {sub.tag}
+                                </span>
+                              </div>
+                              <span className="text-[12px] font-normal font-sans text-plum/70 leading-snug">
                                 {sub.description}
                               </span>
                             </button>
@@ -559,6 +644,74 @@ export function Navbar({ activePage, onNavigate, currentLang = "en", onSelectLan
                           ↳ {sub.label}
                         </button>
                       ))}
+                    </div>
+                  )}
+                </div>
+              );
+            }
+
+            if (item.dropdownType === "resources") {
+              return (
+                <div key={item.id} className="flex flex-col border-b border-plum/10 pb-1">
+                  <div className="flex items-center justify-between">
+                    <button
+                      onClick={() => {
+                        onNavigate("resources", "all");
+                        setMobileMenuOpen(false);
+                      }}
+                      className={cn(
+                        "flex-1 text-left px-3 py-2.5 rounded-lg font-semibold text-[15px] transition-colors",
+                        active ? "text-berry font-bold" : "text-plum hover:bg-ivory-darker"
+                      )}
+                    >
+                      {item.label}
+                    </button>
+                    <button
+                      onClick={() => setMobileResourcesExpanded(!mobileResourcesExpanded)}
+                      className="p-2 text-plum hover:bg-ivory-darker rounded-lg ml-1"
+                      aria-label="Expand Resources subpages"
+                    >
+                      <ChevronDown
+                        className={cn(
+                          "w-4 h-4 transition-transform duration-200",
+                          mobileResourcesExpanded && "rotate-180"
+                        )}
+                      />
+                    </button>
+                  </div>
+
+                  {mobileResourcesExpanded && (
+                    <div className="pl-4 pr-2 py-1.5 flex flex-col gap-1">
+                      <button
+                        onClick={() => {
+                          onNavigate("resources", "all");
+                          setMobileMenuOpen(false);
+                        }}
+                        className="w-full text-left px-3 py-1.5 text-[14px] font-semibold text-plum/90 hover:text-berry rounded-lg flex items-center justify-between"
+                      >
+                        <span>↳ All Resources Overview</span>
+                        <span className="text-[10px] text-coral font-bold uppercase">Overview</span>
+                      </button>
+                      <button
+                        onClick={() => {
+                          onNavigate("resources", "help");
+                          setMobileMenuOpen(false);
+                        }}
+                        className="w-full text-left px-3 py-1.5 text-[14px] font-medium text-plum/85 hover:text-berry rounded-lg flex items-center justify-between"
+                      >
+                        <span>↳ 🆘 How to Get Help</span>
+                        <span className="text-[10px] text-raspberry font-semibold bg-soft-pink px-2 py-0.5 rounded-full">Hotlines &amp; Clinics</span>
+                      </button>
+                      <button
+                        onClick={() => {
+                          onNavigate("resources", "petitions");
+                          setMobileMenuOpen(false);
+                        }}
+                        className="w-full text-left px-3 py-1.5 text-[14px] font-medium text-plum/85 hover:text-berry rounded-lg flex items-center justify-between"
+                      >
+                        <span>↳ ✍️ Petitions / Take Action</span>
+                        <span className="text-[10px] text-deep-teal font-semibold bg-light-teal px-2 py-0.5 rounded-full">Advocacy</span>
+                      </button>
                     </div>
                   )}
                 </div>

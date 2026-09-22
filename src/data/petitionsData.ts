@@ -143,10 +143,38 @@ export const PETITIONS_DATA: PetitionItem[] = [
     billOrInitiative: "Campus Reproductive Equity Action Network",
     externalUrl: "https://www.change.org/t/reproductive-rights-en-us",
     billUrl: "https://www.change.org/t/reproductive-rights-en-us"
+  },
+  {
+    id: "petition-7",
+    title: "Pass the Black Maternal Health Momnibus Act & Fund 365-Day Postpartum Medicaid",
+    target: "118th U.S. Congress & Federal Department of Health and Human Services (HHS)",
+    summary: "Over 84% of maternal deaths in the U.S. are clinically preventable. Black women are 3 to 4 times more likely to die from pregnancy complications due to systemic dismissal and implicit bias. We call on Congress to pass the complete Momnibus legislative package, mandate 365-day postpartum Medicaid across all states, and fund community doulas.",
+    fullDemands: [
+      "Pass all 13 bills in the bipartisan Black Maternal Health Momnibus Act (H.R. 3305 / S. 1606).",
+      "Mandate continuous 12-month postpartum Medicaid coverage across all 50 states and territories.",
+      "Fund independent Maternal Mortality Review Committees (MMRCs) and hospital anti-bias accountability programs (inspired by 4Kira4Moms).",
+      "Invest in community birth centers, certified midwives, and perinatal mental health infrastructure."
+    ],
+    currentSignatures: 34210,
+    targetSignatures: 50000,
+    category: "policy",
+    location: "Federal / U.S. Capitol",
+    organizer: "Black Mamas Matter Alliance & 4Kira4Moms Youth Advocates",
+    realWorldCampaign: "Black Mamas Matter Alliance (BMMA) & 4Kira4Moms",
+    billOrInitiative: "Black Maternal Health Momnibus Act (H.R. 3305)",
+    externalUrl: "https://blackmamasmatter.org",
+    billUrl: "https://www.congress.gov/bill/118th-congress/house-bill/3305"
   }
 ];
 
 export const REAL_WORLD_ADVOCACY_LINKS: AdvocacyCampaignLink[] = [
+  {
+    title: "Black Maternal Health Momnibus Act & 4Kira4Moms",
+    organization: "Black Mamas Matter Alliance (BMMA) & 4Kira4Moms",
+    description: "Landmark federal legislation to end preventable maternal mortality, protect birthing people, diversify perinatal workforce, and eliminate systemic clinical bias.",
+    url: "https://blackmamasmatter.org",
+    badge: "Maternal Health Bill",
+  },
   {
     title: "Menstrual Equity for All Act & Free School Supplies",
     organization: "PERIOD.org & Alliance for Period Supplies",

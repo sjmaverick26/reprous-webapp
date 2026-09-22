@@ -18,6 +18,7 @@ export default function App() {
   const [activePage, setActivePage] = useState<PageId>("home");
   const [hubCategory, setHubCategory] = useState<string | null>(null);
   const [contactTab, setContactTab] = useState<"feedback" | "ambassador" | "inquiry">("feedback");
+  const [resourceCategory, setResourceCategory] = useState<"all" | "help" | "petitions">("all");
   const [qaAutoOpen, setQaAutoOpen] = useState(false);
   const [currentLang, setCurrentLang] = useState<string>("en");
 
@@ -27,6 +28,12 @@ export default function App() {
       setHubCategory(categoryOrTab || null);
     } else {
       setHubCategory(null);
+    }
+
+    if (page === "resources" && (categoryOrTab === "help" || categoryOrTab === "petitions" || categoryOrTab === "all")) {
+      setResourceCategory(categoryOrTab);
+    } else if (page === "resources") {
+      setResourceCategory("all");
     }
 
     if (page === "qa" && categoryOrTab === "ask") {
@@ -45,6 +52,14 @@ export default function App() {
       if (page === "home" && categoryOrTab) {
         setTimeout(() => {
           const el = document.getElementById(categoryOrTab);
+          if (el) {
+            el.scrollIntoView({ behavior: "smooth", block: "start" });
+          }
+        }, 60);
+      } else if (page === "resources" && categoryOrTab && categoryOrTab !== "all") {
+        setTimeout(() => {
+          const targetId = categoryOrTab === "help" ? "how-to-get-help-section" : "petitions-section";
+          const el = document.getElementById(targetId);
           if (el) {
             el.scrollIntoView({ behavior: "smooth", block: "start" });
           }
@@ -74,7 +89,7 @@ export default function App() {
         {activePage === "story" && <StoryView />}
         {activePage === "hub" && <HubView initialCategory={hubCategory} />}
         {activePage === "workshops" && <WorkshopsView />}
-        {activePage === "resources" && <ResourcesView onNavigate={handleNavigate} />}
+        {activePage === "resources" && <ResourcesView initialCategory={resourceCategory} onNavigate={handleNavigate} />}
         {activePage === "qa" && <QAView autoOpenSubmit={qaAutoOpen} />}
         {activePage === "myths" && <MythsView onNavigate={handleNavigate} />}
         {activePage === "voices" && <VoicesView />}
