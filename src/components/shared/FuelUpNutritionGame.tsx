@@ -456,77 +456,84 @@ export function AthleteCatcherDrawing({ className = "w-full h-full" }: { classNa
         </radialGradient>
       </defs>
 
-      {/* Layer 1: Back Box Braids falling behind shoulders */}
-      <g>
-        <path d="M 32 26 C 24 34 20 46 22 62" stroke="#0B0E14" strokeWidth="4" strokeLinecap="round" />
-        <path d="M 32 26 C 24 34 20 46 22 62" stroke="#374151" strokeWidth="1.2" strokeLinecap="round" strokeDasharray="3,2" />
-        <path d="M 28 30 C 18 38 16 52 18 64" stroke="#0B0E14" strokeWidth="3.5" strokeLinecap="round" />
-        <path d="M 28 30 C 18 38 16 52 18 64" stroke="#374151" strokeWidth="1.2" strokeLinecap="round" strokeDasharray="3,2" />
-        
-        <path d="M 68 26 C 76 34 80 46 78 62" stroke="#0B0E14" strokeWidth="4" strokeLinecap="round" />
-        <path d="M 68 26 C 76 34 80 46 78 62" stroke="#374151" strokeWidth="1.2" strokeLinecap="round" strokeDasharray="3,2" />
-        <path d="M 72 30 C 82 38 84 52 82 64" stroke="#0B0E14" strokeWidth="3.5" strokeLinecap="round" />
-        <path d="M 72 30 C 82 38 84 52 82 64" stroke="#374151" strokeWidth="1.2" strokeLinecap="round" strokeDasharray="3,2" />
-      </g>
+      {/* Layer 1: Solid Back Hair Silhouette (Rounded dome, zero detached wings) */}
+      <path
+        d="M 33 22 A 17 12 0 0 1 67 22 C 75 32, 78 46, 76 66 C 70 68, 60 69, 50 69 C 40 69, 30 68, 24 66 C 22 46, 25 32, 33 22 Z"
+        fill="#0B0E14"
+      />
 
       {/* Layer 2: Head Base & Ears */}
-      <ellipse cx="50" cy="27" rx="13" ry="13" fill="#523321" />
-      <circle cx="37" cy="28" r="2.8" fill="#523321" />
-      <circle cx="63" cy="28" r="2.8" fill="#523321" />
-      <circle cx="37" cy="29.5" r="0.9" fill="#F59E0B" />
-      <circle cx="63" cy="29.5" r="0.9" fill="#F59E0B" />
+      <ellipse cx="50" cy="28" rx="13" ry="14" fill="#523321" />
+      <circle cx="37" cy="29" r="2.8" fill="#523321" />
+      <circle cx="63" cy="29" r="2.8" fill="#523321" />
+      <circle cx="37" cy="30.5" r="0.9" fill="#F59E0B" />
+      <circle cx="63" cy="30.5" r="0.9" fill="#F59E0B" />
 
-      {/* Layer 3: Solid Scalp Cap with Box Parting Grid */}
-      <ellipse cx="50" cy="18" rx="16" ry="10" fill="#0B0E14" />
-      <path d="M 34 26 C 33 12, 67 12, 66 26 C 63 20, 58 17, 50 17 C 42 17, 37 20, 34 26 Z" fill="#0B0E14" />
-      {/* Box Parting Grid lines on scalp */}
-      <line x1="50" y1="9" x2="50" y2="18" stroke="#374151" strokeWidth="1" strokeLinecap="round" />
-      <line x1="42" y1="12" x2="45" y2="18" stroke="#374151" strokeWidth="0.8" />
-      <line x1="58" y1="12" x2="55" y2="18" stroke="#374151" strokeWidth="0.8" />
-
-      {/* Layer 4: Athletic Performance Headband */}
-      <rect x="33" y="16" width="34" height="6.5" rx="3.2" fill="#0D9488" stroke="#115E59" strokeWidth="1" />
-      <circle cx="50" cy="19.2" r="1.8" fill="#F59E0B" />
-
-      {/* Layer 5: Facial Features */}
-      {/* Eyebrows */}
-      <path d="M 42 22 Q 45 20.5 48 22" stroke="#1F2937" strokeWidth="1.6" fill="none" strokeLinecap="round" />
-      <path d="M 52 22 Q 55 20.5 58 22" stroke="#1F2937" strokeWidth="1.6" fill="none" strokeLinecap="round" />
-      {/* Focused, confident eyes */}
-      <circle cx="45" cy="26" r="1.6" fill="#1E293B" />
-      <circle cx="55" cy="26" r="1.6" fill="#1E293B" />
-      <circle cx="45.6" cy="25.4" r="0.5" fill="#FFFFFF" />
-      <circle cx="55.6" cy="25.4" r="0.5" fill="#FFFFFF" />
-      {/* Nose */}
-      <path d="M 50 27 L 49 30 L 51 30" stroke="#3E2517" strokeWidth="1.2" fill="none" strokeLinecap="round" />
-      {/* Radiant athletic smile */}
-      <path d="M 45 33 Q 50 37 55 33" stroke="#FFFFFF" strokeWidth="2.2" strokeLinecap="round" />
-      <path d="M 45 33 Q 50 37 55 33" stroke="#3E2517" strokeWidth="0.8" fill="none" strokeLinecap="round" />
-
-      {/* Layer 6: Neck & Athletic Jersey */}
-      <rect x="46" y="38" width="8" height="6" fill="#3E2517" />
+      {/* Layer 3: Neck & Athletic Jersey */}
+      <rect x="46" y="39" width="8" height="6" fill="#3E2517" />
       <path
-        d="M 38 43 L 62 43 L 66 68 L 34 68 Z"
+        d="M 37 44 L 63 44 L 67 68 L 33 68 Z"
         fill="#0D9488"
         stroke="#115E59"
         strokeWidth="1.5"
       />
       {/* Jersey collar & lightning engine */}
-      <path d="M 45 43 L 50 49 L 55 43 Z" fill="#F47A6A" />
-      <polygon points="51,48 47,54 50,54 48,61 54,53 51,53" fill="#FACC15" />
+      <path d="M 45 44 L 50 50 L 55 44 Z" fill="#F47A6A" />
+      <polygon points="51,49 47,55 50,55 48,62 54,54 51,54" fill="#FACC15" />
 
-      {/* Layer 7: Front Box Braids Drape - Rooted at scalp, draped over jersey */}
+      {/* Layer 4: Box Braids Strands (Rooted at headband & scalp, draping naturally over shoulders) */}
       <g>
-        {/* Left front braid */}
-        <path d="M 36 21 Q 31 34 30 52" stroke="#0B0E14" strokeWidth="3.4" strokeLinecap="round" fill="none" />
-        <path d="M 36 21 Q 31 34 30 52" stroke="#374151" strokeWidth="1" strokeLinecap="round" strokeDasharray="3,2" fill="none" />
-        <rect x="28.5" y="42" width="3" height="2.5" rx="0.5" fill="#F59E0B" />
+        {/* Left Braids */}
+        {/* Inner Left Braid: starts under headband (40, 18), curves past cheek (35, 36) -> (33, 56) -> (33, 66) */}
+        <path d="M 40 18 Q 34 32 33 48 Q 32 58 33 66" stroke="#0B0E14" strokeWidth="3.2" fill="none" />
+        <path d="M 40 18 Q 34 32 33 48 Q 32 58 33 66" stroke="#2D3748" strokeWidth="1" fill="none" strokeDasharray="2.5,2" />
 
-        {/* Right front braid */}
-        <path d="M 64 21 Q 69 34 70 52" stroke="#0B0E14" strokeWidth="3.4" strokeLinecap="round" fill="none" />
-        <path d="M 64 21 Q 69 34 70 52" stroke="#374151" strokeWidth="1" strokeLinecap="round" strokeDasharray="3,2" fill="none" />
-        <rect x="68.5" y="42" width="3" height="2.5" rx="0.5" fill="#F59E0B" />
+        {/* Outer Left Braid: starts under headband (35, 19), hugs head silhouette (27, 34) -> (26, 52) -> (26, 66) */}
+        <path d="M 35 19 Q 27 34 26 48 Q 25 58 26 66" stroke="#0B0E14" strokeWidth="3.2" fill="none" />
+        <path d="M 35 19 Q 27 34 26 48 Q 25 58 26 66" stroke="#2D3748" strokeWidth="1" fill="none" strokeDasharray="2.5,2" />
+
+        {/* Right Braids */}
+        {/* Inner Right Braid: starts under headband (60, 18), curves past cheek (65, 36) -> (67, 48) -> (67, 66) */}
+        <path d="M 60 18 Q 66 32 67 48 Q 68 58 67 66" stroke="#0B0E14" strokeWidth="3.2" fill="none" />
+        <path d="M 60 18 Q 66 32 67 48 Q 68 58 67 66" stroke="#2D3748" strokeWidth="1" fill="none" strokeDasharray="2.5,2" />
+
+        {/* Outer Right Braid: starts under headband (65, 19), hugs head silhouette (73, 34) -> (74, 52) -> (74, 66) */}
+        <path d="M 65 19 Q 73 34 74 48 Q 75 58 74 66" stroke="#0B0E14" strokeWidth="3.2" fill="none" />
+        <path d="M 65 19 Q 73 34 74 48 Q 75 58 74 66" stroke="#2D3748" strokeWidth="1" fill="none" strokeDasharray="2.5,2" />
+
+        {/* Gold Braid Cuffs clamped on braids */}
+        <rect x="31.5" y="48" width="3" height="2.5" rx="0.5" fill="#F59E0B" />
+        <rect x="65.5" y="48" width="3" height="2.5" rx="0.5" fill="#F59E0B" />
+        <rect x="24.5" y="58" width="3" height="2.5" rx="0.5" fill="#F59E0B" />
+        <rect x="72.5" y="58" width="3" height="2.5" rx="0.5" fill="#F59E0B" />
       </g>
+
+      {/* Layer 5: Scalp Dome & Athletic Headband (Rendered OVER braid roots so roots are 100% attached and concealed) */}
+      <g>
+        {/* Scalp dome top */}
+        <path d="M 33 22 A 17 12 0 0 1 67 22 C 64 19, 58 16, 50 16 C 42 16, 36 19, 33 22 Z" fill="#0B0E14" />
+        {/* High athletic headband (positioned cleanly above eyebrows at y=15-20.5) */}
+        <rect x="33.5" y="15" width="33" height="5.5" rx="2.7" fill="#0D9488" stroke="#115E59" strokeWidth="1" />
+        <circle cx="50" cy="17.7" r="1.5" fill="#F59E0B" />
+      </g>
+
+      {/* Layer 6: Facial Features (Open forehead, radiant athletic confidence) */}
+      {/* Eyebrows (Arched, cleanly positioned at y=23-24) */}
+      <path d="M 42 23 Q 45 21.5 48 23" stroke="#1F2937" strokeWidth="1.6" fill="none" strokeLinecap="round" />
+      <path d="M 52 23 Q 55 21.5 58 23" stroke="#1F2937" strokeWidth="1.6" fill="none" strokeLinecap="round" />
+
+      {/* Focused, bright eyes at y=27.5 */}
+      <circle cx="45" cy="27.5" r="1.6" fill="#1E293B" />
+      <circle cx="55" cy="27.5" r="1.6" fill="#1E293B" />
+      <circle cx="45.6" cy="26.9" r="0.5" fill="#FFFFFF" />
+      <circle cx="55.6" cy="26.9" r="0.5" fill="#FFFFFF" />
+
+      {/* Nose */}
+      <path d="M 50 28.5 L 49 31.5 L 51 31.5" stroke="#3E2517" strokeWidth="1.2" fill="none" strokeLinecap="round" />
+
+      {/* Confident athletic smile */}
+      <path d="M 45 34.5 Q 50 38.5 55 34.5" stroke="#FFFFFF" strokeWidth="2.2" strokeLinecap="round" />
+      <path d="M 45 34.5 Q 50 38.5 55 34.5" stroke="#3E2517" strokeWidth="0.8" fill="none" strokeLinecap="round" />
 
       {/* Layer 8: Muscular Arms holding up the bowl */}
       {/* Left arm */}
