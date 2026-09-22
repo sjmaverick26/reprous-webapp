@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect, useRef, useCallback } from "react";
 import {
   Trophy,
   Sparkles,
@@ -25,6 +25,9 @@ import {
   ChevronDown,
   ChevronUp,
   Flame,
+  ArrowLeft,
+  ArrowRight,
+  AlertTriangle,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { HubTopic } from "@/data/hubData";
@@ -435,6 +438,121 @@ export function SuperpowerDrawing({ id, className = "w-full h-full" }: { id: str
 }
 
 // ============================================================================
+// ATHLETE CATCHER ILLUSTRATION (ATHLETE HOLDING PREGAME GOLDEN BOWL)
+// ============================================================================
+
+export function AthleteCatcherDrawing({ className = "w-full h-full" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 100 110" fill="none" className={className}>
+      <defs>
+        <linearGradient id="goldenBowlGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#FDE047" />
+          <stop offset="50%" stopColor="#F59E0B" />
+          <stop offset="100%" stopColor="#D97706" />
+        </linearGradient>
+        <radialGradient id="bowlInteriorGlow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stopColor="#FEF08A" stopOpacity="0.9" />
+          <stop offset="100%" stopColor="#F59E0B" stopOpacity="0.3" />
+        </radialGradient>
+      </defs>
+
+      {/* Athlete Hair / Braids behind head */}
+      <path
+        d="M 32 30 C 24 36 22 50 25 58"
+        stroke="#1E1B4B"
+        strokeWidth="4"
+        strokeLinecap="round"
+      />
+      <path
+        d="M 68 30 C 76 36 78 50 75 58"
+        stroke="#1E1B4B"
+        strokeWidth="4"
+        strokeLinecap="round"
+      />
+      <path
+        d="M 28 34 C 20 42 19 54 21 62"
+        stroke="#312E81"
+        strokeWidth="3"
+        strokeLinecap="round"
+      />
+      <path
+        d="M 72 34 C 80 42 81 54 79 62"
+        stroke="#312E81"
+        strokeWidth="3"
+        strokeLinecap="round"
+      />
+
+      {/* Head & Hair Top */}
+      <circle cx="50" cy="24" r="17" fill="#1E1B4B" />
+
+      {/* Athletic Headband */}
+      <rect x="34" y="16" width="32" height="7" rx="3.5" fill="#F43F5E" />
+      <circle cx="50" cy="19.5" r="2" fill="#FFE4E6" />
+
+      {/* Face */}
+      <ellipse cx="50" cy="27" rx="13" ry="12" fill="#854D0E" />
+      {/* Ears */}
+      <circle cx="37" cy="27" r="2.8" fill="#854D0E" />
+      <circle cx="63" cy="27" r="2.8" fill="#854D0E" />
+
+      {/* Eyes & Athletic Smile */}
+      <circle cx="45" cy="26" r="1.6" fill="#1E1B4B" />
+      <circle cx="55" cy="26" r="1.6" fill="#1E1B4B" />
+      <path d="M 45 32 Q 50 36 55 32" stroke="#FFFFFF" strokeWidth="1.8" strokeLinecap="round" />
+
+      {/* Neck & Jersey */}
+      <rect x="46" y="38" width="8" height="6" fill="#854D0E" />
+      <path
+        d="M 38 43 L 62 43 L 66 68 L 34 68 Z"
+        fill="#0D9488"
+        stroke="#115E59"
+        strokeWidth="1.5"
+      />
+
+      {/* Jersey Energy Lightning Emblem */}
+      <polygon points="51,46 46,54 50,54 48,62 55,52 51,52" fill="#FACC15" />
+
+      {/* Muscular Arms holding up the bowl */}
+      {/* Left arm */}
+      <path
+        d="M 36 46 Q 20 54 18 66 Q 20 73 28 73"
+        stroke="#854D0E"
+        strokeWidth="6"
+        strokeLinecap="round"
+        fill="none"
+      />
+      {/* Right arm */}
+      <path
+        d="M 64 46 Q 80 54 82 66 Q 80 73 72 73"
+        stroke="#854D0E"
+        strokeWidth="6"
+        strokeLinecap="round"
+        fill="none"
+      />
+
+      {/* Wristbands */}
+      <rect x="23" y="68" width="6" height="5" rx="2" fill="#F43F5E" transform="rotate(-15 26 70)" />
+      <rect x="71" y="68" width="6" height="5" rx="2" fill="#F43F5E" transform="rotate(15 74 70)" />
+
+      {/* Golden Catching Bowl */}
+      {/* Outer base and curve */}
+      <path
+        d="M 12 68 C 14 93 86 93 88 68 Z"
+        fill="url(#goldenBowlGrad)"
+        stroke="#B45309"
+        strokeWidth="2"
+      />
+      {/* Inner bowl opening ellipse */}
+      <ellipse cx="50" cy="68" rx="38" ry="11" fill="#FEF3C7" stroke="#D97706" strokeWidth="2" />
+      {/* Glowing food catchment landing zone */}
+      <ellipse cx="50" cy="69" rx="30" ry="7" fill="url(#bowlInteriorGlow)" />
+      {/* Rim highlight */}
+      <path d="M 20 67 Q 50 75 80 67" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" opacity="0.8" />
+    </svg>
+  );
+}
+
+// ============================================================================
 // GAME 1 DATA: VISUAL MATCHING CARDS (PICTURE-FIRST, 1-LINE CONCISE)
 // ============================================================================
 
@@ -622,66 +740,125 @@ const MIXER_PANTRY_ITEMS: MixerFoodItem[] = [
 ];
 
 // ============================================================================
-// GAME 3 DATA: RAPID SORTER ("SUPER FUEL OR HAZARD?")
+// GAME 3 DATA: PREGAME BOWL CATCHER ("CATCH 10 GOOD PREGAME FUELS")
 // ============================================================================
 
-interface SorterCardItem {
-  id: number;
-  title: string;
+export interface CatcherFoodItem {
+  id: string;
+  name: string;
   drawingId: string;
-  subtitle: string;
-  isSuperFuel: boolean;
+  isGood: boolean;
+  category: string;
   takeaway: string;
 }
 
-const SORTER_CARDS: SorterCardItem[] = [
+export interface FallingFoodItem {
+  uid: number;
+  food: CatcherFoodItem;
+  x: number; // percentage across arena width (12% to 88%)
+  y: number; // percentage down arena height (-8% to 100%)
+  speed: number; // fall rate per tick
+}
+
+export const CATCHER_FOOD_ITEMS: CatcherFoodItem[] = [
+  // Good pregame fuels (high carb, easily digested, low fat/moderate fiber, hydration)
   {
-    id: 1,
-    title: "Banana & Honey Toast (2h Pre-Game)",
+    id: "banana",
+    name: "Ripe Banana",
     drawingId: "banana",
-    subtitle: "Fast-digesting simple carbs with low fat.",
-    isSuperFuel: true,
-    takeaway: "Tops off sprint glycogen with zero stomach cramps!",
+    isGood: true,
+    category: "Fast Glycogen",
+    takeaway: "Tops off sprint glycogen rapidly with zero stomach cramps!",
   },
   {
-    id: 2,
-    title: "Double Bacon Burger Before Kickoff",
-    drawingId: "burger_hazard",
-    subtitle: "Heavy saturated fats and fried grease.",
-    isSuperFuel: false,
-    takeaway: "Slows digestion by 3+ hours, causing heavy legs & cramps.",
+    id: "rolled_oats",
+    name: "Oatmeal Bowl",
+    drawingId: "rolled_oats",
+    isGood: true,
+    category: "Complex Carbs",
+    takeaway: "Provides sustained stamina glucose through the final whistle!",
   },
   {
-    id: 3,
-    title: "Spinach Salad + Fresh Orange Slices",
+    id: "sweet_potato",
+    name: "Sweet Potato",
+    drawingId: "sweet_potato",
+    isGood: true,
+    category: "Stamina Fuel",
+    takeaway: "Smooth, low-GI carb that prevents late-game muscular bonking!",
+  },
+  {
+    id: "energy_gel",
+    name: "Energy Gel",
+    drawingId: "energy_gel",
+    isGood: true,
+    category: "Instant Spark",
+    takeaway: "Rapid simple carbs ready for instantaneous sprint power!",
+  },
+  {
+    id: "orange_citrus",
+    name: "Orange Wheels",
     drawingId: "orange_citrus",
-    subtitle: "Non-heme iron combined with natural Vitamin C.",
-    isSuperFuel: true,
-    takeaway: "Vitamin C triples gut iron absorption to fight sports anemia!",
+    isGood: true,
+    category: "Vitamin C & Carbs",
+    takeaway: "Natural fructose plus Vitamin C to support cellular resilience!",
   },
   {
-    id: 4,
-    title: "Black Coffee Directly With Iron Meal",
-    drawingId: "coffee_blocker",
-    subtitle: "Tannins & caffeine taken simultaneously with iron.",
-    isSuperFuel: false,
-    takeaway: "Tannins bind up to 60% of dietary iron, blocking absorption.",
+    id: "watermelon_electrolytes",
+    name: "Watermelon Slice",
+    drawingId: "watermelon_electrolytes",
+    isGood: true,
+    category: "Electrolyte Hydration",
+    takeaway: "Rapid fluid and potassium to actively prevent muscle cramping!",
   },
   {
-    id: 5,
-    title: "Greek Yogurt & Wild Berries (30m Window)",
-    drawingId: "greek_yogurt",
-    subtitle: "Carbohydrates plus leucine protein post-workout.",
-    isSuperFuel: true,
-    takeaway: "Halts muscle catabolism and doubles glycogen reloading!",
+    id: "wild_berries",
+    name: "Wild Berries",
+    drawingId: "wild_berries",
+    isGood: true,
+    category: "Antioxidants",
+    takeaway: "Low-acid polyphenol fuel that shields tired muscle cells!",
   },
   {
-    id: 6,
-    title: "Skipping Meals To 'Stay Lean'",
+    id: "chocolate_milk",
+    name: "3:1 Fuel Glass",
+    drawingId: "chocolate_milk",
+    isGood: true,
+    category: "Hydrating Fuel",
+    takeaway: "Fluid carbohydrate primer that protects muscle tissue integrity!",
+  },
+
+  // Bad pregame hazards (heavy grease, high saturated fat, sugar spikes, gut irritants)
+  {
+    id: "burger_hazard",
+    name: "Greasy Burger",
+    drawingId: "burger_hazard",
+    isGood: false,
+    category: "Heavy Grease Hazard",
+    takeaway: "30g+ heavy fat delays digestion 3+ hours, stealing blood from legs and triggering severe cramps!",
+  },
+  {
+    id: "donut_hazard",
+    name: "Glazed Donut",
     drawingId: "donut_hazard",
-    subtitle: "Severe calorie restriction while training.",
-    isSuperFuel: false,
-    takeaway: "RED-S trigger! Suppresses estrogen and weakens bones.",
+    isGood: false,
+    category: "Sugar Crash Hazard",
+    takeaway: "Fried trans fats and sugar spikes cause reactive hypoglycemia, leaving you sluggish at kickoff!",
+  },
+  {
+    id: "soda_hazard",
+    name: "Sugary Soda",
+    drawingId: "soda_hazard",
+    isGood: false,
+    category: "GI Bloating Hazard",
+    takeaway: "Carbonation and high-fructose syrup induce painful gut bloating, nausea, and sharp side stitches!",
+  },
+  {
+    id: "coffee_blocker",
+    name: "Espresso Mug",
+    drawingId: "coffee_blocker",
+    isGood: false,
+    category: "Stomach Blocker Hazard",
+    takeaway: "Acidic caffeine on an anxious stomach provokes GI spasms and blocks essential iron uptake!",
   },
 ];
 
@@ -890,44 +1067,167 @@ export function FuelUpNutritionGame({
   };
 
   // --------------------------------------------------------------------------
-  // GAME 3: RAPID SORTER STATE
+  // GAME 3: PREGAME BOWL CATCHER STATE & GAME LOOP
   // --------------------------------------------------------------------------
-  const [sorterIdx, setSorterIdx] = useState<number>(0);
-  const [sorterStreak, setSorterStreak] = useState<number>(0);
-  const [sorterFeedback, setSorterFeedback] = useState<{ isCorrect: boolean; text: string } | null>(null);
-  const [isSorterFinished, setIsSorterFinished] = useState<boolean>(false);
+  const [catcherX, setCatcherX] = useState<number>(50); // percentage 12% to 88%
+  const [catcherHearts, setCatcherHearts] = useState<number>(3);
+  const [goodFoodsCaught, setGoodFoodsCaught] = useState<number>(0); // 0 to 10
+  const [catcherStatus, setCatcherStatus] = useState<"playing" | "game_over" | "victory">("playing");
+  const [fallingFoods, setFallingFoods] = useState<FallingFoodItem[]>([]);
+  const [catcherToast, setCatcherToast] = useState<{ isGood: boolean; text: string } | null>(null);
+  const [isCatchingImpact, setIsCatchingImpact] = useState<boolean>(false);
+  const [isDamageShake, setIsDamageShake] = useState<boolean>(false);
+  const [isDraggingArena, setIsDraggingArena] = useState<boolean>(false);
 
-  const handleSortChoice = (choseSuperFuel: boolean) => {
-    const card = SORTER_CARDS[sorterIdx];
-    if (!card) return;
+  const arenaRef = useRef<HTMLDivElement>(null);
+  const nextFallingUidRef = useRef<number>(1);
+  const catcherXRef = useRef<number>(catcherX);
+  catcherXRef.current = catcherX;
+  const catcherHeartsRef = useRef<number>(catcherHearts);
+  catcherHeartsRef.current = catcherHearts;
+  const goodFoodsCaughtRef = useRef<number>(goodFoodsCaught);
+  goodFoodsCaughtRef.current = goodFoodsCaught;
+  const catcherStatusRef = useRef<"playing" | "game_over" | "victory">(catcherStatus);
+  catcherStatusRef.current = catcherStatus;
 
-    const isCorrect = choseSuperFuel === card.isSuperFuel;
-    if (isCorrect) {
-      setGlobalScore((s) => s + 50 + sorterStreak * 10);
-      setSorterStreak((st) => st + 1);
-      setSorterFeedback({ isCorrect: true, text: card.takeaway });
-    } else {
-      setSorterStreak(0);
-      setSorterFeedback({ isCorrect: false, text: card.takeaway });
+  // Reset Catcher (Restart game with 3 hearts and 0/10 good foods)
+  const handleResetCatcher = useCallback(() => {
+    setCatcherHearts(3);
+    catcherHeartsRef.current = 3;
+    setGoodFoodsCaught(0);
+    goodFoodsCaughtRef.current = 0;
+    setCatcherStatus("playing");
+    catcherStatusRef.current = "playing";
+    setFallingFoods([]);
+    setCatcherToast(null);
+    setCatcherX(50);
+    catcherXRef.current = 50;
+    setIsCatchingImpact(false);
+    setIsDamageShake(false);
+    setIsDraggingArena(false);
+  }, []);
+
+  // Update catcher position from direct pointer events on the arena
+  const updateCatcherFromPointer = useCallback((clientX: number) => {
+    if (catcherStatusRef.current !== "playing" || !arenaRef.current) return;
+    const rect = arenaRef.current.getBoundingClientRect();
+    if (rect.width <= 0) return;
+    const pct = ((clientX - rect.left) / rect.width) * 100;
+    const clamped = Math.max(12, Math.min(88, pct));
+    setCatcherX(Math.round(clamped));
+  }, []);
+
+  const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
+    setIsDraggingArena(true);
+    updateCatcherFromPointer(e.clientX);
+  };
+
+  const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (!isDraggingArena && e.buttons !== 1) return;
+    updateCatcherFromPointer(e.clientX);
+  };
+
+  const handlePointerUp = () => {
+    setIsDraggingArena(false);
+  };
+
+  // Game Loop Tick & Spawner
+  useEffect(() => {
+    if (activeTab !== "sorter" || catcherStatus !== "playing") {
+      return;
     }
-  };
 
-  const handleNextSorter = () => {
-    setSorterFeedback(null);
-    if (sorterIdx < SORTER_CARDS.length - 1) {
-      setSorterIdx((i) => i + 1);
-    } else {
-      setIsSorterFinished(true);
-      setCompletedGames((prev) => new Set(prev).add("sorter"));
-    }
-  };
+    let spawnTimer = 0;
 
-  const handleResetSorter = () => {
-    setSorterIdx(0);
-    setSorterStreak(0);
-    setSorterFeedback(null);
-    setIsSorterFinished(false);
-  };
+    const interval = setInterval(() => {
+      if (catcherStatusRef.current !== "playing") return;
+
+      spawnTimer += 45;
+
+      setFallingFoods((currentFoods) => {
+        const updatedFoods = currentFoods.map((item) => ({
+          ...item,
+          y: item.y + item.speed,
+        }));
+
+        const currentX = catcherXRef.current;
+        const remainingFoods: FallingFoodItem[] = [];
+
+        for (const item of updatedFoods) {
+          // Collision window: y between 68% and 84%, horizontal distance within 13%
+          const isHit = item.y >= 68 && item.y <= 84 && Math.abs(item.x - currentX) <= 13;
+
+          if (isHit) {
+            if (item.food.isGood) {
+              // Good pregame food caught!
+              const nextCount = goodFoodsCaughtRef.current + 1;
+              goodFoodsCaughtRef.current = nextCount;
+              setGoodFoodsCaught(nextCount);
+              setGlobalScore((s) => s + 25);
+              setCatcherToast({ isGood: true, text: `+1 Good Fuel! ${item.food.name}: ${item.food.takeaway}` });
+              setIsCatchingImpact(true);
+              setTimeout(() => setIsCatchingImpact(false), 300);
+
+              if (nextCount >= 10) {
+                catcherStatusRef.current = "victory";
+                setCatcherStatus("victory");
+                setCompletedGames((prev) => new Set(prev).add("sorter"));
+                setGlobalScore((s) => s + 300);
+              }
+            } else {
+              // Bad pregame hazard caught!
+              const nextHearts = Math.max(0, catcherHeartsRef.current - 1);
+              catcherHeartsRef.current = nextHearts;
+              setCatcherHearts(nextHearts);
+              setCatcherToast({ isGood: false, text: `Gut Distress! ${item.food.name}: ${item.food.takeaway}` });
+              setIsDamageShake(true);
+              setTimeout(() => setIsDamageShake(false), 500);
+
+              if (nextHearts <= 0) {
+                catcherStatusRef.current = "game_over";
+                setCatcherStatus("game_over");
+              }
+            }
+            // Caught item consumed
+            continue;
+          }
+
+          // Off bottom of arena screen
+          if (item.y > 96) {
+            continue;
+          }
+
+          remainingFoods.push(item);
+        }
+
+        // Spawn a new item if fewer than 3 on screen
+        if (spawnTimer >= 1050 && remainingFoods.length < 3 && catcherStatusRef.current === "playing") {
+          spawnTimer = 0;
+          // ~65% chance good pregame food, ~35% chance hazard
+          const isGoodChoice = Math.random() < 0.65;
+          const pool = isGoodChoice
+            ? CATCHER_FOOD_ITEMS.filter((f) => f.isGood)
+            : CATCHER_FOOD_ITEMS.filter((f) => !f.isGood);
+          const food = pool[Math.floor(Math.random() * pool.length)];
+
+          const x = Math.floor(Math.random() * 70) + 15;
+          const speed = 0.95 + Math.random() * 0.45;
+
+          remainingFoods.push({
+            uid: nextFallingUidRef.current++,
+            food,
+            x,
+            y: -8,
+            speed,
+          });
+        }
+
+        return remainingFoods;
+      });
+    }, 45);
+
+    return () => clearInterval(interval);
+  }, [activeTab, catcherStatus]);
 
   // --------------------------------------------------------------------------
   // GAME 4: TIMING CLOCK STATE
@@ -1085,9 +1385,9 @@ export function FuelUpNutritionGame({
             }`}
           >
             <div className="w-5 h-5 shrink-0">
-              <FoodDrawing id="banana" />
+              <AthleteCatcherDrawing className="w-full h-full" />
             </div>
-            <span>3. Fuel vs Hazard</span>
+            <span>3. Bowl Catcher</span>
             {completedGames.has("sorter") && <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />}
           </button>
 
@@ -1483,7 +1783,7 @@ export function FuelUpNutritionGame({
                   onClick={() => setActiveTab("sorter")}
                   className="bg-deep-teal hover:bg-deep-teal/90 text-white font-bold text-xs rounded-xl px-4 py-2"
                 >
-                  <span>Play Fuel vs Hazard</span>
+                  <span>Play Bowl Catcher</span>
                   <ChevronRight className="w-4 h-4 ml-1" />
                 </Button>
               </div>
@@ -1492,135 +1792,293 @@ export function FuelUpNutritionGame({
         )}
 
         {/* ================================================================= */}
-        {/* GAME 3: RAPID FOOD SORTER ("FUEL OR HAZARD?")                     */}
+        {/* GAME 3: PREGAME BOWL CATCHER ("CATCH 10 GOOD PREGAME FUELS")       */}
         {/* ================================================================= */}
         {activeTab === "sorter" && (
-          <div className="space-y-4 animate-in fade-in duration-200">
-            <div className="flex items-center justify-between gap-2">
-              <div className="flex items-center gap-2">
-                <span className="text-xs font-bold font-sans bg-amber-50 text-amber-900 px-3 py-0.5 rounded-full border border-amber-200">
-                  Card {sorterIdx + 1} of {SORTER_CARDS.length}
-                </span>
-                {sorterStreak > 1 && (
-                  <span className="text-xs font-bold font-sans text-rose-600 flex items-center gap-1">
-                    <Flame className="w-3.5 h-3.5 text-rose-500 fill-rose-500" />
-                    {sorterStreak}x Streak!
+          <div className="space-y-3 sm:space-y-4 animate-in fade-in duration-200">
+            {/* Status Header: Lives, Goal Counter, Restart */}
+            <div className="flex flex-wrap items-center justify-between gap-2 bg-slate-50 p-2.5 sm:p-3 rounded-2xl border border-slate-200">
+              <div className="flex items-center gap-3 flex-wrap">
+                {/* 3 Hearts Lives */}
+                <div className="flex items-center gap-1.5 bg-white border border-rose-200 px-3 py-1 rounded-full shadow-2xs">
+                  <span className="text-xs font-bold font-sans text-rose-950 mr-0.5">Lives:</span>
+                  {[1, 2, 3].map((heartIndex) => (
+                    <Heart
+                      key={heartIndex}
+                      className={`w-4 h-4 transition-all duration-200 ${
+                        heartIndex <= catcherHearts
+                          ? "text-rose-600 fill-rose-600 scale-105 drop-shadow-xs"
+                          : "text-slate-300 fill-slate-200 scale-90"
+                      }`}
+                    />
+                  ))}
+                </div>
+
+                {/* 10 Good Foods Goal Progress */}
+                <div className="flex items-center gap-2 bg-white border border-amber-200 px-3 py-1 rounded-full shadow-2xs">
+                  <span className="text-xs font-bold font-sans text-amber-950">
+                    Fuel Goal: <strong className="text-deep-teal font-extrabold">{goodFoodsCaught} / 10</strong> Good Foods
                   </span>
-                )}
+                  <div className="w-16 sm:w-24 h-2.5 bg-amber-100 rounded-full overflow-hidden border border-amber-200">
+                    <div
+                      className="h-full bg-emerald-600 transition-all duration-300 rounded-full"
+                      style={{ width: `${Math.min(100, (goodFoodsCaught / 10) * 100)}%` }}
+                    />
+                  </div>
+                </div>
               </div>
 
               <Button
                 variant="outline"
                 size="sm"
-                onClick={handleResetSorter}
-                className="text-xs h-7 rounded-xl border-slate-300"
+                onClick={handleResetCatcher}
+                className="text-xs h-7 rounded-xl border-slate-300 hover:bg-slate-100 cursor-pointer"
               >
                 <RotateCcw className="w-3 h-3 mr-1" /> Restart
               </Button>
             </div>
 
-            {!isSorterFinished ? (
-              (() => {
-                const card = SORTER_CARDS[sorterIdx];
-                const hasAnswered = sorterFeedback !== null;
-
-                return (
-                  <div className="max-w-md mx-auto p-4 sm:p-6 rounded-3xl bg-slate-50 border-2 border-slate-200 text-center space-y-4 shadow-sm">
-                    {/* Big Drawing */}
-                    <div className="w-24 h-24 sm:w-28 sm:h-28 mx-auto drop-shadow-md">
-                      <FoodDrawing id={card.drawingId} />
-                    </div>
-
-                    <div className="space-y-1">
-                      <h4 className="text-base sm:text-lg font-serif font-bold text-deep-teal m-0">
-                        {card.title}
-                      </h4>
-                      <p className="text-xs text-charcoal/70 font-sans m-0">
-                        {card.subtitle}
-                      </p>
-                    </div>
-
-                    {/* Fast Action Buttons */}
-                    <div className="grid grid-cols-2 gap-3 pt-1">
-                      <button
-                        type="button"
-                        onClick={() => handleSortChoice(true)}
-                        disabled={hasAnswered}
-                        className={`py-3 px-3 rounded-2xl font-bold text-xs sm:text-sm transition-all flex items-center justify-center gap-1.5 border-2 cursor-pointer shadow-xs ${
-                          hasAnswered
-                            ? card.isSuperFuel
-                              ? "bg-emerald-600 text-white border-emerald-600 ring-4 ring-emerald-300"
-                              : "bg-slate-100 text-slate-400 border-slate-200 opacity-40"
-                            : "bg-emerald-50 hover:bg-emerald-100 text-emerald-950 border-emerald-300 hover:scale-102"
-                        }`}
-                      >
-                        <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-                        <span>SUPER FUEL</span>
-                      </button>
-
-                      <button
-                        type="button"
-                        onClick={() => handleSortChoice(false)}
-                        disabled={hasAnswered}
-                        className={`py-3 px-3 rounded-2xl font-bold text-xs sm:text-sm transition-all flex items-center justify-center gap-1.5 border-2 cursor-pointer shadow-xs ${
-                          hasAnswered
-                            ? !card.isSuperFuel
-                              ? "bg-emerald-600 text-white border-emerald-600 ring-4 ring-emerald-300"
-                              : "bg-slate-100 text-slate-400 border-slate-200 opacity-40"
-                            : "bg-rose-50 hover:bg-rose-100 text-rose-950 border-rose-300 hover:scale-102"
-                        }`}
-                      >
-                        <XCircle className="w-4 h-4 text-rose-600" />
-                        <span>HAZARD</span>
-                      </button>
-                    </div>
-
-                    {/* Feedback Drawer */}
-                    {hasAnswered && (
-                      <div
-                        className={`p-3 rounded-2xl border-2 space-y-1.5 text-left animate-in fade-in duration-200 ${
-                          sorterFeedback.isCorrect
-                            ? "bg-emerald-50 border-emerald-300 text-emerald-950"
-                            : "bg-rose-50 border-rose-300 text-rose-950"
-                        }`}
-                      >
-                        <p className="text-xs sm:text-sm font-semibold m-0 font-sans">
-                          {sorterFeedback.text}
-                        </p>
-
-                        <div className="flex justify-end pt-1">
-                          <Button
-                            onClick={handleNextSorter}
-                            className="px-4 py-1.5 h-8 rounded-xl font-bold text-xs bg-deep-teal text-white hover:bg-deep-teal/90 shadow-xs flex items-center gap-1 cursor-pointer"
-                          >
-                            <span>{sorterIdx < SORTER_CARDS.length - 1 ? "Next Card" : "Finish Sorter"}</span>
-                            <ChevronRight className="w-3.5 h-3.5" />
-                          </Button>
-                        </div>
-                      </div>
-                    )}
+            {/* In-Game Active Arena */}
+            {catcherStatus === "playing" && (
+              <div className="space-y-3">
+                {/* Catching Arena Canvas */}
+                <div
+                  ref={arenaRef}
+                  onPointerDown={handlePointerDown}
+                  onPointerMove={handlePointerMove}
+                  onPointerUp={handlePointerUp}
+                  onPointerLeave={handlePointerUp}
+                  className={`relative w-full h-80 sm:h-96 rounded-3xl overflow-hidden border-2 select-none touch-none cursor-ew-resize transition-all duration-150 ${
+                    isDamageShake
+                      ? "bg-rose-100/90 border-rose-500 ring-4 ring-rose-200"
+                      : isCatchingImpact
+                      ? "bg-emerald-50/90 border-emerald-400 ring-4 ring-emerald-200"
+                      : "bg-gradient-to-b from-sky-50 via-teal-50/30 to-amber-50/50 border-teal-300 shadow-inner"
+                  }`}
+                >
+                  {/* Subtle Athletic Field / Pitch Markings */}
+                  <div className="absolute inset-0 pointer-events-none opacity-20">
+                    <div className="absolute top-0 bottom-0 left-1/4 border-r-2 border-dashed border-teal-600" />
+                    <div className="absolute top-0 bottom-0 left-2/4 border-r-2 border-teal-600" />
+                    <div className="absolute top-0 bottom-0 left-3/4 border-r-2 border-dashed border-teal-600" />
                   </div>
-                );
-              })()
-            ) : (
-              <div className="p-6 rounded-3xl bg-gradient-to-r from-emerald-50 to-teal-50 border-2 border-emerald-300 text-center space-y-3 animate-in zoom-in-95">
-                <div className="w-12 h-12 rounded-full bg-emerald-600 text-white flex items-center justify-center mx-auto shadow-xs">
-                  <Trophy className="w-6 h-6 text-amber-300" />
+
+                  {/* Bowl Catchline Target Indicator */}
+                  <div className="absolute left-0 right-0 top-[76%] border-t-2 border-dashed border-teal-400/50 pointer-events-none flex items-center justify-between px-3">
+                    <span className="text-[10px] font-bold text-teal-800/60 uppercase tracking-widest font-sans">
+                      Catch Zone
+                    </span>
+                    <span className="text-[10px] font-bold text-teal-800/60 uppercase tracking-widest font-sans">
+                      Avoid Hazards
+                    </span>
+                  </div>
+
+                  {/* Falling Foods */}
+                  {fallingFoods.map((item) => (
+                    <div
+                      key={item.uid}
+                      style={{
+                        left: `${item.x}%`,
+                        top: `${item.y}%`,
+                        transform: "translate(-50%, -50%)",
+                      }}
+                      className="absolute pointer-events-none transition-transform duration-75 flex flex-col items-center z-10"
+                    >
+                      <div
+                        className={`w-12 h-12 sm:w-14 sm:h-14 p-1.5 rounded-2xl bg-white/95 border-2 shadow-md flex items-center justify-center transition-transform ${
+                          item.food.isGood
+                            ? "border-emerald-400 ring-2 ring-emerald-200/80 drop-shadow-sm"
+                            : "border-rose-500 ring-2 ring-rose-200/80 drop-shadow-sm"
+                        }`}
+                      >
+                        <FoodDrawing id={item.food.drawingId} className="w-full h-full" />
+                      </div>
+                      <span
+                        className={`text-[9.5px] font-bold px-1.5 py-0.5 rounded-md mt-0.5 whitespace-nowrap shadow-2xs font-sans ${
+                          item.food.isGood
+                            ? "bg-emerald-600 text-white"
+                            : "bg-rose-600 text-white"
+                        }`}
+                      >
+                        {item.food.name}
+                      </span>
+                    </div>
+                  ))}
+
+                  {/* Athlete Catcher holding the Golden Bowl */}
+                  <div
+                    style={{
+                      left: `${catcherX}%`,
+                      bottom: "4px",
+                      transform: "translateX(-50%)",
+                    }}
+                    className="absolute pointer-events-none transition-transform duration-75 flex flex-col items-center z-20"
+                  >
+                    {/* Splash / Flash Impact effect */}
+                    {isCatchingImpact && (
+                      <div className="absolute -top-4 w-24 h-10 rounded-full bg-emerald-300/70 blur-md animate-ping" />
+                    )}
+                    {isDamageShake && (
+                      <div className="absolute -top-4 w-24 h-10 rounded-full bg-rose-400/80 blur-md animate-ping" />
+                    )}
+
+                    <div
+                      className={`w-24 h-24 sm:w-28 sm:h-28 drop-shadow-lg transition-transform ${
+                        isCatchingImpact ? "scale-110" : ""
+                      } ${isDamageShake ? "scale-95 rotate-3" : ""}`}
+                    >
+                      <AthleteCatcherDrawing className="w-full h-full" />
+                    </div>
+                  </div>
+
+                  {/* Toast Pop-up Notification inside arena */}
+                  {catcherToast && (
+                    <div
+                      className={`absolute top-3 left-4 right-4 sm:left-8 sm:right-8 p-2 rounded-2xl border text-xs sm:text-sm font-sans font-semibold flex items-center gap-2 shadow-md animate-in fade-in slide-in-from-top-2 duration-150 z-30 pointer-events-none ${
+                        catcherToast.isGood
+                          ? "bg-emerald-500 text-white border-emerald-600"
+                          : "bg-rose-600 text-white border-rose-700"
+                      }`}
+                    >
+                      {catcherToast.isGood ? (
+                        <CheckCircle2 className="w-4 h-4 text-white shrink-0" />
+                      ) : (
+                        <AlertTriangle className="w-4 h-4 text-amber-200 shrink-0" />
+                      )}
+                      <span className="flex-1 truncate">{catcherToast.text}</span>
+                    </div>
+                  )}
                 </div>
-                <h4 className="text-lg font-serif font-bold text-deep-teal m-0">
-                  Rapid Sorter Completed! (+300 PTS)
-                </h4>
-                <p className="text-xs text-charcoal/70 font-sans max-w-sm mx-auto m-0">
-                  All 6 sports nutrition fuels diagnosed cleanly with visual speed!
+
+                {/* Tactile Slider & Controls */}
+                <div className="p-3 sm:p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
+                  <div className="flex items-center justify-between text-xs font-bold font-sans text-charcoal/80">
+                    <span className="flex items-center gap-1.5">
+                      <span>🕹️</span>
+                      <span>Drag the Slider or Field to move Maya & Bowl:</span>
+                    </span>
+                    <span className="text-[11px] text-teal-800 bg-teal-50 px-2 py-0.5 rounded-full border border-teal-200 font-mono">
+                      {catcherX}%
+                    </span>
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <button
+                      type="button"
+                      onClick={() => setCatcherX((x) => Math.max(12, x - 8))}
+                      className="p-2 sm:px-3 rounded-xl bg-white hover:bg-slate-100 border border-slate-300 text-charcoal shadow-2xs cursor-pointer active:scale-95 transition-all text-xs font-bold flex items-center gap-1 shrink-0"
+                      title="Nudge Left"
+                    >
+                      <ArrowLeft className="w-4 h-4 text-deep-teal" />
+                      <span className="hidden sm:inline">Left</span>
+                    </button>
+
+                    <input
+                      type="range"
+                      min="12"
+                      max="88"
+                      value={catcherX}
+                      onChange={(e) => setCatcherX(Number(e.target.value))}
+                      className="w-full h-4 bg-slate-200 rounded-lg appearance-none cursor-ew-resize accent-teal-600 focus:outline-hidden"
+                      aria-label="Pregame bowl position slider"
+                    />
+
+                    <button
+                      type="button"
+                      onClick={() => setCatcherX((x) => Math.min(88, x + 8))}
+                      className="p-2 sm:px-3 rounded-xl bg-white hover:bg-slate-100 border border-slate-300 text-charcoal shadow-2xs cursor-pointer active:scale-95 transition-all text-xs font-bold flex items-center gap-1 shrink-0"
+                      title="Nudge Right"
+                    >
+                      <span className="hidden sm:inline">Right</span>
+                      <ArrowRight className="w-4 h-4 text-deep-teal" />
+                    </button>
+                  </div>
+
+                  <p className="text-[11px] text-charcoal/60 text-center font-sans m-0">
+                    Catch <strong>10 Good Foods</strong> (Bananas, Oats, Watermelon, etc.) & avoid <strong>Junk Hazards</strong> (Burgers, Soda, Donuts, Coffee)!
+                  </p>
+                </div>
+              </div>
+            )}
+
+            {/* Game Over Screen (All 3 Hearts Lost -> Start Over) */}
+            {catcherStatus === "game_over" && (
+              <div className="p-6 sm:p-8 rounded-3xl bg-rose-50 border-2 border-rose-300 text-center space-y-4 animate-in zoom-in-95 max-w-lg mx-auto shadow-md">
+                <div className="w-16 h-16 rounded-full bg-rose-600 text-white flex items-center justify-center mx-auto shadow-md">
+                  <XCircle className="w-10 h-10 text-white" />
+                </div>
+
+                <div className="space-y-1">
+                  <h4 className="text-xl font-serif font-bold text-rose-950 m-0">
+                    Stomach Cramps & Energy Crash!
+                  </h4>
+                  <p className="text-xs font-bold text-rose-700 uppercase tracking-wider font-sans m-0">
+                    All 3 Hearts Lost — You Must Start Over!
+                  </p>
+                </div>
+
+                <p className="text-xs sm:text-sm text-charcoal/80 font-sans max-w-md mx-auto m-0">
+                  Catching heavy grease (burgers), fried fats (donuts), or high-fructose soda before competition diverts oxygenated blood away from sprint muscles into painful digestion, inducing severe side stitches and cramps.
                 </p>
 
+                <div className="p-3.5 rounded-2xl bg-white border border-rose-200 text-left text-xs space-y-1.5 font-sans text-rose-950 shadow-2xs">
+                  <p className="font-bold flex items-center gap-1.5 m-0 text-rose-900">
+                    <Heart className="w-4 h-4 text-rose-600 fill-rose-600" />
+                    Pregame Golden Nutrition Rule:
+                  </p>
+                  <p className="text-charcoal/70 m-0 text-[11.5px] leading-relaxed">
+                    Prioritize easily digested simple and complex carbohydrates (oatmeal, bananas, sweet potatoes) 2–3 hours before play. <strong>Strictly dodge heavy fats, fried foods, and fizzy sugars!</strong>
+                  </p>
+                </div>
+
                 <Button
-                  onClick={() => setActiveTab("clock")}
-                  className="bg-deep-teal hover:bg-deep-teal/90 text-white font-bold text-xs rounded-xl px-4 py-2"
+                  onClick={handleResetCatcher}
+                  className="bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs sm:text-sm rounded-xl px-6 py-3 shadow-md cursor-pointer hover:scale-102 transition-transform"
                 >
-                  <span>Play Game Clock</span>
-                  <ChevronRight className="w-4 h-4 ml-1" />
+                  <RotateCcw className="w-4 h-4 mr-2" />
+                  <span>Start Over (Reset to 0/10 Foods & 3 Hearts)</span>
                 </Button>
+              </div>
+            )}
+
+            {/* Victory Screen (10/10 Good Foods Caught!) */}
+            {catcherStatus === "victory" && (
+              <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-emerald-50 via-teal-50 to-emerald-50 border-2 border-emerald-300 text-center space-y-4 animate-in zoom-in-95 max-w-lg mx-auto shadow-md">
+                <div className="w-16 h-16 rounded-full bg-emerald-600 text-white flex items-center justify-center mx-auto shadow-md">
+                  <Trophy className="w-10 h-10 text-amber-300" />
+                </div>
+
+                <div className="space-y-1">
+                  <h4 className="text-xl font-serif font-bold text-deep-teal m-0">
+                    Pregame Bowl Mastered! (+300 PTS)
+                  </h4>
+                  <p className="text-xs font-bold text-emerald-700 uppercase tracking-wider font-sans m-0">
+                    10 / 10 Clean Pregame Fuels Caught!
+                  </p>
+                </div>
+
+                <p className="text-xs sm:text-sm text-charcoal/80 font-sans max-w-md mx-auto m-0">
+                  Maya&apos;s glycogen tank is 100% primed with bananas, oats, stamina carbs, and hydration electrolytes — with zero gastrointestinal cramping hazards!
+                </p>
+
+                <div className="flex flex-wrap items-center justify-center gap-2 pt-2">
+                  <Button
+                    variant="outline"
+                    onClick={handleResetCatcher}
+                    className="text-xs font-bold rounded-xl border-slate-300 px-4 py-2 cursor-pointer hover:bg-slate-100"
+                  >
+                    <RotateCcw className="w-3.5 h-3.5 mr-1" />
+                    <span>Play Again</span>
+                  </Button>
+
+                  <Button
+                    onClick={() => setActiveTab("clock")}
+                    className="bg-deep-teal hover:bg-deep-teal/90 text-white font-bold text-xs rounded-xl px-5 py-2 shadow-sm cursor-pointer"
+                  >
+                    <span>Play Game 4: Game Clock</span>
+                    <ChevronRight className="w-4 h-4 ml-1" />
+                  </Button>
+                </div>
               </div>
             )}
           </div>
