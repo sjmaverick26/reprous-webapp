@@ -480,12 +480,56 @@ export function ContactView({ initialTab = "feedback" }: { initialTab?: ContactT
                   <div className="w-8 h-8 rounded-xl bg-berry/10 flex items-center justify-center text-berry flex-shrink-0 font-bold text-xs">
                     🎒
                   </div>
-                  <div>
-                    <h4 className="text-[15px] font-bold text-plum font-sans">Ambassador Kit &amp; Swag</h4>
+                  <div className="flex-1">
+                    <div className="flex items-center justify-between gap-1 flex-wrap">
+                      <h4 className="text-[15px] font-bold text-plum font-sans">Ambassador Kit &amp; Swag</h4>
+                      <span className="text-[10.5px] font-semibold text-charcoal/60 bg-white/80 px-2 py-0.5 rounded-full border border-berry/15 italic">
+                        Mockup Preview
+                      </span>
+                    </div>
                     <p className="text-[13.5px] text-ink/75 m-0 font-sans">
                       Get printed pocket guides, stickers, pin badges, and demo educational kits.
                     </p>
+                    <p className="text-[11.5px] text-charcoal/60 italic mt-1 mb-0 font-sans">
+                      Caption: [Placeholder mockup — kit items and swag concepts shown for demonstration purposes]
+                    </p>
                   </div>
+                </div>
+
+                {/* Visual Kit Mockup / Placeholder Box */}
+                <div className="p-3.5 rounded-2xl bg-white/85 border border-berry/20 shadow-2xs space-y-2.5">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[11.5px] font-bold uppercase tracking-wider text-berry flex items-center gap-1.5">
+                      <span>📦</span>
+                      <span>Sample Kit Concept (Mockup)</span>
+                    </span>
+                    <span className="text-[10px] font-bold text-coral bg-coral/10 px-2 py-0.5 rounded-full border border-coral/20">
+                      Placeholder
+                    </span>
+                  </div>
+
+                  <div className="grid grid-cols-4 gap-2 text-center text-plum font-sans">
+                    <div className="p-2 rounded-xl bg-soft-pink/40 border border-raspberry/10 flex flex-col items-center gap-1">
+                      <span className="text-xl">🎒</span>
+                      <span className="text-[10.5px] font-semibold leading-tight">Tote Bag</span>
+                    </div>
+                    <div className="p-2 rounded-xl bg-light-teal/40 border border-deep-teal/10 flex flex-col items-center gap-1">
+                      <span className="text-xl">🏷️</span>
+                      <span className="text-[10.5px] font-semibold leading-tight">Enamel Pin</span>
+                    </div>
+                    <div className="p-2 rounded-xl bg-yellow/30 border border-yellow-deep/20 flex flex-col items-center gap-1">
+                      <span className="text-xl">📖</span>
+                      <span className="text-[10.5px] font-semibold leading-tight">Field Guide</span>
+                    </div>
+                    <div className="p-2 rounded-xl bg-soft-pink/40 border border-raspberry/10 flex flex-col items-center gap-1">
+                      <span className="text-xl">✨</span>
+                      <span className="text-[10.5px] font-semibold leading-tight">Stickers</span>
+                    </div>
+                  </div>
+
+                  <p className="text-[11.5px] text-charcoal/65 italic m-0 text-center font-sans leading-snug">
+                    Caption: [Placeholder Mockup Preview — final swag and physical kit items will vary by school cohort]
+                  </p>
                 </div>
               </div>
 
