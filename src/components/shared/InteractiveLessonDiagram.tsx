@@ -132,6 +132,12 @@ export const DIAGRAM_CLINICAL_SOURCES: Record<string, DiagramClinicalSource> = {
     year: "2023",
     url: "https://publications.aap.org/pediatrics",
   },
+  "maternal-warning-signs": {
+    organization: "Centers for Disease Control and Prevention (CDC) & ACOG",
+    guideline: "CDC Hear Her® Campaign: Urgent Maternal Warning Signs & Preventing Pregnancy-Related Deaths",
+    year: "2023",
+    url: "https://www.cdc.gov/hearher",
+  },
 };
 
 export function ClinicalSourceBanner({ citation }: { citation?: DiagramClinicalSource }) {
@@ -215,6 +221,8 @@ export function InteractiveLessonDiagram({ diagram, themeColor = "#175B5C" }: In
         return <CycleFuelingPlateDiagram diagram={diagram} themeColor={themeColor} />;
       case "puberty-brain":
         return <PubertyBrainDiagram diagram={diagram} themeColor={themeColor} />;
+      case "maternal-warning-signs":
+        return <MaternalWarningSignsDiagram diagram={diagram} themeColor={themeColor} />;
       case "timeline":
       default:
         return <PubertyTimelineDiagram diagram={diagram} themeColor={themeColor} />;
@@ -4527,6 +4535,1033 @@ function PubertyBrainDiagram({ diagram }: { diagram: LessonDiagram; themeColor: 
                 <strong>Confidential Support:</strong> You can schedule a private, confidential discussion with your pediatrician, adolescent specialist, or school counselor at any time.
               </span>
             </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// --------------------------------------------------------------------------
+// 16. Maternal Warning Signs, Anatomy & Clinical Dismissal Matrix
+// --------------------------------------------------------------------------
+function MaternalWarningSignsDiagram({ diagram, themeColor }: { diagram: LessonDiagram; themeColor: string }) {
+  const [activeTab, setActiveTab] = useState<"anatomy" | "warning-signs" | "challenge" | "cases" | "advocacy">("anatomy");
+  const [anatomyView, setAnatomyView] = useState<"implantation" | "spiral-artery" | "myometrium">("implantation");
+  const [selectedAnatomyHotspot, setSelectedAnatomyHotspot] = useState<string>("trophoblast");
+  const [spiralFlowType, setSpiralFlowType] = useState<"healthy" | "preeclampsia">("healthy");
+  const [selectedSymptomIdx, setSelectedSymptomIdx] = useState<number>(0);
+  const [selectedCaseIdx, setSelectedCaseIdx] = useState<number>(0);
+  const [copiedIdx, setCopiedIdx] = useState<number | null>(null);
+
+  // Challenge Mode State
+  const [challengeStep, setChallengeStep] = useState<number>(0);
+  const [challengeAnswer, setChallengeAnswer] = useState<number | null>(null);
+  const [challengeScore, setChallengeScore] = useState<number>(0);
+  const [challengeCompleted, setChallengeCompleted] = useState<boolean>(false);
+
+  const symptomPairs = [
+    {
+      id: "headache",
+      label: "Headache & Vision",
+      icon: Brain,
+      title: "Severe Throbbing Headache vs. Normal Tension Headache",
+      normal: "Mild tension headache caused by changing estrogen/progesterone, mild dehydration, or eye strain that resolves with water, rest, and low stimulation.",
+      urgentWarning: "Severe, relentless headache that worsens over time, resists medication, or is accompanied by visual auras, blind spots (scotoma), flashing lights, or blurry vision.",
+      condition: "Preeclampsia / Hypertensive Crisis / Cerebral Edema",
+      pathophysiology: "Placental ischemic anti-angiogenic factors (sFlt-1) cause maternal endothelial dysfunction and intense cerebral vasoconstriction, causing blood-brain barrier permeability and seizure risk (eclampsia).",
+      testsToDemand: "Immediate bilateral manual blood pressure reading, clean-catch urine protein dip or urine protein-to-creatinine ratio (UPCR), STAT Comprehensive Metabolic Panel (CMP for AST/ALT and creatinine), and CBC with platelet count.",
+      dismissalRisk: "If dismissed as 'just dehydration or stress,' untreated preeclampsia can progress to grand mal eclamptic seizures, intracranial hemorrhage (stroke), permanent retinal damage, or placental abruption."
+    },
+    {
+      id: "swelling",
+      label: "Swelling & Fluid",
+      icon: Activity,
+      title: "Sudden Facial & Hand Edema vs. Mild Ankle Puffiness",
+      normal: "Gradual, mild swelling of feet and ankles at the end of the day due to dependent venous pooling, improving after elevating feet overnight.",
+      urgentWarning: "Sudden, rapid swelling of your face, eyelids, lips, or hands (e.g., rings suddenly stuck, eyes swollen shut in the morning, rapid weight gain of >3-5 lbs in a week).",
+      condition: "Preeclampsia / Generalized Microvascular Capillary Leak",
+      pathophysiology: "Endothelial cell damage causes systemic loss of vascular integrity, allowing fluid and proteins to leak from blood vessels directly into peripheral and interstitial tissues.",
+      testsToDemand: "Urgent blood pressure check, rapid serum uric acid, creatinine, AST/ALT, complete blood count, and clinical check for hyperreflexia and ankle clonus.",
+      dismissalRisk: "Dismissing sudden facial swelling as 'normal pregnancy water retention' overlooks active vascular damage that can cause pulmonary edema (fluid in lungs) and sudden maternal seizures."
+    },
+    {
+      id: "breathing",
+      label: "Breathing & Chest",
+      icon: Wind,
+      title: "Chest Tightness & Dyspnea vs. Growing Belly Pressure",
+      normal: "Mild shortness of breath when walking briskly or climbing stairs because the growing uterus physically presses upward against the diaphragm.",
+      urgentWarning: "Sudden sharp chest pain, gasping for breath at rest, difficulty taking a full breath, coughing up pink/bloody mucus, or heart racing over 100 beats per minute.",
+      condition: "Pulmonary Embolism (PE) / Peripartum Cardiomyopathy / Amniotic Fluid Embolism",
+      pathophysiology: "Pregnancy naturally increases blood clotting factors by 4–5x to prevent birth hemorrhage. A clot in the deep veins (DVT) can break off and travel to the lungs, obstructing arterial blood flow.",
+      testsToDemand: "STAT Computed Tomography (CT) Angiogram with IV contrast (the diagnostic gold standard—do not accept leg ultrasound alone), D-Dimer, Troponin, and 12-lead ECG.",
+      dismissalRisk: "Dismissing chest tightness or shortness of breath as 'new mother anxiety or panic' is one of the single greatest causes of maternal death; untreated PE carries up to a 30% mortality rate."
+    },
+    {
+      id: "abdominal",
+      label: "Abdominal Pain",
+      icon: AlertTriangle,
+      title: "Epigastric / Upper Right Belly Pain vs. Round Ligament Twinges",
+      normal: "Brief, sharp jabbing or dull pulling twinges in the lower belly or groin when changing positions or coughing, caused by stretching of uterine round ligaments.",
+      urgentWarning: "Persistent, severe pain in the upper right quadrant of your abdomen (under the right ribs) or excruciating heartburn that radiates to your back and doesn't respond to antacids.",
+      condition: "HELLP Syndrome (Hemolysis, Elevated Liver Enzymes, Low Platelets) / Subcapsular Liver Hematoma",
+      pathophysiology: "Microthrombi lodge in hepatic sinusoids, causing focal liver ischemia, acute hepatocyte death, swelling beneath Glisson's liver capsule, and platelet consumption.",
+      testsToDemand: "STAT CMP (AST, ALT, bilirubin, BUN, creatinine), CBC with manual platelet count, peripheral blood smear for schistocytes (fragmented red cells), and urgent right upper quadrant liver ultrasound.",
+      dismissalRisk: "Dismissing upper abdominal pain as 'acid reflux or indigestion' can result in spontaneous subcapsular hepatic rupture, massive internal abdominal hemorrhage, and death within hours."
+    },
+    {
+      id: "bleeding",
+      label: "Bleeding & Clots",
+      icon: Droplets,
+      title: "Heavy Postpartum Bleeding vs. Normal Lochia Shedding",
+      normal: "Postpartum lochia gradually tapering from bright red to brownish-pink over 2–6 weeks, requiring approximately 1 standard sanitary pad every 3–4 hours.",
+      urgentWarning: "Soaking through 1 or more heavy maxi pads in under an hour for 2 consecutive hours, passing blood clots larger than a golf ball, or feeling dizzy, cold, pale, or faint.",
+      condition: "Postpartum Hemorrhage (PPH) / Uterine Atony / Retained Placental Fragments",
+      pathophysiology: "Failure of the uterine myometrium to contract down (uterine atony) leaves large maternal spiral arteries at the placental detachment site wide open, causing massive arterial blood loss.",
+      testsToDemand: "Immediate continuous uterine fundal massage, manual bimanual examination, IV uterotonics (oxytocin, methylergonovine, carboprost, misoprostol, tranexamic acid [TXA]), bedside pelvic ultrasound, and Type & Crossmatch.",
+      dismissalRisk: "Brushing off heavy bleeding as 'normal after giving birth' can plunge a patient into hypovolemic hemorrhagic shock, disseminated intravascular coagulation (DIC), and cardiovascular collapse."
+    },
+    {
+      id: "fever",
+      label: "Fever & Infection",
+      icon: Flame,
+      title: "Fever ≥ 100.4°F & Chills vs. Normal Hormonal Flushing",
+      normal: "Mild warmth or night sweats during postpartum recovery caused by rapid hormonal drops as estrogen and progesterone plummet after placenta delivery.",
+      urgentWarning: "Fever of 100.4°F (38.0°C) or higher, teeth-chattering chills, persistent lower abdominal tenderness, or foul-smelling vaginal discharge/lochia.",
+      condition: "Chorioamnionitis / Postpartum Endometritis / Sepsis",
+      pathophysiology: "Bacterial infection colonizes the intrauterine cavity or C-section incision, releasing endotoxins that trigger systemic inflammatory response syndrome (SIRS), vasodilation, and septic shock.",
+      testsToDemand: "Blood cultures (2 sets from separate sites), CBC with differential, catheterized urinalysis & culture, vaginal/cervical swabs, lactate level, and immediate broad-spectrum IV antibiotic therapy.",
+      dismissalRisk: "Dismissing maternal fever as 'breast engorgement or a mild cold' allows pelvic infections to progress to pelvic abscesses, septic pelvic thrombophlebitis, septic shock, and multiorgan failure."
+    }
+  ];
+
+  const landmarkCases = [
+    {
+      name: "Serena Williams",
+      year: "2018",
+      role: "23-time Grand Slam Champion & Mother",
+      diagnosis: "Post-C-Section Pulmonary Embolism & Ruptured Incision Hematoma",
+      dismissalEncounter: "The day after delivering daughter Olympia via emergency C-section, Serena (who has a known history of pulmonary embolism and whose anticoagulant therapy had been paused) experienced sudden, gasping shortness of breath and pleuritic coughing. She immediately told her nurse she needed a CT angiogram of her lungs with contrast and an IV heparin drip. The nurse dismissed her concern, assuming Serena was confused from pain medications, and ordered a Doppler ultrasound of her legs instead.",
+      advocacyAction: "Serena adamantly refused to back down: 'No, I am telling you, I need a CT scan with contrast and heparin right now.' She insisted until the medical team relented and ordered the chest CT. The scan immediately revealed multiple blood clots lodged in her lungs (bilateral pulmonary emboli). Her violent coughing spells also burst her surgical incision, requiring emergency surgery for a large abdominal hematoma.",
+      outcome: "Survived due to relentless self-advocacy and physiological knowledge of her own body. Her case became a global flashpoint demonstrating that fame, wealth, and world-class athleticism do not shield Black women from clinical dismissal.",
+      citation: "Haskell, R. (Vogue, Feb 2018); Taylor, J. (New England Journal of Medicine, 2019); CDC Hear Her Highlight."
+    },
+    {
+      name: "Kira Dixon Johnson & Charles Johnson",
+      year: "2016",
+      role: "39-year-old Entrepreneur, Pilot, Mother of 2",
+      diagnosis: "Fatal Retroperitoneal Internal Hemorrhage (3.5 Liters Blood Loss)",
+      dismissalEncounter: "Kira checked into Cedars-Sinai Medical Center in Los Angeles for a routine scheduled C-section to deliver her second son, Langston. In recovery around 2:30 PM, her husband Charles noticed blood in her Foley catheter bag. Over the next several hours, the catheter turned dark cranberry, Kira became pale, shivering, and tachycardic, and experienced excruciating abdominal pain. Charles repeatedly pleaded with nurses and physicians to take Kira back to surgery or order imaging. Hospital staff repeatedly dismissed him, stating: 'Sir, your wife just isn't a priority right now.'",
+      advocacyAction: "Charles spent 10 continuous hours begging the medical staff to intervene. A STAT CT scan was ordered at 8:00 PM but never performed. Kira was not wheeled back into an operating room until 12:30 AM—ten hours after acute symptoms began.",
+      outcome: "When surgeons opened her abdomen, they discovered 3.5 liters of pooled blood (nearly her entire blood volume) from massive internal retroperitoneal bleeding. Her heart stopped immediately on the table. In her honor, Charles founded 4Kira4Moms, which led to congressional testimony and the federal enactment of the bipartisan Preventing Maternal Deaths Act of 2018 (Public Law 115-344).",
+      citation: "House Committee on Energy & Commerce (H.R. 1318 Hearings, 2018); Cedars-Sinai Medical Review; 4Kira4Moms Foundation."
+    },
+    {
+      name: "Dr. Shalon Irving, PhD, MS, MPH",
+      year: "2017",
+      role: "CDC Epidemiologist & Lieutenant Commander, U.S. Public Health Service",
+      diagnosis: "Hypertensive Crisis, Cerebral Edema & Postpartum Cardiac Arrest",
+      dismissalEncounter: "Dr. Irving spent her academic and public health career at the CDC studying how structural racism, inequality, and trauma drive health disparities. Three weeks after giving birth to daughter Soleil via C-section, Shalon experienced spiking blood pressure, severe headaches, rapid fluid swelling in her legs and face, and wound pain. She visited healthcare providers more than four times in three weeks. Each time, her severe symptoms were minimized as 'typical postpartum recovery' and she was sent home with no antihypertensive medication or monitoring plan.",
+      advocacyAction: "Shalon and her mother repeatedly documented and reported her soaring blood pressure and severe physiological discomfort to clinicians. Just hours after her final outpatient visit where clinicians again failed to intervene, Shalon collapsed at home from hypertensive emergency and cardiac arrest.",
+      outcome: "Died three weeks postpartum at age 36. Her death underscored the profound reality that holding a doctorate, having federal health insurance, and possessing elite health literacy cannot protect patients if healthcare providers refuse to listen to their symptoms.",
+      citation: "NPR & ProPublica Investigation: 'Lost Mothers: The American Way of Birth' (Martin & Montagne, 2017); CDC Foundation."
+    },
+    {
+      name: "Dr. Chaniece Wallace, MD",
+      year: "2020",
+      role: "Chief Pediatric Resident, Indiana University School of Medicine",
+      diagnosis: "Severe Preeclampsia, HELLP Syndrome & Hepatic Rupture",
+      dismissalEncounter: "Dr. Wallace was a practicing pediatrician and chief resident at Riley Children's Hospital in Indianapolis. She delivered daughter Charlotte via emergency C-section at 30 weeks due to preeclampsia symptoms. Following delivery, she developed severe epigastric abdominal pain, declining platelet counts, and soaring liver enzymes (classic hallmarks of HELLP Syndrome). Her post-surgical symptoms were not caught in time to prevent liver capsule compromise.",
+      advocacyAction: "As a physician, Dr. Wallace understood clinical medicine deeply, yet like countless Black women in healthcare, systemic disparities in pain validation and monitoring intervals delayed life-saving intervention.",
+      outcome: "Suffered catastrophic liver rupture and hemorrhage, dying on October 22, 2020—just two days after giving birth. Her death ignited grief and outrage throughout the medical and pediatric community, leading to national calls by the AAP and ACOG to overhaul maternal hypertensive protocols.",
+      citation: "Contemporary OB/GYN (Nov 2020); American Academy of Pediatrics Memorial Resolution; Indiana University Health Review."
+    }
+  ];
+
+  const advocacyScripts = [
+    {
+      id: "chart-refusal",
+      title: "The 'Document Your Refusal' Accountability Protocol",
+      purpose: "Use when a doctor or triage nurse refuses to order lab work, imaging, or blood pressure monitoring for urgent warning signs.",
+      script: "“Dr. [Name], my symptoms align directly with the CDC's Urgent Maternal Warning Signs for preeclampsia and acute complications. I know my body, and this does not feel like expected pregnancy fatigue. I am formally requesting an immediate blood pressure check, a urine protein assay, and a complete metabolic panel right now. If you choose not to order these diagnostic tests, please document your clinical refusal and medical justification in my chart today.”",
+      whyItWorks: "Demanding that a clinician document their refusal shifts the interaction from casual dismissal to formal medical liability and malpractice record. Clinicians almost always order the tests rather than write a documented refusal in your chart."
+    },
+    {
+      id: "hear-her",
+      title: "The CDC 'Hear Her' Protocol Standard",
+      purpose: "Use when presenting to the Emergency Department, Labor & Delivery triage, or outpatient clinic.",
+      script: "“I am currently pregnant / [X] days postpartum. I am experiencing severe headache with visual spots / acute shortness of breath / heavy bleeding. The CDC Hear Her national clinical guidelines classify these symptoms as urgent maternal warning signs requiring immediate obstetric evaluation. I need to be examined by an obstetrician or attending physician immediately.”",
+      whyItWorks: "Explicitly stating that you are postpartum (even up to 1 year after birth) and citing CDC federal warning guidelines commands clinical urgency and prevents triage nurses from classifying you as a routine patient."
+    },
+    {
+      id: "partner-shield",
+      title: "The Birth Partner & Doula Shield Script",
+      purpose: "Use when the birthing person is exhausted, in severe pain, or unable to advocate for themselves.",
+      script: "“Please pause. My partner is in severe pain / soaking through pads / struggling to breathe. We know her baseline, and this is an acute change. We are not comfortable waiting or being discharged. We need a physician to perform a bedside evaluation, check vitals manually, and review these labs immediately. Please page the obstetric attending physician on call now.”",
+      whyItWorks: "Empowers birth partners and doulas to intercede firmly without apologizing, establishing an objective safety boundary when the patient is physiologically depleted."
+    }
+  ];
+
+  const challengeCases = [
+    {
+      id: "jordan",
+      patient: "Jordan · 34 Weeks Pregnant",
+      symptom: "Severe throbbing headache that won't go away, spots in vision, rings suddenly stuck on fingers.",
+      clinicianSays: "“You're just stressed out and dehydrated. Go home, drink tea, and rest.”",
+      options: [
+        {
+          text: "“Okay, I guess pregnancy is just painful. I'll take a nap and hope it goes away.”",
+          isCorrect: false,
+          feedback: "Dangerous! Sending Jordan home untreated risks eclamptic seizures, placental abruption, and intracranial stroke within hours."
+        },
+        {
+          text: "“Dr. Smith, these match CDC Urgent Warning Signs for preeclampsia. I need an immediate manual blood pressure check, urine protein dip, and CMP. If you decline, please document your refusal in my chart.”",
+          isCorrect: true,
+          feedback: "✦ Life-Saving Self-Advocate! You forced an immediate clinical evaluation. Blood pressure checked at 170/115 mmHg; magnesium sulfate and labetalol were started STAT, preventing an eclamptic seizure!"
+        },
+        {
+          text: "“I don't trust any of you! I'm just going to leave and never come back.”",
+          isCorrect: false,
+          feedback: "While frustration is valid, leaving against medical advice leaves Jordan with untreated severe preeclampsia."
+        }
+      ]
+    },
+    {
+      id: "maya-pe",
+      patient: "Maya · 24 Hours Post-C-Section",
+      symptom: "Sudden gasping shortness of breath, stabbing chest pain upon inhaling, and resting heart rate of 115 bpm.",
+      clinicianSays: "“Pain medicine makes people anxious and confused. Just take deep breaths, this is normal after abdominal surgery.”",
+      options: [
+        {
+          text: "“I know my body and this is not anxiety. In pregnancy and postpartum, clot risk is 4–5x higher. I need a STAT Chest CT Angiogram with contrast and heparin evaluation right now.”",
+          isCorrect: true,
+          feedback: "✦ Master Diagnostic Intercession! (Inspired by Serena Williams's life-saving advocacy). The CT angiogram revealed bilateral pulmonary emboli. Immediate heparin dissolved the clots!"
+        },
+        {
+          text: "“Okay, I'll close my eyes and do box breathing until the anxiety goes away.”",
+          isCorrect: false,
+          feedback: "Fatal mistake! Untreated pulmonary embolism has a 30% mortality rate. Hypoxia would lead to cardiac arrest."
+        },
+        {
+          text: "“Just give me more pain medicine so I don't feel the chest pain.”",
+          isCorrect: false,
+          feedback: "Pain medication masks symptoms while the pulmonary clot continues to obstruct oxygenation to the lungs."
+        }
+      ]
+    },
+    {
+      id: "elena-pph",
+      patient: "Elena · 4 Hours Postpartum",
+      symptom: "Soaked through two full pads in 30 minutes, passing golf-ball clots, feels dizzy, shivering, and freezing.",
+      clinicianSays: "“Everyone bleeds after giving birth. You're not a priority right now, we'll check on you later.”",
+      options: [
+        {
+          text: "“I'll wait another 2 hours to see if the bleeding slows down on its own.”",
+          isCorrect: false,
+          feedback: "Catastrophic! Losing 1000+ mL of blood in uterine atony causes hypovolemic shock and cardiac arrest (as occurred in Kira Dixon Johnson's case)."
+        },
+        {
+          text: "“We are not waiting. Elena is showing classic signs of Postpartum Hemorrhage. We need an immediate bedside fundal check, bimanual massage, IV uterotonics, and the attending physician in this room right now.”",
+          isCorrect: true,
+          feedback: "✦ Heroic Partner Shield! Continuous fundal massage and TXA were administered immediately, clamping the bleeding spiral arteries and saving Elena's life!"
+        },
+        {
+          text: "“Can we just have more blankets for her shivering?”",
+          isCorrect: false,
+          feedback: "Shivering is a sign of hypothermia from acute blood loss (hypovolemic shock), not just being cold!"
+        }
+      ]
+    }
+  ];
+
+  const handleCopyScript = (text: string, idx: number) => {
+    if (typeof navigator !== "undefined" && navigator.clipboard) {
+      navigator.clipboard.writeText(text);
+      setCopiedIdx(idx);
+      setTimeout(() => setCopiedIdx(null), 2500);
+    }
+  };
+
+  const activeSymptom = symptomPairs[selectedSymptomIdx];
+  const activeCase = landmarkCases[selectedCaseIdx];
+  const currentChallenge = challengeCases[challengeStep];
+
+  return (
+    <div className="rounded-3xl border-2 border-coral/30 bg-white p-4 sm:p-6 shadow-sm space-y-6">
+      {/* Header Banner */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-coral/20">
+        <div>
+          <div className="flex items-center gap-2 text-coral font-bold text-xs uppercase tracking-wider">
+            <ShieldAlert className="w-4 h-4 text-coral" />
+            <span>Maternal Safety, Anatomy & Clinical Literacy</span>
+          </div>
+          <h3 className="text-xl sm:text-2xl font-serif font-bold text-charcoal mt-1">
+            Pregnancy Anatomy, Warning Signs & Dismissal Matrix
+          </h3>
+          <p className="text-xs sm:text-sm text-charcoal/70 mt-0.5">
+            Explore vector anatomy diagrams, compare warning signs, test your triage skills, and examine landmark maternal cases.
+          </p>
+        </div>
+
+        {/* Tab Navigation */}
+        <div className="flex flex-wrap items-center gap-1.5 p-1 bg-sand/60 rounded-2xl border border-charcoal/10 shrink-0">
+          <button
+            type="button"
+            onClick={() => setActiveTab("anatomy")}
+            className={`px-3 py-1.5 rounded-xl text-xs font-medium transition-all ${
+              activeTab === "anatomy"
+                ? "bg-coral text-white shadow-xs font-bold"
+                : "text-charcoal/75 hover:text-charcoal hover:bg-sand/80"
+            }`}
+          >
+            Anatomy Explorer
+          </button>
+          <button
+            type="button"
+            onClick={() => setActiveTab("warning-signs")}
+            className={`px-3 py-1.5 rounded-xl text-xs font-medium transition-all ${
+              activeTab === "warning-signs"
+                ? "bg-coral text-white shadow-xs font-bold"
+                : "text-charcoal/75 hover:text-charcoal hover:bg-sand/80"
+            }`}
+          >
+            Warning vs. Normal
+          </button>
+          <button
+            type="button"
+            onClick={() => setActiveTab("challenge")}
+            className={`px-3 py-1.5 rounded-xl text-xs font-medium transition-all ${
+              activeTab === "challenge"
+                ? "bg-coral text-white shadow-xs font-bold"
+                : "text-charcoal/75 hover:text-charcoal hover:bg-sand/80"
+            }`}
+          >
+            Triage Challenge
+          </button>
+          <button
+            type="button"
+            onClick={() => setActiveTab("cases")}
+            className={`px-3 py-1.5 rounded-xl text-xs font-medium transition-all ${
+              activeTab === "cases"
+                ? "bg-coral text-white shadow-xs font-bold"
+                : "text-charcoal/75 hover:text-charcoal hover:bg-sand/80"
+            }`}
+          >
+            Landmark Cases
+          </button>
+          <button
+            type="button"
+            onClick={() => setActiveTab("advocacy")}
+            className={`px-3 py-1.5 rounded-xl text-xs font-medium transition-all ${
+              activeTab === "advocacy"
+                ? "bg-coral text-white shadow-xs font-bold"
+                : "text-charcoal/75 hover:text-charcoal hover:bg-sand/80"
+            }`}
+          >
+            Advocacy Playbook
+          </button>
+        </div>
+      </div>
+
+      {/* TAB 0: ANATOMY EXPLORER */}
+      {activeTab === "anatomy" && (
+        <div className="space-y-6">
+          {/* Sub-view switcher */}
+          <div className="flex items-center gap-2 overflow-x-auto pb-1">
+            <button
+              type="button"
+              onClick={() => setAnatomyView("implantation")}
+              className={`px-3 py-2 rounded-2xl text-xs font-medium shrink-0 border transition-all ${
+                anatomyView === "implantation"
+                  ? "bg-deep-teal text-white border-deep-teal shadow-xs font-bold"
+                  : "bg-sand/40 text-charcoal/80 border-charcoal/10 hover:bg-sand/70"
+              }`}
+            >
+              1. Blastocyst Implantation & hCG
+            </button>
+            <button
+              type="button"
+              onClick={() => setAnatomyView("spiral-artery")}
+              className={`px-3 py-2 rounded-2xl text-xs font-medium shrink-0 border transition-all ${
+                anatomyView === "spiral-artery"
+                  ? "bg-deep-teal text-white border-deep-teal shadow-xs font-bold"
+                  : "bg-sand/40 text-charcoal/80 border-charcoal/10 hover:bg-sand/70"
+              }`}
+            >
+              2. Spiral Arteries & Preeclampsia
+            </button>
+            <button
+              type="button"
+              onClick={() => setAnatomyView("myometrium")}
+              className={`px-3 py-2 rounded-2xl text-xs font-medium shrink-0 border transition-all ${
+                anatomyView === "myometrium"
+                  ? "bg-deep-teal text-white border-deep-teal shadow-xs font-bold"
+                  : "bg-sand/40 text-charcoal/80 border-charcoal/10 hover:bg-sand/70"
+              }`}
+            >
+              3. Uterine Living Ligatures & PPH
+            </button>
+          </div>
+
+          {/* VIEW 1: Blastocyst Implantation */}
+          {anatomyView === "implantation" && (
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+              {/* SVG Vector Drawing Canvas */}
+              <div className="lg:col-span-7 bg-gradient-to-b from-rose-50/70 via-white to-sand/40 rounded-3xl border-2 border-coral/25 p-4 flex flex-col items-center">
+                <div className="w-full flex items-center justify-between text-xs text-charcoal/70 mb-2">
+                  <span className="font-bold text-coral">Day 8–10 Post-Fertilization</span>
+                  <span className="text-[11px] bg-white px-2.5 py-0.5 rounded-full border border-charcoal/10">
+                    Tap anatomical structures
+                  </span>
+                </div>
+                <svg viewBox="0 0 420 280" className="w-full h-56 sm:h-64 select-none">
+                  <defs>
+                    <linearGradient id="endometriumGrad" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stopColor="#FEE2E2" />
+                      <stop offset="100%" stopColor="#FECDD3" />
+                    </linearGradient>
+                    <linearGradient id="trophoblastGrad" x1="0" y1="0" x2="1" y2="1">
+                      <stop offset="0%" stopColor="#F47A6A" />
+                      <stop offset="100%" stopColor="#E11D48" />
+                    </linearGradient>
+                    <radialGradient id="blastocystInner" cx="40%" cy="40%" r="60%">
+                      <stop offset="0%" stopColor="#BAE6FD" />
+                      <stop offset="100%" stopColor="#38BDF8" />
+                    </radialGradient>
+                  </defs>
+
+                  {/* Uterine Myometrium Base */}
+                  <rect x="10" y="190" width="400" height="80" rx="8" fill="#FBCFE8" opacity="0.6" />
+                  <text x="25" y="240" fill="#9D174D" fontSize="11" fontWeight="bold">Myometrium (Smooth Muscle Layer)</text>
+
+                  {/* Decidual Endometrial Bed */}
+                  <rect
+                    x="10"
+                    y="40"
+                    width="400"
+                    height="150"
+                    rx="14"
+                    fill="url(#endometriumGrad)"
+                    stroke="#FDA4AF"
+                    strokeWidth="2"
+                    className="cursor-pointer"
+                    onClick={() => setSelectedAnatomyHotspot("decidua")}
+                  />
+                  <text x="25" y="65" fill="#BE123C" fontSize="12" fontWeight="bold">
+                    Decidua (Endometrial Lining)
+                  </text>
+
+                  {/* Maternal Sinusoid Blood Pools */}
+                  <ellipse cx="90" cy="110" rx="35" ry="18" fill="#EF4444" opacity="0.75" />
+                  <ellipse cx="320" cy="120" rx="40" ry="20" fill="#EF4444" opacity="0.75" />
+                  <ellipse cx="260" cy="85" rx="25" ry="14" fill="#DC2626" opacity="0.7" />
+                  <text x="80" y="114" fill="#FFFFFF" fontSize="9" fontWeight="bold">Blood Pool</text>
+                  <text x="305" y="124" fill="#FFFFFF" fontSize="9" fontWeight="bold">Maternal Sinus</text>
+
+                  {/* Spiral Arteries entering decidua */}
+                  <path d="M 80 190 Q 75 160, 85 140 T 90 110" fill="none" stroke="#DC2626" strokeWidth="4" strokeLinecap="round" />
+                  <path d="M 330 190 Q 320 160, 335 140 T 325 120" fill="none" stroke="#DC2626" strokeWidth="4" strokeLinecap="round" />
+
+                  {/* Blastocyst Implanting */}
+                  <g className="cursor-pointer" onClick={() => setSelectedAnatomyHotspot("trophoblast")}>
+                    {/* Syncytiotrophoblast invasive fingers */}
+                    <path
+                      d="M 140 140 C 130 90, 190 70, 240 85 C 270 95, 280 140, 260 170 C 230 190, 160 185, 140 140 Z"
+                      fill="url(#trophoblastGrad)"
+                      stroke="#9F1239"
+                      strokeWidth="2.5"
+                      opacity="0.9"
+                    />
+                    {/* Invasive pseudopods */}
+                    <path d="M 230 85 Q 245 70, 260 80 Q 255 95, 245 90" fill="#E11D48" />
+                    <path d="M 150 110 Q 120 105, 110 112 Q 130 125, 145 120" fill="#E11D48" />
+
+                    {/* Blastocyst Cavity (Blastocoel) */}
+                    <circle cx="205" cy="135" r="36" fill="#F0F9FF" stroke="#0284C7" strokeWidth="2" />
+
+                    {/* Embryoblast (Inner Cell Mass) */}
+                    <circle
+                      cx="190"
+                      cy="125"
+                      r="16"
+                      fill="url(#blastocystInner)"
+                      stroke="#0369A1"
+                      strokeWidth="2"
+                      className="cursor-pointer"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setSelectedAnatomyHotspot("embryoblast");
+                      }}
+                    />
+                    <text x="176" y="128" fill="#FFFFFF" fontSize="8" fontWeight="bold">ICM</text>
+                  </g>
+
+                  {/* Chemical Signal: hCG particles floating */}
+                  <g>
+                    <circle cx="115" cy="90" r="4" fill="#F59E0B" />
+                    <circle cx="130" cy="80" r="3" fill="#F59E0B" />
+                    <circle cx="270" cy="105" r="4" fill="#F59E0B" />
+                    <circle cx="290" cy="95" r="3" fill="#F59E0B" />
+                    <text x="270" y="80" fill="#B45309" fontSize="10" fontWeight="bold">hCG Signal</text>
+                  </g>
+
+                  {/* Hotspot indicator rings */}
+                  <circle cx="205" cy="165" r="6" fill="#F47A6A" stroke="#FFFFFF" strokeWidth="2" />
+                  <circle cx="190" cy="125" r="4" fill="#0284C7" stroke="#FFFFFF" strokeWidth="1.5" />
+                </svg>
+
+                <div className="w-full flex items-center justify-center gap-4 text-xs font-semibold pt-2 text-charcoal/75">
+                  <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded-full bg-coral"></span> Trophoblast</span>
+                  <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded-full bg-[#0284C7]"></span> Embryo (ICM)</span>
+                  <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded-full bg-red-500"></span> Maternal Blood</span>
+                </div>
+              </div>
+
+              {/* Hotspot Breakdown Panel */}
+              <div className="lg:col-span-5 space-y-3">
+                <div className="p-4 rounded-2xl bg-white border border-charcoal/15 shadow-2xs space-y-2">
+                  <span className="text-xs font-bold uppercase tracking-wider text-coral">Anatomical Structure</span>
+                  <h4 className="text-base font-serif font-bold text-charcoal">
+                    {selectedAnatomyHotspot === "trophoblast" && "Syncytiotrophoblast & hCG Production"}
+                    {selectedAnatomyHotspot === "embryoblast" && "Embryoblast (Inner Cell Mass)"}
+                    {selectedAnatomyHotspot === "decidua" && "Decidualized Endometrium"}
+                  </h4>
+                  <p className="text-xs text-charcoal/80 leading-relaxed">
+                    {selectedAnatomyHotspot === "trophoblast" &&
+                      "The outer invasive layer of cells that burrows into the uterine lining. It secretes Human Chorionic Gonadotropin (beta-hCG), which signals the corpus luteum to keep pumping progesterone so the uterine lining does not shed. This is the hormone detected on home pregnancy tests!"}
+                    {selectedAnatomyHotspot === "embryoblast" &&
+                      "A cluster of pluripotent stem cells located on the interior of the blastocyst. Over the next several weeks, these cells differentiate into the three primary germ layers (ectoderm, mesoderm, and endoderm) that form all organs, limbs, and tissues of the developing baby."}
+                    {selectedAnatomyHotspot === "decidua" &&
+                      "Under the influence of progesterone, the endometrial lining transforms into the decidua—a specialized, nutrient-dense tissue loaded with glycogen and lipids that cushions the embryo and regulates maternal immune tolerance."}
+                  </p>
+                </div>
+
+                <div className="p-3.5 rounded-2xl bg-sand/40 border border-charcoal/10 text-xs text-charcoal/80 space-y-1">
+                  <strong className="text-deep-teal font-semibold block">Clinical Pearl:</strong>
+                  <span>Implantation bleeding occurs in ~25% of pregnancies when micro-capillaries are breached as the blastocyst embeds. It is light, pinkish-brown, lasts 1–2 days, and is NOT a true period.</span>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* VIEW 2: Spiral Artery Remodeling & Preeclampsia */}
+          {anatomyView === "spiral-artery" && (
+            <div className="space-y-4">
+              <div className="flex items-center justify-between flex-wrap gap-2">
+                <div>
+                  <span className="text-xs font-bold text-coral uppercase tracking-wider">Vascular Hemodynamics</span>
+                  <h4 className="text-base font-serif font-bold text-charcoal">
+                    Spiral Artery Remodeling: Normal vs. Preeclampsia
+                  </h4>
+                </div>
+                {/* Toggle */}
+                <div className="flex items-center p-1 bg-sand/60 rounded-2xl border border-charcoal/10">
+                  <button
+                    type="button"
+                    onClick={() => setSpiralFlowType("healthy")}
+                    className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
+                      spiralFlowType === "healthy" ? "bg-emerald-600 text-white shadow-xs" : "text-charcoal/70"
+                    }`}
+                  >
+                    Healthy Remodeling
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setSpiralFlowType("preeclampsia")}
+                    className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
+                      spiralFlowType === "preeclampsia" ? "bg-rose-600 text-white shadow-xs" : "text-charcoal/70"
+                    }`}
+                  >
+                    Preeclampsia Defect
+                  </button>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
+                {/* Visual Vessel Diagram */}
+                <div className="bg-gradient-to-b from-sand/30 to-white rounded-3xl border border-charcoal/15 p-4 flex flex-col items-center">
+                  <svg viewBox="0 0 320 200" className="w-full h-44 select-none">
+                    {spiralFlowType === "healthy" ? (
+                      <g>
+                        {/* Wide, funnel-shaped remodeled artery */}
+                        <path
+                          d="M 50 160 C 80 150, 120 120, 160 100 C 200 80, 240 50, 280 40 L 280 160 C 240 150, 200 120, 160 100 C 120 80, 80 50, 50 40 Z"
+                          fill="#FEE2E2"
+                          stroke="#E11D48"
+                          strokeWidth="3"
+                        />
+                        {/* High volume blood stream */}
+                        <path d="M 60 100 L 270 100" stroke="#DC2626" strokeWidth="24" strokeLinecap="round" opacity="0.85" />
+                        <text x="80" y="105" fill="#FFFFFF" fontSize="12" fontWeight="bold">Low Resistance / High Blood Flow</text>
+                        <text x="60" y="185" fill="#047857" fontSize="11" fontWeight="bold">✓ Trophoblasts replaced smooth muscle</text>
+                      </g>
+                    ) : (
+                      <g>
+                        {/* Narrow, constricted, tortuous artery */}
+                        <path
+                          d="M 50 110 Q 100 130, 150 90 T 250 115 T 280 105"
+                          fill="none"
+                          stroke="#BE123C"
+                          strokeWidth="10"
+                          strokeLinecap="round"
+                        />
+                        {/* Constricted lumen */}
+                        <path
+                          d="M 50 110 Q 100 130, 150 90 T 250 115 T 280 105"
+                          fill="none"
+                          stroke="#EF4444"
+                          strokeWidth="4"
+                          strokeLinecap="round"
+                        />
+                        {/* Turbulent stress sparks */}
+                        <circle cx="150" cy="90" r="8" fill="#F59E0B" opacity="0.5" />
+                        <circle cx="200" cy="100" r="10" fill="#EF4444" opacity="0.6" />
+                        <text x="60" y="55" fill="#B91C1C" fontSize="12" fontWeight="bold">High Resistance / Severe Vasospasm</text>
+                        <text x="60" y="175" fill="#991B1B" fontSize="11" fontWeight="bold">⚠️ Intact muscular coat = Placental Ischemia</text>
+                      </g>
+                    )}
+                  </svg>
+                </div>
+
+                {/* Explanation Card */}
+                <div className="p-4 rounded-2xl bg-white border border-charcoal/15 shadow-2xs space-y-2 text-xs">
+                  <span className={`font-bold uppercase tracking-wider ${spiralFlowType === "healthy" ? "text-emerald-700" : "text-rose-700"}`}>
+                    {spiralFlowType === "healthy" ? "Normal Physiological Adaptation" : "The Root Cause of Preeclampsia"}
+                  </span>
+                  <p className="text-charcoal/85 leading-relaxed">
+                    {spiralFlowType === "healthy"
+                      ? "In a healthy pregnancy, fetal extravillous trophoblasts invade the maternal spiral arteries, stripping away the thick muscular and elastic walls. The vessels dilate into wide, funnel-like conduits that deliver 600–750 mL of maternal blood per minute to the placenta at low pressure without turbulence."
+                      : "In preeclampsia, trophoblast invasion is shallow and defective. The spiral arteries remain narrow, rigid, and muscular. Because blood cannot flow smoothly, the placenta becomes starved for oxygen (ischemic) and releases toxic inflammatory proteins (sFlt-1) that damage every maternal blood vessel, causing high blood pressure, protein in the urine, and liver/brain swelling."}
+                  </p>
+                  <div className="p-2.5 rounded-xl bg-sand/30 border border-charcoal/10 text-[11px] text-charcoal/80">
+                    <strong>Why this matters for advocacy:</strong> Preeclampsia is not caused by 'stress' or 'eating salt.' It is a biological vascular disorder that requires immediate clinical surveillance!
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* VIEW 3: Uterine Living Ligatures & PPH */}
+          {anatomyView === "myometrium" && (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
+              <div className="bg-gradient-to-b from-rose-50/50 to-white rounded-3xl border border-charcoal/15 p-4 flex flex-col items-center">
+                <svg viewBox="0 0 320 200" className="w-full h-44 select-none">
+                  {/* Interlacing figure-8 myometrial fibers */}
+                  <ellipse cx="160" cy="100" rx="90" ry="70" fill="#FCE7F3" stroke="#DB2777" strokeWidth="2.5" />
+                  {/* Criss-cross muscle bands */}
+                  <path d="M 110 50 Q 160 100, 210 150" stroke="#BE185D" strokeWidth="6" strokeLinecap="round" />
+                  <path d="M 210 50 Q 160 100, 110 150" stroke="#BE185D" strokeWidth="6" strokeLinecap="round" />
+                  <path d="M 90 100 Q 160 80, 230 100" stroke="#9D174D" strokeWidth="5" strokeLinecap="round" />
+
+                  {/* Severed spiral arteries clamped in the middle */}
+                  <circle cx="160" cy="100" r="10" fill="#DC2626" stroke="#991B1B" strokeWidth="2" />
+                  <text x="135" y="104" fill="#FFFFFF" fontSize="9" fontWeight="bold">Artery</text>
+                  <text x="75" y="185" fill="#831843" fontSize="11" fontWeight="bold">Figure-8 'Living Ligatures' Clamping Vessels</text>
+                </svg>
+              </div>
+
+              <div className="p-4 rounded-2xl bg-white border border-charcoal/15 shadow-2xs space-y-2 text-xs">
+                <span className="font-bold text-coral uppercase tracking-wider">Postpartum Anatomy</span>
+                <h4 className="text-base font-serif font-bold text-charcoal">
+                  The 'Living Ligatures' of the Uterus
+                </h4>
+                <p className="text-charcoal/85 leading-relaxed">
+                  When the placenta detaches at birth, over 120 maternal spiral arteries are left severed and open. To prevent catastrophic bleeding, the uterus has unique criss-crossing, figure-8 muscle fibers known as <strong>living ligatures</strong>. When the uterus contracts firmly, these muscle loops squeeze the severed vessels shut like physiological tourniquets.
+                </p>
+                <div className="p-2.5 rounded-xl bg-rose-50 border border-rose-200 text-rose-950 text-[11px] font-medium">
+                  ⚠️ <strong>Uterine Atony (The Danger):</strong> If the uterus fails to contract ('boggy uterus'), the mother can lose up to 500 mL of blood in just a few minutes. Immediate fundal massage, bimanual compression, and IV oxytocin/TXA are lifesaving!
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* TAB 1: WARNING SIGNS VS NORMAL */}
+      {activeTab === "warning-signs" && (
+        <div className="space-y-5">
+          {/* Symptom Selector Pills */}
+          <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-thin">
+            {symptomPairs.map((pair, idx) => {
+              const IconComponent = pair.icon;
+              const isSelected = idx === selectedSymptomIdx;
+              return (
+                <button
+                  key={pair.id}
+                  type="button"
+                  onClick={() => setSelectedSymptomIdx(idx)}
+                  className={`flex items-center gap-2 px-3 py-2 rounded-2xl text-xs font-medium shrink-0 border transition-all ${
+                    isSelected
+                      ? "bg-coral text-white border-coral shadow-xs font-bold"
+                      : "bg-sand/40 text-charcoal/80 border-charcoal/10 hover:bg-sand/70"
+                  }`}
+                >
+                  <IconComponent className="w-3.5 h-3.5" />
+                  <span>{pair.label}</span>
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Active Comparison Card */}
+          <div className="bg-sand/30 rounded-3xl border border-charcoal/10 p-4 sm:p-6 space-y-5">
+            <div className="flex items-start justify-between gap-4 flex-wrap">
+              <div>
+                <span className="text-xs font-bold text-coral uppercase tracking-wider">Clinical Differentiation</span>
+                <h4 className="text-lg sm:text-xl font-serif font-bold text-charcoal mt-0.5">
+                  {activeSymptom.title}
+                </h4>
+              </div>
+              <div className="px-3 py-1 rounded-full bg-rose-100 border border-rose-300 text-rose-800 text-xs font-bold flex items-center gap-1.5">
+                <AlertTriangle className="w-3.5 h-3.5 text-rose-600" />
+                <span>Suspected: {activeSymptom.condition}</span>
+              </div>
+            </div>
+
+            {/* Side-by-Side Comparison */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {/* Normal Pregnancy Adaptation */}
+              <div className="p-4 rounded-2xl bg-emerald-50/70 border-2 border-emerald-200/80 space-y-2">
+                <div className="flex items-center gap-2 text-emerald-800 font-bold text-xs uppercase tracking-wider">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+                  <span>Typical Pregnancy Adaptation (Benign)</span>
+                </div>
+                <p className="text-xs sm:text-sm text-charcoal/85 leading-relaxed">
+                  {activeSymptom.normal}
+                </p>
+                <div className="text-[11px] text-emerald-900/80 font-medium bg-emerald-100/50 rounded-xl p-2 border border-emerald-200/50">
+                  ✓ Usually improves with hydration, rest, repositioning, or light food.
+                </div>
+              </div>
+
+              {/* Urgent Warning Sign */}
+              <div className="p-4 rounded-2xl bg-rose-50/80 border-2 border-rose-300 space-y-2">
+                <div className="flex items-center gap-2 text-rose-900 font-bold text-xs uppercase tracking-wider">
+                  <AlertTriangle className="w-4 h-4 text-rose-600" />
+                  <span>Urgent Maternal Warning Sign (Action Needed)</span>
+                </div>
+                <p className="text-xs sm:text-sm text-rose-950 font-medium leading-relaxed">
+                  {activeSymptom.urgentWarning}
+                </p>
+                <div className="text-[11px] text-rose-900 font-bold bg-rose-200/60 rounded-xl p-2 border border-rose-300/80">
+                  ⚠️ Never 'wait and see.' Requires immediate clinical and laboratory evaluation.
+                </div>
+              </div>
+            </div>
+
+            {/* Pathophysiology & Testing Row */}
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-3.5 text-xs">
+              <div className="p-3.5 rounded-2xl bg-white border border-charcoal/10 space-y-1.5 shadow-2xs">
+                <span className="font-bold text-charcoal flex items-center gap-1.5 text-deep-teal">
+                  <Brain className="w-3.5 h-3.5" />
+                  Pathophysiological Mechanism
+                </span>
+                <p className="text-charcoal/80 leading-relaxed text-[11px]">
+                  {activeSymptom.pathophysiology}
+                </p>
+              </div>
+
+              <div className="p-3.5 rounded-2xl bg-white border border-charcoal/10 space-y-1.5 shadow-2xs">
+                <span className="font-bold text-charcoal flex items-center gap-1.5 text-coral">
+                  <Stethoscope className="w-3.5 h-3.5" />
+                  Diagnostic Orders to Request
+                </span>
+                <p className="text-charcoal/80 leading-relaxed text-[11px]">
+                  {activeSymptom.testsToDemand}
+                </p>
+              </div>
+
+              <div className="p-3.5 rounded-2xl bg-rose-50/60 border border-rose-200 space-y-1.5 shadow-2xs">
+                <span className="font-bold text-rose-900 flex items-center gap-1.5">
+                  <ShieldAlert className="w-3.5 h-3.5 text-rose-600" />
+                  Dangerous Risk if Dismissed
+                </span>
+                <p className="text-rose-950 leading-relaxed text-[11px]">
+                  {activeSymptom.dismissalRisk}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* TAB 2: TRIAGE CHALLENGE (INTERACTIVE SIMULATOR) */}
+      {activeTab === "challenge" && (
+        <div className="space-y-6">
+          <div className="flex items-center justify-between gap-4 p-4 rounded-2xl bg-gradient-to-r from-coral/15 to-sand/60 border border-coral/30">
+            <div>
+              <span className="text-xs font-bold text-coral uppercase tracking-wider">Clinical Advocacy Simulator</span>
+              <h4 className="text-base sm:text-lg font-serif font-bold text-charcoal">
+                Triage Decision Room: Challenge {challengeStep + 1} of {challengeCases.length}
+              </h4>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="text-xs font-bold bg-white px-3 py-1 rounded-full border border-charcoal/10 shadow-2xs">
+                Advocacy Score: <span className="text-coral">{challengeScore} XP</span>
+              </span>
+            </div>
+          </div>
+
+          {!challengeCompleted ? (
+            <div className="rounded-3xl border border-charcoal/15 bg-white p-5 sm:p-6 space-y-4 shadow-sm">
+              <div className="p-4 rounded-2xl bg-sand/30 border border-charcoal/10 space-y-2">
+                <span className="text-xs font-bold text-deep-teal uppercase tracking-wider">Incoming Patient Encounter</span>
+                <h5 className="font-serif font-bold text-charcoal text-base sm:text-lg">
+                  {currentChallenge.patient}
+                </h5>
+                <div className="p-3 rounded-xl bg-rose-50/70 border border-rose-200 text-xs sm:text-sm text-rose-950 font-medium">
+                  <strong>Reported Symptoms:</strong> {currentChallenge.symptom}
+                </div>
+                <div className="p-3 rounded-xl bg-amber-50/70 border border-amber-200 text-xs sm:text-sm text-amber-950 italic">
+                  <strong>Clinical Dismissal Encounter:</strong> {currentChallenge.clinicianSays}
+                </div>
+              </div>
+
+              <div className="space-y-2.5 pt-2">
+                <p className="text-xs font-bold text-charcoal uppercase tracking-wider">
+                  How should you advocate to counter this dismissal?
+                </p>
+                {currentChallenge.options.map((opt, optIdx) => {
+                  const isSelected = challengeAnswer === optIdx;
+                  return (
+                    <button
+                      key={optIdx}
+                      type="button"
+                      disabled={challengeAnswer !== null}
+                      onClick={() => {
+                        setChallengeAnswer(optIdx);
+                        if (opt.isCorrect) setChallengeScore((prev) => prev + 30);
+                      }}
+                      className={`w-full text-left p-3.5 sm:p-4 rounded-2xl text-xs sm:text-sm transition-all border ${
+                        challengeAnswer === null
+                          ? "bg-white hover:bg-sand/40 border-charcoal/15 text-charcoal"
+                          : isSelected && opt.isCorrect
+                          ? "bg-emerald-50 border-emerald-500 text-emerald-950 font-medium"
+                          : isSelected && !opt.isCorrect
+                          ? "bg-rose-50 border-rose-500 text-rose-950 font-medium"
+                          : opt.isCorrect
+                          ? "bg-emerald-50/50 border-emerald-300 text-emerald-900"
+                          : "opacity-40 bg-sand/20 border-charcoal/10 text-charcoal/60"
+                      }`}
+                    >
+                      <div className="flex items-start gap-3">
+                        <span className="w-6 h-6 rounded-full bg-sand text-charcoal flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">
+                          {["A", "B", "C"][optIdx]}
+                        </span>
+                        <div className="space-y-1.5 flex-1">
+                          <p>{opt.text}</p>
+                          {challengeAnswer !== null && (
+                            <div
+                              className={`text-[11px] p-2.5 rounded-xl border mt-2 leading-relaxed ${
+                                opt.isCorrect
+                                  ? "bg-emerald-100/60 border-emerald-300 text-emerald-950 font-semibold"
+                                  : "bg-rose-100/60 border-rose-300 text-rose-950"
+                              }`}
+                            >
+                              {opt.feedback}
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </button>
+                  );
+                })}
+              </div>
+
+              {challengeAnswer !== null && (
+                <div className="flex justify-end pt-2">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (challengeStep + 1 < challengeCases.length) {
+                        setChallengeStep((prev) => prev + 1);
+                        setChallengeAnswer(null);
+                      } else {
+                        setChallengeCompleted(true);
+                      }
+                    }}
+                    className="px-5 py-2.5 rounded-2xl bg-coral text-white font-bold text-xs sm:text-sm hover:opacity-90 shadow-sm flex items-center gap-2"
+                  >
+                    <span>{challengeStep + 1 < challengeCases.length ? "Next Clinical Case →" : "Finish Triage Challenge 🏆"}</span>
+                  </button>
+                </div>
+              )}
+            </div>
+          ) : (
+            <div className="p-6 rounded-3xl bg-emerald-50 border-2 border-emerald-300 text-center space-y-4">
+              <div className="w-12 h-12 rounded-full bg-emerald-600 text-white flex items-center justify-center mx-auto shadow-md">
+                <CheckCircle2 className="w-6 h-6" />
+              </div>
+              <h4 className="text-xl font-serif font-bold text-emerald-950">
+                Triage Advocacy Mastery Achieved!
+              </h4>
+              <p className="text-xs sm:text-sm text-emerald-900 max-w-md mx-auto leading-relaxed">
+                You successfully advocated through all 3 emergency dismissal cases, demanding the correct diagnostic panels and halting catastrophic clinical cascades!
+              </p>
+              <div className="inline-block px-4 py-1.5 rounded-full bg-emerald-200 text-emerald-900 font-bold text-sm">
+                Final Score: {challengeScore} XP
+              </div>
+              <div className="pt-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setChallengeStep(0);
+                    setChallengeAnswer(null);
+                    setChallengeScore(0);
+                    setChallengeCompleted(false);
+                  }}
+                  className="px-4 py-2 rounded-xl bg-emerald-700 text-white text-xs font-bold hover:bg-emerald-800 transition-all"
+                >
+                  Play Again
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* TAB 3: LANDMARK CASES & CDC DATA */}
+      {activeTab === "cases" && (
+        <div className="space-y-6">
+          {/* CDC MMRC Statistics Widget */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
+            <div className="p-4 rounded-2xl bg-coral/10 border border-coral/30 space-y-1 text-center">
+              <span className="text-2xl sm:text-3xl font-serif font-bold text-coral">84%+</span>
+              <p className="text-xs text-charcoal/80 font-medium">Preventable Deaths</p>
+              <p className="text-[11px] text-charcoal/60">CDC MMRCs confirm over 8 in 10 U.S. maternal deaths could be prevented.</p>
+            </div>
+            <div className="p-4 rounded-2xl bg-raspberry/10 border border-raspberry/30 space-y-1 text-center">
+              <span className="text-2xl sm:text-3xl font-serif font-bold text-raspberry">2.6x – 3x</span>
+              <p className="text-xs text-charcoal/80 font-medium">Racial Disparity</p>
+              <p className="text-[11px] text-charcoal/60">Black mothers face 3x higher mortality regardless of income or education.</p>
+            </div>
+            <div className="p-4 rounded-2xl bg-deep-teal/10 border border-deep-teal/30 space-y-1 text-center">
+              <span className="text-2xl sm:text-3xl font-serif font-bold text-deep-teal">#1 Driver</span>
+              <p className="text-xs text-charcoal/80 font-medium">Communication Failure</p>
+              <p className="text-[11px] text-charcoal/60">Delayed diagnosis and patient dismissal are leading root causes.</p>
+            </div>
+          </div>
+
+          {/* Case Selector Tabs */}
+          <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-thin">
+            {landmarkCases.map((c, idx) => (
+              <button
+                key={c.name}
+                type="button"
+                onClick={() => setSelectedCaseIdx(idx)}
+                className={`px-3.5 py-2 rounded-2xl text-xs font-medium shrink-0 border transition-all ${
+                  idx === selectedCaseIdx
+                    ? "bg-charcoal text-white border-charcoal shadow-xs font-bold"
+                    : "bg-sand/40 text-charcoal/80 border-charcoal/10 hover:bg-sand/70"
+                }`}
+              >
+                {c.name} ({c.year})
+              </button>
+            ))}
+          </div>
+
+          {/* Active Case Dossier */}
+          <div className="rounded-3xl border border-charcoal/15 bg-white p-5 sm:p-6 space-y-4 shadow-sm">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-charcoal/10">
+              <div>
+                <h4 className="text-lg sm:text-xl font-serif font-bold text-charcoal">
+                  {activeCase.name}
+                </h4>
+                <p className="text-xs text-coral font-semibold mt-0.5">
+                  {activeCase.role} · {activeCase.year}
+                </p>
+              </div>
+              <span className="px-3 py-1 rounded-full bg-rose-100 text-rose-900 border border-rose-200 text-xs font-bold shrink-0">
+                {activeCase.diagnosis}
+              </span>
+            </div>
+
+            <div className="space-y-3 text-xs leading-relaxed text-charcoal/85">
+              <div className="p-3.5 rounded-2xl bg-rose-50/60 border border-rose-200 space-y-1">
+                <strong className="text-rose-950 font-semibold block flex items-center gap-1.5">
+                  <AlertTriangle className="w-3.5 h-3.5 text-rose-600" />
+                  The Dismissal Encounter:
+                </strong>
+                <p className="text-rose-950">{activeCase.dismissalEncounter}</p>
+              </div>
+
+              <div className="p-3.5 rounded-2xl bg-sand/40 border border-charcoal/10 space-y-1">
+                <strong className="text-charcoal font-semibold block flex items-center gap-1.5 text-deep-teal">
+                  <ShieldCheck className="w-3.5 h-3.5" />
+                  Advocacy & Hospital Response:
+                </strong>
+                <p>{activeCase.advocacyAction}</p>
+              </div>
+
+              <div className="p-3.5 rounded-2xl bg-emerald-50/70 border border-emerald-200 space-y-1">
+                <strong className="text-emerald-950 font-semibold block flex items-center gap-1.5 text-emerald-600">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
+                  Clinical Outcome & Public Health Legacy:
+                </strong>
+                <p className="text-emerald-950">{activeCase.outcome}</p>
+              </div>
+
+              <div className="text-[11px] text-charcoal/60 pt-1">
+                <strong>Academic / Legal Citation:</strong> {activeCase.citation}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* TAB 4: ADVOCACY PLAYBOOK */}
+      {activeTab === "advocacy" && (
+        <div className="space-y-4">
+          <div className="p-4 rounded-2xl bg-deep-teal/10 border border-deep-teal/20 text-xs text-deep-teal leading-relaxed space-y-1">
+            <span className="font-bold flex items-center gap-1.5">
+              <Lightbulb className="w-4 h-4" />
+              Tactical Communication Shields
+            </span>
+            <p className="text-charcoal/85">
+              When communicating with emergency medical personnel, using clinical vocabulary and demanding chart documentation strips away subjective dismissal and enforces standard-of-care clinical protocols.
+            </p>
+          </div>
+
+          <div className="space-y-4">
+            {advocacyScripts.map((item, idx) => (
+              <div key={item.id} className="p-4 sm:p-5 rounded-2xl bg-white border border-charcoal/15 shadow-2xs space-y-3">
+                <div className="flex items-start justify-between gap-3">
+                  <div>
+                    <h5 className="font-serif font-bold text-sm sm:text-base text-charcoal">
+                      {item.title}
+                    </h5>
+                    <p className="text-[11px] text-coral font-medium mt-0.5">
+                      {item.purpose}
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => handleCopyScript(item.script, idx)}
+                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-sand/60 hover:bg-sand text-charcoal text-xs font-semibold border border-charcoal/10 transition-all shrink-0"
+                  >
+                    {copiedIdx === idx ? (
+                      <>
+                        <Check className="w-3.5 h-3.5 text-emerald-600" />
+                        <span className="text-emerald-600 font-bold">Copied!</span>
+                      </>
+                    ) : (
+                      <>
+                        <ExternalLink className="w-3.5 h-3.5 text-charcoal/70" />
+                        <span>Copy Script</span>
+                      </>
+                    )}
+                  </button>
+                </div>
+
+                <div className="p-3.5 rounded-xl bg-sand/30 border border-charcoal/10 text-xs sm:text-sm text-charcoal font-serif italic leading-relaxed">
+                  {item.script}
+                </div>
+
+                <div className="text-[11px] text-charcoal/75 bg-sand/20 rounded-xl p-2.5 border border-charcoal/10">
+                  <strong>Why this works:</strong> {item.whyItWorks}
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       )}

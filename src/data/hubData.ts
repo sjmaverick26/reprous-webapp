@@ -8,7 +8,7 @@ export interface QuizQuestion {
 }
 
 export interface LessonDiagram {
-  type: "cycle-wheel" | "energy-balance" | "pcos-loop" | "pelvic-map" | "anatomy-callout" | "timeline" | "athlete-plate" | "hormone-scale" | "reds-triangle" | "water-glass" | "sleep-recovery" | "iron-ferritin" | "cycle-training" | "cycle-fueling" | "puberty-brain";
+  type: "cycle-wheel" | "energy-balance" | "pcos-loop" | "pelvic-map" | "anatomy-callout" | "timeline" | "athlete-plate" | "hormone-scale" | "reds-triangle" | "water-glass" | "sleep-recovery" | "iron-ferritin" | "cycle-training" | "cycle-fueling" | "puberty-brain" | "maternal-warning-signs";
   title: string;
   caption: string;
 }
@@ -646,13 +646,89 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
         id: "conditions-0",
         name: "Pregnancy Basics",
         type: "lesson",
-        desc: "What to know, whatever stage you're at.",
+        desc: "Fertilization, early symptoms, urgent maternal warning signs vs. dismissal risks, and patient advocacy.",
         xp: 50,
-        readTime: "5 min read",
-        summary: "How fertilization and implantation occur, early signs of pregnancy, testing options, and confidential resources.",
+        readTime: "6 min read",
+        summary: "Fertilization occurs when sperm meets an egg in the fallopian tube, forming a blastocyst that implants into the uterine lining 6 to 12 days later. Early pregnancy triggers exponential surges of beta-hCG and progesterone, causing classic physiological adaptations like fatigue, breast tenderness, and nausea. However, when pregnant individuals report alarming changes, medical dismissal—labeling critical symptoms as 'just normal pregnancy discomfort' or 'anxiety'—poses devastating, life-threatening risks. Clinical data from CDC Maternal Mortality Review Committees proves that over 80% of maternal deaths in the U.S. are preventable, driven directly by delayed diagnosis and unaddressed patient concerns.",
         keyTakeaways: [
-          "Over-the-counter urine tests are accurate from the first day of a missed period.",
-          "Access to confidential, non-judgmental counseling is available at community health centers."
+          "Early Biology & Testing: Implantation occurs 6–12 days post-conception, prompting trophoblast cells to secrete beta-hCG (doubling every 48–72 hours). Over-the-counter urine tests detect hCG accurately from the first day of a missed period.",
+          "Typical Symptoms vs. Red Flags: Mild breast tenderness, fatigue, and morning sickness are expected adaptations. Severe unremitting headaches, visual disturbances, epigastric upper belly pain, and sudden facial edema are CDC Urgent Maternal Warning Signs.",
+          "The Harmful Cascade of Dismissal: Brushing off patient concerns as 'anxiety' delays detection of preeclampsia, HELLP syndrome, internal hemorrhage, and pulmonary embolisms—turning treatable complications into fatal emergencies.",
+          "Over 80% Preventable: Data from CDC-funded Maternal Mortality Review Committees (MMRCs) reveals that over 80% (up to 87%) of pregnancy-related deaths in the United States could be prevented with timely clinical response and communication.",
+          "Landmark Cited Cases: Tennis icon Serena Williams survived a post-C-section pulmonary embolism only because she aggressively insisted on a CT angiogram when nurses dismissed her breathing distress. Conversely, Kira Dixon Johnson died from preventable internal hemorrhage after 10 hours of family pleading was ignored ('she is not a priority'), sparking the federal Preventing Maternal Deaths Act of 2018. Renowned pediatric chief resident Dr. Chaniece Wallace and CDC epidemiologist Dr. Shalon Irving tragically passed away from postpartum preeclampsia and hypertensive crisis despite their elite medical literacy, demonstrating that credentials do not insulate Black women from systemic dismissal.",
+          "Documenting Refusal: If a clinician refuses to order blood pressure re-checks, urine protein testing, or lab panels for urgent symptoms, calmly insist: 'Please document your refusal to perform this diagnostic evaluation in my chart along with your medical justification.'"
+        ],
+        visualCards: [
+          {
+            title: "1. GENERAL SYMPTOMS & BIOLOGY",
+            iconName: "Activity",
+            text: "Implantation triggers exponential surges in beta-hCG and progesterone. Expected adaptations include breast swelling, mild morning nausea, and progesterone-mediated fatigue that improves with rest.",
+            highlight: "Early pregnancy adaptations"
+          },
+          {
+            title: "2. CDC URGENT MATERNAL WARNING SIGNS",
+            iconName: "AlertTriangle",
+            text: "The CDC Hear Her campaign identifies 15 red flags requiring immediate medical evaluation: unyielding severe headache, vision spots/auras, epigastric right upper quadrant pain, sudden hand/facial swelling, chest pain, and heavy bleeding.",
+            highlight: "15 critical red flags"
+          },
+          {
+            title: "3. THE DEADLY COST OF DISMISSAL",
+            iconName: "Shield",
+            text: "When clinical staff dismiss symptoms as 'new mother anxiety,' preeclampsia progresses to eclampsia and stroke, internal bleeding leads to hypovolemic shock, and deep vein thrombosis turns into fatal pulmonary embolisms.",
+            highlight: "Consequences of delayed care"
+          },
+          {
+            title: "4. LANDMARK CASES & THE 80%+ PREVENTABLE REALITY",
+            iconName: "Heart",
+            text: "Documented cases like Serena Williams, Kira Dixon Johnson, Dr. Shalon Irving, and Dr. Chaniece Wallace expose systemic dismissal. Over 80% of U.S. maternal deaths are preventable when patients are believed and evaluated immediately.",
+            highlight: "Preventable maternal mortality"
+          }
+        ],
+        diagram: {
+          type: "maternal-warning-signs",
+          title: "Interactive Maternal Warning Signs & Clinical Dismissal Matrix",
+          caption: "Compare normal pregnancy symptoms with urgent clinical warning signs, explore the physiological dangers of medical dismissal, and review documented landmark cases with self-advocacy scripts."
+        },
+        advocacyScript: {
+          situation: "A healthcare provider or triage nurse dismisses your severe headache, vision changes, sudden facial swelling, or shortness of breath as 'just normal pregnancy discomfort and stress.'",
+          doctorScript: "“Dr. [Name], my symptoms align directly with the CDC's Urgent Maternal Warning Signs for preeclampsia and acute cardiovascular complications. I know my body, and this is not normal discomfort. I am formally requesting an immediate blood pressure check, a urine protein dip, and a complete metabolic and coagulation panel right now. If you decline to run these diagnostic tests, please document your clinical refusal and medical justification in my chart today.”",
+          whyItWorks: "Invoking standardized CDC Urgent Maternal Warning Signs shifts the conversation from subjective complaint to evidence-based clinical protocols, and demanding documented refusal in your chart creates immediate legal and medical liability accountability.",
+          whatIfDismissed: "“I do not feel medically safe leaving this facility. Please page the obstetric attending on call and contact the hospital patient advocate or nursing supervisor immediately.”"
+        },
+        quiz: [
+          {
+            question: "What is the primary clinical distinction between typical pregnancy fatigue and an urgent maternal warning sign?",
+            options: [
+              "Fatigue is always dangerous and requires emergency surgery",
+              "Pregnant people never experience fatigue",
+              "Expected fatigue improves with rest, whereas urgent warning signs include severe unremitting headaches, visual auras, chest pain, or sudden facial edema",
+              "All headaches in pregnancy are harmless"
+            ],
+            correctIndex: 2,
+            explanation: "Expected physiological fatigue improves with hydration and rest. In contrast, unyielding severe headaches, visual disturbances, or sudden swelling are signs of preeclampsia or cardiovascular complications requiring immediate clinical evaluation."
+          },
+          {
+            question: "According to data from CDC Maternal Mortality Review Committees (MMRCs), what percentage of pregnancy-related deaths in the United States are clinically preventable?",
+            options: [
+              "Over 80% to 87% are preventable through timely recognition and communication",
+              "Under 5%",
+              "Exactly 50%",
+              "Maternal deaths cannot be prevented"
+            ],
+            correctIndex: 0,
+            explanation: "CDC-funded MMRCs across 36 states found that over 80% (up to 87%) of maternal deaths could be prevented with timely clinical diagnosis, recognition of warning signs, and respectful communication."
+          },
+          {
+            question: "When tennis champion Serena Williams experienced sudden shortness of breath and coughing post-C-section, hospital staff initially dismissed her symptoms as confusion from pain medication. How did self-advocacy save her life?",
+            options: [
+              "She waited until the next day to see if it resolved",
+              "She stopped breathing completely before anyone noticed",
+              "She left the hospital against medical advice",
+              "She knew her history, insisted on an immediate CT angiogram with contrast and IV heparin, and clinicians discovered life-threatening pulmonary emboli"
+            ],
+            correctIndex: 3,
+            explanation: "Because Serena understood her medical history and insisted on diagnostic imaging despite nurse pushback, physicians performed a CT angiogram that revealed bilateral pulmonary emboli, allowing life-saving heparin treatment."
+          }
         ]
       },
       {

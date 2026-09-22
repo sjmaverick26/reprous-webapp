@@ -255,6 +255,22 @@ const DEFAULT_REFERENCES: Record<string, ReferenceItem[]> = {
       source: "ReproUs Health Library",
       linkText: "Read Patient Note",
     },
+    {
+      number: "05",
+      type: "Clinical guideline",
+      title: "CDC Hear Her® Campaign: Urgent Maternal Warning Signs & Preventing Pregnancy-Related Deaths",
+      source: "Centers for Disease Control and Prevention (CDC) & State MMRCs",
+      url: "https://www.cdc.gov/hearher",
+      linkText: "View CDC Warning Signs",
+    },
+    {
+      number: "06",
+      type: "Clinical guideline",
+      title: "Severe Hypertension in Pregnancy & Obstetric Hemorrhage Safety Bundles",
+      source: "Alliance for Innovation on Maternal Health (AIM) & ACOG",
+      url: "https://safehealthcareforeverywoman.org",
+      linkText: "Explore Safety Bundles",
+    },
   ],
   realtalk: [
     {
