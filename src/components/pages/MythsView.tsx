@@ -301,7 +301,7 @@ export function MythsView({ onNavigate }: MythsViewProps) {
 
                     {/* Full Educational Explanation */}
                     <div className="text-[15px] text-plum/85 font-sans leading-relaxed space-y-2">
-                      <p className="m-0">{item.explanation}</p>
+                      <p className="m-0 whitespace-pre-line">{item.explanation}</p>
                     </div>
 
                     {/* Key Takeaways Box */}
