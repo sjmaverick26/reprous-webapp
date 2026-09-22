@@ -456,67 +456,83 @@ export function AthleteCatcherDrawing({ className = "w-full h-full" }: { classNa
         </radialGradient>
       </defs>
 
-      {/* Athlete Hair / Braids behind head */}
-      <path
-        d="M 32 30 C 24 36 22 50 25 58"
-        stroke="#1E1B4B"
-        strokeWidth="4"
-        strokeLinecap="round"
-      />
-      <path
-        d="M 68 30 C 76 36 78 50 75 58"
-        stroke="#1E1B4B"
-        strokeWidth="4"
-        strokeLinecap="round"
-      />
-      <path
-        d="M 28 34 C 20 42 19 54 21 62"
-        stroke="#312E81"
-        strokeWidth="3"
-        strokeLinecap="round"
-      />
-      <path
-        d="M 72 34 C 80 42 81 54 79 62"
-        stroke="#312E81"
-        strokeWidth="3"
-        strokeLinecap="round"
-      />
+      {/* Layer 1: Back Box Braids falling behind shoulders */}
+      <g>
+        <path d="M 32 26 C 24 34 20 46 22 62" stroke="#0B0E14" strokeWidth="4" strokeLinecap="round" />
+        <path d="M 32 26 C 24 34 20 46 22 62" stroke="#374151" strokeWidth="1.2" strokeLinecap="round" strokeDasharray="3,2" />
+        <path d="M 28 30 C 18 38 16 52 18 64" stroke="#0B0E14" strokeWidth="3.5" strokeLinecap="round" />
+        <path d="M 28 30 C 18 38 16 52 18 64" stroke="#374151" strokeWidth="1.2" strokeLinecap="round" strokeDasharray="3,2" />
+        
+        <path d="M 68 26 C 76 34 80 46 78 62" stroke="#0B0E14" strokeWidth="4" strokeLinecap="round" />
+        <path d="M 68 26 C 76 34 80 46 78 62" stroke="#374151" strokeWidth="1.2" strokeLinecap="round" strokeDasharray="3,2" />
+        <path d="M 72 30 C 82 38 84 52 82 64" stroke="#0B0E14" strokeWidth="3.5" strokeLinecap="round" />
+        <path d="M 72 30 C 82 38 84 52 82 64" stroke="#374151" strokeWidth="1.2" strokeLinecap="round" strokeDasharray="3,2" />
+      </g>
 
-      {/* Head & Hair Top */}
-      <circle cx="50" cy="24" r="17" fill="#1E1B4B" />
+      {/* Layer 2: Head Base & Ears */}
+      <ellipse cx="50" cy="27" rx="13" ry="13" fill="#523321" />
+      <circle cx="37" cy="28" r="2.8" fill="#523321" />
+      <circle cx="63" cy="28" r="2.8" fill="#523321" />
+      <circle cx="37" cy="29.5" r="0.9" fill="#F59E0B" />
+      <circle cx="63" cy="29.5" r="0.9" fill="#F59E0B" />
 
-      {/* Athletic Headband */}
-      <rect x="34" y="16" width="32" height="7" rx="3.5" fill="#F43F5E" />
-      <circle cx="50" cy="19.5" r="2" fill="#FFE4E6" />
+      {/* Layer 3: Solid Scalp Cap with Box Parting Grid */}
+      <ellipse cx="50" cy="18" rx="16" ry="10" fill="#0B0E14" />
+      <path d="M 34 26 C 33 12, 67 12, 66 26 C 63 20, 58 17, 50 17 C 42 17, 37 20, 34 26 Z" fill="#0B0E14" />
+      {/* Box Parting Grid lines on scalp */}
+      <line x1="50" y1="9" x2="50" y2="18" stroke="#374151" strokeWidth="1" strokeLinecap="round" />
+      <line x1="42" y1="12" x2="45" y2="18" stroke="#374151" strokeWidth="0.8" />
+      <line x1="58" y1="12" x2="55" y2="18" stroke="#374151" strokeWidth="0.8" />
 
-      {/* Face */}
-      <ellipse cx="50" cy="27" rx="13" ry="12" fill="#854D0E" />
-      {/* Ears */}
-      <circle cx="37" cy="27" r="2.8" fill="#854D0E" />
-      <circle cx="63" cy="27" r="2.8" fill="#854D0E" />
+      {/* Layer 4: Athletic Performance Headband */}
+      <rect x="33" y="16" width="34" height="6.5" rx="3.2" fill="#0D9488" stroke="#115E59" strokeWidth="1" />
+      <circle cx="50" cy="19.2" r="1.8" fill="#F59E0B" />
 
-      {/* Eyes & Athletic Smile */}
-      <circle cx="45" cy="26" r="1.6" fill="#1E1B4B" />
-      <circle cx="55" cy="26" r="1.6" fill="#1E1B4B" />
-      <path d="M 45 32 Q 50 36 55 32" stroke="#FFFFFF" strokeWidth="1.8" strokeLinecap="round" />
+      {/* Layer 5: Facial Features */}
+      {/* Eyebrows */}
+      <path d="M 42 22 Q 45 20.5 48 22" stroke="#1F2937" strokeWidth="1.6" fill="none" strokeLinecap="round" />
+      <path d="M 52 22 Q 55 20.5 58 22" stroke="#1F2937" strokeWidth="1.6" fill="none" strokeLinecap="round" />
+      {/* Focused, confident eyes */}
+      <circle cx="45" cy="26" r="1.6" fill="#1E293B" />
+      <circle cx="55" cy="26" r="1.6" fill="#1E293B" />
+      <circle cx="45.6" cy="25.4" r="0.5" fill="#FFFFFF" />
+      <circle cx="55.6" cy="25.4" r="0.5" fill="#FFFFFF" />
+      {/* Nose */}
+      <path d="M 50 27 L 49 30 L 51 30" stroke="#3E2517" strokeWidth="1.2" fill="none" strokeLinecap="round" />
+      {/* Radiant athletic smile */}
+      <path d="M 45 33 Q 50 37 55 33" stroke="#FFFFFF" strokeWidth="2.2" strokeLinecap="round" />
+      <path d="M 45 33 Q 50 37 55 33" stroke="#3E2517" strokeWidth="0.8" fill="none" strokeLinecap="round" />
 
-      {/* Neck & Jersey */}
-      <rect x="46" y="38" width="8" height="6" fill="#854D0E" />
+      {/* Layer 6: Neck & Athletic Jersey */}
+      <rect x="46" y="38" width="8" height="6" fill="#3E2517" />
       <path
         d="M 38 43 L 62 43 L 66 68 L 34 68 Z"
         fill="#0D9488"
         stroke="#115E59"
         strokeWidth="1.5"
       />
+      {/* Jersey collar & lightning engine */}
+      <path d="M 45 43 L 50 49 L 55 43 Z" fill="#F47A6A" />
+      <polygon points="51,48 47,54 50,54 48,61 54,53 51,53" fill="#FACC15" />
 
-      {/* Jersey Energy Lightning Emblem */}
-      <polygon points="51,46 46,54 50,54 48,62 55,52 51,52" fill="#FACC15" />
+      {/* Layer 7: Front Box Braids Drape - Rooted at scalp, draped over jersey */}
+      <g>
+        {/* Left front braid */}
+        <path d="M 36 21 Q 31 34 30 52" stroke="#0B0E14" strokeWidth="3.4" strokeLinecap="round" fill="none" />
+        <path d="M 36 21 Q 31 34 30 52" stroke="#374151" strokeWidth="1" strokeLinecap="round" strokeDasharray="3,2" fill="none" />
+        <rect x="28.5" y="42" width="3" height="2.5" rx="0.5" fill="#F59E0B" />
 
-      {/* Muscular Arms holding up the bowl */}
+        {/* Right front braid */}
+        <path d="M 64 21 Q 69 34 70 52" stroke="#0B0E14" strokeWidth="3.4" strokeLinecap="round" fill="none" />
+        <path d="M 64 21 Q 69 34 70 52" stroke="#374151" strokeWidth="1" strokeLinecap="round" strokeDasharray="3,2" fill="none" />
+        <rect x="68.5" y="42" width="3" height="2.5" rx="0.5" fill="#F59E0B" />
+      </g>
+
+      {/* Layer 8: Muscular Arms holding up the bowl */}
       {/* Left arm */}
       <path
         d="M 36 46 Q 20 54 18 66 Q 20 73 28 73"
-        stroke="#854D0E"
+        stroke="#523321"
         strokeWidth="6"
         strokeLinecap="round"
         fill="none"
@@ -524,17 +540,17 @@ export function AthleteCatcherDrawing({ className = "w-full h-full" }: { classNa
       {/* Right arm */}
       <path
         d="M 64 46 Q 80 54 82 66 Q 80 73 72 73"
-        stroke="#854D0E"
+        stroke="#523321"
         strokeWidth="6"
         strokeLinecap="round"
         fill="none"
       />
 
       {/* Wristbands */}
-      <rect x="23" y="68" width="6" height="5" rx="2" fill="#F43F5E" transform="rotate(-15 26 70)" />
-      <rect x="71" y="68" width="6" height="5" rx="2" fill="#F43F5E" transform="rotate(15 74 70)" />
+      <rect x="23" y="68" width="6" height="5" rx="2" fill="#F47A6A" transform="rotate(-15 26 70)" />
+      <rect x="71" y="68" width="6" height="5" rx="2" fill="#F47A6A" transform="rotate(15 74 70)" />
 
-      {/* Golden Catching Bowl */}
+      {/* Layer 9: Golden Catching Bowl */}
       {/* Outer base and curve */}
       <path
         d="M 12 68 C 14 93 86 93 88 68 Z"
