@@ -256,10 +256,6 @@ export function MythsView({ onNavigate }: MythsViewProps) {
                       </blockquote>
                     </div>
 
-                    <p className="text-[15px] text-plum/75 font-sans leading-relaxed m-0">
-                      This statement is commonly shared among peers and social platforms, but conflicts directly with clinical guidelines. Uncover the underlying physiology and medical evidence.
-                    </p>
-
                     {/* Prominent CTA: Reveal the facts → (8px rounded, 13x22px padding) */}
                     <div className="pt-2">
                       <button
