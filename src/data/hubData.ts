@@ -224,14 +224,14 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
         quiz: [
           {
             question: "What is the typical age range when puberty begins?",
-            options: ["Strictly at age 12 for everyone", "Anywhere between 8 and 14+", "Only after age 16", "Between 5 and 7"],
-            correctIndex: 1,
+            options: ["Strictly at age 12 for everyone", "Only after age 16", "Anywhere between 8 and 14+", "Between 5 and 7"],
+            correctIndex: 2,
             explanation: "Puberty timelines vary widely based on genetics and health, typically starting between 8 and 14+."
           },
           {
             question: "Which part of the brain initiates puberty by releasing hormone messengers?",
-            options: ["Hypothalamus", "Visual cortex", "Brain stem", "Ear canal"],
-            correctIndex: 0,
+            options: ["Visual cortex", "Brain stem", "Ear canal", "Hypothalamus"],
+            correctIndex: 3,
             explanation: "The hypothalamus signals the pituitary gland to begin producing LH and FSH, orchestrating puberty."
           },
           {
@@ -491,20 +491,20 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
         quiz: [
           {
             question: "Which hormone surges to trigger the release of an egg during ovulation?",
-            options: ["Luteinizing Hormone (LH)", "Thyroid hormone", "Melatonin", "Insulin"],
-            correctIndex: 0,
+            options: ["Thyroid hormone", "Melatonin", "Luteinizing Hormone (LH)", "Insulin"],
+            correctIndex: 2,
             explanation: "A rapid LH surge from the pituitary gland signals the ovary to release the mature egg."
           },
           {
             question: "What is the typical medical definition of a healthy cycle length?",
-            options: ["Exactly 28 days every single month without variation", "Between 21 and 35 days for most adults", "Under 14 days", "45 to 60 days"],
-            correctIndex: 1,
+            options: ["Exactly 28 days every single month without variation", "Under 14 days", "45 to 60 days", "Between 21 and 35 days for most adults"],
+            correctIndex: 3,
             explanation: "While 28 days is an average, healthy adult cycles generally range from 21 to 35 days."
           },
           {
             question: "Why is the menstrual cycle called the '5th vital sign' by major medical groups?",
-            options: ["It indicates overall endocrine, metabolic, and bone health", "It only matters for athletes", "It is just an advertising phrase", "It only relates to pregnancy"],
-            correctIndex: 0,
+            options: ["It only matters for athletes", "It indicates overall endocrine, metabolic, and bone health", "It is just an advertising phrase", "It only relates to pregnancy"],
+            correctIndex: 1,
             explanation: "Cycle regularity reflects balanced thyroid function, adequate energy availability, and hypothalamic health."
           }
         ]
@@ -824,8 +824,8 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
         quiz: [
           {
             question: "Under the international Rotterdam criteria, how many criteria are required to diagnose PCOS?",
-            options: ["All 3 criteria must be present", "At least 2 out of 3 criteria", "Only an ultrasound finding", "A single abnormal blood test"],
-            correctIndex: 1,
+            options: ["All 3 criteria must be present", "Only an ultrasound finding", "A single abnormal blood test", "At least 2 out of 3 criteria"],
+            correctIndex: 3,
             explanation: "The Rotterdam consensus requires at least 2 of: irregular ovulation, elevated androgens, or polycystic ovaries on ultrasound."
           },
           {
@@ -836,8 +836,8 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
           },
           {
             question: "What are the small 'cysts' commonly seen on an ultrasound in PCOS?",
-            options: ["Dangerous tumors", "Immature follicles paused in development", "Infected fluid pockets", "Scar tissue"],
-            correctIndex: 1,
+            options: ["Dangerous tumors", "Infected fluid pockets", "Immature follicles paused in development", "Scar tissue"],
+            correctIndex: 2,
             explanation: "They are benign, immature egg follicles that halted development before reaching full maturity."
           }
         ]
@@ -1030,20 +1030,20 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
         quiz: [
           {
             question: "Where does endometriosis tissue grow in the body?",
-            options: ["Only inside the stomach cavity", "Outside the uterus on pelvic organs like ovaries, bladder, and bowel", "Inside the bloodstream exclusively", "Inside the thyroid gland"],
-            correctIndex: 1,
+            options: ["Only inside the stomach cavity", "Inside the bloodstream exclusively", "Inside the thyroid gland", "Outside the uterus on pelvic organs like ovaries, bladder, and bowel"],
+            correctIndex: 3,
             explanation: "Endometriosis is characterized by endometrium-like tissue growing outside the uterine cavity on surrounding pelvic structures."
           },
           {
             question: "If severe period pain prevents you from attending school or work despite medication, what is the best next step?",
-            options: ["Wait 10 years until it goes away", "Consult a healthcare provider or gynecologist for specialized evaluation", "Stop eating all food", "Assume everyone suffers equally and push through"],
-            correctIndex: 1,
+            options: ["Consult a healthcare provider or gynecologist for specialized evaluation", "Wait 10 years until it goes away", "Stop eating all food", "Assume everyone suffers equally and push through"],
+            correctIndex: 0,
             explanation: "Debilitating pain is never something you have to silently endure; seeking a medical evaluation is essential."
           },
           {
             question: "Does the anatomical stage (Stage 1 vs. Stage 4) always match how much pain a person feels?",
-            options: ["No, microscopic Stage 1 lesions near nerves can cause extreme pain", "Yes, Stage 1 has zero pain ever", "Yes, pain is always exactly proportional to stage", "Stage has nothing to do with medicine"],
-            correctIndex: 0,
+            options: ["Yes, Stage 1 has zero pain ever", "No, microscopic Stage 1 lesions near nerves can cause extreme pain", "Yes, pain is always exactly proportional to stage", "Stage has nothing to do with medicine"],
+            correctIndex: 1,
             explanation: "Pain is mediated by nerve infiltration and inflammatory mediators, meaning Stage 1 can cause severe pain while Stage 4 can sometimes be asymptomatic."
           }
         ]
@@ -1365,16 +1365,16 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
           statement: "“Why are you crying over something so minor? You've been so moody and dramatic lately, it feels like walking on eggshells around you.”",
           options: [
             {
-              text: "“Just leave me alone! You never listen and you make everything worse anyway!” (Slams door)",
-              isBest: false,
-              feedback: "While completely understandable when you feel attacked, slamming the door can leave you feeling more isolated and reinforces the misunderstanding that your feelings are just 'bad behavior.'",
-              xpBonus: 5
-            },
-            {
               text: "“I'm not crying on purpose. During puberty, the emotional part of my brain matures years before the control center, and changing hormones drop serotonin levels fast. My nervous system is genuinely overloaded right now. Can I have 20 minutes to reset with some quiet, and then we can talk calmly?”",
               isBest: true,
               feedback: "Outstanding self-advocacy! Explaining the neurobiology takes away personal blame, validates that your feelings are physiologically real, and creates a healthy boundary for nervous system co-regulation.",
               xpBonus: 30
+            },
+            {
+              text: "“Just leave me alone! You never listen and you make everything worse anyway!” (Slams door)",
+              isBest: false,
+              feedback: "While completely understandable when you feel attacked, slamming the door can leave you feeling more isolated and reinforces the misunderstanding that your feelings are just 'bad behavior.'",
+              xpBonus: 5
             },
             {
               text: "“Sorry, you're right. I'm just broken. I'll just swallow my feelings and stop talking.”",
@@ -1394,34 +1394,34 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
           {
             question: "Why do adolescents experience emotions more intensely during puberty?",
             options: [
-              "The emotional limbic system (amygdala) matures years before the executive control center (prefrontal cortex)",
               "Teens simply lack the desire to regulate their emotions",
               "Hormones destroy all neurotransmitters in the brain permanently",
+              "The emotional limbic system (amygdala) matures years before the executive control center (prefrontal cortex)",
               "Puberty only changes bones and muscles, with zero effect on the nervous system"
             ],
-            correctIndex: 0,
+            correctIndex: 2,
             explanation: "The amygdala reaches peak sensitivity early, while the prefrontal cortex—which governs perspective, impulse modulation, and calm regulation—continues remodeling until approximately age 25."
           },
           {
             question: "How do shifting levels of estrogen and progesterone affect adolescent mood?",
             options: [
               "They only regulate reproductive organs and have no access to the brain",
-              "They cross the blood-brain barrier to modulate serotonin and GABA neurotransmitter systems",
               "They only affect hunger and thirst",
-              "They permanently stop brain cell connections from forming"
+              "They permanently stop brain cell connections from forming",
+              "They cross the blood-brain barrier to modulate serotonin and GABA neurotransmitter systems"
             ],
-            correctIndex: 1,
+            correctIndex: 3,
             explanation: "Estrogen stimulates serotonin synthesis and receptor sensitivity, while progesterone and allopregnanolone modulate calming GABA-A receptors. Rapid fluctuations create real neurological mood dips."
           },
           {
             question: "Which of the following is a sign that mood changes warrant professional clinical care rather than being normal puberty waves?",
             options: [
-              "Crying after an upsetting exam, but feeling better after talking with a family member",
               "Persistent sadness, anhedonia (loss of joy), or hopelessness lasting 2 or more consecutive weeks",
+              "Crying after an upsetting exam, but feeling better after talking with a family member",
               "Needing 45 minutes of quiet time in your bedroom after a busy social day",
               "Feeling passionate and excited about a new sport or friendship"
             ],
-            correctIndex: 1,
+            correctIndex: 0,
             explanation: "Persistent sadness or loss of interest lasting 2 or more weeks is a primary clinical indicator of depression, requiring professional healthcare evaluation."
           }
         ]
@@ -1482,16 +1482,16 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
               xpBonus: 5
             },
             {
-              text: "“Thank you, doctor. Given that chronic cortisol can suppress hypothalamic GnRH pulsatility, what specific timeline should we monitor before evaluating for Functional Hypothalamic Amenorrhea? Can we also check my vitamin D, ferritin, and discuss stress reduction strategies to protect my bone density?”",
-              isBest: true,
-              feedback: "Brilliant clinical self-advocacy! Asking for a structured monitoring timeline and discussing bone density protection signals that you understand the serious physiology of hypothalamic cycle suppression.",
-              xpBonus: 30
-            },
-            {
               text: "“You're wrong, stress has nothing to do with my body.”",
               isBest: false,
               feedback: "Stress actually has a profound physiological effect on hypothalamic hormones. Collaborative dialogue with your provider gets you the best comprehensive care.",
               xpBonus: 5
+            },
+            {
+              text: "“Thank you, doctor. Given that chronic cortisol can suppress hypothalamic GnRH pulsatility, what specific timeline should we monitor before evaluating for Functional Hypothalamic Amenorrhea? Can we also check my vitamin D, ferritin, and discuss stress reduction strategies to protect my bone density?”",
+              isBest: true,
+              feedback: "Brilliant clinical self-advocacy! Asking for a structured monitoring timeline and discussing bone density protection signals that you understand the serious physiology of hypothalamic cycle suppression.",
+              xpBonus: 30
             }
           ]
         },
@@ -1505,23 +1505,23 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
           {
             question: "How does chronic psychological or physical stress delay or stop menstrual periods?",
             options: [
-              "Cortisol and CRH directly suppress the brain's pulsatile release of GnRH from the hypothalamus",
               "Stress makes the ovaries disappear temporarily",
+              "Cortisol and CRH directly suppress the brain's pulsatile release of GnRH from the hypothalamus",
               "Cortisol makes blood disappear from the body",
               "Stress has no biological impact on hormones whatsoever"
             ],
-            correctIndex: 0,
+            correctIndex: 1,
             explanation: "Elevated cortisol signals the hypothalamus that energy must be conserved for survival, temporarily pausing the hormonal cascade required for ovulation."
           },
           {
             question: "Which simple physiological technique quickly stimulates the vagus nerve to reduce acute stress?",
             options: [
               "Holding your breath until you feel dizzy",
-              "The physiological sigh: two quick inhales through the nose followed by an extended, slow exhale through the mouth",
               "Drinking 4 caffeinated energy drinks",
+              "The physiological sigh: two quick inhales through the nose followed by an extended, slow exhale through the mouth",
               "Skipping meals to shock the nervous system"
             ],
-            correctIndex: 1,
+            correctIndex: 2,
             explanation: "The physiological sigh rapidly expands collapsed alveoli in the lungs and activates the parasympathetic vagus nerve, slowing heart rate within seconds."
           }
         ]
@@ -1716,20 +1716,20 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
         quiz: [
           {
             question: "Is losing your period (amenorrhea) a normal byproduct of intense athletic training?",
-            options: ["Yes, it proves you are training hard enough", "No, it is a primary clinical sign of low energy availability (RED-S)", "Only for distance runners", "Yes, if you eat enough protein"],
-            correctIndex: 1,
+            options: ["Only for distance runners", "Yes, if you eat enough protein", "No, it is a primary clinical sign of low energy availability (RED-S)", "Yes, it proves you are training hard enough"],
+            correctIndex: 2,
             explanation: "Menstrual dysfunction is never a normal badge of fitness. It is the body conserving energy because caloric intake is insufficient."
           },
           {
             question: "What is the primary driver of RED-S (Relative Energy Deficiency in Sport)?",
-            options: ["Drinking too much water", "Mismatch between dietary caloric intake and athletic energy expenditure", "Too much strength training", "Genetic factors alone"],
-            correctIndex: 1,
+            options: ["Mismatch between dietary caloric intake and athletic energy expenditure", "Drinking too much water", "Too much strength training", "Genetic factors alone"],
+            correctIndex: 0,
             explanation: "RED-S occurs when dietary energy intake is insufficient to support both training demands and foundational physiological functioning."
           },
           {
             question: "Why are teenage and young adult years especially crucial for bone health in female athletes?",
-            options: ["Bones stop growing completely at age 10", "Over 90% of peak lifetime bone mineral density is laid down during this window", "Bones do not use calcium until age 30", "Exercise weakens bones permanently"],
-            correctIndex: 1,
+            options: ["Bones stop growing completely at age 10", "Bones do not use calcium until age 30", "Exercise weakens bones permanently", "Over 90% of peak lifetime bone mineral density is laid down during this window"],
+            correctIndex: 3,
             explanation: "Peak bone mass is established in your teens and early 20s; low estrogen and under-fueling during this time can cause irreversible bone loss."
           }
         ]
@@ -1750,12 +1750,12 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
           {
             question: "Why do female athletes need sufficient dietary fats?",
             options: [
-              "Fats are strictly for storing excess weight",
               "Fats provide the essential building blocks for estrogen and progesterone hormones",
+              "Fats are strictly for storing excess weight",
               "Athletes should eliminate all dietary fats",
               "Fats only matter for male athletes"
             ],
-            correctIndex: 1,
+            correctIndex: 0,
             explanation: "Steroid hormones like estrogen and progesterone are synthesized from lipids and cholesterol. Severe fat restriction disrupts the endocrine axis and cycle regularity."
           }
         ]
@@ -1864,16 +1864,16 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
           statement: "“Water breaks are slowing down our scrimmage! Just tough it out until the end of practice, and don't drink anything with salt or calories or you'll bloat!”",
           options: [
             {
-              text: "“Okay Coach, I'll wait until after practice to drink.”",
-              isBest: false,
-              feedback: "Dangerous! Withholding fluids spikes core temperature, raises heart rate, and drastically increases the risk of heat illness and muscle cramps.",
-              xpBonus: 5
-            },
-            {
               text: "“Coach Miller, in this heat and especially during the high-hormone luteal phase, our blood plasma volume drops quickly. Sports medicine guidelines from ACSM require regular fluid and sodium breaks every 15 to 20 minutes to prevent heat illness, cramping, and cardiac strain.”",
               isBest: true,
               feedback: "✦ Elite Self-Advocate! You cited ACSM sports medicine guidelines, explained luteal plasma volume shifts, and protected the entire team's safety.",
               xpBonus: 30
+            },
+            {
+              text: "“Okay Coach, I'll wait until after practice to drink.”",
+              isBest: false,
+              feedback: "Dangerous! Withholding fluids spikes core temperature, raises heart rate, and drastically increases the risk of heat illness and muscle cramps.",
+              xpBonus: 5
             },
             {
               text: "“You're going to kill us! I'm calling the school board right now!”",
@@ -1947,16 +1947,16 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
               xpBonus: 5
             },
             {
-              text: "“Coach Davis, pediatric sports medicine data from the AAP shows that sleeping under eight hours increases adolescent injury rates by 1.7 times and impairs muscle glycogen restoration. Early morning sessions that cut into our slow-wave recovery window will increase our fracture risk and hurt game performance.”",
-              isBest: true,
-              feedback: "✦ Master Clinical Advocacy! Citing AAP injury statistics and slow-wave recovery frames sleep as a non-negotiable performance asset.",
-              xpBonus: 30
-            },
-            {
               text: "“You're crazy! I'm sleeping in and skipping your session.”",
               isBest: false,
               feedback: "Communicating with AAP medical evidence protects the entire team while keeping the conversation constructive.",
               xpBonus: 10
+            },
+            {
+              text: "“Coach Davis, pediatric sports medicine data from the AAP shows that sleeping under eight hours increases adolescent injury rates by 1.7 times and impairs muscle glycogen restoration. Early morning sessions that cut into our slow-wave recovery window will increase our fracture risk and hurt game performance.”",
+              isBest: true,
+              feedback: "✦ Master Clinical Advocacy! Citing AAP injury statistics and slow-wave recovery frames sleep as a non-negotiable performance asset.",
+              xpBonus: 30
             }
           ]
         },
@@ -2101,16 +2101,16 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
               xpBonus: 5
             },
             {
-              text: "“Coach Bennett, ACOG and the British Journal of Sports Medicine show that training with menstrual biology optimizes athletic longevity. During the luteal phase, higher core temperature and plasma volume shifts require electrolyte hydration and aerobic pacing, while my follicular phase is when my body hits peak power. Let's periodize my sprint loads so I peak for championship meets.”",
-              isBest: true,
-              feedback: "✦ Elite Sports Literacy! You educated the coach using evidence-based sports medicine science and proposed a periodized training plan to peak for championships.",
-              xpBonus: 30
-            },
-            {
               text: "“You don't know what it feels like! I'm not running today.”",
               isBest: false,
               feedback: "Proposing a scientific periodization model demonstrates athletic maturity and produces tangible training adjustments.",
               xpBonus: 10
+            },
+            {
+              text: "“Coach Bennett, ACOG and the British Journal of Sports Medicine show that training with menstrual biology optimizes athletic longevity. During the luteal phase, higher core temperature and plasma volume shifts require electrolyte hydration and aerobic pacing, while my follicular phase is when my body hits peak power. Let's periodize my sprint loads so I peak for championship meets.”",
+              isBest: true,
+              feedback: "✦ Elite Sports Literacy! You educated the coach using evidence-based sports medicine science and proposed a periodized training plan to peak for championships.",
+              xpBonus: 30
             }
           ]
         },
@@ -2172,16 +2172,16 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
           statement: "“I noticed you're eating a bigger lunch and taking second helpings of carbs this week. Aren't you worried about gaining weight before our match?”",
           options: [
             {
-              text: "“You're right, I should probably skip dinner to make up for it.”",
-              isBest: false,
-              feedback: "Never starve through the luteal phase! Depriving your body when metabolism is elevated triggers RED-S, crashes thyroid output, and spikes cortisol.",
-              xpBonus: 5
-            },
-            {
               text: "“Actually, I'm in my luteal phase right now. Sports nutrition research shows our basal metabolic rate increases by 100 to 300 calories per day during this phase, and progesterone accelerates muscle breakdown. Eating an extra balanced snack with complex carbs and protein protects my muscle tissue and keeps my energy steady for game day.”",
               isBest: true,
               feedback: "✦ Elite Nutritional Self-Advocacy! You backed up your fueling choices with evidence-based metabolic science and dismantled toxic diet culture.",
               xpBonus: 30
+            },
+            {
+              text: "“You're right, I should probably skip dinner to make up for it.”",
+              isBest: false,
+              feedback: "Never starve through the luteal phase! Depriving your body when metabolism is elevated triggers RED-S, crashes thyroid output, and spikes cortisol.",
+              xpBonus: 5
             },
             {
               text: "“Mind your own business and stop staring at my plate!”",
@@ -2230,11 +2230,11 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
             question: "A teammate says losing your period means you are finally 'in peak competition shape.' What is the medical reality?",
             options: [
               "They are correct; periods are unnecessary during season",
-              "Losing your period is a warning sign of low energy availability and bone density loss",
               "It only matters if you plan to get pregnant this year",
+              "Losing your period is a warning sign of low energy availability and bone density loss",
               "It indicates optimal cardiovascular conditioning"
             ],
-            correctIndex: 1,
+            correctIndex: 2,
             explanation: "Amenorrhea is a clinical symptom of low energy availability (RED-S). When estrogen drops, bone mineral loss begins rapidly, leading to stress fractures."
           }
         ]
@@ -2501,16 +2501,16 @@ export function getTopicRoleplayScenarios(topic: HubTopic, categoryId?: string):
             xpBonus: 5,
           },
           {
-            text: "“Thank you, Dr. Chen. I know development happens on its own genetic timeline, but I have specific questions about what Tanner stage I'm in and what biological changes to expect next. Can we take five minutes to review that?”",
-            isBest: true,
-            feedback: "✦ Master Self-Advocate! By referencing clinical Tanner staging and asking for a dedicated 5-minute window, you guide the clinician to prioritize your physical literacy without confrontation.",
-            xpBonus: 30,
-          },
-          {
             text: "“You're ignoring me! Why won't you tell me why I haven't grown as much as everyone else?”",
             isBest: false,
             feedback: "While venting frustration is understandable, pairing your emotional concern with objective questions yields much better clinical results.",
             xpBonus: 10,
+          },
+          {
+            text: "“Thank you, Dr. Chen. I know development happens on its own genetic timeline, but I have specific questions about what Tanner stage I'm in and what biological changes to expect next. Can we take five minutes to review that?”",
+            isBest: true,
+            feedback: "✦ Master Self-Advocate! By referencing clinical Tanner staging and asking for a dedicated 5-minute window, you guide the clinician to prioritize your physical literacy without confrontation.",
+            xpBonus: 30,
           },
         ],
       },
@@ -2536,16 +2536,16 @@ export function getTopicRoleplayScenarios(topic: HubTopic, categoryId?: string):
         },
         options: [
           {
-            text: "“I guess two more years of waiting won't hurt. I'll just check back when I'm 17.”",
-            isBest: false,
-            feedback: "Waiting until age 17 risks untreated primary amenorrhea, missed congenital structural variations, and irreversible bone mineral density loss.",
-            xpBonus: 5,
-          },
-          {
             text: "“ACOG guidelines recommend initiating an evaluation if menarche hasn't occurred by age 15, or within three years of thelarche. Could we run baseline morning LH, FSH, prolactin, and a pelvic ultrasound to confirm normal anatomy and hormonal axis signaling?”",
             isBest: true,
             feedback: "✦ Diagnostic Mastery! Citing the ACOG 3-year thelarche rule and requesting specific baseline gonadotropins establishes clinical necessity for testing.",
             xpBonus: 30,
+          },
+          {
+            text: "“I guess two more years of waiting won't hurt. I'll just check back when I'm 17.”",
+            isBest: false,
+            feedback: "Waiting until age 17 risks untreated primary amenorrhea, missed congenital structural variations, and irreversible bone mineral density loss.",
+            xpBonus: 5,
           },
           {
             text: "“You never take anything seriously! I knew coming to this clinic was a mistake.”",
@@ -2621,16 +2621,16 @@ export function getTopicRoleplayScenarios(topic: HubTopic, categoryId?: string):
         },
         options: [
           {
-            text: "“I guess I just have a low pain tolerance. Sorry for taking up your time.”",
-            isBest: false,
-            feedback: "Dismissing your own pain normalizes suffering. Incapacitating dysmenorrhea is a medical symptom, never a character flaw.",
-            xpBonus: 5,
-          },
-          {
             text: "“ACOG guidelines emphasize that the menstrual cycle is a vital sign. My pain causes me to miss school and doesn't respond to maximum OTC doses of ibuprofen. Could we schedule a pelvic ultrasound and evaluate for underlying causes like endometriosis?”",
             isBest: true,
             feedback: "✦ Outstanding Clinical Advocacy! You cited official ACOG clinical guidance, quantified the functional impairment (missing school), and requested a specific non-invasive diagnostic step.",
             xpBonus: 30,
+          },
+          {
+            text: "“I guess I just have a low pain tolerance. Sorry for taking up your time.”",
+            isBest: false,
+            feedback: "Dismissing your own pain normalizes suffering. Incapacitating dysmenorrhea is a medical symptom, never a character flaw.",
+            xpBonus: 5,
           },
           {
             text: "“I'm never coming back here again, you don't know what you're doing.”",
@@ -2668,16 +2668,16 @@ export function getTopicRoleplayScenarios(topic: HubTopic, categoryId?: string):
             xpBonus: 5,
           },
           {
-            text: "“Standard hemoglobin only drops after bone marrow iron stores are completely exhausted. My serum ferritin of 11 ng/mL demonstrates Iron Deficiency Without Anemia secondary to heavy menstrual bleeding. Could we order a coagulation panel to screen for von Willebrand disease and start therapeutic iron supplementation?”",
-            isBest: true,
-            feedback: "✦ Clinical Hematology Mastery! Distinguishing serum ferritin from hemoglobin and screening for bleeding disorders aligns with international FIGO guidelines.",
-            xpBonus: 30,
-          },
-          {
             text: "“Why does every doctor blame stress? You never listen!”",
             isBest: false,
             feedback: "Highlighting the difference between serum ferritin and hemoglobin provides objective clinical proof of iron deficiency.",
             xpBonus: 10,
+          },
+          {
+            text: "“Standard hemoglobin only drops after bone marrow iron stores are completely exhausted. My serum ferritin of 11 ng/mL demonstrates Iron Deficiency Without Anemia secondary to heavy menstrual bleeding. Could we order a coagulation panel to screen for von Willebrand disease and start therapeutic iron supplementation?”",
+            isBest: true,
+            feedback: "✦ Clinical Hematology Mastery! Distinguishing serum ferritin from hemoglobin and screening for bleeding disorders aligns with international FIGO guidelines.",
+            xpBonus: 30,
           },
         ],
       },
@@ -2788,16 +2788,16 @@ export function getTopicRoleplayScenarios(topic: HubTopic, categoryId?: string):
         },
         options: [
           {
-            text: "“Okay, I'll take three ibuprofen and tape my shins so I can run tomorrow.”",
-            isBest: false,
-            feedback: "Running on a bone stress reaction masks pain with NSAIDs and can turn a microfracture into a complete tibial fracture requiring months in a cast.",
-            xpBonus: 5,
-          },
-          {
             text: "“Recurrent focal tibial pain combined with three months of amenorrhea is a red flag for a bone stress injury under IOC RED-S criteria. Continuing to run risks a full cortical fracture. Can you refer me to a sports medicine physician for an MRI and a DXA bone mineral density scan?”",
             isBest: true,
             feedback: "✦ Sports Medicine Mastery! You linked missing menses to bone demineralization and requested the clinical gold standard (MRI and DXA) to prevent catastrophic fracture.",
             xpBonus: 30,
+          },
+          {
+            text: "“Okay, I'll take three ibuprofen and tape my shins so I can run tomorrow.”",
+            isBest: false,
+            feedback: "Running on a bone stress reaction masks pain with NSAIDs and can turn a microfracture into a complete tibial fracture requiring months in a cast.",
+            xpBonus: 5,
           },
           {
             text: "“You're trying to break my legs! You have no idea what you're doing!”",
@@ -2835,16 +2835,16 @@ export function getTopicRoleplayScenarios(topic: HubTopic, categoryId?: string):
             xpBonus: 5,
           },
           {
-            text: "“Under NFHS and IOC return-to-play guidelines, following a physician-prescribed medical fueling protocol is a protected health necessity. Stripping leadership for complying with sports medicine clearance violates student safety policies. Let's work with the athletic trainer and sports dietitian on a modified training schedule that safely restores my energy availability.”",
-            isBest: true,
-            feedback: "✦ Champion Athletic Leadership! You asserted institutional athlete safety rules while proposing a constructive collaborative solution with the sports medicine team.",
-            xpBonus: 30,
-          },
-          {
             text: "“You're a terrible coach and I'm quitting the sport forever!”",
             isBest: false,
             feedback: "Invoking NFHS and IOC safety protocols protects your roster standing while keeping your medical recovery on track.",
             xpBonus: 10,
+          },
+          {
+            text: "“Under NFHS and IOC return-to-play guidelines, following a physician-prescribed medical fueling protocol is a protected health necessity. Stripping leadership for complying with sports medicine clearance violates student safety policies. Let's work with the athletic trainer and sports dietitian on a modified training schedule that safely restores my energy availability.”",
+            isBest: true,
+            feedback: "✦ Champion Athletic Leadership! You asserted institutional athlete safety rules while proposing a constructive collaborative solution with the sports medicine team.",
+            xpBonus: 30,
           },
         ],
       },
@@ -2879,16 +2879,16 @@ export function getTopicRoleplayScenarios(topic: HubTopic, categoryId?: string):
             xpBonus: 5,
           },
           {
-            text: "“Under the Rotterdam criteria for PCOS, we need to assess for clinical hyperandrogenism and ovulatory dysfunction. Could we run a morning fasted total/free testosterone, DHEA-S, and metabolic panel before starting birth control so we don't mask the baseline?”",
-            isBest: true,
-            feedback: "✦ Diagnostic Mastery! By requesting baseline fasted testing prior to hormonal therapy, you preserve critical clinical data needed for an accurate diagnosis.",
-            xpBonus: 30,
-          },
-          {
             text: "“You're just judging me because of my weight! I want a different doctor right now.”",
             isBest: false,
             feedback: "Weight stigma in healthcare is real and harmful. Framing your request through specific diagnostic lab orders forces the clinician to address pathology rather than weight.",
             xpBonus: 10,
+          },
+          {
+            text: "“Under the Rotterdam criteria for PCOS, we need to assess for clinical hyperandrogenism and ovulatory dysfunction. Could we run a morning fasted total/free testosterone, DHEA-S, and metabolic panel before starting birth control so we don't mask the baseline?”",
+            isBest: true,
+            feedback: "✦ Diagnostic Mastery! By requesting baseline fasted testing prior to hormonal therapy, you preserve critical clinical data needed for an accurate diagnosis.",
+            xpBonus: 30,
           },
         ],
       },
@@ -2955,16 +2955,16 @@ export function getTopicRoleplayScenarios(topic: HubTopic, categoryId?: string):
         },
         options: [
           {
-            text: "“I guess you're right, I'll wait until I want kids to see an endocrinologist.”",
-            isBest: false,
-            feedback: "PCOS is an endocrine condition that impacts metabolic, bone, and mental health throughout your lifespan, not merely when conceiving.",
-            xpBonus: 5,
-          },
-          {
             text: "“PCOS is a lifelong endocrine and cardiometabolic condition with systemic impacts on ovulatory signaling and metabolic health, not just fertility. I would like a referral to a pediatric or reproductive endocrinologist. If you are declining this referral today, please document your refusal and clinical rationale in my medical chart.”",
             isBest: true,
             feedback: "✦ Elite Healthcare Self-Advocacy! Documenting refusal in the EMR protects your continuity of care and compels providers to justify deviations from subspecialty standards.",
             xpBonus: 30,
+          },
+          {
+            text: "“I guess you're right, I'll wait until I want kids to see an endocrinologist.”",
+            isBest: false,
+            feedback: "PCOS is an endocrine condition that impacts metabolic, bone, and mental health throughout your lifespan, not merely when conceiving.",
+            xpBonus: 5,
           },
           {
             text: "“I don't need your permission, I'll find a doctor who actually cares!”",
@@ -2999,16 +2999,16 @@ export function getTopicRoleplayScenarios(topic: HubTopic, categoryId?: string):
         },
         options: [
           {
-            text: "“I guess the scans don't lie. Maybe I'm just exaggerating the pain.”",
-            isBest: false,
-            feedback: "Over 75% of adolescent endometriosis consists of superficial peritoneal lesions that are completely invisible on ultrasound scans. Never doubt your bodily symptoms.",
-            xpBonus: 5,
-          },
-          {
             text: "“ACOG Committee Opinion No. 760 notes that a normal ultrasound cannot rule out superficial endometriosis. Since my cyclical pain causes school absence and doesn't respond to NSAIDs, could you refer me to a Minimally Invasive Gynecologic Surgeon (MIGS)?”",
             isBest: true,
             feedback: "✦ Life-Changing Clinical Self-Advocacy! You cited the exact ACOG standard on imaging limitations and requested a referral to an excision specialist.",
             xpBonus: 30,
+          },
+          {
+            text: "“I guess the scans don't lie. Maybe I'm just exaggerating the pain.”",
+            isBest: false,
+            feedback: "Over 75% of adolescent endometriosis consists of superficial peritoneal lesions that are completely invisible on ultrasound scans. Never doubt your bodily symptoms.",
+            xpBonus: 5,
           },
           {
             text: "“You don't believe me! Why did I even waste money on this scan?”",
@@ -3087,16 +3087,16 @@ export function getTopicRoleplayScenarios(topic: HubTopic, categoryId?: string):
             xpBonus: 5,
           },
           {
-            text: "“Clinical surgical data in JMIG shows laparoscopic excision has significantly lower recurrence rates and better symptom resolution than ablation, which can leave deep lesions behind. I am requesting a referral to a fellowship-trained Minimally Invasive Gynecologic Surgeon (MIGS). If you are declining to write this referral, please document your refusal in my medical record today.”",
-            isBest: true,
-            feedback: "✦ Master Healthcare Advocacy! You cited surgical recurrence comparative trials and requested written documentation of refusal, protecting yourself from substandard surgery.",
-            xpBonus: 30,
-          },
-          {
             text: "“I won't let you touch me with a laser! You're going to butcher my organs!”",
             isBest: false,
             feedback: "Calmly citing surgical literature and requesting a documented MIGS referral maintains control of your medical trajectory.",
             xpBonus: 10,
+          },
+          {
+            text: "“Clinical surgical data in JMIG shows laparoscopic excision has significantly lower recurrence rates and better symptom resolution than ablation, which can leave deep lesions behind. I am requesting a referral to a fellowship-trained Minimally Invasive Gynecologic Surgeon (MIGS). If you are declining to write this referral, please document your refusal in my medical record today.”",
+            isBest: true,
+            feedback: "✦ Master Healthcare Advocacy! You cited surgical recurrence comparative trials and requested written documentation of refusal, protecting yourself from substandard surgery.",
+            xpBonus: 30,
           },
         ],
       },
@@ -3172,16 +3172,16 @@ export function getTopicRoleplayScenarios(topic: HubTopic, categoryId?: string):
             xpBonus: 5,
           },
           {
-            text: "“Because my prospective DRSP charting confirms my symptoms are strictly confined to the luteal phase and completely absent in the follicular phase, ACOG and ISPMD first-line guidelines recommend intermittent luteal-phase SSRI dosing (starting at ovulation and stopping on day 1 of menses). Can we trial this targeted protocol first?”",
-            isBest: true,
-            feedback: "✦ Neuroendocrine Pharmacology Mastery! Intermittent luteal dosing has rapid efficacy within hours in PMDD due to unique neurosteroid mechanisms.",
-            xpBonus: 30,
-          },
-          {
             text: "“I'm not taking pills every day! You're trying to turn me into a zombie!”",
             isBest: false,
             feedback: "Educating the provider on intermittent luteal dosing provides a targeted evidence-based alternative to continuous daily medication.",
             xpBonus: 10,
+          },
+          {
+            text: "“Because my prospective DRSP charting confirms my symptoms are strictly confined to the luteal phase and completely absent in the follicular phase, ACOG and ISPMD first-line guidelines recommend intermittent luteal-phase SSRI dosing (starting at ovulation and stopping on day 1 of menses). Can we trial this targeted protocol first?”",
+            isBest: true,
+            feedback: "✦ Neuroendocrine Pharmacology Mastery! Intermittent luteal dosing has rapid efficacy within hours in PMDD due to unique neurosteroid mechanisms.",
+            xpBonus: 30,
           },
         ],
       },
@@ -3207,16 +3207,16 @@ export function getTopicRoleplayScenarios(topic: HubTopic, categoryId?: string):
         },
         options: [
           {
-            text: "“I guess I'll just fail my exams when they land on my luteal week.”",
-            isBest: false,
-            feedback: "Surrendering your rights causes unnecessary academic harm. PMDD is a federally recognized impairment eligible for 504 protections.",
-            xpBonus: 5,
-          },
-          {
             text: "“PMDD is a recognized neuroendocrine disorder in the DSM-5 that substantially impairs concentration during the luteal window. Under Section 504 of the Rehabilitation Act, students with chronic medical impairments are legally entitled to reasonable exam rescheduling accommodations. Can you sign this medical verification form, or refer me to a reproductive psychiatrist who can?”",
             isBest: true,
             feedback: "✦ Civil Rights & Healthcare Mastery! Invoking Section 504 federal statute transforms a request into a protected civil right for educational equity.",
             xpBonus: 30,
+          },
+          {
+            text: "“I guess I'll just fail my exams when they land on my luteal week.”",
+            isBest: false,
+            feedback: "Surrendering your rights causes unnecessary academic harm. PMDD is a federally recognized impairment eligible for 504 protections.",
+            xpBonus: 5,
           },
           {
             text: "“You don't care about my education! You want me to flunk out of school!”",
@@ -3257,16 +3257,16 @@ export function getTopicRoleplayScenarios(topic: HubTopic, categoryId?: string):
             xpBonus: 5,
           },
           {
-            text: "“Under Title X federal guidelines and state minor consent laws, I have the legal right to confidential reproductive healthcare. Can we utilize Title X sliding-scale funding or a confidential billing waiver so no EOB is generated?”",
-            isBest: true,
-            feedback: "✦ Legal & Healthcare Rights Mastery! Invoking Title X sliding-scale grant funding guarantees zero insurance statements are mailed to your household.",
-            xpBonus: 30,
-          },
-          {
             text: "“Why are you trying to get me in trouble with my family?”",
             isBest: false,
             feedback: "Front desk staff often default to standard commercial billing unless patients explicitly request Title X confidential billing protocols.",
             xpBonus: 10,
+          },
+          {
+            text: "“Under Title X federal guidelines and state minor consent laws, I have the legal right to confidential reproductive healthcare. Can we utilize Title X sliding-scale funding or a confidential billing waiver so no EOB is generated?”",
+            isBest: true,
+            feedback: "✦ Legal & Healthcare Rights Mastery! Invoking Title X sliding-scale grant funding guarantees zero insurance statements are mailed to your household.",
+            xpBonus: 30,
           },
         ],
       },
@@ -3292,16 +3292,16 @@ export function getTopicRoleplayScenarios(topic: HubTopic, categoryId?: string):
         },
         options: [
           {
-            text: "“Okay, I'll take the pill, even though I know I'll probably forget it every week.”",
-            isBest: false,
-            feedback: "Typical use failure rates for oral pills in teenagers exceed 7–9% due to missed pills. You have the right to evaluate all options.",
-            xpBonus: 5,
-          },
-          {
             text: "“ACOG and AAP clinical consensus statements explicitly designate LARCs—such as the hormonal implant and intrauterine devices—as first-line recommendations for adolescents due to their safety and superior >99% efficacy. I would like to review the benefits and insertion procedures for an implant.”",
             isBest: true,
             feedback: "✦ Shared Decision-Making Champion! You cited national pediatric guidelines that establish LARCs as first-line options for adolescents.",
             xpBonus: 30,
+          },
+          {
+            text: "“Okay, I'll take the pill, even though I know I'll probably forget it every week.”",
+            isBest: false,
+            feedback: "Typical use failure rates for oral pills in teenagers exceed 7–9% due to missed pills. You have the right to evaluate all options.",
+            xpBonus: 5,
           },
           {
             text: "“You're gatekeeping birth control! Why won't you let me choose?”",
@@ -3377,16 +3377,16 @@ export function getTopicRoleplayScenarios(topic: HubTopic, categoryId?: string):
         },
         options: [
           {
-            text: "“I guess that makes sense. We'll just keep asking friends for emergency supplies.”",
-            isBest: false,
-            feedback: "Accepting period poverty in schools causes students to miss instructional hours and disproportionately harms lower-income youth.",
-            xpBonus: 5,
-          },
-          {
             text: "“Menstrual products are non-negotiable hygiene supplies, exactly like hand soap and toilet paper. Research from Menstrual Equity campaigns shows that providing free supplies reduces absenteeism by over 20% and costs less than $3 per student per year. We are requesting a formal line-item allocation for educational parity.”",
             isBest: true,
             feedback: "✦ Civic & Community Advocacy Master! You framed menstrual access as fundamental educational parity and refuted budget concerns with empirical cost-benefit data.",
             xpBonus: 30,
+          },
+          {
+            text: "“I guess that makes sense. We'll just keep asking friends for emergency supplies.”",
+            isBest: false,
+            feedback: "Accepting period poverty in schools causes students to miss instructional hours and disproportionately harms lower-income youth.",
+            xpBonus: 5,
           },
           {
             text: "“You hate female students and you are all completely out of touch!”",
@@ -3424,16 +3424,16 @@ export function getTopicRoleplayScenarios(topic: HubTopic, categoryId?: string):
             xpBonus: 5,
           },
           {
-            text: "“Medical guidelines from the AAP and CDC require sanitary products to be changed every four to eight hours to prevent severe bacterial infections like Toxic Shock Syndrome. Punishing students with detention for attending to involuntary biological needs violates health safety standards. I am requesting an individualized health plan accommodation for unrestricted restroom access without academic penalty.”",
-            isBest: true,
-            feedback: "✦ Institutional Advocacy Champion! Linking bathroom restrictions to AAP bacterial safety protocols provides the legal foundation for an Individualized Health Plan (IHP).",
-            xpBonus: 30,
-          },
-          {
             text: "“This school is a prison and you're violating human rights!”",
             isBest: false,
             feedback: "Requesting a formal Individualized Health Plan through the school nurse and referencing CDC safety standards protects you legally.",
             xpBonus: 10,
+          },
+          {
+            text: "“Medical guidelines from the AAP and CDC require sanitary products to be changed every four to eight hours to prevent severe bacterial infections like Toxic Shock Syndrome. Punishing students with detention for attending to involuntary biological needs violates health safety standards. I am requesting an individualized health plan accommodation for unrestricted restroom access without academic penalty.”",
+            isBest: true,
+            feedback: "✦ Institutional Advocacy Champion! Linking bathroom restrictions to AAP bacterial safety protocols provides the legal foundation for an Individualized Health Plan (IHP).",
+            xpBonus: 30,
           },
         ],
       },
@@ -3544,16 +3544,16 @@ export function getTopicRoleplayScenarios(topic: HubTopic, categoryId?: string):
         },
         options: [
           {
-            text: "“Okay, if you think it's just muscle aches, I'll take hot baths and stretch more.”",
-            isBest: false,
-            feedback: "Assuming pain is muscular overlooks potential congenital obstructive anomalies or early adenomyosis that benefit from early detection.",
-            xpBonus: 5,
-          },
-          {
             text: "“Chronic pelvic pain in adolescents has diverse etiologies, including obstructive Müllerian anomalies, adenomyosis, and ovarian cysts. Clinical guidelines from ACOG recommend pelvic imaging to evaluate structural anatomy when pain persists. Can we order a dedicated pelvic ultrasound to rule out these anatomical causes?”",
             isBest: true,
             feedback: "✦ Diagnostic Thoroughness! Citing specific structural differentials like Müllerian variations provides the medical justification needed to schedule imaging.",
             xpBonus: 30,
+          },
+          {
+            text: "“Okay, if you think it's just muscle aches, I'll take hot baths and stretch more.”",
+            isBest: false,
+            feedback: "Assuming pain is muscular overlooks potential congenital obstructive anomalies or early adenomyosis that benefit from early detection.",
+            xpBonus: 5,
           },
           {
             text: "“You think I'm making this up! Why do you never believe patients?”",
@@ -3591,16 +3591,16 @@ export function getTopicRoleplayScenarios(topic: HubTopic, categoryId?: string):
             xpBonus: 5,
           },
           {
-            text: "“Under the AMA Code of Medical Ethics, patients have the fundamental right to seek a second opinion. Under HIPAA, I am requesting a complete copy of my medical records, lab reports, and imaging today, alongside a formal referral to a specialized adolescent gynecologic center.”",
-            isBest: true,
-            feedback: "✦ Legal Empowerment Champion! Invoking the AMA Code of Medical Ethics and your federal HIPAA right of access ensures you control your medical data and transition to specialized care.",
-            xpBonus: 30,
-          },
-          {
             text: "“You're the worst doctor I've ever seen and you're holding my health hostage!”",
             isBest: false,
             feedback: "Asserting your legal HIPAA rights to your complete chart records ensures an orderly and documented transition to a new specialist.",
             xpBonus: 10,
+          },
+          {
+            text: "“Under the AMA Code of Medical Ethics, patients have the fundamental right to seek a second opinion. Under HIPAA, I am requesting a complete copy of my medical records, lab reports, and imaging today, alongside a formal referral to a specialized adolescent gynecologic center.”",
+            isBest: true,
+            feedback: "✦ Legal Empowerment Champion! Invoking the AMA Code of Medical Ethics and your federal HIPAA right of access ensures you control your medical data and transition to specialized care.",
+            xpBonus: 30,
           },
         ],
       },
