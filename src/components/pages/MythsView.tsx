@@ -501,6 +501,7 @@ export function MythsView({ onNavigate }: MythsViewProps) {
             title: "Dispelling Menstrual & Contraceptive Misinformation in Adolescent Populations",
             source: "Journal of Pediatric & Adolescent Gynecology (JPAG)",
             linkText: "View Published Study",
+            url: "https://www.jpagonline.org",
           },
           {
             number: "02",
@@ -508,6 +509,7 @@ export function MythsView({ onNavigate }: MythsViewProps) {
             title: "Dysmenorrhea and Endometriosis in the Adolescent: Evidence-Based Assessment",
             source: "American College of Obstetricians and Gynecologists (ACOG)",
             linkText: "Read ACOG Statement",
+            url: "https://www.acog.org/clinical/clinical-guidance/committee-opinion/articles/2018/12/dysmenorrhea-and-endometriosis-in-the-adolescent",
           },
           {
             number: "03",
@@ -515,6 +517,7 @@ export function MythsView({ onNavigate }: MythsViewProps) {
             title: "Myth vs. Reality: Debunking Reproductive, Cycle, and Fertility Misconceptions",
             source: "Office on Women's Health (HHS) & CDC Health Literacy Project",
             linkText: "Explore Fact Library",
+            url: "https://www.womenshealth.gov/menstrual-cycle",
           },
           {
             number: "04",
@@ -522,6 +525,7 @@ export function MythsView({ onNavigate }: MythsViewProps) {
             title: "The Anatomy of a Myth: How Stigma and Fear Shape What We Believe About Our Bodies",
             source: "ReproUs Evidence-Based Dialogue Series",
             linkText: "Read Article",
+            url: "https://www.who.int/news/item/22-06-2022-who-statement-on-menstrual-health-and-rights",
           },
         ]}
       />
