@@ -18,6 +18,7 @@ import {
   Lightbulb,
   ArrowRight,
   Users,
+  MapPin,
 } from "lucide-react";
 
 interface ProviderVisualProfile {
@@ -1461,7 +1462,7 @@ export function RoleplayInteractiveStage({
     if (opt.isBest) {
       return {
         type: "best" as const,
-        tag: `🎯 Cites Your Evidence (${scenario.evidence?.badge || "Tracked Log"})`,
+        tag: `Cites Your Evidence (${scenario.evidence?.badge || "Tracked Log"})`,
         desc: "Presents documented metrics & clinical guidelines to compel diagnostic testing.",
         badgeClass: "bg-emerald-100 text-emerald-900 border-emerald-300",
       };
@@ -1476,7 +1477,7 @@ export function RoleplayInteractiveStage({
     if (isPassive) {
       return {
         type: "passive" as const,
-        tag: "📁 Leaves Evidence in Bag (Silent Acceptance)",
+        tag: "Leaves Evidence in Bag (Silent Acceptance)",
         desc: "Keeps your symptom log hidden; accepts dismissal with zero evaluation.",
         badgeClass: "bg-slate-100 text-slate-700 border-slate-300",
       };
@@ -1484,7 +1485,7 @@ export function RoleplayInteractiveStage({
 
     return {
       type: "frustrated" as const,
-      tag: "⚠️ Omits Evidence (Venting Without Proof)",
+      tag: "Omits Evidence (Venting Without Proof)",
       desc: "Expresses understandable frustration, but without data the clinician can easily dismiss it.",
       badgeClass: "bg-amber-100 text-amber-900 border-amber-300",
     };
@@ -1551,7 +1552,10 @@ export function RoleplayInteractiveStage({
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75"></span>
               <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-emerald-500"></span>
             </span>
-            <span>📍 {scenario.setting}</span>
+            <span className="inline-flex items-center gap-1.5">
+              <MapPin className="w-3.5 h-3.5 text-deep-teal shrink-0" />
+              <span>{scenario.setting}</span>
+            </span>
           </div>
 
           <div className="flex items-center gap-2 flex-wrap">
@@ -1704,7 +1708,7 @@ export function RoleplayInteractiveStage({
                         isBest ? "bg-emerald-600 text-white" : "bg-amber-600 text-white"
                       }`}
                     >
-                      {isBest ? "✅ Correct Response" : "❌ Suboptimal Response"}
+                      {isBest ? "Correct Response" : "Suboptimal Response"}
                     </span>
                   )}
                 </div>
@@ -1759,13 +1763,13 @@ export function RoleplayInteractiveStage({
               }
             : isBest
             ? {
-                title: "✅ Correct: Care Plan Approved! (100%)",
+                title: "Correct: Care Plan Approved! (100%)",
                 sub: "Full medical evaluation ordered! By citing documented tracking and clinical standards, you gave the clinician objective evidence they cannot ethically or legally ignore.",
                 badgeBg: "bg-emerald-100 text-emerald-900 border-emerald-300",
                 barColor: "bg-emerald-600",
               }
             : {
-                title: "❌ Incorrect: High Dismissal Risk (25%)",
+                title: "Incorrect: High Dismissal Risk (25%)",
                 sub: "Symptoms brushed off without testing! Without documented logs or clinical guidelines, the provider defaulted to reassurance or “wait and see.” No diagnostic evaluation was ordered.",
                 badgeBg: "bg-amber-100 text-amber-900 border-amber-300",
                 barColor: "bg-amber-500",

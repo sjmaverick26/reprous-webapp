@@ -544,10 +544,10 @@ export function HubView({ initialCategory }: HubViewProps) {
                   Explore athletic fueling with zero walls of text! Play <strong>Visual Fuel Match</strong>, formulate your <strong>3:1 Recovery Blender</strong> shake, catch clean carbs in the <strong>Pregame Bowl Catcher</strong> with Maya, and master the <strong>Game-Day Fuel Timing Clock</strong>.
                 </p>
                 <div className="flex flex-wrap gap-2 pt-1">
-                  <span className="px-2.5 py-1 rounded-lg bg-white/10 text-slate-200 text-xs font-semibold border border-white/10">🃏 12 Visual Cards</span>
-                  <span className="px-2.5 py-1 rounded-lg bg-white/10 text-slate-200 text-xs font-semibold border border-white/10">🥤 3:1 Recovery Blender</span>
-                  <span className="px-2.5 py-1 rounded-lg bg-white/10 text-slate-200 text-xs font-semibold border border-white/10">🏆 Bowl Catcher Game</span>
-                  <span className="px-2.5 py-1 rounded-lg bg-white/10 text-slate-200 text-xs font-semibold border border-white/10">⏰ Race-Day Clock</span>
+                  <span className="px-2.5 py-1 rounded-lg bg-white/10 text-slate-200 text-xs font-semibold border border-white/10">12 Visual Cards</span>
+                  <span className="px-2.5 py-1 rounded-lg bg-white/10 text-slate-200 text-xs font-semibold border border-white/10">3:1 Recovery Blender</span>
+                  <span className="px-2.5 py-1 rounded-lg bg-white/10 text-slate-200 text-xs font-semibold border border-white/10">Bowl Catcher Game</span>
+                  <span className="px-2.5 py-1 rounded-lg bg-white/10 text-slate-200 text-xs font-semibold border border-white/10">Race-Day Clock</span>
                 </div>
               </div>
               <Button
@@ -772,7 +772,7 @@ export function HubView({ initialCategory }: HubViewProps) {
               <div className="flex items-center justify-between text-xs text-charcoal/75 font-sans">
                 <span>
                   {categoryCompletedCount === categoryTotalCount && categoryTotalCount > 0
-                    ? "🏆 Category Mastered! Badge unlocked!"
+                    ? "Category Mastered! Badge unlocked!"
                     : `Complete ${categoryTotalCount - categoryCompletedCount} more ${
                         categoryTotalCount - categoryCompletedCount === 1 ? "lesson" : "lessons"
                       } to unlock the ${activeCategory.badge}!`}
@@ -1012,46 +1012,46 @@ export function HubView({ initialCategory }: HubViewProps) {
             const getCategoryPages = () => {
               if (activeCategoryId === "cycle") {
                 return [
-                  { id: 1, title: "1. 📊 Hormone & Cycle Lab", shortTitle: "Lab" },
-                  { id: 2, title: "2. 🎮 Cycle Arcade Game", shortTitle: "Arcade" },
-                  { id: 3, title: "3. 🎭 Consultation Roleplay", shortTitle: "Roleplay" },
-                  { id: 4, title: "4. 📋 Signal Detective", shortTitle: "Signals" },
-                  { id: 5, title: isQuizActive ? "5. 📝 Action Blueprint & Quiz" : "5. 📝 Blueprint & Complete", shortTitle: isQuizActive ? "Quiz" : "Complete" },
+                  { id: 1, title: "Hormone & Cycle Lab", shortTitle: "Lab" },
+                  { id: 2, title: "Cycle Arcade Game", shortTitle: "Arcade" },
+                  { id: 3, title: "Consultation Roleplay", shortTitle: "Roleplay" },
+                  { id: 4, title: "Signal Detective", shortTitle: "Signals" },
+                  { id: 5, title: isQuizActive ? "Action Blueprint & Quiz" : "Blueprint & Complete", shortTitle: isQuizActive ? "Quiz" : "Complete" },
                 ];
               }
               if (activeCategoryId === "body") {
                 return [
-                  { id: 1, title: "1. 📊 Tanner Staging & Anatomy", shortTitle: "Anatomy" },
-                  { id: 2, title: "2. 🎮 Puberty Arcade Challenge", shortTitle: "Arcade" },
-                  { id: 3, title: "3. 🎭 Consultation Roleplay", shortTitle: "Roleplay" },
-                  { id: 4, title: "4. 📋 Signal Detective", shortTitle: "Signals" },
-                  { id: 5, title: isQuizActive ? "5. 📝 Action Blueprint & Quiz" : "5. 📝 Blueprint & Complete", shortTitle: isQuizActive ? "Quiz" : "Complete" },
+                  { id: 1, title: "Tanner Staging & Anatomy", shortTitle: "Anatomy" },
+                  { id: 2, title: "Puberty Arcade Challenge", shortTitle: "Arcade" },
+                  { id: 3, title: "Consultation Roleplay", shortTitle: "Roleplay" },
+                  { id: 4, title: "Signal Detective", shortTitle: "Signals" },
+                  { id: 5, title: isQuizActive ? "Action Blueprint & Quiz" : "Blueprint & Complete", shortTitle: isQuizActive ? "Quiz" : "Complete" },
                 ];
               }
               if (activeCategoryId === "conditions" || activeCategoryId === "pcos" || activeCategoryId === "endo") {
                 return [
-                  { id: 1, title: "1. 📊 Diagnostic Radar & Pelvic Lab", shortTitle: "Radar" },
-                  { id: 2, title: "2. 🎮 Red-Flag Speed Catcher", shortTitle: "Arcade" },
-                  { id: 3, title: "3. 🎭 Self-Advocacy Roleplay", shortTitle: "Roleplay" },
-                  { id: 4, title: "4. 📋 Diagnostic Signals", shortTitle: "Signals" },
-                  { id: 5, title: isQuizActive ? "5. 📝 Action Blueprint & Quiz" : "5. 📝 Blueprint & Complete", shortTitle: isQuizActive ? "Quiz" : "Complete" },
+                  { id: 1, title: "Diagnostic Radar & Pelvic Lab", shortTitle: "Radar" },
+                  { id: 2, title: "Red-Flag Speed Catcher", shortTitle: "Arcade" },
+                  { id: 3, title: "Self-Advocacy Roleplay", shortTitle: "Roleplay" },
+                  { id: 4, title: "Diagnostic Signals", shortTitle: "Signals" },
+                  { id: 5, title: isQuizActive ? "Action Blueprint & Quiz" : "Blueprint & Complete", shortTitle: isQuizActive ? "Quiz" : "Complete" },
                 ];
               }
               if (activeCategoryId === "realtalk" || activeCategoryId === "factors") {
                 return [
-                  { id: 1, title: "1. 📊 Contraceptive Efficacy Pyramid", shortTitle: "Pyramid" },
-                  { id: 2, title: "2. 🎮 Method Matcher & Rights Arcade", shortTitle: "Arcade" },
-                  { id: 3, title: "3. 🎭 Consultation Roleplay", shortTitle: "Roleplay" },
-                  { id: 4, title: "4. 📋 Key Signal Concepts", shortTitle: "Signals" },
-                  { id: 5, title: isQuizActive ? "5. 📝 Action Blueprint & Quiz" : "5. 📝 Blueprint & Complete", shortTitle: isQuizActive ? "Quiz" : "Complete" },
+                  { id: 1, title: "Contraceptive Efficacy Pyramid", shortTitle: "Pyramid" },
+                  { id: 2, title: "Method Matcher & Rights Arcade", shortTitle: "Arcade" },
+                  { id: 3, title: "Consultation Roleplay", shortTitle: "Roleplay" },
+                  { id: 4, title: "Key Signal Concepts", shortTitle: "Signals" },
+                  { id: 5, title: isQuizActive ? "Action Blueprint & Quiz" : "Blueprint & Complete", shortTitle: isQuizActive ? "Quiz" : "Complete" },
                 ];
               }
               return [
-                { id: 1, title: "1. 📊 Visual Diagram Lab", shortTitle: "Visuals" },
-                { id: 2, title: "2. 🎮 Interactive Arcade Game", shortTitle: "Arcade" },
-                { id: 3, title: "3. 🎭 Consultation Roleplay", shortTitle: "Roleplay" },
-                { id: 4, title: "4. 📋 Signal Detective", shortTitle: "Signals" },
-                { id: 5, title: isQuizActive ? "5. 📝 Action Blueprint & Quiz" : "5. 📝 Blueprint & Complete", shortTitle: isQuizActive ? "Quiz" : "Complete" },
+                { id: 1, title: "Visual Diagram Lab", shortTitle: "Visuals" },
+                { id: 2, title: "Interactive Arcade Game", shortTitle: "Arcade" },
+                { id: 3, title: "Consultation Roleplay", shortTitle: "Roleplay" },
+                { id: 4, title: "Signal Detective", shortTitle: "Signals" },
+                { id: 5, title: isQuizActive ? "Action Blueprint & Quiz" : "Blueprint & Complete", shortTitle: isQuizActive ? "Quiz" : "Complete" },
               ];
             };
 
