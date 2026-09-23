@@ -481,31 +481,63 @@ export function AthleteCatcherDrawing({ className = "w-full h-full" }: { classNa
       <path d="M 45 44 L 50 50 L 55 44 Z" fill="#F47A6A" />
       <polygon points="51,49 47,55 50,55 48,62 54,54 51,54" fill="#FACC15" />
 
-      {/* Layer 4: Box Braids Strands (Rooted at headband & scalp, draping naturally over shoulders) */}
+      {/* Layer 4: Box Braids Strands (Straight shafts with bouncy spiral curls at ends) */}
       <g>
         {/* Left Braids */}
-        {/* Inner Left Braid: starts under headband (40, 18), curves past cheek (35, 36) -> (33, 56) -> (33, 66) */}
-        <path d="M 40 18 Q 34 32 33 48 Q 32 58 33 66" stroke="#0B0E14" strokeWidth="3.2" fill="none" />
-        <path d="M 40 18 Q 34 32 33 48 Q 32 58 33 66" stroke="#2D3748" strokeWidth="1" fill="none" strokeDasharray="2.5,2" />
+        {/* Inner Left Braid: straight shaft down past cheek, spiral curl at end */}
+        <path d="M 40 18 Q 35 34 34 48 L 34 58" stroke="#0B0E14" strokeWidth="3.2" fill="none" strokeLinecap="round" />
+        <path d="M 40 18 Q 35 34 34 48 L 34 58" stroke="#2D3748" strokeWidth="1" fill="none" strokeDasharray="2.5,2" />
+        {/* Curly end */}
+        <path
+          d="M 34 58 C 34 63, 29 66, 31 70 C 33 74, 38 73, 37 69 C 36 66, 32 67, 33 71"
+          stroke="#0B0E14"
+          strokeWidth="2.4"
+          fill="none"
+          strokeLinecap="round"
+        />
 
-        {/* Outer Left Braid: starts under headband (35, 19), hugs head silhouette (27, 34) -> (26, 52) -> (26, 66) */}
-        <path d="M 35 19 Q 27 34 26 48 Q 25 58 26 66" stroke="#0B0E14" strokeWidth="3.2" fill="none" />
-        <path d="M 35 19 Q 27 34 26 48 Q 25 58 26 66" stroke="#2D3748" strokeWidth="1" fill="none" strokeDasharray="2.5,2" />
+        {/* Outer Left Braid: straight shaft hugging side, spiral curl at end */}
+        <path d="M 35 19 Q 27 34 26 48 L 26 58" stroke="#0B0E14" strokeWidth="3.2" fill="none" strokeLinecap="round" />
+        <path d="M 35 19 Q 27 34 26 48 L 26 58" stroke="#2D3748" strokeWidth="1" fill="none" strokeDasharray="2.5,2" />
+        {/* Curly end */}
+        <path
+          d="M 26 58 C 26 63, 20 66, 22 70 C 24 74, 29 73, 28 69 C 27 66, 23 67, 24 71"
+          stroke="#0B0E14"
+          strokeWidth="2.4"
+          fill="none"
+          strokeLinecap="round"
+        />
 
         {/* Right Braids */}
-        {/* Inner Right Braid: starts under headband (60, 18), curves past cheek (65, 36) -> (67, 48) -> (67, 66) */}
-        <path d="M 60 18 Q 66 32 67 48 Q 68 58 67 66" stroke="#0B0E14" strokeWidth="3.2" fill="none" />
-        <path d="M 60 18 Q 66 32 67 48 Q 68 58 67 66" stroke="#2D3748" strokeWidth="1" fill="none" strokeDasharray="2.5,2" />
+        {/* Inner Right Braid: straight shaft down past cheek, spiral curl at end */}
+        <path d="M 60 18 Q 65 34 66 48 L 66 58" stroke="#0B0E14" strokeWidth="3.2" fill="none" strokeLinecap="round" />
+        <path d="M 60 18 Q 65 34 66 48 L 66 58" stroke="#2D3748" strokeWidth="1" fill="none" strokeDasharray="2.5,2" />
+        {/* Curly end */}
+        <path
+          d="M 66 58 C 66 63, 71 66, 69 70 C 67 74, 62 73, 63 69 C 64 66, 68 67, 67 71"
+          stroke="#0B0E14"
+          strokeWidth="2.4"
+          fill="none"
+          strokeLinecap="round"
+        />
 
-        {/* Outer Right Braid: starts under headband (65, 19), hugs head silhouette (73, 34) -> (74, 52) -> (74, 66) */}
-        <path d="M 65 19 Q 73 34 74 48 Q 75 58 74 66" stroke="#0B0E14" strokeWidth="3.2" fill="none" />
-        <path d="M 65 19 Q 73 34 74 48 Q 75 58 74 66" stroke="#2D3748" strokeWidth="1" fill="none" strokeDasharray="2.5,2" />
+        {/* Outer Right Braid: straight shaft hugging side, spiral curl at end */}
+        <path d="M 65 19 Q 73 34 74 48 L 74 58" stroke="#0B0E14" strokeWidth="3.2" fill="none" strokeLinecap="round" />
+        <path d="M 65 19 Q 73 34 74 48 L 74 58" stroke="#2D3748" strokeWidth="1" fill="none" strokeDasharray="2.5,2" />
+        {/* Curly end */}
+        <path
+          d="M 74 58 C 74 63, 80 66, 78 70 C 76 74, 71 73, 72 69 C 73 66, 77 67, 76 71"
+          stroke="#0B0E14"
+          strokeWidth="2.4"
+          fill="none"
+          strokeLinecap="round"
+        />
 
         {/* Gold Braid Cuffs clamped on braids */}
-        <rect x="31.5" y="48" width="3" height="2.5" rx="0.5" fill="#F59E0B" />
-        <rect x="65.5" y="48" width="3" height="2.5" rx="0.5" fill="#F59E0B" />
-        <rect x="24.5" y="58" width="3" height="2.5" rx="0.5" fill="#F59E0B" />
-        <rect x="72.5" y="58" width="3" height="2.5" rx="0.5" fill="#F59E0B" />
+        <rect x="32" y="46" width="3" height="2.5" rx="0.5" fill="#F59E0B" />
+        <rect x="65" y="46" width="3" height="2.5" rx="0.5" fill="#F59E0B" />
+        <rect x="24.5" y="54" width="3" height="2.5" rx="0.5" fill="#F59E0B" />
+        <rect x="72.5" y="54" width="3" height="2.5" rx="0.5" fill="#F59E0B" />
       </g>
 
       {/* Layer 5: Scalp Dome & Athletic Headband (Rendered OVER braid roots so roots are 100% attached and concealed) */}

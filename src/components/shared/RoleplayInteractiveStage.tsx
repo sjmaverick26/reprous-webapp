@@ -750,7 +750,7 @@ function PatientAvatarSvg({
       {/* Back Hair for Box Braids (Maya) */}
       {profile.hairStyle === "box-braids" && (
         <path
-          d="M 34 28 A 26 18 0 0 1 86 28 C 96 46, 102 72, 101 106 C 100 126, 96 140, 93 140 L 27 140 C 24 140, 20 126, 19 106 C 18 72, 24 46, 34 28 Z"
+          d="M 33 26 C 33 10, 87 10, 87 26 C 98 44, 103 74, 102 106 C 101 122, 97 138, 93 140 L 27 140 C 23 138, 19 122, 18 106 C 17 74, 22 44, 33 26 Z"
           fill="#0B0E14"
         />
       )}
@@ -766,19 +766,16 @@ function PatientAvatarSvg({
       {/* Hair & Headcoverings */}
       {profile.hairStyle === "box-braids" && (
         <g>
-          {/* Solid crown dome covering skull above natural hairline */}
+          {/* Smooth crown dome cleanly covering top of skull down to natural arched hairline */}
           <path
-            d="M 34 28 A 26 18 0 0 1 86 28 C 81 25, 73 21, 60 21 C 47 21, 39 25, 34 28 Z"
+            d="M 35 28 C 35 12, 85 12, 85 28 C 77 25, 69 23, 60 23 C 51 23, 43 25, 35 28 Z"
             fill={profile.hairColor}
           />
-          {/* Crisp center part line terminates neatly at hairline */}
-          <line x1="60" y1="11" x2="60" y2="21" stroke="#262F3D" strokeWidth="1.3" strokeLinecap="round" />
-
-          {/* Delicate styled baby hairs / edge details along the natural hairline */}
-          <path d="M 46 22 Q 49 24 47 26" stroke={profile.hairColor} strokeWidth="1.3" fill="none" strokeLinecap="round" />
-          <path d="M 74 22 Q 71 24 73 26" stroke={profile.hairColor} strokeWidth="1.3" fill="none" strokeLinecap="round" />
-          <path d="M 37 30 Q 40 32 38 35" stroke={profile.hairColor} strokeWidth="1.3" fill="none" strokeLinecap="round" />
-          <path d="M 83 30 Q 80 32 82 35" stroke={profile.hairColor} strokeWidth="1.3" fill="none" strokeLinecap="round" />
+          {/* Clean center part line on crown */}
+          <line x1="60" y1="13" x2="60" y2="23" stroke="#262F3D" strokeWidth="1.2" strokeLinecap="round" />
+          {/* Subtle neat box parting lines on the scalp */}
+          <line x1="53" y1="16" x2="48" y2="24" stroke="#1F2937" strokeWidth="0.8" opacity="0.7" />
+          <line x1="67" y1="16" x2="72" y2="24" stroke="#1F2937" strokeWidth="0.8" opacity="0.7" />
         </g>
       )}
 
@@ -915,53 +912,151 @@ function PatientAvatarSvg({
       <path d="M 48 68 L 60 82 L 72 68 Z" fill={profile.topAccentColor} />
       <line x1="60" y1="82" x2="60" y2="140" stroke="#FFFFFF" strokeWidth="1.5" strokeDasharray="3,3" />
 
-      {/* Front Box Braids Drape - Anchored Directly to Scalp Roots */}
+      {/* Front Box Braids Drape - Straight Shafts with Bouncy Curls at the Ends (French Curl / Goddess Box Braids) */}
       {profile.hairStyle === "box-braids" && (
         <g>
-          {/* Left Side Braids: Each originating directly from scalp roots inside the hair dome */}
-          {/* Inner Left Framing Braid L1: starts under scalp dome at (48, 19), sweeps past cheek (38, 54) -> down chest (37, 140) */}
-          <path d="M 48 19 Q 39 42 38 68 Q 37 96 37 118 Q 37 132 37 140" stroke={profile.hairColor} strokeWidth="3.8" fill="none" />
-          <path d="M 48 19 Q 39 42 38 68 Q 37 96 37 118 Q 37 132 37 140" stroke="#2D3748" strokeWidth="1.2" fill="none" strokeDasharray="3,2.5" />
-
-          {/* Mid Left Braid L2: starts under scalp dome at (42, 19), contours head (33, 42) -> shoulder (31, 74) -> (31, 140) */}
-          <path d="M 42 19 Q 33 40 31 66 Q 30 94 30 118 Q 30 132 31 140" stroke={profile.hairColor} strokeWidth="3.8" fill="none" />
-          <path d="M 42 19 Q 33 40 31 66 Q 30 94 30 118 Q 30 132 31 140" stroke="#2D3748" strokeWidth="1.2" fill="none" strokeDasharray="3,2.5" />
-
-          {/* Outer Left Braid L3: starts under scalp dome at (37, 23), contours outer skull (28, 44) -> outer shoulder (25, 78) -> (25, 140) */}
-          <path d="M 37 23 Q 28 44 26 70 Q 24 96 24 118 Q 24 132 25 140" stroke={profile.hairColor} strokeWidth="3.8" fill="none" />
-          <path d="M 37 23 Q 28 44 26 70 Q 24 96 24 118 Q 24 132 25 140" stroke="#2D3748" strokeWidth="1.2" fill="none" strokeDasharray="3,2.5" />
-
-          {/* Right Side Braids: Each originating directly from scalp roots inside the hair dome */}
-          {/* Inner Right Framing Braid R1: starts under scalp dome at (72, 19), sweeps past cheek (82, 54) -> down chest (83, 140) */}
-          <path d="M 72 19 Q 81 42 82 68 Q 83 96 83 118 Q 83 132 83 140" stroke={profile.hairColor} strokeWidth="3.8" fill="none" />
-          <path d="M 72 19 Q 81 42 82 68 Q 83 96 83 118 Q 83 132 83 140" stroke="#2D3748" strokeWidth="1.2" fill="none" strokeDasharray="3,2.5" />
-
-          {/* Mid Right Braid R2: starts under scalp dome at (78, 19), contours head (87, 42) -> shoulder (89, 74) -> (89, 140) */}
-          <path d="M 78 19 Q 87 40 89 66 Q 90 94 90 118 Q 90 132 89 140" stroke={profile.hairColor} strokeWidth="3.8" fill="none" />
-          <path d="M 78 19 Q 87 40 89 66 Q 90 94 90 118 Q 90 132 89 140" stroke="#2D3748" strokeWidth="1.2" fill="none" strokeDasharray="3,2.5" />
-
-          {/* Outer Right Braid R3: starts under scalp dome at (83, 23), contours outer skull (92, 44) -> outer shoulder (95, 78) -> (95, 140) */}
-          <path d="M 83 23 Q 92 44 94 70 Q 96 96 96 118 Q 96 132 95 140" stroke={profile.hairColor} strokeWidth="3.8" fill="none" />
-          <path d="M 83 23 Q 92 44 94 70 Q 96 96 96 118 Q 96 132 95 140" stroke="#2D3748" strokeWidth="1.2" fill="none" strokeDasharray="3,2.5" />
-
-          {/* Stylized Gold Braid Cuffs / Rings clamped securely on braids */}
-          <rect x="28.5" y="74" width="3.4" height="3" rx="0.6" fill="#F59E0B" />
-          <rect x="87.5" y="74" width="3.4" height="3" rx="0.6" fill="#F59E0B" />
-          <rect x="22.3" y="98" width="3.4" height="3" rx="0.6" fill="#F59E0B" />
-          <rect x="94.3" y="98" width="3.4" height="3" rx="0.6" fill="#F59E0B" />
-          <rect x="35.3" y="122" width="3.4" height="3" rx="0.6" fill="#F59E0B" />
-          <rect x="81.3" y="122" width="3.4" height="3" rx="0.6" fill="#F59E0B" />
-
-          {/* Scalp Cap Overlay (Crown dome seamlessly covers and conceals all braid origins down to natural arched hairline) */}
+          {/* ================= LEFT SIDE BRAIDS ================= */}
+          {/* L1: Inner Face-Framing Braid (attached at (45, 24), hangs straight down cheek/torso, curls at ends) */}
+          <path d="M 45 24 Q 38 42 36 62 L 36 102" stroke={profile.hairColor} strokeWidth="3.4" fill="none" strokeLinecap="round" />
+          <path d="M 45 24 Q 38 42 36 62 L 36 102" stroke="#374151" strokeWidth="1" fill="none" strokeDasharray="3,2.5" />
+          {/* Bouncy Spiral Curl at End (y=102 to y=136) */}
           <path
-            d="M 34 28 A 26 18 0 0 1 86 28 C 81 25, 73 21, 60 21 C 47 21, 39 25, 34 28 Z"
+            d="M 36 102 C 36 112, 30 117, 32 125 C 34 132, 41 131, 40 124 C 39 119, 33 121, 34 128 C 35 134, 40 137, 43 135"
+            stroke={profile.hairColor}
+            strokeWidth="2.8"
+            fill="none"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <path
+            d="M 36 104 C 35 112, 31 117, 33 124 C 35 129, 39 128, 38 124"
+            stroke="#4B5563"
+            strokeWidth="0.8"
+            fill="none"
+            strokeLinecap="round"
+            opacity="0.6"
+          />
+
+          {/* L2: Middle Braid (attached at (39, 21), flows over temple/shoulder, straight down, curls at end) */}
+          <path d="M 39 21 Q 32 42 29 66 L 28 104" stroke={profile.hairColor} strokeWidth="3.4" fill="none" strokeLinecap="round" />
+          <path d="M 39 21 Q 32 42 29 66 L 28 104" stroke="#374151" strokeWidth="1" fill="none" strokeDasharray="3,2.5" />
+          {/* Bouncy Spiral Curl at End (y=104 to y=138) */}
+          <path
+            d="M 28 104 C 28 114, 22 119, 24 127 C 26 133, 33 132, 32 126 C 31 121, 25 123, 26 129 C 27 135, 32 138, 35 136"
+            stroke={profile.hairColor}
+            strokeWidth="2.8"
+            fill="none"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <path
+            d="M 28 106 C 27 114, 23 119, 25 126 C 27 131, 31 130, 30 126"
+            stroke="#4B5563"
+            strokeWidth="0.8"
+            fill="none"
+            strokeLinecap="round"
+            opacity="0.6"
+          />
+
+          {/* L3: Outer Braid (attached at (35, 24), flows outside shoulder, straight down, curls at end) */}
+          <path d="M 35 24 Q 24 46 21 72 L 21 104" stroke={profile.hairColor} strokeWidth="3.4" fill="none" strokeLinecap="round" />
+          <path d="M 35 24 Q 24 46 21 72 L 21 104" stroke="#374151" strokeWidth="1" fill="none" strokeDasharray="3,2.5" />
+          {/* Bouncy Spiral Curl at End (y=104 to y=138) */}
+          <path
+            d="M 21 104 C 21 114, 14 119, 16 127 C 18 133, 25 132, 24 126 C 23 120, 17 122, 18 129 C 19 135, 24 138, 27 136"
+            stroke={profile.hairColor}
+            strokeWidth="2.8"
+            fill="none"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <path
+            d="M 21 106 C 20 114, 15 119, 17 126 C 19 131, 23 130, 22 126"
+            stroke="#4B5563"
+            strokeWidth="0.8"
+            fill="none"
+            strokeLinecap="round"
+            opacity="0.6"
+          />
+
+          {/* ================= RIGHT SIDE BRAIDS ================= */}
+          {/* R1: Inner Face-Framing Braid (attached at (75, 24), hangs straight down cheek/torso, curls at ends) */}
+          <path d="M 75 24 Q 82 42 84 62 L 84 102" stroke={profile.hairColor} strokeWidth="3.4" fill="none" strokeLinecap="round" />
+          <path d="M 75 24 Q 82 42 84 62 L 84 102" stroke="#374151" strokeWidth="1" fill="none" strokeDasharray="3,2.5" />
+          {/* Bouncy Spiral Curl at End (y=102 to y=136) */}
+          <path
+            d="M 84 102 C 84 112, 90 117, 88 125 C 86 132, 79 131, 80 124 C 81 119, 87 121, 86 128 C 85 134, 80 137, 77 135"
+            stroke={profile.hairColor}
+            strokeWidth="2.8"
+            fill="none"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <path
+            d="M 84 104 C 85 112, 89 117, 87 124 C 85 129, 81 128, 82 124"
+            stroke="#4B5563"
+            strokeWidth="0.8"
+            fill="none"
+            strokeLinecap="round"
+            opacity="0.6"
+          />
+
+          {/* R2: Middle Braid (attached at (81, 21), flows over temple/shoulder, straight down, curls at end) */}
+          <path d="M 81 21 Q 88 42 91 66 L 92 104" stroke={profile.hairColor} strokeWidth="3.4" fill="none" strokeLinecap="round" />
+          <path d="M 81 21 Q 88 42 91 66 L 92 104" stroke="#374151" strokeWidth="1" fill="none" strokeDasharray="3,2.5" />
+          {/* Bouncy Spiral Curl at End (y=104 to y=138) */}
+          <path
+            d="M 92 104 C 92 114, 98 119, 96 127 C 94 133, 87 132, 88 126 C 89 121, 95 123, 94 129 C 93 135, 88 138, 85 136"
+            stroke={profile.hairColor}
+            strokeWidth="2.8"
+            fill="none"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <path
+            d="M 92 106 C 93 114, 97 119, 95 126 C 93 131, 89 130, 90 126"
+            stroke="#4B5563"
+            strokeWidth="0.8"
+            fill="none"
+            strokeLinecap="round"
+            opacity="0.6"
+          />
+
+          {/* R3: Outer Braid (attached at (85, 24), flows outside shoulder, straight down, curls at end) */}
+          <path d="M 85 24 Q 96 46 99 72 L 99 104" stroke={profile.hairColor} strokeWidth="3.4" fill="none" strokeLinecap="round" />
+          <path d="M 85 24 Q 96 46 99 72 L 99 104" stroke="#374151" strokeWidth="1" fill="none" strokeDasharray="3,2.5" />
+          {/* Bouncy Spiral Curl at End (y=104 to y=138) */}
+          <path
+            d="M 99 104 C 99 114, 106 119, 104 127 C 102 133, 95 132, 96 126 C 97 120, 103 122, 102 129 C 101 135, 96 138, 93 136"
+            stroke={profile.hairColor}
+            strokeWidth="2.8"
+            fill="none"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <path
+            d="M 99 106 C 100 114, 105 119, 103 126 C 101 131, 97 130, 98 126"
+            stroke="#4B5563"
+            strokeWidth="0.8"
+            fill="none"
+            strokeLinecap="round"
+            opacity="0.6"
+          />
+
+          {/* Chic Golden Clamped Braid Cuffs */}
+          <rect x="34.3" y="72" width="3.4" height="3.2" rx="0.8" fill="#F59E0B" stroke="#D97706" strokeWidth="0.5" />
+          <rect x="82.3" y="72" width="3.4" height="3.2" rx="0.8" fill="#F59E0B" stroke="#D97706" strokeWidth="0.5" />
+          <rect x="26.3" y="92" width="3.4" height="3.2" rx="0.8" fill="#F59E0B" stroke="#D97706" strokeWidth="0.5" />
+          <rect x="90.3" y="92" width="3.4" height="3.2" rx="0.8" fill="#F59E0B" stroke="#D97706" strokeWidth="0.5" />
+          <rect x="19.3" y="68" width="3.4" height="3.2" rx="0.8" fill="#F59E0B" stroke="#D97706" strokeWidth="0.5" />
+          <rect x="97.3" y="68" width="3.4" height="3.2" rx="0.8" fill="#F59E0B" stroke="#D97706" strokeWidth="0.5" />
+
+          {/* Clean Hairline Cap (Locks braid roots cleanly under the arched scalp crown) */}
+          <path
+            d="M 35 28 C 35 12, 85 12, 85 28 C 77 25, 69 23, 60 23 C 51 23, 43 25, 35 28 Z"
             fill={profile.hairColor}
           />
-          <line x1="60" y1="11" x2="60" y2="21" stroke="#262F3D" strokeWidth="1.3" strokeLinecap="round" />
-          <path d="M 46 22 Q 49 24 47 26" stroke={profile.hairColor} strokeWidth="1.3" fill="none" strokeLinecap="round" />
-          <path d="M 74 22 Q 71 24 73 26" stroke={profile.hairColor} strokeWidth="1.3" fill="none" strokeLinecap="round" />
-          <path d="M 37 30 Q 40 32 38 35" stroke={profile.hairColor} strokeWidth="1.3" fill="none" strokeLinecap="round" />
-          <path d="M 83 30 Q 80 32 82 35" stroke={profile.hairColor} strokeWidth="1.3" fill="none" strokeLinecap="round" />
+          <line x1="60" y1="13" x2="60" y2="23" stroke="#262F3D" strokeWidth="1.2" strokeLinecap="round" />
         </g>
       )}
 
