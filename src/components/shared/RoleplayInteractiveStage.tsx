@@ -128,6 +128,32 @@ const DIVERSE_PATIENT_PROFILES: PatientVisualProfile[] = [
     topAccentColor: "#FEF3C7",
     binderColor: "#1E293B",
   },
+  {
+    name: "Kendra",
+    role: "Health Equity Fellow",
+    skinTone: "#4A2C19", // Deep rich warm mahogany
+    skinShadow: "#301B0E",
+    hairColor: "#0B0E14",
+    hairStyle: "braids-topknot",
+    topType: "athletic-pullover",
+    topColor: "#BE185D", // Berry pink
+    topAccentColor: "#FCE7F3",
+    binderColor: "#0F766E",
+  },
+  {
+    name: "Elena",
+    role: "Adolescent Peer Educator",
+    skinTone: "#C68642", // Warm golden olive
+    skinShadow: "#A76B2F",
+    hairColor: "#2A1810",
+    hairStyle: "wavy-long",
+    hasGlasses: true,
+    glassesColor: "#9A3412",
+    topType: "knit-cardigan",
+    topColor: "#047857", // Emerald green
+    topAccentColor: "#D1FAE5",
+    binderColor: "#F59E0B",
+  },
 ];
 
 function getProviderVisualProfile(characterName: string, role?: string): ProviderVisualProfile {
@@ -1122,6 +1148,8 @@ interface RoleplayInteractiveStageProps {
   totalSimulations?: number;
   simulationTitle?: string;
   onNextSimulation?: () => void;
+  topicId?: string;
+  categoryId?: string;
 }
 
 export function RoleplayInteractiveStage({
@@ -1133,20 +1161,113 @@ export function RoleplayInteractiveStage({
   totalSimulations,
   simulationTitle,
   onNextSimulation,
+  topicId,
+  categoryId,
 }: RoleplayInteractiveStageProps) {
   const chosenOpt = selectedOption !== null ? scenario.options[selectedOption] : null;
   const isBest = chosenOpt?.isBest ?? false;
 
-  // Distinct diverse character profiles
+  // Distinct diverse character profiles mapped to topic themes and rotating across steps
   const patientProfile = useMemo(() => {
-    if (simulationIndex !== undefined) {
-      return DIVERSE_PATIENT_PROFILES[simulationIndex % DIVERSE_PATIENT_PROFILES.length];
+    // 1. If scenario specifies a preferred patient name, match it directly
+    if (scenario.patientName) {
+      const found = DIVERSE_PATIENT_PROFILES.find(
+        (p) => p.name.toLowerCase() === scenario.patientName?.toLowerCase()
+      );
+      if (found) return found;
     }
-    const seed = (scenario.id || scenario.title || scenario.setting || "patient")
-      .split("")
-      .reduce((acc, char) => acc + char.charCodeAt(0), 0);
-    return DIVERSE_PATIENT_PROFILES[seed % DIVERSE_PATIENT_PROFILES.length];
-  }, [simulationIndex, scenario.id, scenario.title, scenario.setting]);
+
+    // 2. Map category / topic / scenario keywords to thematic lead characters
+    const cat = (categoryId || "").toLowerCase();
+    const top = (topicId || "").toLowerCase();
+    const sid = (scenario.id || scenario.title || scenario.setting || "").toLowerCase();
+
+    let baseIndex = 0;
+    if (
+      cat.includes("play") ||
+      cat.includes("athlete") ||
+      top.includes("athlet") ||
+      sid.includes("athlet") ||
+      top.includes("fuel") ||
+      sid.includes("trian") ||
+      sid.includes("red-s")
+    ) {
+      baseIndex = 0; // Maya (Student Athlete - Box Braids with Curls)
+    } else if (
+      cat.includes("body") ||
+      top.includes("puberty") ||
+      top.includes("tanner") ||
+      sid.includes("tanner") ||
+      sid.includes("milestone")
+    ) {
+      baseIndex = 1; // Sofia (Youth Advocate - Full Afro & Glasses)
+    } else if (
+      cat.includes("realtalk") ||
+      cat.includes("rights") ||
+      top.includes("rights") ||
+      top.includes("privacy") ||
+      sid.includes("confidential") ||
+      sid.includes("mandate")
+    ) {
+      baseIndex = 2; // Amina (Community Advocate - Terracotta Hijab)
+    } else if (
+      cat.includes("mind") ||
+      cat.includes("mental") ||
+      top.includes("mental") ||
+      top.includes("pmdd") ||
+      sid.includes("mood") ||
+      sid.includes("dysphoria")
+    ) {
+      baseIndex = 3; // Jordan (Youth Athlete & Peer Mentor - Athletic Afro)
+    } else if (
+      cat.includes("cycle") ||
+      top.includes("cycle") ||
+      top.includes("period") ||
+      sid.includes("pain") ||
+      sid.includes("cramp") ||
+      sid.includes("vital sign")
+    ) {
+      baseIndex = 4; // Chloe (Menstrual Equity Advocate - Sleek Bob & Glasses)
+    } else if (
+      cat.includes("pcos") ||
+      top.includes("pcos") ||
+      sid.includes("ultrasound") ||
+      sid.includes("insulin")
+    ) {
+      baseIndex = 5; // Priya (Clinical Self-Advocate - High Ponytail & Amber Glasses)
+    } else if (
+      cat.includes("endo") ||
+      top.includes("endo") ||
+      cat.includes("contraception") ||
+      top.includes("contraception") ||
+      sid.includes("referral") ||
+      sid.includes("birth control")
+    ) {
+      baseIndex = 6; // Kendra (Health Equity Fellow - Braided Topknot)
+    } else if (
+      cat.includes("factors") ||
+      cat.includes("maternal") ||
+      top.includes("maternal") ||
+      top.includes("postpartum") ||
+      cat.includes("cond") ||
+      top.includes("conditions")
+    ) {
+      baseIndex = 7; // Elena (Adolescent Peer Educator - Wavy Long Hair & Glasses)
+    } else {
+      // Deterministic spread based on topicId / scenario.id so every topic gets a unique lead
+      const combined = `${top}-${sid}-${cat}`;
+      const hash = combined
+        .split("")
+        .reduce((acc, char) => acc + char.charCodeAt(0), 0);
+      baseIndex = hash % DIVERSE_PATIENT_PROFILES.length;
+    }
+
+    // 3. Cycle to the next diverse peer across simulation stages in the same track
+    const stepOffset = simulationIndex !== undefined ? simulationIndex : 0;
+    const finalIndex = (baseIndex + stepOffset) % DIVERSE_PATIENT_PROFILES.length;
+
+    return DIVERSE_PATIENT_PROFILES[finalIndex];
+  }, [simulationIndex, scenario, topicId, categoryId]);
 
   const providerProfile = useMemo(() => {
     return getProviderVisualProfile(scenario.character, scenario.characterRole);

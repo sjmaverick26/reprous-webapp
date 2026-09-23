@@ -1563,6 +1563,8 @@ export function HubView({ initialCategory }: HubViewProps) {
                         simulationIndex={activeSimulationIdx}
                         totalSimulations={roleplayScenarios.length}
                         simulationTitle={activeScenario.phaseName || activeScenario.title}
+                        topicId={selectedTopic.id}
+                        categoryId={activeCategoryId || undefined}
                         onNextSimulation={
                           activeSimulationIdx < roleplayScenarios.length - 1
                             ? () => setActiveSimulationIdx((i) => i + 1)

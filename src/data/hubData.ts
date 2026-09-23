@@ -89,6 +89,8 @@ export interface RoleplayScenario {
   options: RoleplayOption[];
   evidence?: RoleplayEvidence;
   sourceCitation?: RoleplaySourceCitation;
+  patientName?: string;
+  patientRole?: string;
 }
 
 export interface HubTopic {
