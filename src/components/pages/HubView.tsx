@@ -1347,10 +1347,10 @@ export function HubView({ initialCategory }: HubViewProps) {
                             ? "Speed Food Group Sorting Game"
                             : `${selectedTopic.name} Nourishment Plate & Speed Sorter`}
                         </h4>
-                        <p className="text-charcoal/85 text-lg sm:text-xl font-sans leading-relaxed">
+                        <p className="text-charcoal/85 text-base sm:text-lg font-sans leading-relaxed">
                           {activeCategoryId === "play"
-                            ? "Fast-Paced 45-Second Challenge: Race the clock to classify 24 diverse whole foods into their respective food groups. Use hotkeys [1]-[5], tap buttons, or drag-and-drop to trigger streak multipliers and earn up to +60 bonus XP!"
-                            : "Explore essential food groups, how each one directly benefits your female hormonal balance and cycle vitality, and race against the clock in the Speed Sorter!"}
+                            ? "Race the 45-second clock to sort whole foods onto your nourishment plate. Tap plate slices, drag, or press [1]–[5]!"
+                            : "Explore essential food groups, how each one benefits your female body, and test your reflexes in the Speed Sorter!"}
                         </p>
                       </div>
 
