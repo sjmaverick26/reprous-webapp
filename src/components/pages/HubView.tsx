@@ -45,6 +45,7 @@ import {
   Scale,
   TrendingUp,
   Stethoscope,
+  Utensils,
 } from "lucide-react";
 import {
   HUB_CATEGORIES,
@@ -74,6 +75,7 @@ import { RoleplayInteractiveStage } from "@/components/shared/RoleplayInteractiv
 import { InteractiveQuizGame } from "@/components/shared/InteractiveQuizGame";
 import { LittleHealthDictionary } from "@/components/shared/LittleHealthDictionary";
 import { FuelUpNutritionGame } from "@/components/shared/FuelUpNutritionGame";
+import { FemaleNourishmentPlateGame } from "@/components/shared/FemaleNourishmentPlateGame";
 import {
   HormoneWaveChart,
   CycleVitalSignsDashboard,
@@ -1013,7 +1015,7 @@ export function HubView({ initialCategory }: HubViewProps) {
               if (activeCategoryId === "cycle") {
                 return [
                   { id: 1, title: "Hormone & Cycle Lab", shortTitle: "Lab" },
-                  { id: 2, title: "Cycle Arcade Game", shortTitle: "Arcade" },
+                  { id: 2, title: "Nourishment Plate & Sorter", shortTitle: "Plate & Game" },
                   { id: 3, title: "Consultation Roleplay", shortTitle: "Roleplay" },
                   { id: 4, title: "Signal Detective", shortTitle: "Signals" },
                   { id: 5, title: isQuizActive ? "Action Blueprint & Quiz" : "Blueprint & Complete", shortTitle: isQuizActive ? "Quiz" : "Complete" },
@@ -1022,7 +1024,7 @@ export function HubView({ initialCategory }: HubViewProps) {
               if (activeCategoryId === "body") {
                 return [
                   { id: 1, title: "Tanner Staging & Anatomy", shortTitle: "Anatomy" },
-                  { id: 2, title: "Puberty Arcade Challenge", shortTitle: "Arcade" },
+                  { id: 2, title: "Nourishment Plate & Sorter", shortTitle: "Plate & Game" },
                   { id: 3, title: "Consultation Roleplay", shortTitle: "Roleplay" },
                   { id: 4, title: "Signal Detective", shortTitle: "Signals" },
                   { id: 5, title: isQuizActive ? "Action Blueprint & Quiz" : "Blueprint & Complete", shortTitle: isQuizActive ? "Quiz" : "Complete" },
@@ -1031,7 +1033,7 @@ export function HubView({ initialCategory }: HubViewProps) {
               if (activeCategoryId === "conditions" || activeCategoryId === "pcos" || activeCategoryId === "endo") {
                 return [
                   { id: 1, title: "Diagnostic Radar & Pelvic Lab", shortTitle: "Radar" },
-                  { id: 2, title: "Red-Flag Speed Catcher", shortTitle: "Arcade" },
+                  { id: 2, title: "Nourishment Plate & Sorter", shortTitle: "Plate & Game" },
                   { id: 3, title: "Self-Advocacy Roleplay", shortTitle: "Roleplay" },
                   { id: 4, title: "Diagnostic Signals", shortTitle: "Signals" },
                   { id: 5, title: isQuizActive ? "Action Blueprint & Quiz" : "Blueprint & Complete", shortTitle: isQuizActive ? "Quiz" : "Complete" },
@@ -1040,7 +1042,7 @@ export function HubView({ initialCategory }: HubViewProps) {
               if (activeCategoryId === "realtalk" || activeCategoryId === "factors") {
                 return [
                   { id: 1, title: "Contraceptive Efficacy Pyramid", shortTitle: "Pyramid" },
-                  { id: 2, title: "Method Matcher & Rights Arcade", shortTitle: "Arcade" },
+                  { id: 2, title: "Nourishment Plate & Sorter", shortTitle: "Plate & Game" },
                   { id: 3, title: "Consultation Roleplay", shortTitle: "Roleplay" },
                   { id: 4, title: "Key Signal Concepts", shortTitle: "Signals" },
                   { id: 5, title: isQuizActive ? "Action Blueprint & Quiz" : "Blueprint & Complete", shortTitle: isQuizActive ? "Quiz" : "Complete" },
@@ -1048,7 +1050,7 @@ export function HubView({ initialCategory }: HubViewProps) {
               }
               return [
                 { id: 1, title: "Visual Diagram Lab", shortTitle: "Visuals" },
-                { id: 2, title: "Interactive Arcade Game", shortTitle: "Arcade" },
+                { id: 2, title: "Nourishment Plate & Sorter", shortTitle: "Plate & Game" },
                 { id: 3, title: "Consultation Roleplay", shortTitle: "Roleplay" },
                 { id: 4, title: "Signal Detective", shortTitle: "Signals" },
                 { id: 5, title: isQuizActive ? "Action Blueprint & Quiz" : "Blueprint & Complete", shortTitle: isQuizActive ? "Quiz" : "Complete" },
@@ -1306,43 +1308,27 @@ export function HubView({ initialCategory }: HubViewProps) {
                     </div>
                   )}
 
-                  {/* SLIDE 2: INTERACTIVE ARCADE MINI-GAME (NUTRITION ARCADE ADAPTED FOR ALL TOPICS) */}
+                  {/* SLIDE 2: FEMALE NOURISHMENT PLATE & SPEED FOOD GROUP SORTER */}
                   {currentLessonPage === 2 && (
                     <div className="space-y-6 animate-in fade-in duration-200 py-1 font-sans">
                       <div>
-                        <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-raspberry text-white shadow-2xs font-sans mb-2">
-                          <Gamepad2 className="w-4 h-4" />
-                          <span>Interactive Learning Arcade</span>
+                        <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-coral text-white shadow-2xs font-sans mb-2">
+                          <Utensils className="w-4 h-4" />
+                          <span>Female Nourishment &amp; Physiology</span>
                         </div>
-                        <span className="text-xs sm:text-sm font-bold uppercase tracking-wider text-raspberry font-sans block mb-1">
-                          Slide 2 of {lessonPages.length} · Arcade Challenge Mode
+                        <span className="text-xs sm:text-sm font-bold uppercase tracking-wider text-coral font-sans block mb-1">
+                          Slide 2 of {lessonPages.length} · Interactive Plate &amp; Speed Challenge
                         </span>
                         <h4 className="text-3xl sm:text-4xl font-serif font-bold text-deep-teal leading-tight mb-2">
-                          {selectedTopic.name} Arcade Challenge
+                          {selectedTopic.name} Nourishment Plate &amp; Speed Sorter
                         </h4>
                         <p className="text-charcoal/85 text-lg sm:text-xl font-sans leading-relaxed">
-                          Test your knowledge and reflexes! Catch biological signals, match hormone powers, and place timeline phases to earn bonus XP.
+                          Explore essential food groups, how each one directly benefits your female hormonal balance and cycle vitality, and race against the clock in the Speed Sorter!
                         </p>
                       </div>
 
-                      {/* Universal Arcade Game Component */}
-                      <LessonArcadeGame
-                        categoryKey={activeCategoryId || "cycle"}
-                        topicId={selectedTopic.id}
-                        topicTitle={selectedTopic.name}
-                        characterAvatar={
-                          activeCategoryId === "conditions" || selectedTopic.id.includes("pcos") || selectedTopic.id.includes("endo")
-                            ? "mei"
-                            : activeCategoryId === "realtalk" || selectedTopic.id.includes("maternal") || selectedTopic.id.includes("rights")
-                            ? "lucia"
-                            : activeCategoryId === "play" || selectedTopic.id.includes("athlet")
-                            ? "maya"
-                            : activeCategoryId === "body"
-                            ? "elena"
-                            : activeCategoryId === "mind"
-                            ? "jordan"
-                            : "sofia"
-                        }
+                      {/* Universal Female Nourishment Plate & Speed Sorter */}
+                      <FemaleNourishmentPlateGame
                         onGameComplete={(bonus) => {
                           setXp((x) => x + bonus);
                         }}
