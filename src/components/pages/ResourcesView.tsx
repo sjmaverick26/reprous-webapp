@@ -664,8 +664,9 @@ export function ResourcesView({ onNavigate, initialCategory = "all" }: Resources
                         </span>
                       )}
                     </div>
-                    <span className="inline-block text-[11px] font-bold text-green-700 bg-green-50 border border-green-200 px-2 py-0.5 rounded-md">
-                      ✓ {hotline.hours}
+                    <span className="inline-flex items-center gap-1 text-[11px] font-bold text-green-700 bg-green-50 border border-green-200 px-2 py-0.5 rounded-md">
+                      <CheckCircle2 className="w-3 h-3 text-green-600" />
+                      <span>{hotline.hours}</span>
                     </span>
                     <p className="text-[13.5px] text-charcoal/80 leading-relaxed m-0">
                       {hotline.desc}
@@ -746,8 +747,9 @@ export function ResourcesView({ onNavigate, initialCategory = "all" }: Resources
                       <p className="text-xs text-charcoal/80 mb-1">
                         {clinic.address}, {clinic.city}
                       </p>
-                      <p className="text-xs font-semibold text-deep-teal mb-2">
-                        📞 {clinic.phone} • {clinic.hours}
+                      <p className="text-xs font-semibold text-deep-teal mb-2 flex items-center gap-1.5">
+                        <Phone className="w-3.5 h-3.5 text-deep-teal shrink-0" />
+                        <span>{clinic.phone} • {clinic.hours}</span>
                       </p>
 
                       <div className="flex flex-wrap gap-1 mb-2">
@@ -764,13 +766,15 @@ export function ResourcesView({ onNavigate, initialCategory = "all" }: Resources
 
                     <div className="pt-2 border-t border-deep-teal/10 space-y-1">
                       {clinic.busAccessible && (
-                        <div className="text-[11px] font-semibold text-green-800 flex items-center gap-1">
-                          <span>🚍 Public Transit / Bus Line Accessible</span>
+                        <div className="text-[11px] font-semibold text-green-800 flex items-center gap-1.5">
+                          <MapPin className="w-3.5 h-3.5 text-green-700 shrink-0" />
+                          <span>Public Transit / Bus Line Accessible</span>
                         </div>
                       )}
                       {clinic.languages && (
-                        <p className="text-[11px] text-charcoal/70 m-0">
-                          🌐 <strong>Languages:</strong> {clinic.languages.join(", ")}
+                        <p className="text-[11px] text-charcoal/70 m-0 flex items-center gap-1.5">
+                          <Users className="w-3.5 h-3.5 text-deep-teal shrink-0" />
+                          <span><strong>Languages:</strong> {clinic.languages.join(", ")}</span>
                         </p>
                       )}
                     </div>
@@ -792,7 +796,7 @@ export function ResourcesView({ onNavigate, initialCategory = "all" }: Resources
             <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
               <div className="p-4 rounded-xl bg-ivory border border-deep-teal/15 space-y-2">
                 <h4 className="font-bold text-sm text-deep-teal flex items-center gap-1.5">
-                  <span>🏛️</span>
+                  <Building2 className="w-4 h-4 text-deep-teal shrink-0" />
                   <span>Title X Federal Protection</span>
                 </h4>
                 <p className="text-xs text-charcoal/80 leading-relaxed m-0">
@@ -802,7 +806,7 @@ export function ResourcesView({ onNavigate, initialCategory = "all" }: Resources
 
               <div className="p-4 rounded-xl bg-ivory border border-deep-teal/15 space-y-2">
                 <h4 className="font-bold text-sm text-raspberry flex items-center gap-1.5">
-                  <span>🛡️</span>
+                  <ShieldCheck className="w-4 h-4 text-raspberry shrink-0" />
                   <span>Preventing Insurance EOB Letters</span>
                 </h4>
                 <p className="text-xs text-charcoal/80 leading-relaxed m-0">
@@ -812,7 +816,7 @@ export function ResourcesView({ onNavigate, initialCategory = "all" }: Resources
 
               <div className="p-4 rounded-xl bg-ivory border border-deep-teal/15 space-y-2">
                 <h4 className="font-bold text-sm text-coral flex items-center gap-1.5">
-                  <span>💬</span>
+                  <MessageSquare className="w-4 h-4 text-coral shrink-0" />
                   <span>Front Desk Check-in Script</span>
                 </h4>
                 <p className="text-xs text-charcoal/80 leading-relaxed m-0">
@@ -960,9 +964,10 @@ export function ResourcesView({ onNavigate, initialCategory = "all" }: Resources
                           href={petition.billUrl || petition.externalUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1 text-[11px] font-bold text-raspberry bg-soft-pink/70 hover:bg-soft-pink px-2.5 py-0.5 rounded-lg border border-raspberry/25 transition-colors"
+                          className="inline-flex items-center gap-1.5 text-[11px] font-bold text-raspberry bg-soft-pink/70 hover:bg-soft-pink px-2.5 py-0.5 rounded-lg border border-raspberry/25 transition-colors"
                         >
-                          <span>🏛️ {petition.billOrInitiative}</span>
+                          <Building2 className="w-3 h-3 text-raspberry shrink-0" />
+                          <span>{petition.billOrInitiative}</span>
                           <ExternalLink className="w-3 h-3 ml-0.5 shrink-0" />
                         </a>
                       )}
@@ -999,11 +1004,11 @@ export function ResourcesView({ onNavigate, initialCategory = "all" }: Resources
                     {/* Progress bar */}
                     <div className="mb-4">
                       <div className="flex justify-between text-xs font-bold mb-1">
-                        <span className="text-raspberry">
+                        <span className="text-raspberry font-mono">
                           {petition.currentSignatures.toLocaleString()} signatures
                         </span>
                         <span className="text-charcoal/70">
-                          Goal: {petition.targetSignatures.toLocaleString()} ({percent}%)
+                          Legislative Goal: {petition.targetSignatures.toLocaleString()} ({percent}%)
                         </span>
                       </div>
                       <div className="w-full h-2.5 bg-soft-pink/60 rounded-full overflow-hidden">
@@ -1012,6 +1017,17 @@ export function ResourcesView({ onNavigate, initialCategory = "all" }: Resources
                           style={{ width: `${percent}%` }}
                         />
                       </div>
+                      {petition.legislativeMilestone && (
+                        <div className="mt-2.5 flex items-start gap-2 p-2.5 rounded-xl bg-ivory border border-deep-teal/15 text-[11.5px] text-charcoal/85 leading-snug">
+                          <CheckCircle2 className="w-3.5 h-3.5 text-deep-teal shrink-0 mt-0.5" />
+                          <div>
+                            <span className="font-bold text-deep-teal block">
+                              {petition.legislativeGoalType || "Legislative Threshold"}:
+                            </span>
+                            <span>{petition.legislativeMilestone}</span>
+                          </div>
+                        </div>
+                      )}
                     </div>
 
                     {/* Dual Action Buttons */}
@@ -1029,7 +1045,7 @@ export function ResourcesView({ onNavigate, initialCategory = "all" }: Resources
                         {isSigned ? (
                           <>
                             <CheckCircle2 className="w-4 h-4 text-green-600 shrink-0" />
-                            <span>Pledged on ReproUs ✓</span>
+                            <span>Pledged on ReproUs</span>
                           </>
                         ) : (
                           <>
@@ -1112,7 +1128,7 @@ export function ResourcesView({ onNavigate, initialCategory = "all" }: Resources
                         {isCopied ? (
                           <>
                             <Check className="w-3.5 h-3.5 text-white" />
-                            <span>Copied to Clipboard! ✓</span>
+                            <span>Copied to Clipboard!</span>
                           </>
                         ) : (
                           <>
@@ -1198,7 +1214,7 @@ export function ResourcesView({ onNavigate, initialCategory = "all" }: Resources
                   </span>
                 </div>
                 <p className="text-[11.5px] leading-relaxed m-0 text-charcoal/80">
-                  This community initiative supports <strong>{selectedPetition.realWorldCampaign}</strong> ({selectedPetition.billOrInitiative || "Grassroots Initiative"}).
+                  This community initiative supports <strong>{selectedPetition.realWorldCampaign}</strong> ({selectedPetition.billOrInitiative || "Grassroots Initiative"}), currently at <strong>{selectedPetition.currentSignatures.toLocaleString()}</strong> of its <strong>{selectedPetition.targetSignatures.toLocaleString()}</strong> legislative goal for {selectedPetition.legislativeGoalType?.toLowerCase() || "legislative action"}.
                   Add your name to the ReproUs student ledger below, or sign the official petition directly on the host website:
                 </p>
                 <a
@@ -1207,7 +1223,8 @@ export function ResourcesView({ onNavigate, initialCategory = "all" }: Resources
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-1.5 font-bold text-raspberry hover:underline text-xs pt-1"
                 >
-                  <span>Sign Live on {selectedPetition.petitionPlatform || selectedPetition.realWorldCampaign.split("&")[0].trim()} ↗</span>
+                  <span>Sign Live on {selectedPetition.petitionPlatform || selectedPetition.realWorldCampaign.split("&")[0].trim()}</span>
+                  <ExternalLink className="w-3.5 h-3.5" />
                 </a>
               </div>
 
@@ -1450,15 +1467,19 @@ export function ResourcesView({ onNavigate, initialCategory = "all" }: Resources
                       </span>
                     ))}
                     {clinic.busAccessible && (
-                      <span className="text-[11px] font-semibold px-2 py-0.5 rounded bg-green-100 text-green-900">
-                        🚍 Bus Line Accessible
+                      <span className="text-[11px] font-semibold px-2 py-0.5 rounded bg-green-100 text-green-900 inline-flex items-center gap-1">
+                        <MapPin className="w-3 h-3 text-green-800" />
+                        <span>Bus Line Accessible</span>
                       </span>
                     )}
                   </div>
                   {clinic.languages && clinic.languages.length > 0 && (
-                    <p className="text-[11.5px] text-plum/85 m-0 font-sans mt-0.5">
-                      🌐 <strong className="text-plum">Languages &amp; Interpretation:</strong>{" "}
-                      <span className="text-ink/80">{clinic.languages.join(", ")}</span>
+                    <p className="text-[11.5px] text-plum/85 m-0 font-sans mt-0.5 flex items-center gap-1.5">
+                      <Users className="w-3.5 h-3.5 text-deep-teal shrink-0" />
+                      <span>
+                        <strong className="text-plum">Languages &amp; Interpretation:</strong>{" "}
+                        <span className="text-ink/80">{clinic.languages.join(", ")}</span>
+                      </span>
                     </p>
                   )}
                 </div>
