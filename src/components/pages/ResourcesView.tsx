@@ -144,28 +144,24 @@ export function ResourcesView({ onNavigate, initialCategory = "all" }: Resources
     id: "all" | "help" | "petitions";
     label: string;
     badge: string;
-    icon: string;
     desc: string;
   }[] = [
     {
       id: "all",
       label: "All Resources (Overview)",
       badge: "Full Hub",
-      icon: "🌐",
       desc: "Complete directory: hotlines, clinic finder, youth petitions, and leadership modules"
     },
     {
       id: "help",
       label: "How to Get Help",
       badge: "Immediate Care",
-      icon: "🆘",
       desc: "24/7 confidential hotlines, free clinic finder, crisis support & minor privacy rights"
     },
     {
       id: "petitions",
       label: "Take Action",
       badge: "Advocacy",
-      icon: "✍️",
       desc: "Active youth petitions, Momnibus Act, menstrual equity & school board letter toolkit"
     }
   ];
@@ -325,7 +321,6 @@ export function ResourcesView({ onNavigate, initialCategory = "all" }: Resources
               aria-expanded={isCategoryDropdownOpen}
             >
               <span className="flex items-center gap-2 truncate">
-                <span className="text-lg">{categoryOptions.find((o) => o.id === activeCategory)?.icon}</span>
                 <span className="font-bold text-plum truncate">
                   {categoryOptions.find((o) => o.id === activeCategory)?.label}
                 </span>
@@ -358,7 +353,6 @@ export function ResourcesView({ onNavigate, initialCategory = "all" }: Resources
                           : "hover:bg-ivory text-plum"
                       )}
                     >
-                      <span className="text-xl shrink-0 mt-0.5">{opt.icon}</span>
                       <div className="min-w-0 flex-1">
                         <div className="flex items-center justify-between gap-1 mb-0.5">
                           <span
@@ -410,7 +404,6 @@ export function ResourcesView({ onNavigate, initialCategory = "all" }: Resources
                   : "bg-ivory text-plum/80 hover:text-plum hover:bg-white border border-deep-teal/20"
               )}
             >
-              <span>{opt.icon}</span>
               <span>{opt.label.split("(")[0].trim()}</span>
             </button>
           ))}

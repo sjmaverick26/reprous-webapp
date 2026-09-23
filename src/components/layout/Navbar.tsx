@@ -87,14 +87,12 @@ export function Navbar({ activePage, onNavigate, currentLang = "en", onSelectLan
       tab: "help",
       label: "How to Get Help",
       tag: "Immediate Care",
-      icon: "🆘",
       description: "24/7 confidential hotlines, free & sliding-scale clinics, crisis text lines & minor privacy rights"
     },
     {
       tab: "petitions",
       label: "Take Action",
       tag: "Advocacy",
-      icon: "✍️",
       description: "Active youth campaigns, Black Maternal Health Momnibus, period equity & school action toolkit"
     },
   ];
@@ -365,9 +363,8 @@ export function Navbar({ activePage, onNavigate, currentLang = "en", onSelectLan
                               className="w-full text-left px-3 py-2.5 rounded-lg hover:bg-ivory-darker transition-colors group flex flex-col gap-0.5 cursor-pointer text-left"
                             >
                               <div className="flex items-center justify-between">
-                                <span className="text-[14px] font-bold font-sans text-plum group-hover:text-berry flex items-center gap-1.5">
-                                  <span>{sub.icon}</span>
-                                  <span>{sub.label}</span>
+                                <span className="text-[14px] font-bold font-sans text-plum group-hover:text-berry">
+                                  {sub.label}
                                 </span>
                                 <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-coral/10 text-coral border border-coral/20">
                                   {sub.tag}
@@ -714,7 +711,7 @@ export function Navbar({ activePage, onNavigate, currentLang = "en", onSelectLan
                       >
                         <span className="flex items-center gap-2">
                           <span className="text-charcoal/40">↳</span>
-                          <span>🆘 How to Get Help</span>
+                          <span>How to Get Help</span>
                         </span>
                         <span className="text-[10px] text-raspberry font-semibold bg-soft-pink px-2 py-0.5 rounded-full">Immediate Care</span>
                       </button>
@@ -727,7 +724,7 @@ export function Navbar({ activePage, onNavigate, currentLang = "en", onSelectLan
                       >
                         <span className="flex items-center gap-2">
                           <span className="text-charcoal/40">↳</span>
-                          <span>✍️ Take Action</span>
+                          <span>Take Action</span>
                         </span>
                         <span className="text-[10px] text-deep-teal font-semibold bg-light-teal px-2 py-0.5 rounded-full">Advocacy</span>
                       </button>
