@@ -456,9 +456,9 @@ export function AthleteCatcherDrawing({ className = "w-full h-full" }: { classNa
         </radialGradient>
       </defs>
 
-      {/* Layer 1: Solid Back Hair Silhouette (Rounded dome, zero detached wings) */}
+      {/* Layer 1: Solid Back Hair Silhouette (Rounded dome, sleek straight fall) */}
       <path
-        d="M 33 22 A 17 12 0 0 1 67 22 C 75 32, 78 46, 76 66 C 70 68, 60 69, 50 69 C 40 69, 30 68, 24 66 C 22 46, 25 32, 33 22 Z"
+        d="M 34 22 A 16 12 0 0 1 66 22 C 72 32, 74 46, 72 66 C 67 68, 59 69, 50 69 C 41 69, 33 68, 28 66 C 26 46, 28 32, 34 22 Z"
         fill="#0B0E14"
       />
 
@@ -485,11 +485,11 @@ export function AthleteCatcherDrawing({ className = "w-full h-full" }: { classNa
       <g>
         {/* Left Braids */}
         {/* Inner Left Braid: straight shaft down past cheek, spiral curl at end */}
-        <path d="M 40 18 Q 35 34 34 48 L 34 58" stroke="#0B0E14" strokeWidth="3.2" fill="none" strokeLinecap="round" />
-        <path d="M 40 18 Q 35 34 34 48 L 34 58" stroke="#2D3748" strokeWidth="1" fill="none" strokeDasharray="2.5,2" />
+        <path d="M 40 18 Q 36 34 35 48 L 35 58" stroke="#0B0E14" strokeWidth="3.2" fill="none" strokeLinecap="round" />
+        <path d="M 40 18 Q 36 34 35 48 L 35 58" stroke="#2D3748" strokeWidth="1" fill="none" strokeDasharray="2.5,2" />
         {/* Curly end */}
         <path
-          d="M 34 58 C 34 63, 29 66, 31 70 C 33 74, 38 73, 37 69 C 36 66, 32 67, 33 71"
+          d="M 35 58 C 35 63, 30 66, 32 70 C 34 74, 39 73, 38 69 C 37 66, 33 67, 34 71"
           stroke="#0B0E14"
           strokeWidth="2.4"
           fill="none"
@@ -497,11 +497,11 @@ export function AthleteCatcherDrawing({ className = "w-full h-full" }: { classNa
         />
 
         {/* Outer Left Braid: straight shaft hugging side, spiral curl at end */}
-        <path d="M 35 19 Q 27 34 26 48 L 26 58" stroke="#0B0E14" strokeWidth="3.2" fill="none" strokeLinecap="round" />
-        <path d="M 35 19 Q 27 34 26 48 L 26 58" stroke="#2D3748" strokeWidth="1" fill="none" strokeDasharray="2.5,2" />
+        <path d="M 36 19 Q 31 34 30 48 L 30 58" stroke="#0B0E14" strokeWidth="3.2" fill="none" strokeLinecap="round" />
+        <path d="M 36 19 Q 31 34 30 48 L 30 58" stroke="#2D3748" strokeWidth="1" fill="none" strokeDasharray="2.5,2" />
         {/* Curly end */}
         <path
-          d="M 26 58 C 26 63, 20 66, 22 70 C 24 74, 29 73, 28 69 C 27 66, 23 67, 24 71"
+          d="M 30 58 C 30 63, 25 66, 27 70 C 29 74, 34 73, 33 69 C 32 66, 28 67, 29 71"
           stroke="#0B0E14"
           strokeWidth="2.4"
           fill="none"
@@ -510,11 +510,11 @@ export function AthleteCatcherDrawing({ className = "w-full h-full" }: { classNa
 
         {/* Right Braids */}
         {/* Inner Right Braid: straight shaft down past cheek, spiral curl at end */}
-        <path d="M 60 18 Q 65 34 66 48 L 66 58" stroke="#0B0E14" strokeWidth="3.2" fill="none" strokeLinecap="round" />
-        <path d="M 60 18 Q 65 34 66 48 L 66 58" stroke="#2D3748" strokeWidth="1" fill="none" strokeDasharray="2.5,2" />
+        <path d="M 60 18 Q 64 34 65 48 L 65 58" stroke="#0B0E14" strokeWidth="3.2" fill="none" strokeLinecap="round" />
+        <path d="M 60 18 Q 64 34 65 48 L 65 58" stroke="#2D3748" strokeWidth="1" fill="none" strokeDasharray="2.5,2" />
         {/* Curly end */}
         <path
-          d="M 66 58 C 66 63, 71 66, 69 70 C 67 74, 62 73, 63 69 C 64 66, 68 67, 67 71"
+          d="M 65 58 C 65 63, 70 66, 68 70 C 66 74, 61 73, 62 69 C 63 66, 67 67, 66 71"
           stroke="#0B0E14"
           strokeWidth="2.4"
           fill="none"
@@ -522,11 +522,11 @@ export function AthleteCatcherDrawing({ className = "w-full h-full" }: { classNa
         />
 
         {/* Outer Right Braid: straight shaft hugging side, spiral curl at end */}
-        <path d="M 65 19 Q 73 34 74 48 L 74 58" stroke="#0B0E14" strokeWidth="3.2" fill="none" strokeLinecap="round" />
-        <path d="M 65 19 Q 73 34 74 48 L 74 58" stroke="#2D3748" strokeWidth="1" fill="none" strokeDasharray="2.5,2" />
+        <path d="M 64 19 Q 69 34 70 48 L 70 58" stroke="#0B0E14" strokeWidth="3.2" fill="none" strokeLinecap="round" />
+        <path d="M 64 19 Q 69 34 70 48 L 70 58" stroke="#2D3748" strokeWidth="1" fill="none" strokeDasharray="2.5,2" />
         {/* Curly end */}
         <path
-          d="M 74 58 C 74 63, 80 66, 78 70 C 76 74, 71 73, 72 69 C 73 66, 77 67, 76 71"
+          d="M 70 58 C 70 63, 75 66, 73 70 C 71 74, 66 73, 67 69 C 68 66, 72 67, 71 71"
           stroke="#0B0E14"
           strokeWidth="2.4"
           fill="none"
@@ -534,10 +534,10 @@ export function AthleteCatcherDrawing({ className = "w-full h-full" }: { classNa
         />
 
         {/* Gold Braid Cuffs clamped on braids */}
-        <rect x="32" y="46" width="3" height="2.5" rx="0.5" fill="#F59E0B" />
-        <rect x="65" y="46" width="3" height="2.5" rx="0.5" fill="#F59E0B" />
-        <rect x="24.5" y="54" width="3" height="2.5" rx="0.5" fill="#F59E0B" />
-        <rect x="72.5" y="54" width="3" height="2.5" rx="0.5" fill="#F59E0B" />
+        <rect x="33" y="46" width="3" height="2.5" rx="0.5" fill="#F59E0B" />
+        <rect x="64" y="46" width="3" height="2.5" rx="0.5" fill="#F59E0B" />
+        <rect x="28.5" y="54" width="3" height="2.5" rx="0.5" fill="#F59E0B" />
+        <rect x="68.5" y="54" width="3" height="2.5" rx="0.5" fill="#F59E0B" />
       </g>
 
       {/* Layer 5: Scalp Dome & Athletic Headband (Rendered OVER braid roots so roots are 100% attached and concealed) */}

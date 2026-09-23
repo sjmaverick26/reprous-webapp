@@ -64,12 +64,12 @@ const DIVERSE_PATIENT_PROFILES: PatientVisualProfile[] = [
   {
     name: "Sofia",
     role: "Youth Advocate",
-    skinTone: "#B87346", // Warm golden-olive
-    skinShadow: "#96562B",
-    hairColor: "#2A1810",
-    hairStyle: "wavy-long",
+    skinTone: "#7B4B27", // Rich warm golden-brown
+    skinShadow: "#5E3416",
+    hairColor: "#111827", // Rich natural black
+    hairStyle: "curly-afro", // Giving Sofia the stunning, voluminous Afro!
     hasGlasses: true,
-    glassesColor: "#D97706",
+    glassesColor: "#D97706", // Tortoiseshell gold frames
     topType: "knit-cardigan",
     topColor: "#831843", // Plum
     topAccentColor: "#FDF2F8",
@@ -747,12 +747,34 @@ function PatientAvatarSvg({
       viewBox="0 0 120 140"
       className="w-24 sm:w-28 h-auto drop-shadow-md transition-transform duration-300 hover:scale-105"
     >
-      {/* Back Hair for Box Braids (Maya) */}
+      {/* Back Hair for Box Braids (Maya) - Rounded cranial contour, sleek straight-down silhouette */}
       {profile.hairStyle === "box-braids" && (
         <path
-          d="M 33 26 C 33 10, 87 10, 87 26 C 98 44, 103 74, 102 106 C 101 122, 97 138, 93 140 L 27 140 C 23 138, 19 122, 18 106 C 17 74, 22 44, 33 26 Z"
+          d="M 34 38 C 34 18, 46 13, 60 13 C 74 13, 86 18, 86 38 L 88 106 C 88 122, 85 138, 81 140 L 39 140 C 35 138, 32 122, 32 106 Z"
           fill="#0B0E14"
         />
+      )}
+
+      {/* Back Hair for Curly Afro (Sofia / Jordan) - Lush, voluminous, rounded silhouette */}
+      {profile.hairStyle === "curly-afro" && (
+        <g>
+          {/* Main Afro Volume Silhouette */}
+          <path
+            d="M 29 50 C 18 38, 20 18, 34 10 C 44 3, 76 3, 86 10 C 100 18, 102 38, 91 50 C 85 58, 76 60, 70 59 C 60 61, 50 61, 40 59 C 34 60, 31 56, 29 50 Z"
+            fill={profile.hairColor}
+          />
+          {/* Textured Afro Curls / Puffs around perimeter for lush volume */}
+          <circle cx="34" cy="46" r="9" fill={profile.hairColor} />
+          <circle cx="28" cy="34" r="10" fill={profile.hairColor} />
+          <circle cx="32" cy="21" r="10" fill={profile.hairColor} />
+          <circle cx="43" cy="12" r="10" fill={profile.hairColor} />
+          <circle cx="54" cy="8" r="10" fill={profile.hairColor} />
+          <circle cx="66" cy="8" r="10" fill={profile.hairColor} />
+          <circle cx="77" cy="12" r="10" fill={profile.hairColor} />
+          <circle cx="88" cy="21" r="10" fill={profile.hairColor} />
+          <circle cx="92" cy="34" r="10" fill={profile.hairColor} />
+          <circle cx="86" cy="46" r="9" fill={profile.hairColor} />
+        </g>
       )}
 
       {/* Head Base */}
@@ -766,16 +788,16 @@ function PatientAvatarSvg({
       {/* Hair & Headcoverings */}
       {profile.hairStyle === "box-braids" && (
         <g>
-          {/* Smooth crown dome cleanly covering top of skull down to natural arched hairline */}
+          {/* Smooth, naturally rounded cranial crown dome */}
           <path
-            d="M 35 28 C 35 12, 85 12, 85 28 C 77 25, 69 23, 60 23 C 51 23, 43 25, 35 28 Z"
+            d="M 36 34 C 36 19, 47 14, 60 14 C 73 14, 84 19, 84 34 C 77 28, 69 24, 60 24 C 51 24, 43 28, 36 34 Z"
             fill={profile.hairColor}
           />
           {/* Clean center part line on crown */}
-          <line x1="60" y1="13" x2="60" y2="23" stroke="#262F3D" strokeWidth="1.2" strokeLinecap="round" />
-          {/* Subtle neat box parting lines on the scalp */}
-          <line x1="53" y1="16" x2="48" y2="24" stroke="#1F2937" strokeWidth="0.8" opacity="0.7" />
-          <line x1="67" y1="16" x2="72" y2="24" stroke="#1F2937" strokeWidth="0.8" opacity="0.7" />
+          <line x1="60" y1="14" x2="60" y2="24" stroke="#262F3D" strokeWidth="1.2" strokeLinecap="round" />
+          {/* Subtle neat box parting lines on scalp */}
+          <line x1="52" y1="17" x2="46" y2="26" stroke="#1F2937" strokeWidth="0.8" opacity="0.7" />
+          <line x1="68" y1="17" x2="74" y2="26" stroke="#1F2937" strokeWidth="0.8" opacity="0.7" />
         </g>
       )}
 
@@ -807,17 +829,35 @@ function PatientAvatarSvg({
       )}
 
       {profile.hairStyle === "curly-afro" && (
-        <>
+        <g>
+          {/* Forehead hairline with soft natural curvature */}
           <path
-            d="M 36 40 C 34 16, 86 16, 84 40 C 88 28, 78 14, 60 14 C 42 14, 32 28, 36 40 Z"
+            d="M 38 38 C 38 24, 48 18, 60 18 C 72 18, 82 24, 82 38 C 76 30, 68 26, 60 26 C 52 26, 44 30, 38 38 Z"
             fill={profile.hairColor}
           />
-          <circle cx="42" cy="24" r="9" fill={profile.hairColor} />
-          <circle cx="60" cy="17" r="10" fill={profile.hairColor} />
-          <circle cx="78" cy="24" r="9" fill={profile.hairColor} />
-          <circle cx="37" cy="36" r="7" fill={profile.hairColor} />
-          <circle cx="83" cy="36" r="7" fill={profile.hairColor} />
-        </>
+          {/* Coiled curl texture arcs across the afro volume */}
+          <path d="M 44 18 Q 48 14 52 18" stroke="#374151" strokeWidth="1.2" fill="none" strokeLinecap="round" />
+          <path d="M 58 14 Q 62 10 66 14" stroke="#374151" strokeWidth="1.2" fill="none" strokeLinecap="round" />
+          <path d="M 70 17 Q 74 13 78 17" stroke="#374151" strokeWidth="1.2" fill="none" strokeLinecap="round" />
+          <path d="M 36 28 Q 40 24 44 28" stroke="#374151" strokeWidth="1.2" fill="none" strokeLinecap="round" />
+          <path d="M 76 28 Q 80 24 84 28" stroke="#374151" strokeWidth="1.2" fill="none" strokeLinecap="round" />
+          <path d="M 33 39 Q 36 35 39 39" stroke="#374151" strokeWidth="1.2" fill="none" strokeLinecap="round" />
+          <path d="M 81 39 Q 84 35 87 39" stroke="#374151" strokeWidth="1.2" fill="none" strokeLinecap="round" />
+          {/* Subtle baby hair curl swirls at hairline */}
+          <path d="M 44 31 Q 46 28 48 31" stroke={profile.hairColor} strokeWidth="1.1" fill="none" strokeLinecap="round" />
+          <path d="M 72 31 Q 74 28 76 31" stroke={profile.hairColor} strokeWidth="1.1" fill="none" strokeLinecap="round" />
+          {/* Iconic Golden Afro Pick with Ring/Fist Handle */}
+          <g transform="translate(68, 7) rotate(16)">
+            {/* Pick handle */}
+            <rect x="0" y="-3" width="3.2" height="7" rx="1.5" fill="#D97706" stroke="#B45309" strokeWidth="0.5" />
+            <circle cx="1.6" cy="-4" r="2.2" fill="#D97706" stroke="#B45309" strokeWidth="0.5" />
+            <circle cx="1.6" cy="-4" r="0.8" fill="#1F2937" />
+            {/* Pick tines */}
+            <line x1="0.6" y1="4" x2="0.6" y2="12" stroke="#F59E0B" strokeWidth="0.7" />
+            <line x1="1.6" y1="4" x2="1.6" y2="13" stroke="#F59E0B" strokeWidth="0.7" />
+            <line x1="2.6" y1="4" x2="2.6" y2="12" stroke="#F59E0B" strokeWidth="0.7" />
+          </g>
+        </g>
       )}
 
       {profile.hairStyle === "wavy-long" && (
@@ -912,24 +952,24 @@ function PatientAvatarSvg({
       <path d="M 48 68 L 60 82 L 72 68 Z" fill={profile.topAccentColor} />
       <line x1="60" y1="82" x2="60" y2="140" stroke="#FFFFFF" strokeWidth="1.5" strokeDasharray="3,3" />
 
-      {/* Front Box Braids Drape - Straight Shafts with Bouncy Curls at the Ends (French Curl / Goddess Box Braids) */}
+      {/* Front Box Braids Drape - Sleek Straight Shafts with Bouncy Curls at the Ends (No excessive width, no flare) */}
       {profile.hairStyle === "box-braids" && (
         <g>
-          {/* ================= LEFT SIDE BRAIDS ================= */}
-          {/* L1: Inner Face-Framing Braid (attached at (45, 24), hangs straight down cheek/torso, curls at ends) */}
-          <path d="M 45 24 Q 38 42 36 62 L 36 102" stroke={profile.hairColor} strokeWidth="3.4" fill="none" strokeLinecap="round" />
-          <path d="M 45 24 Q 38 42 36 62 L 36 102" stroke="#374151" strokeWidth="1" fill="none" strokeDasharray="3,2.5" />
-          {/* Bouncy Spiral Curl at End (y=102 to y=136) */}
+          {/* ================= LEFT SIDE BRAIDS (Straight Down) ================= */}
+          {/* L1: Inner Face-Framing Braid */}
+          <path d="M 46 26 Q 43 38 42 54 L 42 102" stroke={profile.hairColor} strokeWidth="3.2" fill="none" strokeLinecap="round" />
+          <path d="M 46 26 Q 43 38 42 54 L 42 102" stroke="#374151" strokeWidth="1" fill="none" strokeDasharray="3,2.5" />
+          {/* Bouncy Spiral Curl at End (y=102 to y=135) */}
           <path
-            d="M 36 102 C 36 112, 30 117, 32 125 C 34 132, 41 131, 40 124 C 39 119, 33 121, 34 128 C 35 134, 40 137, 43 135"
+            d="M 42 102 C 42 110, 36 115, 38 122 C 40 128, 46 127, 45 121 C 44 116, 38 118, 39 124 C 40 130, 45 133, 48 131"
             stroke={profile.hairColor}
-            strokeWidth="2.8"
+            strokeWidth="2.6"
             fill="none"
             strokeLinecap="round"
             strokeLinejoin="round"
           />
           <path
-            d="M 36 104 C 35 112, 31 117, 33 124 C 35 129, 39 128, 38 124"
+            d="M 42 104 C 41 110, 37 115, 39 121 C 41 126, 45 125, 44 121"
             stroke="#4B5563"
             strokeWidth="0.8"
             fill="none"
@@ -937,20 +977,20 @@ function PatientAvatarSvg({
             opacity="0.6"
           />
 
-          {/* L2: Middle Braid (attached at (39, 21), flows over temple/shoulder, straight down, curls at end) */}
-          <path d="M 39 21 Q 32 42 29 66 L 28 104" stroke={profile.hairColor} strokeWidth="3.4" fill="none" strokeLinecap="round" />
-          <path d="M 39 21 Q 32 42 29 66 L 28 104" stroke="#374151" strokeWidth="1" fill="none" strokeDasharray="3,2.5" />
-          {/* Bouncy Spiral Curl at End (y=104 to y=138) */}
+          {/* L2: Middle Braid */}
+          <path d="M 41 23 Q 37 38 36 54 L 36 104" stroke={profile.hairColor} strokeWidth="3.2" fill="none" strokeLinecap="round" />
+          <path d="M 41 23 Q 37 38 36 54 L 36 104" stroke="#374151" strokeWidth="1" fill="none" strokeDasharray="3,2.5" />
+          {/* Bouncy Spiral Curl at End (y=104 to y=137) */}
           <path
-            d="M 28 104 C 28 114, 22 119, 24 127 C 26 133, 33 132, 32 126 C 31 121, 25 123, 26 129 C 27 135, 32 138, 35 136"
+            d="M 36 104 C 36 112, 30 117, 32 124 C 34 130, 40 129, 39 123 C 38 118, 32 120, 33 126 C 34 132, 39 135, 42 133"
             stroke={profile.hairColor}
-            strokeWidth="2.8"
+            strokeWidth="2.6"
             fill="none"
             strokeLinecap="round"
             strokeLinejoin="round"
           />
           <path
-            d="M 28 106 C 27 114, 23 119, 25 126 C 27 131, 31 130, 30 126"
+            d="M 36 106 C 35 112, 31 117, 33 123 C 35 128, 39 127, 38 123"
             stroke="#4B5563"
             strokeWidth="0.8"
             fill="none"
@@ -958,20 +998,20 @@ function PatientAvatarSvg({
             opacity="0.6"
           />
 
-          {/* L3: Outer Braid (attached at (35, 24), flows outside shoulder, straight down, curls at end) */}
-          <path d="M 35 24 Q 24 46 21 72 L 21 104" stroke={profile.hairColor} strokeWidth="3.4" fill="none" strokeLinecap="round" />
-          <path d="M 35 24 Q 24 46 21 72 L 21 104" stroke="#374151" strokeWidth="1" fill="none" strokeDasharray="3,2.5" />
-          {/* Bouncy Spiral Curl at End (y=104 to y=138) */}
+          {/* L3: Outer Braid (Hugging shoulder edge straight down, no wide bowing) */}
+          <path d="M 37 24 Q 32 38 31 54 L 31 104" stroke={profile.hairColor} strokeWidth="3.2" fill="none" strokeLinecap="round" />
+          <path d="M 37 24 Q 32 38 31 54 L 31 104" stroke="#374151" strokeWidth="1" fill="none" strokeDasharray="3,2.5" />
+          {/* Bouncy Spiral Curl at End (y=104 to y=137) */}
           <path
-            d="M 21 104 C 21 114, 14 119, 16 127 C 18 133, 25 132, 24 126 C 23 120, 17 122, 18 129 C 19 135, 24 138, 27 136"
+            d="M 31 104 C 31 112, 25 117, 27 124 C 29 130, 35 129, 34 123 C 33 118, 27 120, 28 126 C 29 132, 34 135, 37 133"
             stroke={profile.hairColor}
-            strokeWidth="2.8"
+            strokeWidth="2.6"
             fill="none"
             strokeLinecap="round"
             strokeLinejoin="round"
           />
           <path
-            d="M 21 106 C 20 114, 15 119, 17 126 C 19 131, 23 130, 22 126"
+            d="M 31 106 C 30 112, 26 117, 28 123 C 30 128, 34 127, 33 123"
             stroke="#4B5563"
             strokeWidth="0.8"
             fill="none"
@@ -979,21 +1019,21 @@ function PatientAvatarSvg({
             opacity="0.6"
           />
 
-          {/* ================= RIGHT SIDE BRAIDS ================= */}
-          {/* R1: Inner Face-Framing Braid (attached at (75, 24), hangs straight down cheek/torso, curls at ends) */}
-          <path d="M 75 24 Q 82 42 84 62 L 84 102" stroke={profile.hairColor} strokeWidth="3.4" fill="none" strokeLinecap="round" />
-          <path d="M 75 24 Q 82 42 84 62 L 84 102" stroke="#374151" strokeWidth="1" fill="none" strokeDasharray="3,2.5" />
-          {/* Bouncy Spiral Curl at End (y=102 to y=136) */}
+          {/* ================= RIGHT SIDE BRAIDS (Straight Down) ================= */}
+          {/* R1: Inner Face-Framing Braid */}
+          <path d="M 74 26 Q 77 38 78 54 L 78 102" stroke={profile.hairColor} strokeWidth="3.2" fill="none" strokeLinecap="round" />
+          <path d="M 74 26 Q 77 38 78 54 L 78 102" stroke="#374151" strokeWidth="1" fill="none" strokeDasharray="3,2.5" />
+          {/* Bouncy Spiral Curl at End (y=102 to y=135) */}
           <path
-            d="M 84 102 C 84 112, 90 117, 88 125 C 86 132, 79 131, 80 124 C 81 119, 87 121, 86 128 C 85 134, 80 137, 77 135"
+            d="M 78 102 C 78 110, 84 115, 82 122 C 80 128, 74 127, 75 121 C 76 116, 82 118, 81 124 C 80 130, 75 133, 72 131"
             stroke={profile.hairColor}
-            strokeWidth="2.8"
+            strokeWidth="2.6"
             fill="none"
             strokeLinecap="round"
             strokeLinejoin="round"
           />
           <path
-            d="M 84 104 C 85 112, 89 117, 87 124 C 85 129, 81 128, 82 124"
+            d="M 78 104 C 79 110, 83 115, 81 121 C 79 126, 75 125, 76 121"
             stroke="#4B5563"
             strokeWidth="0.8"
             fill="none"
@@ -1001,20 +1041,20 @@ function PatientAvatarSvg({
             opacity="0.6"
           />
 
-          {/* R2: Middle Braid (attached at (81, 21), flows over temple/shoulder, straight down, curls at end) */}
-          <path d="M 81 21 Q 88 42 91 66 L 92 104" stroke={profile.hairColor} strokeWidth="3.4" fill="none" strokeLinecap="round" />
-          <path d="M 81 21 Q 88 42 91 66 L 92 104" stroke="#374151" strokeWidth="1" fill="none" strokeDasharray="3,2.5" />
-          {/* Bouncy Spiral Curl at End (y=104 to y=138) */}
+          {/* R2: Middle Braid */}
+          <path d="M 79 23 Q 83 38 84 54 L 84 104" stroke={profile.hairColor} strokeWidth="3.2" fill="none" strokeLinecap="round" />
+          <path d="M 79 23 Q 83 38 84 54 L 84 104" stroke="#374151" strokeWidth="1" fill="none" strokeDasharray="3,2.5" />
+          {/* Bouncy Spiral Curl at End (y=104 to y=137) */}
           <path
-            d="M 92 104 C 92 114, 98 119, 96 127 C 94 133, 87 132, 88 126 C 89 121, 95 123, 94 129 C 93 135, 88 138, 85 136"
+            d="M 84 104 C 84 112, 90 117, 88 124 C 86 130, 80 129, 81 123 C 82 118, 88 120, 87 126 C 86 132, 81 135, 78 133"
             stroke={profile.hairColor}
-            strokeWidth="2.8"
+            strokeWidth="2.6"
             fill="none"
             strokeLinecap="round"
             strokeLinejoin="round"
           />
           <path
-            d="M 92 106 C 93 114, 97 119, 95 126 C 93 131, 89 130, 90 126"
+            d="M 84 106 C 85 112, 89 117, 87 123 C 85 128, 81 127, 82 123"
             stroke="#4B5563"
             strokeWidth="0.8"
             fill="none"
@@ -1022,20 +1062,20 @@ function PatientAvatarSvg({
             opacity="0.6"
           />
 
-          {/* R3: Outer Braid (attached at (85, 24), flows outside shoulder, straight down, curls at end) */}
-          <path d="M 85 24 Q 96 46 99 72 L 99 104" stroke={profile.hairColor} strokeWidth="3.4" fill="none" strokeLinecap="round" />
-          <path d="M 85 24 Q 96 46 99 72 L 99 104" stroke="#374151" strokeWidth="1" fill="none" strokeDasharray="3,2.5" />
-          {/* Bouncy Spiral Curl at End (y=104 to y=138) */}
+          {/* R3: Outer Braid (Hugging shoulder edge straight down, no wide bowing) */}
+          <path d="M 83 24 Q 88 38 89 54 L 89 104" stroke={profile.hairColor} strokeWidth="3.2" fill="none" strokeLinecap="round" />
+          <path d="M 83 24 Q 88 38 89 54 L 89 104" stroke="#374151" strokeWidth="1" fill="none" strokeDasharray="3,2.5" />
+          {/* Bouncy Spiral Curl at End (y=104 to y=137) */}
           <path
-            d="M 99 104 C 99 114, 106 119, 104 127 C 102 133, 95 132, 96 126 C 97 120, 103 122, 102 129 C 101 135, 96 138, 93 136"
+            d="M 89 104 C 89 112, 95 117, 93 124 C 91 130, 85 129, 86 123 C 87 118, 93 120, 92 126 C 91 132, 86 135, 83 133"
             stroke={profile.hairColor}
-            strokeWidth="2.8"
+            strokeWidth="2.6"
             fill="none"
             strokeLinecap="round"
             strokeLinejoin="round"
           />
           <path
-            d="M 99 106 C 100 114, 105 119, 103 126 C 101 131, 97 130, 98 126"
+            d="M 89 106 C 90 112, 94 117, 92 123 C 90 128, 86 127, 87 123"
             stroke="#4B5563"
             strokeWidth="0.8"
             fill="none"
@@ -1044,19 +1084,19 @@ function PatientAvatarSvg({
           />
 
           {/* Chic Golden Clamped Braid Cuffs */}
-          <rect x="34.3" y="72" width="3.4" height="3.2" rx="0.8" fill="#F59E0B" stroke="#D97706" strokeWidth="0.5" />
-          <rect x="82.3" y="72" width="3.4" height="3.2" rx="0.8" fill="#F59E0B" stroke="#D97706" strokeWidth="0.5" />
-          <rect x="26.3" y="92" width="3.4" height="3.2" rx="0.8" fill="#F59E0B" stroke="#D97706" strokeWidth="0.5" />
-          <rect x="90.3" y="92" width="3.4" height="3.2" rx="0.8" fill="#F59E0B" stroke="#D97706" strokeWidth="0.5" />
-          <rect x="19.3" y="68" width="3.4" height="3.2" rx="0.8" fill="#F59E0B" stroke="#D97706" strokeWidth="0.5" />
-          <rect x="97.3" y="68" width="3.4" height="3.2" rx="0.8" fill="#F59E0B" stroke="#D97706" strokeWidth="0.5" />
+          <rect x="40.3" y="72" width="3.4" height="3.2" rx="0.8" fill="#F59E0B" stroke="#D97706" strokeWidth="0.5" />
+          <rect x="76.3" y="72" width="3.4" height="3.2" rx="0.8" fill="#F59E0B" stroke="#D97706" strokeWidth="0.5" />
+          <rect x="34.3" y="90" width="3.4" height="3.2" rx="0.8" fill="#F59E0B" stroke="#D97706" strokeWidth="0.5" />
+          <rect x="82.3" y="90" width="3.4" height="3.2" rx="0.8" fill="#F59E0B" stroke="#D97706" strokeWidth="0.5" />
+          <rect x="29.3" y="68" width="3.4" height="3.2" rx="0.8" fill="#F59E0B" stroke="#D97706" strokeWidth="0.5" />
+          <rect x="87.3" y="68" width="3.4" height="3.2" rx="0.8" fill="#F59E0B" stroke="#D97706" strokeWidth="0.5" />
 
-          {/* Clean Hairline Cap (Locks braid roots cleanly under the arched scalp crown) */}
+          {/* Clean Hairline Cap (Locks braid roots cleanly under the smooth rounded cranial crown) */}
           <path
-            d="M 35 28 C 35 12, 85 12, 85 28 C 77 25, 69 23, 60 23 C 51 23, 43 25, 35 28 Z"
+            d="M 36 34 C 36 19, 47 14, 60 14 C 73 14, 84 19, 84 34 C 77 28, 69 24, 60 24 C 51 24, 43 28, 36 34 Z"
             fill={profile.hairColor}
           />
-          <line x1="60" y1="13" x2="60" y2="23" stroke="#262F3D" strokeWidth="1.2" strokeLinecap="round" />
+          <line x1="60" y1="14" x2="60" y2="24" stroke="#262F3D" strokeWidth="1.2" strokeLinecap="round" />
         </g>
       )}
 
