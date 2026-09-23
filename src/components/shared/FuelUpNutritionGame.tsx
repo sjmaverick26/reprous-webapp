@@ -1928,7 +1928,7 @@ export function FuelUpNutritionGame({
                     </span>
                   </div>
 
-                  {/* Falling Foods */}
+                  {/* Falling Foods (Neutral styling - no green/red hints to test player nutrition knowledge) */}
                   {fallingFoods.map((item) => (
                     <div
                       key={item.uid}
@@ -1940,20 +1940,12 @@ export function FuelUpNutritionGame({
                       className="absolute pointer-events-none transition-transform duration-75 flex flex-col items-center z-10"
                     >
                       <div
-                        className={`w-12 h-12 sm:w-14 sm:h-14 p-1.5 rounded-2xl bg-white/95 border-2 shadow-md flex items-center justify-center transition-transform ${
-                          item.food.isGood
-                            ? "border-emerald-400 ring-2 ring-emerald-200/80 drop-shadow-sm"
-                            : "border-rose-500 ring-2 ring-rose-200/80 drop-shadow-sm"
-                        }`}
+                        className="w-12 h-12 sm:w-14 sm:h-14 p-1.5 rounded-2xl bg-white/95 border-2 border-slate-300 shadow-md flex items-center justify-center transition-transform"
                       >
                         <FoodDrawing id={item.food.drawingId} className="w-full h-full" />
                       </div>
                       <span
-                        className={`text-[9.5px] font-bold px-1.5 py-0.5 rounded-md mt-0.5 whitespace-nowrap shadow-2xs font-sans ${
-                          item.food.isGood
-                            ? "bg-emerald-600 text-white"
-                            : "bg-rose-600 text-white"
-                        }`}
+                        className="text-[9.5px] font-bold px-2 py-0.5 rounded-md mt-0.5 whitespace-nowrap shadow-2xs font-sans bg-slate-800 text-white"
                       >
                         {item.food.name}
                       </span>
