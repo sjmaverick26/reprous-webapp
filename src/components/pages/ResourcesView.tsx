@@ -885,10 +885,10 @@ export function ResourcesView({ onNavigate, initialCategory = "all" }: Resources
             <div className="flex items-center gap-2.5 flex-wrap">
               <Button
                 onClick={() => setIsProposeModalOpen(true)}
-                variant="outline"
-                className="gap-2 border-coral/30 hover:bg-coral/10 text-coral font-bold cursor-pointer"
+                variant="coral"
+                className="gap-2 cursor-pointer shadow-sm hover:shadow transition-all"
               >
-                <PlusCircle className="w-4 h-4" />
+                <PlusCircle className="w-4 h-4 text-white" />
                 Propose a Petition
               </Button>
             </div>
