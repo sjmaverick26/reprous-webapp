@@ -85,9 +85,17 @@ interface HubViewProps {
 }
 
 export function HubView({ initialCategory }: HubViewProps) {
-  const [activeCategoryId, setActiveCategoryId] = useState<string | null>(initialCategory || null);
+  const [activeCategoryId, setActiveCategoryId] = useState<string | null>(
+    initialCategory === "arcade" || initialCategory === "play-1" ? "play" : initialCategory || null
+  );
   const [openPanelId, setOpenPanelId] = useState<string | null>(null);
-  const [selectedTopic, setSelectedTopic] = useState<HubTopic | null>(null);
+  const [selectedTopic, setSelectedTopic] = useState<HubTopic | null>(() => {
+    if (initialCategory === "arcade" || initialCategory === "play-1") {
+      const playCat = HUB_CATEGORIES["play"];
+      return playCat?.topics.find((t) => t.id === "play-1" || t.name.toLowerCase().includes("fuel up")) || null;
+    }
+    return null;
+  });
   const [selectedBadge, setSelectedBadge] = useState<{ name: string; desc: string; category: string } | null>(null);
   const [completedTopics, setCompletedTopics] = useState<Set<string>>(new Set());
   const [xp, setXp] = useState<number>(0);
@@ -97,7 +105,9 @@ export function HubView({ initialCategory }: HubViewProps) {
   const [showResetToast, setShowResetToast] = useState<boolean>(false);
 
   // Interactive Multi-Page Lesson State
-  const [isFullScreen, setIsFullScreen] = useState<boolean>(false);
+  const [isFullScreen, setIsFullScreen] = useState<boolean>(
+    initialCategory === "arcade" || initialCategory === "play-1"
+  );
   const [currentLessonPage, setCurrentLessonPage] = useState<number>(1);
   const [checkedSignals, setCheckedSignals] = useState<Set<number>>(new Set());
   const [curiosityRevealed, setCuriosityRevealed] = useState<boolean>(false);
@@ -119,12 +129,7 @@ export function HubView({ initialCategory }: HubViewProps) {
   const [isQuizSubmitted, setIsQuizSubmitted] = useState<boolean>(false);
   const [copiedScript, setCopiedScript] = useState<boolean>(false);
 
-  // Sync if initialCategory prop changes from external nav
-  React.useEffect(() => {
-    if (initialCategory) {
-      setActiveCategoryId(initialCategory);
-    }
-  }, [initialCategory]);
+
 
   // Load saved progress from visitor's browser localStorage on client mount (100% private, no server calls)
   React.useEffect(() => {
@@ -230,6 +235,24 @@ export function HubView({ initialCategory }: HubViewProps) {
     setActiveQuizAnswer(null);
     setIsQuizSubmitted(false);
   };
+
+  // Sync if initialCategory prop changes from external nav (including direct "arcade" launch)
+  React.useEffect(() => {
+    if (initialCategory) {
+      if (initialCategory === "arcade" || initialCategory === "play-1") {
+        setActiveCategoryId("play");
+        const playCat = HUB_CATEGORIES["play"];
+        const arcadeTopic = playCat?.topics.find(
+          (t) => t.id === "play-1" || t.name.toLowerCase().includes("fuel up")
+        );
+        if (arcadeTopic) {
+          openTopic(arcadeTopic);
+        }
+      } else {
+        setActiveCategoryId(initialCategory);
+      }
+    }
+  }, [initialCategory]);
 
   const closeTopic = () => {
     setSelectedTopic(null);
@@ -499,6 +522,45 @@ export function HubView({ initialCategory }: HubViewProps) {
               </div>
             </div>
 
+            {/* Featured Interactive Athlete Arcade Banner */}
+            <div className="rounded-3xl p-6 sm:p-8 bg-gradient-to-r from-slate-900 via-deep-teal to-teal-950 text-white border-2 border-gold/40 shadow-xl mb-10 relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-6">
+              <div className="space-y-2.5 max-w-2xl text-left">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gold/20 border border-gold/40 text-gold text-xs font-bold uppercase tracking-wider">
+                  <Sparkles className="w-3.5 h-3.5 text-gold" />
+                  <span>Interactive Learning Experience · 4 Visual Minigames</span>
+                </div>
+                <h3 className="text-2xl sm:text-3xl font-bold font-serif text-white">
+                  Fuel Up: Athlete Nutrition Arcade
+                </h3>
+                <p className="text-sm sm:text-base text-slate-200 leading-relaxed font-sans">
+                  Explore athletic fueling with zero walls of text! Play <strong>Visual Fuel Match</strong>, formulate your <strong>3:1 Recovery Blender</strong> shake, catch clean carbs in the <strong>Pregame Bowl Catcher</strong> with Maya, and master the <strong>Game-Day Fuel Timing Clock</strong>.
+                </p>
+                <div className="flex flex-wrap gap-2 pt-1">
+                  <span className="px-2.5 py-1 rounded-lg bg-white/10 text-slate-200 text-xs font-semibold border border-white/10">🃏 12 Visual Cards</span>
+                  <span className="px-2.5 py-1 rounded-lg bg-white/10 text-slate-200 text-xs font-semibold border border-white/10">🥤 3:1 Recovery Blender</span>
+                  <span className="px-2.5 py-1 rounded-lg bg-white/10 text-slate-200 text-xs font-semibold border border-white/10">🏆 Bowl Catcher Game</span>
+                  <span className="px-2.5 py-1 rounded-lg bg-white/10 text-slate-200 text-xs font-semibold border border-white/10">⏰ Race-Day Clock</span>
+                </div>
+              </div>
+              <Button
+                onClick={() => {
+                  const playCat = HUB_CATEGORIES["play"];
+                  const arcadeTopic = playCat?.topics.find(
+                    (t) => t.id === "play-1" || t.name.toLowerCase().includes("fuel up")
+                  );
+                  if (arcadeTopic) {
+                    setActiveCategoryId("play");
+                    openTopic(arcadeTopic);
+                  }
+                }}
+                size="lg"
+                className="bg-gold hover:bg-gold/90 text-slate-950 font-bold px-7 py-6 rounded-2xl shadow-lg hover:shadow-xl hover:scale-105 transition-all shrink-0 text-base flex items-center gap-2.5 cursor-pointer border border-yellow-300"
+              >
+                <Gamepad2 className="w-5 h-5 text-slate-950" />
+                <span>Launch Arcade (4 Games)</span>
+              </Button>
+            </div>
+
             {/* Category Cards Grouped: Female Athlete Health & Accessibility, Hormonal Health, Reproductive Health */}
             <div className="space-y-12">
               {CATEGORY_GROUPS.map((group) => (
@@ -712,6 +774,34 @@ export function HubView({ initialCategory }: HubViewProps) {
                 </span>
               </div>
             </div>
+
+            {/* Quick-Launch for Nutrition Arcade in Female Athlete Health Category */}
+            {activeCategoryId === "play" && (
+              <div className="mt-6 mb-2 p-5 sm:p-6 rounded-2xl bg-gradient-to-r from-deep-teal/15 via-coral/10 to-gold/20 border-2 border-deep-teal/30 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-sm text-left">
+                <div>
+                  <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-deep-teal text-white text-[11px] font-bold uppercase tracking-wider mb-2">
+                    <Gamepad2 className="w-3.5 h-3.5" />
+                    <span>Featured 4-in-1 Interactive Arcade</span>
+                  </div>
+                  <h4 className="text-xl font-bold font-serif text-deep-teal">Fuel Up: Athlete Nutrition Arcade</h4>
+                  <p className="text-xs sm:text-sm text-charcoal/80 max-w-xl mt-0.5 font-sans">
+                    Launch all 4 minigames directly: Visual Fuel Match, 3:1 Recovery Blender, Pregame Bowl Catcher with Maya, and Game-Day Fuel Timing Clock.
+                  </p>
+                </div>
+                <Button
+                  onClick={() => {
+                    const arcadeTopic = activeCategory.topics.find(
+                      (t) => t.id === "play-1" || t.name.toLowerCase().includes("fuel up")
+                    );
+                    if (arcadeTopic) openTopic(arcadeTopic);
+                  }}
+                  className="bg-coral hover:bg-coral/90 text-white font-bold px-6 py-3 rounded-xl shadow-md shrink-0 flex items-center gap-2 cursor-pointer text-sm"
+                >
+                  <Gamepad2 className="w-4 h-4" />
+                  <span>Launch Arcade Now →</span>
+                </Button>
+              </div>
+            )}
 
             {/* Serpentine Track */}
             <div className="py-8">

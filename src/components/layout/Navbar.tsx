@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Menu, X, ChevronDown, Globe2, Sparkles } from "lucide-react";
+import { Menu, X, ChevronDown, Globe2, Sparkles, Gamepad2 } from "lucide-react";
 import { ReproUsMark } from "@/components/shared/ReproUsMark";
 import { cn } from "@/lib/utils";
 import { SUPPORTED_LANGUAGES } from "@/components/layout/LanguageBar";
@@ -252,7 +252,17 @@ export function Navbar({ activePage, onNavigate, currentLang = "en", onSelectLan
                               <span>{cat.label}</span>
                             </button>
                           ))}
-                          <div className="pt-1 border-t border-plum/10 mt-1">
+                          <div className="pt-1 border-t border-plum/10 mt-1 flex flex-col gap-1">
+                            <button
+                              onClick={() => {
+                                onNavigate("hub", "arcade");
+                                setLearnDropdownOpen(false);
+                              }}
+                              className="w-full text-left px-3 py-1.5 text-[13.5px] font-bold font-sans text-deep-teal hover:bg-deep-teal/10 rounded-lg transition-colors flex items-center gap-1.5"
+                            >
+                              <Gamepad2 className="w-3.5 h-3.5 text-deep-teal shrink-0" />
+                              <span>Athlete Nutrition Arcade (4 Games)</span>
+                            </button>
                             <button
                               onClick={() => {
                                 onNavigate("myths");
@@ -583,6 +593,17 @@ export function Navbar({ activePage, onNavigate, currentLang = "en", onSelectLan
                           ↳ {cat.label}
                         </button>
                       ))}
+                      <button
+                        onClick={() => {
+                          onNavigate("hub", "arcade");
+                          setMobileMenuOpen(false);
+                        }}
+                        className="w-full text-left px-3 py-1.5 text-[14px] font-bold text-deep-teal rounded-lg flex items-center gap-1.5"
+                      >
+                        <span className="text-charcoal/40">↳</span>
+                        <Gamepad2 className="w-3.5 h-3.5 text-deep-teal shrink-0" />
+                        <span>Athlete Nutrition Arcade (4 Games)</span>
+                      </button>
                       <button
                         onClick={() => {
                           onNavigate("myths");

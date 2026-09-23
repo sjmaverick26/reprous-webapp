@@ -35,6 +35,7 @@ import {
   Shield,
   FileCheck,
   Compass,
+  Gamepad2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -400,6 +401,20 @@ export function HomeView({ onNavigate, onSelectLang }: HomeViewProps) {
             </span>
           </div>
 
+          {/* Athlete Nutrition Arcade Spotlight Banner */}
+          <div className="mb-7 flex justify-center">
+            <button
+              onClick={() => onNavigate("hub", "arcade")}
+              className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-gradient-to-r from-deep-teal/10 via-gold/20 to-coral/15 border-2 border-gold/60 text-deep-teal text-[13.5px] md:text-[14.5px] font-bold font-sans shadow-sm hover:shadow-md hover:scale-105 hover:border-gold transition-all cursor-pointer group"
+            >
+              <span className="w-6 h-6 rounded-full bg-deep-teal text-white flex items-center justify-center shrink-0">
+                <Gamepad2 className="w-3.5 h-3.5 group-hover:rotate-12 transition-transform" />
+              </span>
+              <span>🎮 NEW: Athlete Nutrition Arcade · 4 Interactive Minigames</span>
+              <span className="text-coral font-bold text-base group-hover:translate-x-1 transition-transform">→</span>
+            </button>
+          </div>
+
           {/* Hero Buttons */}
           <div className="flex flex-wrap items-center justify-center gap-3.5 mb-9">
             <Button
@@ -572,13 +587,24 @@ export function HomeView({ onNavigate, onSelectLang }: HomeViewProps) {
                   Learn about energy availability, periods, bone health, and the Female Athlete Triad.
                 </p>
               </div>
-              <div>
+              <div className="space-y-2.5">
                 <Button
                   onClick={() => onNavigate("hub", "play")}
                   className="w-full bg-raspberry text-white hover:bg-raspberry/90 justify-between text-[14.5px]"
                 >
                   <span>Explore athlete health</span>
                   <span aria-hidden="true">→</span>
+                </Button>
+                <Button
+                  onClick={() => onNavigate("hub", "arcade")}
+                  variant="outline"
+                  className="w-full border-deep-teal/40 text-deep-teal hover:bg-deep-teal/10 hover:text-deep-teal justify-between text-[13.5px] font-bold bg-white/80 shadow-2xs"
+                >
+                  <span className="flex items-center gap-2">
+                    <Gamepad2 className="w-4 h-4 text-deep-teal" />
+                    <span>Nutrition Arcade (4 Minigames)</span>
+                  </span>
+                  <span aria-hidden="true" className="text-coral font-bold">⚡</span>
                 </Button>
               </div>
             </div>
