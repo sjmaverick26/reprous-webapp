@@ -83,7 +83,6 @@ import {
   RotterdamCriteriaRadar,
   ContraceptionEfficacyPyramid,
 } from "@/components/shared/LessonVisualCharts";
-import { LessonArcadeGame } from "@/components/shared/LessonArcadeGame";
 import {
   getStoredProgress,
   saveStoredProgress,
