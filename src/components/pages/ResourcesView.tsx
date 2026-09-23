@@ -953,7 +953,7 @@ export function ResourcesView({ onNavigate, initialCategory = "all" }: Resources
                     {/* Live Coalition & Bill Badges */}
                     <div className="flex items-center gap-2 mb-3.5 flex-wrap">
                       <a
-                        href={petition.externalUrl}
+                        href={petition.coalitionUrl || petition.externalUrl}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11.5px] font-bold bg-light-teal text-deep-teal border border-deep-teal/25 hover:bg-deep-teal hover:text-white transition-all shadow-2xs group"
@@ -1052,7 +1052,7 @@ export function ResourcesView({ onNavigate, initialCategory = "all" }: Resources
                         rel="noopener noreferrer"
                         className="w-full inline-flex items-center justify-center gap-1.5 rounded-xl border-2 border-deep-teal/25 bg-white text-deep-teal hover:bg-light-teal/50 hover:border-deep-teal font-bold text-xs sm:text-sm h-11 px-3 transition-all shadow-2xs text-center"
                       >
-                        <span>Sign Real Petition</span>
+                        <span>Sign on {petition.petitionPlatform || "Action Network"}</span>
                         <ExternalLink className="w-3.5 h-3.5 text-raspberry shrink-0" />
                       </a>
                     </div>
@@ -1214,7 +1214,7 @@ export function ResourcesView({ onNavigate, initialCategory = "all" }: Resources
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-1.5 font-bold text-raspberry hover:underline text-xs pt-1"
                 >
-                  <span>Sign Live on {selectedPetition.realWorldCampaign.split("&")[0].trim()} ↗</span>
+                  <span>Sign Live on {selectedPetition.petitionPlatform || selectedPetition.realWorldCampaign.split("&")[0].trim()} ↗</span>
                 </a>
               </div>
 
@@ -1235,7 +1235,7 @@ export function ResourcesView({ onNavigate, initialCategory = "all" }: Resources
                         rel="noopener noreferrer"
                         className="w-full inline-flex items-center justify-center gap-2 font-bold text-xs sm:text-sm h-11 px-4 rounded-xl bg-deep-teal text-white hover:bg-deep-teal/90 shadow-sm transition-all"
                       >
-                        <span>Sign Live on {selectedPetition.realWorldCampaign.split("&")[0].trim()}</span>
+                        <span>Sign Live on {selectedPetition.petitionPlatform || selectedPetition.realWorldCampaign.split("&")[0].trim()}</span>
                         <ExternalLink className="w-4 h-4" />
                       </a>
                     </div>
