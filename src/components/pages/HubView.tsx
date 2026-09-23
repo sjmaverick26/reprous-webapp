@@ -75,6 +75,14 @@ import { InteractiveQuizGame } from "@/components/shared/InteractiveQuizGame";
 import { LittleHealthDictionary } from "@/components/shared/LittleHealthDictionary";
 import { FuelUpNutritionGame } from "@/components/shared/FuelUpNutritionGame";
 import {
+  HormoneWaveChart,
+  CycleVitalSignsDashboard,
+  TannerProgressionChart,
+  RotterdamCriteriaRadar,
+  ContraceptionEfficacyPyramid,
+} from "@/components/shared/LessonVisualCharts";
+import { LessonArcadeGame } from "@/components/shared/LessonArcadeGame";
+import {
   getStoredProgress,
   saveStoredProgress,
   resetStoredProgress,
@@ -1001,22 +1009,53 @@ export function HubView({ initialCategory }: HubViewProps) {
               whatIfDismissed: "Ask calmly: ‘Could you please document in my electronic health record that I reported these symptoms today and note why further evaluation is not indicated at this time?’",
             };
 
-            const lessonPages = [
-              { id: 1, title: "1. Core Concept", shortTitle: "Concept" },
-              { id: 2, title: "2. Clinical Evidence", shortTitle: "Evidence" },
-              { id: 3, title: "3. Visual Anatomy", shortTitle: "Visuals" },
-              { id: 4, title: "4. Signal Detective", shortTitle: "Signals" },
-              { id: 5, title: "5. Roleplay Game", shortTitle: "Roleplay" },
-              { id: 6, title: "6. Doctor Script", shortTitle: "Script" },
-              ...(hasSorter
-                ? [
-                    { id: 7, title: "7. Sorter Game", shortTitle: "Sorter" },
-                    { id: 8, title: isQuizActive ? "8. Mini-Quiz & XP" : "8. Practice & XP", shortTitle: isQuizActive ? "Quiz" : "Complete" },
-                  ]
-                : [
-                    { id: 7, title: isQuizActive ? "7. Mini-Quiz & XP" : "7. Practice & XP", shortTitle: isQuizActive ? "Quiz" : "Complete" },
-                  ]),
-            ];
+            const getCategoryPages = () => {
+              if (activeCategoryId === "cycle") {
+                return [
+                  { id: 1, title: "1. 📊 Hormone & Cycle Lab", shortTitle: "Lab" },
+                  { id: 2, title: "2. 🎮 Cycle Arcade Game", shortTitle: "Arcade" },
+                  { id: 3, title: "3. 🎭 Consultation Roleplay", shortTitle: "Roleplay" },
+                  { id: 4, title: "4. 📋 Signal Detective", shortTitle: "Signals" },
+                  { id: 5, title: isQuizActive ? "5. 📝 Action Blueprint & Quiz" : "5. 📝 Blueprint & Complete", shortTitle: isQuizActive ? "Quiz" : "Complete" },
+                ];
+              }
+              if (activeCategoryId === "body") {
+                return [
+                  { id: 1, title: "1. 📊 Tanner Staging & Anatomy", shortTitle: "Anatomy" },
+                  { id: 2, title: "2. 🎮 Puberty Arcade Challenge", shortTitle: "Arcade" },
+                  { id: 3, title: "3. 🎭 Consultation Roleplay", shortTitle: "Roleplay" },
+                  { id: 4, title: "4. 📋 Signal Detective", shortTitle: "Signals" },
+                  { id: 5, title: isQuizActive ? "5. 📝 Action Blueprint & Quiz" : "5. 📝 Blueprint & Complete", shortTitle: isQuizActive ? "Quiz" : "Complete" },
+                ];
+              }
+              if (activeCategoryId === "conditions" || activeCategoryId === "pcos" || activeCategoryId === "endo") {
+                return [
+                  { id: 1, title: "1. 📊 Diagnostic Radar & Pelvic Lab", shortTitle: "Radar" },
+                  { id: 2, title: "2. 🎮 Red-Flag Speed Catcher", shortTitle: "Arcade" },
+                  { id: 3, title: "3. 🎭 Self-Advocacy Roleplay", shortTitle: "Roleplay" },
+                  { id: 4, title: "4. 📋 Diagnostic Signals", shortTitle: "Signals" },
+                  { id: 5, title: isQuizActive ? "5. 📝 Action Blueprint & Quiz" : "5. 📝 Blueprint & Complete", shortTitle: isQuizActive ? "Quiz" : "Complete" },
+                ];
+              }
+              if (activeCategoryId === "realtalk" || activeCategoryId === "factors") {
+                return [
+                  { id: 1, title: "1. 📊 Contraceptive Efficacy Pyramid", shortTitle: "Pyramid" },
+                  { id: 2, title: "2. 🎮 Method Matcher & Rights Arcade", shortTitle: "Arcade" },
+                  { id: 3, title: "3. 🎭 Consultation Roleplay", shortTitle: "Roleplay" },
+                  { id: 4, title: "4. 📋 Key Signal Concepts", shortTitle: "Signals" },
+                  { id: 5, title: isQuizActive ? "5. 📝 Action Blueprint & Quiz" : "5. 📝 Blueprint & Complete", shortTitle: isQuizActive ? "Quiz" : "Complete" },
+                ];
+              }
+              return [
+                { id: 1, title: "1. 📊 Visual Diagram Lab", shortTitle: "Visuals" },
+                { id: 2, title: "2. 🎮 Interactive Arcade Game", shortTitle: "Arcade" },
+                { id: 3, title: "3. 🎭 Consultation Roleplay", shortTitle: "Roleplay" },
+                { id: 4, title: "4. 📋 Signal Detective", shortTitle: "Signals" },
+                { id: 5, title: isQuizActive ? "5. 📝 Action Blueprint & Quiz" : "5. 📝 Blueprint & Complete", shortTitle: isQuizActive ? "Quiz" : "Complete" },
+              ];
+            };
+
+            const lessonPages = getCategoryPages();
 
             return (
               <div className="flex flex-col h-full overflow-hidden">
@@ -1099,12 +1138,12 @@ export function HubView({ initialCategory }: HubViewProps) {
 
                 {/* Scrollable Main Content Area */}
                 <div className="flex-1 overflow-y-auto pr-1 sm:pr-3 space-y-6">
-                  {/* SLIDE 1: CORE CONCEPT & BIOLOGICAL TRUTH */}
+                  {/* SLIDE 1: PICTURE-FIRST VISUAL LAB & INTERACTIVE CHARTS */}
                   {currentLessonPage === 1 && (
-                    <div className="space-y-6 animate-in fade-in duration-200 py-1">
+                    <div className="space-y-6 animate-in fade-in duration-200 py-1 font-sans">
                       <div>
                         <span className="text-xs sm:text-sm font-bold uppercase tracking-wider text-deep-teal/70 font-sans block mb-1">
-                          Slide 1 of 7 · The Big Picture
+                          Slide 1 of {lessonPages.length} · Visual Diagram & Chart Lab
                         </span>
                         <DialogTitle className="text-3xl sm:text-4xl md:text-5xl font-normal font-serif text-deep-teal leading-[1.12] mb-3">
                           {selectedTopic.name}
@@ -1115,163 +1154,44 @@ export function HubView({ initialCategory }: HubViewProps) {
                       </div>
 
                       {/* Hero Core Principle in Our Story Subtext Format */}
-                      <div className={`p-6 sm:p-7 md:p-8 rounded-3xl border-2 leading-relaxed ${topicTheme.bgLight} ${topicTheme.borderPrimary} shadow-sm space-y-2.5`}>
+                      <div className={`p-5 sm:p-6 rounded-3xl border-2 leading-relaxed ${topicTheme.bgLight} ${topicTheme.borderPrimary} shadow-sm space-y-2`}>
                         <div className="flex items-center gap-2 text-xs sm:text-sm font-bold uppercase tracking-wider text-deep-teal font-sans">
                           <Lightbulb className="w-5 h-5 text-raspberry" />
-                          <span>Foundational Principle</span>
+                          <span>Core Biological Principle</span>
                         </div>
-                        <p className="text-[17px] sm:text-[18px] md:text-[19px] font-bold text-deep-teal/90 leading-relaxed font-sans">
+                        <p className="text-[17px] sm:text-[18px] font-bold text-deep-teal/90 leading-relaxed font-sans m-0">
                           {selectedTopic.summary}
                         </p>
                       </div>
 
-                      {/* Interactive Clinical Curiosity Check */}
-                      <div className="rounded-3xl border-2 border-dashed border-deep-teal/30 bg-amber-50/60 p-5 sm:p-6 transition-all shadow-xs">
-                        <button
-                          type="button"
-                          onClick={() => setCuriosityRevealed(!curiosityRevealed)}
-                          className="w-full flex items-center justify-between text-left gap-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-deep-teal rounded-xl cursor-pointer"
-                        >
-                          <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 rounded-2xl bg-amber-100 text-amber-900 flex items-center justify-center shrink-0 shadow-xs">
-                              <Sparkles className="w-5 h-5 text-amber-700" />
-                            </div>
-                            <div>
-                              <span className="text-xs font-bold uppercase tracking-wider text-amber-900 block font-sans">
-                                Clinical Curiosity Pearl
-                              </span>
-                              <h5 className="text-base sm:text-lg md:text-xl font-bold text-charcoal font-sans">
-                                Why does knowing this change your medical visits?
-                              </h5>
-                            </div>
-                          </div>
-                          <span className="text-xs sm:text-sm font-bold text-deep-teal bg-white px-3.5 py-1.5 rounded-full border border-deep-teal/20 shadow-2xs shrink-0 font-sans">
-                            {curiosityRevealed ? "Hide Pearl ▲" : "Tap to Reveal ▼"}
-                          </span>
-                        </button>
-                        {curiosityRevealed && (
-                          <div className="mt-4 pt-4 border-t border-amber-200/80 text-base sm:text-lg md:text-[19px] text-charcoal/90 leading-relaxed animate-in fade-in space-y-2.5 font-sans">
-                            <p>
-                              Many adolescents and young adults are told their symptoms are &ldquo;normal growing pains&rdquo; or &ldquo;just stress,&rdquo; causing an average diagnosis delay of 7 to 10 years for reproductive conditions.
-                            </p>
-                            <p className="font-semibold text-deep-teal">
-                              By learning the exact medical terminology and biological standards up front, you can describe what you feel with clinical precision — cutting through dismissal and getting real answers years earlier.
-                            </p>
-                          </div>
-                        )}
-                      </div>
-
-                      {/* In-content Continue Button */}
-                      <div className="pt-2 flex justify-end">
-                        <Button
-                          onClick={() => setCurrentLessonPage(2)}
-                          className="bg-deep-teal text-white hover:bg-deep-teal/90 text-base sm:text-lg h-12 sm:h-14 px-7 rounded-2xl gap-2.5 font-bold shadow-sm cursor-pointer"
-                        >
-                          <span>Continue to Clinical Evidence</span>
-                          <ArrowRight className="w-5 h-5" />
-                        </Button>
-                      </div>
-                    </div>
-                  )}
-
-                  {/* SLIDE 2: CLINICAL AUTHORITY & VERIFIED EVIDENCE */}
-                  {currentLessonPage === 2 && (
-                    <div className="space-y-6 animate-in fade-in duration-200 py-1">
-                      <div>
-                        <span className="text-xs sm:text-sm font-bold uppercase tracking-wider text-deep-teal/70 font-sans block mb-1">
-                          Slide 2 of 7 · Medical Authority & Evidence
-                        </span>
-                        <h4 className="text-3xl sm:text-4xl font-serif font-bold text-deep-teal leading-tight mb-2">
-                          Clinical Guidelines & Sourcing Grounding
-                        </h4>
-                        <p className="text-charcoal/85 text-lg sm:text-xl font-sans leading-relaxed">
-                          Evidence directly cited from the American College of Obstetricians and Gynecologists (ACOG) and The Global Library of Women's Medicine (GLOWM / FIGO).
-                        </p>
-                      </div>
-
-                      {/* Big Clinical Authority Direct Quote Card */}
-                      <div className="p-6 sm:p-8 md:p-9 rounded-3xl bg-white border-2 border-deep-teal/25 shadow-md space-y-5">
-                        <div className="flex items-center justify-between flex-wrap gap-3">
-                          <div className="flex items-center gap-3">
-                            <div className="w-11 h-11 rounded-2xl bg-light-teal flex items-center justify-center text-deep-teal shadow-xs">
-                              <Quote className="w-6 h-6" />
-                            </div>
-                            <div>
-                              <span className="text-xs sm:text-sm font-bold uppercase tracking-wider text-deep-teal font-sans block">
-                                Clinical Guideline Citation <span className="font-normal lowercase text-[11px] text-charcoal/60">(mockup quote)</span>
-                              </span>
-                              <span className="text-sm sm:text-base font-bold text-charcoal">
-                                {clinicalQuote.source}
-                              </span>
-                            </div>
-                          </div>
-                          <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs sm:text-sm font-bold bg-light-teal text-deep-teal border border-deep-teal/20 shadow-2xs font-sans">
-                            <Shield className="w-4 h-4 text-deep-teal" />
-                            <span>Evidence Grounded (Mockup)</span>
-                          </span>
+                      {/* DYNAMIC CATEGORY-SPECIFIC INTERACTIVE CHARTS & LABS */}
+                      {activeCategoryId === "cycle" && (
+                        <div className="space-y-5">
+                          <HormoneWaveChart />
+                          <CycleVitalSignsDashboard />
                         </div>
+                      )}
 
-                        <blockquote className="border-l-4 border-deep-teal pl-5 py-2 my-2">
-                          <p className="text-xl sm:text-2xl md:text-[25px] font-serif italic text-deep-teal leading-relaxed">
-                            &ldquo;{clinicalQuote.quote}&rdquo;
-                          </p>
-                        </blockquote>
-
-                        <div className="pt-3 border-t border-deep-teal/15 flex items-center justify-between flex-wrap gap-3 text-sm sm:text-base font-sans">
-                          <div>
-                            <span className="font-bold text-charcoal block">{clinicalQuote.publication}</span>
-                            <span className="text-charcoal/70 text-xs sm:text-sm italic">
-                              Clinical Practice Reference <span className="font-normal">(these quotes are mockups for demonstration)</span>
-                            </span>
-                          </div>
-                          {clinicalQuote.year && (
-                            <span className="text-xs sm:text-sm font-bold text-deep-teal bg-slate-100 px-3 py-1.5 rounded-xl border border-slate-200">
-                              {clinicalQuote.year}
-                            </span>
-                          )}
+                      {activeCategoryId === "body" && (
+                        <div className="space-y-5">
+                          <TannerProgressionChart />
                         </div>
-                      </div>
+                      )}
 
-                      {/* Why Doctors Rely on This Standard */}
-                      <div className="p-5 sm:p-6 rounded-3xl bg-light-teal/50 border-2 border-deep-teal/20 space-y-2">
-                        <strong className="text-deep-teal font-bold text-base sm:text-lg flex items-center gap-2 font-sans">
-                          <ShieldAlert className="w-5 h-5 text-deep-teal" />
-                          <span>Why this citation protects you as a patient:</span>
-                        </strong>
-                        <p className="text-base sm:text-lg text-charcoal/90 leading-relaxed font-sans m-0">
-                          When you reference official ACOG or GLOWM clinical definitions during an appointment, physicians recognize that you are speaking within accepted medical frameworks. They are ethically and professionally obligated to evaluate your symptoms against these diagnostic criteria.
-                        </p>
-                      </div>
+                      {(activeCategoryId === "conditions" || activeCategoryId === "pcos" || activeCategoryId === "endo") && (
+                        <div className="space-y-5">
+                          <RotterdamCriteriaRadar />
+                          <CycleVitalSignsDashboard />
+                        </div>
+                      )}
 
-                      {/* In-content Continue Button */}
-                      <div className="pt-2 flex justify-end">
-                        <Button
-                          onClick={() => setCurrentLessonPage(3)}
-                          className="bg-deep-teal text-white hover:bg-deep-teal/90 text-base sm:text-lg h-12 sm:h-14 px-7 rounded-2xl gap-2.5 font-bold shadow-sm cursor-pointer"
-                        >
-                          <span>Continue to Visual Anatomy</span>
-                          <ArrowRight className="w-5 h-5" />
-                        </Button>
-                      </div>
-                    </div>
-                  )}
+                      {(activeCategoryId === "realtalk" || activeCategoryId === "factors") && (
+                        <div className="space-y-5">
+                          <ContraceptionEfficacyPyramid />
+                        </div>
+                      )}
 
-                  {/* SLIDE 3: VISUAL ANATOMY & BIOLOGICAL FRAMEWORK */}
-                  {currentLessonPage === 3 && (
-                    <div className="space-y-6 animate-in fade-in duration-200 py-1">
-                      <div>
-                        <span className="text-xs sm:text-sm font-bold uppercase tracking-wider text-deep-teal/70 font-sans block mb-1">
-                          Slide 3 of 7 · Visual Anatomy & Mechanics
-                        </span>
-                        <h4 className="text-3xl sm:text-4xl font-serif font-bold text-deep-teal leading-tight mb-2">
-                          Visual Breakdown & Biological Anatomy
-                        </h4>
-                        <p className="text-charcoal/85 text-lg sm:text-xl font-sans leading-relaxed">
-                          Explore the physiological mechanics and structural pathways behind {selectedTopic.name.toLowerCase()}.
-                        </p>
-                      </div>
-
-                      {/* Interactive Diagram (if available for topic) */}
+                      {/* Topic-specific Diagram (if available) */}
                       {selectedTopic.diagram && (
                         <div className="p-1">
                           <InteractiveLessonDiagram
@@ -1286,9 +1206,9 @@ export function HubView({ initialCategory }: HubViewProps) {
                         <div>
                           <h5 className="font-bold text-deep-teal text-sm sm:text-base uppercase tracking-wider mb-3.5 flex items-center gap-2 font-sans">
                             <Layers className="w-5 h-5 text-deep-teal" />
-                            Key Anatomical Components:
+                            Key Anatomical & Physiological Markers:
                           </h5>
-                          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3.5">
                             {selectedTopic.visualCards.map((card, i) => {
                               const cardPalettes = [
                                 { bg: "bg-light-teal/50", border: "border-deep-teal/30", iconBg: "bg-deep-teal text-white", badgeBg: "bg-white text-deep-teal border-deep-teal/20" },
@@ -1300,21 +1220,21 @@ export function HubView({ initialCategory }: HubViewProps) {
                               return (
                                 <div
                                   key={i}
-                                  className={`p-5 sm:p-6 rounded-3xl ${palette.bg} border-2 ${palette.border} shadow-2xs flex flex-col justify-between hover:shadow-md hover:scale-[1.01] transition-all`}
+                                  className={`p-4 sm:p-5 rounded-3xl ${palette.bg} border-2 ${palette.border} shadow-2xs flex flex-col justify-between hover:shadow-md hover:scale-[1.01] transition-all`}
                                 >
                                   <div>
-                                    <div className="flex items-center justify-between mb-3">
-                                      <span className={`p-3 rounded-2xl ${palette.iconBg} shadow-xs`}>
+                                    <div className="flex items-center justify-between mb-2.5">
+                                      <span className={`p-2.5 rounded-2xl ${palette.iconBg} shadow-xs`}>
                                         {getVisualCardIcon(card.iconName)}
                                       </span>
                                       {card.highlight && (
-                                        <span className={`text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full border ${palette.badgeBg} font-sans`}>
+                                        <span className={`text-[11px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full border ${palette.badgeBg} font-sans`}>
                                           {card.highlight}
                                         </span>
                                       )}
                                     </div>
-                                    <h6 className="font-bold text-lg sm:text-xl text-deep-teal mb-2 font-serif">{card.title}</h6>
-                                    <p className="text-base sm:text-lg text-charcoal/90 leading-relaxed font-sans">{card.text}</p>
+                                    <h6 className="font-bold text-base sm:text-lg text-deep-teal mb-1 font-serif">{card.title}</h6>
+                                    <p className="text-sm sm:text-base text-charcoal/90 leading-relaxed font-sans">{card.text}</p>
                                   </div>
                                 </div>
                               );
@@ -1322,13 +1242,12 @@ export function HubView({ initialCategory }: HubViewProps) {
                           </div>
                         </div>
                       ) : (
-                        /* Fallback spaced visual cards generated from key takeaways */
                         <div>
                           <h5 className="font-bold text-deep-teal text-sm sm:text-base uppercase tracking-wider mb-3.5 flex items-center gap-2 font-sans">
                             <Layers className="w-5 h-5 text-deep-teal" />
-                            Essential Concepts:
+                            Essential Clinical Takeaways:
                           </h5>
-                          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3.5">
                             {selectedTopic.keyTakeaways.slice(0, 3).map((takeaway, i) => {
                               const cardPalettes = [
                                 { bg: "bg-light-teal/50", border: "border-deep-teal/30", iconBg: "bg-deep-teal text-white", badgeBg: "bg-white text-deep-teal border-deep-teal/20" },
@@ -1340,18 +1259,18 @@ export function HubView({ initialCategory }: HubViewProps) {
                               return (
                                 <div
                                   key={i}
-                                  className={`p-5 sm:p-6 rounded-3xl ${palette.bg} border-2 ${palette.border} shadow-2xs flex flex-col justify-between`}
+                                  className={`p-4 sm:p-5 rounded-3xl ${palette.bg} border-2 ${palette.border} shadow-2xs flex flex-col justify-between`}
                                 >
                                   <div>
-                                    <div className="flex items-center justify-between mb-3">
-                                      <span className={`p-3 rounded-2xl ${palette.iconBg} shadow-xs`}>
-                                        {i === 0 ? <Sparkles className="w-5 h-5" /> : i === 1 ? <Heart className="w-5 h-5" /> : <Shield className="w-5 h-5" />}
+                                    <div className="flex items-center justify-between mb-2.5">
+                                      <span className={`p-2.5 rounded-2xl ${palette.iconBg} shadow-xs`}>
+                                        {i === 0 ? <Sparkles className="w-4 h-4" /> : i === 1 ? <Heart className="w-4 h-4" /> : <Shield className="w-4 h-4" />}
                                       </span>
-                                      <span className={`text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full border ${palette.badgeBg} font-sans`}>
-                                        Concept #{i + 1}
+                                      <span className={`text-[11px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full border ${palette.badgeBg} font-sans`}>
+                                        Insight #{i + 1}
                                       </span>
                                     </div>
-                                    <p className="text-base sm:text-lg text-charcoal/90 leading-relaxed font-sans">{takeaway}</p>
+                                    <p className="text-sm sm:text-base text-charcoal/90 leading-relaxed font-sans">{takeaway}</p>
                                   </div>
                                 </div>
                               );
@@ -1360,115 +1279,104 @@ export function HubView({ initialCategory }: HubViewProps) {
                         </div>
                       )}
 
-                      {/* In-content Continue Button */}
-                      <div className="pt-2 flex justify-end">
-                        <Button
-                          onClick={() => setCurrentLessonPage(4)}
-                          className="bg-deep-teal text-white hover:bg-deep-teal/90 text-base sm:text-lg h-12 sm:h-14 px-7 rounded-2xl gap-2.5 font-bold shadow-sm cursor-pointer"
-                        >
-                          <span>Continue to Signal Detective</span>
-                          <ArrowRight className="w-5 h-5" />
-                        </Button>
-                      </div>
-                    </div>
-                  )}
-
-                  {/* SLIDE 4: SIGNAL DETECTIVE & SYMPTOM CHECKLIST */}
-                  {currentLessonPage === 4 && (
-                    <div className="space-y-6 animate-in fade-in duration-200 py-1">
-                      <div>
-                        <span className="text-xs sm:text-sm font-bold uppercase tracking-wider text-deep-teal/70 font-sans block mb-1">
-                          Slide 4 of 7 · Signal Detective
-                        </span>
-                        <h4 className="text-3xl sm:text-4xl font-serif font-bold text-deep-teal leading-tight mb-2">
-                          Clinical Signals & Symptom Checklist
-                        </h4>
-                        <p className="text-charcoal/85 text-lg sm:text-xl font-sans leading-relaxed">
-                          Tap each signal below to verify your symptom recognition and build your personal health awareness.
-                        </p>
-                      </div>
-
-                      {/* Interactive Recognition Checklist with Large Typography */}
-                      <div className="space-y-3.5">
-                        {selectedTopic.keyTakeaways.map((item, i) => {
-                          const isChecked = checkedSignals.has(i);
-
-                          return (
-                            <button
-                              key={i}
-                              type="button"
-                              onClick={() => {
-                                const next = new Set(checkedSignals);
-                                if (isChecked) {
-                                  next.delete(i);
-                                } else {
-                                  next.add(i);
-                                }
-                                setCheckedSignals(next);
-                              }}
-                              className={`w-full p-5 sm:p-6 rounded-3xl border-2 text-left transition-all flex items-start gap-4 shadow-2xs cursor-pointer ${
-                                isChecked
-                                  ? "bg-emerald-50/90 border-emerald-500 shadow-md ring-2 ring-emerald-500/20"
-                                  : "bg-white border-deep-teal/15 hover:border-deep-teal/40 hover:bg-light-teal/20"
-                              }`}
-                            >
-                              <div className="shrink-0 mt-0.5">
-                                {isChecked ? (
-                                  <CheckSquare className="w-6 h-6 text-emerald-600 fill-emerald-100" />
-                                ) : (
-                                  <Square className="w-6 h-6 text-charcoal/40" />
-                                )}
-                              </div>
-                              <div className="flex-1">
-                                <span className={`text-base sm:text-lg md:text-[20px] leading-relaxed font-sans ${isChecked ? "text-emerald-950 font-semibold" : "text-charcoal/90 font-medium"}`}>
-                                  {item}
-                                </span>
-                              </div>
-                            </button>
-                          );
-                        })}
-                      </div>
-
-                      {/* Checklist Progress Tracker */}
-                      <div className="p-5 rounded-3xl bg-white border border-deep-teal/20 shadow-xs flex items-center justify-between flex-wrap gap-4">
-                        <div className="flex items-center gap-2.5">
-                          <CheckCircle2 className="w-6 h-6 text-emerald-600" />
-                          <span className="text-sm sm:text-base font-bold text-deep-teal font-sans">
-                            Recognized {checkedSignals.size} of {selectedTopic.keyTakeaways.length} clinical signals
-                          </span>
+                      {/* Video explanation if present */}
+                      {selectedTopic.video && (
+                        <div className="space-y-3 pt-1">
+                          <h5 className="font-bold text-deep-teal text-xs sm:text-sm uppercase tracking-wider flex items-center gap-2 font-sans">
+                            <Video className="w-4 h-4 text-emerald-600" />
+                            Clinical Explanation Video:
+                          </h5>
+                          <LessonVideoCard
+                            video={selectedTopic.video}
+                            themeColor={topicTheme.primaryHex}
+                          />
                         </div>
-                        {checkedSignals.size === selectedTopic.keyTakeaways.length ? (
-                          <span className="text-xs sm:text-sm font-bold text-emerald-800 bg-emerald-100 px-4 py-1.5 rounded-full border border-emerald-300 animate-in fade-in font-sans">
-                            ✦ All signals verified! Ready for the Roleplay Game.
-                          </span>
-                        ) : (
-                          <span className="text-xs sm:text-sm text-charcoal/60 font-sans">
-                            Tap signals above to check them off
-                          </span>
-                        )}
-                      </div>
+                      )}
 
                       {/* In-content Continue Button */}
                       <div className="pt-2 flex justify-end">
                         <Button
-                          onClick={() => setCurrentLessonPage(5)}
+                          onClick={() => setCurrentLessonPage(2)}
                           className="bg-deep-teal text-white hover:bg-deep-teal/90 text-base sm:text-lg h-12 sm:h-14 px-7 rounded-2xl gap-2.5 font-bold shadow-sm cursor-pointer"
                         >
-                          <span>Continue to Roleplay Scenario Game</span>
+                          <span>Continue to Interactive Arcade Game</span>
                           <ArrowRight className="w-5 h-5" />
                         </Button>
                       </div>
                     </div>
                   )}
 
-                  {/* SLIDE 5: INTERACTIVE ROLEPLAY SCENARIO GAME */}
-                  {currentLessonPage === 5 && (
-                    <div className="space-y-6 animate-in fade-in duration-200 py-1">
+                  {/* SLIDE 2: INTERACTIVE ARCADE MINI-GAME (NUTRITION ARCADE ADAPTED FOR ALL TOPICS) */}
+                  {currentLessonPage === 2 && (
+                    <div className="space-y-6 animate-in fade-in duration-200 py-1 font-sans">
                       <div>
                         <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-raspberry text-white shadow-2xs font-sans mb-2">
                           <Gamepad2 className="w-4 h-4" />
-                          <span>Interactive Roleplay Scenario Game</span>
+                          <span>Interactive Learning Arcade</span>
                         </div>
+                        <span className="text-xs sm:text-sm font-bold uppercase tracking-wider text-raspberry font-sans block mb-1">
+                          Slide 2 of {lessonPages.length} · Arcade Challenge Mode
+                        </span>
+                        <h4 className="text-3xl sm:text-4xl font-serif font-bold text-deep-teal leading-tight mb-2">
+                          {selectedTopic.name} Arcade Challenge
+                        </h4>
+                        <p className="text-charcoal/85 text-lg sm:text-xl font-sans leading-relaxed">
+                          Test your knowledge and reflexes! Catch biological signals, match hormone powers, and place timeline phases to earn bonus XP.
+                        </p>
+                      </div>
+
+                      {/* Universal Arcade Game Component */}
+                      <LessonArcadeGame
+                        categoryKey={activeCategoryId || "cycle"}
+                        topicId={selectedTopic.id}
+                        topicTitle={selectedTopic.name}
+                        characterAvatar="sofia"
+                        onGameComplete={(bonus) => {
+                          setXp((x) => x + bonus);
+                        }}
+                      />
+
+                      {/* Sorter Game if topic has custom sorterGame */}
+                      {selectedTopic.sorterGame && (
+                        <div className="space-y-3 pt-3">
+                          <h5 className="font-bold text-deep-teal text-sm sm:text-base uppercase tracking-wider flex items-center gap-2 font-sans">
+                            <Gamepad2 className="w-4 h-4 text-raspberry" />
+                            Additional Classification Challenge:
+                          </h5>
+                          <LessonSorterGameComponent
+                            game={selectedTopic.sorterGame}
+                            themeColor={topicTheme.primaryHex}
+                            onGameComplete={(bonus) => {
+                              setXp((x) => x + bonus);
+                            }}
+                          />
+                        </div>
+                      )}
+
+                      {/* In-content Continue Button */}
+                      <div className="pt-2 flex justify-end">
+                        <Button
+                          onClick={() => setCurrentLessonPage(3)}
+                          className="bg-deep-teal text-white hover:bg-deep-teal/90 text-base sm:text-lg h-12 sm:h-14 px-7 rounded-2xl gap-2.5 font-bold shadow-sm cursor-pointer"
+                        >
+                          <span>Continue to Consultation Roleplay</span>
+                          <ArrowRight className="w-5 h-5" />
+                        </Button>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* SLIDE 3: INTERACTIVE CONSULTATION ROLEPLAY GAME */}
+                  {currentLessonPage === 3 && (
+                    <div className="space-y-6 animate-in fade-in duration-200 py-1 font-sans">
+                      <div>
+                        <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-raspberry text-white shadow-2xs font-sans mb-2">
+                          <Gamepad2 className="w-4 h-4" />
+                          <span>Interactive Roleplay Simulation</span>
+                        </div>
+                        <span className="text-xs sm:text-sm font-bold uppercase tracking-wider text-raspberry font-sans block mb-1">
+                          Slide 3 of {lessonPages.length} · Clinical Consultation Scenario
+                        </span>
                         <h4 className="text-3xl sm:text-4xl font-serif font-bold text-deep-teal leading-tight mb-2">
                           Doctor & Provider Roleplay Challenge
                         </h4>
@@ -1637,46 +1545,172 @@ export function HubView({ initialCategory }: HubViewProps) {
                         )}
 
                         <Button
-                          onClick={() => setCurrentLessonPage(6)}
+                          onClick={() => setCurrentLessonPage(4)}
                           className="bg-deep-teal text-white hover:bg-deep-teal/90 text-base sm:text-lg h-12 sm:h-14 px-7 rounded-2xl gap-2.5 font-bold shadow-sm cursor-pointer ml-auto"
                         >
-                          <span>Continue to Doctor Script</span>
+                          <span>Continue to Signal Detective</span>
                           <ArrowRight className="w-5 h-5" />
                         </Button>
                       </div>
                     </div>
                   )}
 
-                  {/* SLIDE 6: DOCTOR SCRIPT & POCKET ACTION BLUEPRINT */}
-                  {currentLessonPage === 6 && (
-                    <div className="space-y-6 animate-in fade-in duration-200 py-1">
+                  {/* SLIDE 4: SIGNAL DETECTIVE & CLINICAL AUTHORITY */}
+                  {currentLessonPage === 4 && (
+                    <div className="space-y-6 animate-in fade-in duration-200 py-1 font-sans">
                       <div>
-                        <span className="text-xs sm:text-sm font-bold uppercase tracking-wider text-raspberry font-sans block mb-1">
-                          Slide 6 of {lessonPages.length} · Appointment Blueprint
+                        <span className="text-xs sm:text-sm font-bold uppercase tracking-wider text-deep-teal/70 font-sans block mb-1">
+                          Slide 4 of {lessonPages.length} · Signal Detective & Evidence
                         </span>
                         <h4 className="text-3xl sm:text-4xl font-serif font-bold text-deep-teal leading-tight mb-2">
-                          Word-for-Word Appointment Script
+                          Clinical Signals & Verified Evidence
                         </h4>
                         <p className="text-charcoal/85 text-lg sm:text-xl font-sans leading-relaxed">
-                          Exact phrases to speak at your appointment, the psychological reasons they work, and boundary protections if dismissed.
+                          Verify your personal symptom recognition against verified guidelines from ACOG and GLOWM.
+                        </p>
+                      </div>
+
+                      {/* Interactive Recognition Checklist with Large Typography */}
+                      <div className="space-y-3">
+                        {selectedTopic.keyTakeaways.map((item, i) => {
+                          const isChecked = checkedSignals.has(i);
+
+                          return (
+                            <button
+                              key={i}
+                              type="button"
+                              onClick={() => {
+                                const next = new Set(checkedSignals);
+                                if (isChecked) {
+                                  next.delete(i);
+                                } else {
+                                  next.add(i);
+                                }
+                                setCheckedSignals(next);
+                              }}
+                              className={`w-full p-4 sm:p-5 rounded-3xl border-2 text-left transition-all flex items-start gap-4 shadow-2xs cursor-pointer ${
+                                isChecked
+                                  ? "bg-emerald-50/90 border-emerald-500 shadow-md ring-2 ring-emerald-500/20"
+                                  : "bg-white border-deep-teal/15 hover:border-deep-teal/40 hover:bg-light-teal/20"
+                              }`}
+                            >
+                              <div className="shrink-0 mt-0.5">
+                                {isChecked ? (
+                                  <CheckSquare className="w-6 h-6 text-emerald-600 fill-emerald-100" />
+                                ) : (
+                                  <Square className="w-6 h-6 text-charcoal/40" />
+                                )}
+                              </div>
+                              <div className="flex-1">
+                                <span className={`text-base sm:text-lg leading-relaxed font-sans ${isChecked ? "text-emerald-950 font-semibold" : "text-charcoal/90 font-medium"}`}>
+                                  {item}
+                                </span>
+                              </div>
+                            </button>
+                          );
+                        })}
+                      </div>
+
+                      {/* Checklist Progress Tracker */}
+                      <div className="p-4 sm:p-5 rounded-3xl bg-white border border-deep-teal/20 shadow-xs flex items-center justify-between flex-wrap gap-4">
+                        <div className="flex items-center gap-2.5">
+                          <CheckCircle2 className="w-6 h-6 text-emerald-600" />
+                          <span className="text-sm sm:text-base font-bold text-deep-teal font-sans">
+                            Recognized {checkedSignals.size} of {selectedTopic.keyTakeaways.length} clinical signals
+                          </span>
+                        </div>
+                        {checkedSignals.size === selectedTopic.keyTakeaways.length ? (
+                          <span className="text-xs sm:text-sm font-bold text-emerald-800 bg-emerald-100 px-4 py-1.5 rounded-full border border-emerald-300 animate-in fade-in font-sans">
+                            ✦ All signals verified!
+                          </span>
+                        ) : (
+                          <span className="text-xs sm:text-sm text-charcoal/60 font-sans">
+                            Tap signals above to check off
+                          </span>
+                        )}
+                      </div>
+
+                      {/* Compact Clinical Authority Quote Card */}
+                      <div className="p-5 sm:p-6 rounded-3xl bg-white border-2 border-deep-teal/25 shadow-md space-y-4">
+                        <div className="flex items-center justify-between flex-wrap gap-3">
+                          <div className="flex items-center gap-3">
+                            <div className="w-10 h-10 rounded-2xl bg-light-teal flex items-center justify-center text-deep-teal shadow-xs">
+                              <Quote className="w-5 h-5" />
+                            </div>
+                            <div>
+                              <span className="text-xs font-bold uppercase tracking-wider text-deep-teal font-sans block">
+                                Clinical Practice Standard
+                              </span>
+                              <span className="text-sm font-bold text-charcoal">
+                                {clinicalQuote.source}
+                              </span>
+                            </div>
+                          </div>
+                          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-light-teal text-deep-teal border border-deep-teal/20 font-sans">
+                            <Shield className="w-3.5 h-3.5" />
+                            <span>Evidence Grounded</span>
+                          </span>
+                        </div>
+
+                        <blockquote className="border-l-4 border-deep-teal pl-4 py-1 my-1">
+                          <p className="text-lg sm:text-xl font-serif italic text-deep-teal leading-relaxed m-0">
+                            &ldquo;{clinicalQuote.quote}&rdquo;
+                          </p>
+                        </blockquote>
+
+                        <div className="pt-2 border-t border-deep-teal/15 flex items-center justify-between flex-wrap gap-2 text-xs sm:text-sm">
+                          <span className="font-semibold text-charcoal">{clinicalQuote.publication}</span>
+                          {clinicalQuote.year && (
+                            <span className="font-bold text-deep-teal bg-slate-100 px-2.5 py-0.5 rounded-lg border border-slate-200">
+                              {clinicalQuote.year}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* In-content Continue Button */}
+                      <div className="pt-2 flex justify-end">
+                        <Button
+                          onClick={() => setCurrentLessonPage(5)}
+                          className="bg-deep-teal text-white hover:bg-deep-teal/90 text-base sm:text-lg h-12 sm:h-14 px-7 rounded-2xl gap-2.5 font-bold shadow-sm cursor-pointer"
+                        >
+                          <span>Continue to Action Blueprint & Quiz</span>
+                          <ArrowRight className="w-5 h-5" />
+                        </Button>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* SLIDE 5: APPOINTMENT BLUEPRINT, DOCTOR SCRIPT & MINI-QUIZ */}
+                  {currentLessonPage === 5 && (
+                    <div className="space-y-6 animate-in fade-in duration-200 py-1 font-sans">
+                      <div>
+                        <span className="text-xs sm:text-sm font-bold uppercase tracking-wider text-raspberry font-sans block mb-1">
+                          Slide 5 of {lessonPages.length} · Action Blueprint & Knowledge Check
+                        </span>
+                        <h4 className="text-3xl sm:text-4xl font-serif font-bold text-deep-teal leading-tight mb-2">
+                          Appointment Blueprint & Knowledge Validation
+                        </h4>
+                        <p className="text-charcoal/85 text-lg sm:text-xl font-sans leading-relaxed">
+                          Your word-for-word doctor script, self-advocacy boundary protections, and mini-quiz to claim +{selectedTopic.xp} XP!
                         </p>
                       </div>
 
                       {/* The Blueprint Card */}
-                      <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-[#FFE1DB]/70 via-soft-pink/40 to-light-teal/50 border-2 border-raspberry/30 shadow-md space-y-5">
+                      <div className="p-5 sm:p-7 rounded-3xl bg-gradient-to-br from-[#FFE1DB]/70 via-soft-pink/40 to-light-teal/50 border-2 border-raspberry/30 shadow-md space-y-4">
                         <div className="flex items-center justify-between flex-wrap gap-2">
-                          <span className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-xs sm:text-sm font-bold tracking-wider uppercase bg-raspberry text-white shadow-2xs font-sans">
-                            <Shield className="w-4 h-4" />
-                            Self-Advocacy Action Blueprint
+                          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold tracking-wider uppercase bg-raspberry text-white shadow-2xs font-sans">
+                            <Shield className="w-3.5 h-3.5" />
+                            Self-Advocacy Appointment Script
                           </span>
-                          <span className="text-xs sm:text-sm font-bold text-deep-teal bg-white/95 px-3.5 py-1 rounded-full border border-deep-teal/20 font-sans">
-                            Real-Life Appointment Script
+                          <span className="text-xs font-bold text-deep-teal bg-white/95 px-3 py-1 rounded-full border border-deep-teal/20 font-sans">
+                            Pocket Action Blueprint
                           </span>
                         </div>
 
                         {/* Scenario */}
-                        <div className="p-4 sm:p-5 rounded-2xl bg-white/95 border border-coral/30 text-base sm:text-lg font-sans">
-                          <strong className="text-coral font-bold block mb-1.5 uppercase tracking-wider text-xs sm:text-sm font-sans">
+                        <div className="p-3.5 sm:p-4 rounded-2xl bg-white/95 border border-coral/30 text-sm sm:text-base font-sans">
+                          <strong className="text-coral font-bold block mb-1 uppercase tracking-wider text-xs font-sans">
                             When this scenario happens:
                           </strong>
                           <p className="text-charcoal/90 italic m-0">
@@ -1685,9 +1719,9 @@ export function HubView({ initialCategory }: HubViewProps) {
                         </div>
 
                         {/* Doctor Script Speech Bubble */}
-                        <div className="p-6 sm:p-7 rounded-3xl bg-white border-2 border-raspberry/40 shadow-sm space-y-3">
+                        <div className="p-5 sm:p-6 rounded-3xl bg-white border-2 border-raspberry/40 shadow-sm space-y-2.5">
                           <div className="flex items-center justify-between">
-                            <span className="text-xs sm:text-sm font-bold uppercase tracking-wider text-raspberry flex items-center gap-2 font-sans">
+                            <span className="text-xs sm:text-sm font-bold uppercase tracking-wider text-raspberry flex items-center gap-1.5 font-sans">
                               <Sparkles className="w-4 h-4 text-raspberry" />
                               Exactly what to say:
                             </span>
@@ -1698,205 +1732,91 @@ export function HubView({ initialCategory }: HubViewProps) {
                                 setCopiedScript(true);
                                 setTimeout(() => setCopiedScript(false), 2000);
                               }}
-                              className="inline-flex items-center gap-2 text-xs sm:text-sm font-bold text-deep-teal hover:text-raspberry transition-colors bg-slate-50 px-3.5 py-1.5 rounded-xl border border-slate-200 cursor-pointer shadow-2xs font-sans"
+                              className="inline-flex items-center gap-1.5 text-xs font-bold text-deep-teal hover:text-raspberry transition-colors bg-slate-50 px-3 py-1 rounded-xl border border-slate-200 cursor-pointer shadow-2xs font-sans"
                             >
                               {copiedScript ? (
                                 <>
-                                  <Check className="w-4 h-4 text-emerald-600" />
-                                  <span>Copied to Clipboard!</span>
+                                  <Check className="w-3.5 h-3.5 text-emerald-600" />
+                                  <span>Copied!</span>
                                 </>
                               ) : (
                                 <>
-                                  <Copy className="w-4 h-4 text-deep-teal" />
+                                  <Copy className="w-3.5 h-3.5 text-deep-teal" />
                                   <span>Copy Script</span>
                                 </>
                               )}
                             </button>
                           </div>
-                          <p className="text-xl sm:text-2xl md:text-[25px] font-serif text-deep-teal font-medium leading-relaxed m-0">
+                          <p className="text-lg sm:text-xl md:text-2xl font-serif text-deep-teal font-medium leading-relaxed m-0">
                             {advocacyData.doctorScript}
                           </p>
                         </div>
 
                         {/* Why It Works & What If Dismissed */}
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm sm:text-base font-sans">
-                          <div className="p-5 rounded-2xl bg-light-teal/60 border border-deep-teal/20 space-y-2">
-                            <strong className="text-deep-teal font-bold block flex items-center gap-2 text-xs sm:text-sm uppercase tracking-wider">
-                              <Lightbulb className="w-4 h-4 text-deep-teal shrink-0" />
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs sm:text-sm font-sans">
+                          <div className="p-4 rounded-2xl bg-light-teal/60 border border-deep-teal/20 space-y-1">
+                            <strong className="text-deep-teal font-bold block flex items-center gap-1.5 text-xs uppercase tracking-wider">
+                              <Lightbulb className="w-3.5 h-3.5 text-deep-teal shrink-0" />
                               <span>Why this works:</span>
                             </strong>
-                            <p className="text-charcoal/90 leading-relaxed m-0 text-base sm:text-[17px]">
+                            <p className="text-charcoal/90 leading-relaxed m-0">
                               {advocacyData.whyItWorks}
                             </p>
                           </div>
 
-                          <div className="p-5 rounded-2xl bg-amber-50/80 border border-amber-200 space-y-2">
-                            <strong className="text-amber-950 font-bold block flex items-center gap-2 text-xs sm:text-sm uppercase tracking-wider">
-                              <ShieldAlert className="w-4 h-4 text-amber-800 shrink-0" />
+                          <div className="p-4 rounded-2xl bg-amber-50/80 border border-amber-200 space-y-1">
+                            <strong className="text-amber-950 font-bold block flex items-center gap-1.5 text-xs uppercase tracking-wider">
+                              <ShieldAlert className="w-3.5 h-3.5 text-amber-800 shrink-0" />
                               <span>If you are dismissed:</span>
                             </strong>
-                            <p className="text-charcoal/90 leading-relaxed m-0 text-base sm:text-[17px]">
+                            <p className="text-charcoal/90 leading-relaxed m-0">
                               {advocacyData.whatIfDismissed}
                             </p>
                           </div>
                         </div>
 
-                        {/* Research Context: Why Patient Advocacy is Crucial */}
-                        <div className="p-5 rounded-2xl bg-white border border-deep-teal/20 shadow-xs space-y-3 font-sans">
-                          <div className="flex items-center justify-between flex-wrap gap-2">
-                            <div className="flex items-center gap-2 text-xs uppercase font-bold tracking-wider text-deep-teal">
-                              <Scale className="w-4 h-4 text-coral shrink-0" />
-                              <span>The Gender Research Gap: Why This Script Protects You</span>
-                            </div>
-                            <span className="text-[11px] text-charcoal/60 italic">
-                              Clinical Evidence · Educational Reference
-                            </span>
+                        {/* Research Context */}
+                        <div className="p-4 rounded-2xl bg-white border border-deep-teal/20 shadow-xs space-y-2 text-xs font-sans">
+                          <div className="flex items-center gap-1.5 uppercase font-bold tracking-wider text-deep-teal text-[11px]">
+                            <Scale className="w-3.5 h-3.5 text-coral shrink-0" />
+                            <span>The Gender Research Gap: Why This Script Protects You</span>
                           </div>
-                          <p className="text-sm sm:text-base text-charcoal/85 leading-relaxed m-0">
-                            Until the 1993 NIH Revitalization Act, female biological models and women were largely excluded from clinical research trials. Today, conditions like endometriosis still carry a <strong>7–10 year diagnostic delay</strong>, and women wait an average of 16 minutes longer for pain medication in emergency settings (<a href="https://onlinelibrary.wiley.com/doi/10.1111/j.1553-2712.2008.00100.x" target="_blank" rel="noopener noreferrer" className="text-deep-teal underline hover:text-coral font-medium inline-flex items-center gap-0.5">Chen et al., 2008<ExternalLink className="w-3 h-3 inline" /></a>). Using objective cycle tracking and formal medical vocabulary counteracts subjective dismissal and prompts evidence-based diagnostic protocols.
+                          <p className="text-charcoal/85 leading-relaxed m-0">
+                            Until the 1993 NIH Revitalization Act, female biological models were largely excluded from clinical trials. Today, conditions like endometriosis carry an average <strong>7–10 year diagnostic delay</strong>. Using objective symptom logging and clinical vocabulary prompts evidence-based diagnostic protocols.
                           </p>
-                          <div className="pt-2 border-t border-deep-teal/10 flex items-center justify-between flex-wrap gap-2 text-xs text-charcoal/70">
-                            <span className="flex items-center gap-1.5">
-                              <BookOpen className="w-3.5 h-3.5 text-coral shrink-0" />
-                              <span>Explore study:</span>
-                              <a href="https://bsd.biomedcentral.com/articles/10.1186/s13293-020-00308-5" target="_blank" rel="noopener noreferrer" className="text-deep-teal underline hover:text-coral font-medium inline-flex items-center gap-0.5">
-                                Nature / BMC Sex-Bias in Biomedical Research <ExternalLink className="w-3 h-3 inline" />
-                              </a>
-                            </span>
-                            <span className="italic text-charcoal/60">
-                              Educational reference · Not medical advice
-                            </span>
-                          </div>
                         </div>
                       </div>
-
-                      {/* In-content Continue Button */}
-                      <div className="pt-2 flex justify-end">
-                        <Button
-                          onClick={() => setCurrentLessonPage(7)}
-                          className="bg-deep-teal text-white hover:bg-deep-teal/90 text-base sm:text-lg h-12 sm:h-14 px-7 rounded-2xl gap-2.5 font-bold shadow-sm cursor-pointer"
-                        >
-                          <span>{hasSorter ? "Continue to Sorter Challenge" : "Continue to Practice & Complete"}</span>
-                          <ArrowRight className="w-5 h-5" />
-                        </Button>
-                      </div>
-                    </div>
-                  )}
-
-                  {/* SLIDE 7: DEDICATED CLINICAL SORTER ARCADE CHALLENGE (when topic has sorterGame) */}
-                  {currentLessonPage === 7 && hasSorter && selectedTopic.sorterGame && (
-                    <div className="space-y-6 animate-in fade-in duration-200 py-1">
-                      <div>
-                        <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-raspberry text-white shadow-2xs font-sans mb-2">
-                          <Gamepad2 className="w-4 h-4" />
-                          <span>Interactive Arcade Sorter Game</span>
-                        </div>
-                        <span className="text-xs sm:text-sm font-bold uppercase tracking-wider text-raspberry font-sans block mb-1">
-                          Slide 7 of {lessonPages.length} · Clinical Classification Challenge
-                        </span>
-                        <h4 className="text-3xl sm:text-4xl font-serif font-bold text-deep-teal leading-tight mb-2">
-                          {selectedTopic.sorterGame.title}
-                        </h4>
-                        <p className="text-charcoal/85 text-lg sm:text-xl font-sans leading-relaxed">
-                          {selectedTopic.sorterGame.instructions}
-                        </p>
-                      </div>
-
-                      {/* Video (if present on this topic) */}
-                      {selectedTopic.video && (
-                        <div className="space-y-3.5">
-                          <h5 className="font-bold text-deep-teal text-xs sm:text-sm uppercase tracking-wider flex items-center gap-2 font-sans">
-                            <Video className="w-4 h-4 text-emerald-600" />
-                            Clinical Video Explanation:
-                          </h5>
-                          <LessonVideoCard
-                            video={selectedTopic.video}
-                            themeColor={topicTheme.primaryHex}
-                          />
-                        </div>
-                      )}
-
-                      {/* Dedicated Sorter Game Component */}
-                      <div className="space-y-3.5">
-                        <LessonSorterGameComponent
-                          game={selectedTopic.sorterGame}
-                          themeColor={topicTheme.primaryHex}
-                          onGameComplete={(bonus) => {
-                            setXp((x) => x + bonus);
-                          }}
-                        />
-                      </div>
-
-                      {/* In-content Continue to Quiz Button */}
-                      <div className="pt-4 flex justify-end">
-                        <Button
-                          onClick={() => setCurrentLessonPage(8)}
-                          className="bg-deep-teal text-white hover:bg-deep-teal/90 text-base sm:text-lg h-12 sm:h-14 px-7 rounded-2xl gap-2.5 font-bold shadow-sm cursor-pointer"
-                        >
-                          <span>{isQuizActive ? "Continue to Knowledge Mini-Quiz" : "Continue to Complete & Claim XP"}</span>
-                          <ArrowRight className="w-5 h-5" />
-                        </Button>
-                      </div>
-                    </div>
-                  )}
-
-                  {/* DEDICATED KNOWLEDGE CHECK SLIDE: Slide 8 (if hasSorter) or Slide 7 (if !hasSorter) */}
-                  {currentLessonPage === (hasSorter ? 8 : 7) && (
-                    <div className="space-y-6 animate-in fade-in duration-200 py-1">
-                      <div>
-                        <span className="text-xs sm:text-sm font-bold uppercase tracking-wider text-deep-teal/70 font-sans block mb-1">
-                          Slide {hasSorter ? 8 : 7} of {lessonPages.length} · Knowledge Check & Completion
-                        </span>
-                        <h4 className="text-3xl sm:text-4xl font-serif font-bold text-deep-teal leading-tight mb-2">
-                          Validate Knowledge & Claim XP
-                        </h4>
-                        <p className="text-charcoal/85 text-lg sm:text-xl font-sans leading-relaxed">
-                          Confirm your mastery against clinical standards and lock in your +{selectedTopic.xp} XP!
-                        </p>
-                      </div>
-
-                      {/* VIDEO CONTENT (if topic has video and does not have sorter) */}
-                      {selectedTopic.video && !hasSorter && (
-                        <div className="space-y-3.5">
-                          <h5 className="font-bold text-deep-teal text-xs sm:text-sm uppercase tracking-wider flex items-center gap-2 font-sans">
-                            <Video className="w-4 h-4 text-emerald-600" />
-                            Clinical Explanation Video:
-                          </h5>
-                          <LessonVideoCard
-                            video={selectedTopic.video}
-                            themeColor={topicTheme.primaryHex}
-                          />
-                        </div>
-                      )}
 
                       {/* MINI-QUIZ (if topic has quiz) */}
                       {isQuizActive && (
-                        <InteractiveQuizGame
-                          questions={quizList}
-                          topicName={selectedTopic.name}
-                          topicXp={selectedTopic.xp}
-                          onComplete={() => handleCompleteTopic(selectedTopic)}
-                        />
+                        <div className="pt-2">
+                          <InteractiveQuizGame
+                            questions={quizList}
+                            topicName={selectedTopic.name}
+                            topicXp={selectedTopic.xp}
+                            onComplete={() => handleCompleteTopic(selectedTopic)}
+                          />
+                        </div>
                       )}
 
                       {/* Fallback completion card if topic does not have a quiz */}
                       {!isQuizActive && (
-                        <div className="p-7 sm:p-9 rounded-3xl bg-white border-2 border-deep-teal/20 text-center space-y-4 shadow-sm">
-                          <div className="w-16 h-16 rounded-full bg-light-teal text-deep-teal flex items-center justify-center mx-auto shadow-sm">
-                            <Sparkles className="w-9 h-9 text-coral" />
+                        <div className="p-6 sm:p-8 rounded-3xl bg-white border-2 border-deep-teal/20 text-center space-y-3.5 shadow-sm font-sans">
+                          <div className="w-14 h-14 rounded-full bg-light-teal text-deep-teal flex items-center justify-center mx-auto shadow-sm">
+                            <Sparkles className="w-7 h-7 text-coral" />
                           </div>
                           <div>
                             <h5 className="text-2xl sm:text-3xl font-bold font-serif text-deep-teal">
                               Lesson Complete!
                             </h5>
-                            <p className="text-lg text-charcoal/85 mt-2 font-sans max-w-lg mx-auto leading-relaxed">
-                              You have mastered the biological concept, explored evidence-based clinical guidelines, checked off clinical signals, practiced the multi-stage roleplay scenario game, and learned the appointment script for <strong>{selectedTopic.name}</strong>.
+                            <p className="text-base sm:text-lg text-charcoal/85 mt-1 font-sans max-w-lg mx-auto leading-relaxed">
+                              You have explored the interactive diagrams & charts, played the arcade mini-game, navigated the clinical consultation roleplay, and mastered the appointment script for <strong>{selectedTopic.name}</strong>.
                             </p>
                           </div>
-                          <div className="pt-3">
+                          <div className="pt-2">
                             <Button
                               onClick={() => handleCompleteTopic(selectedTopic)}
-                              className="bg-deep-teal text-white hover:bg-deep-teal/90 text-base sm:text-lg h-12 sm:h-14 px-8 rounded-2xl font-bold cursor-pointer shadow-sm"
+                              className="bg-deep-teal text-white hover:bg-deep-teal/90 text-base h-12 px-8 rounded-2xl font-bold cursor-pointer shadow-sm"
                             >
                               <CheckCircle className="w-5 h-5 mr-2" />
                               Complete & Claim +{selectedTopic.xp} XP
