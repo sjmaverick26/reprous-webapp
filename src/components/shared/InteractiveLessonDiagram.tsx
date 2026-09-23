@@ -3497,7 +3497,7 @@ function CycleFuelingPlateDiagram({ diagram }: { diagram: LessonDiagram; themeCo
       id: 0,
       name: "1. Menstrual Phase",
       days: "Days 1–5",
-      badge: "🩸 Replenish & Ease Cramps",
+      badge: "Replenish & Ease Cramps",
       color: "#F47A6A",
       tagline: "Iron Restock & Anti-Inflammatory Comfort",
       metabolism: "Baseline Caloric Burn",
@@ -3516,7 +3516,7 @@ function CycleFuelingPlateDiagram({ diagram }: { diagram: LessonDiagram; themeCo
       id: 1,
       name: "2. Follicular Phase",
       days: "Days 6–13",
-      badge: "⚡ High-Octane Glycogen Engine",
+      badge: "High-Octane Glycogen Engine",
       color: "#175B5C",
       tagline: "Peak Insulin Sensitivity & Carbohydrate Burning",
       metabolism: "High Carb Efficiency",
@@ -3535,7 +3535,7 @@ function CycleFuelingPlateDiagram({ diagram }: { diagram: LessonDiagram; themeCo
       id: 2,
       name: "3. Ovulatory Window",
       days: "Days 14–16",
-      badge: "🌟 Antioxidant & Energy Peak",
+      badge: "Antioxidant & Energy Peak",
       color: "#991B4B",
       tagline: "Cellular Recovery & Neuromuscular Power",
       metabolism: "Ramping Up",
@@ -3554,7 +3554,7 @@ function CycleFuelingPlateDiagram({ diagram }: { diagram: LessonDiagram; themeCo
       id: 3,
       name: "4. Luteal Phase",
       days: "Days 17–28",
-      badge: "🍂 +100 to 300 kcal Burn & Protein Defense",
+      badge: "+100 to 300 kcal Burn & Protein Defense",
       color: "#D97706",
       tagline: "Higher Metabolic Rate, Increased Protein Needs & Hydration",
       metabolism: "✦ +100–300 kcal/day Extra Burn!",
@@ -4092,10 +4092,10 @@ function PubertyBrainDiagram({ diagram }: { diagram: LessonDiagram; themeColor: 
               </div>
               <p className="text-[11px] text-charcoal/80 m-0 leading-tight">
                 {computedAmygdala > 80
-                  ? "🚨 Intense Alert: Emotions felt at peak volume; high vulnerability to crying spells, frustration, or social self-consciousness."
+                  ? "Intense Alert: Emotions felt at peak volume; high vulnerability to crying spells, frustration, or social self-consciousness."
                   : computedAmygdala > 60
-                  ? "⚡ Elevated Sensitivity: Normal puberty reactivity; feelings are strong and responsive to external events."
-                  : "🌿 Grounded Baseline: Nervous system calm, parasympathetic tone active."}
+                  ? "Elevated Sensitivity: Normal puberty reactivity; feelings are strong and responsive to external events."
+                  : "Grounded Baseline: Nervous system calm, parasympathetic tone active."}
               </p>
             </div>
 
@@ -4121,10 +4121,10 @@ function PubertyBrainDiagram({ diagram }: { diagram: LessonDiagram; themeColor: 
               </div>
               <p className="text-[11px] text-charcoal/80 m-0 leading-tight">
                 {computedPfc < 40
-                  ? "⚠️ Impaired Braking: Synaptic construction or fatigue weakens impulse control. Pausing to think is difficult."
+                  ? "Impaired Braking: Synaptic construction or fatigue weakens impulse control. Pausing to think is difficult."
                   : computedPfc < 70
-                  ? "✦ Remodeling in Progress: Able to self-regulate with intentional breathwork, safe spaces, and time to decompress."
-                  : "🛡️ Resilient Executive Control: Solid prefrontal signaling; able to step back, name feelings, and keep perspective."}
+                  ? "Remodeling in Progress: Able to self-regulate with intentional breathwork, safe spaces, and time to decompress."
+                  : "Resilient Executive Control: Solid prefrontal signaling; able to step back, name feelings, and keep perspective."}
               </p>
             </div>
           </div>
@@ -4234,7 +4234,7 @@ function PubertyBrainDiagram({ diagram }: { diagram: LessonDiagram; themeColor: 
 
               <div className="p-3 bg-white rounded-xl border border-slate-200 space-y-1">
                 <strong className="text-deep-teal font-bold block text-[11.5px]">
-                  🌿 How the Selected Reset Calms Your Biology:
+                  How the Selected Reset Calms Your Biology:
                 </strong>
                 <p className="text-charcoal/80 text-[11px] leading-relaxed m-0">
                   {currentReset.physioEffect}
@@ -4696,7 +4696,7 @@ function MaternalWarningSignsDiagram({ diagram, themeColor }: { diagram: LessonD
     {
       id: "partner-shield",
       title: "The Birth Partner & Doula Shield Script",
-      purpose: "Use when the birthing person is exhausted, in severe pain, or unable to advocate for themselves.",
+      purpose: "Use when the mother is exhausted, in severe pain, or unable to advocate for herself.",
       script: "“Please pause. My partner is in severe pain / soaking through pads / struggling to breathe. We know her baseline, and this is an acute change. We are not comfortable waiting or being discharged. We need a physician to perform a bedside evaluation, check vitals manually, and review these labs immediately. Please page the obstetric attending physician on call now.”",
       whyItWorks: "Empowers birth partners and doulas to intercede firmly without apologizing, establishing an objective safety boundary when the patient is physiologically depleted."
     }
@@ -5382,7 +5382,7 @@ function MaternalWarningSignsDiagram({ diagram, themeColor }: { diagram: LessonD
                     }}
                     className="px-5 py-2.5 rounded-2xl bg-coral text-white font-bold text-xs sm:text-sm hover:opacity-90 shadow-sm flex items-center gap-2"
                   >
-                    <span>{challengeStep + 1 < challengeCases.length ? "Next Clinical Case →" : "Finish Triage Challenge 🏆"}</span>
+                    <span>{challengeStep + 1 < challengeCases.length ? "Next Clinical Case →" : "Finish Triage Challenge"}</span>
                   </button>
                 </div>
               )}

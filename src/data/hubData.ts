@@ -761,13 +761,19 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
       },
       {
         id: "conditions-3",
-        name: "Advocate: Confidential Care & Patient Rights",
+        name: "Know Your Rights: Confidential Care & Patient Protections",
         type: "lesson",
         isAdvocateCapstone: true,
         desc: "Learn your healthcare privacy rights, recognize clinical boundary crossings, and advocate for confidential, respectful care.",
         xp: 50,
         readTime: "4 min read",
         summary: "Every patient deserves dignity, comprehensive information, and confidential healthcare. Knowing your rights under Title X and minor consent laws empowers you to access reproductive care without fear, judgment, or unwanted disclosures.",
+        clinicalQuote: {
+          quote: "Adolescents are more likely to seek reproductive health care and disclose sensitive health information when assured of confidentiality. Professional medical consensus supports the provision of confidential care to minors, including contraception, STI testing, and mental health services.",
+          source: "American College of Obstetricians and Gynecologists (ACOG)",
+          publication: "ACOG Committee Opinion No. 803: Confidentiality in Adolescent Health Care",
+          year: "2020",
+        },
         keyTakeaways: [
           "Learn: In almost all jurisdictions, Title X-funded clinics provide confidential contraception, STI testing, and counseling without parental notification.",
           "Recognize: Red flags include a clinician lecturing or judging you, refusing to explain why an exam is performed, or threatening to disclose private conversations.",
@@ -799,7 +805,31 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
           doctorScript: "“Before we begin, I want to confirm that all services, lab results, and billing today are handled strictly under confidential Title X adolescent care protocols.”",
           whyItWorks: "Citing specific legal protections (Title X) immediately alerts clinic staff to activate their confidential billing suppressions and private contact flags.",
           whatIfDismissed: "“If your clinic policy does not provide confidential billing or care for minor reproductive services, please direct me to the nearest Title X federally qualified health center.”"
-        }
+        },
+        quiz: [
+          {
+            question: "Under Title X federal guidelines, what are the confidentiality protections for adolescent patients?",
+            options: [
+              "Parental consent is required for all appointments",
+              "Services, counseling, and STI/contraception care are strictly confidential without parental notification",
+              "Clinics must call parents after blood tests are complete",
+              "Confidentiality only applies to patients over age 21"
+            ],
+            correctIndex: 1,
+            explanation: "Title X federal regulations guarantee confidential family planning and reproductive health services to minors without parental consent or notification."
+          },
+          {
+            question: "What is your legal right if you feel uncomfortable or rushed during an invasive physical examination?",
+            options: [
+              "You must remain silent and let the clinician finish",
+              "You can ask for a pause, request a trained chaperone, or stop the examination entirely at any time",
+              "You can only speak if your parent gives written permission",
+              "Clinicians have legal immunity to conduct exams however they choose"
+            ],
+            correctIndex: 1,
+            explanation: "Informed consent is continuous; patients have the absolute right to pause an exam, ask questions, request an impartial medical chaperone, or withdraw consent at any time."
+          }
+        ]
       }
     ]
   },
@@ -1323,6 +1353,90 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
           whyItWorks: "Decouples testing from emotional trust and frames it firmly as standard personal healthcare hygiene, removing space for guilt trips.",
           whatIfDismissed: "“If you aren't comfortable prioritizing both of our health with testing and condoms, then we aren't compatible for intimacy.”"
         }
+      },
+      {
+        id: "realtalk-7",
+        name: "Know Your Rights: Healthcare Privacy & Youth Consent",
+        type: "lesson",
+        isAdvocateCapstone: true,
+        desc: "Federal Title X protections, minor consent laws, pharmacy rights, and stopping billing leaks to parents.",
+        xp: 50,
+        readTime: "5 min read",
+        summary: "Navigating healthcare as a young person can feel intimidating, but you have clear, federally protected rights. From confidential STI testing and birth control under Title X, to buying over-the-counter emergency contraception at any age with zero ID, to requesting a medical chaperone and suppressing insurance bills sent home—knowing your legal rights ensures you receive dignified, confidential care.",
+        clinicalQuote: {
+          quote: "Adolescents are more likely to seek reproductive health care and disclose sensitive health information when assured of confidentiality. Professional medical consensus supports the provision of confidential care to minors, including contraception, STI testing, and mental health services.",
+          source: "American College of Obstetricians and Gynecologists (ACOG)",
+          publication: "ACOG Committee Opinion No. 803: Confidentiality in Adolescent Health Care",
+          year: "2020",
+        },
+        keyTakeaways: [
+          "Title X Federal Protections: Federally funded Title X clinics provide confidential contraception, STI testing, and reproductive care without parental notification or consent.",
+          "Explanation of Benefits (EOB) Suppression: You have the right to request a confidential billing waiver or sliding-scale self-pay so that insurance statements are not mailed to your home.",
+          "Emergency Contraception Rights: Under 2013 FDA regulations, anyone of any age can purchase levonorgestrel emergency contraception (Plan B and generic equivalents) over the counter without a prescription, ID, or parental presence in all 50 states.",
+          "Informed Consent & Exam Boundaries: You always have the legal right to have a medical chaperone in the room, to pause or refuse any physical examination, and to have every procedure explained before it begins.",
+          "Medical Interpretation Rights: Under Title VI of the Civil Rights Act and Section 1557 of the ACA, clinics are legally required to provide certified medical interpreters at no cost—minors can never be forced to translate for family members."
+        ],
+        visualCards: [
+          {
+            title: "Title X & Confidential Care",
+            iconName: "Shield",
+            text: "Federal law guarantees confidential reproductive care at Title X clinics. No parental consent or notification is required regardless of your age or income.",
+            highlight: "Federally protected"
+          },
+          {
+            title: "Pharmacy OTC Rights",
+            iconName: "CheckCircle2",
+            text: "Emergency contraception is 100% over-the-counter with zero age limits, no ID required, and no prescription needed anywhere in the U.S.",
+            highlight: "No ID or age barrier"
+          },
+          {
+            title: "Exam & Privacy Boundaries",
+            iconName: "AlertTriangle",
+            text: "You control your body. You can pause any examination, request a female chaperone, or decline unnecessary invasive tests at any time.",
+            highlight: "Full patient autonomy"
+          }
+        ],
+        advocacyScript: {
+          situation: "When visiting a doctor or front desk and wanting to ensure full confidentiality without insurance papers mailed to your parents.",
+          doctorScript: "“I would like to receive confidential care today under Title X adolescent health protocols. Please ensure that no Explanation of Benefits (EOB) or itemized billing statements are sent to my home address, and use my direct cell phone for any follow-up lab communications.”",
+          whyItWorks: "Citing Title X and minor confidentiality protocols immediately triggers the clinic's private billing suppression flags in their electronic health record.",
+          whatIfDismissed: "“If this facility cannot guarantee confidential billing suppression, please connect me with a clinic social worker or provide a referral to the nearest Title X health center.”"
+        },
+        quiz: [
+          {
+            question: "Under federal FDA regulations, what are the requirements to buy Plan B (levonorgestrel) emergency contraception at a retail pharmacy?",
+            options: [
+              "You must be 18 and show a government photo ID",
+              "You need a doctor's prescription if you are under 17",
+              "There are zero age restrictions, no ID required, and no prescription needed",
+              "A parent or legal guardian must be present at the checkout"
+            ],
+            correctIndex: 2,
+            explanation: "The FDA eliminated all age restrictions and prescription mandates in 2013. Emergency contraception is approved for unrestricted over-the-counter sale to all individuals."
+          },
+          {
+            question: "What should you say if an insurance Explanation of Benefits (EOB) sent home might compromise your reproductive privacy?",
+            options: [
+              "Pay full emergency room rates in cash",
+              "Request Title X confidential sliding-scale funding or a confidential billing suppression waiver",
+              "Skip the test and wait until you turn 26",
+              "Give a false name to the clinic"
+            ],
+            correctIndex: 1,
+            explanation: "Title X health centers provide sliding-scale funding based on the patient's individual income and have protocols to suppress automated insurance statements."
+          },
+          {
+            question: "During a sensitive clinical examination, what rights do you have as a patient?",
+            options: [
+              "You must comply with whatever the clinician orders without speaking",
+              "You can only refuse an exam if your parent is in the room",
+              "You have the absolute right to have a chaperone present, ask questions, or pause/stop the exam at any time",
+              "Clinicians are legally allowed to perform any procedure without explanation"
+            ],
+            correctIndex: 2,
+            explanation: "Patients have full bodily autonomy and the statutory right to informed consent, meaning you can pause, ask why a step is necessary, or request a chaperone at any point."
+          }
+        ]
       }
     ]
   },

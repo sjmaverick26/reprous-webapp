@@ -81,7 +81,7 @@ Sincerely,
 
 My name is [Your Name], and I am a constituent from [Your City / Zip Code]. I am writing to urge you to co-sponsor and vote YES on the bipartisan Black Maternal Health Momnibus Act (H.R. 3305 / S. 1606).
 
-According to the CDC, more than 84% of pregnancy-related deaths in our nation are clinically preventable. Black birthing people are 3 to 4 times more likely to die from pregnancy complications due to systemic dismissal, inadequate postpartum coverage, and implicit bias.
+According to the CDC, more than 84% of pregnancy-related deaths in our nation are clinically preventable. Black mothers are 3 to 4 times more likely to die from pregnancy complications due to systemic dismissal, inadequate postpartum coverage, and implicit bias.
 
 The Momnibus Act provides comprehensive, evidence-based solutions by:
 1. Mandating and funding continuous 365-day postpartum Medicaid coverage across all states.

@@ -203,7 +203,7 @@ export const REAL_WORLD_ADVOCACY_LINKS: AdvocacyCampaignLink[] = [
   {
     title: "Black Maternal Health Momnibus Act (H.R. 3305 / S. 1606)",
     organization: "Black Mamas Matter Alliance & 4Kira4Moms",
-    description: "Landmark federal legislation to eliminate maternal mortality disparities, fund community doulas, and safeguard birthing families. Directly sign the national petition form.",
+    description: "Landmark federal legislation to eliminate maternal mortality disparities, fund community doulas, and safeguard mothers and families. Directly sign the national petition form.",
     url: "https://actionnetwork.org/forms/sign-the-petition-support-saving-black-lives-support-the-black-maternal-health-momnibus-act",
     badge: "Sign Live (Action Network)",
   },
