@@ -163,7 +163,7 @@ export function ResourcesView({ onNavigate, initialCategory = "all" }: Resources
     },
     {
       id: "petitions",
-      label: "Petitions / Take Action",
+      label: "Take Action",
       badge: "Advocacy",
       icon: "✍️",
       desc: "Active youth petitions, Momnibus Act, menstrual equity & school board letter toolkit"
@@ -882,7 +882,7 @@ export function ResourcesView({ onNavigate, initialCategory = "all" }: Resources
                 <span>Grassroots Advocacy &amp; Legislation</span>
               </div>
               <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif font-normal text-plum">
-                Petitions &amp; Take Action
+                Take Action &amp; Petitions
               </h2>
               <p className="text-[16px] sm:text-[17px] text-ink/80 max-w-2xl mt-1 mb-0 leading-relaxed">
                 Add your voice to active legislative campaigns, sign community pledges, propose local school initiatives, and download pre-drafted advocacy letters.

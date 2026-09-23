@@ -92,7 +92,7 @@ export function Navbar({ activePage, onNavigate, currentLang = "en", onSelectLan
     },
     {
       tab: "petitions",
-      label: "Petitions & Take Action",
+      label: "Take Action",
       tag: "Advocacy",
       icon: "✍️",
       description: "Active youth campaigns, Black Maternal Health Momnibus, period equity & school action toolkit"
@@ -355,17 +355,6 @@ export function Navbar({ activePage, onNavigate, currentLang = "en", onSelectLan
                     {resourcesDropdownOpen && (
                       <div className="absolute left-0 top-full pt-2 w-80 z-50 animate-in fade-in zoom-in-95 duration-150">
                         <div className="rounded-xl bg-white p-2.5 shadow-xl border border-plum/15 flex flex-col gap-1.5">
-                          <button
-                            onClick={() => {
-                              onNavigate("resources", "all");
-                              setResourcesDropdownOpen(false);
-                            }}
-                            className="w-full text-left px-3 py-2 text-[13.5px] font-bold font-sans text-plum rounded-lg hover:bg-ivory-darker transition-colors border-b border-plum/10 pb-2 mb-0.5 flex items-center justify-between"
-                          >
-                            <span>All Resources Directory</span>
-                            <span className="text-[11px] font-medium text-coral uppercase tracking-wider">Overview →</span>
-                          </button>
-
                           {resourceDropdownItems.map((sub) => (
                             <button
                               key={sub.tab}
@@ -389,6 +378,19 @@ export function Navbar({ activePage, onNavigate, currentLang = "en", onSelectLan
                               </span>
                             </button>
                           ))}
+
+                          <div className="pt-1.5 border-t border-plum/10 mt-0.5">
+                            <button
+                              onClick={() => {
+                                onNavigate("resources", "all");
+                                setResourcesDropdownOpen(false);
+                              }}
+                              className="w-full text-left px-3 py-1.5 text-[13px] font-semibold font-sans text-plum/80 rounded-lg hover:bg-ivory-darker hover:text-berry transition-colors flex items-center justify-between"
+                            >
+                              <span>Explore All Resources Directory</span>
+                              <span className="text-[11px] font-bold text-coral uppercase tracking-wider">Overview →</span>
+                            </button>
+                          </div>
                         </div>
                       </div>
                     )}
@@ -705,33 +707,42 @@ export function Navbar({ activePage, onNavigate, currentLang = "en", onSelectLan
                     <div className="pl-4 pr-2 py-1.5 flex flex-col gap-1">
                       <button
                         onClick={() => {
-                          onNavigate("resources", "all");
-                          setMobileMenuOpen(false);
-                        }}
-                        className="w-full text-left px-3 py-1.5 text-[14px] font-semibold text-plum/90 hover:text-berry rounded-lg flex items-center justify-between"
-                      >
-                        <span>↳ All Resources Overview</span>
-                        <span className="text-[10px] text-coral font-bold uppercase">Overview</span>
-                      </button>
-                      <button
-                        onClick={() => {
                           onNavigate("resources", "help");
                           setMobileMenuOpen(false);
                         }}
-                        className="w-full text-left px-3 py-1.5 text-[14px] font-medium text-plum/85 hover:text-berry rounded-lg flex items-center justify-between"
+                        className="w-full text-left px-3 py-2 text-[14px] font-bold text-plum hover:text-berry rounded-lg flex items-center justify-between"
                       >
-                        <span>↳ 🆘 How to Get Help</span>
-                        <span className="text-[10px] text-raspberry font-semibold bg-soft-pink px-2 py-0.5 rounded-full">Hotlines &amp; Clinics</span>
+                        <span className="flex items-center gap-2">
+                          <span className="text-charcoal/40">↳</span>
+                          <span>🆘 How to Get Help</span>
+                        </span>
+                        <span className="text-[10px] text-raspberry font-semibold bg-soft-pink px-2 py-0.5 rounded-full">Immediate Care</span>
                       </button>
                       <button
                         onClick={() => {
                           onNavigate("resources", "petitions");
                           setMobileMenuOpen(false);
                         }}
-                        className="w-full text-left px-3 py-1.5 text-[14px] font-medium text-plum/85 hover:text-berry rounded-lg flex items-center justify-between"
+                        className="w-full text-left px-3 py-2 text-[14px] font-bold text-plum hover:text-berry rounded-lg flex items-center justify-between"
                       >
-                        <span>↳ ✍️ Petitions / Take Action</span>
+                        <span className="flex items-center gap-2">
+                          <span className="text-charcoal/40">↳</span>
+                          <span>✍️ Take Action</span>
+                        </span>
                         <span className="text-[10px] text-deep-teal font-semibold bg-light-teal px-2 py-0.5 rounded-full">Advocacy</span>
+                      </button>
+                      <button
+                        onClick={() => {
+                          onNavigate("resources", "all");
+                          setMobileMenuOpen(false);
+                        }}
+                        className="w-full text-left px-3 py-1.5 text-[13px] font-medium text-plum/70 hover:text-berry rounded-lg flex items-center justify-between border-t border-plum/10 pt-2 mt-1"
+                      >
+                        <span className="flex items-center gap-2">
+                          <span className="text-charcoal/40">↳</span>
+                          <span>All Resources Directory</span>
+                        </span>
+                        <span className="text-[10px] text-coral font-bold uppercase">Overview →</span>
                       </button>
                     </div>
                   )}

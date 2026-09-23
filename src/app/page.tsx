@@ -30,8 +30,8 @@ export default function App() {
       setHubCategory(null);
     }
 
-    if (page === "resources" && (categoryOrTab === "help" || categoryOrTab === "petitions" || categoryOrTab === "all")) {
-      setResourceCategory(categoryOrTab);
+    if (page === "resources" && (categoryOrTab === "help" || categoryOrTab === "petitions" || categoryOrTab === "action" || categoryOrTab === "all")) {
+      setResourceCategory(categoryOrTab === "action" ? "petitions" : categoryOrTab);
     } else if (page === "resources") {
       setResourceCategory("all");
     }
