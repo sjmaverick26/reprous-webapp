@@ -21,6 +21,7 @@ import {
   ArrowRight,
   HelpCircle,
   TrendingUp,
+  Keyboard,
 } from "lucide-react";
 
 export type FoodGroupId = "carbs" | "protein" | "fats" | "greens" | "fruits";
@@ -481,12 +482,16 @@ export const SPEED_SORTING_FOODS: SortingFoodItem[] = [
 ];
 
 interface FemaleNourishmentPlateGameProps {
+  initialTab?: "plate" | "game";
   onGameComplete?: (xpBonus: number) => void;
 }
 
-export function FemaleNourishmentPlateGame({ onGameComplete }: FemaleNourishmentPlateGameProps) {
+export function FemaleNourishmentPlateGame({
+  initialTab = "game",
+  onGameComplete,
+}: FemaleNourishmentPlateGameProps) {
   // Navigation: "plate" (study & explore) vs "game" (speed food group sorter)
-  const [activeTab, setActiveTab] = useState<"plate" | "game">("plate");
+  const [activeTab, setActiveTab] = useState<"plate" | "game">(initialTab);
   const [selectedGroup, setSelectedGroup] = useState<FoodGroupId>("carbs");
 
   // Game state
@@ -594,13 +599,24 @@ export function FemaleNourishmentPlateGame({ onGameComplete }: FemaleNourishment
     };
   }, [gameState]);
 
+  // Streak Multiplier helper (up to 2x bonus points)
+  const getStreakMultiplier = (s: number): number => {
+    if (s >= 5) return 2.0;
+    if (s >= 4) return 1.75;
+    if (s >= 3) return 1.5;
+    if (s >= 2) return 1.25;
+    return 1.0;
+  };
+
   // End Game
-  const endGame = () => {
+  const endGame = (finalScore?: number, finalCorrect?: number) => {
     if (timerRef.current) clearInterval(timerRef.current);
     setGameState("gameover");
     playSound("finish");
-    // Award XP bonus based on correct answers
-    const xpEarned = Math.min(60, Math.max(20, Math.round(correctCount * 3 + score / 10)));
+    const activeScore = finalScore !== undefined ? finalScore : score;
+    const activeCorrect = finalCorrect !== undefined ? finalCorrect : correctCount;
+    // Guaranteed between +20 and +60 bonus XP based on performance
+    const xpEarned = Math.min(60, Math.max(20, Math.round(activeCorrect * 2 + activeScore / 10)));
     onGameComplete?.(xpEarned);
   };
 
@@ -613,18 +629,28 @@ export function FemaleNourishmentPlateGame({ onGameComplete }: FemaleNourishment
     if (currentFood.groupId === targetGroup) {
       // Correct!
       const newStreak = streak + 1;
-      const streakBonus = Math.floor(newStreak / 3) * 5;
-      const earned = 10 + streakBonus;
-      setScore((s) => s + earned);
+      const multiplier = getStreakMultiplier(newStreak);
+      const earned = Math.round(10 * multiplier);
+      const nextScore = score + earned;
+      const nextCorrect = correctCount + 1;
+
+      setScore(nextScore);
       setStreak(newStreak);
       if (newStreak > maxStreak) setMaxStreak(newStreak);
-      setCorrectCount((c) => c + 1);
+      setCorrectCount(nextCorrect);
       setFeedback({
         type: "correct",
         foodName: currentFood.name,
-        text: `Correct! ${currentFood.name} belongs to ${FEMALE_FOOD_GROUPS[targetGroup].name}. (+${earned} pts)`,
+        text: `Correct! ${currentFood.name} belongs to ${FEMALE_FOOD_GROUPS[targetGroup].name}. (+${earned} pts${multiplier > 1 ? ` · ${multiplier}x Combo!` : ""})`,
       });
       playSound("correct");
+
+      // Advance to next food or finish
+      if (currentIndex + 1 >= gameFoods.length) {
+        endGame(nextScore, nextCorrect);
+      } else {
+        setCurrentIndex((i) => i + 1);
+      }
     } else {
       // Incorrect!
       setStreak(0);
@@ -635,13 +661,13 @@ export function FemaleNourishmentPlateGame({ onGameComplete }: FemaleNourishment
         text: `Not quite! ${currentFood.name} is a ${FEMALE_FOOD_GROUPS[currentFood.groupId].name}.`,
       });
       playSound("wrong");
-    }
 
-    // Advance to next food or loop/finish
-    if (currentIndex + 1 >= gameFoods.length) {
-      endGame();
-    } else {
-      setCurrentIndex((i) => i + 1);
+      // Advance to next food or finish
+      if (currentIndex + 1 >= gameFoods.length) {
+        endGame(score, correctCount);
+      } else {
+        setCurrentIndex((i) => i + 1);
+      }
     }
   };
 
@@ -657,7 +683,7 @@ export function FemaleNourishmentPlateGame({ onGameComplete }: FemaleNourishment
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [gameState, currentIndex, gameFoods, streak]);
+  }, [gameState, currentIndex, gameFoods, streak, score, correctCount, maxStreak]);
 
   // Calculate SVG arc path for plate wedge
   const getSlicePath = (startDeg: number, endDeg: number, r = 88) => {
@@ -1006,8 +1032,10 @@ export function FemaleNourishmentPlateGame({ onGameComplete }: FemaleNourishment
               {/* Streak Multiplier */}
               <div className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-slate-800 border border-slate-700">
                 <Flame className={`w-4 h-4 ${streak >= 3 ? "text-orange-400 animate-bounce" : "text-slate-500"}`} />
-                <span className="text-xs font-bold uppercase tracking-wider text-slate-400">Streak:</span>
-                <span className="font-mono font-bold text-sm sm:text-base text-orange-400">{streak}x</span>
+                <span className="text-xs font-bold uppercase tracking-wider text-slate-400">Combo:</span>
+                <span className="font-mono font-bold text-sm sm:text-base text-orange-400">
+                  {streak} streak ({getStreakMultiplier(streak)}x)
+                </span>
               </div>
 
               {/* Progress Count */}
@@ -1146,25 +1174,83 @@ export function FemaleNourishmentPlateGame({ onGameComplete }: FemaleNourishment
 
           {/* GAME STATE: IDLE */}
           {gameState === "idle" && (
-            <div className="rounded-3xl border-2 border-dashed border-deep-teal/25 bg-gradient-to-b from-slate-50 via-white to-amber-50/30 p-8 sm:p-12 text-center space-y-5">
-              <div className="w-16 h-16 rounded-3xl bg-coral/10 text-coral flex items-center justify-center mx-auto border-2 border-coral/30 shadow-xs">
-                <Zap className="w-8 h-8" />
-              </div>
-              <div className="max-w-md mx-auto space-y-2">
-                <h4 className="text-2xl sm:text-3xl font-serif font-bold text-deep-teal">
-                  Food Group Speed Sorter
+            <div className="rounded-3xl border-2 border-slate-200 bg-gradient-to-b from-slate-50 via-white to-amber-50/20 p-6 sm:p-10 space-y-7">
+              {/* Header Banner */}
+              <div className="text-center max-w-2xl mx-auto space-y-3">
+                <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-coral text-white shadow-2xs font-sans">
+                  <Zap className="w-3.5 h-3.5" />
+                  <span>Interactive Speed Challenge</span>
+                </div>
+                <h4 className="text-3xl sm:text-4xl font-serif font-bold text-deep-teal">
+                  Speed Food Group Sorting Game
                 </h4>
-                <p className="text-sm text-charcoal/80 font-sans leading-relaxed">
-                  Race against the 45-second timer to classify whole foods into their respective female nourishment categories.
-                  Earn streak multipliers and up to <strong>+60 bonus XP</strong>!
+                <p className="text-sm sm:text-base text-charcoal/80 font-sans leading-relaxed">
+                  Race against the 45-second clock to classify 24 diverse whole foods into their respective female nourishment categories.
+                  Test your reflexes, activate muscle memory, and earn streak multipliers for maximum XP!
                 </p>
               </div>
 
+              {/* 4 Feature Cards Grid */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 max-w-4xl mx-auto text-left">
+                {/* Feature 1 */}
+                <div className="p-4 rounded-2xl bg-white border border-slate-200 shadow-2xs space-y-2">
+                  <div className="w-9 h-9 rounded-xl bg-amber-100 text-amber-800 flex items-center justify-center font-bold">
+                    <Clock className="w-5 h-5" />
+                  </div>
+                  <h5 className="font-serif font-bold text-sm text-deep-teal">
+                    45-Second Speed Clock
+                  </h5>
+                  <p className="text-xs text-charcoal/70 font-sans leading-relaxed">
+                    Fast-Paced Challenge: Race the clock to classify 24 diverse whole foods before time runs out.
+                  </p>
+                </div>
+
+                {/* Feature 2 */}
+                <div className="p-4 rounded-2xl bg-white border border-slate-200 shadow-2xs space-y-2">
+                  <div className="w-9 h-9 rounded-xl bg-sky-100 text-sky-800 flex items-center justify-center font-bold">
+                    <Keyboard className="w-5 h-5" />
+                  </div>
+                  <h5 className="font-serif font-bold text-sm text-deep-teal">
+                    Controls &amp; Accessibility
+                  </h5>
+                  <p className="text-xs text-charcoal/70 font-sans leading-relaxed">
+                    Hotkeys [1] to [5], mobile-friendly tap buttons, or desktop drag-and-drop into target buckets.
+                  </p>
+                </div>
+
+                {/* Feature 3 */}
+                <div className="p-4 rounded-2xl bg-white border border-slate-200 shadow-2xs space-y-2">
+                  <div className="w-9 h-9 rounded-xl bg-purple-100 text-purple-800 flex items-center justify-center font-bold">
+                    <Volume2 className="w-5 h-5" />
+                  </div>
+                  <h5 className="font-serif font-bold text-sm text-deep-teal">
+                    Dynamic Audio Feedback
+                  </h5>
+                  <p className="text-xs text-charcoal/70 font-sans leading-relaxed">
+                    Synthetic Web Audio API sound effects for correct answers and incorrect attempts (with mute toggle).
+                  </p>
+                </div>
+
+                {/* Feature 4 */}
+                <div className="p-4 rounded-2xl bg-white border border-slate-200 shadow-2xs space-y-2">
+                  <div className="w-9 h-9 rounded-xl bg-rose-100 text-rose-800 flex items-center justify-center font-bold">
+                    <Flame className="w-5 h-5" />
+                  </div>
+                  <h5 className="font-serif font-bold text-deep-teal text-sm">
+                    Streak Multiplier &amp; XP
+                  </h5>
+                  <p className="text-xs text-charcoal/70 font-sans leading-relaxed">
+                    Consecutive correct sorts trigger combo multipliers (up to 2x bonus points) and +20 to +60 XP rewards!
+                  </p>
+                </div>
+              </div>
+
+              {/* Call-to-action Buttons */}
               <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
                 <button
                   type="button"
                   onClick={startGame}
-                  className="px-6 py-3.5 rounded-2xl font-bold text-base bg-coral hover:bg-coral/95 text-white transition-all shadow-md hover:scale-105 active:scale-95 flex items-center gap-2 font-sans"
+                  className="px-8 py-3.5 rounded-2xl font-bold text-base bg-coral hover:bg-coral/95 text-white transition-all shadow-md hover:scale-105 active:scale-95 flex items-center gap-2.5 font-sans cursor-pointer"
                 >
                   <Play className="w-5 h-5 fill-white" />
                   <span>Start 45s Speed Challenge</span>
@@ -1172,9 +1258,10 @@ export function FemaleNourishmentPlateGame({ onGameComplete }: FemaleNourishment
                 <button
                   type="button"
                   onClick={() => setActiveTab("plate")}
-                  className="px-5 py-3.5 rounded-2xl font-bold text-sm bg-white hover:bg-slate-100 text-charcoal border border-slate-300 transition-all font-sans"
+                  className="px-6 py-3.5 rounded-2xl font-bold text-sm bg-white hover:bg-slate-100 text-charcoal border border-slate-300 transition-all font-sans cursor-pointer flex items-center gap-2"
                 >
-                  Study Plate First
+                  <Utensils className="w-4 h-4 text-deep-teal" />
+                  <span>Study Nourishment Plate First</span>
                 </button>
               </div>
             </div>

@@ -1048,6 +1048,15 @@ export function HubView({ initialCategory }: HubViewProps) {
                   { id: 5, title: isQuizActive ? "Action Blueprint & Quiz" : "Blueprint & Complete", shortTitle: isQuizActive ? "Quiz" : "Complete" },
                 ];
               }
+              if (activeCategoryId === "play") {
+                return [
+                  { id: 1, title: "Athlete Fueling & Physiology", shortTitle: "Fueling" },
+                  { id: 2, title: "Speed Food Group Sorter", shortTitle: "Speed Sorter" },
+                  { id: 3, title: "Consultation Roleplay", shortTitle: "Roleplay" },
+                  { id: 4, title: "Signal Detective", shortTitle: "Signals" },
+                  { id: 5, title: isQuizActive ? "Action Blueprint & Quiz" : "Blueprint & Complete", shortTitle: isQuizActive ? "Quiz" : "Complete" },
+                ];
+              }
               return [
                 { id: 1, title: "Visual Diagram Lab", shortTitle: "Visuals" },
                 { id: 2, title: "Nourishment Plate & Sorter", shortTitle: "Plate & Game" },
@@ -1301,7 +1310,11 @@ export function HubView({ initialCategory }: HubViewProps) {
                           onClick={() => setCurrentLessonPage(2)}
                           className="bg-deep-teal text-white hover:bg-deep-teal/90 text-base sm:text-lg h-12 sm:h-14 px-7 rounded-2xl gap-2.5 font-bold shadow-sm cursor-pointer"
                         >
-                          <span>Continue to Interactive Arcade Game</span>
+                          <span>
+                            {activeCategoryId === "play"
+                              ? "Continue to Speed Food Group Sorter"
+                              : "Continue to Nourishment Plate & Sorter"}
+                          </span>
                           <ArrowRight className="w-5 h-5" />
                         </Button>
                       </div>
@@ -1313,29 +1326,45 @@ export function HubView({ initialCategory }: HubViewProps) {
                     <div className="space-y-6 animate-in fade-in duration-200 py-1 font-sans">
                       <div>
                         <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-coral text-white shadow-2xs font-sans mb-2">
-                          <Utensils className="w-4 h-4" />
-                          <span>Female Nourishment &amp; Physiology</span>
+                          {activeCategoryId === "play" ? (
+                            <Zap className="w-4 h-4" />
+                          ) : (
+                            <Utensils className="w-4 h-4" />
+                          )}
+                          <span>
+                            {activeCategoryId === "play"
+                              ? "Speed Nutrition Challenge"
+                              : "Female Nourishment & Physiology"}
+                          </span>
                         </div>
                         <span className="text-xs sm:text-sm font-bold uppercase tracking-wider text-coral font-sans block mb-1">
-                          Slide 2 of {lessonPages.length} · Interactive Plate &amp; Speed Challenge
+                          Slide 2 of {lessonPages.length} ·{" "}
+                          {activeCategoryId === "play"
+                            ? "Speed Food Group Sorting Game"
+                            : "Interactive Plate & Speed Challenge"}
                         </span>
                         <h4 className="text-3xl sm:text-4xl font-serif font-bold text-deep-teal leading-tight mb-2">
-                          {selectedTopic.name} Nourishment Plate &amp; Speed Sorter
+                          {activeCategoryId === "play"
+                            ? "Speed Food Group Sorting Game"
+                            : `${selectedTopic.name} Nourishment Plate & Speed Sorter`}
                         </h4>
                         <p className="text-charcoal/85 text-lg sm:text-xl font-sans leading-relaxed">
-                          Explore essential food groups, how each one directly benefits your female hormonal balance and cycle vitality, and race against the clock in the Speed Sorter!
+                          {activeCategoryId === "play"
+                            ? "Fast-Paced 45-Second Challenge: Race the clock to classify 24 diverse whole foods into their respective food groups. Use hotkeys [1]-[5], tap buttons, or drag-and-drop to trigger streak multipliers and earn up to +60 bonus XP!"
+                            : "Explore essential food groups, how each one directly benefits your female hormonal balance and cycle vitality, and race against the clock in the Speed Sorter!"}
                         </p>
                       </div>
 
                       {/* Universal Female Nourishment Plate & Speed Sorter */}
                       <FemaleNourishmentPlateGame
+                        initialTab={activeCategoryId === "play" ? "game" : "plate"}
                         onGameComplete={(bonus) => {
                           setXp((x) => x + bonus);
                         }}
                       />
 
                       {/* Sorter Game if topic has custom sorterGame */}
-                      {selectedTopic.sorterGame && (
+                      {selectedTopic.sorterGame && activeCategoryId !== "play" && (
                         <div className="space-y-3 pt-3">
                           <h5 className="font-bold text-deep-teal text-sm sm:text-base uppercase tracking-wider flex items-center gap-2 font-sans">
                             <Gamepad2 className="w-4 h-4 text-raspberry" />
