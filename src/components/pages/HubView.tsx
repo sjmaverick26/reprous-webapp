@@ -1330,7 +1330,19 @@ export function HubView({ initialCategory }: HubViewProps) {
                         categoryKey={activeCategoryId || "cycle"}
                         topicId={selectedTopic.id}
                         topicTitle={selectedTopic.name}
-                        characterAvatar="sofia"
+                        characterAvatar={
+                          activeCategoryId === "conditions" || selectedTopic.id.includes("pcos") || selectedTopic.id.includes("endo")
+                            ? "mei"
+                            : activeCategoryId === "realtalk" || selectedTopic.id.includes("maternal") || selectedTopic.id.includes("rights")
+                            ? "lucia"
+                            : activeCategoryId === "play" || selectedTopic.id.includes("athlet")
+                            ? "maya"
+                            : activeCategoryId === "body"
+                            ? "elena"
+                            : activeCategoryId === "mind"
+                            ? "jordan"
+                            : "sofia"
+                        }
                         onGameComplete={(bonus) => {
                           setXp((x) => x + bonus);
                         }}

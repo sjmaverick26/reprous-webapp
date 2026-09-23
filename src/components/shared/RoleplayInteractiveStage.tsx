@@ -17,6 +17,7 @@ import {
   Award,
   Lightbulb,
   ArrowRight,
+  Users,
 } from "lucide-react";
 
 interface ProviderVisualProfile {
@@ -35,10 +36,20 @@ interface ProviderVisualProfile {
 interface PatientVisualProfile {
   name: string;
   role: string;
+  identityTag?: string;
   skinTone: string;
   skinShadow: string;
   hairColor: string;
-  hairStyle: "ponytail" | "braids-topknot" | "box-braids" | "hijab" | "curly-afro" | "wavy-long" | "bob-sleek";
+  hairStyle:
+    | "ponytail"
+    | "braids-topknot"
+    | "box-braids"
+    | "hijab"
+    | "curly-afro"
+    | "wavy-long"
+    | "bob-sleek"
+    | "straight-bangs"
+    | "wavy-cascade";
   hijabColor?: string;
   hasGlasses?: boolean;
   glassesColor?: string;
@@ -52,6 +63,7 @@ const DIVERSE_PATIENT_PROFILES: PatientVisualProfile[] = [
   {
     name: "Maya",
     role: "Student Athlete",
+    identityTag: "Black",
     skinTone: "#523321", // Deep warm rich brown
     skinShadow: "#3A2012",
     hairColor: "#0B0E14", // Jet black
@@ -64,10 +76,11 @@ const DIVERSE_PATIENT_PROFILES: PatientVisualProfile[] = [
   {
     name: "Sofia",
     role: "Youth Advocate",
+    identityTag: "Afro-Latina",
     skinTone: "#7B4B27", // Rich warm golden-brown
     skinShadow: "#5E3416",
     hairColor: "#111827", // Rich natural black
-    hairStyle: "curly-afro", // Giving Sofia the stunning, voluminous Afro!
+    hairStyle: "curly-afro", // Stunning, voluminous Afro with golden pick
     hasGlasses: true,
     glassesColor: "#D97706", // Tortoiseshell gold frames
     topType: "knit-cardigan",
@@ -76,8 +89,38 @@ const DIVERSE_PATIENT_PROFILES: PatientVisualProfile[] = [
     binderColor: "#F47A6A",
   },
   {
+    name: "Mei",
+    role: "Health Tech & Science Ambassador",
+    identityTag: "East Asian",
+    skinTone: "#FCEAD6", // Warm porcelain-ivory with delicate golden undertone
+    skinShadow: "#E5C4AB",
+    hairColor: "#0D1117", // Sleek silky jet black
+    hairStyle: "straight-bangs", // Sleek straight hair with fringe bangs and chic gold hairpin
+    hasGlasses: true,
+    glassesColor: "#EAB308", // Chic minimalist gold frames
+    topType: "hoodie",
+    topColor: "#6366F1", // Modern indigo / periwinkle
+    topAccentColor: "#EEF2FF",
+    binderColor: "#10B981",
+  },
+  {
+    name: "Lucía",
+    role: "Community Health Promotora",
+    identityTag: "Latina",
+    skinTone: "#C27D4E", // Warm golden cinnamon bronze
+    skinShadow: "#9E5E2B",
+    hairColor: "#1C1008", // Rich espresso brunette
+    hairStyle: "wavy-cascade", // Cascading brunette waves with warm coral blossom clip
+    hasGlasses: false,
+    topType: "knit-cardigan",
+    topColor: "#EA580C", // Vibrant terracotta / saffron
+    topAccentColor: "#FFEDD5",
+    binderColor: "#059669",
+  },
+  {
     name: "Amina",
     role: "Community Advocate",
+    identityTag: "Arab / Muslim",
     skinTone: "#A0613A", // Warm bronze
     skinShadow: "#854923",
     hairColor: "#18181B",
@@ -91,6 +134,7 @@ const DIVERSE_PATIENT_PROFILES: PatientVisualProfile[] = [
   {
     name: "Jordan",
     role: "Youth Athlete",
+    identityTag: "Black",
     skinTone: "#7B4B27", // Medium dark brown
     skinShadow: "#5E3416",
     hairColor: "#18181B",
@@ -103,6 +147,7 @@ const DIVERSE_PATIENT_PROFILES: PatientVisualProfile[] = [
   {
     name: "Chloe",
     role: "Menstrual Equity Advocate",
+    identityTag: "Equity Advocate",
     skinTone: "#F7D5BA", // Fair golden-peach
     skinShadow: "#E2B598",
     hairColor: "#18181B",
@@ -117,6 +162,7 @@ const DIVERSE_PATIENT_PROFILES: PatientVisualProfile[] = [
   {
     name: "Priya",
     role: "Clinical Self-Advocate",
+    identityTag: "South Asian",
     skinTone: "#8D5524", // Warm South Asian bronze
     skinShadow: "#703F15",
     hairColor: "#1A120B",
@@ -131,6 +177,7 @@ const DIVERSE_PATIENT_PROFILES: PatientVisualProfile[] = [
   {
     name: "Kendra",
     role: "Health Equity Fellow",
+    identityTag: "Black",
     skinTone: "#4A2C19", // Deep rich warm mahogany
     skinShadow: "#301B0E",
     hairColor: "#0B0E14",
@@ -142,7 +189,8 @@ const DIVERSE_PATIENT_PROFILES: PatientVisualProfile[] = [
   },
   {
     name: "Elena",
-    role: "Adolescent Peer Educator",
+    role: "Latina Adolescent Educator",
+    identityTag: "Latina",
     skinTone: "#C68642", // Warm golden olive
     skinShadow: "#A76B2F",
     hairColor: "#2A1810",
@@ -803,6 +851,28 @@ function PatientAvatarSvg({
         </g>
       )}
 
+      {/* Back Hair for Straight Bangs (Mei - East Asian) - Silky smooth curtain silhouette */}
+      {profile.hairStyle === "straight-bangs" && (
+        <path
+          d="M 33 38 C 33 16, 87 16, 87 38 L 89 105 C 89 120, 86 132, 82 136 L 38 136 C 34 132, 31 120, 31 105 Z"
+          fill={profile.hairColor}
+        />
+      )}
+
+      {/* Back Hair for Wavy Cascade (Lucía - Latina) - Voluminous undulating brunette waves */}
+      {profile.hairStyle === "wavy-cascade" && (
+        <g>
+          <path
+            d="M 31 38 C 29 16, 91 16, 89 38 C 95 62, 96 92, 91 118 C 89 130, 83 138, 77 138 L 43 138 C 37 138, 31 130, 29 118 C 24 92, 25 62, 31 38 Z"
+            fill={profile.hairColor}
+          />
+          <circle cx="27" cy="85" r="8.5" fill={profile.hairColor} />
+          <circle cx="26" cy="106" r="9" fill={profile.hairColor} />
+          <circle cx="93" cy="85" r="8.5" fill={profile.hairColor} />
+          <circle cx="94" cy="106" r="9" fill={profile.hairColor} />
+        </g>
+      )}
+
       {/* Head Base */}
       <ellipse cx="60" cy="42" rx="20" ry="22" fill={profile.skinTone} />
       {/* Ears with gold studs */}
@@ -914,6 +984,56 @@ function PatientAvatarSvg({
         </>
       )}
 
+      {/* Straight Bangs & Hairpins (Mei - East Asian) */}
+      {profile.hairStyle === "straight-bangs" && (
+        <g>
+          {/* Sleek cranial contour */}
+          <path
+            d="M 36 38 C 35 17, 85 17, 84 38 C 86 48, 86 65, 84 82 C 81 64, 78 30, 75 30 C 70 30, 68 33, 60 33 C 52 33, 50 30, 45 30 C 42 30, 39 64, 36 82 C 34 65, 34 48, 36 38 Z"
+            fill={profile.hairColor}
+          />
+          {/* Clean face-framing fringe / bangs */}
+          <path
+            d="M 44 26 C 50 25, 70 25, 76 26 C 77 34, 75 36.5, 73 36.5 C 68 35.5, 65 37.5, 60 36.5 C 55 37.5, 52 35.5, 47 36.5 C 45 36.5, 43 34, 44 26 Z"
+            fill={profile.hairColor}
+          />
+          {/* Sheen highlight line across bangs */}
+          <path
+            d="M 48 29.5 Q 60 27.5 72 29.5"
+            stroke="#4B5563"
+            strokeWidth="0.8"
+            fill="none"
+            opacity="0.5"
+            strokeLinecap="round"
+          />
+          {/* Chic gold hairpin / barrette */}
+          <rect x="74" y="27.5" width="7" height="2" rx="1" fill="#EAB308" transform="rotate(-10 74 27.5)" />
+          <circle cx="80" cy="27" r="1.5" fill="#F47A6A" />
+        </g>
+      )}
+
+      {/* Wavy Cascade & Blossom Clip (Lucía - Latina) */}
+      {profile.hairStyle === "wavy-cascade" && (
+        <g>
+          {/* Cascading front waves framing face */}
+          <path
+            d="M 36 38 C 34 16, 86 16, 84 38 C 88 52, 91 75, 87 95 C 84 75, 82 45, 78 35 C 72 26, 64 24, 57 24 C 47 24, 42 32, 39 48 C 36 68, 34 85, 33 95 C 29 78, 32 52, 36 38 Z"
+            fill={profile.hairColor}
+          />
+          {/* Soft side-swept fringe arc */}
+          <path
+            d="M 44 26 C 52 24, 66 25, 74 32 C 70 32, 60 27, 48 29 Z"
+            fill={profile.hairColor}
+          />
+          {/* Wave definition highlights */}
+          <path d="M 35 60 Q 32 75 36 90" stroke="#451A03" strokeWidth="1.2" fill="none" strokeLinecap="round" />
+          <path d="M 85 60 Q 88 75 84 90" stroke="#451A03" strokeWidth="1.2" fill="none" strokeLinecap="round" />
+          {/* Warm Coral Blossom Clip */}
+          <circle cx="76" cy="30" r="3.2" fill="#F47A6A" />
+          <circle cx="76" cy="30" r="1.2" fill="#FEF08A" />
+        </g>
+      )}
+
       {/* Eyebrows */}
       {isBest ? (
         <>
@@ -933,10 +1053,38 @@ function PatientAvatarSvg({
       )}
 
       {/* Eyes */}
-      <circle cx="53" cy="40" r="2.5" fill="#1E293B" />
-      <circle cx="67" cy="40" r="2.5" fill="#1E293B" />
-      <circle cx="54" cy="39" r="0.8" fill="#FFFFFF" />
-      <circle cx="68" cy="39" r="0.8" fill="#FFFFFF" />
+      {profile.hairStyle === "straight-bangs" ? (
+        <g>
+          {/* Graceful almond eye shape with delicate upper lash line */}
+          <ellipse cx="53" cy="40.5" rx="3.2" ry="2.2" fill="#1E293B" />
+          <ellipse cx="67" cy="40.5" rx="3.2" ry="2.2" fill="#1E293B" />
+          <path d="M 49.5 40.5 Q 53 38.5 56.5 40" stroke="#0F172A" strokeWidth="1.2" fill="none" strokeLinecap="round" />
+          <path d="M 63.5 40 Q 67 38.5 70.5 40.5" stroke="#0F172A" strokeWidth="1.2" fill="none" strokeLinecap="round" />
+          <circle cx="54" cy="39.8" r="0.8" fill="#FFFFFF" />
+          <circle cx="68" cy="39.8" r="0.8" fill="#FFFFFF" />
+        </g>
+      ) : (
+        <g>
+          <circle cx="53" cy="40" r="2.5" fill="#1E293B" />
+          <circle cx="67" cy="40" r="2.5" fill="#1E293B" />
+          <circle cx="54" cy="39" r="0.8" fill="#FFFFFF" />
+          <circle cx="68" cy="39" r="0.8" fill="#FFFFFF" />
+        </g>
+      )}
+
+      {/* Subtle soft warm cheek blush glow */}
+      {(profile.name === "Lucía" || profile.name === "Elena") && (
+        <g opacity="0.35">
+          <ellipse cx="48" cy="46" rx="3.5" ry="2" fill="#F43F5E" />
+          <ellipse cx="72" cy="46" rx="3.5" ry="2" fill="#F43F5E" />
+        </g>
+      )}
+      {profile.name === "Mei" && (
+        <g opacity="0.28">
+          <ellipse cx="48" cy="45" rx="3.2" ry="1.8" fill="#FB7185" />
+          <ellipse cx="72" cy="45" rx="3.2" ry="1.8" fill="#FB7185" />
+        </g>
+      )}
 
       {/* Eyeglasses (if present) */}
       {profile.hasGlasses && (
@@ -1167,8 +1315,19 @@ export function RoleplayInteractiveStage({
   const chosenOpt = selectedOption !== null ? scenario.options[selectedOption] : null;
   const isBest = chosenOpt?.isBest ?? false;
 
+  // Allow user to manually select their preferred advocate from our diverse cast
+  const [userSelectedAdvocate, setUserSelectedAdvocate] = useState<string | null>(null);
+
   // Distinct diverse character profiles mapped to topic themes and rotating across steps
   const patientProfile = useMemo(() => {
+    // 0. If user manually selected an advocate, prioritize user choice
+    if (userSelectedAdvocate) {
+      const found = DIVERSE_PATIENT_PROFILES.find(
+        (p) => p.name.toLowerCase() === userSelectedAdvocate.toLowerCase()
+      );
+      if (found) return found;
+    }
+
     // 1. If scenario specifies a preferred patient name, match it directly
     if (scenario.patientName) {
       const found = DIVERSE_PATIENT_PROFILES.find(
@@ -1192,7 +1351,7 @@ export function RoleplayInteractiveStage({
       sid.includes("trian") ||
       sid.includes("red-s")
     ) {
-      baseIndex = 0; // Maya (Student Athlete - Box Braids with Curls)
+      baseIndex = 0; // Maya (Student Athlete - Black)
     } else if (
       cat.includes("body") ||
       top.includes("puberty") ||
@@ -1200,7 +1359,27 @@ export function RoleplayInteractiveStage({
       sid.includes("tanner") ||
       sid.includes("milestone")
     ) {
-      baseIndex = 1; // Sofia (Youth Advocate - Full Afro & Glasses)
+      baseIndex = 1; // Sofia (Youth Advocate - Afro-Latina)
+    } else if (
+      sid.includes("lab") ||
+      sid.includes("diagnostic") ||
+      sid.includes("test") ||
+      sid.includes("nutrition") ||
+      top.includes("nutrition") ||
+      top.includes("fertility") ||
+      top.includes("metabolic") ||
+      cat.includes("sci")
+    ) {
+      baseIndex = 2; // Mei (Health Tech & Science Ambassador - East Asian)
+    } else if (
+      cat.includes("factors") ||
+      cat.includes("maternal") ||
+      top.includes("maternal") ||
+      top.includes("community") ||
+      sid.includes("access") ||
+      sid.includes("social")
+    ) {
+      baseIndex = 3; // Lucía (Community Health Promotora - Latina)
     } else if (
       cat.includes("realtalk") ||
       cat.includes("rights") ||
@@ -1209,7 +1388,7 @@ export function RoleplayInteractiveStage({
       sid.includes("confidential") ||
       sid.includes("mandate")
     ) {
-      baseIndex = 2; // Amina (Community Advocate - Terracotta Hijab)
+      baseIndex = 4; // Amina (Community Advocate - Arab / Muslim)
     } else if (
       cat.includes("mind") ||
       cat.includes("mental") ||
@@ -1218,7 +1397,7 @@ export function RoleplayInteractiveStage({
       sid.includes("mood") ||
       sid.includes("dysphoria")
     ) {
-      baseIndex = 3; // Jordan (Youth Athlete & Peer Mentor - Athletic Afro)
+      baseIndex = 5; // Jordan (Youth Athlete & Peer Mentor - Black)
     } else if (
       cat.includes("cycle") ||
       top.includes("cycle") ||
@@ -1227,32 +1406,30 @@ export function RoleplayInteractiveStage({
       sid.includes("cramp") ||
       sid.includes("vital sign")
     ) {
-      baseIndex = 4; // Chloe (Menstrual Equity Advocate - Sleek Bob & Glasses)
+      baseIndex = 6; // Chloe (Menstrual Equity Advocate)
     } else if (
       cat.includes("pcos") ||
       top.includes("pcos") ||
       sid.includes("ultrasound") ||
       sid.includes("insulin")
     ) {
-      baseIndex = 5; // Priya (Clinical Self-Advocate - High Ponytail & Amber Glasses)
+      baseIndex = 7; // Priya (Clinical Self-Advocate - South Asian)
     } else if (
       cat.includes("endo") ||
       top.includes("endo") ||
+      sid.includes("referral") ||
+      sid.includes("pelvic")
+    ) {
+      baseIndex = 8; // Kendra (Health Equity Fellow - Black)
+    } else if (
       cat.includes("contraception") ||
       top.includes("contraception") ||
-      sid.includes("referral") ||
-      sid.includes("birth control")
-    ) {
-      baseIndex = 6; // Kendra (Health Equity Fellow - Braided Topknot)
-    } else if (
-      cat.includes("factors") ||
-      cat.includes("maternal") ||
-      top.includes("maternal") ||
+      sid.includes("birth control") ||
       top.includes("postpartum") ||
       cat.includes("cond") ||
       top.includes("conditions")
     ) {
-      baseIndex = 7; // Elena (Adolescent Peer Educator - Wavy Long Hair & Glasses)
+      baseIndex = 9; // Elena (Latina Adolescent Educator - Latina)
     } else {
       // Deterministic spread based on topicId / scenario.id so every topic gets a unique lead
       const combined = `${top}-${sid}-${cat}`;
@@ -1267,7 +1444,7 @@ export function RoleplayInteractiveStage({
     const finalIndex = (baseIndex + stepOffset) % DIVERSE_PATIENT_PROFILES.length;
 
     return DIVERSE_PATIENT_PROFILES[finalIndex];
-  }, [simulationIndex, scenario, topicId, categoryId]);
+  }, [userSelectedAdvocate, simulationIndex, scenario, topicId, categoryId]);
 
   const providerProfile = useMemo(() => {
     return getProviderVisualProfile(scenario.character, scenario.characterRole);
@@ -1391,6 +1568,43 @@ export function RoleplayInteractiveStage({
                 {scenario.characterRole}
               </span>
             )}
+          </div>
+        </div>
+
+        {/* Patient Advocate Quick-Selector Bar (Interactive Selection) */}
+        <div className="flex items-center justify-between gap-2 border-b border-deep-teal/15 bg-white/70 px-4 py-2 overflow-x-auto scrollbar-none">
+          <div className="flex items-center gap-1.5 shrink-0 text-xs font-bold text-deep-teal font-sans uppercase tracking-wider">
+            <Users className="w-3.5 h-3.5 text-coral" />
+            <span>Advocate:</span>
+          </div>
+          <div className="flex items-center gap-1.5 overflow-x-auto py-0.5">
+            {DIVERSE_PATIENT_PROFILES.map((p) => {
+              const isCurrent = patientProfile.name === p.name;
+              return (
+                <button
+                  key={p.name}
+                  type="button"
+                  onClick={() => setUserSelectedAdvocate(p.name)}
+                  className={`px-2.5 py-1 rounded-full text-xs font-bold font-sans transition-all shrink-0 flex items-center gap-1.5 border cursor-pointer ${
+                    isCurrent
+                      ? "bg-coral text-white border-coral shadow-xs ring-2 ring-coral/20"
+                      : "bg-white text-charcoal/80 border-deep-teal/20 hover:border-coral/50 hover:bg-light-teal/20"
+                  }`}
+                  title={`${p.name} — ${p.role}${p.identityTag ? ` (${p.identityTag})` : ""}`}
+                >
+                  <span>{p.name}</span>
+                  {p.identityTag && (
+                    <span
+                      className={`text-[9px] px-1.5 py-0.2 rounded-full font-semibold uppercase ${
+                        isCurrent ? "bg-white/20 text-white" : "bg-slate-100 text-slate-600"
+                      }`}
+                    >
+                      {p.identityTag}
+                    </span>
+                  )}
+                </button>
+              );
+            })}
           </div>
         </div>
 
@@ -1524,6 +1738,7 @@ export function RoleplayInteractiveStage({
                   {/* Character Label */}
                   <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-coral px-2.5 py-0.5 text-[10px] font-bold text-white shadow-xs">
                     {patientProfile.name} · {patientProfile.role}
+                    {patientProfile.identityTag ? ` (${patientProfile.identityTag})` : ""}
                   </div>
                 </div>
               </div>

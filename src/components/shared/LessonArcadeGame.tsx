@@ -240,7 +240,7 @@ interface LessonArcadeGameProps {
   topicId?: string;
   topicTitle?: string;
   onGameComplete?: (bonusXp: number) => void;
-  characterAvatar?: "sofia" | "maya" | "jordan" | "amina";
+  characterAvatar?: "sofia" | "maya" | "mei" | "lucia" | "jordan" | "amina" | "elena" | "priya";
 }
 
 export function LessonArcadeGame({
@@ -387,6 +387,17 @@ interface ActiveFallingEntity {
   speed: number;
 }
 
+const ARCADE_AVATARS: { id: string; name: string; tag: string; emoji: string }[] = [
+  { id: "sofia", name: "Sofia", tag: "Afro-Latina", emoji: "👩🏾" },
+  { id: "mei", name: "Mei", tag: "East Asian", emoji: "👧🏻" },
+  { id: "lucia", name: "Lucía", tag: "Latina", emoji: "👩🏽" },
+  { id: "maya", name: "Maya", tag: "Athlete", emoji: "👧🏾" },
+  { id: "amina", name: "Amina", tag: "Community", emoji: "🧕🏽" },
+  { id: "elena", name: "Elena", tag: "Latina", emoji: "👩🏽‍🦱" },
+  { id: "jordan", name: "Jordan", tag: "Mentor", emoji: "🧑🏽" },
+  { id: "priya", name: "Priya", tag: "South Asian", emoji: "👩🏽‍💼" },
+];
+
 function ArcadeSpeedCatcher({
   instruction,
   itemsPool,
@@ -395,9 +406,10 @@ function ArcadeSpeedCatcher({
 }: {
   instruction: string;
   itemsPool: ArcadeFallingItem[];
-  characterAvatar?: "sofia" | "maya" | "jordan" | "amina";
+  characterAvatar?: "sofia" | "maya" | "mei" | "lucia" | "jordan" | "amina" | "elena" | "priya";
   onComplete: () => void;
 }) {
+  const [activeAvatar, setActiveAvatar] = useState<string>(characterAvatar);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [isGameOver, setIsGameOver] = useState<boolean>(false);
   const [catcherX, setCatcherX] = useState<number>(50); // percentage 10% to 90%
@@ -566,6 +578,41 @@ function ArcadeSpeedCatcher({
                 Move your catcher to catch beneficial biological signals (+10 pts) and dodge harmful medical myths (-1 heart)! Reach 100 points to win +35 XP.
               </p>
             </div>
+
+            {/* Player Advocate Picker */}
+            <div className="flex flex-col items-center gap-1.5 pt-1">
+              <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400 font-sans">
+                Choose Your Player Advocate:
+              </span>
+              <div className="flex flex-wrap items-center justify-center gap-1.5 max-w-sm">
+                {ARCADE_AVATARS.map((av) => {
+                  const isSel = activeAvatar === av.id;
+                  return (
+                    <button
+                      key={av.id}
+                      type="button"
+                      onClick={() => setActiveAvatar(av.id)}
+                      className={`px-2.5 py-0.5 rounded-full text-xs font-bold transition-all border flex items-center gap-1 cursor-pointer ${
+                        isSel
+                          ? "bg-coral text-white border-coral ring-2 ring-coral/30 shadow-xs"
+                          : "bg-slate-800/90 text-slate-300 border-slate-700 hover:border-slate-500 hover:text-white"
+                      }`}
+                    >
+                      <span>{av.emoji}</span>
+                      <span>{av.name}</span>
+                      <span
+                        className={`text-[9px] px-1 rounded-xs uppercase ${
+                          isSel ? "bg-white/20 text-white" : "text-slate-400"
+                        }`}
+                      >
+                        {av.tag}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
             <Button
               onClick={handleStart}
               className="bg-coral text-white hover:bg-coral/90 font-bold px-8 h-12 rounded-2xl shadow-md text-base cursor-pointer"
@@ -622,13 +669,13 @@ function ArcadeSpeedCatcher({
           {/* Avatar Face Indicator */}
           <div className="w-9 h-9 rounded-full bg-amber-100 border-2 border-amber-400 overflow-hidden shadow-sm flex items-center justify-center -mb-2 z-10">
             <span className="text-base select-none">
-              {characterAvatar === "sofia" ? "👩🏾" : characterAvatar === "maya" ? "👧🏾" : "🧑🏽"}
+              {ARCADE_AVATARS.find((a) => a.id === activeAvatar)?.emoji || "👩🏾"}
             </span>
           </div>
           {/* Golden Catching Basket */}
           <div className="w-24 sm:w-28 h-8 rounded-2xl bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-500 border-2 border-amber-600 shadow-lg flex items-center justify-center">
             <span className="text-[11px] font-extrabold uppercase tracking-wider text-amber-950 font-sans">
-              Catch Signal
+              {ARCADE_AVATARS.find((a) => a.id === activeAvatar)?.name || "Catch"}
             </span>
           </div>
         </div>
