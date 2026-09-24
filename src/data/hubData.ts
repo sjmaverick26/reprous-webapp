@@ -1552,8 +1552,14 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
           ]
         },
         roleplayScenario: {
+          id: "mind-0-sim-1",
+          title: "Emotional Waves vs. Pubertal Brain Remodeling",
+          phaseName: "1. Regulating Pubertal Nervous System Overload",
           setting: "At home after a demanding day when your emotions feel completely overwhelmed and tearful",
           character: "Parent or teacher observing your emotional reaction",
+          characterRole: "Parent / Caregiver",
+          patientName: "Sofia",
+          patientRole: "Youth Advocate",
           statement: "“Why are you crying over something so minor? You've been so moody and dramatic lately, it feels like walking on eggshells around you.”",
           options: [
             {
@@ -1663,8 +1669,14 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
           caption: "Explore how stress triggers the cortisol pathway and how evidence-based grounding techniques restore balance."
         },
         roleplayScenario: {
+          id: "mind-1-sim-1",
+          title: "Cortisol GnRH Suppression vs. Stress Dismissal",
+          phaseName: "1. Investigating Hypothalamic Amenorrhea & Bone Protection",
           setting: "Doctor's office after missing two periods during a high-stress academic semester",
-          character: "Physician asking about your recent menstrual history",
+          character: "Dr. Kelly",
+          characterRole: "Primary Care Physician",
+          patientName: "Elena",
+          patientRole: "Adolescent Peer Educator",
           statement: "“Your lab work looks normal, so you're probably just stressed out. Try not to worry so much and your period will probably return eventually.”",
           options: [
             {
@@ -1924,7 +1936,49 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
             correctIndex: 3,
             explanation: "Peak bone mass is established in your teens and early 20s; low estrogen and under-fueling during this time can cause irreversible bone loss."
           }
-        ]
+        ],
+        roleplayScenario: {
+          id: "play-0-sim-1",
+          title: "Pre-Race Fueling & The 'Light Is Fast' Fallacy",
+          phaseName: "1. Nutrition & Energy Availability",
+          setting: "Team Bus En Route to State Championship Invitational",
+          character: "Coach Henderson",
+          characterRole: "Varsity Distance Running Coach",
+          patientName: "Maya",
+          statement: "“Maya, if you want to drop your 1600m time today, skip lunch before the meet so you race light. Heavy fueling just weighs runners down and slows your turnover.”",
+          evidence: {
+            badge: "RED-S Energy Balance",
+            title: "IOC Consensus on Energy Availability & Carbohydrate Oxidation",
+            metric: "Pre-Race Glycogen Target: 1–2g CHO/kg · Energy Availability >45 kcal/kg FFM",
+            description: "Evidence proving that fasting before athletic exertion forces the body to catabolize skeletal muscle tissue and tanks endurance output.",
+          },
+          sourceCitation: {
+            organization: "International Olympic Committee (IOC)",
+            guideline: "2023 IOC Consensus Statement on Relative Energy Deficiency in Sport (REDs)",
+            year: "2023",
+            url: "https://bjsm.bmj.com/content/57/17/1073",
+          },
+          options: [
+            {
+              text: "“Coach Henderson, IOC sports nutrition guidelines demonstrate that running in a fasted state forces the body to catabolize skeletal muscle and drops glycogen replenishment by over 40%. Eating easily digestible complex carbs and protein 2 to 3 hours pre-race fuels my nervous system and protects my stride power without causing fullness.”",
+              isBest: true,
+              feedback: "✦ Master Sports Nutrition Advocacy! You refuted the harmful 'lighter is faster' myth with IOC scientific consensus, explaining that glycogen is the premier fuel for athletic power.",
+              xpBonus: 30,
+            },
+            {
+              text: "“Okay Coach, I'll toss my lunch and just drink water so I can run as light as possible.”",
+              isBest: false,
+              feedback: "Dangerous misconception! Fasting before endurance competition triggers severe mid-race fatigue, dizziness, and sets up long-term energy deficit (RED-S).",
+              xpBonus: 5,
+            },
+            {
+              text: "“You're trying to give us all eating disorders! I'm eating whatever I want!”",
+              isBest: false,
+              feedback: "While your concern about restrictive coaching culture is valid, citing the IOC energy availability data gives your coach zero room to argue.",
+              xpBonus: 10,
+            },
+          ],
+        }
       },
       {
         id: "play-1",
@@ -1950,7 +2004,49 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
             correctIndex: 0,
             explanation: "Steroid hormones like estrogen and progesterone are synthesized from lipids and cholesterol. Severe fat restriction disrupts the endocrine axis and cycle regularity."
           }
-        ]
+        ],
+        roleplayScenario: {
+          id: "play-1-sim-1",
+          title: "The 45-Minute Post-Workout Recovery Window",
+          phaseName: "1. Post-Exercise Glycogen & Protein Window",
+          setting: "Fieldhouse Weight Room & Training Hall",
+          character: "Coach Miller",
+          characterRole: "Assistant Track & Field Coach",
+          patientName: "Vivian",
+          statement: "“Vivian, put away that recovery smoothie and turkey wrap right now. Eating immediately after lifting just diverts blood away from your muscles to your stomach. Just drink plain water and wait until dinner in four hours.”",
+          evidence: {
+            badge: "ISSN Recovery Window",
+            title: "ISSN Position Stand on Nutrient Timing & Muscle Glycogen Synthesis",
+            metric: "Glycogen Resynthesis Window: 30–45 Min · 3:1 Carbohydrate-to-Protein Ratio",
+            description: "Clinical evidence proving muscle insulin sensitivity and glycogen synthase enzymes peak in the first 45 minutes post-exercise.",
+          },
+          sourceCitation: {
+            organization: "International Society of Sports Nutrition (ISSN)",
+            guideline: "ISSN Position Stand: Nutrient Timing for Athletic Performance & Tissue Repair",
+            year: "2023",
+            url: "https://jissn.biomedcentral.com",
+          },
+          options: [
+            {
+              text: "“Coach Miller, according to the International Society of Sports Nutrition, muscle glycogen synthase activity is at its highest in the 30 to 45 minutes immediately following training. Having a 3:1 ratio of carbohydrates to protein right now speeds muscle repair and replenishes fuel reserves, whereas delaying intake by four hours cuts glycogen restoration in half.”",
+              isBest: true,
+              feedback: "✦ Elite Nutritional Authority! You referenced ISSN position stand data to explain glycogen synthase kinetics, protecting your athletic recovery.",
+              xpBonus: 30,
+            },
+            {
+              text: "“Sorry Coach, I'll put my food back in my locker and wait until late tonight to eat.”",
+              isBest: false,
+              feedback: "Delaying recovery fueling leaves your muscles in a catabolic breakdown state, increases muscle soreness, and delays tissue healing.",
+              xpBonus: 5,
+            },
+            {
+              text: "“You don't know the first thing about nutrition, I'm eating this right now!”",
+              isBest: false,
+              feedback: "Citing the ISSN position stand provides scientific justification that coaches respect, avoiding unnecessary conflict.",
+              xpBonus: 10,
+            },
+          ],
+        }
       },
       {
         id: "play-2",
@@ -1990,6 +2086,140 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
           type: "reds-triangle",
           title: "Full-Body Overtraining & Under-Recovery Inspection",
           caption: "Use the interactive magnifying glass on the anatomical figure to explore how overtraining without adequate recovery damages the female body across neuroendocrine, metabolic, hormonal, and skeletal systems."
+        },
+        roleplayScenarios: [
+          {
+            id: "play-2-sim-1",
+            title: "The 'Not Wanting It Enough' Coaching Confrontation",
+            phaseName: "1. Refuting Accusations of Lack of Effort",
+            setting: "Varsity Track Bleachers After Sluggish 5K Time Trial",
+            character: "Coach Vance",
+            characterRole: "Head Cross-Country & Track Coach",
+            patientName: "Sierra",
+            statement: "“You fell forty seconds behind your tempo pace today, and your splits have been dropping all week. In championship athletics, winners find an extra gear when they're tired. Right now, it looks to me like you're getting complacent and just don't want it enough. If you're not willing to grind through the fatigue, I'm moving you down to junior varsity.”",
+            evidence: {
+              badge: "Overtraining Biomarkers",
+              title: "Autonomic Nervous System & Low Energy Availability Evaluation",
+              metric: "Morning RHR: +11 bpm · 60-Day Amenorrhea · Blunted HRV · Severe Glycogen Depletion",
+              description: "Documents clinical markers of sympathetic/parasympathetic overtraining syndrome, proving that performance decline is neuroendocrine exhaustion rather than a lack of effort or desire.",
+            },
+            sourceCitation: {
+              organization: "International Olympic Committee (IOC) & American College of Sports Medicine (ACSM)",
+              guideline: "Joint Consensus Statement on Overtraining Syndrome & IOC Consensus on Relative Energy Deficiency in Sport (REDs)",
+              year: "2023",
+              url: "https://bjsm.bmj.com/content/57/17/1073",
+            },
+            options: [
+              {
+                text: "“Coach Vance, my commitment to this team hasn't wavered, but my body is showing clinical symptoms of overtraining syndrome. My morning resting heart rate is spiked eleven beats above baseline, I've missed two consecutive periods, and my legs are catabolic from empty glycogen stores. Under IOC and ACSM sports medicine guidelines, forcing an athlete to 'grind through' autonomic exhaustion causes cortical stress fractures and permanent endocrine shutdown, not fitness gains. I need a structured deload protocol with our athletic trainer so my nervous system can recover and I can hit race-winning splits again.”",
+                isBest: true,
+                feedback: "✦ Master Athletic Self-Advocacy! You respectfully dismantled the 'not wanting it enough' accusation by presenting objective clinical data (resting HR spike, amenorrhea, glycogen depletion). Citing IOC/ACSM consensus reframes recovery as a physiological necessity to win, commanding immediate coaching respect.",
+                xpBonus: 30,
+              },
+              {
+                text: "“I'm so sorry, Coach. I promise I want this more than anything. I'll run extra sprint intervals on my own tonight and cut out dinner carbs so I can get lighter and prove my dedication to you.”",
+                isBest: false,
+                feedback: "Dangerous mistake! Internalizing accusations of laziness when you are already physiologically overtrained accelerates bone demineralization, risks complete bone fracture, and causes severe metabolic burnout.",
+                xpBonus: 5,
+              },
+              {
+                text: "“That is completely unfair! I'm working harder than anyone else on this team and you never see it! You're just biased against me!”",
+                isBest: false,
+                feedback: "While venting frustration is understandable, an emotional reaction gives the coach an excuse to label you as 'difficult'. Backing your stand with physiological markers (elevated resting HR, missed periods, ACSM guidelines) provides undeniable proof.",
+                xpBonus: 10,
+              },
+            ],
+          },
+          {
+            id: "play-2-sim-2",
+            title: "Sports Medicine Clinical Evaluation & Lab Workup",
+            phaseName: "2. Objective Endocrine & Metabolic Testing",
+            setting: "High School Sports Medicine Clinic with Athletic Trainer & Team Doctor",
+            character: "Dr. Lin",
+            characterRole: "Team Sports Medicine Physician",
+            patientName: "Sierra",
+            statement: "“Teenage distance runners are expected to feel worn down by mid-season. Unless you have an acute ligament tear or an ankle sprain, feeling exhausted doesn't justify pulling you from the racing schedule or running extensive blood tests.”",
+            evidence: {
+              badge: "Clinical Endocrine Panel",
+              title: "Endocrine Society & IOC RED-S Clinical Assessment Protocol",
+              metric: "Suppressed Free T3 (<2.4 pg/mL) · Elevated Waking Salivary Cortisol · Serum Ferritin <25 ng/mL",
+              description: "Diagnostic criteria showing that unresolved athletic performance drop with secondary amenorrhea requires comprehensive endocrine and metabolic staging.",
+            },
+            sourceCitation: {
+              organization: "The Endocrine Society & IOC Medical Commission",
+              guideline: "Endocrine Society Guidelines on Functional Hypothalamic Amenorrhea & IOC RED-S Clinical Assessment Tool 2 (CAT2)",
+              year: "2023",
+              url: "https://www.endocrine.org",
+            },
+            options: [
+              {
+                text: "“Dr. Lin, under IOC CAT2 guidelines and the Endocrine Society, an athlete experiencing unresolved performance degradation alongside two missed menstrual cycles requires an objective diagnostic workup. Can we check my morning fasted Free T3, cortisol, serum ferritin, and Vitamin D? Testing these will confirm whether my thyroid is downregulated in energy conservation and rule out early bone demineralization before a stress fracture occurs.”",
+                isBest: true,
+                feedback: "✦ Clinical Diagnostic Mastery! You cited the IOC CAT2 diagnostic guidelines and requested specific, evidence-backed lab markers (Free T3, ferritin, cortisol) that identify metabolic shutdown before catastrophic injury occurs.",
+                xpBonus: 30,
+              },
+              {
+                text: "“Okay, if you don't think tests are necessary, I'll just tape my shins and drink an energy drink before races.”",
+                isBest: false,
+                feedback: "Ignoring secondary amenorrhea and systemic fatigue allows bone mineral density to degrade. Adolescent female athletes must have endocrine imbalances evaluated.",
+                xpBonus: 5,
+              },
+              {
+                text: "“You doctors never take female athletes seriously! Why do I even come here?”",
+                isBest: false,
+                feedback: "Channeling frustration into requesting the specific IOC RED-S panel gives the physician clear clinical criteria to order the lab tests immediately.",
+                xpBonus: 10,
+              },
+            ],
+          },
+          {
+            id: "play-2-sim-3",
+            title: "Protected Roster Standing & Structured Deload Agreement",
+            phaseName: "3. Return-to-Play Rights & Athletic Safety",
+            setting: "Athletic Director's Office Joint Conference",
+            character: "Coach Vance",
+            characterRole: "Head Cross-Country & Track Coach",
+            patientName: "Sierra",
+            statement: "“The doctor confirmed overtraining syndrome and ordered a mandatory two-week deload with modified cross-training. But if you aren't doing the daily team workouts, I have to strip your varsity captaincy and give your championship racing spot away.”",
+            evidence: {
+              badge: "Athlete Safety Rights",
+              title: "NFHS & State Interscholastic Medical Clearance & Retaliation Protection",
+              metric: "Physician-Supervised Deload Protocol · Protected Varsity Eligibility",
+              description: "National high school athletic association regulations protecting student-athletes from punitive roster demotions or leadership stripping when following physician-mandated medical recovery.",
+            },
+            sourceCitation: {
+              organization: "National Federation of State High School Associations (NFHS) & AAP",
+              guideline: "NFHS Sports Medicine Advisory Committee: Medical Clearance, Return to Play, and Student Welfare",
+              year: "2023",
+              url: "https://www.nfhs.org",
+            },
+            options: [
+              {
+                text: "“Coach Vance, under NFHS and state athletic association regulations, complying with physician-prescribed sports medicine clearance is a protected health protocol. Retaliatory demotions or stripping leadership for following a medical deload violates student-athlete safety policies. A two-week modified cross-training plan restores my autonomic nervous system so I can score points at championships, whereas running through overtraining guarantees a season-ending tibial fracture. Let's sign this 14-day graduated recovery plan with our athletic director and athletic trainer.”",
+                isBest: true,
+                feedback: "✦ Champion Leadership & Self-Advocacy! You asserted institutional athletic safety rules with calm poise, protected your varsity standing, and offered a collaborative sports medicine pathway to peak at championships.",
+                xpBonus: 30,
+              },
+              {
+                text: "“Please don't take my captaincy! I'll tell the doctor I'm feeling better and run the full mileage anyway.”",
+                isBest: false,
+                feedback: "Giving up medical recovery to preserve a title leads to severe stress fractures, prolonged hypothalamic amenorrhea, and potential permanent bone loss.",
+                xpBonus: 5,
+              },
+              {
+                text: "“You're violating my rights! I'm calling the superintendent and going to the school board meeting!”",
+                isBest: false,
+                feedback: "Invoking NFHS policy directly in the room with the athletic director present resolves the situation immediately and keeps your coach accountable.",
+                xpBonus: 10,
+              },
+            ],
+          },
+        ],
+        advocacyScript: {
+          situation: "A coach or trainer accuses an exhausted, under-recovered athlete of being complacent, lazy, or 'not wanting it enough' when she is struggling with overtraining syndrome.",
+          doctorScript: "“Coach, clinical guidelines from the IOC and ACSM define overtraining as neuroendocrine and autonomic exhaustion, characterized by elevated resting heart rate, sleep fragmentation, and secondary amenorrhea. My drop in split times is a biological alarm, not a lack of commitment. I am following a sports-medicine supervised deload protocol to restore glycogen and hormonal balance so I can safely perform at my peak.”",
+          whyItWorks: "Replaces subjective character accusations ('lazy', 'not wanting it enough') with objective physiological biomarkers and IOC sports medicine authority.",
+          whatIfDismissed: "“I will review my morning resting heart rate and amenorrhea symptoms with our head athletic trainer and school physician to establish my medical clearance limits.”",
         }
       },
       {
@@ -2003,7 +2233,49 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
           "Productive fatigue resolves within 24–48 hours with adequate nutrition and sleep.",
           "Loss of menstrual flow, recurring shin splints or stress fractures, and unshakeable brain fog indicate dangerous overtraining and energy deficit."
         ],
-        gameType: "sort"
+        gameType: "sort",
+        roleplayScenario: {
+          id: "play-3-sim-1",
+          title: "Soreness vs. Bone Microtrauma: Refusing to Mask Focal Pain",
+          phaseName: "1. Distinguishing Adaptation from Skeletal Microfracture",
+          setting: "Track Infield Following High-Intensity Interval Repeats",
+          character: "Teammate Brooke",
+          characterRole: "Senior Team Captain",
+          patientName: "Autumn",
+          statement: "“Autumn, your shin is just sore because you're babying it! Pain is just weakness leaving the body. If you sit out the final three 400m intervals, you're letting down the 4x400 relay. Take three ibuprofen and tough it out!”",
+          evidence: {
+            badge: "ACSM Bone Stress Protocol",
+            title: "ACSM Clinical Differentiation: Muscular Fatigue vs. Cortical Bone Stress",
+            metric: "Localized Point Tenderness · Hopping Test Positive · NSAID Masking Warning",
+            description: "Sports medicine diagnostic guidance warning that masking localized tibial bone tenderness with NSAIDs converts a stress reaction into a full cortical fracture.",
+          },
+          sourceCitation: {
+            organization: "American College of Sports Medicine (ACSM)",
+            guideline: "ACSM Consensus on Prevention & Management of Bone Stress Injuries in Youth Runners",
+            year: "2023",
+            url: "https://www.sportsmedicine.org",
+          },
+          options: [
+            {
+              text: "“Brooke, I care deeply about our relay team, but this isn't normal muscular fatigue that you run through. This is localized pinpoint bone tenderness on my tibia that worsens with hopping, which ACSM guidelines identify as a high-risk bone stress reaction. Taking NSAIDs to numb bone microtrauma can crack the cortex into a complete fracture and end my entire season. I'm cross-training on the stationary bike today and having our athletic trainer evaluate it.”",
+              isBest: true,
+              feedback: "✦ Master Peer Leadership & Self-Advocacy! You distinguished between productive muscular soreness and high-risk focal bone microtrauma, resisted dangerous peer pressure to mask pain, and protected your season.",
+              xpBonus: 30,
+            },
+            {
+              text: "“I guess I don't want to look weak in front of everyone. Give me the pills and I'll run the repeats.”",
+              isBest: false,
+              feedback: "Catastrophic risk! Masking focal bone pain with pain relievers removes your body's protective pain barrier, allowing repetitive pounding to fracture the tibia completely.",
+              xpBonus: 5,
+            },
+            {
+              text: "“You're a selfish captain! Stop telling me what to do with my legs!”",
+              isBest: false,
+              feedback: "While standing up for yourself is essential, clearly explaining the clinical difference between muscle soreness and bone stress reactions sets a healthy safety standard for the entire squad.",
+              xpBonus: 10,
+            },
+          ],
+        }
       },
       {
         id: "play-4",
@@ -2051,29 +2323,47 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
           caption: "Click '+ Add Glass' or preset buttons to fill the interactive water glass, and toggle cycle phases to see how hormonal fluid shifts affect your hydration needs."
         },
         roleplayScenario: {
+          id: "play-4-sim-1",
+          title: "Intravascular Hydration vs. Restrictive Practice Policies",
+          phaseName: "1. Protecting Fluid & Electrolyte Access",
           setting: "High School Soccer Team Sideline During Hot Pre-Season Practice",
-          character: "Coach Miller, Head Coach",
+          character: "Coach Miller",
+          characterRole: "Head Varsity Soccer Coach",
+          patientName: "Vivian",
+          patientRole: "Varsity Midfielder & STEM Scholar",
           statement: "“Water breaks are slowing down our scrimmage! Just tough it out until the end of practice, and don't drink anything with salt or calories or you'll bloat!”",
+          evidence: {
+            badge: "ACSM Hydration Standards",
+            title: "ACSM Intravascular Fluid & Thermoregulatory Guidelines",
+            metric: "Luteal Plasma Volume Drop: -8% · Ambient Heat Index: 88°F · Mandatory 15-Min Breaks",
+            description: "Clinical sports medicine standards requiring mandatory sodium and fluid replacement intervals for female athletes during high-temperature training.",
+          },
+          sourceCitation: {
+            organization: "American College of Sports Medicine (ACSM)",
+            guideline: "ACSM Consensus Statement: Exercise and Fluid Replacement in Female Athletes",
+            year: "2023",
+            url: "https://www.sportsmedicine.org",
+          },
           options: [
             {
               text: "“Coach Miller, in this heat and especially during the high-hormone luteal phase, our blood plasma volume drops quickly. Sports medicine guidelines from ACSM require regular fluid and sodium breaks every 15 to 20 minutes to prevent heat illness, cramping, and cardiac strain.”",
               isBest: true,
               feedback: "✦ Elite Self-Advocate! You cited ACSM sports medicine guidelines, explained luteal plasma volume shifts, and protected the entire team's safety.",
-              xpBonus: 30
+              xpBonus: 30,
             },
             {
               text: "“Okay Coach, I'll wait until after practice to drink.”",
               isBest: false,
               feedback: "Dangerous! Withholding fluids spikes core temperature, raises heart rate, and drastically increases the risk of heat illness and muscle cramps.",
-              xpBonus: 5
+              xpBonus: 5,
             },
             {
               text: "“You're going to kill us! I'm calling the school board right now!”",
               isBest: false,
               feedback: "While frustration is valid, using clinical terminology (plasma volume, ACSM guidelines) establishes immediate professional authority.",
-              xpBonus: 10
-            }
-          ]
+              xpBonus: 10,
+            },
+          ],
         },
         advocacyScript: {
           situation: "A coach or trainer restricts water breaks or discourages electrolyte drinks during hot or long training sessions.",
@@ -2128,29 +2418,47 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
           caption: "Explore the 4 stages of a 90-minute sleep cycle, toggle the luteal temperature shift, and adjust sleep duration to see real-time injury risk and glycogen recovery metrics."
         },
         roleplayScenario: {
+          id: "play-5-sim-1",
+          title: "Slow-Wave Sleep Architecture vs. 5:30 AM Two-a-Days",
+          phaseName: "1. Protecting Somatotropic Recovery Windows",
           setting: "Athletic Department Locker Room at 6:00 AM",
-          character: "Coach Davis, Strength Coach",
+          character: "Coach Davis",
+          characterRole: "Head Strength & Conditioning Coach",
+          patientName: "Jordan",
+          patientRole: "Varsity Athlete & Student Council Rep",
           statement: "“We are adding mandatory 5:30 AM lifting sessions four days a week on top of evening practice. If you want to play varsity, you don't need eight hours of sleep!”",
+          evidence: {
+            badge: "AAP Sleep & Injury Data",
+            title: "Pediatric Sports Medicine Sleep Architecture & Musculoskeletal Injury Risk",
+            metric: "Sleep <8 Hrs: 1.7x Higher Injury Rate · 95% HGH Released During Stage 3 Deep Sleep",
+            description: "Clinical evidence proving that truncating adolescent sleep restricts somatic tissue repair, impairs motor memory consolidation, and sharply elevates fracture rates.",
+          },
+          sourceCitation: {
+            organization: "American Academy of Pediatrics (AAP) & Sleep Research Society",
+            guideline: "AAP Clinical Report on Sleep Architecture and Athletic Injury in Adolescent Athletes",
+            year: "2023",
+            url: "https://publications.aap.org",
+          },
           options: [
+            {
+              text: "“Coach Davis, pediatric sports medicine data from the AAP shows that sleeping under eight hours increases adolescent injury rates by 1.7 times and impairs muscle glycogen restoration. Early morning sessions that cut into our slow-wave recovery window will increase our fracture risk and hurt game performance.”",
+              isBest: true,
+              feedback: "✦ Master Clinical Advocacy! Citing AAP injury statistics and slow-wave recovery frames sleep as a non-negotiable performance asset.",
+              xpBonus: 30,
+            },
             {
               text: "“I'll just drink three energy drinks and push through it.”",
               isBest: false,
               feedback: "Dangerous approach! Energy drinks spike heart rate without repairing muscles, and chronic sleep restriction dramatically spikes injury risk.",
-              xpBonus: 5
+              xpBonus: 5,
             },
             {
               text: "“You're crazy! I'm sleeping in and skipping your session.”",
               isBest: false,
               feedback: "Communicating with AAP medical evidence protects the entire team while keeping the conversation constructive.",
-              xpBonus: 10
+              xpBonus: 10,
             },
-            {
-              text: "“Coach Davis, pediatric sports medicine data from the AAP shows that sleeping under eight hours increases adolescent injury rates by 1.7 times and impairs muscle glycogen restoration. Early morning sessions that cut into our slow-wave recovery window will increase our fracture risk and hurt game performance.”",
-              isBest: true,
-              feedback: "✦ Master Clinical Advocacy! Citing AAP injury statistics and slow-wave recovery frames sleep as a non-negotiable performance asset.",
-              xpBonus: 30
-            }
-          ]
+          ],
         },
         advocacyScript: {
           situation: "A coach schedules early morning two-a-days that reduce team sleep below 7–8 hours per night.",
@@ -2205,29 +2513,47 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
           caption: "Explore the difference between circulating hemoglobin and ferritin reserves, calculate menstrual iron loss, and discover absorption boosters vs. blockers."
         },
         roleplayScenario: {
+          id: "play-6-sim-1",
+          title: "Serum Ferritin Storage vs. Hemoglobin Dismissal",
+          phaseName: "1. Demanding an Iron Storage & Saturation Panel",
           setting: "Pediatric Clinic Exam Room",
-          character: "Dr. Roberts, Primary Care Physician",
+          character: "Dr. Roberts",
+          characterRole: "Primary Care Physician",
+          patientName: "Maya",
+          patientRole: "Varsity Track & Field Sprinter",
           statement: "“Your Complete Blood Count (CBC) is normal — your hemoglobin is 12.2, which is totally fine. You're just an active teenager with a busy schedule, so get more rest and stop worrying about your fatigue.”",
+          evidence: {
+            badge: "IOC Ferritin Protocol",
+            title: "IOC Medical Consensus on Iron Deficiency Without Anemia (IDNA)",
+            metric: "CBC Hemoglobin: 12.2 g/dL (Normal) · Ferritin Unchecked (<30 ng/mL Threshold)",
+            description: "Diagnostic standard noting that menstruating female athletes frequently experience depleted bone marrow iron stores (ferritin) despite normal circulating hemoglobin.",
+          },
+          sourceCitation: {
+            organization: "International Olympic Committee (IOC) & ACOG",
+            guideline: "IOC Medical Consensus on Iron Management in Adolescent Female Athletes",
+            year: "2023",
+            url: "https://bjsm.bmj.com",
+          },
           options: [
-            {
-              text: "“Okay, I guess it's all in my head. I'll just push through the exhaustion.”",
-              isBest: false,
-              feedback: "Never accept unaddressed exhaustion! A normal CBC does NOT measure bone marrow ferritin stores. You may have severe tissue iron depletion.",
-              xpBonus: 5
-            },
             {
               text: "“Dr. Roberts, my training performance has plummeted and my legs feel like lead. IOC and ACOG sports guidelines emphasize that athletes can suffer from Iron Deficiency Without Anemia (IDNA) where hemoglobin is normal but serum ferritin is depleted below 30 ng/mL. Could we please add a Serum Ferritin and Iron Saturation panel to my lab orders?”",
               isBest: true,
               feedback: "✦ Life-Changing Clinical Advocacy! Requesting a Serum Ferritin panel catches iron deficiency months before anemia develops, protecting your aerobic performance.",
-              xpBonus: 30
+              xpBonus: 30,
+            },
+            {
+              text: "“Okay, I guess it's all in my head. I'll just push through the exhaustion.”",
+              isBest: false,
+              feedback: "Never accept unaddressed exhaustion! A normal CBC does NOT measure bone marrow ferritin stores. You may have severe tissue iron depletion.",
+              xpBonus: 5,
             },
             {
               text: "“You don't know anything! Look at how pale I am!”",
               isBest: false,
               feedback: "Frustration is natural, but referencing IOC diagnostic guidelines for ferritin testing forces the clinician to order the correct diagnostic panel.",
-              xpBonus: 10
-            }
-          ]
+              xpBonus: 10,
+            },
+          ],
         },
         advocacyScript: {
           situation: "A clinician dismisses severe athletic fatigue as 'normal stress' because standard CBC hemoglobin is within reference range.",
@@ -2282,29 +2608,47 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
           caption: "Click through each phase of the cycle to explore optimal training adaptations, neuromuscular injury risks (ACL protection), and fueling priorities."
         },
         roleplayScenario: {
+          id: "play-7-sim-1",
+          title: "Hormonal Periodization & Injury Prevention vs. Linear Grinding",
+          phaseName: "1. Periodizing Sprint Loads Across Cycle Phases",
           setting: "High School Track Coach's Office",
-          character: "Coach Bennett, Sprint Coach",
+          character: "Coach Bennett",
+          characterRole: "Head Sprint Coach",
+          patientName: "Sierra",
+          patientRole: "Varsity Track Co-Captain",
           statement: "“You looked sluggish yesterday and your splits were off. Stop using 'hormones' as an excuse — champions don't adjust their workouts for their period!”",
+          evidence: {
+            badge: "BJSM Periodization",
+            title: "BJSM & ACOG Menstrual Cycle Periodization & Ligament Laxity Consensus",
+            metric: "Luteal Core Temp +0.5°C · Ovulatory ACL Laxity Peak · Follicular Power Peak",
+            description: "Sports medicine consensus demonstrating that matching training stimulus to hormonal phases optimizes neuromuscular adaptation and reduces catastrophic ACL ruptures.",
+          },
+          sourceCitation: {
+            organization: "British Journal of Sports Medicine (BJSM) & ACOG",
+            guideline: "Consensus Statement on Menstrual Cycle Phases, Ligament Laxity, and Musculoskeletal Injury in Athletes",
+            year: "2022",
+            url: "https://bjsm.bmj.com",
+          },
           options: [
+            {
+              text: "“Coach Bennett, ACOG and the British Journal of Sports Medicine show that training with menstrual biology optimizes athletic longevity. During the luteal phase, higher core temperature and plasma volume shifts require electrolyte hydration and aerobic pacing, while my follicular phase is when my body hits peak power. Let's periodize my sprint loads so I peak for championship meets.”",
+              isBest: true,
+              feedback: "✦ Elite Sports Literacy! You educated the coach using evidence-based sports medicine science and proposed a periodized training plan to peak for championships.",
+              xpBonus: 30,
+            },
             {
               text: "“Sorry Coach, I'll just push until I collapse next time.”",
               isBest: false,
               feedback: "Ignoring physiological phases increases burnout and musculoskeletal injury risks.",
-              xpBonus: 5
+              xpBonus: 5,
             },
             {
               text: "“You don't know what it feels like! I'm not running today.”",
               isBest: false,
               feedback: "Proposing a scientific periodization model demonstrates athletic maturity and produces tangible training adjustments.",
-              xpBonus: 10
+              xpBonus: 10,
             },
-            {
-              text: "“Coach Bennett, ACOG and the British Journal of Sports Medicine show that training with menstrual biology optimizes athletic longevity. During the luteal phase, higher core temperature and plasma volume shifts require electrolyte hydration and aerobic pacing, while my follicular phase is when my body hits peak power. Let's periodize my sprint loads so I peak for championship meets.”",
-              isBest: true,
-              feedback: "✦ Elite Sports Literacy! You educated the coach using evidence-based sports medicine science and proposed a periodized training plan to peak for championships.",
-              xpBonus: 30
-            }
-          ]
+          ],
         },
         advocacyScript: {
           situation: "A coach dismisses cycle-aware training as an 'excuse' and refuses to adjust volume or intensity.",
@@ -2359,29 +2703,47 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
           caption: "Select any phase of your menstrual cycle to explore your body's changing metabolic burn, optimal plate ratios, and nutrient superpower foods."
         },
         roleplayScenario: {
+          id: "play-8-sim-1",
+          title: "Metabolic Caloric Burn vs. Team Table Diet Culture",
+          phaseName: "1. Defending Luteal Energy Availability",
           setting: "School Cafeteria or Team Training Table",
-          character: "Teammate / Diet Culture Influence",
+          character: "Teammate Courtney",
+          characterRole: "Teammate & Peer Influence",
+          patientName: "Sofia",
+          patientRole: "Youth Advocate & Varsity Athlete",
           statement: "“I noticed you're eating a bigger lunch and taking second helpings of carbs this week. Aren't you worried about gaining weight before our match?”",
+          evidence: {
+            badge: "ISSN Fueling Stand",
+            title: "ISSN Position Stand on Menstruating Athletes: Luteal Metabolic Expenditure",
+            metric: "Basal Caloric Burn: +100 to 300 kcal/day · Elevated Protein Catabolism",
+            description: "Nutritional science proving that post-ovulatory thermogenesis and progesterone elevation increase resting caloric expenditure and muscle protein breakdown.",
+          },
+          sourceCitation: {
+            organization: "International Society of Sports Nutrition (ISSN) & ACOG",
+            guideline: "Position Stand: Nutritional Considerations for Active and Menstruating Females",
+            year: "2023",
+            url: "https://www.jissn.org",
+          },
           options: [
             {
               text: "“Actually, I'm in my luteal phase right now. Sports nutrition research shows our basal metabolic rate increases by 100 to 300 calories per day during this phase, and progesterone accelerates muscle breakdown. Eating an extra balanced snack with complex carbs and protein protects my muscle tissue and keeps my energy steady for game day.”",
               isBest: true,
               feedback: "✦ Elite Nutritional Self-Advocacy! You backed up your fueling choices with evidence-based metabolic science and dismantled toxic diet culture.",
-              xpBonus: 30
+              xpBonus: 30,
             },
             {
               text: "“You're right, I should probably skip dinner to make up for it.”",
               isBest: false,
               feedback: "Never starve through the luteal phase! Depriving your body when metabolism is elevated triggers RED-S, crashes thyroid output, and spikes cortisol.",
-              xpBonus: 5
+              xpBonus: 5,
             },
             {
               text: "“Mind your own business and stop staring at my plate!”",
               isBest: false,
               feedback: "Educating teammates on the 100–300 kcal luteal metabolic burn normalizes healthy fueling and helps protect the whole squad from eating disorders.",
-              xpBonus: 10
-            }
-          ]
+              xpBonus: 10,
+            },
+          ],
         },
         advocacyScript: {
           situation: "A coach, trainer, or teammate shames you for increased hunger or eating larger portions during the luteal phase.",
@@ -2466,6 +2828,49 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
             highlight: "Protect your bones"
           }
         ],
+        roleplayScenario: {
+          id: "play-11-sim-1",
+          title: "Speaking Up to Unhealthy Coaching Pressures",
+          phaseName: "1. Mandating Medical Load Adjustments",
+          setting: "Varsity Athletic Director & Head Coach Joint Conference",
+          character: "Coach Henderson",
+          characterRole: "Head Track & Field Coach",
+          patientName: "Maya",
+          patientRole: "Varsity Track & Field Co-Captain",
+          statement: "“We have the state qualifying meet in two weeks. I need you to drop three pounds and push through your missed periods so your power-to-weight ratio is sharp.”",
+          evidence: {
+            badge: "IOC RED-S Charter",
+            title: "IOC Medical Commission Policy on Weight Pressures & Athlete Welfare",
+            metric: "Clinical RED-S Risk · Mandatory Medical Clearance · Ban on Interscholastic Weigh-Ins",
+            description: "International Olympic Committee and NFHS safety regulations prohibiting coaches from mandating weight loss or ignoring amenorrhea as a condition of varsity participation.",
+          },
+          sourceCitation: {
+            organization: "International Olympic Committee (IOC) & NFHS",
+            guideline: "IOC Consensus on RED-S & NFHS Guidelines on Eating Disorders and Weight Management",
+            year: "2023",
+            url: "https://bjsm.bmj.com/content/57/17/1073",
+          },
+          options: [
+            {
+              text: "“Coach Henderson, under IOC and NFHS athlete welfare guidelines, mandating weight cuts or dismissing missed periods violates medical safety standards. Losing my period is a clinical distress signal of low energy availability that degrades bone density and increases fracture risk. My sports physician and I have established a non-negotiable fueling and recovery protocol. I am training to be strong and durable for state championships, not under-fueled.”",
+              isBest: true,
+              feedback: "✦ Capstone Self-Advocate Champion! You cited IOC and NFHS athlete safety mandates, asserted clinical authority, and defended your health and athletic career with composure and conviction.",
+              xpBonus: 30,
+            },
+            {
+              text: "“Okay Coach, I'll stop eating carbs before the meet so you're happy with my weight.”",
+              isBest: false,
+              feedback: "Under-fueling before a major championship causes rapid muscle glycogen depletion, dizziness, and catastrophic stress fracture risks.",
+              xpBonus: 5,
+            },
+            {
+              text: "“You're a monster and I'm quitting this program forever!”",
+              isBest: false,
+              feedback: "While anger is justified, anchoring your stance in NFHS student welfare regulations forces the school and coaching staff to respect medical guidelines.",
+              xpBonus: 10,
+            },
+          ],
+        },
         advocacyScript: {
           situation: "A coach demands that you drop weight to 'run faster' or tells you that missing your period is a normal part of training.",
           doctorScript: "“My physician explained that losing my period is a clinical distress signal of Relative Energy Deficiency in Sport (RED-S), which degrades bone density and leads to stress fractures. I am working with a sports dietitian to fuel adequately, and I need my training load adjusted to protect my long-term health.”",
@@ -3804,15 +4209,13 @@ export function getTopicRoleplayScenarios(topic: HubTopic, categoryId?: string):
     return topic.roleplayScenarios;
   }
 
-  // If topic has a single custom scenario, prepend it to the category's follow-up simulations
+  // If topic has a single custom scenario, return it directly so the simulation precisely matches the lesson
   if (topic.roleplayScenario) {
-    const baseSims = categoryScenarios[matchedCat] || categoryScenarios.body;
     return [
       {
         ...topic.roleplayScenario,
-        phaseName: topic.roleplayScenario.phaseName || "1. Initial Clinical Encounter",
+        phaseName: topic.roleplayScenario.phaseName || "1. Self-Advocacy Simulation",
       },
-      ...baseSims.slice(1),
     ];
   }
 

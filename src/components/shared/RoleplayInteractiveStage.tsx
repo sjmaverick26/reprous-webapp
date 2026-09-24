@@ -1354,6 +1354,67 @@ interface RoleplayInteractiveStageProps {
   categoryId?: string;
 }
 
+const TOPIC_LEAD_ADVOCATE_MAP: Record<string, string> = {
+  // Athletics & Female Athlete Health (play)
+  "play-0": "Maya",       // Female Athlete Nutrition & The Triad (Maya - Student Athlete)
+  "play-1": "Vivian",     // Fuel Up: Recovery Nutrition (Vivian - Science Ambassador)
+  "play-2": "Sierra",     // Overworking & Overtraining Signs (Sierra - Varsity Runner w/ Glasses)
+  "play-3": "Autumn",     // Rest vs. Burnout Sorter (Autumn - Peer Educator, Pale Ginger w/ Freckles)
+  "play-4": "Vivian",     // Water Intake & Electrolyte Shifts (Vivian)
+  "play-5": "Jordan",     // Sleep Cycles & Deep Recovery (Jordan - Youth Athlete)
+  "play-6": "Maya",       // Iron Deficiency & Ferritin (Maya)
+  "play-7": "Sierra",     // Menstrual Cycles & Training (Sierra)
+  "play-8": "Sofia",      // Cycle-Synced Fueling (Sofia)
+  "play-9": "Autumn",     // Body Image & Weight Pressures in Sport (Autumn)
+  "play-10": "Jordan",    // Spotting Toxic Fitness Pressures (Jordan)
+  "play-11": "Maya",      // Advocate: Speaking Up to Coaches & Clinicians (Maya)
+
+  // Body Basics (body)
+  "body-0": "Sofia",      // Puberty Milestones (Sofia - Youth Advocate)
+  "body-1": "Vivian",     // Hormonal Changes (Vivian)
+  "body-2": "Lucía",      // Anatomy & Internal Structures (Lucía)
+  "body-3": "Autumn",     // Growth & Variations (Autumn)
+
+  // Menstrual Cycle (cycle)
+  "cycle-0": "Sierra",     // Cycle Wheel & Physiology (Sierra)
+  "cycle-1": "Priya",      // Managing Period Pain & Dysmenorrhea (Priya)
+  "cycle-2": "Maya",       // Heavy Menstrual Flow & Ferritin (Maya)
+  "cycle-3": "Elena",      // Cycle Tracking & Vital Signs (Elena)
+  "cycle-4": "Amina",      // Cycle Stigma & Realities (Amina)
+  "cycle-5": "Sofia",      // Products & Period Care (Sofia)
+
+  // PCOS & Endocrine (pcos)
+  "pcos-0": "Priya",       // Rotterdam Criteria (Priya)
+  "pcos-1": "Vivian",      // Insulin Resistance & Metabolic Health (Vivian)
+  "pcos-2": "Sofia",       // Holistic Care & Nutrition (Sofia)
+
+  // Endometriosis & Pelvic Pain (endo)
+  "endo-0": "Kendra",      // Endometriosis Diagnosis & Ultrasound Limits (Kendra)
+  "endo-1": "Lucía",       // Deep Infiltrating & Catamenial Pain (Lucía)
+  "endo-2": "Autumn",      // Pelvic Floor & Multidisciplinary Care (Autumn)
+
+  // Contraception (contraception)
+  "contraception-0": "Elena",  // Method Overview (Elena)
+  "contraception-1": "Amina",  // Barrier Methods & Emergency Contraception (Amina)
+  "contraception-2": "Vivian", // Hormonal Methods & Mechanism (Vivian)
+
+  // Healthcare Navigation (care)
+  "care-0": "Lucía",       // Doctor Visits & Self-Advocacy (Lucía)
+  "care-1": "Autumn",      // Confidentiality & Minor Rights (Autumn)
+
+  // Maternal & Reproductive Factors (maternal)
+  "maternal-0": "Lucía",   // Maternal Health Disparities (Lucía)
+  "maternal-1": "Kendra",  // Postpartum & Warning Signs (Kendra)
+
+  // Real Talk (realtalk)
+  "realtalk-0": "Amina",   // Cultural Myths & Stigma (Amina)
+  "realtalk-1": "Jordan",  // Mental Health & Body Image (Jordan)
+
+  // Mind & Self (mind)
+  "mind-0": "Sofia",       // Puberty & Mental Health (Sofia)
+  "mind-1": "Elena",       // Stress & Hormones (Elena)
+};
+
 export function RoleplayInteractiveStage({
   scenario,
   selectedOption,
@@ -1390,119 +1451,32 @@ export function RoleplayInteractiveStage({
       if (found) return found;
     }
 
-    // 2. Map category / topic / scenario keywords to thematic lead characters
-    const cat = (categoryId || "").toLowerCase();
+    // 2. Map directly by topicId for authentic diverse representation
     const top = (topicId || "").toLowerCase();
-    const sid = (scenario.id || scenario.title || scenario.setting || "").toLowerCase();
-
-    let baseIndex = 0;
-    if (
-      cat.includes("play") ||
-      cat.includes("athlete") ||
-      top.includes("athlet") ||
-      sid.includes("athlet") ||
-      top.includes("fuel") ||
-      sid.includes("trian") ||
-      sid.includes("red-s")
-    ) {
-      baseIndex = 0; // Maya (Student Athlete - Black)
-    } else if (
-      cat.includes("body") ||
-      top.includes("puberty") ||
-      top.includes("tanner") ||
-      sid.includes("tanner") ||
-      sid.includes("milestone")
-    ) {
-      baseIndex = 1; // Sofia (Youth Advocate - Afro-Latina)
-    } else if (
-      sid.includes("lab") ||
-      sid.includes("diagnostic") ||
-      sid.includes("test") ||
-      sid.includes("nutrition") ||
-      top.includes("nutrition") ||
-      top.includes("fertility") ||
-      top.includes("metabolic") ||
-      cat.includes("sci")
-    ) {
-      baseIndex = 2; // Vivian (Health Tech & Science Ambassador - East Asian)
-    } else if (
-      cat.includes("factors") ||
-      cat.includes("maternal") ||
-      top.includes("maternal") ||
-      top.includes("community") ||
-      sid.includes("access") ||
-      sid.includes("social")
-    ) {
-      baseIndex = 3; // Lucía (Community Health Promotora - Latina)
-    } else if (
-      cat.includes("realtalk") ||
-      cat.includes("rights") ||
-      top.includes("rights") ||
-      top.includes("privacy") ||
-      sid.includes("confidential") ||
-      sid.includes("mandate")
-    ) {
-      baseIndex = 4; // Amina (Community Advocate - Arab / Muslim)
-    } else if (
-      cat.includes("mind") ||
-      cat.includes("mental") ||
-      top.includes("mental") ||
-      top.includes("pmdd") ||
-      sid.includes("mood") ||
-      sid.includes("dysphoria")
-    ) {
-      baseIndex = 5; // Jordan (Youth Athlete & Peer Mentor - Black)
-    } else if (
-      cat.includes("cycle") ||
-      top.includes("cycle") ||
-      top.includes("period") ||
-      sid.includes("pain") ||
-      sid.includes("cramp") ||
-      top.includes("athlete") ||
-      sid.includes("athlet")
-    ) {
-      baseIndex = 6; // Sierra (Varsity Student Athlete - Caucasian, Blonde, Sporty w/ Glasses)
-    } else if (
-      cat.includes("community") ||
-      top.includes("teen") ||
-      sid.includes("peer") ||
-      sid.includes("vital sign") ||
-      top.includes("advocacy")
-    ) {
-      baseIndex = 7; // Autumn (Youth Peer Educator - Caucasian, Pale Ginger w/ Freckles)
-    } else if (
-      cat.includes("pcos") ||
-      top.includes("pcos") ||
-      sid.includes("ultrasound") ||
-      sid.includes("insulin")
-    ) {
-      baseIndex = 8; // Priya (Clinical Self-Advocate - South Asian)
-    } else if (
-      cat.includes("endo") ||
-      top.includes("endo") ||
-      sid.includes("referral") ||
-      sid.includes("pelvic")
-    ) {
-      baseIndex = 9; // Kendra (Health Equity Fellow - Black)
-    } else if (
-      cat.includes("contraception") ||
-      top.includes("contraception") ||
-      sid.includes("birth control") ||
-      top.includes("postpartum") ||
-      cat.includes("cond") ||
-      top.includes("conditions")
-    ) {
-      baseIndex = 10; // Elena (Latina Adolescent Educator - Latina)
-    } else {
-      // Deterministic spread based on topicId / scenario.id so every topic gets a unique lead
-      const combined = `${top}-${sid}-${cat}`;
-      const hash = combined
-        .split("")
-        .reduce((acc, char) => acc + char.charCodeAt(0), 0);
-      baseIndex = hash % DIVERSE_PATIENT_PROFILES.length;
+    if (top && TOPIC_LEAD_ADVOCATE_MAP[top]) {
+      const targetName = TOPIC_LEAD_ADVOCATE_MAP[top];
+      const found = DIVERSE_PATIENT_PROFILES.find(
+        (p) => p.name.toLowerCase() === targetName.toLowerCase()
+      );
+      if (found) {
+        // For follow-up simulation stages (multi-stage simulations), cycle through diverse peers
+        const stepOffset = simulationIndex !== undefined ? simulationIndex : 0;
+        if (stepOffset === 0) return found;
+        const currentIdx = DIVERSE_PATIENT_PROFILES.findIndex(
+          (p) => p.name.toLowerCase() === targetName.toLowerCase()
+        );
+        return DIVERSE_PATIENT_PROFILES[(currentIdx + stepOffset) % DIVERSE_PATIENT_PROFILES.length];
+      }
     }
 
-    // 3. Cycle to the next diverse peer across simulation stages in the same track
+    // 3. Fallback deterministic spread based on topicId / scenario.id so every topic gets a unique lead
+    const cat = (categoryId || "").toLowerCase();
+    const sid = (scenario.id || scenario.title || scenario.setting || "").toLowerCase();
+    const combined = `${top}-${sid}-${cat}`;
+    const hash = combined
+      .split("")
+      .reduce((acc, char) => acc + char.charCodeAt(0), 0);
+    const baseIndex = hash % DIVERSE_PATIENT_PROFILES.length;
     const stepOffset = simulationIndex !== undefined ? simulationIndex : 0;
     const finalIndex = (baseIndex + stepOffset) % DIVERSE_PATIENT_PROFILES.length;
 
@@ -1558,8 +1532,28 @@ export function RoleplayInteractiveStage({
     if (chosenOpt === null) return scenario.statement;
 
     if (isBest) {
-      if (scenario.characterRole?.includes("Coach")) {
-        return `“I appreciate you sharing this ${scenario.evidence?.badge || "training log"} and the ${scenario.sourceCitation?.organization || "IOC"} guidelines. You're right—amenorrhea is a clinical red flag, not a badge of honor. Let's pull back your mileage and consult the sports dietitian.”`;
+      if (scenario.characterRole?.includes("Coach") || scenario.character.toLowerCase().includes("coach")) {
+        if (
+          scenario.title?.toLowerCase().includes("wanting") ||
+          scenario.evidence?.badge?.toLowerCase().includes("overtraining") ||
+          scenario.statement.toLowerCase().includes("lazy") ||
+          scenario.statement.toLowerCase().includes("gear")
+        ) {
+          return `“I hear you, and looking at your elevated resting heart rate and autonomic fatigue data, you're right. Pushing through clinical overtraining causes stress fractures, not speed. Let's get you on a medical deload protocol with the athletic trainer immediately.”`;
+        }
+        if (scenario.evidence?.badge?.toLowerCase().includes("water") || scenario.title?.toLowerCase().includes("hydration")) {
+          return `“Thank you for explaining the ACSM plasma volume guidelines. You're right—regular fluid and electrolyte breaks are safety necessities, not luxuries. Let's get the whole team hydrated immediately.”`;
+        }
+        if (scenario.evidence?.badge?.toLowerCase().includes("sleep")) {
+          return `“Reviewing the AAP injury statistics on sleep restriction makes it clear. We will move the morning lifting sessions back to protect the team's 8-hour recovery window.”`;
+        }
+        if (scenario.evidence?.badge?.toLowerCase().includes("period") || scenario.title?.toLowerCase().includes("period")) {
+          return `“Thank you for walking me through the ACOG periodization research. Adjusting high-intensity loads to your follicular phase and building endurance in the luteal phase makes complete athletic sense. Let's periodize your schedule.”`;
+        }
+        if (scenario.evidence?.badge?.toLowerCase().includes("fuel") || scenario.title?.toLowerCase().includes("fuel")) {
+          return `“I understand now. Glycogen replenishment within 45 minutes is critical for tissue recovery and injury prevention. Go ahead and get your recovery shake and meal in.”`;
+        }
+        return `“I appreciate you sharing this ${scenario.evidence?.badge || "training data"} and the ${scenario.sourceCitation?.organization || "sports medicine"} guidelines. You're right—this is a physiological red flag, not a lack of commitment. Let's adjust your training schedule and consult sports medicine.”`;
       }
       if (scenario.characterRole?.includes("Coordinator")) {
         return `“Thank you for clarifying Title X protections and confidential billing waivers. You are completely right—we will process your visit confidentially with zero mail or Explanation of Benefits sent home.”`;
@@ -1579,7 +1573,10 @@ export function RoleplayInteractiveStage({
         ));
 
     if (isPassive) {
-      if (scenario.characterRole?.includes("Coach")) {
+      if (scenario.characterRole?.includes("Coach") || scenario.character.toLowerCase().includes("coach")) {
+        if (scenario.statement.toLowerCase().includes("gear") || scenario.statement.toLowerCase().includes("lazy") || scenario.title?.toLowerCase().includes("wanting")) {
+          return `“That's what I needed to hear. Real athletes don't make excuses about being tired. Double your interval sets and let's see if you can hit pace.”`;
+        }
         return `“That's the spirit! Keep pushing the pace and don't let anything distract you from the championship meet.”`;
       }
       if (scenario.characterRole?.includes("Coordinator")) {
@@ -1591,8 +1588,8 @@ export function RoleplayInteractiveStage({
       return `“Glad we're on the same page. Since you don't have documented tracking or severe red flags to review, we'll just wait and see how things look next year.”`;
     }
 
-    if (scenario.characterRole?.includes("Coach")) {
-      return `“There's no need to take that tone with me. If you don't want to follow the training program, that's your decision.”`;
+    if (scenario.characterRole?.includes("Coach") || scenario.character.toLowerCase().includes("coach")) {
+      return `“There's no need to take that tone with me. In this program, yelling won't change your split times or your workout schedule.”`;
     }
     if (scenario.characterRole?.includes("Coordinator")) {
       return `“I'm just explaining standard clinic billing policies. There is no reason to be combative.”`;
