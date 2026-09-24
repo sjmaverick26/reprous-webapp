@@ -576,14 +576,18 @@ export function OvertrainingBodyInspectionDiagram({ diagram, themeColor }: Props
                 {selectedCharacter === "sierra" ? (
                   // Sierra's sleek high golden ponytail swishing to the right
                   <g>
+                    {/* High athletic teal scrunchie / hairband */}
+                    <circle cx="193" cy="49" r="4.5" fill="#0D9488" />
+                    {/* Bouncy ponytail flowing down */}
                     <path
-                      d="M 175 48 C 215 52, 235 90, 228 140 C 220 115, 205 75, 180 58 Z"
+                      d="M 191 48 C 224 50, 242 80, 234 135 C 225 110, 215 78, 192 60 Z"
                       fill={character.hairColor}
                     />
+                    {/* Highlight texture strands */}
                     <path
-                      d="M 185 62 Q 220 95 218 135"
+                      d="M 196 55 Q 226 88 225 130"
                       stroke={character.hairAccent}
-                      strokeWidth="1.5"
+                      strokeWidth="2"
                       fill="none"
                       strokeLinecap="round"
                     />
@@ -591,8 +595,8 @@ export function OvertrainingBodyInspectionDiagram({ diagram, themeColor }: Props
                 ) : selectedCharacter === "maya" ? (
                   // Maya's box braids falling symmetrically behind shoulders
                   <g>
-                    <path d="M 140 50 C 130 90, 120 150, 125 190 C 132 150, 138 90, 148 55 Z" fill={character.hairColor} />
-                    <path d="M 200 50 C 210 90, 220 150, 215 190 C 208 150, 202 90, 192 55 Z" fill={character.hairColor} />
+                    <path d="M 144 50 C 140 85, 136 140, 138 185 C 146 140, 148 85, 154 55 Z" fill={character.hairColor} />
+                    <path d="M 196 50 C 200 85, 204 140, 202 185 C 194 140, 192 85, 186 55 Z" fill={character.hairColor} />
                   </g>
                 ) : selectedCharacter === "autumn" ? (
                   // Autumn's natural flowing wavy ginger cascade
@@ -605,6 +609,7 @@ export function OvertrainingBodyInspectionDiagram({ diagram, themeColor }: Props
                 ) : (
                   // Vivian's sleek dark ponytail
                   <g>
+                    <circle cx="190" cy="50" r="4" fill="#7C3AED" />
                     <path d="M 172 48 C 205 52, 225 85, 220 135 C 212 110, 198 75, 178 58 Z" fill={character.hairColor} />
                     <path d="M 180 62 Q 210 92 210 130" stroke={character.hairAccent} strokeWidth="1.5" fill="none" strokeLinecap="round" />
                   </g>
@@ -671,36 +676,72 @@ export function OvertrainingBodyInspectionDiagram({ diagram, themeColor }: Props
                   <path d="M 183 596 L 193 596" stroke={character.shoeAccent} strokeWidth="1.8" strokeLinecap="round" />
                 </g>
 
-                {/* 4. Torso & Athletic Quarter-Zip Jacket */}
+                {/* 4. Anatomical Neck Seamlessly Connecting Head to Torso */}
+                <g>
+                  {/* Solid neck cylinder bridging chin (y=84) down into jacket collar (y=122) */}
+                  <rect x="159" y="74" width="22" height="48" rx="4" fill={character.skinTone} />
+                  {/* Soft natural shadow cast under the chin */}
+                  <path
+                    d="M 159 84 Q 170 91 181 84 L 181 93 Q 170 99 159 93 Z"
+                    fill={character.skinShadow}
+                    opacity="0.32"
+                  />
+                  {/* Gentle muscle contour lines */}
+                  <path
+                    d="M 165 94 L 168 115"
+                    stroke={character.skinShadow}
+                    strokeWidth="1.1"
+                    strokeLinecap="round"
+                    opacity="0.25"
+                  />
+                  <path
+                    d="M 175 94 L 172 115"
+                    stroke={character.skinShadow}
+                    strokeWidth="1.1"
+                    strokeLinecap="round"
+                    opacity="0.25"
+                  />
+                </g>
+
+                {/* 5. Torso & Athletic Quarter-Zip Jacket */}
                 <g>
                   {/* Base Jacket Torso */}
                   <path
-                    d="M 130 135 C 130 120, 148 115, 170 115 C 192 115, 210 120, 210 135 L 216 280 C 216 295, 198 302, 170 302 C 142 302, 124 295, 124 280 Z"
+                    d="M 128 135 C 128 118, 146 112, 170 112 C 194 112, 212 118, 212 135 L 216 280 C 216 295, 198 302, 170 302 C 142 302, 124 295, 124 280 Z"
                     fill={character.topColor}
                   />
 
                   {/* Breathable Athletic Contoured Side Panels */}
                   <path
-                    d="M 130 145 C 136 180, 136 240, 127 280 L 124 280 L 130 145 Z"
+                    d="M 128 145 C 134 180, 134 240, 126 280 L 124 280 L 128 145 Z"
                     fill="#0F766E"
                     opacity="0.4"
                   />
                   <path
-                    d="M 210 145 C 204 180, 204 240, 213 280 L 216 280 L 210 145 Z"
+                    d="M 212 145 C 206 180, 206 240, 214 280 L 216 280 L 212 145 Z"
                     fill="#0F766E"
                     opacity="0.4"
                   />
 
-                  {/* Quarter-Zip Center Zipper Track & Collar */}
-                  <path d="M 170 115 L 170 185" stroke="#FFFFFF" strokeWidth="2" strokeDasharray="3,1" />
+                  {/* Quarter-Zip Center Zipper Track */}
+                  <line x1="170" y1="126" x2="170" y2="185" stroke="#FFFFFF" strokeWidth="2" strokeDasharray="3,1" />
                   {/* Zipper Pull Tab */}
                   <rect x="168" y="185" width="4" height="6" rx="1.5" fill="#E2E8F0" />
 
-                  {/* Athletic Collar fold */}
+                  {/* Athletic Collar V-Opening framing neck */}
                   <path
-                    d="M 152 114 L 170 130 L 188 114"
+                    d="M 152 112 Q 170 126 188 112"
                     stroke={character.topAccentColor}
-                    strokeWidth="2.5"
+                    strokeWidth="3"
+                    fill="none"
+                    strokeLinecap="round"
+                  />
+
+                  {/* Collar Stand Up Contour */}
+                  <path
+                    d="M 150 114 Q 170 108 190 114"
+                    stroke={character.topColor}
+                    strokeWidth="3.5"
                     fill="none"
                     strokeLinecap="round"
                   />
@@ -716,11 +757,11 @@ export function OvertrainingBodyInspectionDiagram({ diagram, themeColor }: Props
                   />
                 </g>
 
-                {/* 5. Arms & Hands with Athletic Runner's GPS Watch */}
+                {/* 6. Arms & Hands with Athletic Runner's GPS Watch */}
                 <g>
                   {/* Left Arm & Sleeve */}
                   <path
-                    d="M 130 135 C 118 160, 108 210, 106 250 L 118 252 C 120 215, 128 170, 138 145 Z"
+                    d="M 128 135 C 116 160, 108 210, 106 250 L 118 252 C 120 215, 126 170, 136 145 Z"
                     fill={character.topColor}
                   />
                   {/* Left Hand / Forearm */}
@@ -735,7 +776,7 @@ export function OvertrainingBodyInspectionDiagram({ diagram, themeColor }: Props
 
                   {/* Right Arm & Sleeve */}
                   <path
-                    d="M 210 135 C 222 160, 232 210, 234 250 L 222 252 C 220 215, 212 170, 202 145 Z"
+                    d="M 212 135 C 224 160, 232 210, 234 250 L 222 252 C 220 215, 214 170, 204 145 Z"
                     fill={character.topColor}
                   />
                   {/* Right Hand / Forearm */}
@@ -745,42 +786,55 @@ export function OvertrainingBodyInspectionDiagram({ diagram, themeColor }: Props
                   />
                 </g>
 
-                {/* 6. Neck & Head */}
+                {/* 7. Head & Facial Features (Matching Roleplay Avatar Art Style) */}
                 <g>
-                  {/* Neck */}
-                  <rect x="163" y="92" width="14" height="24" rx="3" fill={character.skinTone} />
-                  <rect x="163" y="102" width="14" height="12" fill={character.skinShadow} opacity="0.3" />
-
-                  {/* Head Oval */}
+                  {/* Head Base Oval (chin overlaps neck at y=84) */}
                   <ellipse cx="170" cy="58" rx="22" ry="26" fill={character.skinTone} />
 
-                  {/* Hair Front Cap */}
+                  {/* Ears with Gold Studs */}
+                  <ellipse cx="147.5" cy="60" rx="3.2" ry="5.5" fill={character.skinTone} />
+                  <ellipse cx="192.5" cy="60" rx="3.2" ry="5.5" fill={character.skinTone} />
+                  <circle cx="147.5" cy="62.5" r="1.3" fill="#F59E0B" />
+                  <circle cx="192.5" cy="62.5" r="1.3" fill="#F59E0B" />
+
+                  {/* Hair Front Cap & Headband */}
                   {selectedCharacter === "sierra" ? (
                     <g>
-                      {/* Blonde Hair sweep */}
+                      {/* Blonde Hair sweep with crown contour */}
                       <path
-                        d="M 148 55 C 146 30, 194 30, 192 55 C 190 42, 182 35, 170 35 C 158 35, 150 42, 148 55 Z"
+                        d="M 148 58 C 144 28, 196 28, 192 58 C 195 44, 184 34, 170 34 C 156 34, 145 44, 148 58 Z"
                         fill={character.hairColor}
                       />
                       {/* Sporty Teal Headband */}
                       <path
-                        d="M 150 48 Q 170 42 190 48"
+                        d="M 149 46 Q 170 39 191 46"
                         stroke={character.headbandColor}
-                        strokeWidth="4"
+                        strokeWidth="4.5"
                         fill="none"
                         strokeLinecap="round"
+                      />
+                      {/* Headband contrast stripe */}
+                      <path
+                        d="M 152 46 Q 170 40 188 46"
+                        stroke="#99F6E4"
+                        strokeWidth="1.2"
+                        fill="none"
+                        strokeLinecap="round"
+                        opacity="0.75"
                       />
                     </g>
                   ) : selectedCharacter === "maya" ? (
                     <g>
                       {/* Maya's Box Braids crown */}
                       <path
-                        d="M 146 56 C 144 28, 196 28, 194 56 C 190 40, 180 34, 170 34 C 160 34, 150 40, 146 56 Z"
+                        d="M 148 58 C 144 26, 196 26, 192 58 C 195 40, 182 32, 170 32 C 158 32, 145 40, 148 58 Z"
                         fill={character.hairColor}
                       />
+                      {/* Center part line on scalp */}
+                      <line x1="170" y1="26" x2="170" y2="34" stroke="#262F3D" strokeWidth="1.2" strokeLinecap="round" />
                       {/* Coral Sporty Headband */}
                       <path
-                        d="M 148 48 Q 170 42 192 48"
+                        d="M 149 46 Q 170 39 191 46"
                         stroke={character.headbandColor}
                         strokeWidth="4.5"
                         fill="none"
@@ -791,14 +845,14 @@ export function OvertrainingBodyInspectionDiagram({ diagram, themeColor }: Props
                     <g>
                       {/* Autumn's natural auburn wave crown */}
                       <path
-                        d="M 146 56 C 144 28, 196 28, 194 56 C 190 38, 180 32, 170 32 C 160 32, 150 38, 146 56 Z"
+                        d="M 148 58 C 144 28, 196 28, 192 58 C 190 38, 180 32, 170 32 C 160 32, 150 38, 148 58 Z"
                         fill={character.hairColor}
                       />
                       {/* Green Athletic Headband */}
                       <path
-                        d="M 148 48 Q 170 42 192 48"
+                        d="M 149 46 Q 170 39 191 46"
                         stroke={character.headbandColor}
-                        strokeWidth="4"
+                        strokeWidth="4.5"
                         fill="none"
                         strokeLinecap="round"
                       />
@@ -807,55 +861,68 @@ export function OvertrainingBodyInspectionDiagram({ diagram, themeColor }: Props
                     <g>
                       {/* Vivian's sleek dark parted hair */}
                       <path
-                        d="M 148 55 C 146 30, 194 30, 192 55 C 190 42, 182 35, 170 35 C 158 35, 150 42, 148 55 Z"
+                        d="M 148 58 C 145 28, 195 28, 192 58 C 190 42, 182 35, 170 35 C 158 35, 150 42, 148 58 Z"
                         fill={character.hairColor}
                       />
                       {/* Purple Athletic Headband */}
                       <path
-                        d="M 150 48 Q 170 42 190 48"
+                        d="M 149 46 Q 170 39 191 46"
                         stroke={character.headbandColor}
-                        strokeWidth="4"
+                        strokeWidth="4.5"
                         fill="none"
                         strokeLinecap="round"
                       />
                     </g>
                   )}
 
-                  {/* Eyebrows */}
-                  <path d="M 158 52 Q 164 50 168 52" stroke="#1F2937" strokeWidth="1.6" fill="none" strokeLinecap="round" />
-                  <path d="M 172 52 Q 176 50 182 52" stroke="#1F2937" strokeWidth="1.6" fill="none" strokeLinecap="round" />
+                  {/* Soft Warm Cheek Blush Glow */}
+                  <ellipse cx="155" cy="65" rx="4.5" ry="2.5" fill="#F43F5E" opacity="0.25" />
+                  <ellipse cx="185" cy="65" rx="4.5" ry="2.5" fill="#F43F5E" opacity="0.25" />
 
-                  {/* Eyes */}
-                  <circle cx="163" cy="58" r="2.2" fill="#1F2937" />
-                  <circle cx="177" cy="58" r="2.2" fill="#1F2937" />
-                  <circle cx="164" cy="57.2" r="0.7" fill="#FFFFFF" />
-                  <circle cx="178" cy="57.2" r="0.7" fill="#FFFFFF" />
+                  {/* Eyebrows */}
+                  <path d="M 157 50 Q 163 47.5 168 50" stroke="#1F2937" strokeWidth="1.8" fill="none" strokeLinecap="round" />
+                  <path d="M 172 50 Q 177 47.5 183 50" stroke="#1F2937" strokeWidth="1.8" fill="none" strokeLinecap="round" />
+
+                  {/* Eyes with Double Specular Highlights */}
+                  <circle cx="163" cy="58" r="3" fill="#1E293B" />
+                  <circle cx="177" cy="58" r="3" fill="#1E293B" />
+                  <circle cx="164.2" cy="56.8" r="1" fill="#FFFFFF" />
+                  <circle cx="178.2" cy="56.8" r="1" fill="#FFFFFF" />
+                  <circle cx="162.2" cy="59" r="0.5" fill="#FFFFFF" opacity="0.75" />
+                  <circle cx="176.2" cy="59" r="0.5" fill="#FFFFFF" opacity="0.75" />
 
                   {/* Natural Delicate Freckles (for Autumn) */}
                   {character.hasFreckles && (
-                    <g opacity="0.65">
-                      <circle cx="165" cy="62" r="0.6" fill="#C2410C" />
-                      <circle cx="167" cy="63" r="0.6" fill="#C2410C" />
-                      <circle cx="173" cy="63" r="0.6" fill="#C2410C" />
-                      <circle cx="175" cy="62" r="0.6" fill="#C2410C" />
-                      <circle cx="170" cy="62.5" r="0.5" fill="#C2410C" />
+                    <g opacity="0.65" fill="#B45309">
+                      <circle cx="169" cy="62" r="0.6" />
+                      <circle cx="171.5" cy="62.5" r="0.55" />
+                      <circle cx="170" cy="60.5" r="0.55" />
+                      <circle cx="156" cy="63" r="0.65" />
+                      <circle cx="158" cy="64.5" r="0.6" />
+                      <circle cx="160" cy="63.5" r="0.6" />
+                      <circle cx="184" cy="63" r="0.65" />
+                      <circle cx="182" cy="64.5" r="0.6" />
+                      <circle cx="180" cy="63.5" r="0.6" />
                     </g>
                   )}
 
-                  {/* Sporty Glasses (only for Sierra) */}
+                  {/* Sporty Glasses (Sierra) */}
                   {character.hasGlasses && (
                     <g>
-                      <circle cx="163" cy="58" r="5.5" fill="none" stroke={character.glassesColor} strokeWidth="1.6" />
-                      <circle cx="177" cy="58" r="5.5" fill="none" stroke={character.glassesColor} strokeWidth="1.6" />
-                      <line x1="168.5" y1="58" x2="171.5" y2="58" stroke={character.glassesColor} strokeWidth="1.6" />
+                      <circle cx="163" cy="58" r="7.5" fill="none" stroke={character.glassesColor} strokeWidth="1.8" />
+                      <circle cx="177" cy="58" r="7.5" fill="none" stroke={character.glassesColor} strokeWidth="1.8" />
+                      <line x1="170.5" y1="58" x2="169.5" y2="58" stroke={character.glassesColor} strokeWidth="1.8" />
+                      <path d="M 158 54 L 165 54" stroke="#FFFFFF" strokeWidth="1" opacity="0.5" strokeLinecap="round" />
+                      <path d="M 172 54 L 179 54" stroke="#FFFFFF" strokeWidth="1" opacity="0.5" strokeLinecap="round" />
                     </g>
                   )}
 
                   {/* Nose */}
-                  <path d="M 170 59 L 169 64 L 172 64" stroke={character.skinShadow} strokeWidth="1.3" fill="none" strokeLinecap="round" />
+                  <path d="M 170 56 L 169 63 L 172.5 63" stroke={character.skinShadow} strokeWidth="1.4" fill="none" strokeLinecap="round" />
 
-                  {/* Mouth (Focused athletic determination) */}
-                  <path d="M 165 71 Q 170 72 175 71" stroke={character.skinShadow} strokeWidth="1.6" fill="none" strokeLinecap="round" />
+                  {/* Mouth */}
+                  <path d="M 164 71 Q 170 74 176 71" stroke={character.skinShadow} strokeWidth="1.8" fill="none" strokeLinecap="round" />
+                  <path d="M 166 73 Q 170 75 174 73" stroke={character.skinShadow} strokeWidth="1.2" fill="none" strokeLinecap="round" opacity="0.6" />
                 </g>
 
                 {/* ============================================================== */}
