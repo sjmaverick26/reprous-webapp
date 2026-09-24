@@ -1945,7 +1945,7 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
           character: "Coach Henderson",
           characterRole: "Varsity Distance Running Coach",
           patientName: "Maya",
-          statement: "“Maya, if you want to drop your 1600m time today, skip lunch before the meet so you race light. Heavy fueling just weighs runners down and slows your turnover.”",
+          statement: "“If you want to drop your 1600m time today, skip lunch before the meet so you race light. Heavy fueling just weighs runners down and slows your turnover.”",
           evidence: {
             badge: "RED-S Energy Balance",
             title: "IOC Consensus on Energy Availability & Carbohydrate Oxidation",
@@ -2013,7 +2013,7 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
           character: "Coach Miller",
           characterRole: "Assistant Track & Field Coach",
           patientName: "Vivian",
-          statement: "“Vivian, put away that recovery smoothie and turkey wrap right now. Eating immediately after lifting just diverts blood away from your muscles to your stomach. Just drink plain water and wait until dinner in four hours.”",
+          statement: "“Put away that recovery smoothie and turkey wrap right now. Eating immediately after lifting just diverts blood away from your muscles to your stomach. Just drink plain water and wait until dinner in four hours.”",
           evidence: {
             badge: "ISSN Recovery Window",
             title: "ISSN Position Stand on Nutrient Timing & Muscle Glycogen Synthesis",
@@ -2242,7 +2242,7 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
           character: "Teammate Brooke",
           characterRole: "Senior Team Captain",
           patientName: "Autumn",
-          statement: "“Autumn, your shin is just sore because you're babying it! Pain is just weakness leaving the body. If you sit out the final three 400m intervals, you're letting down the 4x400 relay. Take three ibuprofen and tough it out!”",
+          statement: "“Your shin is just sore because you're babying it! Pain is just weakness leaving the body. If you sit out the final three 400m intervals, you're letting down the 4x400 relay. Take three ibuprofen and tough it out!”",
           evidence: {
             badge: "ACSM Bone Stress Protocol",
             title: "ACSM Clinical Differentiation: Muscular Fatigue vs. Cortical Bone Stress",

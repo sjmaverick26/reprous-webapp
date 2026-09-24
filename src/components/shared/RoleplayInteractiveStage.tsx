@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { RoleplayScenario } from "@/data/hubData";
 import {
   Stethoscope,
@@ -17,7 +17,6 @@ import {
   Award,
   Lightbulb,
   ArrowRight,
-  Users,
   MapPin,
 } from "lucide-react";
 
@@ -1354,67 +1353,6 @@ interface RoleplayInteractiveStageProps {
   categoryId?: string;
 }
 
-const TOPIC_LEAD_ADVOCATE_MAP: Record<string, string> = {
-  // Athletics & Female Athlete Health (play)
-  "play-0": "Maya",       // Female Athlete Nutrition & The Triad (Maya - Student Athlete)
-  "play-1": "Vivian",     // Fuel Up: Recovery Nutrition (Vivian - Science Ambassador)
-  "play-2": "Sierra",     // Overworking & Overtraining Signs (Sierra - Varsity Runner w/ Glasses)
-  "play-3": "Autumn",     // Rest vs. Burnout Sorter (Autumn - Peer Educator, Pale Ginger w/ Freckles)
-  "play-4": "Vivian",     // Water Intake & Electrolyte Shifts (Vivian)
-  "play-5": "Jordan",     // Sleep Cycles & Deep Recovery (Jordan - Youth Athlete)
-  "play-6": "Maya",       // Iron Deficiency & Ferritin (Maya)
-  "play-7": "Sierra",     // Menstrual Cycles & Training (Sierra)
-  "play-8": "Sofia",      // Cycle-Synced Fueling (Sofia)
-  "play-9": "Autumn",     // Body Image & Weight Pressures in Sport (Autumn)
-  "play-10": "Jordan",    // Spotting Toxic Fitness Pressures (Jordan)
-  "play-11": "Maya",      // Advocate: Speaking Up to Coaches & Clinicians (Maya)
-
-  // Body Basics (body)
-  "body-0": "Sofia",      // Puberty Milestones (Sofia - Youth Advocate)
-  "body-1": "Vivian",     // Hormonal Changes (Vivian)
-  "body-2": "Lucía",      // Anatomy & Internal Structures (Lucía)
-  "body-3": "Autumn",     // Growth & Variations (Autumn)
-
-  // Menstrual Cycle (cycle)
-  "cycle-0": "Sierra",     // Cycle Wheel & Physiology (Sierra)
-  "cycle-1": "Priya",      // Managing Period Pain & Dysmenorrhea (Priya)
-  "cycle-2": "Maya",       // Heavy Menstrual Flow & Ferritin (Maya)
-  "cycle-3": "Elena",      // Cycle Tracking & Vital Signs (Elena)
-  "cycle-4": "Amina",      // Cycle Stigma & Realities (Amina)
-  "cycle-5": "Sofia",      // Products & Period Care (Sofia)
-
-  // PCOS & Endocrine (pcos)
-  "pcos-0": "Priya",       // Rotterdam Criteria (Priya)
-  "pcos-1": "Vivian",      // Insulin Resistance & Metabolic Health (Vivian)
-  "pcos-2": "Sofia",       // Holistic Care & Nutrition (Sofia)
-
-  // Endometriosis & Pelvic Pain (endo)
-  "endo-0": "Kendra",      // Endometriosis Diagnosis & Ultrasound Limits (Kendra)
-  "endo-1": "Lucía",       // Deep Infiltrating & Catamenial Pain (Lucía)
-  "endo-2": "Autumn",      // Pelvic Floor & Multidisciplinary Care (Autumn)
-
-  // Contraception (contraception)
-  "contraception-0": "Elena",  // Method Overview (Elena)
-  "contraception-1": "Amina",  // Barrier Methods & Emergency Contraception (Amina)
-  "contraception-2": "Vivian", // Hormonal Methods & Mechanism (Vivian)
-
-  // Healthcare Navigation (care)
-  "care-0": "Lucía",       // Doctor Visits & Self-Advocacy (Lucía)
-  "care-1": "Autumn",      // Confidentiality & Minor Rights (Autumn)
-
-  // Maternal & Reproductive Factors (maternal)
-  "maternal-0": "Lucía",   // Maternal Health Disparities (Lucía)
-  "maternal-1": "Kendra",  // Postpartum & Warning Signs (Kendra)
-
-  // Real Talk (realtalk)
-  "realtalk-0": "Amina",   // Cultural Myths & Stigma (Amina)
-  "realtalk-1": "Jordan",  // Mental Health & Body Image (Jordan)
-
-  // Mind & Self (mind)
-  "mind-0": "Sofia",       // Puberty & Mental Health (Sofia)
-  "mind-1": "Elena",       // Stress & Hormones (Elena)
-};
-
 export function RoleplayInteractiveStage({
   scenario,
   selectedOption,
@@ -1430,58 +1368,24 @@ export function RoleplayInteractiveStage({
   const chosenOpt = selectedOption !== null ? scenario.options[selectedOption] : null;
   const isBest = chosenOpt?.isBest ?? false;
 
-  // Allow user to manually select their preferred advocate from our diverse cast
-  const [userSelectedAdvocate, setUserSelectedAdvocate] = useState<string | null>(null);
+  // Randomly assign a patient advocate from our diverse cast across all lessons and roleplays
+  const [randomAdvocateIndex, setRandomAdvocateIndex] = useState<number>(() => {
+    // Deterministic seed for initial SSR render to guarantee zero hydration mismatches
+    const seed = `${topicId || "topic"}-${scenario.id || "scenario"}`;
+    const hash = seed.split("").reduce((acc, char) => acc + char.charCodeAt(0), 0);
+    return hash % DIVERSE_PATIENT_PROFILES.length;
+  });
 
-  // Distinct diverse character profiles mapped to topic themes and rotating across steps
+  useEffect(() => {
+    // Pick a truly random advocate for each roleplay/lesson session
+    const rand = Math.floor(Math.random() * DIVERSE_PATIENT_PROFILES.length);
+    setRandomAdvocateIndex(rand);
+  }, [topicId]);
+
+  // The randomly selected patient advocate (Sierra, Autumn, Maya, Vivian, Sofia, Lucía, Amina, Jordan, Priya, Kendra, Elena)
   const patientProfile = useMemo(() => {
-    // 0. If user manually selected an advocate, prioritize user choice
-    if (userSelectedAdvocate) {
-      const found = DIVERSE_PATIENT_PROFILES.find(
-        (p) => p.name.toLowerCase() === userSelectedAdvocate.toLowerCase()
-      );
-      if (found) return found;
-    }
-
-    // 1. If scenario specifies a preferred patient name, match it directly
-    if (scenario.patientName) {
-      const found = DIVERSE_PATIENT_PROFILES.find(
-        (p) => p.name.toLowerCase() === scenario.patientName?.toLowerCase()
-      );
-      if (found) return found;
-    }
-
-    // 2. Map directly by topicId for authentic diverse representation
-    const top = (topicId || "").toLowerCase();
-    if (top && TOPIC_LEAD_ADVOCATE_MAP[top]) {
-      const targetName = TOPIC_LEAD_ADVOCATE_MAP[top];
-      const found = DIVERSE_PATIENT_PROFILES.find(
-        (p) => p.name.toLowerCase() === targetName.toLowerCase()
-      );
-      if (found) {
-        // For follow-up simulation stages (multi-stage simulations), cycle through diverse peers
-        const stepOffset = simulationIndex !== undefined ? simulationIndex : 0;
-        if (stepOffset === 0) return found;
-        const currentIdx = DIVERSE_PATIENT_PROFILES.findIndex(
-          (p) => p.name.toLowerCase() === targetName.toLowerCase()
-        );
-        return DIVERSE_PATIENT_PROFILES[(currentIdx + stepOffset) % DIVERSE_PATIENT_PROFILES.length];
-      }
-    }
-
-    // 3. Fallback deterministic spread based on topicId / scenario.id so every topic gets a unique lead
-    const cat = (categoryId || "").toLowerCase();
-    const sid = (scenario.id || scenario.title || scenario.setting || "").toLowerCase();
-    const combined = `${top}-${sid}-${cat}`;
-    const hash = combined
-      .split("")
-      .reduce((acc, char) => acc + char.charCodeAt(0), 0);
-    const baseIndex = hash % DIVERSE_PATIENT_PROFILES.length;
-    const stepOffset = simulationIndex !== undefined ? simulationIndex : 0;
-    const finalIndex = (baseIndex + stepOffset) % DIVERSE_PATIENT_PROFILES.length;
-
-    return DIVERSE_PATIENT_PROFILES[finalIndex];
-  }, [userSelectedAdvocate, simulationIndex, scenario, topicId, categoryId]);
+    return DIVERSE_PATIENT_PROFILES[randomAdvocateIndex % DIVERSE_PATIENT_PROFILES.length];
+  }, [randomAdvocateIndex]);
 
   const providerProfile = useMemo(() => {
     return getProviderVisualProfile(scenario.character, scenario.characterRole);
@@ -1631,43 +1535,6 @@ export function RoleplayInteractiveStage({
                 {scenario.characterRole}
               </span>
             )}
-          </div>
-        </div>
-
-        {/* Patient Advocate Quick-Selector Bar (Interactive Selection) */}
-        <div className="flex items-center justify-between gap-2 border-b border-deep-teal/15 bg-white/70 px-4 py-2 overflow-x-auto scrollbar-none">
-          <div className="flex items-center gap-1.5 shrink-0 text-xs font-bold text-deep-teal font-sans uppercase tracking-wider">
-            <Users className="w-3.5 h-3.5 text-coral" />
-            <span>Advocate:</span>
-          </div>
-          <div className="flex items-center gap-1.5 overflow-x-auto py-0.5">
-            {DIVERSE_PATIENT_PROFILES.map((p) => {
-              const isCurrent = patientProfile.name === p.name;
-              return (
-                <button
-                  key={p.name}
-                  type="button"
-                  onClick={() => setUserSelectedAdvocate(p.name)}
-                  className={`px-2.5 py-1 rounded-full text-xs font-bold font-sans transition-all shrink-0 flex items-center gap-1.5 border cursor-pointer ${
-                    isCurrent
-                      ? "bg-coral text-white border-coral shadow-xs ring-2 ring-coral/20"
-                      : "bg-white text-charcoal/80 border-deep-teal/20 hover:border-coral/50 hover:bg-light-teal/20"
-                  }`}
-                  title={`${p.name} — ${p.role}${p.identityTag ? ` (${p.identityTag})` : ""}`}
-                >
-                  <span>{p.name}</span>
-                  {p.identityTag && (
-                    <span
-                      className={`text-[9px] px-1.5 py-0.2 rounded-full font-semibold uppercase ${
-                        isCurrent ? "bg-white/20 text-white" : "bg-slate-100 text-slate-600"
-                      }`}
-                    >
-                      {p.identityTag}
-                    </span>
-                  )}
-                </button>
-              );
-            })}
           </div>
         </div>
 
