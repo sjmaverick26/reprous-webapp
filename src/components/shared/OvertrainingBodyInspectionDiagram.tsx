@@ -242,59 +242,111 @@ export const OVERTRAINING_HOTSPOTS: Record<HotspotId, HotspotData> = {
 };
 
 interface Props {
-  diagram: LessonDiagram;
-  themeColor: string;
+  diagram?: LessonDiagram;
+  themeColor?: string;
 }
 
-export function OvertrainingBodyInspectionDiagram({ diagram }: Props) {
+export function OvertrainingBodyInspectionDiagram({ diagram, themeColor }: Props) {
   const [activeHotspot, setActiveHotspot] = useState<HotspotId>("reproductive");
-  const [selectedCharacter, setSelectedCharacter] = useState<"sierra" | "maya">("sierra");
+  const [selectedCharacter, setSelectedCharacter] = useState<"sierra" | "maya" | "autumn" | "vivian">("sierra");
   const [activeTab, setActiveTab] = useState<"magnifier" | "female-vulnerability" | "checklist">("magnifier");
 
   const current = OVERTRAINING_HOTSPOTS[activeHotspot];
 
   // Character visual profiles
-  const character = selectedCharacter === "sierra"
-    ? {
-        name: "Sierra",
-        title: "Varsity Distance Runner (Age 17)",
-        identity: "Caucasian, sun-kissed blonde",
-        skinTone: "#E8B88A",
-        skinShadow: "#CA9564",
-        hairColor: "#F59E0B",
-        hairAccent: "#D97706",
-        hasGlasses: true,
-        glassesColor: "#0284C7", // Ocean blue sporty frames
-        headbandColor: "#0D9488", // Teal athletic headband
-        topColor: "#0D9488", // Teal running quarter-zip
-        topAccentColor: "#99F6E4",
-        tightsColor: "#1E293B", // Slate running tights
-        tightsStripe: "#0D9488",
-        shoeColor: "#0284C7",
-        shoeAccent: "#38BDF8",
-        scenarioNarrative:
-          "Sierra doubled her weekly cross-country mileage from 32 to 54 miles while cutting carbs at dinner to 'get leaner for state qualifiers.' Over 4 weeks, her morning resting heart rate jumped from 50 to 63 bpm, she woke up at 2 AM drenched in sweat, missed two periods in a row, and developed an aching localized pain on her left tibial shin. Her body is not being lazy — it is shutting down non-essential organs in an emergency low-energy preservation cascade.",
-      }
-    : {
-        name: "Maya",
-        title: "Varsity 400m Sprinter & Track Athlete (Age 17)",
-        identity: "Black student athlete, box braids",
-        skinTone: "#523321",
-        skinShadow: "#3A2012",
-        hairColor: "#0B0E14",
-        hairAccent: "#1F2937",
-        hasGlasses: false,
-        glassesColor: "#475569",
-        headbandColor: "#F47A6A", // ReproUs coral headband
-        topColor: "#F47A6A", // ReproUs coral athletic top
-        topAccentColor: "#FFE4E6",
-        tightsColor: "#0F172A", // Dark midnight tights
-        tightsStripe: "#F47A6A",
-        shoeColor: "#E11D48",
-        shoeAccent: "#FDA4AF",
-        scenarioNarrative:
-          "Maya added daily pre-dawn plyometric bounding drills and sprint intervals on top of high school track practice, but skipped post-workout recovery smoothies because of her busy schedule. Within a month, her 400m split times degraded, she experienced persistent gastrointestinal cramps during workouts, caught two lingering upper respiratory colds, and her regular 28-day cycle completely stopped.",
-      };
+  const character = (() => {
+    switch (selectedCharacter) {
+      case "sierra":
+        return {
+          name: "Sierra",
+          title: "Varsity Distance Runner (Age 17)",
+          identity: "Caucasian, sun-kissed blonde",
+          skinTone: "#E8B88A",
+          skinShadow: "#CA9564",
+          hairColor: "#F59E0B",
+          hairAccent: "#D97706",
+          hasGlasses: true,
+          hasFreckles: false,
+          glassesColor: "#0284C7", // Ocean blue sporty frames
+          headbandColor: "#0D9488", // Teal athletic headband
+          topColor: "#0D9488", // Teal running quarter-zip
+          topAccentColor: "#99F6E4",
+          tightsColor: "#1E293B", // Slate running tights
+          tightsStripe: "#0D9488",
+          shoeColor: "#0284C7",
+          shoeAccent: "#38BDF8",
+          scenarioNarrative:
+            "Sierra doubled her weekly cross-country mileage from 32 to 54 miles while cutting carbs at dinner to 'get leaner for state qualifiers.' Over 4 weeks, her morning resting heart rate jumped from 50 to 63 bpm, she woke up at 2 AM drenched in sweat, missed two periods in a row, and developed an aching localized pain on her left tibial shin. Her body is not being lazy — it is shutting down non-essential organs in an emergency low-energy preservation cascade.",
+        };
+      case "maya":
+        return {
+          name: "Maya",
+          title: "Varsity 400m Sprinter & Track Athlete (Age 17)",
+          identity: "Black student athlete, box braids",
+          skinTone: "#523321",
+          skinShadow: "#3A2012",
+          hairColor: "#0B0E14",
+          hairAccent: "#1F2937",
+          hasGlasses: false,
+          hasFreckles: false,
+          glassesColor: "#475569",
+          headbandColor: "#F47A6A", // ReproUs coral headband
+          topColor: "#F47A6A", // ReproUs coral athletic top
+          topAccentColor: "#FFE4E6",
+          tightsColor: "#0F172A", // Dark midnight tights
+          tightsStripe: "#F47A6A",
+          shoeColor: "#E11D48",
+          shoeAccent: "#FDA4AF",
+          scenarioNarrative:
+            "Maya added daily pre-dawn plyometric bounding drills and sprint intervals on top of high school track practice, but skipped post-workout recovery smoothies because of her busy schedule. Within a month, her 400m split times degraded, she experienced persistent gastrointestinal cramps during workouts, caught two lingering upper respiratory colds, and her regular 28-day cycle completely stopped.",
+        };
+      case "autumn":
+        return {
+          name: "Autumn",
+          title: "Varsity Swimmer & Triathlete (Age 17)",
+          identity: "Caucasian, pale porcelain with natural ginger freckles",
+          skinTone: "#FFF0E6",
+          skinShadow: "#F6C8B5",
+          hairColor: "#C2410C", // Natural fiery auburn-copper
+          hairAccent: "#9A3412",
+          hasGlasses: false,
+          hasFreckles: true,
+          glassesColor: "#475569",
+          headbandColor: "#15803D", // Forest green athletic headband
+          topColor: "#15803D", // Forest green quarter-zip
+          topAccentColor: "#DCFCE7",
+          tightsColor: "#1E293B",
+          tightsStripe: "#15803D",
+          shoeColor: "#059669",
+          shoeAccent: "#6EE7B7",
+          scenarioNarrative:
+            "Autumn added two-a-day swim practices and high-intensity dryland resistance training while cutting dietary fats to 'feel lighter in the pool.' Over 5 weeks, she began shivering uncontrollably in the water (low T3 thyroid down-regulation), missed three consecutive menstrual periods, and developed debilitating fatigue during swim sets. She is not lacking mental toughness — her neuroendocrine system is in severe low energy availability (LEA).",
+        };
+      case "vivian":
+      default:
+        return {
+          name: "Vivian",
+          title: "Varsity Midfielder & Soccer Athlete (Age 17)",
+          identity: "Asian student athlete, sleek dark hair",
+          skinTone: "#F7D8BA",
+          skinShadow: "#DFB38D",
+          hairColor: "#18181B",
+          hairAccent: "#27272A",
+          hasGlasses: false,
+          hasFreckles: false,
+          glassesColor: "#475569",
+          headbandColor: "#7C3AED", // Royal purple headband
+          topColor: "#7C3AED", // Royal purple training top
+          topAccentColor: "#EDE9FE",
+          tightsColor: "#0F172A",
+          tightsStripe: "#7C3AED",
+          shoeColor: "#6D28D9",
+          shoeAccent: "#A78BFA",
+          scenarioNarrative:
+            "Vivian played full 90-minute club soccer matches on weekends while running high-mileage interval practices every weekday. She noticed her sprint acceleration slowing down, caught two recurring sinus infections, and her menstrual cycle vanished for 3 months. When her coach told her to 'run through the fatigue,' sports medicine testing revealed elevated resting heart rate, suppressed bone turnover markers, and secondary amenorrhea.",
+        };
+    }
+  })();
 
   return (
     <div className="rounded-3xl border-2 border-deep-teal/20 bg-white p-4 md:p-6 shadow-md space-y-6 font-sans">
@@ -318,13 +370,13 @@ export function OvertrainingBodyInspectionDiagram({ diagram }: Props) {
           </div>
 
           {/* Character Switcher */}
-          <div className="flex items-center gap-1.5 bg-white/90 p-1 rounded-xl border border-amber-200 shadow-2xs">
+          <div className="flex items-center gap-1.5 bg-white/90 p-1 rounded-xl border border-amber-200 shadow-2xs flex-wrap">
             <span className="text-[11px] font-semibold text-charcoal/70 px-1.5 flex items-center gap-1">
               <User className="w-3 h-3 text-deep-teal" /> Athlete:
             </span>
             <button
               onClick={() => setSelectedCharacter("sierra")}
-              className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all ${
+              className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer ${
                 selectedCharacter === "sierra"
                   ? "bg-deep-teal text-white shadow-xs"
                   : "text-charcoal/70 hover:bg-slate-100"
@@ -334,13 +386,33 @@ export function OvertrainingBodyInspectionDiagram({ diagram }: Props) {
             </button>
             <button
               onClick={() => setSelectedCharacter("maya")}
-              className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all ${
+              className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer ${
                 selectedCharacter === "maya"
                   ? "bg-coral text-white shadow-xs"
                   : "text-charcoal/70 hover:bg-slate-100"
               }`}
             >
               Maya (Sprinter)
+            </button>
+            <button
+              onClick={() => setSelectedCharacter("autumn")}
+              className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                selectedCharacter === "autumn"
+                  ? "bg-emerald-700 text-white shadow-xs"
+                  : "text-charcoal/70 hover:bg-slate-100"
+              }`}
+            >
+              Autumn (Swimmer)
+            </button>
+            <button
+              onClick={() => setSelectedCharacter("vivian")}
+              className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                selectedCharacter === "vivian"
+                  ? "bg-violet-700 text-white shadow-xs"
+                  : "text-charcoal/70 hover:bg-slate-100"
+              }`}
+            >
+              Vivian (Soccer)
             </button>
           </div>
         </div>
@@ -500,7 +572,7 @@ export function OvertrainingBodyInspectionDiagram({ diagram }: Props) {
                 {/* CLOTHED CHARACTER BODY ILLUSTRATION (SIERRA / MAYA)           */}
                 {/* ============================================================== */}
 
-                {/* 1. Hair Background (Ponytail or Long Box Braids falling behind) */}
+                {/* 1. Hair Background (Ponytail, Box Braids, or Auburn Waves) */}
                 {selectedCharacter === "sierra" ? (
                   // Sierra's sleek high golden ponytail swishing to the right
                   <g>
@@ -516,11 +588,25 @@ export function OvertrainingBodyInspectionDiagram({ diagram }: Props) {
                       strokeLinecap="round"
                     />
                   </g>
-                ) : (
+                ) : selectedCharacter === "maya" ? (
                   // Maya's box braids falling symmetrically behind shoulders
                   <g>
                     <path d="M 140 50 C 130 90, 120 150, 125 190 C 132 150, 138 90, 148 55 Z" fill={character.hairColor} />
                     <path d="M 200 50 C 210 90, 220 150, 215 190 C 208 150, 202 90, 192 55 Z" fill={character.hairColor} />
+                  </g>
+                ) : selectedCharacter === "autumn" ? (
+                  // Autumn's natural flowing wavy ginger cascade
+                  <g>
+                    <path d="M 142 50 C 128 85, 122 135, 128 175 C 135 140, 140 85, 148 55 Z" fill={character.hairColor} />
+                    <path d="M 198 50 C 212 85, 218 135, 212 175 C 205 140, 200 85, 192 55 Z" fill={character.hairColor} />
+                    <path d="M 132 110 Q 128 145 132 170" stroke={character.hairAccent} strokeWidth="1.5" fill="none" strokeLinecap="round" />
+                    <path d="M 208 110 Q 212 145 208 170" stroke={character.hairAccent} strokeWidth="1.5" fill="none" strokeLinecap="round" />
+                  </g>
+                ) : (
+                  // Vivian's sleek dark ponytail
+                  <g>
+                    <path d="M 172 48 C 205 52, 225 85, 220 135 C 212 110, 198 75, 178 58 Z" fill={character.hairColor} />
+                    <path d="M 180 62 Q 210 92 210 130" stroke={character.hairAccent} strokeWidth="1.5" fill="none" strokeLinecap="round" />
                   </g>
                 )}
 
@@ -685,7 +771,7 @@ export function OvertrainingBodyInspectionDiagram({ diagram }: Props) {
                         strokeLinecap="round"
                       />
                     </g>
-                  ) : (
+                  ) : selectedCharacter === "maya" ? (
                     <g>
                       {/* Maya's Box Braids crown */}
                       <path
@@ -697,6 +783,38 @@ export function OvertrainingBodyInspectionDiagram({ diagram }: Props) {
                         d="M 148 48 Q 170 42 192 48"
                         stroke={character.headbandColor}
                         strokeWidth="4.5"
+                        fill="none"
+                        strokeLinecap="round"
+                      />
+                    </g>
+                  ) : selectedCharacter === "autumn" ? (
+                    <g>
+                      {/* Autumn's natural auburn wave crown */}
+                      <path
+                        d="M 146 56 C 144 28, 196 28, 194 56 C 190 38, 180 32, 170 32 C 160 32, 150 38, 146 56 Z"
+                        fill={character.hairColor}
+                      />
+                      {/* Green Athletic Headband */}
+                      <path
+                        d="M 148 48 Q 170 42 192 48"
+                        stroke={character.headbandColor}
+                        strokeWidth="4"
+                        fill="none"
+                        strokeLinecap="round"
+                      />
+                    </g>
+                  ) : (
+                    <g>
+                      {/* Vivian's sleek dark parted hair */}
+                      <path
+                        d="M 148 55 C 146 30, 194 30, 192 55 C 190 42, 182 35, 170 35 C 158 35, 150 42, 148 55 Z"
+                        fill={character.hairColor}
+                      />
+                      {/* Purple Athletic Headband */}
+                      <path
+                        d="M 150 48 Q 170 42 190 48"
+                        stroke={character.headbandColor}
+                        strokeWidth="4"
                         fill="none"
                         strokeLinecap="round"
                       />
@@ -713,7 +831,18 @@ export function OvertrainingBodyInspectionDiagram({ diagram }: Props) {
                   <circle cx="164" cy="57.2" r="0.7" fill="#FFFFFF" />
                   <circle cx="178" cy="57.2" r="0.7" fill="#FFFFFF" />
 
-                  {/* Sierra's Sporty Glasses */}
+                  {/* Natural Delicate Freckles (for Autumn) */}
+                  {character.hasFreckles && (
+                    <g opacity="0.65">
+                      <circle cx="165" cy="62" r="0.6" fill="#C2410C" />
+                      <circle cx="167" cy="63" r="0.6" fill="#C2410C" />
+                      <circle cx="173" cy="63" r="0.6" fill="#C2410C" />
+                      <circle cx="175" cy="62" r="0.6" fill="#C2410C" />
+                      <circle cx="170" cy="62.5" r="0.5" fill="#C2410C" />
+                    </g>
+                  )}
+
+                  {/* Sporty Glasses (only for Sierra) */}
                   {character.hasGlasses && (
                     <g>
                       <circle cx="163" cy="58" r="5.5" fill="none" stroke={character.glassesColor} strokeWidth="1.6" />

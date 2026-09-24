@@ -46,6 +46,7 @@ import {
   TrendingUp,
   Stethoscope,
   Utensils,
+  Search,
 } from "lucide-react";
 import {
   HUB_CATEGORIES,
@@ -69,6 +70,7 @@ import {
 import { AccessMini } from "@/components/shared/AccessMini";
 import { EducationalReferences } from "@/components/shared/EducationalReferences";
 import { InteractiveLessonDiagram } from "@/components/shared/InteractiveLessonDiagram";
+import { OvertrainingBodyInspectionDiagram } from "@/components/shared/OvertrainingBodyInspectionDiagram";
 import { LessonVideoCard } from "@/components/shared/LessonVideoCard";
 import { LessonSorterGameComponent } from "@/components/shared/LessonSorterGame";
 import { RoleplayInteractiveStage } from "@/components/shared/RoleplayInteractiveStage";
@@ -1012,6 +1014,7 @@ export function HubView({ initialCategory }: HubViewProps) {
 
             type LessonPageType =
               | "lab"
+              | "body-inspection"
               | "plate-sorter"
               | "custom-sorter"
               | "quiz-game"
@@ -1032,6 +1035,47 @@ export function HubView({ initialCategory }: HubViewProps) {
               categoryId: string,
               hasQuiz: boolean
             ): LessonPage[] => {
+              // 0. Dedicated Overtraining & Under-Recovery Full-Body Inspection Lesson (e.g. play-2)
+              if (
+                topic.id === "play-2" ||
+                topic.diagram?.type === "reds-triangle" ||
+                topic.name.toLowerCase().includes("overtraining") ||
+                topic.name.toLowerCase().includes("overworking")
+              ) {
+                return [
+                  {
+                    id: 1,
+                    type: "lab",
+                    title: "Athlete Recovery & Physiology",
+                    shortTitle: "Physiology",
+                  },
+                  {
+                    id: 2,
+                    type: "body-inspection",
+                    title: "Full-Body Magnifying Glass Inspection",
+                    shortTitle: "Body Scan",
+                  },
+                  {
+                    id: 3,
+                    type: "roleplay",
+                    title: "Coach Confrontation Roleplay",
+                    shortTitle: "Roleplay",
+                  },
+                  {
+                    id: 4,
+                    type: "signals",
+                    title: "Overtraining Signals Detective",
+                    shortTitle: "Signals",
+                  },
+                  {
+                    id: 5,
+                    type: "blueprint",
+                    title: hasQuiz ? "Action Blueprint & Quiz" : "Blueprint & Complete",
+                    shortTitle: hasQuiz ? "Quiz" : "Complete",
+                  },
+                ];
+              }
+
               const isNutrition =
                 topic.diagram?.type === "athlete-plate" ||
                 topic.diagram?.type === "cycle-fueling" ||
@@ -1414,8 +1458,8 @@ export function HubView({ initialCategory }: HubViewProps) {
                         </div>
                       )}
 
-                      {/* Topic-specific Diagram (if available, e.g. Overtraining Magnifying Glass!) */}
-                      {selectedTopic.diagram && (
+                      {/* Topic-specific Diagram (suppressed on Slide 1 if dedicated to body-inspection slide) */}
+                      {selectedTopic.diagram && !lessonPages.some((p) => p.type === "body-inspection") && (
                         <div className="p-1">
                           <InteractiveLessonDiagram
                             diagram={selectedTopic.diagram}
@@ -1515,6 +1559,46 @@ export function HubView({ initialCategory }: HubViewProps) {
                           />
                         </div>
                       )}
+
+                      {/* In-content Continue Button */}
+                      {nextSlide && (
+                        <div className="pt-2 flex justify-end">
+                          <Button
+                            onClick={() => setCurrentLessonPage((p) => p + 1)}
+                            className="bg-deep-teal text-white hover:bg-deep-teal/90 text-base sm:text-lg h-12 sm:h-14 px-7 rounded-2xl gap-2.5 font-bold shadow-sm cursor-pointer"
+                          >
+                            <span>Continue to {nextSlide.title}</span>
+                            <ArrowRight className="w-5 h-5" />
+                          </Button>
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                  {/* SLIDE TYPE: FULL-BODY CLOTHED CHARACTER MAGNIFYING GLASS INSPECTION */}
+                  {activePage.type === "body-inspection" && (
+                    <div className="space-y-6 animate-in fade-in duration-200 py-1 font-sans">
+                      <div>
+                        <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-coral text-white shadow-2xs font-sans mb-2">
+                          <Search className="w-4 h-4" />
+                          <span>Full-Body Clothed Character Scan</span>
+                        </div>
+                        <span className="text-xs sm:text-sm font-bold uppercase tracking-wider text-coral font-sans block mb-1">
+                          Slide {currentLessonPage} of {lessonPages.length} · {activePage.title}
+                        </span>
+                        <h4 className="text-3xl sm:text-4xl font-serif font-bold text-deep-teal leading-tight mb-2">
+                          Effects of Under-Recovery Across Female Physiology
+                        </h4>
+                        <p className="text-charcoal/85 text-base sm:text-lg font-sans leading-relaxed">
+                          Choose any character to inspect their training scenario and use the interactive magnifying glass to discover how chronic overtraining and low energy availability (LEA) shut down neuroendocrine, metabolic, hormonal, and skeletal systems in women.
+                        </p>
+                      </div>
+
+                      {/* Full-Body Interactive Character Inspection Diagram */}
+                      <OvertrainingBodyInspectionDiagram
+                        diagram={selectedTopic.diagram}
+                        themeColor={topicTheme.primaryHex}
+                      />
 
                       {/* In-content Continue Button */}
                       {nextSlide && (
