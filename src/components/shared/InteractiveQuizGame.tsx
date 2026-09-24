@@ -163,7 +163,7 @@ export function InteractiveQuizGame({
           <div className="flex items-center gap-1.5 rounded-2xl bg-white border border-deep-teal/20 px-4 py-2 shadow-2xs">
             <Flame className="w-4 h-4 text-orange-500" />
             <span className="text-xs font-bold text-charcoal font-sans">
-              Best Streak: {maxStreak} 🔥
+              Best Streak: {maxStreak}
             </span>
           </div>
           <div className="flex items-center gap-1.5 rounded-2xl bg-white border border-deep-teal/20 px-4 py-2 shadow-2xs">
@@ -349,7 +349,7 @@ export function InteractiveQuizGame({
               <Lightbulb className="w-4 h-4 text-amber-600 shrink-0" />
             )}
             <strong className="text-xs sm:text-sm uppercase tracking-wider font-bold">
-              {isCorrect ? "✦ Clinical Insight & Evidence Drop:" : "💡 Health Literacy Learning Tip:"}
+              {isCorrect ? "✦ Clinical Insight & Evidence Drop:" : "Health Literacy Learning Tip:"}
             </strong>
           </div>
           <p className="m-0 text-charcoal/90">{currentQ.explanation}</p>

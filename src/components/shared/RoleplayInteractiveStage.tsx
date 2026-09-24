@@ -2004,7 +2004,7 @@ export function RoleplayInteractiveStage({
                           opt.isBest ? "text-emerald-900 font-medium" : "text-amber-900 font-medium"
                         }`}
                       >
-                        💡 {strategy.desc}
+                        {strategy.desc}
                       </p>
                     )}
                   </div>
@@ -2072,11 +2072,11 @@ export function RoleplayInteractiveStage({
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs font-sans">
                 <div className="rounded-xl bg-emerald-50/80 p-2.5 border border-emerald-200">
-                  <span className="font-bold text-emerald-950 block">📊 Objective Data Cited:</span>
+                  <span className="font-bold text-emerald-950 block">Objective Data Cited:</span>
                   <span className="text-charcoal/80">{scenario.evidence?.metric}</span>
                 </div>
                 <div className="rounded-xl bg-emerald-50/80 p-2.5 border border-emerald-200">
-                  <span className="font-bold text-emerald-950 block">📋 Clinical Guideline Cited:</span>
+                  <span className="font-bold text-emerald-950 block">Clinical Guideline Cited:</span>
                   <span className="text-charcoal/80">
                     {scenario.sourceCitation?.guideline ||
                       scenario.sourceCitation?.organization ||

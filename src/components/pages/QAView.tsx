@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { HelpCircle, Send, CheckCircle2, Search } from "lucide-react";
+import { HelpCircle, Send, CheckCircle2, Search, Lock } from "lucide-react";
 import { FAQS_DATA } from "@/data/faqsData";
 import { EducationalReferences } from "@/components/shared/EducationalReferences";
 import {
@@ -243,7 +243,8 @@ export function QAView({ autoOpenSubmit = false }: { autoOpenSubmit?: boolean })
               </div>
 
               <div className="flex items-center gap-2 text-[13px] text-ink/70 font-sans">
-                🔒 100% anonymous — no IP logging or cookies stored.
+                <Lock className="w-3.5 h-3.5 text-ink/60 shrink-0" />
+                <span>100% anonymous — no IP logging or cookies stored.</span>
               </div>
 
               <Button type="submit" disabled={isSubmitting} className="w-full gap-2">

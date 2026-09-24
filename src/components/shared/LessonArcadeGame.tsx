@@ -387,15 +387,15 @@ interface ActiveFallingEntity {
   speed: number;
 }
 
-const ARCADE_AVATARS: { id: string; name: string; tag: string; emoji: string }[] = [
-  { id: "sofia", name: "Sofia", tag: "Afro-Latina", emoji: "👩🏾" },
-  { id: "mei", name: "Mei", tag: "East Asian", emoji: "👧🏻" },
-  { id: "lucia", name: "Lucía", tag: "Latina", emoji: "👩🏽" },
-  { id: "maya", name: "Maya", tag: "Athlete", emoji: "👧🏾" },
-  { id: "amina", name: "Amina", tag: "Community", emoji: "🧕🏽" },
-  { id: "elena", name: "Elena", tag: "Latina", emoji: "👩🏽‍🦱" },
-  { id: "jordan", name: "Jordan", tag: "Mentor", emoji: "🧑🏽" },
-  { id: "priya", name: "Priya", tag: "South Asian", emoji: "👩🏽‍💼" },
+const ARCADE_AVATARS: { id: string; name: string; tag: string; initials: string }[] = [
+  { id: "sofia", name: "Sofia", tag: "Afro-Latina", initials: "SO" },
+  { id: "mei", name: "Mei", tag: "East Asian", initials: "ME" },
+  { id: "lucia", name: "Lucía", tag: "Latina", initials: "LU" },
+  { id: "maya", name: "Maya", tag: "Athlete", initials: "MA" },
+  { id: "amina", name: "Amina", tag: "Community", initials: "AM" },
+  { id: "elena", name: "Elena", tag: "Latina", initials: "EL" },
+  { id: "jordan", name: "Jordan", tag: "Mentor", initials: "JO" },
+  { id: "priya", name: "Priya", tag: "South Asian", initials: "PR" },
 ];
 
 function ArcadeSpeedCatcher({
@@ -598,7 +598,7 @@ function ArcadeSpeedCatcher({
                           : "bg-slate-800/90 text-slate-300 border-slate-700 hover:border-slate-500 hover:text-white"
                       }`}
                     >
-                      <span>{av.emoji}</span>
+                      <span className="w-4 h-4 rounded-full bg-white/20 text-[9px] font-bold flex items-center justify-center">{av.initials}</span>
                       <span>{av.name}</span>
                       <span
                         className={`text-[9px] px-1 rounded-xs uppercase ${
@@ -667,10 +667,8 @@ function ArcadeSpeedCatcher({
           style={{ left: `${catcherX}%` }}
         >
           {/* Avatar Face Indicator */}
-          <div className="w-9 h-9 rounded-full bg-amber-100 border-2 border-amber-400 overflow-hidden shadow-sm flex items-center justify-center -mb-2 z-10">
-            <span className="text-base select-none">
-              {ARCADE_AVATARS.find((a) => a.id === activeAvatar)?.emoji || "👩🏾"}
-            </span>
+          <div className="w-8 h-8 rounded-full bg-amber-400 border-2 border-white overflow-hidden shadow-sm flex items-center justify-center -mb-2 z-10 text-amber-950 font-bold text-xs font-sans">
+            {ARCADE_AVATARS.find((a) => a.id === activeAvatar)?.initials || "SO"}
           </div>
           {/* Golden Catching Basket */}
           <div className="w-24 sm:w-28 h-8 rounded-2xl bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-500 border-2 border-amber-600 shadow-lg flex items-center justify-center">

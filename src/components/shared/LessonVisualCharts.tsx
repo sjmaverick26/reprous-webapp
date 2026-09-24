@@ -637,21 +637,21 @@ export function TannerProgressionChart() {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs sm:text-sm">
           <div className="p-3.5 rounded-2xl bg-white border border-slate-200 space-y-1">
             <strong className="block text-deep-teal font-bold uppercase tracking-wider text-[11px]">
-              🧠 Neuroendocrine GnRH Driver:
+              Neuroendocrine GnRH Driver:
             </strong>
             <p className="text-charcoal/90 m-0 leading-relaxed">{current.neuroendocrine}</p>
           </div>
 
           <div className="p-3.5 rounded-2xl bg-white border border-slate-200 space-y-1">
             <strong className="block text-coral font-bold uppercase tracking-wider text-[11px]">
-              🌸 Breast Tissue & Thelarche:
+              Breast Tissue &amp; Thelarche:
             </strong>
             <p className="text-charcoal/90 m-0 leading-relaxed">{current.breastDevelopment}</p>
           </div>
 
           <div className="p-3.5 rounded-2xl bg-white border border-slate-200 space-y-1">
             <strong className="block text-amber-800 font-bold uppercase tracking-wider text-[11px]">
-              🌿 Pubic Hair & Pubarche:
+              Pubic Hair &amp; Pubarche:
             </strong>
             <p className="text-charcoal/90 m-0 leading-relaxed">{current.pubicHair}</p>
           </div>
@@ -994,8 +994,9 @@ export function ContraceptionEfficacyPyramid() {
                   {m.hormonal ? "Hormonal" : "Non-Hormonal"}
                 </span>
                 {m.sti && (
-                  <span className="px-2 py-0.5 rounded-md bg-rose-100 text-rose-900 border border-rose-300 font-extrabold">
-                    🛡️ STI Shield
+                  <span className="px-2 py-0.5 rounded-md bg-rose-100 text-rose-900 border border-rose-300 font-extrabold flex items-center gap-1">
+                    <Shield className="w-3 h-3 text-rose-700" />
+                    <span>STI Shield</span>
                   </span>
                 )}
               </div>

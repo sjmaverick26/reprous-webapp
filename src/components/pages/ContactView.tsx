@@ -14,7 +14,13 @@ import {
   HelpCircle,
   Clock,
   ShieldCheck,
-  GraduationCap
+  GraduationCap,
+  FileText,
+  Package,
+  ShoppingBag,
+  Tag,
+  BookOpen,
+  AlertCircle
 } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -261,9 +267,12 @@ export function ContactView({ initialTab = "feedback" }: { initialTab?: ContactT
                 </li>
               </ul>
 
-              <div className="p-4 rounded-2xl bg-cream-card border border-berry/10 text-[13px] md:text-[13.5px] text-ink/75 font-sans">
-                💡 <b>Looking to ask a private health question?</b> Head to the{" "}
-                <span className="font-bold text-berry">Q&amp;A page</span> where evidence-based answers to anonymous questions are published.
+              <div className="p-4 rounded-2xl bg-cream-card border border-berry/10 text-[13px] md:text-[13.5px] text-ink/75 font-sans flex items-start gap-2">
+                <HelpCircle className="w-4 h-4 text-berry shrink-0 mt-0.5" />
+                <span>
+                  <b>Looking to ask a private health question?</b> Head to the{" "}
+                  <span className="font-bold text-berry">Q&amp;A page</span> where evidence-based answers to anonymous questions are published.
+                </span>
               </div>
             </Card>
           </div>
@@ -454,7 +463,7 @@ export function ContactView({ initialTab = "feedback" }: { initialTab?: ContactT
               <div className="space-y-4 mb-6">
                 <div className="flex gap-3 items-start">
                   <div className="w-8 h-8 rounded-xl bg-yellow/50 flex items-center justify-center text-berry flex-shrink-0 font-bold text-xs">
-                    🌟
+                    <Sparkles className="w-4 h-4" />
                   </div>
                   <div>
                     <h4 className="text-[15px] font-bold text-plum font-sans">Leadership &amp; Mentorship</h4>
@@ -466,7 +475,7 @@ export function ContactView({ initialTab = "feedback" }: { initialTab?: ContactT
 
                 <div className="flex gap-3 items-start">
                   <div className="w-8 h-8 rounded-xl bg-blush-deep/50 flex items-center justify-center text-berry flex-shrink-0 font-bold text-xs">
-                    📜
+                    <FileText className="w-4 h-4" />
                   </div>
                   <div>
                     <h4 className="text-[15px] font-bold text-plum font-sans">Verified Volunteer Hours</h4>
@@ -478,7 +487,7 @@ export function ContactView({ initialTab = "feedback" }: { initialTab?: ContactT
 
                 <div className="flex gap-3 items-start">
                   <div className="w-8 h-8 rounded-xl bg-berry/10 flex items-center justify-center text-berry flex-shrink-0 font-bold text-xs">
-                    🎒
+                    <Package className="w-4 h-4" />
                   </div>
                   <div className="flex-1">
                     <div className="flex items-center justify-between gap-1 flex-wrap">
@@ -500,7 +509,7 @@ export function ContactView({ initialTab = "feedback" }: { initialTab?: ContactT
                 <div className="p-3.5 rounded-2xl bg-white/85 border border-berry/20 shadow-2xs space-y-2.5">
                   <div className="flex items-center justify-between">
                     <span className="text-[11.5px] font-bold uppercase tracking-wider text-berry flex items-center gap-1.5">
-                      <span>📦</span>
+                      <Package className="w-3.5 h-3.5" />
                       <span>Sample Kit Concept (Mockup)</span>
                     </span>
                     <span className="text-[10px] font-bold text-coral bg-coral/10 px-2 py-0.5 rounded-full border border-coral/20">
@@ -510,19 +519,19 @@ export function ContactView({ initialTab = "feedback" }: { initialTab?: ContactT
 
                   <div className="grid grid-cols-4 gap-2 text-center text-plum font-sans">
                     <div className="p-2 rounded-xl bg-soft-pink/40 border border-raspberry/10 flex flex-col items-center gap-1">
-                      <span className="text-xl">🎒</span>
+                      <ShoppingBag className="w-5 h-5 text-berry" />
                       <span className="text-[10.5px] font-semibold leading-tight">Tote Bag</span>
                     </div>
                     <div className="p-2 rounded-xl bg-light-teal/40 border border-deep-teal/10 flex flex-col items-center gap-1">
-                      <span className="text-xl">🏷️</span>
+                      <Tag className="w-5 h-5 text-deep-teal" />
                       <span className="text-[10.5px] font-semibold leading-tight">Enamel Pin</span>
                     </div>
                     <div className="p-2 rounded-xl bg-yellow/30 border border-yellow-deep/20 flex flex-col items-center gap-1">
-                      <span className="text-xl">📖</span>
+                      <BookOpen className="w-5 h-5 text-amber-700" />
                       <span className="text-[10.5px] font-semibold leading-tight">Field Guide</span>
                     </div>
                     <div className="p-2 rounded-xl bg-soft-pink/40 border border-raspberry/10 flex flex-col items-center gap-1">
-                      <span className="text-xl">✨</span>
+                      <Sparkles className="w-5 h-5 text-raspberry" />
                       <span className="text-[10.5px] font-semibold leading-tight">Stickers</span>
                     </div>
                   </div>
@@ -724,9 +733,12 @@ export function ContactView({ initialTab = "feedback" }: { initialTab?: ContactT
                 </div>
               </div>
 
-              <div className="mt-8 p-4 rounded-2xl bg-yellow/30 border border-yellow-deep/30 text-[13px] md:text-[13.5px] text-ink/80 font-sans">
-                🚨 <b>In need of immediate support or medical advice?</b> Please refer to our 24/7 confidential hotlines on the{" "}
-                <span className="font-bold text-berry">Resources page</span>.
+              <div className="mt-8 p-4 rounded-2xl bg-yellow/30 border border-yellow-deep/30 text-[13px] md:text-[13.5px] text-ink/80 font-sans flex items-start gap-2">
+                <AlertCircle className="w-4 h-4 text-berry shrink-0 mt-0.5" />
+                <span>
+                  <b>In need of immediate support or medical advice?</b> Please refer to our 24/7 confidential hotlines on the{" "}
+                  <span className="font-bold text-berry">Resources page</span>.
+                </span>
               </div>
             </Card>
           </div>

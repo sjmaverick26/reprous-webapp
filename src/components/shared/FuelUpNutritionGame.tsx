@@ -28,6 +28,7 @@ import {
   ArrowLeft,
   ArrowRight,
   AlertTriangle,
+  Gamepad2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { HubTopic } from "@/data/hubData";
@@ -2001,7 +2002,7 @@ export function FuelUpNutritionGame({
                 <div className="p-3 sm:p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
                   <div className="flex items-center justify-between text-xs font-bold font-sans text-charcoal/80">
                     <span className="flex items-center gap-1.5">
-                      <span>🕹️</span>
+                      <Gamepad2 className="w-4 h-4 text-deep-teal" />
                       <span>Drag the Slider or Field to move Maya & Bowl:</span>
                     </span>
                     <span className="text-[11px] text-teal-800 bg-teal-50 px-2 py-0.5 rounded-full border border-teal-200 font-mono">
