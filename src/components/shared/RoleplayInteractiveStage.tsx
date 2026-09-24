@@ -54,6 +54,7 @@ interface PatientVisualProfile {
   hijabColor?: string;
   hasGlasses?: boolean;
   glassesColor?: string;
+  hasFreckles?: boolean;
   topType: "track-jacket" | "hoodie" | "knit-cardigan" | "denim-jacket" | "athletic-pullover";
   topColor: string;
   topAccentColor: string;
@@ -90,15 +91,14 @@ const DIVERSE_PATIENT_PROFILES: PatientVisualProfile[] = [
     binderColor: "#F47A6A",
   },
   {
-    name: "Mei",
+    name: "Vivian",
     role: "Health Tech & Science Ambassador",
     identityTag: "East Asian",
     skinTone: "#FCEAD6", // Warm porcelain-ivory with delicate golden undertone
     skinShadow: "#E5C4AB",
     hairColor: "#0D1117", // Sleek silky jet black
     hairStyle: "straight-bangs", // Sleek straight hair with fringe bangs and chic gold hairpin
-    hasGlasses: true,
-    glassesColor: "#EAB308", // Chic minimalist gold frames
+    hasGlasses: false,
     topType: "hoodie",
     topColor: "#6366F1", // Modern indigo / periwinkle
     topAccentColor: "#EEF2FF",
@@ -146,19 +146,34 @@ const DIVERSE_PATIENT_PROFILES: PatientVisualProfile[] = [
     binderColor: "#334155",
   },
   {
-    name: "Chloe",
-    role: "Menstrual Equity Advocate",
-    identityTag: "Equity Advocate",
-    skinTone: "#F7D5BA", // Fair golden-peach
-    skinShadow: "#E2B598",
-    hairColor: "#18181B",
-    hairStyle: "bob-sleek",
-    hasGlasses: true,
-    glassesColor: "#78350F",
-    topType: "denim-jacket",
-    topColor: "#2563EB", // Denim blue
-    topAccentColor: "#FFFFFF",
-    binderColor: "#0D9488",
+    name: "Sierra",
+    role: "Varsity Student Athlete",
+    identityTag: "Caucasian",
+    skinTone: "#E8B88A", // Warm golden-tan sun-kissed skin
+    skinShadow: "#CA9564",
+    hairColor: "#F59E0B", // Sunlit golden blonde
+    hairStyle: "ponytail", // Sleek high athletic ponytail with sporty headband
+    hasGlasses: true, // Sporty glasses
+    glassesColor: "#0284C7", // Ocean blue athletic frames
+    topType: "track-jacket",
+    topColor: "#0D9488", // Deep teal athletic track jacket
+    topAccentColor: "#CCFBF1",
+    binderColor: "#0F766E",
+  },
+  {
+    name: "Autumn",
+    role: "Youth Peer Educator",
+    identityTag: "Caucasian",
+    skinTone: "#FFF0E6", // Fair, pale porcelain-ivory with delicate peach undertone
+    skinShadow: "#F6C8B5",
+    hairColor: "#C2410C", // Radiant fiery natural copper ginger / auburn
+    hairStyle: "wavy-cascade", // Undulating natural ginger waves
+    hasGlasses: false, // No glasses
+    hasFreckles: true, // Natural delicate freckles across nose and cheeks
+    topType: "knit-cardigan",
+    topColor: "#15803D", // Forest green cardigan
+    topAccentColor: "#DCFCE7",
+    binderColor: "#84CC16",
   },
   {
     name: "Priya",
@@ -168,8 +183,7 @@ const DIVERSE_PATIENT_PROFILES: PatientVisualProfile[] = [
     skinShadow: "#703F15",
     hairColor: "#1A120B",
     hairStyle: "ponytail",
-    hasGlasses: true,
-    glassesColor: "#B45309",
+    hasGlasses: false,
     topType: "hoodie",
     topColor: "#D97706", // Amber gold
     topAccentColor: "#FEF3C7",
@@ -852,7 +866,7 @@ function PatientAvatarSvg({
         </g>
       )}
 
-      {/* Back Hair for Straight Bangs (Mei - East Asian) - Silky smooth curtain silhouette */}
+      {/* Back Hair for Straight Bangs (Vivian - East Asian) - Silky smooth curtain silhouette */}
       {profile.hairStyle === "straight-bangs" && (
         <path
           d="M 33 38 C 33 16, 87 16, 87 38 L 89 105 C 89 120, 86 132, 82 136 L 38 136 C 34 132, 31 120, 31 105 Z"
@@ -981,11 +995,21 @@ function PatientAvatarSvg({
             fill={profile.hairColor}
           />
           <path d="M 78 35 Q 98 40 92 65 Q 86 52 78 45 Z" fill={profile.hairColor} />
-          <circle cx="80" cy="38" r="3" fill="#F47A6A" />
+          {/* Athletic Sporty Headband for Sierra */}
+          {profile.name === "Sierra" && (
+            <path
+              d="M 40 31 Q 60 23 80 31"
+              stroke="#0D9488"
+              strokeWidth="2.8"
+              fill="none"
+              strokeLinecap="round"
+            />
+          )}
+          <circle cx="80" cy="38" r="3" fill={profile.name === "Sierra" ? "#0D9488" : "#F47A6A"} />
         </>
       )}
 
-      {/* Straight Bangs & Hairpins (Mei - East Asian) */}
+      {/* Straight Bangs & Hairpins (Vivian - East Asian) */}
       {profile.hairStyle === "straight-bangs" && (
         <g>
           {/* Sleek cranial contour */}
@@ -1080,10 +1104,39 @@ function PatientAvatarSvg({
           <ellipse cx="72" cy="46" rx="3.5" ry="2" fill="#F43F5E" />
         </g>
       )}
-      {profile.name === "Mei" && (
-        <g opacity="0.28">
+      {profile.name === "Vivian" && (
+        <g opacity="0.25">
           <ellipse cx="48" cy="45" rx="3.2" ry="1.8" fill="#FB7185" />
           <ellipse cx="72" cy="45" rx="3.2" ry="1.8" fill="#FB7185" />
+        </g>
+      )}
+      {profile.name === "Autumn" && (
+        <g opacity="0.30">
+          <ellipse cx="48" cy="46" rx="3.5" ry="2" fill="#FB7185" />
+          <ellipse cx="72" cy="46" rx="3.5" ry="2" fill="#FB7185" />
+        </g>
+      )}
+
+      {/* Natural Delicate Freckles (for Autumn - Pale ginger) */}
+      {profile.hasFreckles && (
+        <g opacity="0.65" fill="#B45309">
+          {/* Bridge of nose */}
+          <circle cx="58.5" cy="44.5" r="0.65" />
+          <circle cx="61.5" cy="45" r="0.6" />
+          <circle cx="60" cy="43.5" r="0.55" />
+          <circle cx="59.5" cy="46" r="0.6" />
+          {/* Left cheek */}
+          <circle cx="46.5" cy="45" r="0.7" />
+          <circle cx="49" cy="46.5" r="0.6" />
+          <circle cx="51.5" cy="45.5" r="0.65" />
+          <circle cx="47.5" cy="48" r="0.6" />
+          <circle cx="50" cy="48.5" r="0.55" />
+          {/* Right cheek */}
+          <circle cx="68.5" cy="45.5" r="0.65" />
+          <circle cx="71" cy="46.5" r="0.6" />
+          <circle cx="73.5" cy="45" r="0.7" />
+          <circle cx="70" cy="48.5" r="0.55" />
+          <circle cx="72.5" cy="48" r="0.6" />
         </g>
       )}
 
@@ -1371,7 +1424,7 @@ export function RoleplayInteractiveStage({
       top.includes("metabolic") ||
       cat.includes("sci")
     ) {
-      baseIndex = 2; // Mei (Health Tech & Science Ambassador - East Asian)
+      baseIndex = 2; // Vivian (Health Tech & Science Ambassador - East Asian)
     } else if (
       cat.includes("factors") ||
       cat.includes("maternal") ||
@@ -1405,23 +1458,32 @@ export function RoleplayInteractiveStage({
       top.includes("period") ||
       sid.includes("pain") ||
       sid.includes("cramp") ||
-      sid.includes("vital sign")
+      top.includes("athlete") ||
+      sid.includes("athlet")
     ) {
-      baseIndex = 6; // Chloe (Menstrual Equity Advocate)
+      baseIndex = 6; // Sierra (Varsity Student Athlete - Caucasian, Blonde, Sporty w/ Glasses)
+    } else if (
+      cat.includes("community") ||
+      top.includes("teen") ||
+      sid.includes("peer") ||
+      sid.includes("vital sign") ||
+      top.includes("advocacy")
+    ) {
+      baseIndex = 7; // Autumn (Youth Peer Educator - Caucasian, Pale Ginger w/ Freckles)
     } else if (
       cat.includes("pcos") ||
       top.includes("pcos") ||
       sid.includes("ultrasound") ||
       sid.includes("insulin")
     ) {
-      baseIndex = 7; // Priya (Clinical Self-Advocate - South Asian)
+      baseIndex = 8; // Priya (Clinical Self-Advocate - South Asian)
     } else if (
       cat.includes("endo") ||
       top.includes("endo") ||
       sid.includes("referral") ||
       sid.includes("pelvic")
     ) {
-      baseIndex = 8; // Kendra (Health Equity Fellow - Black)
+      baseIndex = 9; // Kendra (Health Equity Fellow - Black)
     } else if (
       cat.includes("contraception") ||
       top.includes("contraception") ||
@@ -1430,7 +1492,7 @@ export function RoleplayInteractiveStage({
       cat.includes("cond") ||
       top.includes("conditions")
     ) {
-      baseIndex = 9; // Elena (Latina Adolescent Educator - Latina)
+      baseIndex = 10; // Elena (Latina Adolescent Educator - Latina)
     } else {
       // Deterministic spread based on topicId / scenario.id so every topic gets a unique lead
       const combined = `${top}-${sid}-${cat}`;
@@ -1660,8 +1722,8 @@ export function RoleplayInteractiveStage({
                     {chosenOpt === null
                       ? "Provider Statement"
                       : isBest
-                      ? "✅ Care Plan Approved"
-                      : "⚠️ Dismissive Stance"}
+                      ? "Care Plan Approved"
+                      : "Dismissive Stance"}
                   </span>
                 </div>
 
@@ -1902,12 +1964,12 @@ export function RoleplayInteractiveStage({
             ) : isBest ? (
               <span className="flex items-center gap-1.5 text-emerald-800">
                 <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
-                ✅ Correct: Evidence admitted to medical record! Clinicians cannot legally ignore documented symptoms matching clinical guidelines.
+                Correct: Evidence admitted to medical record! Clinicians cannot legally ignore documented symptoms matching clinical guidelines.
               </span>
             ) : (
               <span className="flex items-center gap-1.5 text-amber-800">
                 <AlertTriangle className="w-3.5 h-3.5 text-amber-600" />
-                ❌ Incorrect: Documented evidence was not cited. Try selecting a response that actively references this log!
+                Suboptimal: Documented evidence was not cited. Try selecting a response that actively references this log!
               </span>
             )}
           </div>
@@ -1924,8 +1986,8 @@ export function RoleplayInteractiveStage({
             {chosenOpt === null
               ? "3 Dialogue Options · Select the best clinical response"
               : isBest
-              ? "✅ Correct Option Selected"
-              : "❌ Suboptimal Option · Review explanation below"}
+              ? "Correct Option Selected"
+              : "Suboptimal Option · Review explanation below"}
           </span>
         </div>
 
@@ -1973,7 +2035,7 @@ export function RoleplayInteractiveStage({
                               opt.isBest ? "bg-emerald-600" : "bg-amber-600"
                             }`}
                           >
-                            {opt.isBest ? "✅ Correct" : "❌ Incorrect"}
+                            {opt.isBest ? "Correct" : "Incorrect"}
                           </span>
 
                           <span
@@ -2045,7 +2107,7 @@ export function RoleplayInteractiveStage({
                 <AlertTriangle className="w-5 h-5 shrink-0 text-amber-700" />
               )}
               <span className="text-sm sm:text-base font-bold uppercase tracking-wider font-sans">
-                {isBest ? "✅ Correct — Self-Advocacy Goal Achieved!" : "❌ Incorrect — Medical Dismissal Risk"}
+                {isBest ? "Correct — Self-Advocacy Goal Achieved!" : "Suboptimal — Medical Dismissal Risk"}
               </span>
             </div>
             {isBest ? (

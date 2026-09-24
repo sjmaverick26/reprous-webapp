@@ -240,7 +240,7 @@ interface LessonArcadeGameProps {
   topicId?: string;
   topicTitle?: string;
   onGameComplete?: (bonusXp: number) => void;
-  characterAvatar?: "sofia" | "maya" | "mei" | "lucia" | "jordan" | "amina" | "elena" | "priya";
+  characterAvatar?: "sofia" | "maya" | "vivian" | "sierra" | "autumn" | "lucia" | "jordan" | "amina" | "elena" | "priya";
 }
 
 export function LessonArcadeGame({
@@ -312,7 +312,7 @@ export function LessonArcadeGame({
           >
             <Zap className="w-3.5 h-3.5" />
             <span>Speed Catcher</span>
-            {earnedModes.has("catcher") && <span>✓</span>}
+            {earnedModes.has("catcher") && <Check className="w-3 h-3" />}
           </button>
 
           <button
@@ -326,7 +326,7 @@ export function LessonArcadeGame({
           >
             <Layers className="w-3.5 h-3.5" />
             <span>Pair Match</span>
-            {earnedModes.has("match") && <span>✓</span>}
+            {earnedModes.has("match") && <Check className="w-3 h-3" />}
           </button>
 
           <button
@@ -340,7 +340,7 @@ export function LessonArcadeGame({
           >
             <Clock className="w-3.5 h-3.5" />
             <span>Phase Sorter</span>
-            {earnedModes.has("clock") && <span>✓</span>}
+            {earnedModes.has("clock") && <Check className="w-3 h-3" />}
           </button>
         </div>
       </div>
@@ -389,7 +389,9 @@ interface ActiveFallingEntity {
 
 const ARCADE_AVATARS: { id: string; name: string; tag: string; initials: string }[] = [
   { id: "sofia", name: "Sofia", tag: "Afro-Latina", initials: "SO" },
-  { id: "mei", name: "Mei", tag: "East Asian", initials: "ME" },
+  { id: "vivian", name: "Vivian", tag: "East Asian", initials: "VI" },
+  { id: "sierra", name: "Sierra", tag: "Athlete", initials: "SI" },
+  { id: "autumn", name: "Autumn", tag: "Educator", initials: "AU" },
   { id: "lucia", name: "Lucía", tag: "Latina", initials: "LU" },
   { id: "maya", name: "Maya", tag: "Athlete", initials: "MA" },
   { id: "amina", name: "Amina", tag: "Community", initials: "AM" },
@@ -406,7 +408,7 @@ function ArcadeSpeedCatcher({
 }: {
   instruction: string;
   itemsPool: ArcadeFallingItem[];
-  characterAvatar?: "sofia" | "maya" | "mei" | "lucia" | "jordan" | "amina" | "elena" | "priya";
+  characterAvatar?: "sofia" | "maya" | "vivian" | "sierra" | "autumn" | "lucia" | "jordan" | "amina" | "elena" | "priya";
   onComplete: () => void;
 }) {
   const [activeAvatar, setActiveAvatar] = useState<string>(characterAvatar);
@@ -853,14 +855,21 @@ function ArcadeMemoryMatch({
                   <h6 className="font-serif font-bold text-sm sm:text-base text-deep-teal leading-snug my-1">
                     {card.title}
                   </h6>
-                  <span className="text-[10px] text-emerald-800 font-semibold">
-                    {card.isMatched ? "✓ Matched Pair" : "Finding Pair..."}
+                  <span className="text-[10px] text-emerald-800 font-semibold flex items-center gap-1">
+                    {card.isMatched ? (
+                      <>
+                        <Check className="w-3 h-3 text-emerald-700" />
+                        <span>Matched Pair</span>
+                      </>
+                    ) : (
+                      "Finding Pair..."
+                    )}
                   </span>
                 </>
               ) : (
                 <div className="h-full w-full flex flex-col items-center justify-center text-center py-4 space-y-1">
                   <div className="w-8 h-8 rounded-full bg-deep-teal/10 text-deep-teal flex items-center justify-center font-bold text-sm">
-                    ✦
+                    <Sparkles className="w-4 h-4" />
                   </div>
                   <span className="text-[11px] font-bold uppercase tracking-wider text-charcoal/50">
                     Tap to Flip
@@ -973,7 +982,7 @@ function ArcadePhaseClock({
                     placedItem ? "bg-emerald-600 text-white" : "bg-slate-200 text-charcoal/60"
                   }`}
                 >
-                  {placedItem ? "Locked (✓)" : "Drop Target"}
+                  {placedItem ? "Locked" : "Drop Target"}
                 </span>
               </div>
 
