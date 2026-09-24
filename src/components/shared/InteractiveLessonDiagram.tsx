@@ -33,6 +33,7 @@ import {
   Minimize2,
   X,
 } from "lucide-react";
+import { OvertrainingBodyInspectionDiagram } from "./OvertrainingBodyInspectionDiagram";
 
 export interface DiagramClinicalSource {
   organization: string;
@@ -2413,150 +2414,10 @@ function HormoneScaleDiagram({ diagram }: { diagram: LessonDiagram; themeColor: 
 }
 
 // --------------------------------------------------------------------------
-// 9. Female Athlete Triad / RED-S Triangle Diagram
+// 9. Female Athlete Triad / RED-S & Overtraining Full-Body Inspection Diagram
 // --------------------------------------------------------------------------
-function RedSTriangleDiagram({ diagram }: { diagram: LessonDiagram; themeColor: string }) {
-  const [activePillar, setActivePillar] = useState<"energy" | "cycle" | "bone">("energy");
-
-  const pillars = {
-    energy: {
-      title: "1. Low Energy Availability",
-      plainTitle: "Under-Fueling vs Energy Output",
-      color: "#F47A6A",
-      bgClass: "bg-[#FFE1DB]",
-      borderClass: "border-coral",
-      details: "Eating fewer calories than your body needs to fuel both your daily training AND your basic survival organs. Your brain recognizes an energy crisis.",
-      warningSigns: "Always feeling drained, hair thinning, feeling cold constantly, dizzy when standing.",
-      solution: "Add structured snacks (like peanut butter toast, smoothies, nuts) before and after training.",
-    },
-    cycle: {
-      title: "2. Menstrual Disruption",
-      plainTitle: "Irregular or Lost Periods",
-      color: "#B83F68",
-      bgClass: "bg-soft-pink",
-      borderClass: "border-raspberry",
-      details: "Because energy is scarce, the brain's hypothalamus turns off the signal to ovulate. Periods become spaced out or completely disappear (amenorrhea).",
-      warningSigns: "Missing 3+ periods in a row, lighter flow, or losing your period during track/cross-country season.",
-      solution: "Losing your period is NOT a badge of athletic honor. It is an emergency brake signal from your body.",
-    },
-    bone: {
-      title: "3. Impaired Bone Health",
-      plainTitle: "Fragile Bones & Stress Fractures",
-      color: "#175B5C",
-      bgClass: "bg-light-teal",
-      borderClass: "border-deep-teal",
-      details: "Without protective estrogen and adequate calcium/vitamin D, bones stop rebuilding. Young bones lose density that cannot easily be regained later in life.",
-      warningSigns: "Recurring shin splints, stress fractures in feet or hips that take months to heal.",
-      solution: "Prioritize calcium, vitamin D, and full energy availability to protect peak bone mass by age 20.",
-    },
-  };
-
-  const current = pillars[activePillar];
-
-  return (
-    <div className="rounded-2xl border-2 border-deep-teal/20 bg-white p-4 md:p-5 shadow-sm space-y-4">
-      <div className="flex items-start justify-between gap-2 border-b border-deep-teal/10 pb-3">
-        <div>
-          <div className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-deep-teal">
-            <Shield className="w-3.5 h-3.5 text-deep-teal" />
-            The Triad Triangle
-          </div>
-          <h4 className="text-base md:text-lg font-serif font-bold text-deep-teal mt-0.5">
-            {diagram.title}
-          </h4>
-        </div>
-        <span className="text-[11px] font-semibold bg-light-teal px-2.5 py-1 rounded-full text-deep-teal border border-deep-teal/20">
-          Click triangle corners
-        </span>
-      </div>
-
-      {/* Interactive SVG Triangle Canvas */}
-      <div className="rounded-2xl bg-gradient-to-b from-teal-50/50 via-white to-rose-50/50 p-4 border border-deep-teal/15 flex flex-col items-center">
-        <svg viewBox="0 0 300 220" className="w-full max-w-xs h-44 sm:h-48">
-          {/* Triangle Shape */}
-          <polygon
-            points="150,30 50,185 250,185"
-            fill="#FEF2F2"
-            stroke="#175B5C"
-            strokeWidth="3"
-            strokeDasharray="4,3"
-          />
-
-          {/* Connecting Lines to Center */}
-          <line x1="150" y1="30" x2="150" y2="135" stroke="#E2E8F0" strokeWidth="2" />
-          <line x1="50" y1="185" x2="150" y2="135" stroke="#E2E8F0" strokeWidth="2" />
-          <line x1="250" y1="185" x2="150" y2="135" stroke="#E2E8F0" strokeWidth="2" />
-
-          {/* Center Hub */}
-          <circle cx="150" cy="135" r="22" fill="#175B5C" />
-          <text x="150" y="139" textAnchor="middle" fill="#FFFFFF" fontSize="10" fontWeight="bold">RED-S</text>
-
-          {/* Corner 1: Energy (Top) */}
-          <g onClick={() => setActivePillar("energy")} className="cursor-pointer group">
-            <circle cx="150" cy="30" r={activePillar === "energy" ? "20" : "15"} fill="#F47A6A" />
-            <text x="150" y="34" textAnchor="middle" fill="#FFFFFF" fontSize="10" fontWeight="bold">Energy</text>
-          </g>
-
-          {/* Corner 2: Periods (Bottom Left) */}
-          <g onClick={() => setActivePillar("cycle")} className="cursor-pointer group">
-            <circle cx="50" cy="185" r={activePillar === "cycle" ? "20" : "15"} fill="#B83F68" />
-            <text x="50" y="189" textAnchor="middle" fill="#FFFFFF" fontSize="10" fontWeight="bold">Cycle</text>
-          </g>
-
-          {/* Corner 3: Bone (Bottom Right) */}
-          <g onClick={() => setActivePillar("bone")} className="cursor-pointer group">
-            <circle cx="250" cy="185" r={activePillar === "bone" ? "20" : "15"} fill="#175B5C" />
-            <text x="250" y="189" textAnchor="middle" fill="#FFFFFF" fontSize="10" fontWeight="bold">Bones</text>
-          </g>
-        </svg>
-
-        {/* 3 Corner Quick Buttons */}
-        <div className="flex flex-wrap items-center justify-center gap-2 mt-2">
-          {(["energy", "cycle", "bone"] as const).map((p) => (
-            <button
-              key={p}
-              onClick={() => setActivePillar(p)}
-              className={`px-3 py-1 rounded-full text-xs font-bold transition-all ${
-                activePillar === p
-                  ? `${pillars[p].bgClass} text-charcoal border-2 ${pillars[p].borderClass} shadow-xs scale-105`
-                  : "bg-white text-charcoal/70 border border-slate-200 hover:bg-slate-50"
-              }`}
-            >
-              {pillars[p].title}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {/* Selected Corner Detail Card */}
-      <div className={`p-4 rounded-2xl border-2 ${current.borderClass} bg-white shadow-xs space-y-2 text-xs md:text-sm`}>
-        <div className="flex items-center justify-between">
-          <h5 className="font-serif font-bold text-base text-deep-teal m-0">{current.title}</h5>
-          <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${current.bgClass} text-charcoal`}>
-            {current.plainTitle}
-          </span>
-        </div>
-
-        <p className="text-charcoal/85 leading-relaxed m-0 font-sans">{current.details}</p>
-
-        <div className="p-2.5 rounded-lg bg-rose-50 border border-rose-200 text-rose-950 font-sans text-[11.5px] flex items-start gap-1.5">
-          <AlertTriangle className="w-3.5 h-3.5 text-rose-600 shrink-0 mt-0.5" />
-          <div>
-            <strong className="text-rose-900 font-bold">Warning Signs to Notice: </strong>
-            <span>{current.warningSigns}</span>
-          </div>
-        </div>
-
-        <div className="p-2.5 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-950 font-sans text-[11.5px] flex items-start gap-1.5">
-          <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0 mt-0.5" />
-          <div>
-            <strong className="text-emerald-900 font-bold">Action Step: </strong>
-            <span>{current.solution}</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
+function RedSTriangleDiagram({ diagram, themeColor }: { diagram: LessonDiagram; themeColor: string }) {
+  return <OvertrainingBodyInspectionDiagram diagram={diagram} themeColor={themeColor} />;
 }
 
 // --------------------------------------------------------------------------

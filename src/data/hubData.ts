@@ -1988,8 +1988,8 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
         ],
         diagram: {
           type: "reds-triangle",
-          title: "The Female Athlete Triad & RED-S Triangle",
-          caption: "Click each corner of the triad to see how under-fueling cascades into missed periods and bone fractures."
+          title: "Full-Body Overtraining & Under-Recovery Inspection",
+          caption: "Use the interactive magnifying glass on the anatomical figure to explore how overtraining without adequate recovery damages the female body across neuroendocrine, metabolic, hormonal, and skeletal systems."
         }
       },
       {
