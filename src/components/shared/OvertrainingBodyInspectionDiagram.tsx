@@ -26,6 +26,7 @@ import {
   Scale,
   Clock,
   ExternalLink,
+  X,
 } from "lucide-react";
 
 export type HotspotId =
@@ -65,18 +66,16 @@ export const OVERTRAINING_HOTSPOTS: Record<HotspotId, HotspotData> = {
     y: 56,
     lensOffset: { hx: 232, hy: 28 },
     warningSigns: [
-      "Tired but wired: extreme physical fatigue coupled with inability to fall asleep",
-      "Frequent 2:00 AM – 3:30 AM awakenings with racing heart and night sweats",
-      "Persistent brain fog, shortened attention span, and school/work fatigue",
-      "Uncharacteristic emotional volatility, sudden tearfulness, and loss of competitive drive",
+      "Tired but wired: extreme physical exhaustion coupled with inability to fall asleep",
+      "Waking up at 2:00–3:30 AM with a racing heart and night sweats",
     ],
     physiologicalMechanism:
-      "Chronic training strain without nutritional recovery drives the Hypothalamic-Pituitary-Adrenal (HPA) axis into perpetual overdrive. Blunted melatonin production and nocturnal cortisol spikes disrupt Stage 3/4 Slow-Wave Deep Sleep, preventing nighttime Human Growth Hormone (HGH) release required for tissue repair.",
+      "HPA-axis overactivation and nocturnal cortisol spikes disrupt deep Stage 3/4 sleep, halting nighttime tissue repair and human growth hormone release.",
     femaleSpecificImpact:
-      "In women, chronic high cortisol actively suppresses GnRH (Gonadotropin-Releasing Hormone) pulsatility from the hypothalamus, acting as the primary neurochemical trigger that shuts down normal menstrual cycles.",
+      "Elevated cortisol suppresses hypothalamic GnRH pulses, acting as the primary neurochemical trigger that turns off normal menstrual cycles.",
     recoverySolution:
-      "Target 8.5–10 hours of sleep; introduce a high-carbohydrate bedtime snack (e.g., banana with oats or warm milk) to suppress evening cortisol; enforce a complete active-rest or deload day every 5–7 days.",
-    clinicalMarker: "Nocturnal salivary cortisol spike & REM/deep sleep deficit (<15% total sleep time)",
+      "Target 8.5–10 hours of sleep, add a bedtime carbohydrate snack to lower evening cortisol, and schedule full weekly rest days.",
+    clinicalMarker: "Nocturnal salivary cortisol spike & deep sleep deficit (<15%)",
   },
   thyroid: {
     id: "thyroid",
@@ -88,18 +87,16 @@ export const OVERTRAINING_HOTSPOTS: Record<HotspotId, HotspotData> = {
     y: 110,
     lensOffset: { hx: 236, hy: 90 },
     warningSigns: [
-      "Freezing hands, feet, and nose even in warm rooms or summer weather (cold intolerance)",
-      "Unexplained fatigue despite adequate sleep and heavy clothing",
-      "Sluggish dry skin, brittle hair shedding in the shower, and brittle nails",
-      "Unintentional weight plateau or rebound despite heavy calorie burning",
+      "Freezing cold hands, feet, and nose even indoors in warm rooms (cold intolerance)",
+      "Sluggish dry skin, brittle hair shedding in the shower, and stalled workout recovery",
     ],
     physiologicalMechanism:
-      "When daily energy availability drops below ~30 kcal/kg Fat-Free Mass (FFM)/day, the body downregulates hepatic 5'-deiodinase enzymes. This prevents the conversion of thyroxine (T4) into active triiodothyronine (T3), creating Non-Thyroidal Illness Syndrome ('Low T3 Syndrome') to lower resting metabolic rate by 15–25%.",
+      "When energy availability drops below 30 kcal/kg FFM/day, the liver stops converting T4 into active T3, lowering metabolic rate by 15–25% to conserve fuel.",
     femaleSpecificImpact:
-      "Suppressed T3 reduces basal energy expenditure to protect vital organs. In female athletes, low T3 impairs follicular development in the ovaries and synergizes with low estrogen to slow down bone remodeling.",
+      "Suppressed T3 slows ovarian follicle development and synergizes with low estrogen to weaken bone remodeling.",
     recoverySolution:
-      "Ensure daily caloric intake covers both exercise energy expenditure and basic organ needs (>45 kcal/kg FFM/day). Consume warm, nutrient-dense meals with adequate complex carbohydrates to stimulate thyroid hormone conversion.",
-    clinicalMarker: "Low Free T3 (<2.5 pg/mL) with normal or low TSH ('Euthyroid Sick / Low T3')",
+      "Increase daily food intake to match training demands (>45 kcal/kg FFM/day) with warm, complex-carbohydrate meals.",
+    clinicalMarker: "Low Free T3 (<2.5 pg/mL) with normal or low TSH",
   },
   heart: {
     id: "heart",
@@ -111,18 +108,16 @@ export const OVERTRAINING_HOTSPOTS: Record<HotspotId, HotspotData> = {
     y: 165,
     lensOffset: { hx: 95, hy: 140 },
     warningSigns: [
-      "Waking resting heart rate spiked +5 to 12+ beats per minute above normal baseline",
-      "Heart Rate Variability (HRV) plummeting over 3 consecutive days",
-      "Orthostatic dizziness or lightheadedness when standing up quickly from sitting",
-      "Heart feels like it is pounding or fluttering even during easy warmup jogs",
+      "Waking resting heart rate spiked +5 to 12+ bpm above normal baseline",
+      "Plummeting Heart Rate Variability (HRV) and lightheadedness when standing up quickly",
     ],
     physiologicalMechanism:
-      "Sympathetic nervous system hyperactivation floods the cardiovascular system with catecholamines (epinephrine and norepinephrine). Meanwhile, chronic dehydration and low glycogen decrease intravascular plasma volume, forcing the heart to beat faster to maintain stroke volume and blood pressure.",
+      "Sympathetic overdrive and decreased blood plasma volume force the heart to beat faster and harder just to maintain cardiac output.",
     femaleSpecificImpact:
-      "Estrogen maintains vascular endothelial flexibility and nitric oxide-mediated blood vessel dilation. When estrogen drops due to under-recovery, blood vessels stiffen and peripheral microcirculation suffers, worsening athletic endurance and recovery.",
+      "Depleted estrogen impairs vascular nitric oxide dilation, leading to blood vessel stiffness and poor peripheral microcirculation.",
     recoverySolution:
-      "Track resting heart rate immediately upon waking. If your morning HR is elevated by >=5 bpm for 3 straight mornings, reduce training to Zone 1 active recovery or take 24–48 hours of complete rest.",
-    clinicalMarker: "Morning Resting Heart Rate elevated >=7 bpm & suppressed 7-day rolling HRV",
+      "Take 24–48 hours of low-intensity active recovery or full rest if morning heart rate stays elevated for 3 consecutive days.",
+    clinicalMarker: "Waking heart rate >=5 bpm above baseline & suppressed 7-day HRV",
   },
   immune: {
     id: "immune",
@@ -134,18 +129,16 @@ export const OVERTRAINING_HOTSPOTS: Record<HotspotId, HotspotData> = {
     y: 160,
     lensOffset: { hx: 250, hy: 140 },
     warningSigns: [
-      "Chronic lingering sore throat, dry cough, or mild upper respiratory infections (URTIs)",
-      "Minor cuts, scrapes, blister wounds, and muscle soreness taking unusually long to heal",
-      "Frequent colds immediately following hard races or high-intensity interval blocks",
-      "Mouth ulcers, cold sores, or swollen lymph nodes along the neck",
+      "Lingering sore throat, mild upper respiratory infections, and swollen neck glands",
+      "Scrapes, blisters, and muscle soreness taking unusually long to heal",
     ],
     physiologicalMechanism:
-      "Prolonged high-volume training with insufficient fueling suppresses Salivary Secretory Immunoglobulin A (s-IgA) antibodies and decreases natural killer (NK) cell and T-lymphocyte proliferation. The 'open window' of immune vulnerability widens from 3 hours to several days.",
+      "Prolonged volume without fueling suppresses salivary IgA antibodies and natural killer cells, widening the open window of immune vulnerability.",
     femaleSpecificImpact:
-      "Progesterone and estrogen fluctuations across the cycle naturally modulate immune cell subsets. Under-fueled amenorrheic athletes lack these cyclical regulatory rhythms, leading to chronic low-grade systemic inflammation alongside mucosal vulnerability.",
+      "Without regular cyclical estrogen and progesterone, the body loses cyclical immune protection and experiences chronic low-grade inflammation.",
     recoverySolution:
-      "Consume 30–60g of rapidly absorbing carbohydrates during and immediately post-session to blunt exercise-induced immune suppression; supplement with zinc, Vitamin C, and ensure total daily energy adequacy.",
-    clinicalMarker: "Depressed Salivary Secretory IgA (<40 mcg/mL) & reduced neutrophil count",
+      "Eat 30–60g of carbohydrates during and post-workout to blunt immune suppression; supplement with zinc and Vitamin C.",
+    clinicalMarker: "Depressed Salivary Secretory IgA (<40 mcg/mL)",
   },
   gut: {
     id: "gut",
@@ -157,18 +150,16 @@ export const OVERTRAINING_HOTSPOTS: Record<HotspotId, HotspotData> = {
     y: 225,
     lensOffset: { hx: 105, hy: 215 },
     warningSigns: [
-      "Delayed gastric emptying (feeling painfully bloated, full, or sloshing hours after a light meal)",
-      "Frequent abdominal cramps, nausea, or runner's diarrhea during moderate workouts",
-      "Constipation alternating with loose stools; feeling inability to absorb food",
-      "Early satiety and loss of appetite despite high calorie expenditure",
+      "Feeling painfully full or bloated hours after eating (delayed gastric emptying)",
+      "Runner's stomach cramps, nausea, or runner's diarrhea during workouts",
     ],
     physiologicalMechanism:
-      "During strenuous exercise, the sympathetic nervous system shunts up to 80% of splanchnic blood flow away from the gut to skeletal muscle. Under chronic under-recovery, intestinal ischemia loosens tight junction proteins ('leaky gut'), triggering endotoxin leakage and systemic inflammation.",
+      "Strenuous exercise shunts blood flow away from the intestines to muscles; chronic ischemia weakens gut tight-junction barriers.",
     femaleSpecificImpact:
-      "Estrogen and progesterone regulate smooth muscle motility throughout the female colon. Severe hormonal suppression slows transit time, causing gas, bloating, and impaired iron/calcium absorption when the athlete needs them most.",
+      "Low reproductive hormones slow intestinal motility, causing bloating, gas, and impaired iron/calcium absorption.",
     recoverySolution:
-      "Rely on easily digestible, lower-fiber carbohydrate sources (rice, bananas, potatoes, smoothies) around training windows; hydrate with electrolyte-balanced fluids; allow 30 minutes of parasympathetic calm before eating.",
-    clinicalMarker: "Elevated fecal calprotectin & gastrointestinal hypoperfusion symptoms",
+      "Opt for easy-to-digest, lower-fiber carbs (rice, bananas, oats) near workouts and avoid high-stress rushed eating.",
+    clinicalMarker: "Elevated fecal calprotectin & gut hypoperfusion symptoms",
   },
   reproductive: {
     id: "reproductive",
@@ -180,18 +171,16 @@ export const OVERTRAINING_HOTSPOTS: Record<HotspotId, HotspotData> = {
     y: 285,
     lensOffset: { hx: 242, hy: 275 },
     warningSigns: [
-      "Oligomenorrhea (menstrual cycles stretching past 35–45 days) or completely missing periods (Amenorrhea)",
-      "Missing 3 consecutive periods during heavy training seasons (Cross-Country, Track, Gymnastics)",
-      "Vaginal dryness, severe mood swings, and loss of normal cervical fluid changes",
-      "Loss of the protective performance benefits of natural estrogen during the follicular phase",
+      "Irregular periods (cycles >35 days) or completely missing periods (Amenorrhea)",
+      "Vaginal dryness, severe energy dips, and loss of estrogen's athletic benefits",
     ],
     physiologicalMechanism:
-      "Kisspeptin neurons in the arcuate nucleus of the female hypothalamus act as the body's primary energy sensor. When available energy is depleted, kisspeptin suppresses the pulsatile release of GnRH. The pituitary stops secreting LH and FSH, halting ovarian follicle maturation and crashing 17-beta estradiol and progesterone.",
+      "Hypothalamic Kisspeptin sensors detect low energy and shut down GnRH pulses, halting LH/FSH and stopping ovarian estrogen production.",
     femaleSpecificImpact:
-      "Missing your period is NEVER a normal badge of athletic honor — it is an urgent medical distress signal. Estrogen is women's most powerful cardiovascular and skeletal protector. Chronic low estrogen mirrors postmenopausal osteoporosis within 6–12 months.",
+      "Missing a period is NEVER a healthy badge of athletic dedication. Low estrogen rapidly causes bone loss equivalent to post-menopause.",
     recoverySolution:
-      "Immediate dietary expansion to >=45 kcal/kg FFM/day. Period restoration typically requires 3 to 6 months of sustained nutritional surplus and a 10–25% reduction in training volume. Consult an adolescent sports gynecologist.",
-    clinicalMarker: "Serum Estradiol <20 pg/mL with suppressed LH (<1.0 mIU/mL) & low leptin",
+      "Immediately increase caloric intake and reduce training intensity by 15–20% to restore normal ovarian signaling.",
+    clinicalMarker: "Serum Estradiol <20 pg/mL & LH <1.0 mIU/mL",
   },
   muscles: {
     id: "muscles",
@@ -203,18 +192,16 @@ export const OVERTRAINING_HOTSPOTS: Record<HotspotId, HotspotData> = {
     y: 375,
     lensOffset: { hx: 82, hy: 365 },
     warningSigns: [
-      "Chronic 'dead legs' or heavy wooden feeling that does not clear even after warmups",
-      "Delayed Onset Muscle Soreness (DOMS) persisting for 72+ hours after routine workouts",
-      "Inability to hit race-pace splits, maintain high cadence, or sprint at the finish line",
-      "Loss of lean muscle mass, tone, and power despite hours of lifting and training",
+      "Persistent 'dead, heavy wooden legs' that do not loosen up even after warmups",
+      "Muscle soreness lasting over 72 hours with loss of finishing sprint power",
     ],
     physiologicalMechanism:
-      "Without post-exercise carbohydrates and rest, intramuscular glycogen synthase remains inactive, leaving muscle glycogen stores depleted. The body enters catabolism, utilizing muscle branched-chain amino acids (BCAAs) as fuel and breaking down contractile muscle fibers.",
+      "Depleted glycogen reserves force the body to break down contractile muscle proteins (amino acids) for immediate fuel.",
     femaleSpecificImpact:
-      "Estrogen promotes muscle satellite cell activation, muscle membrane stabilization, and faster post-damage repair. When estrogen crashes from overtraining, female athletes experience delayed muscle regeneration and increased soft-tissue vulnerability.",
+      "Estrogen normally protects muscle cell membranes and stimulates satellite cells for repair; low estrogen delays muscle fiber regeneration.",
     recoverySolution:
-      "Eat 1.2–1.6 g protein/kg body weight plus 5–8 g carbohydrates/kg body weight daily; consume 25g protein + 50g carbs within 45 minutes post-workout; schedule 48 hours between high-intensity threshold sessions.",
-    clinicalMarker: "Elevated serum Creatine Kinase (CK >500 U/L) & negative nitrogen balance",
+      "Refuel with 25g protein + 50g carbohydrates within 45 minutes post-workout, and allow 48 hours between hard sessions.",
+    clinicalMarker: "Elevated serum Creatine Kinase (CK >500 U/L)",
   },
   bones: {
     id: "bones",
@@ -226,18 +213,16 @@ export const OVERTRAINING_HOTSPOTS: Record<HotspotId, HotspotData> = {
     y: 495,
     lensOffset: { hx: 258, hy: 485 },
     warningSigns: [
-      "Persistent, pinpoint bone tenderness along the lower third of the shin (tibia) or top of the foot (metatarsals)",
-      "Shin splints that do not improve with 48 hours of rest and worsen with each foot strike",
-      "Recurring stress fractures or stress reactions diagnosed on MRI / bone scan",
-      "Deep aching bone pain in the hip, pelvis, or sacrum that aches even while resting in bed",
+      "Pinpoint tenderness on the lower shin (tibia) or top of foot (metatarsals)",
+      "Shin splints that worsen with every foot strike and persist during rest",
     ],
     physiologicalMechanism:
-      "Estrogen exerts an essential inhibitory brake on osteoclasts (the cells that break down bone). In low-estrogen amenorrhea, osteoclastic bone resorption outpaces osteoblastic bone formation. Ground impact microcracks accumulate faster than bone can heal, progressing to full cortical stress fractures.",
+      "Without estrogen to brake bone breakdown, osteoclasts resorb bone faster than osteoblasts build it, turning impact microcracks into stress fractures.",
     femaleSpecificImpact:
-      "90% of a woman's lifetime peak bone mineral density (BMD) is accrued before age 20. Loss of bone density during adolescent and collegiate years can lead to irreversible osteopenia/osteoporosis that cannot be fully regained later in life.",
+      "Over 90% of lifetime bone density is banked before age 20. Bone lost during teen amenorrhea can cause lifelong osteoporosis.",
     recoverySolution:
-      "Cease high-impact running immediately upon suspected stress reaction; switch to non-impact cross-training (pool running, cycling); ensure 1,300 mg daily dietary calcium and 2,000 IU Vitamin D3; restore menstrual cycle through caloric surplus.",
-    clinicalMarker: "Dual-energy X-ray Absorptiometry (DXA) Z-score < -1.0 with focal bone edema on MRI",
+      "Stop high-impact running immediately on focal bone pain; switch to pool/bike, ensure 1,300mg calcium + 2,000 IU Vitamin D3, and restore nutrition.",
+    clinicalMarker: "DXA Z-score < -1.0 with focal bone edema on MRI",
   },
 };
 
@@ -250,6 +235,7 @@ export function OvertrainingBodyInspectionDiagram({ diagram, themeColor }: Props
   const [activeHotspot, setActiveHotspot] = useState<HotspotId>("reproductive");
   const [selectedCharacter, setSelectedCharacter] = useState<"sierra" | "maya" | "autumn" | "vivian">("sierra");
   const [activeTab, setActiveTab] = useState<"magnifier" | "female-vulnerability" | "checklist">("magnifier");
+  const [isDetailOpen, setIsDetailOpen] = useState(false);
 
   const current = OVERTRAINING_HOTSPOTS[activeHotspot];
 
@@ -498,48 +484,59 @@ export function OvertrainingBodyInspectionDiagram({ diagram, themeColor }: Props
       {/* 3. MAIN INTERACTIVE WORKSPACE (BODY + DIAGNOSTIC CARDS)           */}
       {/* ------------------------------------------------------------------ */}
       {activeTab === "magnifier" && (
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-          {/* Left Column: Full-Sized Clothed Body SVG with Magnifying Glass */}
-          <div className="lg:col-span-5 flex flex-col items-center">
-            {/* Quick Hotspot Badges Grid (Mobile / Compact helper) */}
-            <div className="w-full flex items-center justify-between mb-2">
-              <span className="text-xs font-bold text-charcoal/80 flex items-center gap-1">
-                <Search className="w-3.5 h-3.5 text-deep-teal" />
-                Targeted Anatomical Zone:
+        <div className="flex flex-col items-center w-full max-w-4xl mx-auto space-y-4">
+          {/* Header Action Bar */}
+          <div className="w-full flex flex-wrap items-center justify-between gap-2 px-1">
+            <div className="flex items-center gap-2">
+              <span className="flex h-6 w-6 items-center justify-center rounded-lg bg-deep-teal text-white shadow-2xs">
+                <Search className="w-3.5 h-3.5" />
               </span>
-              <span className="text-[11px] font-bold text-deep-teal uppercase tracking-wide bg-teal-50 px-2 py-0.5 rounded-md border border-teal-200">
-                {current.category}
+              <span className="text-xs font-bold text-charcoal">
+                Click any body pin or the magnifying glass lens to reveal clinical findings
+              </span>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="text-[11px] font-bold text-deep-teal uppercase tracking-wide bg-teal-50 px-2.5 py-1 rounded-lg border border-teal-200">
+                Target: {current.name} ({current.category})
+              </span>
+              <button
+                onClick={() => setIsDetailOpen(true)}
+                className="px-3 py-1 bg-deep-teal text-white text-xs font-bold rounded-lg shadow-xs hover:bg-deep-teal/90 transition-all flex items-center gap-1 cursor-pointer"
+              >
+                <ZoomIn className="w-3.5 h-3.5" />
+                Open Findings
+              </button>
+            </div>
+          </div>
+
+          {/* SVG CANVAS CONTAINER: ENLARGED FULL SCREEN FEEL (PRESERVES HEIGHT) */}
+          <div className="relative w-full max-w-[580px] sm:max-w-[620px] rounded-3xl bg-gradient-to-b from-slate-50 via-teal-50/20 to-slate-100 p-3 sm:p-5 border-2 border-deep-teal/20 shadow-md flex flex-col items-center overflow-hidden">
+            {/* Subtle background grid & anatomical measurement lines */}
+            <div
+              className="absolute inset-0 opacity-15 pointer-events-none"
+              style={{
+                backgroundImage: "radial-gradient(#175B5C 1px, transparent 1px)",
+                backgroundSize: "16px 16px",
+              }}
+            />
+
+            {/* Status Header inside canvas */}
+            <div className="w-full flex items-center justify-between z-10 px-2 py-1 mb-1">
+              <span className="text-[10px] font-bold uppercase tracking-wider text-charcoal/60">
+                Full Body Anatomical Scan ({character.name})
+              </span>
+              <span className="text-[10px] font-extrabold text-rose-700 bg-rose-100/90 px-2.5 py-0.5 rounded-full border border-rose-200 flex items-center gap-1 shadow-2xs">
+                <span className="w-1.5 h-1.5 rounded-full bg-rose-600 animate-ping inline-block" />
+                Active Inspection Lens
               </span>
             </div>
 
-            {/* SVG CANVAS CONTAINER */}
-            <div className="relative w-full max-w-[340px] rounded-3xl bg-gradient-to-b from-slate-50 via-teal-50/20 to-slate-100 p-3 border-2 border-deep-teal/20 shadow-inner flex flex-col items-center overflow-hidden">
-              {/* Subtle background grid & anatomical measurement lines */}
-              <div
-                className="absolute inset-0 opacity-15 pointer-events-none"
-                style={{
-                  backgroundImage: "radial-gradient(#175B5C 1px, transparent 1px)",
-                  backgroundSize: "16px 16px",
-                }}
-              />
-
-              {/* Status Header inside canvas */}
-              <div className="w-full flex items-center justify-between z-10 px-2 py-1 mb-1">
-                <span className="text-[10px] font-bold uppercase tracking-wider text-charcoal/60">
-                  Full Body Scan ({character.name})
-                </span>
-                <span className="text-[10px] font-extrabold text-rose-700 bg-rose-100/90 px-2 py-0.5 rounded-full border border-rose-200 flex items-center gap-1">
-                  <span className="w-1.5 h-1.5 rounded-full bg-rose-600 animate-ping inline-block" />
-                  Active Inspection
-                </span>
-              </div>
-
-              {/* The SVG Body & Magnifying Glass */}
-              <svg
-                viewBox="0 0 340 680"
-                className="w-full h-auto drop-shadow-sm select-none z-10"
-                style={{ maxHeight: "640px" }}
-              >
+            {/* The SVG Body & Magnifying Glass */}
+            <svg
+              viewBox="0 0 340 680"
+              className="w-full h-auto drop-shadow-md select-none z-10"
+              style={{ maxHeight: "680px" }}
+            >
                 <defs>
                   {/* Lens Glass Gradient */}
                   <linearGradient id="lensGlassGradient" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -933,7 +930,10 @@ export function OvertrainingBodyInspectionDiagram({ diagram, themeColor }: Props
                   return (
                     <g
                       key={spot.id}
-                      onClick={() => setActiveHotspot(spot.id)}
+                      onClick={() => {
+                        setActiveHotspot(spot.id);
+                        setIsDetailOpen(true);
+                      }}
                       className="cursor-pointer group"
                       tabIndex={0}
                       role="button"
@@ -976,7 +976,14 @@ export function OvertrainingBodyInspectionDiagram({ diagram, themeColor }: Props
                 {/* ============================================================== */}
                 {/* 8. DYNAMIC INTERACTIVE MAGNIFYING GLASS                       */}
                 {/* ============================================================== */}
-                <g filter="url(#lensShadow)" className="transition-all duration-300 pointer-events-none">
+                <g
+                  filter="url(#lensShadow)"
+                  className="transition-all duration-300 cursor-pointer group"
+                  onClick={() => setIsDetailOpen(true)}
+                  role="button"
+                  tabIndex={0}
+                  aria-label={`Open findings for ${current.name}`}
+                >
                   {/* Reticle inspection laser guide line connecting hotspot to lens center */}
                   <line
                     x1={current.x}
@@ -1001,6 +1008,7 @@ export function OvertrainingBodyInspectionDiagram({ diagram, themeColor }: Props
                     fill="url(#lensGlassGradient)"
                     stroke="url(#lensRimGradient)"
                     strokeWidth="4"
+                    className="transition-all duration-200 group-hover:stroke-rose-500"
                   />
 
                   {/* Specular glare / glass reflection highlight arc */}
@@ -1067,16 +1075,16 @@ export function OvertrainingBodyInspectionDiagram({ diagram, themeColor }: Props
                     );
                   })()}
 
-                  {/* Magnified System Name Label Tag above the lens */}
+                  {/* Magnified System Name Label Tag above the lens with clickable cue */}
                   <g>
                     <rect
-                      x={current.lensOffset.hx - 48}
-                      y={current.lensOffset.hy - 46}
-                      width="96"
-                      height="18"
-                      rx="9"
+                      x={current.lensOffset.hx - 58}
+                      y={current.lensOffset.hy - 48}
+                      width="116"
+                      height="22"
+                      rx="11"
                       fill="#0F172A"
-                      opacity="0.9"
+                      opacity="0.95"
                     />
                     <text
                       x={current.lensOffset.hx}
@@ -1086,119 +1094,170 @@ export function OvertrainingBodyInspectionDiagram({ diagram, themeColor }: Props
                       fontSize="9"
                       fontWeight="bold"
                       fontFamily="system-ui, sans-serif"
+                      letterSpacing="0.4"
                     >
-                      {current.id.toUpperCase()}
+                      {current.id.toUpperCase()} • CLICK FINDINGS
                     </text>
                   </g>
                 </g>
               </svg>
 
               {/* Bottom Hotspot Quick Selector Pills */}
-              <div className="w-full mt-3 grid grid-cols-4 gap-1.5 z-10">
+              <div className="w-full mt-3 grid grid-cols-2 sm:grid-cols-4 gap-1.5 z-10">
                 {Object.values(OVERTRAINING_HOTSPOTS).map((spot) => (
                   <button
                     key={spot.id}
-                    onClick={() => setActiveHotspot(spot.id)}
-                    className={`py-1.5 px-1 rounded-xl text-[10.5px] font-bold text-center transition-all truncate border ${
+                    onClick={() => {
+                      setActiveHotspot(spot.id);
+                      setIsDetailOpen(true);
+                    }}
+                    className={`py-2 px-2 rounded-xl text-xs font-bold text-center transition-all truncate border flex items-center justify-center gap-1.5 cursor-pointer ${
                       activeHotspot === spot.id
                         ? "bg-deep-teal text-white border-deep-teal shadow-xs font-extrabold"
-                        : "bg-white/90 text-charcoal/70 border-slate-200 hover:bg-white hover:text-charcoal"
+                        : "bg-white/95 text-charcoal/80 border-slate-200 hover:bg-teal-50 hover:text-deep-teal hover:border-teal-300"
                     }`}
-                    title={spot.name}
+                    title={`Click to inspect ${spot.name}`}
                   >
-                    {spot.id === "reproductive"
-                      ? "Period / HPO"
-                      : spot.id.charAt(0).toUpperCase() + spot.id.slice(1)}
+                    <span className={`w-2 h-2 rounded-full shrink-0 ${activeHotspot === spot.id ? "bg-white" : "bg-rose-500"}`} />
+                    <span>
+                      {spot.id === "reproductive"
+                        ? "Period / HPO"
+                        : spot.id.charAt(0).toUpperCase() + spot.id.slice(1)}
+                    </span>
                   </button>
                 ))}
               </div>
+
+              {/* Prominent Action Button to Open Findings */}
+              <button
+                onClick={() => setIsDetailOpen(true)}
+                className="w-full mt-3 py-2.5 px-4 bg-gradient-to-r from-deep-teal to-teal-700 text-white font-bold text-xs rounded-xl shadow-xs hover:opacity-95 transition-all flex items-center justify-center gap-2 cursor-pointer z-10"
+              >
+                <ZoomIn className="w-4 h-4" />
+                Open {current.name} Findings
+                <ChevronRight className="w-4 h-4" />
+              </button>
             </div>
-          </div>
 
-          {/* Right Column: Magnified Clinical Diagnostic Detail Card */}
-          <div className="lg:col-span-7 space-y-4">
-            {/* Header Badge */}
-            <div className="rounded-2xl border-2 border-deep-teal/20 bg-white p-4 md:p-5 shadow-xs space-y-4">
-              <div className="flex flex-wrap items-start justify-between gap-2 border-b border-slate-100 pb-3">
-                <div>
-                  <div className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-deep-teal">
-                    <ZoomIn className="w-4 h-4 text-deep-teal" />
-                    Magnified System Breakdown
+          {/* ------------------------------------------------------------------ */}
+          {/* POPUP MODAL: MAGNIFIED CLINICAL DIAGNOSTIC FINDINGS                */}
+          {/* (Hidden unless pressed on spot pins / lens / buttons)              */}
+          {/* ------------------------------------------------------------------ */}
+          {isDetailOpen && (
+            <div
+              className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-charcoal/60 backdrop-blur-xs animate-in fade-in duration-200"
+              onClick={() => setIsDetailOpen(false)}
+              role="dialog"
+              aria-modal="true"
+            >
+              <div
+                className="relative w-full max-w-xl max-h-[90vh] overflow-y-auto rounded-3xl bg-white border-2 border-deep-teal/30 p-5 md:p-6 shadow-2xl space-y-4"
+                onClick={(e) => e.stopPropagation()}
+              >
+                {/* Modal Header */}
+                <div className="flex items-start justify-between gap-3 border-b border-slate-100 pb-3">
+                  <div>
+                    <div className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-deep-teal">
+                      <ZoomIn className="w-4 h-4 text-deep-teal" />
+                      Magnified Inspection Findings
+                    </div>
+                    <h3 className="text-xl md:text-2xl font-serif font-bold text-charcoal mt-0.5">
+                      {current.name}
+                    </h3>
+                    <div className="text-xs text-charcoal/70 mt-0.5">
+                      Target: <strong className="text-charcoal">{current.system}</strong>
+                    </div>
                   </div>
-                  <h3 className="text-lg md:text-xl font-serif font-bold text-charcoal mt-0.5">
-                    {current.name}
-                  </h3>
-                  <div className="text-xs text-charcoal/70 mt-0.5">
-                    Target Anatomical Region: <strong className="text-charcoal">{current.system}</strong>
+
+                  <div className="flex items-center gap-2">
+                    <span className={`text-xs font-extrabold px-3 py-1 rounded-full border ${current.tagColor}`}>
+                      {current.category}
+                    </span>
+                    <button
+                      onClick={() => setIsDetailOpen(false)}
+                      className="p-1.5 rounded-full hover:bg-slate-100 text-charcoal/60 hover:text-charcoal transition-colors cursor-pointer"
+                      aria-label="Close inspection findings"
+                    >
+                      <X className="w-5 h-5" />
+                    </button>
                   </div>
                 </div>
 
-                <span className={`text-xs font-extrabold px-3 py-1 rounded-full border ${current.tagColor}`}>
-                  {current.category}
-                </span>
-              </div>
-
-              {/* Warning Signs Section */}
-              <div className="rounded-xl bg-rose-50/90 border border-rose-200 p-3.5 space-y-2">
-                <div className="flex items-center gap-1.5 text-xs font-extrabold text-rose-950 uppercase tracking-wide">
-                  <AlertTriangle className="w-3.5 h-3.5 text-rose-600 shrink-0" />
-                  Observable Warning Signs in Female Athletes:
+                {/* Warning Signs (2 bullets) */}
+                <div className="rounded-xl bg-rose-50/90 border border-rose-200 p-3.5 space-y-1.5">
+                  <div className="flex items-center gap-1.5 text-xs font-extrabold text-rose-950 uppercase tracking-wide">
+                    <AlertTriangle className="w-3.5 h-3.5 text-rose-600 shrink-0" />
+                    Warning Signs in Female Athletes:
+                  </div>
+                  <ul className="space-y-1 text-xs text-rose-950/90 pl-1">
+                    {current.warningSigns.map((sign, idx) => (
+                      <li key={idx} className="flex items-start gap-2">
+                        <span className="w-1.5 h-1.5 rounded-full bg-rose-500 shrink-0 mt-1.5" />
+                        <span>{sign}</span>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
-                <ul className="space-y-1.5 text-xs text-rose-950/90 pl-1">
-                  {current.warningSigns.map((sign, idx) => (
-                    <li key={idx} className="flex items-start gap-2">
-                      <span className="w-1.5 h-1.5 rounded-full bg-rose-500 shrink-0 mt-1.5" />
-                      <span>{sign}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
 
-              {/* Underlying Physiological Mechanism */}
-              <div className="space-y-1.5">
-                <div className="flex items-center gap-1.5 text-xs font-bold text-charcoal uppercase tracking-wide">
-                  <Activity className="w-3.5 h-3.5 text-deep-teal" />
-                  Physiological & Biochemical Mechanism:
+                {/* Biological Mechanism */}
+                <div className="space-y-1">
+                  <div className="flex items-center gap-1.5 text-xs font-bold text-charcoal uppercase tracking-wide">
+                    <Activity className="w-3.5 h-3.5 text-deep-teal" />
+                    Physiological Mechanism:
+                  </div>
+                  <p className="text-xs md:text-sm text-charcoal/85 leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-200">
+                    {current.physiologicalMechanism}
+                  </p>
                 </div>
-                <p className="text-xs md:text-sm text-charcoal/85 leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-200">
-                  {current.physiologicalMechanism}
-                </p>
-              </div>
 
-              {/* How This Specifically Affects Women */}
-              <div className="rounded-xl bg-pink-50/80 border border-pink-200 p-3.5 space-y-1.5">
-                <div className="flex items-center gap-1.5 text-xs font-extrabold text-pink-950 uppercase tracking-wide">
-                  <Sparkles className="w-3.5 h-3.5 text-raspberry shrink-0" />
-                  How This Specifically Impacts Women&apos;s Biology:
+                {/* Female Biological Impact */}
+                <div className="rounded-xl bg-pink-50/80 border border-pink-200 p-3.5 space-y-1">
+                  <div className="flex items-center gap-1.5 text-xs font-extrabold text-pink-950 uppercase tracking-wide">
+                    <Sparkles className="w-3.5 h-3.5 text-raspberry shrink-0" />
+                    Female Biology Impact:
+                  </div>
+                  <p className="text-xs md:text-sm text-pink-950/90 leading-relaxed font-medium">
+                    {current.femaleSpecificImpact}
+                  </p>
                 </div>
-                <p className="text-xs md:text-sm text-pink-950/90 leading-relaxed font-medium">
-                  {current.femaleSpecificImpact}
-                </p>
-              </div>
 
-              {/* Adequate Recovery Solution */}
-              <div className="rounded-xl bg-emerald-50/90 border border-emerald-200 p-3.5 space-y-1.5">
-                <div className="flex items-center gap-1.5 text-xs font-extrabold text-emerald-950 uppercase tracking-wide">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
-                  Evidence-Based Recovery Protocol:
+                {/* Recovery Prescription */}
+                <div className="rounded-xl bg-emerald-50/90 border border-emerald-200 p-3.5 space-y-1">
+                  <div className="flex items-center gap-1.5 text-xs font-extrabold text-emerald-950 uppercase tracking-wide">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+                    Recovery Prescription:
+                  </div>
+                  <p className="text-xs md:text-sm text-emerald-950/90 leading-relaxed">
+                    {current.recoverySolution}
+                  </p>
                 </div>
-                <p className="text-xs md:text-sm text-emerald-950/90 leading-relaxed">
-                  {current.recoverySolution}
-                </p>
-              </div>
 
-              {/* Objective Clinical Biomarker */}
-              <div className="flex items-center justify-between gap-2 pt-2 border-t border-slate-100 text-[11px] text-charcoal/70">
-                <span className="font-semibold text-charcoal flex items-center gap-1">
-                  <Stethoscope className="w-3.5 h-3.5 text-deep-teal" />
-                  Clinical Biomarker:
-                </span>
-                <span className="font-mono bg-slate-100 px-2 py-0.5 rounded text-charcoal font-medium text-right">
-                  {current.clinicalMarker}
-                </span>
+                {/* Clinical Biomarker */}
+                <div className="flex items-center justify-between gap-2 pt-2 border-t border-slate-100 text-[11px] text-charcoal/70">
+                  <span className="font-semibold text-charcoal flex items-center gap-1">
+                    <Stethoscope className="w-3.5 h-3.5 text-deep-teal" />
+                    Key Clinical Marker:
+                  </span>
+                  <span className="font-mono bg-slate-100 px-2 py-0.5 rounded text-charcoal font-medium text-right">
+                    {current.clinicalMarker}
+                  </span>
+                </div>
+
+                {/* Modal Footer */}
+                <div className="flex items-center justify-between gap-2 pt-2 border-t border-slate-100">
+                  <span className="text-[11px] text-charcoal/60">
+                    Click another spot or close to return to full scan
+                  </span>
+                  <button
+                    onClick={() => setIsDetailOpen(false)}
+                    className="px-4 py-1.5 bg-slate-100 hover:bg-slate-200 text-charcoal text-xs font-bold rounded-lg transition-colors cursor-pointer"
+                  >
+                    Back to Scan
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
+          )}
         </div>
       )}
 
