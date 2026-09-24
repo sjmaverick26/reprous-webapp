@@ -1010,65 +1010,278 @@ export function HubView({ initialCategory }: HubViewProps) {
               whatIfDismissed: "Ask calmly: ‘Could you please document in my electronic health record that I reported these symptoms today and note why further evaluation is not indicated at this time?’",
             };
 
-            const getCategoryPages = () => {
-              if (activeCategoryId === "cycle") {
+            type LessonPageType =
+              | "lab"
+              | "plate-sorter"
+              | "custom-sorter"
+              | "quiz-game"
+              | "article"
+              | "roleplay"
+              | "signals"
+              | "blueprint";
+
+            interface LessonPage {
+              id: number;
+              type: LessonPageType;
+              title: string;
+              shortTitle: string;
+            }
+
+            const getTopicLessonPages = (
+              topic: HubTopic,
+              categoryId: string,
+              hasQuiz: boolean
+            ): LessonPage[] => {
+              const isNutrition =
+                topic.diagram?.type === "athlete-plate" ||
+                topic.diagram?.type === "cycle-fueling" ||
+                topic.id === "play-0" ||
+                topic.id === "play-8" ||
+                topic.name.toLowerCase().includes("fueling") ||
+                topic.name.toLowerCase().includes("nourishment");
+
+              // 1. Dedicated Classification Game (e.g. play-3 "Rest vs. Burnout Sorter")
+              if (topic.type === "game" && (topic.sorterGame || topic.gameType === "sort")) {
                 return [
-                  { id: 1, title: "Hormone & Cycle Lab", shortTitle: "Lab" },
-                  { id: 2, title: "Nourishment Plate & Sorter", shortTitle: "Plate & Game" },
-                  { id: 3, title: "Consultation Roleplay", shortTitle: "Roleplay" },
-                  { id: 4, title: "Signal Detective", shortTitle: "Signals" },
-                  { id: 5, title: isQuizActive ? "Action Blueprint & Quiz" : "Blueprint & Complete", shortTitle: isQuizActive ? "Quiz" : "Complete" },
+                  {
+                    id: 1,
+                    type: "custom-sorter",
+                    title: topic.sorterGame?.title || "Classification Challenge",
+                    shortTitle: "Sorter",
+                  },
+                  {
+                    id: 2,
+                    type: "roleplay",
+                    title: "Peer & Leadership Roleplay",
+                    shortTitle: "Roleplay",
+                  },
+                  {
+                    id: 3,
+                    type: "blueprint",
+                    title: hasQuiz ? "Action Blueprint & Quiz" : "Blueprint & Complete",
+                    shortTitle: hasQuiz ? "Quiz" : "Complete",
+                  },
                 ];
               }
-              if (activeCategoryId === "body") {
+
+              // 2. Dedicated Scenario Quiz Game (e.g. play-10 "Spotting Toxic Fitness Pressures")
+              if (topic.type === "game" && (topic.gameType === "scenarios" || hasQuiz)) {
                 return [
-                  { id: 1, title: "Tanner Staging & Anatomy", shortTitle: "Anatomy" },
-                  { id: 2, title: "Nourishment Plate & Sorter", shortTitle: "Plate & Game" },
-                  { id: 3, title: "Consultation Roleplay", shortTitle: "Roleplay" },
-                  { id: 4, title: "Signal Detective", shortTitle: "Signals" },
-                  { id: 5, title: isQuizActive ? "Action Blueprint & Quiz" : "Blueprint & Complete", shortTitle: isQuizActive ? "Quiz" : "Complete" },
+                  {
+                    id: 1,
+                    type: "quiz-game",
+                    title: "Scenario Challenge",
+                    shortTitle: "Challenge",
+                  },
+                  {
+                    id: 2,
+                    type: "signals",
+                    title: "Clinical Red Flag Detective",
+                    shortTitle: "Signals",
+                  },
+                  {
+                    id: 3,
+                    type: "blueprint",
+                    title: "Safety Blueprint & Action",
+                    shortTitle: "Blueprint",
+                  },
                 ];
               }
-              if (activeCategoryId === "conditions" || activeCategoryId === "pcos" || activeCategoryId === "endo") {
+
+              // 3. Editorial / Deep Dive Article (e.g. play-9, factors-0)
+              if (topic.type === "article") {
                 return [
-                  { id: 1, title: "Diagnostic Radar & Pelvic Lab", shortTitle: "Radar" },
-                  { id: 2, title: "Nourishment Plate & Sorter", shortTitle: "Plate & Game" },
-                  { id: 3, title: "Self-Advocacy Roleplay", shortTitle: "Roleplay" },
-                  { id: 4, title: "Diagnostic Signals", shortTitle: "Signals" },
-                  { id: 5, title: isQuizActive ? "Action Blueprint & Quiz" : "Blueprint & Complete", shortTitle: isQuizActive ? "Quiz" : "Complete" },
+                  {
+                    id: 1,
+                    type: "article",
+                    title: "Deep Dive Reading",
+                    shortTitle: "Article",
+                  },
+                  {
+                    id: 2,
+                    type: "signals",
+                    title: "Key Reflections & Checklist",
+                    shortTitle: "Reflect",
+                  },
+                  {
+                    id: 3,
+                    type: "blueprint",
+                    title: "Empowerment Action Blueprint",
+                    shortTitle: "Blueprint",
+                  },
                 ];
               }
-              if (activeCategoryId === "realtalk" || activeCategoryId === "factors") {
+
+              // 4. Self-Advocacy Capstone (e.g. play-11)
+              if (topic.isAdvocateCapstone) {
                 return [
-                  { id: 1, title: "Contraceptive Efficacy Pyramid", shortTitle: "Pyramid" },
-                  { id: 2, title: "Nourishment Plate & Sorter", shortTitle: "Plate & Game" },
-                  { id: 3, title: "Consultation Roleplay", shortTitle: "Roleplay" },
-                  { id: 4, title: "Key Signal Concepts", shortTitle: "Signals" },
-                  { id: 5, title: isQuizActive ? "Action Blueprint & Quiz" : "Blueprint & Complete", shortTitle: isQuizActive ? "Quiz" : "Complete" },
+                  {
+                    id: 1,
+                    type: "lab",
+                    title: "Athlete Rights & Standards",
+                    shortTitle: "Rights",
+                  },
+                  {
+                    id: 2,
+                    type: "roleplay",
+                    title: "High-Stakes Roleplay Challenge",
+                    shortTitle: "Roleplay",
+                  },
+                  {
+                    id: 3,
+                    type: "blueprint",
+                    title: "Medical Action Script & Protocol",
+                    shortTitle: "Protocol",
+                  },
                 ];
               }
-              if (activeCategoryId === "play") {
+
+              // 5. Nutrition & Fueling Lesson (plate-sorter lives here!)
+              if (isNutrition) {
                 return [
-                  { id: 1, title: "Athlete Fueling & Physiology", shortTitle: "Fueling" },
-                  { id: 2, title: "Speed Food Group Sorter", shortTitle: "Speed Sorter" },
-                  { id: 3, title: "Consultation Roleplay", shortTitle: "Roleplay" },
-                  { id: 4, title: "Signal Detective", shortTitle: "Signals" },
-                  { id: 5, title: isQuizActive ? "Action Blueprint & Quiz" : "Blueprint & Complete", shortTitle: isQuizActive ? "Quiz" : "Complete" },
+                  {
+                    id: 1,
+                    type: "lab",
+                    title: "Athlete Fueling & Physiology",
+                    shortTitle: "Fueling",
+                  },
+                  {
+                    id: 2,
+                    type: "plate-sorter",
+                    title: "Nourishment Plate & Sorter",
+                    shortTitle: "Plate Game",
+                  },
+                  {
+                    id: 3,
+                    type: "roleplay",
+                    title: "Fueling Consultation Roleplay",
+                    shortTitle: "Roleplay",
+                  },
+                  {
+                    id: 4,
+                    type: "blueprint",
+                    title: hasQuiz ? "Action Blueprint & Quiz" : "Blueprint & Complete",
+                    shortTitle: hasQuiz ? "Quiz" : "Complete",
+                  },
                 ];
               }
+
+              // 6. Lesson with Dedicated Sorter Game (e.g. body-0, cycle-0, conditions-0, endo-0)
+              if (topic.sorterGame) {
+                let labTitle = "Visual Diagram & Chart Lab";
+                let labShort = "Lab";
+                if (categoryId === "cycle") {
+                  labTitle = "Hormone & Cycle Lab";
+                  labShort = "Hormones";
+                } else if (categoryId === "body") {
+                  labTitle = "Tanner Staging & Anatomy";
+                  labShort = "Anatomy";
+                } else if (categoryId === "conditions" || categoryId === "pcos" || categoryId === "endo") {
+                  labTitle = "Diagnostic Radar & Pelvic Lab";
+                  labShort = "Radar";
+                } else if (categoryId === "realtalk" || categoryId === "factors") {
+                  labTitle = "Contraceptive Efficacy Pyramid";
+                  labShort = "Pyramid";
+                }
+
+                return [
+                  {
+                    id: 1,
+                    type: "lab",
+                    title: labTitle,
+                    shortTitle: labShort,
+                  },
+                  {
+                    id: 2,
+                    type: "custom-sorter",
+                    title: topic.sorterGame.title,
+                    shortTitle: "Sorting Game",
+                  },
+                  {
+                    id: 3,
+                    type: "roleplay",
+                    title: "Consultation Roleplay",
+                    shortTitle: "Roleplay",
+                  },
+                  {
+                    id: 4,
+                    type: "signals",
+                    title: "Signal Detective",
+                    shortTitle: "Signals",
+                  },
+                  {
+                    id: 5,
+                    type: "blueprint",
+                    title: hasQuiz ? "Action Blueprint & Quiz" : "Blueprint & Complete",
+                    shortTitle: hasQuiz ? "Quiz" : "Complete",
+                  },
+                ];
+              }
+
+              // 7. Standard Clinical / Physiology Lesson (Clean 4-slide journey without food plate!)
+              let labTitle = "Visual Diagram & Chart Lab";
+              let labShort = "Lab";
+              if (categoryId === "cycle") {
+                labTitle = "Hormone & Cycle Lab";
+                labShort = "Hormones";
+              } else if (categoryId === "body") {
+                labTitle = "Tanner Staging & Anatomy";
+                labShort = "Anatomy";
+              } else if (categoryId === "conditions" || categoryId === "pcos" || categoryId === "endo") {
+                labTitle = "Diagnostic Radar & Pelvic Lab";
+                labShort = "Radar";
+              } else if (categoryId === "realtalk" || categoryId === "factors") {
+                labTitle = "Contraceptive Efficacy Pyramid";
+                labShort = "Pyramid";
+              } else if (categoryId === "play") {
+                labTitle = "Athlete Health Lab & Signals";
+                labShort = "Athlete Lab";
+              }
+
               return [
-                { id: 1, title: "Visual Diagram Lab", shortTitle: "Visuals" },
-                { id: 2, title: "Nourishment Plate & Sorter", shortTitle: "Plate & Game" },
-                { id: 3, title: "Consultation Roleplay", shortTitle: "Roleplay" },
-                { id: 4, title: "Signal Detective", shortTitle: "Signals" },
-                { id: 5, title: isQuizActive ? "Action Blueprint & Quiz" : "Blueprint & Complete", shortTitle: isQuizActive ? "Quiz" : "Complete" },
+                {
+                  id: 1,
+                  type: "lab",
+                  title: labTitle,
+                  shortTitle: labShort,
+                },
+                {
+                  id: 2,
+                  type: "roleplay",
+                  title: "Consultation Roleplay",
+                  shortTitle: "Roleplay",
+                },
+                {
+                  id: 3,
+                  type: "signals",
+                  title: "Clinical Signals Detective",
+                  shortTitle: "Signals",
+                },
+                {
+                  id: 4,
+                  type: "blueprint",
+                  title: hasQuiz ? "Action Blueprint & Quiz" : "Blueprint & Complete",
+                  shortTitle: hasQuiz ? "Quiz" : "Complete",
+                },
               ];
             };
 
-            const lessonPages = getCategoryPages();
+            const lessonPages = getTopicLessonPages(
+              selectedTopic,
+              activeCategoryId || "play",
+              isQuizActive
+            );
+            const activePage = lessonPages[currentLessonPage - 1] || lessonPages[0];
+            const nextSlide = lessonPages.find((p) => p.id === currentLessonPage + 1);
 
             return (
               <div className="flex flex-col h-full overflow-hidden">
+                {/* Accessible Dialog Title for Screen Readers */}
+                <DialogHeader className="sr-only">
+                  <DialogTitle>{selectedTopic.name}</DialogTitle>
+                  <DialogDescription>{selectedTopic.desc}</DialogDescription>
+                </DialogHeader>
+
                 {/* Top Control Bar */}
                 <div className="flex items-center justify-between gap-3 border-b border-deep-teal/10 pb-3 mb-2 pr-7 shrink-0">
                   <div className="flex items-center gap-2 flex-wrap">
@@ -1110,7 +1323,7 @@ export function HubView({ initialCategory }: HubViewProps) {
                   </div>
                 </div>
 
-                {/* 7-Slide Stepper Navigation Pills */}
+                {/* Dynamic Stepper Navigation Pills */}
                 <div className="flex items-center gap-1.5 p-1.5 bg-slate-100/90 rounded-2xl mb-3 overflow-x-auto border border-slate-200/80 shrink-0">
                   {lessonPages.map((p) => {
                     const isActive = currentLessonPage === p.id;
@@ -1148,19 +1361,19 @@ export function HubView({ initialCategory }: HubViewProps) {
 
                 {/* Scrollable Main Content Area */}
                 <div className="flex-1 overflow-y-auto pr-1 sm:pr-3 space-y-6">
-                  {/* SLIDE 1: PICTURE-FIRST VISUAL LAB & INTERACTIVE CHARTS */}
-                  {currentLessonPage === 1 && (
+                  {/* SLIDE TYPE: PICTURE-FIRST VISUAL LAB & INTERACTIVE CHARTS */}
+                  {activePage.type === "lab" && (
                     <div className="space-y-6 animate-in fade-in duration-200 py-1 font-sans">
                       <div>
                         <span className="text-xs sm:text-sm font-bold uppercase tracking-wider text-deep-teal/70 font-sans block mb-1">
-                          Slide 1 of {lessonPages.length} · Visual Diagram & Chart Lab
+                          Slide {currentLessonPage} of {lessonPages.length} · {activePage.title}
                         </span>
-                        <DialogTitle className="text-3xl sm:text-4xl md:text-5xl font-normal font-serif text-deep-teal leading-[1.12] mb-3">
+                        <h3 className="text-3xl sm:text-4xl md:text-5xl font-normal font-serif text-deep-teal leading-[1.12] mb-3">
                           {selectedTopic.name}
-                        </DialogTitle>
-                        <DialogDescription className="text-charcoal/85 font-sans text-lg sm:text-xl leading-relaxed">
+                        </h3>
+                        <p className="text-charcoal/85 font-sans text-lg sm:text-xl leading-relaxed">
                           {selectedTopic.desc}
-                        </DialogDescription>
+                        </p>
                       </div>
 
                       {/* Hero Core Principle in Our Story Subtext Format */}
@@ -1201,7 +1414,7 @@ export function HubView({ initialCategory }: HubViewProps) {
                         </div>
                       )}
 
-                      {/* Topic-specific Diagram (if available) */}
+                      {/* Topic-specific Diagram (if available, e.g. Overtraining Magnifying Glass!) */}
                       {selectedTopic.diagram && (
                         <div className="p-1">
                           <InteractiveLessonDiagram
@@ -1304,53 +1517,36 @@ export function HubView({ initialCategory }: HubViewProps) {
                       )}
 
                       {/* In-content Continue Button */}
-                      <div className="pt-2 flex justify-end">
-                        <Button
-                          onClick={() => setCurrentLessonPage(2)}
-                          className="bg-deep-teal text-white hover:bg-deep-teal/90 text-base sm:text-lg h-12 sm:h-14 px-7 rounded-2xl gap-2.5 font-bold shadow-sm cursor-pointer"
-                        >
-                          <span>
-                            {activeCategoryId === "play"
-                              ? "Continue to Speed Food Group Sorter"
-                              : "Continue to Nourishment Plate & Sorter"}
-                          </span>
-                          <ArrowRight className="w-5 h-5" />
-                        </Button>
-                      </div>
+                      {nextSlide && (
+                        <div className="pt-2 flex justify-end">
+                          <Button
+                            onClick={() => setCurrentLessonPage((p) => p + 1)}
+                            className="bg-deep-teal text-white hover:bg-deep-teal/90 text-base sm:text-lg h-12 sm:h-14 px-7 rounded-2xl gap-2.5 font-bold shadow-sm cursor-pointer"
+                          >
+                            <span>Continue to {nextSlide.title}</span>
+                            <ArrowRight className="w-5 h-5" />
+                          </Button>
+                        </div>
+                      )}
                     </div>
                   )}
 
-                  {/* SLIDE 2: FEMALE NOURISHMENT PLATE & SPEED FOOD GROUP SORTER */}
-                  {currentLessonPage === 2 && (
+                  {/* SLIDE TYPE: FEMALE NOURISHMENT PLATE & SPEED FOOD GROUP SORTER */}
+                  {activePage.type === "plate-sorter" && (
                     <div className="space-y-6 animate-in fade-in duration-200 py-1 font-sans">
                       <div>
                         <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-coral text-white shadow-2xs font-sans mb-2">
-                          {activeCategoryId === "play" ? (
-                            <Zap className="w-4 h-4" />
-                          ) : (
-                            <Utensils className="w-4 h-4" />
-                          )}
-                          <span>
-                            {activeCategoryId === "play"
-                              ? "Speed Nutrition Challenge"
-                              : "Female Nourishment & Physiology"}
-                          </span>
+                          <Utensils className="w-4 h-4" />
+                          <span>Female Athlete Nourishment & Physiology</span>
                         </div>
                         <span className="text-xs sm:text-sm font-bold uppercase tracking-wider text-coral font-sans block mb-1">
-                          Slide 2 of {lessonPages.length} ·{" "}
-                          {activeCategoryId === "play"
-                            ? "Speed Food Group Sorting Game"
-                            : "Interactive Plate & Speed Challenge"}
+                          Slide {currentLessonPage} of {lessonPages.length} · {activePage.title}
                         </span>
                         <h4 className="text-3xl sm:text-4xl font-serif font-bold text-deep-teal leading-tight mb-2">
-                          {activeCategoryId === "play"
-                            ? "Speed Food Group Sorting Game"
-                            : `${selectedTopic.name} Nourishment Plate & Speed Sorter`}
+                          {selectedTopic.name} Nourishment Plate & Speed Sorter
                         </h4>
                         <p className="text-charcoal/85 text-base sm:text-lg font-sans leading-relaxed">
-                          {activeCategoryId === "play"
-                            ? "Race the 45-second clock to sort whole foods onto your nourishment plate. Tap plate slices, drag, or press [1]–[5]!"
-                            : "Explore essential food groups, how each one benefits your female body, and test your reflexes in the Speed Sorter!"}
+                          Explore essential food groups, how each one benefits your female body, and test your reflexes in the Speed Sorter!
                         </p>
                       </div>
 
@@ -1362,38 +1558,249 @@ export function HubView({ initialCategory }: HubViewProps) {
                         }}
                       />
 
-                      {/* Sorter Game if topic has custom sorterGame */}
-                      {selectedTopic.sorterGame && activeCategoryId !== "play" && (
-                        <div className="space-y-3 pt-3">
-                          <h5 className="font-bold text-deep-teal text-sm sm:text-base uppercase tracking-wider flex items-center gap-2 font-sans">
-                            <Gamepad2 className="w-4 h-4 text-raspberry" />
-                            Additional Classification Challenge:
+                      {/* In-content Continue Button */}
+                      {nextSlide && (
+                        <div className="pt-2 flex justify-end">
+                          <Button
+                            onClick={() => setCurrentLessonPage((p) => p + 1)}
+                            className="bg-deep-teal text-white hover:bg-deep-teal/90 text-base sm:text-lg h-12 sm:h-14 px-7 rounded-2xl gap-2.5 font-bold shadow-sm cursor-pointer"
+                          >
+                            <span>Continue to {nextSlide.title}</span>
+                            <ArrowRight className="w-5 h-5" />
+                          </Button>
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                  {/* SLIDE TYPE: CUSTOM CLASSIFICATION CHALLENGE */}
+                  {activePage.type === "custom-sorter" && (
+                    <div className="space-y-6 animate-in fade-in duration-200 py-1 font-sans">
+                      <div>
+                        <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-raspberry text-white shadow-2xs font-sans mb-2">
+                          <Gamepad2 className="w-4 h-4" />
+                          <span>Interactive Classification Challenge</span>
+                        </div>
+                        <span className="text-xs sm:text-sm font-bold uppercase tracking-wider text-deep-teal/70 font-sans block mb-1">
+                          Slide {currentLessonPage} of {lessonPages.length} · {activePage.title}
+                        </span>
+                        <h4 className="text-3xl sm:text-4xl font-serif font-bold text-deep-teal leading-tight mb-2">
+                          {selectedTopic.sorterGame?.title || `${selectedTopic.name} Classification Challenge`}
+                        </h4>
+                        <p className="text-charcoal/85 text-lg sm:text-xl font-sans leading-relaxed">
+                          {selectedTopic.sorterGame?.instructions || selectedTopic.summary}
+                        </p>
+                      </div>
+
+                      {selectedTopic.sorterGame && (
+                        <LessonSorterGameComponent
+                          game={selectedTopic.sorterGame}
+                          themeColor={topicTheme.primaryHex}
+                          onGameComplete={(bonus) => {
+                            setXp((x) => x + bonus);
+                          }}
+                        />
+                      )}
+
+                      {/* In-content Continue Button */}
+                      {nextSlide && (
+                        <div className="pt-2 flex justify-end">
+                          <Button
+                            onClick={() => setCurrentLessonPage((p) => p + 1)}
+                            className="bg-deep-teal text-white hover:bg-deep-teal/90 text-base sm:text-lg h-12 sm:h-14 px-7 rounded-2xl gap-2.5 font-bold shadow-sm cursor-pointer"
+                          >
+                            <span>Continue to {nextSlide.title}</span>
+                            <ArrowRight className="w-5 h-5" />
+                          </Button>
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                  {/* SLIDE TYPE: SCENARIO QUIZ GAME */}
+                  {activePage.type === "quiz-game" && (
+                    <div className="space-y-6 animate-in fade-in duration-200 py-1 font-sans">
+                      <div>
+                        <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-coral text-white shadow-2xs font-sans mb-2">
+                          <Zap className="w-4 h-4" />
+                          <span>Interactive Scenario Quiz</span>
+                        </div>
+                        <span className="text-xs sm:text-sm font-bold uppercase tracking-wider text-deep-teal/70 font-sans block mb-1">
+                          Slide {currentLessonPage} of {lessonPages.length} · {activePage.title}
+                        </span>
+                        <h4 className="text-3xl sm:text-4xl font-serif font-bold text-deep-teal leading-tight mb-2">
+                          {selectedTopic.name}
+                        </h4>
+                        <p className="text-charcoal/85 text-lg sm:text-xl font-sans leading-relaxed">
+                          {selectedTopic.summary}
+                        </p>
+                      </div>
+
+                      {isQuizActive && (
+                        <InteractiveQuizGame
+                          questions={quizList}
+                          topicName={selectedTopic.name}
+                          topicXp={selectedTopic.xp}
+                          onComplete={() => {
+                            // Quiz completed
+                          }}
+                        />
+                      )}
+
+                      {/* In-content Continue Button */}
+                      {nextSlide && (
+                        <div className="pt-2 flex justify-end">
+                          <Button
+                            onClick={() => setCurrentLessonPage((p) => p + 1)}
+                            className="bg-deep-teal text-white hover:bg-deep-teal/90 text-base sm:text-lg h-12 sm:h-14 px-7 rounded-2xl gap-2.5 font-bold shadow-sm cursor-pointer"
+                          >
+                            <span>Continue to {nextSlide.title}</span>
+                            <ArrowRight className="w-5 h-5" />
+                          </Button>
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                  {/* SLIDE TYPE: EDITORIAL DEEP DIVE & ANALYSIS */}
+                  {activePage.type === "article" && (
+                    <div className="space-y-6 animate-in fade-in duration-200 py-1 font-sans">
+                      <div>
+                        <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-deep-teal text-white shadow-2xs font-sans mb-2">
+                          <BookOpen className="w-4 h-4" />
+                          <span>Editorial Deep Dive & Cultural Analysis</span>
+                        </div>
+                        <span className="text-xs sm:text-sm font-bold uppercase tracking-wider text-deep-teal/70 font-sans block mb-1">
+                          Slide {currentLessonPage} of {lessonPages.length} · {activePage.title}
+                        </span>
+                        <h3 className="text-3xl sm:text-4xl md:text-5xl font-serif text-deep-teal leading-[1.12] mb-3">
+                          {selectedTopic.name}
+                        </h3>
+                        <p className="text-charcoal/85 font-sans text-lg sm:text-xl leading-relaxed">
+                          {selectedTopic.desc}
+                        </p>
+                      </div>
+
+                      {/* Article Hero Callout */}
+                      <div className={`p-6 sm:p-7 rounded-3xl border-2 ${topicTheme.bgLight} ${topicTheme.borderPrimary} shadow-sm space-y-3`}>
+                        <div className="flex items-center gap-2 text-xs sm:text-sm font-bold uppercase tracking-wider text-deep-teal font-sans">
+                          <Lightbulb className="w-5 h-5 text-raspberry" />
+                          <span>Core Insight & Cultural Perspective</span>
+                        </div>
+                        <p className="text-lg sm:text-xl font-serif italic text-deep-teal font-medium leading-relaxed m-0">
+                          &ldquo;{selectedTopic.summary}&rdquo;
+                        </p>
+                      </div>
+
+                      {/* Visual Cards or Takeaways */}
+                      {selectedTopic.visualCards && selectedTopic.visualCards.length > 0 ? (
+                        <div>
+                          <h5 className="font-bold text-deep-teal text-sm sm:text-base uppercase tracking-wider mb-3.5 flex items-center gap-2 font-sans">
+                            <Layers className="w-5 h-5 text-deep-teal" />
+                            Critical Analytical Perspectives:
                           </h5>
-                          <LessonSorterGameComponent
-                            game={selectedTopic.sorterGame}
+                          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3.5">
+                            {selectedTopic.visualCards.map((card, i) => {
+                              const cardPalettes = [
+                                { bg: "bg-light-teal/50", border: "border-deep-teal/30", iconBg: "bg-deep-teal text-white", badgeBg: "bg-white text-deep-teal border-deep-teal/20" },
+                                { bg: "bg-[#FFE1DB]/70", border: "border-coral/40", iconBg: "bg-coral text-white", badgeBg: "bg-white text-[#B83F68] border-coral/30" },
+                                { bg: "bg-soft-pink/70", border: "border-raspberry/35", iconBg: "bg-raspberry text-white", badgeBg: "bg-white text-raspberry border-raspberry/20" },
+                              ];
+                              const palette = cardPalettes[i % cardPalettes.length];
+
+                              return (
+                                <div
+                                  key={i}
+                                  className={`p-4 sm:p-5 rounded-3xl ${palette.bg} border-2 ${palette.border} shadow-2xs flex flex-col justify-between`}
+                                >
+                                  <div>
+                                    <div className="flex items-center justify-between mb-2.5">
+                                      <span className={`p-2.5 rounded-2xl ${palette.iconBg} shadow-xs`}>
+                                        {getVisualCardIcon(card.iconName)}
+                                      </span>
+                                      {card.highlight && (
+                                        <span className={`text-[11px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full border ${palette.badgeBg} font-sans`}>
+                                          {card.highlight}
+                                        </span>
+                                      )}
+                                    </div>
+                                    <h6 className="font-bold text-base sm:text-lg text-deep-teal mb-1 font-serif">{card.title}</h6>
+                                    <p className="text-sm sm:text-base text-charcoal/90 leading-relaxed font-sans">{card.text}</p>
+                                  </div>
+                                </div>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      ) : (
+                        <div>
+                          <h5 className="font-bold text-deep-teal text-sm sm:text-base uppercase tracking-wider mb-3.5 flex items-center gap-2 font-sans">
+                            <Layers className="w-5 h-5 text-deep-teal" />
+                            Key Editorial Takeaways:
+                          </h5>
+                          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3.5">
+                            {selectedTopic.keyTakeaways.slice(0, 3).map((takeaway, i) => {
+                              const cardPalettes = [
+                                { bg: "bg-light-teal/50", border: "border-deep-teal/30", iconBg: "bg-deep-teal text-white", badgeBg: "bg-white text-deep-teal border-deep-teal/20" },
+                                { bg: "bg-[#FFE1DB]/70", border: "border-coral/40", iconBg: "bg-coral text-white", badgeBg: "bg-white text-[#B83F68] border-coral/30" },
+                                { bg: "bg-soft-pink/70", border: "border-raspberry/35", iconBg: "bg-raspberry text-white", badgeBg: "bg-white text-raspberry border-raspberry/20" },
+                              ];
+                              const palette = cardPalettes[i % cardPalettes.length];
+
+                              return (
+                                <div
+                                  key={i}
+                                  className={`p-4 sm:p-5 rounded-3xl ${palette.bg} border-2 ${palette.border} shadow-2xs flex flex-col justify-between`}
+                                >
+                                  <div>
+                                    <div className="flex items-center justify-between mb-2.5">
+                                      <span className={`p-2.5 rounded-2xl ${palette.iconBg} shadow-xs`}>
+                                        {i === 0 ? <Sparkles className="w-4 h-4" /> : i === 1 ? <Heart className="w-4 h-4" /> : <Shield className="w-4 h-4" />}
+                                      </span>
+                                      <span className={`text-[11px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full border ${palette.badgeBg} font-sans`}>
+                                        Takeaway #{i + 1}
+                                      </span>
+                                    </div>
+                                    <p className="text-sm sm:text-base text-charcoal/90 leading-relaxed font-sans">{takeaway}</p>
+                                  </div>
+                                </div>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Video explanation if present */}
+                      {selectedTopic.video && (
+                        <div className="space-y-3 pt-1">
+                          <h5 className="font-bold text-deep-teal text-xs sm:text-sm uppercase tracking-wider flex items-center gap-2 font-sans">
+                            <Video className="w-4 h-4 text-emerald-600" />
+                            Clinical Video Analysis:
+                          </h5>
+                          <LessonVideoCard
+                            video={selectedTopic.video}
                             themeColor={topicTheme.primaryHex}
-                            onGameComplete={(bonus) => {
-                              setXp((x) => x + bonus);
-                            }}
                           />
                         </div>
                       )}
 
                       {/* In-content Continue Button */}
-                      <div className="pt-2 flex justify-end">
-                        <Button
-                          onClick={() => setCurrentLessonPage(3)}
-                          className="bg-deep-teal text-white hover:bg-deep-teal/90 text-base sm:text-lg h-12 sm:h-14 px-7 rounded-2xl gap-2.5 font-bold shadow-sm cursor-pointer"
-                        >
-                          <span>Continue to Consultation Roleplay</span>
-                          <ArrowRight className="w-5 h-5" />
-                        </Button>
-                      </div>
+                      {nextSlide && (
+                        <div className="pt-2 flex justify-end">
+                          <Button
+                            onClick={() => setCurrentLessonPage((p) => p + 1)}
+                            className="bg-deep-teal text-white hover:bg-deep-teal/90 text-base sm:text-lg h-12 sm:h-14 px-7 rounded-2xl gap-2.5 font-bold shadow-sm cursor-pointer"
+                          >
+                            <span>Continue to {nextSlide.title}</span>
+                            <ArrowRight className="w-5 h-5" />
+                          </Button>
+                        </div>
+                      )}
                     </div>
                   )}
 
-                  {/* SLIDE 3: INTERACTIVE CONSULTATION ROLEPLAY GAME */}
-                  {currentLessonPage === 3 && (
+                  {/* SLIDE TYPE: INTERACTIVE CONSULTATION ROLEPLAY */}
+                  {activePage.type === "roleplay" && (
                     <div className="space-y-6 animate-in fade-in duration-200 py-1 font-sans">
                       <div>
                         <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-raspberry text-white shadow-2xs font-sans mb-2">
@@ -1401,7 +1808,7 @@ export function HubView({ initialCategory }: HubViewProps) {
                           <span>Interactive Roleplay Simulation</span>
                         </div>
                         <span className="text-xs sm:text-sm font-bold uppercase tracking-wider text-raspberry font-sans block mb-1">
-                          Slide 3 of {lessonPages.length} · Clinical Consultation Scenario
+                          Slide {currentLessonPage} of {lessonPages.length} · {activePage.title}
                         </span>
                         <h4 className="text-3xl sm:text-4xl font-serif font-bold text-deep-teal leading-tight mb-2">
                           Doctor & Provider Roleplay Challenge
@@ -1570,23 +1977,25 @@ export function HubView({ initialCategory }: HubViewProps) {
                           <div />
                         )}
 
-                        <Button
-                          onClick={() => setCurrentLessonPage(4)}
-                          className="bg-deep-teal text-white hover:bg-deep-teal/90 text-base sm:text-lg h-12 sm:h-14 px-7 rounded-2xl gap-2.5 font-bold shadow-sm cursor-pointer ml-auto"
-                        >
-                          <span>Continue to Signal Detective</span>
-                          <ArrowRight className="w-5 h-5" />
-                        </Button>
+                        {nextSlide && (
+                          <Button
+                            onClick={() => setCurrentLessonPage((p) => p + 1)}
+                            className="bg-deep-teal text-white hover:bg-deep-teal/90 text-base sm:text-lg h-12 sm:h-14 px-7 rounded-2xl gap-2.5 font-bold shadow-sm cursor-pointer ml-auto"
+                          >
+                            <span>Continue to {nextSlide.title}</span>
+                            <ArrowRight className="w-5 h-5" />
+                          </Button>
+                        )}
                       </div>
                     </div>
                   )}
 
-                  {/* SLIDE 4: SIGNAL DETECTIVE & CLINICAL AUTHORITY */}
-                  {currentLessonPage === 4 && (
+                  {/* SLIDE TYPE: SIGNAL DETECTIVE & CLINICAL AUTHORITY */}
+                  {activePage.type === "signals" && (
                     <div className="space-y-6 animate-in fade-in duration-200 py-1 font-sans">
                       <div>
                         <span className="text-xs sm:text-sm font-bold uppercase tracking-wider text-deep-teal/70 font-sans block mb-1">
-                          Slide 4 of {lessonPages.length} · Signal Detective & Evidence
+                          Slide {currentLessonPage} of {lessonPages.length} · {activePage.title}
                         </span>
                         <h4 className="text-3xl sm:text-4xl font-serif font-bold text-deep-teal leading-tight mb-2">
                           Clinical Signals & Verified Evidence
@@ -1695,24 +2104,26 @@ export function HubView({ initialCategory }: HubViewProps) {
                       </div>
 
                       {/* In-content Continue Button */}
-                      <div className="pt-2 flex justify-end">
-                        <Button
-                          onClick={() => setCurrentLessonPage(5)}
-                          className="bg-deep-teal text-white hover:bg-deep-teal/90 text-base sm:text-lg h-12 sm:h-14 px-7 rounded-2xl gap-2.5 font-bold shadow-sm cursor-pointer"
-                        >
-                          <span>Continue to Action Blueprint & Quiz</span>
-                          <ArrowRight className="w-5 h-5" />
-                        </Button>
-                      </div>
+                      {nextSlide && (
+                        <div className="pt-2 flex justify-end">
+                          <Button
+                            onClick={() => setCurrentLessonPage((p) => p + 1)}
+                            className="bg-deep-teal text-white hover:bg-deep-teal/90 text-base sm:text-lg h-12 sm:h-14 px-7 rounded-2xl gap-2.5 font-bold shadow-sm cursor-pointer"
+                          >
+                            <span>Continue to {nextSlide.title}</span>
+                            <ArrowRight className="w-5 h-5" />
+                          </Button>
+                        </div>
+                      )}
                     </div>
                   )}
 
-                  {/* SLIDE 5: APPOINTMENT BLUEPRINT, DOCTOR SCRIPT & MINI-QUIZ */}
-                  {currentLessonPage === 5 && (
+                  {/* SLIDE TYPE: APPOINTMENT BLUEPRINT, DOCTOR SCRIPT & MINI-QUIZ / COMPLETION */}
+                  {activePage.type === "blueprint" && (
                     <div className="space-y-6 animate-in fade-in duration-200 py-1 font-sans">
                       <div>
                         <span className="text-xs sm:text-sm font-bold uppercase tracking-wider text-raspberry font-sans block mb-1">
-                          Slide 5 of {lessonPages.length} · Action Blueprint & Knowledge Check
+                          Slide {currentLessonPage} of {lessonPages.length} · {activePage.title}
                         </span>
                         <h4 className="text-3xl sm:text-4xl font-serif font-bold text-deep-teal leading-tight mb-2">
                           Appointment Blueprint & Knowledge Validation
@@ -1813,8 +2224,8 @@ export function HubView({ initialCategory }: HubViewProps) {
                         </div>
                       </div>
 
-                      {/* MINI-QUIZ (if topic has quiz) */}
-                      {isQuizActive && (
+                      {/* MINI-QUIZ (if topic has quiz and wasn't already featured on slide 1) */}
+                      {isQuizActive && !lessonPages.some((p) => p.type === "quiz-game") && (
                         <div className="pt-2">
                           <InteractiveQuizGame
                             questions={quizList}
@@ -1825,8 +2236,8 @@ export function HubView({ initialCategory }: HubViewProps) {
                         </div>
                       )}
 
-                      {/* Fallback completion card if topic does not have a quiz */}
-                      {!isQuizActive && (
+                      {/* Completion card if topic does not have a quiz or already completed on slide 1 */}
+                      {(!isQuizActive || lessonPages.some((p) => p.type === "quiz-game")) && (
                         <div className="p-6 sm:p-8 rounded-3xl bg-white border-2 border-deep-teal/20 text-center space-y-3.5 shadow-sm font-sans">
                           <div className="w-14 h-14 rounded-full bg-light-teal text-deep-teal flex items-center justify-center mx-auto shadow-sm">
                             <Sparkles className="w-7 h-7 text-coral" />
@@ -1836,7 +2247,7 @@ export function HubView({ initialCategory }: HubViewProps) {
                               Lesson Complete!
                             </h5>
                             <p className="text-base sm:text-lg text-charcoal/85 mt-1 font-sans max-w-lg mx-auto leading-relaxed">
-                              You have explored the interactive diagrams & charts, played the arcade mini-game, navigated the clinical consultation roleplay, and mastered the appointment script for <strong>{selectedTopic.name}</strong>.
+                              You have explored the interactive materials, completed the clinical consultation roleplay, and mastered the evidence-based appointment script for <strong>{selectedTopic.name}</strong>.
                             </p>
                           </div>
                           <div className="pt-2">

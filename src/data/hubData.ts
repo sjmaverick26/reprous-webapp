@@ -2234,6 +2234,52 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
           "Loss of menstrual flow, recurring shin splints or stress fractures, and unshakeable brain fog indicate dangerous overtraining and energy deficit."
         ],
         gameType: "sort",
+        sorterGame: {
+          title: "Productive Training Fatigue vs. Dangerous Burnout Alarms",
+          instructions: "Sort each athletic signal into healthy training adaptation vs. dangerous overtraining red flags that require medical rest.",
+          categories: [
+            { id: "healthy", name: "Healthy Training Adaptation", colorClass: "bg-emerald-50 border-emerald-300 text-emerald-900" },
+            { id: "burnout", name: "Dangerous Burnout Alarm", colorClass: "bg-red-50 border-red-300 text-red-900" }
+          ],
+          items: [
+            {
+              id: "rb1",
+              text: "Mild, diffuse muscle soreness that peaks 24–48 hours after hard training and fades with light jogging or stretching",
+              correctCategory: "healthy",
+              explanation: "Delayed Onset Muscle Soreness (DOMS) in large muscle bellies is standard biological adaptation that resolves with sleep and nutrition."
+            },
+            {
+              id: "rb2",
+              text: "Sharp, pinpoint focal bone tenderness on the lower shin that hurts when hopping or walking up stairs",
+              correctCategory: "burnout",
+              explanation: "Point tenderness on cortical bone indicates bone stress reaction or microfracture. Continuing to run risks a complete fracture."
+            },
+            {
+              id: "rb3",
+              text: "Waking up with resting heart rate elevated 8–12 beats above normal alongside two missed menstrual periods",
+              correctCategory: "burnout",
+              explanation: "Resting bradycardia reversal and hypothalamic amenorrhea indicate severe autonomic and neuroendocrine exhaustion (RED-S)."
+            },
+            {
+              id: "rb4",
+              text: "Falling asleep quickly and waking up refreshed after an extra 30–60 minutes of sleep following hard workouts",
+              correctCategory: "healthy",
+              explanation: "Increased sleep drive after physical exertion is the parasympathetic nervous system releasing HGH to repair micro-tears."
+            },
+            {
+              id: "rb5",
+              text: "Sudden inability to hit normal training split times despite maximum effort, accompanied by heavy 'cement legs' and frequent colds",
+              correctCategory: "burnout",
+              explanation: "Unexplained performance drops with immune suppression (s-IgA drop) and empty glycogen stores are cardinal signs of overtraining syndrome."
+            },
+            {
+              id: "rb6",
+              text: "Feeling eager and mentally motivated to warm up with teammates for race day after an easy recovery day",
+              correctCategory: "healthy",
+              explanation: "Positive psychological readiness and stable mood indicate the sympathetic-parasympathetic nervous system is in productive balance."
+            }
+          ]
+        },
         roleplayScenario: {
           id: "play-3-sim-1",
           title: "Soreness vs. Bone Microtrauma: Refusing to Mask Focal Pain",
