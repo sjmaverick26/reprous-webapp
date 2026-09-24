@@ -15,12 +15,14 @@ import {
   Heart,
   Volume2,
   VolumeX,
+  Music,
   Trophy,
   Play,
   ArrowRight,
   HelpCircle,
   Keyboard,
 } from "lucide-react";
+import { useSoftNutritionMusic } from "@/lib/softNutritionMusic";
 
 // ============================================================================
 // FOOD GROUP DEFINITIONS & TYPES
@@ -705,6 +707,32 @@ export function FemaleNourishmentPlateGame({
   const [soundEnabled, setSoundEnabled] = useState(true);
   const [draggedOverGroup, setDraggedOverGroup] = useState<FoodGroupId | null>(null);
 
+  // Soft Ambient Background Music Engine
+  const {
+    isPlaying: isMusicPlaying,
+    toggleMusic,
+    startMusic,
+    stopMusic,
+  } = useSoftNutritionMusic();
+  const [musicPrefEnabled, setMusicPrefEnabled] = useState(true);
+
+  // Stop music on unmount
+  useEffect(() => {
+    return () => {
+      stopMusic();
+    };
+  }, [stopMusic]);
+
+  const handleToggleMusic = () => {
+    const next = !isMusicPlaying;
+    setMusicPrefEnabled(next);
+    if (next) {
+      startMusic();
+    } else {
+      stopMusic();
+    }
+  };
+
   const audioCtxRef = useRef<AudioContext | null>(null);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -774,6 +802,11 @@ export function FemaleNourishmentPlateGame({
     setFeedback(null);
     setFlashFeedback(null);
     setGameState("playing");
+
+    // Start soothing background music if preference is on
+    if (musicPrefEnabled) {
+      startMusic();
+    }
   };
 
   // Timer loop
@@ -931,14 +964,32 @@ export function FemaleNourishmentPlateGame({
           </p>
         </div>
 
-        {/* Tab Switcher: Interactive Plate vs Speed Sorter */}
-        <div className="flex items-center gap-2 self-start md:self-auto bg-slate-100 p-1.5 rounded-2xl border border-slate-200">
+        {/* Tab Switcher & Ambient Music Controls */}
+        <div className="flex items-center gap-2 self-start md:self-auto flex-wrap">
+          {/* Soft Music Ambient Player Toggle */}
           <button
             type="button"
-            onClick={() => {
-              setActiveTab("plate");
-              if (gameState === "playing") setGameState("idle");
-            }}
+            onClick={handleToggleMusic}
+            className={`px-3 py-2 rounded-2xl font-bold text-xs sm:text-sm transition-all flex items-center gap-2 font-sans border cursor-pointer ${
+              isMusicPlaying
+                ? "bg-emerald-50 border-emerald-300 text-emerald-800 shadow-2xs ring-2 ring-emerald-400/20"
+                : "bg-slate-100 hover:bg-slate-200 border-slate-200 text-charcoal/70"
+            }`}
+            title={isMusicPlaying ? "Pause Soft Ambient Music" : "Play Soft Ambient Music"}
+          >
+            <Music className={`w-4 h-4 ${isMusicPlaying ? "text-emerald-600 animate-pulse" : "text-slate-400"}`} />
+            <span className="hidden sm:inline">Soft Music:</span>
+            <span>{isMusicPlaying ? "ON" : "OFF"}</span>
+          </button>
+
+          {/* Tab Switcher: Interactive Plate vs Speed Sorter */}
+          <div className="flex items-center gap-1.5 bg-slate-100 p-1.5 rounded-2xl border border-slate-200">
+            <button
+              type="button"
+              onClick={() => {
+                setActiveTab("plate");
+                if (gameState === "playing") setGameState("idle");
+              }}
             className={`px-4 py-2 rounded-xl font-bold text-xs sm:text-sm transition-all flex items-center gap-2 font-sans ${
               activeTab === "plate"
                 ? "bg-deep-teal text-white shadow-xs"
@@ -965,6 +1016,7 @@ export function FemaleNourishmentPlateGame({
           </button>
         </div>
       </div>
+    </div>
 
       {/* =========================================================================
           VIEW 1: INTERACTIVE FEMALE NOURISHMENT PLATE (EXPLORE & LEARN)
@@ -1283,13 +1335,29 @@ export function FemaleNourishmentPlateGame({
               </div>
             </div>
 
-            {/* Audio Toggle & Restart */}
+            {/* Music, SFX & Restart */}
             <div className="flex items-center gap-2">
+              {/* Soft Music Button */}
+              <button
+                type="button"
+                onClick={handleToggleMusic}
+                className={`px-2.5 py-1.5 rounded-xl font-bold text-xs transition-all flex items-center gap-1.5 border cursor-pointer ${
+                  isMusicPlaying
+                    ? "bg-slate-800 border-emerald-500/60 text-emerald-300 shadow-2xs"
+                    : "bg-slate-800 border-slate-700 text-slate-400 hover:text-slate-200"
+                }`}
+                title={isMusicPlaying ? "Pause Soft Ambient Music" : "Play Soft Ambient Music"}
+              >
+                <Music className={`w-3.5 h-3.5 ${isMusicPlaying ? "text-emerald-400 animate-pulse" : "text-slate-400"}`} />
+                <span className="hidden sm:inline">Music:</span>
+                <span>{isMusicPlaying ? "ON" : "OFF"}</span>
+              </button>
+
               <button
                 type="button"
                 onClick={() => setSoundEnabled(!soundEnabled)}
                 className="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 transition-all border border-slate-700 cursor-pointer"
-                title={soundEnabled ? "Mute Sound" : "Enable Sound"}
+                title={soundEnabled ? "Mute SFX" : "Enable SFX"}
               >
                 {soundEnabled ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4" />}
               </button>
@@ -1545,6 +1613,19 @@ export function FemaleNourishmentPlateGame({
                 >
                   <Utensils className="w-4 h-4 text-deep-teal" />
                   <span>Explore Nourishment Plate</span>
+                </button>
+              </div>
+
+              {/* Soft Music Status Pill on Start Screen */}
+              <div className="pt-1 flex items-center justify-center">
+                <button
+                  type="button"
+                  onClick={handleToggleMusic}
+                  className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white hover:bg-slate-100 border border-slate-200 text-xs font-semibold text-charcoal/80 transition-all cursor-pointer shadow-2xs"
+                  title="Click to toggle soft background music"
+                >
+                  <Music className={`w-3.5 h-3.5 ${isMusicPlaying ? "text-emerald-600 animate-pulse" : "text-slate-400"}`} />
+                  <span>Soft Background Music: <strong className={isMusicPlaying ? "text-emerald-700" : "text-slate-500"}>{isMusicPlaying ? "Playing" : "Muted"}</strong> (Click to {isMusicPlaying ? "mute" : "turn on"})</span>
                 </button>
               </div>
             </div>

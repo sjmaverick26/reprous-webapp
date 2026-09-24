@@ -29,9 +29,11 @@ import {
   ArrowRight,
   AlertTriangle,
   Gamepad2,
+  Music,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { HubTopic } from "@/data/hubData";
+import { useSoftNutritionMusic } from "@/lib/softNutritionMusic";
 
 interface FuelUpNutritionGameProps {
   topic?: HubTopic;
@@ -1017,6 +1019,22 @@ export function FuelUpNutritionGame({
   const [completedGames, setCompletedGames] = useState<Set<string>>(new Set());
   const [showSources, setShowSources] = useState<boolean>(false);
 
+  // Soft Ambient Background Music Engine
+  const {
+    isPlaying: isMusicPlaying,
+    toggleMusic,
+    startMusic,
+    stopMusic,
+    playSfx,
+  } = useSoftNutritionMusic();
+
+  // Stop music on unmount
+  useEffect(() => {
+    return () => {
+      stopMusic();
+    };
+  }, [stopMusic]);
+
   // --------------------------------------------------------------------------
   // GAME 1: MATCHER STATE
   // --------------------------------------------------------------------------
@@ -1054,10 +1072,14 @@ export function FuelUpNutritionGame({
       setMatchToast(`Pair Matched! ${card.takeaway}`);
 
       if (next.size === 4) {
+        playSfx("victory");
         setCompletedGames((prev) => new Set(prev).add("match"));
+      } else {
+        playSfx("match");
       }
     } else {
       // MISMATCH
+      playSfx("wrong");
       setShakeCardId(card.id);
       setTimeout(() => {
         setShakeCardId(null);
@@ -1097,6 +1119,7 @@ export function FuelUpNutritionGame({
 
   const handleAddBlenderFood = (item: MixerFoodItem) => {
     if (item.type === "hazard") {
+      playSfx("wrong");
       setBlenderHazardWobble(true);
       setTimeout(() => setBlenderHazardWobble(false), 800);
       setGlobalScore((s) => Math.max(0, s - 10));
@@ -1104,6 +1127,7 @@ export function FuelUpNutritionGame({
     }
 
     if (!blenderItems.includes(item.id)) {
+      playSfx("click");
       const next = [...blenderItems, item.id];
       setBlenderItems(next);
       setGlobalScore((s) => s + 25);
@@ -1112,6 +1136,7 @@ export function FuelUpNutritionGame({
 
   const handleTriggerBlend = () => {
     if (!isGoldRatio) return;
+    playSfx("victory");
     setIsBlended(true);
     setGlobalScore((s) => s + 150);
     setCompletedGames((prev) => new Set(prev).add("mixer"));
@@ -1225,13 +1250,17 @@ export function FuelUpNutritionGame({
               setTimeout(() => setIsCatchingImpact(false), 300);
 
               if (nextCount >= 10) {
+                playSfx("victory");
                 catcherStatusRef.current = "victory";
                 setCatcherStatus("victory");
                 setCompletedGames((prev) => new Set(prev).add("sorter"));
                 setGlobalScore((s) => s + 300);
+              } else {
+                playSfx("match");
               }
             } else {
               // Bad pregame hazard caught!
+              playSfx("wrong");
               const nextHearts = Math.max(0, catcherHeartsRef.current - 1);
               catcherHeartsRef.current = nextHearts;
               setCatcherHearts(nextHearts);
@@ -1311,10 +1340,14 @@ export function FuelUpNutritionGame({
       setClockSuccessToast(`Target Locked! ${meal?.why}`);
 
       if (Object.keys(next).length === 4) {
+        playSfx("victory");
         setCompletedGames((prev) => new Set(prev).add("clock"));
+      } else {
+        playSfx("match");
       }
     } else {
       // Wrong slot
+      playSfx("wrong");
       setShakeCardId(slot.id);
       setTimeout(() => setShakeCardId(null), 600);
     }
@@ -1370,6 +1403,22 @@ export function FuelUpNutritionGame({
                 {completedGames.size}/4 Games Done
               </span>
             </div>
+
+            {/* Soft Ambient Background Music Toggle */}
+            <button
+              type="button"
+              onClick={toggleMusic}
+              className={`px-3 py-1.5 rounded-xl text-xs font-bold font-sans transition-all flex items-center gap-1.5 border cursor-pointer ${
+                isMusicPlaying
+                  ? "bg-emerald-50 border-emerald-300 text-emerald-800 shadow-2xs ring-2 ring-emerald-400/20"
+                  : "bg-slate-100 hover:bg-slate-200 border-slate-200 text-charcoal/70"
+              }`}
+              title={isMusicPlaying ? "Pause Soft Ambient Music" : "Play Soft Ambient Music"}
+            >
+              <Music className={`w-3.5 h-3.5 ${isMusicPlaying ? "text-emerald-600 animate-pulse" : "text-slate-400"}`} />
+              <span className="hidden sm:inline">Soft Music:</span>
+              <span>{isMusicPlaying ? "ON" : "OFF"}</span>
+            </button>
 
             {onToggleFullScreen && (
               <button
