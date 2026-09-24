@@ -46,7 +46,6 @@ import {
   TrendingUp,
   Stethoscope,
   Utensils,
-  Search,
 } from "lucide-react";
 import {
   HUB_CATEGORIES,
@@ -1052,8 +1051,8 @@ export function HubView({ initialCategory }: HubViewProps) {
                   {
                     id: 2,
                     type: "body-inspection",
-                    title: "Full-Body Magnifying Glass Inspection",
-                    shortTitle: "Body Scan",
+                    title: "Magnifying Glass Inspection",
+                    shortTitle: "Inspection",
                   },
                   {
                     id: 3,
@@ -1575,14 +1574,10 @@ export function HubView({ initialCategory }: HubViewProps) {
                     </div>
                   )}
 
-                  {/* SLIDE TYPE: FULL-BODY CLOTHED CHARACTER MAGNIFYING GLASS INSPECTION */}
+                  {/* SLIDE TYPE: MAGNIFYING GLASS INSPECTION */}
                   {activePage.type === "body-inspection" && (
                     <div className="space-y-6 animate-in fade-in duration-200 py-1 font-sans">
                       <div>
-                        <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-coral text-white shadow-2xs font-sans mb-2">
-                          <Search className="w-4 h-4" />
-                          <span>Full-Body Clothed Character Scan</span>
-                        </div>
                         <span className="text-xs sm:text-sm font-bold uppercase tracking-wider text-coral font-sans block mb-1">
                           Slide {currentLessonPage} of {lessonPages.length} · {activePage.title}
                         </span>

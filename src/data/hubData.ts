@@ -2084,7 +2084,7 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
         ],
         diagram: {
           type: "reds-triangle",
-          title: "Full-Body Overtraining & Under-Recovery Inspection",
+          title: "Magnifying Glass Inspection",
           caption: "Use the interactive magnifying glass on the anatomical figure to explore how overtraining without adequate recovery damages the female body across neuroendocrine, metabolic, hormonal, and skeletal systems."
         },
         roleplayScenarios: [
