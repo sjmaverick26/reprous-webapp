@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React from "react";
 import {
   ArrowRight,
   Sparkles,
@@ -9,11 +9,7 @@ import {
   Calendar,
   Clock,
   MapPin,
-  FileText,
-  MessageCircle,
   ShieldCheck,
-  Stethoscope,
-  Activity,
   Globe,
   Compass,
 } from "lucide-react";
@@ -30,7 +26,7 @@ export interface TocSection {
 
 export const TOC_SECTIONS: TocSection[] = [
   { id: "commitment", number: "01", title: "The Commitment" },
-  { id: "symptom-explorer", number: "02", title: "Symptom Explorer" },
+  { id: "symptom-explorer", number: "02", title: "Symptom Tracker" },
   { id: "myth-buster", number: "03", title: "Medical Myth-Buster" },
   { id: "workshops-community", number: "04", title: "Free Workshops" },
   { id: "ask-question", number: "05", title: "Ask a Question" },
@@ -41,267 +37,7 @@ interface HomeViewProps {
   onSelectLang?: (lang: string) => void;
 }
 
-interface SymptomDetail {
-  id: string;
-  name: string;
-  associatedWith: string[];
-  whatToTrack: string[];
-  questionsToAsk: string[];
-  whenToSeekCare: string;
-  learnCategory: string;
-  learnLabel: string;
-}
-
-const SYMPTOMS_DATA: SymptomDetail[] = [
-  {
-    id: "irregular-periods",
-    name: "Irregular periods",
-    associatedWith: [
-      "PCOS (Polycystic Ovary Syndrome)",
-      "Maturing hypothalamic-pituitary-ovarian axis (first 2–3 years post-menarche)",
-      "Thyroid dysfunction (hypo- or hyperthyroidism)",
-      "Relative Energy Deficiency in Sport (RED-S)",
-      "Elevated stress hormones & sleep disruption",
-    ],
-    whatToTrack: [
-      "Cycle start and stop dates (count days from Day 1 of one period to Day 1 of the next)",
-      "Bleeding heaviness (number of pads/tampons soaked per day)",
-      "Accompanying signs like acne flares, temperature shifts, or mood changes",
-    ],
-    questionsToAsk: [
-      "Are my cycle intervals expected for my age and activity level?",
-      "Could we check my thyroid function (TSH) and reproductive hormone levels?",
-      "Should we evaluate for insulin sensitivity or Polycystic Ovary Syndrome?",
-    ],
-    whenToSeekCare:
-      "If your cycle consistently falls outside 21–45 days, bleeding lasts more than 7 days, or your period stops for over 90 days.",
-    learnCategory: "pcos",
-    learnLabel: "Explore PCOS & Hormonal Health →",
-  },
-  {
-    id: "pelvic-pain",
-    name: "Pelvic pain",
-    associatedWith: [
-      "Endometriosis",
-      "Adenomyosis",
-      "Ovarian cysts",
-      "Pelvic floor muscle spasm/hypertonicity",
-      "Gastrointestinal or urinary tract inflammation",
-    ],
-    whatToTrack: [
-      "Exact anatomical location (lower pelvis, lower back, radiating down thighs)",
-      "Timing (during menstruation, ovulation, bowel movements, exercise, or non-cyclic)",
-      "Pain severity score on a 1–10 scale and duration of flare-ups",
-    ],
-    questionsToAsk: [
-      "Could my recurring pelvic discomfort suggest endometriosis or adenomyosis?",
-      "What non-surgical or diagnostic imaging steps do you recommend?",
-      "Can you connect me with an adolescent gynecologist or pelvic health physical therapist?",
-    ],
-    whenToSeekCare:
-      "Sudden, excruciating one-sided stabbing pain, pain accompanied by high fever or vomiting, or persistent pain that prevents walking or sitting.",
-    learnCategory: "endo",
-    learnLabel: "Explore Endometriosis & Pelvic Pain →",
-  },
-  {
-    id: "painful-periods",
-    name: "Painful periods",
-    associatedWith: [
-      "Primary dysmenorrhea (elevated uterine prostaglandins)",
-      "Endometriosis",
-      "Adenomyosis",
-      "Uterine anomalies or fibroids",
-    ],
-    whatToTrack: [
-      "When cramps begin (24 hours before bleeding vs. Day 2 of flow)",
-      "Response to over-the-counter NSAIDs (like ibuprofen taken with food)",
-      "Number of school, athletic, or social days missed due to pain",
-    ],
-    questionsToAsk: [
-      "Is my pain level normal for menstrual cramping, or does it signal secondary dysmenorrhea?",
-      "Would a targeted anti-inflammatory regimen or hormonal regulation offer relief?",
-      "What steps can we take to rule out underlying tissue inflammation like endometriosis?",
-    ],
-    whenToSeekCare:
-      "Pain that leaves you incapacitated, does not improve with standard pain medication, or causes nausea, vomiting, or fainting.",
-    learnCategory: "endo",
-    learnLabel: "Learn What Pain Means in Hub →",
-  },
-  {
-    id: "extreme-fatigue",
-    name: "Extreme fatigue",
-    associatedWith: [
-      "Iron deficiency anemia (often exacerbated by heavy menstrual flow)",
-      "Relative Energy Deficiency in Sport (RED-S)",
-      "Hypothyroidism (underactive thyroid)",
-      "Chronic inflammatory conditions or sleep disruptions",
-    ],
-    whatToTrack: [
-      "Daily energy levels mapped against athletic training volume and meals",
-      "Number of fully soaked pads/tampons per cycle",
-      "Physical sensations such as lightheadedness, pale nail beds, or cold hands",
-    ],
-    questionsToAsk: [
-      "Can we test my serum ferritin (iron storage) alongside a complete blood count (CBC)?",
-      "Could my training volume exceed my dietary energy intake (RED-S)?",
-      "Is my thyroid functioning within the optimal range for adolescents?",
-    ],
-    whenToSeekCare:
-      "Inability to complete school or athletic tasks, shortness of breath upon minimal exertion, chest tightness, or heart palpitations.",
-    learnCategory: "play",
-    learnLabel: "Explore Athlete Health & Fueling →",
-  },
-  {
-    id: "missed-periods",
-    name: "Missed periods",
-    associatedWith: [
-      "Functional Hypothalamic Amenorrhea (FHA / RED-S)",
-      "Polycystic Ovary Syndrome (PCOS)",
-      "Elevated prolactin (hyperprolactinemia)",
-      "Pregnancy",
-      "Severe physiological stress or rapid weight change",
-    ],
-    whatToTrack: [
-      "Exact number of months since your last natural period",
-      "Recent changes in training intensity, sport seasons, or food intake",
-      "Resting heart rate, sleep quality, and stress levels",
-    ],
-    questionsToAsk: [
-      "Given that I have missed 3+ consecutive periods, what diagnostic blood work should we order?",
-      "Could under-fueling or high training volume be suppressing my estrogen levels?",
-      "How is this period absence affecting my bone mineral density and long-term health?",
-    ],
-    whenToSeekCare:
-      "Missing 3 or more consecutive cycles (secondary amenorrhea) or reaching age 15 without ever having a first period (primary amenorrhea).",
-    learnCategory: "cycle",
-    learnLabel: "Explore Cycle Sense in Hub →",
-  },
-  {
-    id: "feeling-dizzy",
-    name: "Feeling dizzy",
-    associatedWith: [
-      "Postural Orthostatic Tachycardia Syndrome (POTS)",
-      "Iron deficiency or heavy menstrual blood loss",
-      "Inadequate hydration or electrolyte depletion during exercise",
-      "Vasovagal response triggered by intense cramps",
-    ],
-    whatToTrack: [
-      "Whether dizziness occurs specifically upon standing or after long periods of standing",
-      "Daily fluid and sodium intake relative to workout sweat loss",
-      "Correlation with heavy bleeding days",
-    ],
-    questionsToAsk: [
-      "Could heavy menstrual blood loss be contributing to low blood pressure or anemia?",
-      "Should we assess orthostatic vitals (blood pressure and heart rate lying vs. standing)?",
-    ],
-    whenToSeekCare:
-      "Episodes of fainting (syncope), head trauma from falling, chest pain, or irregular heartbeats.",
-    learnCategory: "body",
-    learnLabel: "Explore Body Basics in Hub →",
-  },
-  {
-    id: "changes-in-weight",
-    name: "Changes in weight",
-    associatedWith: [
-      "PCOS (insulin resistance)",
-      "Thyroid disorders (hypothyroidism or hyperthyroidism)",
-      "Fluid retention linked to luteal phase hormonal shifts",
-      "Disproportionate caloric deficit in athletes",
-    ],
-    whatToTrack: [
-      "Unexplained changes that occur without shifts in dietary intake or exercise routine",
-      "Associated symptoms like temperature sensitivity, skin tags, or hair texture changes",
-    ],
-    questionsToAsk: [
-      "Could insulin resistance or a thyroid imbalance be driving these weight fluctuations?",
-      "What metabolic and endocrine panels do you recommend?",
-    ],
-    whenToSeekCare:
-      "Unintended rapid weight gain or loss exceeding 10 pounds in a short period without dietary shifts.",
-    learnCategory: "pcos",
-    learnLabel: "Explore PCOS & Hormones →",
-  },
-  {
-    id: "acne",
-    name: "Acne",
-    associatedWith: [
-      "Elevated free androgens (testosterone, DHEAS)",
-      "PCOS",
-      "Normal adolescent hormonal fluctuations",
-      "Insulin spikes stimulating sebaceous gland activity",
-    ],
-    whatToTrack: [
-      "Distribution: cystic acne along jawline, chin, chest, or upper back",
-      "Timing: monthly flare-ups right before menstruation",
-      "Response to topical dermatological washes",
-    ],
-    questionsToAsk: [
-      "Does the distribution of my acne suggest an underlying hormonal or androgen imbalance?",
-      "Should we evaluate for PCOS alongside this skin symptom?",
-    ],
-    whenToSeekCare:
-      "Deep, painful cystic lesions that leave deep scarring or do not respond to clinical dermatological care.",
-    learnCategory: "pcos",
-    learnLabel: "Explore Hormonal Health →",
-  },
-  {
-    id: "excess-hair-growth",
-    name: "Excess hair growth",
-    associatedWith: [
-      "Hirsutism associated with PCOS",
-      "Elevated ovarian or adrenal androgens",
-      "Familial and genetic ethnic traits",
-      "Medication interactions",
-    ],
-    whatToTrack: [
-      "Growth of coarse, dark hair on androgen-sensitive zones (chin, upper lip, chest, abdomen)",
-      "Speed of onset (gradual since puberty vs. sudden rapid development)",
-    ],
-    questionsToAsk: [
-      "Does this hair pattern meet the clinical criteria for hirsutism or PCOS?",
-      "What evidence-based approaches (like anti-androgens or combined therapies) are appropriate?",
-    ],
-    whenToSeekCare:
-      "Rapid onset of dark facial/body hair accompanied by deepening voice or missed menstrual cycles.",
-    learnCategory: "pcos",
-    learnLabel: "Explore PCOS & Hormones →",
-  },
-  {
-    id: "pain-during-exercise",
-    name: "Pain during exercise",
-    associatedWith: [
-      "Exercise-induced pelvic floor hypertonicity",
-      "Endometriosis adhesions aggravated by core movement",
-      "Ovarian cyst irritation",
-      "Relative Energy Deficiency in Sport (RED-S)",
-    ],
-    whatToTrack: [
-      "Specific movements that trigger pain (running impact, core crunches, weightlifting)",
-      "Timing in your menstrual cycle (luteal vs. follicular phase)",
-      "Duration of cramping or pelvic ache after the training session ends",
-    ],
-    questionsToAsk: [
-      "Could this exercise-related pelvic ache stem from pelvic floor tension or endometriosis?",
-      "Can we explore pelvic floor physical therapy tailored to student athletes?",
-    ],
-    whenToSeekCare:
-      "Acute, sharp lower abdominal pain that suddenly halts exercise, or pain accompanied by dizziness or nausea.",
-    learnCategory: "play",
-    learnLabel: "Explore Female Athlete Health →",
-  },
-];
-
 export function HomeView({ onNavigate, onSelectLang }: HomeViewProps) {
-  const [selectedSymptomId, setSelectedSymptomId] = useState<string>("painful-periods");
-
-  const [activeSymptom, setActiveSymptom] = useState<SymptomDetail>(
-    () => SYMPTOMS_DATA.find((s) => s.id === "painful-periods") || SYMPTOMS_DATA[0]
-  );
-
-  useEffect(() => {
-    const active = SYMPTOMS_DATA.find((s) => s.id === selectedSymptomId) || SYMPTOMS_DATA[0];
-    setActiveSymptom(active);
-  }, [selectedSymptomId]);
 
   const scrollToSection = (sectionId: string) => {
     if (typeof document !== "undefined") {
@@ -466,124 +202,30 @@ export function HomeView({ onNavigate, onSelectLang }: HomeViewProps) {
         </div>
       </section>
 
-      {/* 2. INTERACTIVE "COULD THIS BE YOU?" SYMPTOM EXPLORER: Light Teal (#D8EFED) */}
-      <section id="symptom-explorer" className="w-full bg-light-teal text-charcoal py-16 md:py-24 scroll-mt-20 md:scroll-mt-24">
-        <div className="max-w-[1100px] mx-auto px-6">
-          <div className="text-center mb-8">
-            <div className="text-[12.5px] font-bold tracking-widest uppercase text-raspberry mb-2 font-sans flex items-center justify-center gap-1.5">
+      {/* 2. SYMPTOM TRACKER CALLOUT: Streamlined Banner with Button */}
+      <section id="symptom-explorer" className="w-full bg-light-teal text-charcoal py-12 md:py-16 scroll-mt-20 md:scroll-mt-24">
+        <div className="max-w-[1100px] mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
+          <div className="max-w-2xl">
+            <div className="inline-flex items-center gap-2 font-sans font-bold text-xs uppercase tracking-widest text-raspberry mb-2">
               <span className="w-2 h-2 rounded-full bg-coral" />
               <span>COULD THIS BE YOU?</span>
             </div>
-            <h2 className="text-3xl md:text-[42px] lg:text-[48px] font-normal font-serif text-deep-teal leading-[1.15]">
+            <h2 className="text-2xl md:text-3xl lg:text-[36px] font-normal font-serif text-deep-teal leading-[1.2] mb-2">
               Start with the symptoms.
             </h2>
-            <p className="text-[17px] md:text-[18.5px] text-charcoal/80 max-w-xl mx-auto mt-2 mb-0 font-sans">
-              Not sure what your symptoms might mean? Start exploring.
+            <p className="text-[15px] md:text-[17px] text-charcoal/80 leading-relaxed font-sans m-0">
+              Not sure what your symptoms might mean? Explore our symptom tracking guide, what to record in an objective log, and questions to ask your doctor.
             </p>
           </div>
 
-          {/* 10 Clickable Symptom Chips */}
-          <div className="flex items-center justify-center gap-2 flex-wrap max-w-4xl mx-auto mb-8">
-            {SYMPTOMS_DATA.map((symptom) => {
-              const isSelected = symptom.id === selectedSymptomId;
-              return (
-                <button
-                  key={symptom.id}
-                  onClick={() => setSelectedSymptomId(symptom.id)}
-                  className={`px-3.5 py-2 rounded-lg text-[13.5px] md:text-[14px] font-semibold font-sans transition-all border ${
-                    isSelected
-                      ? "bg-deep-teal text-white border-deep-teal shadow-sm hover:bg-deep-teal hover:text-white active:bg-deep-teal-dark active:text-white focus:text-white"
-                      : "bg-white text-charcoal border-deep-teal/20 hover:border-raspberry hover:text-raspberry hover:bg-white active:bg-white/90 active:text-raspberry focus:text-charcoal"
-                  }`}
-                >
-                  {symptom.name}
-                </button>
-              );
-            })}
-          </div>
-
-          {/* Dynamic Symptom Educational Panel */}
-          <div className="rounded-2xl bg-white border border-deep-teal/15 p-7 md:p-10 shadow-card">
-            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border-b border-deep-teal/10 pb-5 mb-6">
-              <div>
-                <span className="text-xs font-bold uppercase tracking-wider text-raspberry block font-sans mb-1">
-                  Symptom Profile
-                </span>
-                <h3 className="text-2xl md:text-[30px] font-normal font-serif text-deep-teal m-0">
-                  Exploring: {activeSymptom.name}
-                </h3>
-              </div>
-              <div className="flex items-center gap-2">
-                <Button
-                  onClick={() => onNavigate("hub", activeSymptom.learnCategory)}
-                  variant="secondary"
-                  size="sm"
-                  className="text-[14px] gap-1.5 text-deep-teal border-deep-teal/30 hover:bg-deep-teal/5 hover:text-deep-teal active:text-deep-teal focus-visible:text-deep-teal"
-                >
-                  <span>{activeSymptom.learnLabel}</span>
-                </Button>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 font-sans">
-              {/* Col 1: Associated With & What To Track */}
-              <div className="space-y-6">
-                <div>
-                  <h4 className="text-[14.5px] font-bold text-deep-teal uppercase tracking-wider mb-2.5 flex items-center gap-2">
-                    <Activity className="w-4 h-4 text-raspberry" />
-                    What it can be associated with:
-                  </h4>
-                  <ul className="space-y-1.5 pl-4 list-disc text-[15px] text-charcoal/85 leading-relaxed">
-                    {activeSymptom.associatedWith.map((item, i) => (
-                      <li key={i}>{item}</li>
-                    ))}
-                  </ul>
-                </div>
-
-                <div>
-                  <h4 className="text-[14.5px] font-bold text-deep-teal uppercase tracking-wider mb-2.5 flex items-center gap-2">
-                    <FileText className="w-4 h-4 text-raspberry" />
-                    What you can track:
-                  </h4>
-                  <ul className="space-y-1.5 pl-4 list-disc text-[15px] text-charcoal/85 leading-relaxed">
-                    {activeSymptom.whatToTrack.map((item, i) => (
-                      <li key={i}>{item}</li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-
-              {/* Col 2: Questions To Ask & When To Seek Care */}
-              <div className="space-y-6">
-                <div>
-                  <h4 className="text-[14.5px] font-bold text-deep-teal uppercase tracking-wider mb-2.5 flex items-center gap-2">
-                    <MessageCircle className="w-4 h-4 text-raspberry" />
-                    Questions you can ask a healthcare provider:
-                  </h4>
-                  <ul className="space-y-2 pl-4 list-disc text-[14.5px] text-charcoal/85 leading-relaxed">
-                    {activeSymptom.questionsToAsk.map((item, i) => (
-                      <li key={i}>&ldquo;{item}&rdquo;</li>
-                    ))}
-                  </ul>
-                </div>
-
-                <div className="p-4 rounded-xl bg-soft-pink/40 border border-coral/30">
-                  <h4 className="text-[13.5px] font-bold text-raspberry uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
-                    <Stethoscope className="w-4 h-4 text-coral" />
-                    When to seek medical care:
-                  </h4>
-                  <p className="text-[14px] text-charcoal/85 leading-relaxed m-0">
-                    {activeSymptom.whenToSeekCare}
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Educational Disclaimer */}
-            <div className="mt-8 pt-4 border-t border-deep-teal/10 text-center text-xs font-sans text-charcoal/70 bg-warm-cream/80 p-3 rounded-lg border border-deep-teal/10">
-              <strong>Important Clinical Note:</strong> This information is compiled for health education and self-advocacy preparation, not medical diagnosis. If symptoms persist or cause you concern, consult a healthcare professional.
-            </div>
-          </div>
+          <Button
+            onClick={() => onNavigate("resources", "tracker")}
+            size="lg"
+            className="bg-deep-teal text-white hover:bg-deep-teal/90 active:bg-deep-teal-dark focus-visible:text-white shadow-md font-bold text-[15.5px] px-8 py-6 rounded-xl gap-2 shrink-0 whitespace-nowrap cursor-pointer"
+          >
+            <span>Explore Symptom Tracker</span>
+            <ArrowRight className="w-4 h-4 text-coral" />
+          </Button>
         </div>
       </section>
 

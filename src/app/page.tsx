@@ -18,7 +18,7 @@ export default function App() {
   const [activePage, setActivePage] = useState<PageId>("home");
   const [hubCategory, setHubCategory] = useState<string | null>(null);
   const [contactTab, setContactTab] = useState<"feedback" | "ambassador" | "inquiry">("feedback");
-  const [resourceCategory, setResourceCategory] = useState<"all" | "help" | "petitions">("all");
+  const [resourceCategory, setResourceCategory] = useState<"all" | "help" | "petitions" | "tracker">("all");
   const [qaAutoOpen, setQaAutoOpen] = useState(false);
   const [currentLang, setCurrentLang] = useState<string>("en");
 
@@ -30,7 +30,7 @@ export default function App() {
       setHubCategory(null);
     }
 
-    if (page === "resources" && (categoryOrTab === "help" || categoryOrTab === "petitions" || categoryOrTab === "action" || categoryOrTab === "all")) {
+    if (page === "resources" && (categoryOrTab === "help" || categoryOrTab === "petitions" || categoryOrTab === "action" || categoryOrTab === "tracker" || categoryOrTab === "all")) {
       setResourceCategory(categoryOrTab === "action" ? "petitions" : categoryOrTab);
     } else if (page === "resources") {
       setResourceCategory("all");
@@ -58,7 +58,12 @@ export default function App() {
         }, 60);
       } else if (page === "resources" && categoryOrTab && categoryOrTab !== "all") {
         setTimeout(() => {
-          const targetId = categoryOrTab === "help" ? "how-to-get-help-section" : "petitions-section";
+          const targetId =
+            categoryOrTab === "help"
+              ? "how-to-get-help-section"
+              : categoryOrTab === "petitions" || categoryOrTab === "action"
+              ? "petitions-section"
+              : "symptom-tracker-section";
           const el = document.getElementById(targetId);
           if (el) {
             el.scrollIntoView({ behavior: "smooth", block: "start" });

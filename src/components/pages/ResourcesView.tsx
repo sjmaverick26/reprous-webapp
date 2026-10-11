@@ -26,10 +26,13 @@ import {
   LifeBuoy,
   Megaphone,
   Building2,
-  AlertTriangle
+  AlertTriangle,
+  Activity,
+  Stethoscope
 } from "lucide-react";
 import { CLINICS_DATA, HOTLINES_DATA, Clinic, Hotline } from "@/data/clinicsData";
 import { PETITIONS_DATA, REAL_WORLD_ADVOCACY_LINKS, PetitionItem } from "@/data/petitionsData";
+import { SYMPTOMS_DATA, SymptomDetail, SYMPTOM_LOG_TEMPLATE } from "@/data/symptomsData";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -48,7 +51,7 @@ import { cn } from "@/lib/utils";
 
 interface ResourcesViewProps {
   onNavigate: (page: PageId, categoryOrTab?: string) => void;
-  initialCategory?: "all" | "help" | "petitions";
+  initialCategory?: "all" | "help" | "petitions" | "tracker";
 }
 
 const ADVOCACY_LETTER_TEMPLATES = [
@@ -98,11 +101,41 @@ Sincerely,
 ];
 
 export function ResourcesView({ onNavigate, initialCategory = "all" }: ResourcesViewProps) {
-  const [activeCategory, setActiveCategory] = useState<"all" | "help" | "petitions">(initialCategory);
+  const [activeCategory, setActiveCategory] = useState<"all" | "help" | "petitions" | "tracker">(initialCategory);
   const [isCategoryDropdownOpen, setIsCategoryDropdownOpen] = useState(false);
   const [hotlineFilter, setHotlineFilter] = useState<string>("all");
   const [petitionFilter, setPetitionFilter] = useState<string>("all");
   const [copiedLetterId, setCopiedLetterId] = useState<string | null>(null);
+
+  // Symptom Tracker State
+  const [selectedSymptomId, setSelectedSymptomId] = useState<string>("painful-periods");
+  const [activeSymptom, setActiveSymptom] = useState<SymptomDetail>(
+    () => SYMPTOMS_DATA.find((s) => s.id === "painful-periods") || SYMPTOMS_DATA[0]
+  );
+  const [copiedLogTemplate, setCopiedLogTemplate] = useState(false);
+
+  useEffect(() => {
+    const active = SYMPTOMS_DATA.find((s) => s.id === selectedSymptomId) || SYMPTOMS_DATA[0];
+    setActiveSymptom(active);
+  }, [selectedSymptomId]);
+
+  const handleCopyLogTemplate = () => {
+    navigator.clipboard.writeText(SYMPTOM_LOG_TEMPLATE);
+    setCopiedLogTemplate(true);
+    setTimeout(() => {
+      setCopiedLogTemplate(false);
+    }, 2500);
+  };
+
+  const handleDownloadLogTemplate = () => {
+    const element = document.createElement("a");
+    const file = new Blob([SYMPTOM_LOG_TEMPLATE], { type: "text/plain" });
+    element.href = URL.createObjectURL(file);
+    element.download = "ReproUs-Symptom-Tracking-Log.txt";
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
+  };
 
   // Modals
   const [isClinicModalOpen, setIsClinicModalOpen] = useState(false);
@@ -141,7 +174,7 @@ export function ResourcesView({ onNavigate, initialCategory = "all" }: Resources
   }, [initialCategory]);
 
   const categoryOptions: {
-    id: "all" | "help" | "petitions";
+    id: "all" | "tracker" | "help" | "petitions";
     label: string;
     badge: string;
     desc: string;
@@ -150,7 +183,13 @@ export function ResourcesView({ onNavigate, initialCategory = "all" }: Resources
       id: "all",
       label: "All Resources (Overview)",
       badge: "Full Hub",
-      desc: "Complete directory: hotlines, clinic finder, youth petitions, and leadership modules"
+      desc: "Complete directory: symptom tracker, clinic finder, 24/7 hotlines, and youth advocacy"
+    },
+    {
+      id: "tracker",
+      label: "Symptom Tracker",
+      badge: "Clinical Guide",
+      desc: "Interactive 10-symptom tracking guide, appointment preparation & copyable symptom logs"
     },
     {
       id: "help",
@@ -275,7 +314,7 @@ export function ResourcesView({ onNavigate, initialCategory = "all" }: Resources
     }, 2400);
   };
 
-  const selectCategory = (cat: "all" | "help" | "petitions") => {
+  const selectCategory = (cat: "all" | "help" | "petitions" | "tracker") => {
     setActiveCategory(cat);
     setIsCategoryDropdownOpen(false);
     if (cat === "help") {
@@ -285,6 +324,10 @@ export function ResourcesView({ onNavigate, initialCategory = "all" }: Resources
     } else if (cat === "petitions") {
       setTimeout(() => {
         document.getElementById("petitions-section")?.scrollIntoView({ behavior: "smooth" });
+      }, 50);
+    } else if (cat === "tracker") {
+      setTimeout(() => {
+        document.getElementById("symptom-tracker-section")?.scrollIntoView({ behavior: "smooth" });
       }, 50);
     }
   };
@@ -416,11 +459,33 @@ export function ResourcesView({ onNavigate, initialCategory = "all" }: Resources
           <div className="flex items-center justify-between">
             <h2 className="text-2xl font-serif font-bold text-plum">Directory Overview</h2>
             <span className="text-xs font-semibold text-charcoal/70">
-              6 Pathways to Support &amp; Leadership
+              Key Pathways to Care, Self-Advocacy &amp; Leadership
             </span>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {/* Card 0: Symptom Tracker & Guide */}
+            <Card className="p-6 flex flex-col justify-between hover:shadow-hover transition-all bg-white border border-deep-teal/15">
+              <div>
+                <div className="w-10 h-10 rounded-xl bg-light-teal flex items-center justify-center text-deep-teal mb-4">
+                  <Stethoscope className="w-5 h-5 text-deep-teal" />
+                </div>
+                <h3 className="text-xl md:text-2xl font-serif text-plum mb-2">
+                  Symptom Tracker
+                </h3>
+                <p className="text-[14.5px] text-ink/80 leading-relaxed mb-6">
+                  Explore 10 key symptoms, what to track in a 60–90 day log, questions to ask your doctor, and when to seek care.
+                </p>
+              </div>
+              <Button
+                onClick={() => selectCategory("tracker")}
+                variant="ghost"
+                className="w-full text-deep-teal hover:bg-light-teal/50 font-bold"
+              >
+                Explore Symptoms →
+              </Button>
+            </Card>
+
             {/* Card 1: Find Free Clinic */}
             <Card className="p-6 flex flex-col justify-between hover:shadow-hover transition-all bg-white border border-deep-teal/15">
               <div>
@@ -559,6 +624,160 @@ export function ResourcesView({ onNavigate, initialCategory = "all" }: Resources
                 Download Guide (.txt)
               </Button>
             </Card>
+          </div>
+        </section>
+      )}
+
+      {/* SECTION: SYMPTOM TRACKER & CLINICAL GUIDE (Visible if 'all' or 'tracker') */}
+      {(activeCategory === "all" || activeCategory === "tracker") && (
+        <section
+          id="symptom-tracker-section"
+          className="flex flex-col gap-8 pt-4 border-t-2 border-deep-teal/15 scroll-mt-24"
+        >
+          {/* Section Header */}
+          <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-4">
+            <div>
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-light-teal text-deep-teal text-[13px] font-bold uppercase tracking-wider mb-2 font-sans">
+                <Stethoscope className="w-3.5 h-3.5 text-deep-teal" />
+                <span>Self-Advocacy &amp; Symptom Tracking</span>
+              </div>
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif font-normal text-plum">
+                Symptom Tracker &amp; Clinical Guide
+              </h2>
+              <p className="text-[16px] sm:text-[17px] text-ink/80 max-w-2xl mt-1 mb-0 leading-relaxed font-sans">
+                Too often, adolescent reproductive symptoms are dismissed as &ldquo;just growing pains&rdquo; or normal cramps. Use this guide to identify patterns, build an objective symptom log, and know what to ask your doctor.
+              </p>
+            </div>
+
+            <div className="flex items-center gap-2.5 flex-wrap">
+              <Button
+                onClick={handleCopyLogTemplate}
+                variant="outline"
+                className="gap-2 text-deep-teal border-deep-teal/30 hover:bg-light-teal/40 font-bold"
+              >
+                {copiedLogTemplate ? (
+                  <>
+                    <Check className="w-4 h-4 text-emerald-600" />
+                    <span>Template Copied!</span>
+                  </>
+                ) : (
+                  <>
+                    <Copy className="w-4 h-4 text-deep-teal" />
+                    <span>Copy 60–90 Day Log Template</span>
+                  </>
+                )}
+              </Button>
+              <Button
+                onClick={handleDownloadLogTemplate}
+                className="gap-2 bg-deep-teal text-white hover:bg-deep-teal/90 font-bold"
+              >
+                <Download className="w-4 h-4 text-coral" />
+                <span>Download Log (.txt)</span>
+              </Button>
+            </div>
+          </div>
+
+          {/* 10 Clickable Symptom Chips */}
+          <div className="flex items-center justify-start sm:justify-center gap-2 flex-wrap py-2">
+            {SYMPTOMS_DATA.map((symptom) => {
+              const isSelected = symptom.id === selectedSymptomId;
+              return (
+                <button
+                  key={symptom.id}
+                  onClick={() => setSelectedSymptomId(symptom.id)}
+                  className={`px-3.5 py-2 rounded-xl text-[13.5px] md:text-[14px] font-semibold font-sans transition-all border cursor-pointer ${
+                    isSelected
+                      ? "bg-deep-teal text-white border-deep-teal shadow-xs hover:bg-deep-teal hover:text-white"
+                      : "bg-white text-charcoal border-deep-teal/20 hover:border-raspberry hover:text-raspberry hover:bg-white"
+                  }`}
+                >
+                  {symptom.name}
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Dynamic Educational Symptom Details Card */}
+          <div className="rounded-2xl bg-white border border-deep-teal/20 p-7 md:p-10 shadow-card">
+            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border-b border-deep-teal/10 pb-5 mb-6">
+              <div>
+                <span className="text-xs font-bold uppercase tracking-wider text-raspberry block font-sans mb-1">
+                  Symptom Profile
+                </span>
+                <h3 className="text-2xl md:text-[30px] font-normal font-serif text-deep-teal m-0">
+                  Exploring: {activeSymptom.name}
+                </h3>
+              </div>
+              <div className="flex items-center gap-2">
+                <Button
+                  onClick={() => onNavigate("hub", activeSymptom.learnCategory)}
+                  variant="secondary"
+                  size="sm"
+                  className="text-[14px] gap-1.5 text-deep-teal border-deep-teal/30 hover:bg-deep-teal/5"
+                >
+                  <span>{activeSymptom.learnLabel}</span>
+                </Button>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 font-sans">
+              {/* Col 1: Associated With & What To Track */}
+              <div className="space-y-6">
+                <div>
+                  <h4 className="text-[14.5px] font-bold text-deep-teal uppercase tracking-wider mb-2.5 flex items-center gap-2">
+                    <Activity className="w-4 h-4 text-raspberry" />
+                    What it can be associated with:
+                  </h4>
+                  <ul className="space-y-1.5 pl-4 list-disc text-[15px] text-charcoal/85 leading-relaxed">
+                    {activeSymptom.associatedWith.map((item, i) => (
+                      <li key={i}>{item}</li>
+                    ))}
+                  </ul>
+                </div>
+
+                <div>
+                  <h4 className="text-[14.5px] font-bold text-deep-teal uppercase tracking-wider mb-2.5 flex items-center gap-2">
+                    <FileText className="w-4 h-4 text-raspberry" />
+                    What you can track in your log:
+                  </h4>
+                  <ul className="space-y-1.5 pl-4 list-disc text-[15px] text-charcoal/85 leading-relaxed">
+                    {activeSymptom.whatToTrack.map((item, i) => (
+                      <li key={i}>{item}</li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+
+              {/* Col 2: Questions To Ask & When To Seek Care */}
+              <div className="space-y-6">
+                <div>
+                  <h4 className="text-[14.5px] font-bold text-deep-teal uppercase tracking-wider mb-2.5 flex items-center gap-2">
+                    <MessageSquare className="w-4 h-4 text-raspberry" />
+                    Questions you can ask a healthcare provider:
+                  </h4>
+                  <ul className="space-y-2 pl-4 list-disc text-[14.5px] text-charcoal/85 leading-relaxed">
+                    {activeSymptom.questionsToAsk.map((item, i) => (
+                      <li key={i}>&ldquo;{item}&rdquo;</li>
+                    ))}
+                  </ul>
+                </div>
+
+                <div className="p-4 rounded-xl bg-soft-pink/40 border border-coral/30">
+                  <h4 className="text-[13.5px] font-bold text-raspberry uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
+                    <Stethoscope className="w-4 h-4 text-coral" />
+                    When to seek medical care:
+                  </h4>
+                  <p className="text-[14px] text-charcoal/85 leading-relaxed m-0">
+                    {activeSymptom.whenToSeekCare}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Educational Disclaimer */}
+            <div className="mt-8 pt-4 border-t border-deep-teal/10 text-center text-xs font-sans text-charcoal/70 bg-warm-cream/80 p-3 rounded-lg border border-deep-teal/10">
+              <strong>Important Clinical Note:</strong> This symptom tracking information is compiled for health education and self-advocacy preparation, not medical diagnosis. If symptoms persist or cause you concern, consult a healthcare professional.
+            </div>
           </div>
         </section>
       )}

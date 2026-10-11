@@ -52,7 +52,7 @@ export function Navbar({ activePage, onNavigate, currentLang = "en", onSelectLan
 
   const homeSections = [
     { id: "commitment", number: "01", label: "The Commitment", description: "Learn · Recognize · Advocate framework" },
-    { id: "symptom-explorer", number: "02", label: "Symptom Explorer", description: "Interactive 10-symptom breakdown" },
+    { id: "symptom-explorer", number: "02", label: "Symptom Tracker", description: "10-symptom tracking guide & clinical red flags" },
     { id: "myth-buster", number: "03", label: "Medical Myth-Buster", description: "Debunking myths with clinical science" },
     { id: "workshops-community", number: "04", label: "Workshops & Community", description: "Free student workshops & youth stories" },
     { id: "ask-question", number: "05", label: "Ask a Question", description: "Confidential youth reproductive Q&A" },
@@ -81,6 +81,12 @@ export function Navbar({ activePage, onNavigate, currentLang = "en", onSelectLan
   ];
 
   const resourceDropdownItems = [
+    {
+      tab: "tracker",
+      label: "Symptom Tracker",
+      tag: "Clinical Guide",
+      description: "10-symptom tracking guide, clinical red flags, symptom logs & provider discussion prompts"
+    },
     {
       tab: "help",
       label: "How to Get Help",
