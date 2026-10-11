@@ -387,9 +387,9 @@ export function HomeView({ onNavigate, onSelectLang }: HomeViewProps) {
         </div>
       </section>
 
-      {/* 5. BOTTOM SECTION: ASK A QUESTION & PLATFORM DIRECTORY */}
-      <section id="ask-question" className="w-full bg-[#EBF7F6] text-charcoal py-16 md:py-24 border-t border-deep-teal/15 scroll-mt-20 md:scroll-mt-24">
-        <div className="max-w-[1100px] mx-auto px-6 space-y-12">
+      {/* 5. BOTTOM SECTION: ASK A QUESTION */}
+      <section id="ask-question" className="w-full bg-[#EBF7F6] text-charcoal py-16 md:py-20 border-t border-deep-teal/15 scroll-mt-20 md:scroll-mt-24">
+        <div className="max-w-[1100px] mx-auto px-6 space-y-8">
           {/* Prominent "Ask a Question" Card */}
           <div className="rounded-3xl bg-white border-2 border-coral p-8 md:p-12 shadow-card flex flex-col md:flex-row items-center justify-between gap-8">
             <div className="max-w-2xl text-center md:text-left">
@@ -422,128 +422,12 @@ export function HomeView({ onNavigate, onSelectLang }: HomeViewProps) {
             </div>
           </div>
 
-          {/* Clean Horizontal Row of Main Links on Desktop (5 Equal Columns) */}
-          <div>
-            <div className="flex items-center justify-between gap-3 mb-5">
-              <span className="text-xs font-bold uppercase tracking-wider text-deep-teal/70 font-sans">
-                Explore the Platform
-              </span>
-              <span className="text-xs text-charcoal/60 font-sans hidden sm:inline">
-                All resources are free &amp; accessible
-              </span>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-              {/* Link 1: Learn Hub */}
-              <button
-                onClick={() => onNavigate("hub")}
-                className="p-5 rounded-2xl bg-white border border-deep-teal/15 shadow-2xs hover:shadow-hover hover:border-deep-teal/30 hover:-translate-y-0.5 transition-all text-left flex flex-col justify-between group cursor-pointer"
-              >
-                <div>
-                  <span className="text-[11px] font-bold uppercase tracking-wider text-deep-teal bg-light-teal px-2 py-0.5 rounded-md inline-block mb-2.5 font-sans">
-                    01 · Learn Hub
-                  </span>
-                  <h3 className="text-[17px] font-serif font-bold text-deep-teal group-hover:text-raspberry transition-colors leading-snug mb-1.5">
-                    Topics &amp; Guides
-                  </h3>
-                  <p className="text-[13px] text-charcoal/75 leading-relaxed font-sans m-0">
-                    Female athlete health, cycles, hormonal health, and care.
-                  </p>
-                </div>
-                <span className="text-[12.5px] font-bold text-raspberry font-sans group-hover:underline pt-4 mt-2 border-t border-deep-teal/10 flex items-center gap-1">
-                  <span>Explore topics</span>
-                  <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
-                </span>
-              </button>
-
-              {/* Link 2: About ReproUs */}
-              <button
-                onClick={() => onNavigate("story")}
-                className="p-5 rounded-2xl bg-white border border-coral/25 shadow-2xs hover:shadow-hover hover:border-coral/50 hover:-translate-y-0.5 transition-all text-left flex flex-col justify-between group cursor-pointer"
-              >
-                <div>
-                  <span className="text-[11px] font-bold uppercase tracking-wider text-[#B83F68] bg-[#FFE1DB] px-2 py-0.5 rounded-md inline-block mb-2.5 font-sans">
-                    02 · About ReproUs
-                  </span>
-                  <h3 className="text-[17px] font-serif font-bold text-deep-teal group-hover:text-raspberry transition-colors leading-snug mb-1.5">
-                    Story &amp; Research
-                  </h3>
-                  <p className="text-[13px] text-charcoal/75 leading-relaxed font-sans m-0">
-                    Our founding journey, clinical evidence, and mission.
-                  </p>
-                </div>
-                <span className="text-[12.5px] font-bold text-raspberry font-sans group-hover:underline pt-4 mt-2 border-t border-deep-teal/10 flex items-center gap-1">
-                  <span>Read our story</span>
-                  <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
-                </span>
-              </button>
-
-              {/* Link 3: Youth Voices */}
-              <button
-                onClick={() => onNavigate("voices")}
-                className="p-5 rounded-2xl bg-white border border-raspberry/25 shadow-2xs hover:shadow-hover hover:border-raspberry/50 hover:-translate-y-0.5 transition-all text-left flex flex-col justify-between group cursor-pointer"
-              >
-                <div>
-                  <span className="text-[11px] font-bold uppercase tracking-wider text-raspberry bg-soft-pink px-2 py-0.5 rounded-md inline-block mb-2.5 font-sans">
-                    03 · Youth Voices
-                  </span>
-                  <h3 className="text-[17px] font-serif font-bold text-deep-teal group-hover:text-raspberry transition-colors leading-snug mb-1.5">
-                    Stories &amp; Toolkit
-                  </h3>
-                  <p className="text-[13px] text-charcoal/75 leading-relaxed font-sans m-0">
-                    Real peer reflections and the Self-Advocacy Toolkit.
-                  </p>
-                </div>
-                <span className="text-[12.5px] font-bold text-raspberry font-sans group-hover:underline pt-4 mt-2 border-t border-deep-teal/10 flex items-center gap-1">
-                  <span>Hear peer stories</span>
-                  <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
-                </span>
-              </button>
-
-              {/* Link 4: Workshops */}
-              <button
-                onClick={() => onNavigate("workshops")}
-                className="p-5 rounded-2xl bg-white border border-deep-teal/15 shadow-2xs hover:shadow-hover hover:border-deep-teal/30 hover:-translate-y-0.5 transition-all text-left flex flex-col justify-between group cursor-pointer"
-              >
-                <div>
-                  <span className="text-[11px] font-bold uppercase tracking-wider text-deep-teal bg-light-teal px-2 py-0.5 rounded-md inline-block mb-2.5 font-sans">
-                    04 · Workshops
-                  </span>
-                  <h3 className="text-[17px] font-serif font-bold text-deep-teal group-hover:text-raspberry transition-colors leading-snug mb-1.5">
-                    Free Workshops
-                  </h3>
-                  <p className="text-[13px] text-charcoal/75 leading-relaxed font-sans m-0">
-                    Interactive live sessions led by trained student mentors.
-                  </p>
-                </div>
-                <span className="text-[12.5px] font-bold text-raspberry font-sans group-hover:underline pt-4 mt-2 border-t border-deep-teal/10 flex items-center gap-1">
-                  <span>View schedule</span>
-                  <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
-                </span>
-              </button>
-
-              {/* Link 5: Immediate Support */}
-              <button
-                onClick={() => onNavigate("resources", "help")}
-                className="p-5 rounded-2xl bg-white border border-coral/25 shadow-2xs hover:shadow-hover hover:border-coral/50 hover:-translate-y-0.5 transition-all text-left flex flex-col justify-between group cursor-pointer"
-              >
-                <div>
-                  <span className="text-[11px] font-bold uppercase tracking-wider text-[#B83F68] bg-[#FFE1DB] px-2 py-0.5 rounded-md inline-block mb-2.5 font-sans">
-                    05 · Support
-                  </span>
-                  <h3 className="text-[17px] font-serif font-bold text-deep-teal group-hover:text-raspberry transition-colors leading-snug mb-1.5">
-                    Immediate Help
-                  </h3>
-                  <p className="text-[13px] text-charcoal/75 leading-relaxed font-sans m-0">
-                    24/7 hotlines, free clinics, and confidential support.
-                  </p>
-                </div>
-                <span className="text-[12.5px] font-bold text-raspberry font-sans group-hover:underline pt-4 mt-2 border-t border-deep-teal/10 flex items-center gap-1">
-                  <span>Get support</span>
-                  <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
-                </span>
-              </button>
-            </div>
+          {/* Free & Accessible Reassurance */}
+          <div className="text-center pt-2">
+            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/80 border border-deep-teal/15 text-xs sm:text-[13.5px] font-semibold text-deep-teal font-sans tracking-wide shadow-2xs">
+              <span className="w-2 h-2 rounded-full bg-coral inline-block" aria-hidden="true" />
+              <span>All resources are free &amp; accessible</span>
+            </span>
           </div>
         </div>
       </section>
