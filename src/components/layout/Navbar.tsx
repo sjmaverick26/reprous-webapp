@@ -52,12 +52,10 @@ export function Navbar({ activePage, onNavigate, currentLang = "en", onSelectLan
 
   const homeSections = [
     { id: "commitment", number: "01", label: "The Commitment", description: "Learn · Recognize · Advocate framework" },
-    { id: "curriculum", number: "02", label: "Curriculum Focus", description: "Athlete health, cycles & conditions" },
-    { id: "research-gap", number: "03", label: "Gender Research Gap", description: "Delays, drug safety & study citations" },
-    { id: "symptom-explorer", number: "04", label: "Symptom Explorer", description: "Interactive 10-symptom breakdown" },
-    { id: "advocacy-toolkit", number: "05", label: "Self-Advocacy Toolkit", description: "Doctor prep, logs & chart scripts" },
-    { id: "myth-buster", number: "06", label: "Medical Myth-Buster", description: "Debunking myths with clinical science" },
-    { id: "workshops-community", number: "07", label: "Workshops & Community", description: "Free student workshops & youth stories" },
+    { id: "symptom-explorer", number: "02", label: "Symptom Explorer", description: "Interactive 10-symptom breakdown" },
+    { id: "myth-buster", number: "03", label: "Medical Myth-Buster", description: "Debunking myths with clinical science" },
+    { id: "workshops-community", number: "04", label: "Workshops & Community", description: "Free student workshops & youth stories" },
+    { id: "ask-question", number: "05", label: "Ask a Question", description: "Confidential youth reproductive Q&A" },
   ];
 
   const learnCategories = [
@@ -76,7 +74,7 @@ export function Navbar({ activePage, onNavigate, currentLang = "en", onSelectLan
   ];
 
   const aboutItems = [
-    { id: "story" as PageId, label: "Our Story", description: "Mission, research gaps & youth leadership" },
+    { id: "story" as PageId, label: "Our Story & Research Gap", description: "Mission, gender research gaps & youth leadership" },
     { id: "contact" as PageId, tab: "ambassador", label: "Youth Ambassadors", description: "Join student leadership cohort" },
     { id: "contact" as PageId, tab: "inquiry", label: "Contact Us", description: "Direct questions & partnerships" },
     { id: "contact" as PageId, tab: "feedback", label: "Program Feedback", description: "Anonymous input & suggestions" },
@@ -134,8 +132,8 @@ export function Navbar({ activePage, onNavigate, currentLang = "en", onSelectLan
           </span>
         </button>
 
-        {/* Desktop Navigation Links (Clean Text, No Heavy Pills) */}
-        <div className="hidden lg:flex items-center gap-6 xl:gap-8">
+        {/* Desktop Navigation Links (Aligned to Far Right, Labels Kept on One Line) */}
+        <div className="hidden lg:flex items-center gap-5 xl:gap-7 ml-auto">
           <ul className="flex items-center gap-5 xl:gap-6 list-none m-0 p-0">
             {navItems.map((item) => {
               const active = isItemActive(item.id);
@@ -151,7 +149,7 @@ export function Navbar({ activePage, onNavigate, currentLang = "en", onSelectLan
                     <button
                       onClick={() => onNavigate("home")}
                       className={cn(
-                        "flex items-center gap-1 text-[14.5px] font-medium font-sans py-1 transition-colors relative focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-berry rounded",
+                        "flex items-center gap-1 text-[14.5px] font-medium font-sans py-1 transition-colors relative focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-berry rounded whitespace-nowrap",
                         active
                           ? "text-plum font-bold after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[2px] after:bg-berry"
                           : "text-plum/80 hover:text-berry"
@@ -215,7 +213,7 @@ export function Navbar({ activePage, onNavigate, currentLang = "en", onSelectLan
                     <button
                       onClick={() => onNavigate("hub")}
                       className={cn(
-                        "flex items-center gap-1 text-[14.5px] font-medium font-sans py-1 transition-colors relative focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-berry rounded",
+                        "flex items-center gap-1 text-[14.5px] font-medium font-sans py-1 transition-colors relative focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-berry rounded whitespace-nowrap",
                         active
                           ? "text-plum font-bold after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[2px] after:bg-berry"
                           : "text-plum/80 hover:text-berry"
@@ -290,7 +288,7 @@ export function Navbar({ activePage, onNavigate, currentLang = "en", onSelectLan
                     <button
                       onClick={() => onNavigate("story")}
                       className={cn(
-                        "flex items-center gap-1 text-[14.5px] font-medium font-sans py-1 transition-colors relative focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-berry rounded",
+                        "flex items-center gap-1 text-[14.5px] font-medium font-sans py-1 transition-colors relative focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-berry rounded whitespace-nowrap",
                         active
                           ? "text-plum font-bold after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[2px] after:bg-berry"
                           : "text-plum/80 hover:text-berry"
@@ -339,7 +337,7 @@ export function Navbar({ activePage, onNavigate, currentLang = "en", onSelectLan
                     <button
                       onClick={() => onNavigate("resources", "all")}
                       className={cn(
-                        "flex items-center gap-1 text-[14.5px] font-medium font-sans py-1 transition-colors relative focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-berry rounded",
+                        "flex items-center gap-1 text-[14.5px] font-medium font-sans py-1 transition-colors relative focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-berry rounded whitespace-nowrap",
                         active
                           ? "text-plum font-bold after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[2px] after:bg-berry"
                           : "text-plum/80 hover:text-berry"
@@ -421,7 +419,7 @@ export function Navbar({ activePage, onNavigate, currentLang = "en", onSelectLan
           >
             <button
               onClick={() => setLangDropdownOpen(!langDropdownOpen)}
-              className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-[13.5px] font-semibold font-sans text-deep-teal hover:text-raspberry hover:bg-soft-pink/50 transition-colors border border-deep-teal/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral shrink-0"
+              className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-[13.5px] font-semibold font-sans text-deep-teal hover:text-raspberry hover:bg-soft-pink/50 transition-colors border border-deep-teal/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral shrink-0 whitespace-nowrap"
               aria-label={`Language selector. Current language is ${currentLanguageObj.label}`}
               aria-expanded={langDropdownOpen}
             >
@@ -469,15 +467,6 @@ export function Navbar({ activePage, onNavigate, currentLang = "en", onSelectLan
               </div>
             )}
           </div>
-
-          {/* Visually Distinct Button: Ask a Question → */}
-          <button
-            onClick={() => onNavigate("qa", "ask")}
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg font-sans font-semibold text-[15px] bg-berry text-white shadow-sm border-2 border-coral hover:border-coral-light hover:bg-berry/90 hover:text-white active:bg-berry-dark active:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral focus-visible:text-white whitespace-nowrap active:scale-[0.98] transition-all"
-          >
-            <span>Ask a Question</span>
-            <span aria-hidden="true">→</span>
-          </button>
         </div>
 
         {/* Mobile Menu Toggle Button */}
@@ -802,17 +791,6 @@ export function Navbar({ activePage, onNavigate, currentLang = "en", onSelectLan
             </div>
           </div>
 
-          {/* Distinct CTA Button in Mobile Menu */}
-          <button
-            onClick={() => {
-              onNavigate("qa", "ask");
-              setMobileMenuOpen(false);
-            }}
-            className="w-full mt-3 py-3 px-4 rounded-lg font-sans font-semibold text-[15px] bg-berry text-white flex items-center justify-center gap-2 shadow-sm border-2 border-coral hover:border-coral-light hover:bg-berry/90 hover:text-white active:bg-berry-dark active:text-white transition-colors active:scale-[0.98]"
-          >
-            <span>Ask a Question</span>
-            <span aria-hidden="true">→</span>
-          </button>
         </div>
       )}
     </nav>
