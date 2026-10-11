@@ -21,7 +21,6 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { PageId } from "@/components/layout/Navbar";
 import { UPCOMING_SESSIONS } from "@/data/workshopsData";
-import { MYTHS_DATA, MythItem } from "@/data/mythsData";
 
 export interface TocSection {
   id: string;
@@ -294,22 +293,6 @@ const SYMPTOMS_DATA: SymptomDetail[] = [
 
 export function HomeView({ onNavigate, onSelectLang }: HomeViewProps) {
   const [selectedSymptomId, setSelectedSymptomId] = useState<string>("painful-periods");
-  const [revealedHomeMyths, setRevealedHomeMyths] = useState<Set<string>>(new Set(["myth-severe-pain"]));
-
-  const toggleHomeMyth = (id: string) => {
-    setRevealedHomeMyths((prev) => {
-      const next = new Set(prev);
-      if (next.has(id)) {
-        next.delete(id);
-      } else {
-        next.add(id);
-      }
-      return next;
-    });
-  };
-
-  const FEATURED_MYTH_IDS = ["myth-severe-pain", "myth-missing-period-stress", "myth-athlete-period-loss"];
-  const featuredMyths = MYTHS_DATA.filter((m) => FEATURED_MYTH_IDS.includes(m.id));
 
   const [activeSymptom, setActiveSymptom] = useState<SymptomDetail>(
     () => SYMPTOMS_DATA.find((s) => s.id === "painful-periods") || SYMPTOMS_DATA[0]
@@ -604,124 +587,30 @@ export function HomeView({ onNavigate, onSelectLang }: HomeViewProps) {
         </div>
       </section>
 
-      {/* 3. MYTHS & FACTS INTERACTIVE FEATURE: Full-Bleed Raspberry (#B83F68) */}
-      <section id="myth-buster" className="w-full bg-raspberry text-white py-16 md:py-24 scroll-mt-20 md:scroll-mt-24">
-        <div className="max-w-[1100px] mx-auto px-6">
-          <div className="text-center max-w-3xl mx-auto mb-12">
-            <div className="inline-flex items-center gap-2 font-sans font-bold text-xs uppercase tracking-widest text-soft-pink mb-3">
+      {/* 3. MEDICAL MYTH-BUSTER CALLOUT: Streamlined Banner with Button */}
+      <section id="myth-buster" className="w-full bg-raspberry text-white py-12 md:py-16 scroll-mt-20 md:scroll-mt-24">
+        <div className="max-w-[1100px] mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
+          <div className="max-w-2xl">
+            <div className="inline-flex items-center gap-2 font-sans font-bold text-xs uppercase tracking-widest text-soft-pink mb-2">
               <span className="w-2 h-2 rounded-full bg-coral" />
               <span>INTERACTIVE MEDICAL MYTH-BUSTER</span>
             </div>
-            <h2 className="text-3xl md:text-[44px] lg:text-[50px] font-normal font-serif text-white leading-[1.12] mb-4 tracking-tight">
+            <h2 className="text-2xl md:text-3xl lg:text-[36px] font-normal font-serif text-white leading-[1.2] mb-2">
               Separating myths from medical reality.
             </h2>
-            <p className="text-[17px] md:text-[18.5px] text-white/90 leading-relaxed font-sans mb-0">
-              Too many girls are told that severe pain or missing periods are &ldquo;just part of being a girl.&rdquo; Tap any card to reveal clinical evidence and guidelines.
+            <p className="text-[15px] md:text-[17px] text-white/90 leading-relaxed font-sans m-0">
+              Too many girls are told that severe pain or missing periods are &ldquo;just part of being a girl.&rdquo; Explore verified clinical facts and medical guidelines.
             </p>
           </div>
 
-          {/* 3 Interactive Homepage Myth Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-            {featuredMyths.map((item, idx) => {
-              const isRevealed = revealedHomeMyths.has(item.id);
-              const borderOutline =
-                idx === 0
-                  ? "border-2 border-deep-teal"
-                  : idx === 1
-                  ? "border-2 border-coral"
-                  : "border-2 border-raspberry";
-
-              return (
-                <div
-                  key={item.id}
-                  onClick={() => toggleHomeMyth(item.id)}
-                  className={`rounded-2xl bg-white text-charcoal p-7 flex flex-col justify-between shadow-lg cursor-pointer hover:shadow-2xl transition-all ${borderOutline} group`}
-                >
-                  <div>
-                    {/* Myth Tag */}
-                    <div className="flex items-center justify-between gap-2 mb-4">
-                      <span className="font-sans font-bold text-[11px] uppercase tracking-wider text-raspberry bg-soft-pink px-2.5 py-1 rounded-md">
-                        MYTH · {item.categoryLabel}
-                      </span>
-                      <span className="text-xs font-semibold text-charcoal/50 group-hover:text-raspberry transition-colors">
-                        {isRevealed ? "Tap to collapse" : "Tap to reveal"}
-                      </span>
-                    </div>
-
-                    {/* Myth Quote */}
-                    <h3 className="text-xl md:text-[22px] font-serif font-normal text-deep-teal mb-4 leading-snug">
-                      &ldquo;{item.myth}&rdquo;
-                    </h3>
-
-                    {/* Interactive Reveal Area */}
-                    {isRevealed ? (
-                      <div className="space-y-4 pt-4 border-t border-deep-teal/10 animate-in fade-in duration-200">
-                        <div className="p-3.5 rounded-xl bg-light-teal/50 border border-deep-teal/15">
-                          <span className="font-sans font-bold text-[11.5px] uppercase tracking-wider text-deep-teal block mb-1">
-                            MEDICAL REALITY:
-                          </span>
-                          <p className="text-[14px] text-charcoal/90 font-sans leading-relaxed m-0 font-medium">
-                            {item.quickFact}
-                          </p>
-                        </div>
-
-                        <p className="text-[13.5px] text-charcoal/80 font-sans leading-relaxed line-clamp-4 m-0">
-                          {item.explanation}
-                        </p>
-
-                        <div className="pt-2 border-t border-deep-teal/10 text-[12px] font-sans text-charcoal/70">
-                          <strong className="text-deep-teal block mb-0.5">Clinical Source:</strong>
-                          <span className="text-charcoal/85">{item.source.organization}</span>
-                          {item.source.guidelineNumber && (
-                            <span className="block text-[11px] text-charcoal/60 mt-0.5">
-                              {item.source.guidelineNumber}
-                            </span>
-                          )}
-                        </div>
-                      </div>
-                    ) : (
-                      <div className="pt-3">
-                        <span className="inline-flex items-center gap-1.5 text-[14px] font-bold text-raspberry group-hover:underline">
-                          <span>Reveal the facts</span>
-                          <span aria-hidden="true">→</span>
-                        </span>
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Card Footer */}
-                  <div className="pt-4 mt-4 border-t border-deep-teal/10 flex items-center justify-between text-xs font-sans">
-                    <span className="text-charcoal/60">
-                      {isRevealed ? "Verified Guideline" : "Click card to expand"}
-                    </span>
-                    {item.learnCategory && (
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          onNavigate("hub", item.learnCategory);
-                        }}
-                        className="text-raspberry font-semibold hover:underline"
-                      >
-                        Explore topic →
-                      </button>
-                    )}
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-
-          {/* CTA Button to Full Myths & Facts Page */}
-          <div className="text-center">
-            <Button
-              onClick={() => onNavigate("myths")}
-              size="lg"
-              className="bg-white text-raspberry hover:bg-white/95 hover:text-raspberry active:bg-white/90 active:text-raspberry focus-visible:text-raspberry shadow-md font-bold text-[15.5px] px-8 gap-2"
-            >
-              <span>Explore All Myths &amp; Facts</span>
-              <ArrowRight className="w-4 h-4" />
-            </Button>
-          </div>
+          <Button
+            onClick={() => onNavigate("myths")}
+            size="lg"
+            className="bg-white text-raspberry hover:bg-white/95 hover:text-raspberry active:bg-white/90 active:text-raspberry focus-visible:text-raspberry shadow-md font-bold text-[15.5px] px-8 py-6 rounded-xl gap-2 shrink-0 whitespace-nowrap cursor-pointer"
+          >
+            <span>Explore All Myths &amp; Facts</span>
+            <ArrowRight className="w-4 h-4 text-raspberry" />
+          </Button>
         </div>
       </section>
 

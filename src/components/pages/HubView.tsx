@@ -90,11 +90,14 @@ import {
   resetStoredProgress,
 } from "@/lib/progressStorage";
 
+import { PageId } from "@/components/layout/Navbar";
+
 interface HubViewProps {
   initialCategory?: string | null;
+  onNavigate?: (page: PageId, categoryId?: string) => void;
 }
 
-export function HubView({ initialCategory }: HubViewProps) {
+export function HubView({ initialCategory, onNavigate }: HubViewProps) {
   const [activeCategoryId, setActiveCategoryId] = useState<string | null>(
     initialCategory === "arcade" || initialCategory === "play-1" ? "play" : initialCategory || null
   );
@@ -532,43 +535,70 @@ export function HubView({ initialCategory }: HubViewProps) {
               </div>
             </div>
 
-            {/* Featured Interactive Athlete Arcade Banner */}
-            <div className="rounded-3xl p-6 sm:p-8 bg-gradient-to-r from-slate-900 via-deep-teal to-teal-950 text-white border-2 border-gold/40 shadow-xl mb-10 relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-6">
-              <div className="space-y-2.5 max-w-2xl text-left">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gold/20 border border-gold/40 text-gold text-xs font-bold uppercase tracking-wider">
-                  <Sparkles className="w-3.5 h-3.5 text-gold" />
-                  <span>Interactive Learning Experience · 4 Visual Minigames</span>
+            {/* Featured Interactive Learning Experiences: Athlete Arcade & Medical Myth-Buster */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-10">
+              {/* Card 1: Fuel Up Nutrition Arcade */}
+              <div className="rounded-3xl p-6 sm:p-7 bg-gradient-to-br from-slate-900 via-deep-teal to-teal-950 text-white border-2 border-gold/40 shadow-lg relative overflow-hidden flex flex-col justify-between gap-5">
+                <div className="space-y-2.5 text-left">
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gold/20 border border-gold/40 text-gold text-xs font-bold uppercase tracking-wider">
+                    <Sparkles className="w-3.5 h-3.5 text-gold" />
+                    <span>Athlete Arcade · 4 Minigames</span>
+                  </div>
+                  <h3 className="text-xl sm:text-2xl font-bold font-serif text-white">
+                    Fuel Up: Athlete Nutrition Arcade
+                  </h3>
+                  <p className="text-sm text-slate-200 leading-relaxed font-sans">
+                    Explore athletic fueling with zero walls of text! Play <strong>Visual Fuel Match</strong>, <strong>3:1 Recovery Blender</strong>, <strong>Pregame Bowl Catcher</strong>, and <strong>Timing Clock</strong>.
+                  </p>
                 </div>
-                <h3 className="text-2xl sm:text-3xl font-bold font-serif text-white">
-                  Fuel Up: Athlete Nutrition Arcade
-                </h3>
-                <p className="text-sm sm:text-base text-slate-200 leading-relaxed font-sans">
-                  Explore athletic fueling with zero walls of text! Play <strong>Visual Fuel Match</strong>, formulate your <strong>3:1 Recovery Blender</strong> shake, catch clean carbs in the <strong>Pregame Bowl Catcher</strong> with Maya, and master the <strong>Game-Day Fuel Timing Clock</strong>.
-                </p>
-                <div className="flex flex-wrap gap-2 pt-1">
-                  <span className="px-2.5 py-1 rounded-lg bg-white/10 text-slate-200 text-xs font-semibold border border-white/10">12 Visual Cards</span>
-                  <span className="px-2.5 py-1 rounded-lg bg-white/10 text-slate-200 text-xs font-semibold border border-white/10">3:1 Recovery Blender</span>
-                  <span className="px-2.5 py-1 rounded-lg bg-white/10 text-slate-200 text-xs font-semibold border border-white/10">Bowl Catcher Game</span>
-                  <span className="px-2.5 py-1 rounded-lg bg-white/10 text-slate-200 text-xs font-semibold border border-white/10">Race-Day Clock</span>
+                <div className="flex items-center justify-between gap-3 pt-3 border-t border-white/10">
+                  <span className="text-xs text-slate-300 font-sans">12 interactive cards &amp; simulations</span>
+                  <Button
+                    onClick={() => {
+                      const playCat = HUB_CATEGORIES["play"];
+                      const arcadeTopic = playCat?.topics.find(
+                        (t) => t.id === "play-1" || t.name.toLowerCase().includes("fuel up")
+                      );
+                      if (arcadeTopic) {
+                        setActiveCategoryId("play");
+                        openTopic(arcadeTopic);
+                      }
+                    }}
+                    size="sm"
+                    className="bg-gold hover:bg-gold/90 text-slate-950 font-bold px-5 py-2.5 rounded-xl shadow-md hover:scale-105 transition-all text-sm flex items-center gap-2 cursor-pointer border border-yellow-300"
+                  >
+                    <Gamepad2 className="w-4 h-4 text-slate-950" />
+                    <span>Launch Arcade</span>
+                  </Button>
                 </div>
               </div>
-              <Button
-                onClick={() => {
-                  const playCat = HUB_CATEGORIES["play"];
-                  const arcadeTopic = playCat?.topics.find(
-                    (t) => t.id === "play-1" || t.name.toLowerCase().includes("fuel up")
-                  );
-                  if (arcadeTopic) {
-                    setActiveCategoryId("play");
-                    openTopic(arcadeTopic);
-                  }
-                }}
-                size="lg"
-                className="bg-gold hover:bg-gold/90 text-slate-950 font-bold px-7 py-6 rounded-2xl shadow-lg hover:shadow-xl hover:scale-105 transition-all shrink-0 text-base flex items-center gap-2.5 cursor-pointer border border-yellow-300"
-              >
-                <Gamepad2 className="w-5 h-5 text-slate-950" />
-                <span>Launch Arcade (4 Games)</span>
-              </Button>
+
+              {/* Card 2: Medical Myth-Buster */}
+              <div className="rounded-3xl p-6 sm:p-7 bg-gradient-to-br from-raspberry via-[#A03558] to-[#781B3C] text-white border-2 border-coral/50 shadow-lg relative overflow-hidden flex flex-col justify-between gap-5">
+                <div className="space-y-2.5 text-left">
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-soft-pink/20 border border-coral/40 text-soft-pink text-xs font-bold uppercase tracking-wider">
+                    <ShieldCheck className="w-3.5 h-3.5 text-coral" />
+                    <span>Clinical Science · Interactive Cards</span>
+                  </div>
+                  <h3 className="text-xl sm:text-2xl font-bold font-serif text-white">
+                    Medical Myth-Buster: Myths vs. Reality
+                  </h3>
+                  <p className="text-sm text-white/90 leading-relaxed font-sans">
+                    Too many girls are told severe pain or missed cycles are &ldquo;normal.&rdquo; Flip through evidence-based cards debunking misconceptions with verified guidelines.
+                  </p>
+                </div>
+                <div className="flex items-center justify-between gap-3 pt-3 border-t border-white/15">
+                  <span className="text-xs text-white/80 font-sans">ACOG, Endocrine Society &amp; IOC citations</span>
+                  <Button
+                    onClick={() => onNavigate?.("myths")}
+                    size="sm"
+                    className="bg-white hover:bg-white/95 text-raspberry font-bold px-5 py-2.5 rounded-xl shadow-md hover:scale-105 transition-all text-sm flex items-center gap-2 cursor-pointer border border-white/50"
+                  >
+                    <span>Explore Myths &amp; Facts</span>
+                    <ArrowRight className="w-4 h-4 text-coral" />
+                  </Button>
+                </div>
+              </div>
             </div>
 
             {/* Category Cards Grouped: Female Athlete Health & Accessibility, Hormonal Health, Reproductive Health */}

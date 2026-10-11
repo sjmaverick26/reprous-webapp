@@ -87,7 +87,7 @@ export default function App() {
       <main className="flex-1 w-full transition-all">
         {activePage === "home" && <HomeView onNavigate={handleNavigate} onSelectLang={setCurrentLang} />}
         {activePage === "story" && <StoryView onNavigate={handleNavigate} />}
-        {activePage === "hub" && <HubView initialCategory={hubCategory} />}
+        {activePage === "hub" && <HubView initialCategory={hubCategory} onNavigate={handleNavigate} />}
         {activePage === "workshops" && <WorkshopsView />}
         {activePage === "resources" && <ResourcesView initialCategory={resourceCategory} onNavigate={handleNavigate} />}
         {activePage === "qa" && <QAView autoOpenSubmit={qaAutoOpen} />}
