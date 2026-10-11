@@ -356,9 +356,9 @@ export function HomeView({ onNavigate, onSelectLang }: HomeViewProps) {
                     <Button
                       onClick={() => onNavigate("workshops")}
                       variant="secondary"
-                      className="w-full text-[14px] font-semibold gap-1.5 text-deep-teal border-deep-teal/30 hover:bg-deep-teal/5 hover:text-deep-teal active:text-deep-teal focus-visible:text-deep-teal"
+                      className="w-full h-auto min-h-[44px] py-2.5 px-3 text-[13.5px] sm:text-[14px] font-semibold whitespace-normal text-center leading-tight gap-1.5 text-deep-teal border-deep-teal/30 hover:bg-deep-teal/5 hover:text-deep-teal active:text-deep-teal focus-visible:text-deep-teal"
                     >
-                      Reserve on Workshop Page (Demo) →
+                      Reserve Spot (Demo) →
                     </Button>
                   </div>
                 </Card>

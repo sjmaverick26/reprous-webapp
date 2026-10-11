@@ -268,9 +268,9 @@ export function WorkshopsView() {
                 </div>
                 <Button
                   onClick={() => setSelectedSession(session)}
-                  className="w-full text-[14px] font-semibold bg-raspberry hover:bg-raspberry/90 text-white cursor-pointer"
+                  className="w-full h-auto min-h-[44px] py-2.5 px-3 text-[13.5px] sm:text-[14px] font-semibold whitespace-normal text-center leading-tight bg-raspberry hover:bg-raspberry/90 text-white cursor-pointer"
                 >
-                  RSVP for Free (Placeholder Demo)
+                  RSVP for Free (Demo)
                 </Button>
               </Card>
             );
