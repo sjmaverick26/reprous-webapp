@@ -81,26 +81,26 @@ export function HomeView({ onNavigate, onSelectLang }: HomeViewProps) {
       {/* 2. THE COMMITMENT SECTION: Deep Teal (#175B5C) Full-Bleed */}
       <section id="commitment" className="w-full bg-deep-teal text-white py-16 md:py-24 scroll-mt-20 md:scroll-mt-24">
         <div className="max-w-[1100px] mx-auto px-6">
-          <div className="max-w-3xl">
+          <div className="w-full flex flex-col items-center text-center">
             <div className="inline-flex items-center gap-2 text-xs font-bold tracking-widest uppercase text-coral mb-4 font-sans">
               <span className="w-2 h-2 rounded-full bg-coral" />
               <span>✦ THE REPROUS COMMITMENT</span>
             </div>
 
-            <h2 className="text-3xl md:text-[44px] lg:text-[52px] font-bold font-serif text-white leading-[1.12] mb-5 tracking-tight">
+            <h2 className="text-2xl sm:text-3xl md:text-[38px] lg:text-[44px] xl:text-[46px] font-bold font-serif text-white leading-tight mb-4 tracking-tight text-center max-w-none lg:whitespace-nowrap">
               You shouldn&apos;t need to become an expert to be taken seriously.
             </h2>
 
-            <p className="text-[17px] md:text-[20px] font-medium text-white/95 leading-relaxed font-sans mb-10 max-w-2xl">
+            <p className="text-[15px] sm:text-[16px] md:text-[16.5px] lg:text-[17.5px] xl:text-[18px] font-medium text-white/95 leading-relaxed font-sans mb-10 text-center max-w-none lg:whitespace-nowrap">
               ReproUs helps girls understand their bodies, recognize symptoms, and build the confidence to ask informed questions about their health.
             </p>
 
             {/* 3 Boxed Cards: LEARN (Teal) · RECOGNIZE (Coral) · ADVOCATE (Pink) */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-2 w-full text-center">
               {/* Box 1: LEARN (Teal) */}
-              <div className="rounded-2xl p-6 bg-[#D8EFED]/15 border-2 border-light-teal/70 shadow-md flex flex-col justify-between hover:bg-[#D8EFED]/20 hover:border-light-teal transition-all">
-                <div>
-                  <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-light-teal text-deep-teal font-extrabold text-xs tracking-wider uppercase shadow-xs mb-4">
+              <div className="rounded-2xl p-6 bg-[#D8EFED]/15 border-2 border-light-teal/70 shadow-md flex flex-col items-center justify-between hover:bg-[#D8EFED]/20 hover:border-light-teal transition-all">
+                <div className="flex flex-col items-center w-full">
+                  <div className="inline-flex items-center justify-center gap-2 px-3.5 py-1.5 rounded-full bg-light-teal text-deep-teal font-extrabold text-xs tracking-wider uppercase shadow-xs mb-4">
                     <BookOpen className="w-3.5 h-3.5 text-deep-teal" />
                     <span>LEARN</span>
                   </div>
@@ -114,9 +114,9 @@ export function HomeView({ onNavigate, onSelectLang }: HomeViewProps) {
               </div>
 
               {/* Box 2: RECOGNIZE (Coral) */}
-              <div className="rounded-2xl p-6 bg-[#FFE1DB]/15 border-2 border-coral/70 shadow-md flex flex-col justify-between hover:bg-[#FFE1DB]/20 hover:border-coral transition-all">
-                <div>
-                  <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-coral text-white font-extrabold text-xs tracking-wider uppercase shadow-xs mb-4">
+              <div className="rounded-2xl p-6 bg-[#FFE1DB]/15 border-2 border-coral/70 shadow-md flex flex-col items-center justify-between hover:bg-[#FFE1DB]/20 hover:border-coral transition-all">
+                <div className="flex flex-col items-center w-full">
+                  <div className="inline-flex items-center justify-center gap-2 px-3.5 py-1.5 rounded-full bg-coral text-white font-extrabold text-xs tracking-wider uppercase shadow-xs mb-4">
                     <Heart className="w-3.5 h-3.5 text-white" />
                     <span>RECOGNIZE</span>
                   </div>
@@ -130,9 +130,9 @@ export function HomeView({ onNavigate, onSelectLang }: HomeViewProps) {
               </div>
 
               {/* Box 3: ADVOCATE (Pink / Raspberry) */}
-              <div className="rounded-2xl p-6 bg-soft-pink/15 border-2 border-soft-pink/70 shadow-md flex flex-col justify-between hover:bg-soft-pink/20 hover:border-soft-pink transition-all">
-                <div>
-                  <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-soft-pink text-raspberry font-extrabold text-xs tracking-wider uppercase shadow-xs mb-4">
+              <div className="rounded-2xl p-6 bg-soft-pink/15 border-2 border-soft-pink/70 shadow-md flex flex-col items-center justify-between hover:bg-soft-pink/20 hover:border-soft-pink transition-all">
+                <div className="flex flex-col items-center w-full">
+                  <div className="inline-flex items-center justify-center gap-2 px-3.5 py-1.5 rounded-full bg-soft-pink text-raspberry font-extrabold text-xs tracking-wider uppercase shadow-xs mb-4">
                     <ShieldCheck className="w-3.5 h-3.5 text-raspberry" />
                     <span>ADVOCATE</span>
                   </div>
