@@ -535,47 +535,10 @@ export function HubView({ initialCategory, onNavigate }: HubViewProps) {
               </div>
             </div>
 
-            {/* Featured Interactive Learning Experiences: Athlete Arcade & Medical Myth-Buster */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-10">
-              {/* Card 1: Fuel Up Nutrition Arcade */}
-              <div className="rounded-3xl p-6 sm:p-7 bg-gradient-to-br from-slate-900 via-deep-teal to-teal-950 text-white border-2 border-gold/40 shadow-lg relative overflow-hidden flex flex-col justify-between gap-5">
-                <div className="space-y-2.5 text-left">
-                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gold/20 border border-gold/40 text-gold text-xs font-bold uppercase tracking-wider">
-                    <Sparkles className="w-3.5 h-3.5 text-gold" />
-                    <span>Athlete Arcade · 4 Minigames</span>
-                  </div>
-                  <h3 className="text-xl sm:text-2xl font-bold font-serif text-white">
-                    Fuel Up: Athlete Nutrition Arcade
-                  </h3>
-                  <p className="text-sm text-slate-200 leading-relaxed font-sans">
-                    Explore athletic fueling with zero walls of text! Play <strong>Visual Fuel Match</strong>, <strong>3:1 Recovery Blender</strong>, <strong>Pregame Bowl Catcher</strong>, and <strong>Timing Clock</strong>.
-                  </p>
-                </div>
-                <div className="flex items-center justify-between gap-3 pt-3 border-t border-white/10">
-                  <span className="text-xs text-slate-300 font-sans">12 interactive cards &amp; simulations</span>
-                  <Button
-                    onClick={() => {
-                      const playCat = HUB_CATEGORIES["play"];
-                      const arcadeTopic = playCat?.topics.find(
-                        (t) => t.id === "play-1" || t.name.toLowerCase().includes("fuel up")
-                      );
-                      if (arcadeTopic) {
-                        setActiveCategoryId("play");
-                        openTopic(arcadeTopic);
-                      }
-                    }}
-                    size="sm"
-                    className="bg-gold hover:bg-gold/90 text-slate-950 font-bold px-5 py-2.5 rounded-xl shadow-md hover:scale-105 transition-all text-sm flex items-center gap-2 cursor-pointer border border-yellow-300"
-                  >
-                    <Gamepad2 className="w-4 h-4 text-slate-950" />
-                    <span>Launch Arcade</span>
-                  </Button>
-                </div>
-              </div>
-
-              {/* Card 2: Medical Myth-Buster */}
-              <div className="rounded-3xl p-6 sm:p-7 bg-gradient-to-br from-raspberry via-[#A03558] to-[#781B3C] text-white border-2 border-coral/50 shadow-lg relative overflow-hidden flex flex-col justify-between gap-5">
-                <div className="space-y-2.5 text-left">
+            {/* Featured Interactive Learning Experience: Medical Myth-Buster */}
+            <div className="mb-10">
+              <div className="rounded-3xl p-6 sm:p-7 bg-gradient-to-br from-raspberry via-[#A03558] to-[#781B3C] text-white border-2 border-coral/50 shadow-lg relative overflow-hidden flex flex-col md:flex-row md:items-center justify-between gap-5 text-left">
+                <div className="space-y-2.5 max-w-2xl">
                   <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-soft-pink/20 border border-coral/40 text-soft-pink text-xs font-bold uppercase tracking-wider">
                     <ShieldCheck className="w-3.5 h-3.5 text-coral" />
                     <span>Clinical Science · Interactive Cards</span>
@@ -587,7 +550,7 @@ export function HubView({ initialCategory, onNavigate }: HubViewProps) {
                     Too many girls are told severe pain or missed cycles are &ldquo;normal.&rdquo; Flip through evidence-based cards debunking misconceptions with verified guidelines.
                   </p>
                 </div>
-                <div className="flex items-center justify-between gap-3 pt-3 border-t border-white/15">
+                <div className="flex items-center justify-between md:flex-col md:items-end gap-3 pt-3 md:pt-0 border-t md:border-t-0 border-white/15 shrink-0">
                   <span className="text-xs text-white/80 font-sans">ACOG, Endocrine Society &amp; IOC citations</span>
                   <Button
                     onClick={() => onNavigate?.("myths")}
@@ -815,31 +778,37 @@ export function HubView({ initialCategory, onNavigate }: HubViewProps) {
               </div>
             </div>
 
-            {/* Quick-Launch for Nutrition Arcade in Female Athlete Health Category */}
+            {/* Featured Interactive Experience: Athlete Nutrition Arcade in Play Strong Category */}
             {activeCategoryId === "play" && (
-              <div className="mt-6 mb-2 p-5 sm:p-6 rounded-2xl bg-gradient-to-r from-deep-teal/15 via-coral/10 to-gold/20 border-2 border-deep-teal/30 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-sm text-left">
-                <div>
-                  <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-deep-teal text-white text-[11px] font-bold uppercase tracking-wider mb-2">
-                    <Gamepad2 className="w-3.5 h-3.5" />
-                    <span>Featured 4-in-1 Interactive Arcade</span>
+              <div className="mt-6 mb-2 rounded-3xl p-6 sm:p-7 bg-gradient-to-br from-slate-900 via-deep-teal to-teal-950 text-white border-2 border-gold/40 shadow-lg relative overflow-hidden flex flex-col md:flex-row md:items-center justify-between gap-5 text-left">
+                <div className="space-y-2.5 max-w-2xl">
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gold/20 border border-gold/40 text-gold text-xs font-bold uppercase tracking-wider">
+                    <Sparkles className="w-3.5 h-3.5 text-gold" />
+                    <span>Athlete Arcade · 4 Minigames</span>
                   </div>
-                  <h4 className="text-xl font-bold font-serif text-deep-teal">Fuel Up: Athlete Nutrition Arcade</h4>
-                  <p className="text-xs sm:text-sm text-charcoal/80 max-w-xl mt-0.5 font-sans">
-                    Launch all 4 minigames directly: Visual Fuel Match, 3:1 Recovery Blender, Pregame Bowl Catcher with Maya, and Game-Day Fuel Timing Clock.
+                  <h3 className="text-xl sm:text-2xl font-bold font-serif text-white">
+                    Fuel Up: Athlete Nutrition Arcade
+                  </h3>
+                  <p className="text-sm text-slate-200 leading-relaxed font-sans">
+                    Explore athletic fueling with zero walls of text! Play <strong>Visual Fuel Match</strong>, <strong>3:1 Recovery Blender</strong>, <strong>Pregame Bowl Catcher</strong>, and <strong>Timing Clock</strong>.
                   </p>
                 </div>
-                <Button
-                  onClick={() => {
-                    const arcadeTopic = activeCategory.topics.find(
-                      (t) => t.id === "play-1" || t.name.toLowerCase().includes("fuel up")
-                    );
-                    if (arcadeTopic) openTopic(arcadeTopic);
-                  }}
-                  className="bg-coral hover:bg-coral/90 text-white font-bold px-6 py-3 rounded-xl shadow-md shrink-0 flex items-center gap-2 cursor-pointer text-sm"
-                >
-                  <Gamepad2 className="w-4 h-4" />
-                  <span>Launch Arcade Now →</span>
-                </Button>
+                <div className="flex items-center justify-between md:flex-col md:items-end gap-3 pt-3 md:pt-0 border-t md:border-t-0 border-white/10 shrink-0">
+                  <span className="text-xs text-slate-300 font-sans">12 interactive cards &amp; simulations</span>
+                  <Button
+                    onClick={() => {
+                      const arcadeTopic = activeCategory.topics.find(
+                        (t) => t.id === "play-1" || t.name.toLowerCase().includes("fuel up")
+                      );
+                      if (arcadeTopic) openTopic(arcadeTopic);
+                    }}
+                    size="sm"
+                    className="bg-gold hover:bg-gold/90 text-slate-950 font-bold px-5 py-2.5 rounded-xl shadow-md hover:scale-105 transition-all text-sm flex items-center gap-2 cursor-pointer border border-yellow-300"
+                  >
+                    <Gamepad2 className="w-4 h-4 text-slate-950" />
+                    <span>Launch Arcade</span>
+                  </Button>
+                </div>
               </div>
             )}
 
