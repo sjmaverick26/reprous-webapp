@@ -74,8 +74,8 @@ export function HomeView({ onNavigate, onSelectLang }: HomeViewProps) {
             </span>
           </h1>
 
-          {/* Subtitle: Direct and Focused */}
-          <p className="text-[17px] md:text-[19px] text-charcoal/85 max-w-[620px] leading-relaxed mb-8 font-sans">
+          {/* Subtitle: Direct and Focused (Single Line on Desktop) */}
+          <p className="text-[15.5px] sm:text-[16.5px] md:text-[17px] lg:text-[17.5px] xl:text-[18px] text-charcoal/85 max-w-none lg:whitespace-nowrap leading-relaxed mb-8 font-sans">
             Clear, accessible health education for girls — understanding your biology, recognizing symptoms, and advocating for your care.
           </p>
 
