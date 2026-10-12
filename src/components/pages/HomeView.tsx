@@ -11,26 +11,11 @@ import {
   MapPin,
   ShieldCheck,
   Globe,
-  Compass,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { PageId } from "@/components/layout/Navbar";
 import { UPCOMING_SESSIONS } from "@/data/workshopsData";
-
-export interface TocSection {
-  id: string;
-  number: string;
-  title: string;
-}
-
-export const TOC_SECTIONS: TocSection[] = [
-  { id: "commitment", number: "01", title: "The Commitment" },
-  { id: "symptom-explorer", number: "02", title: "Symptom Tracker" },
-  { id: "myth-buster", number: "03", title: "Medical Myth-Buster" },
-  { id: "workshops-community", number: "04", title: "Free Workshops" },
-  { id: "ask-question", number: "05", title: "Ask a Question" },
-];
 
 interface HomeViewProps {
   onNavigate: (page: PageId, categoryId?: string) => void;
@@ -38,15 +23,6 @@ interface HomeViewProps {
 }
 
 export function HomeView({ onNavigate, onSelectLang }: HomeViewProps) {
-
-  const scrollToSection = (sectionId: string) => {
-    if (typeof document !== "undefined") {
-      const el = document.getElementById(sectionId);
-      if (el) {
-        el.scrollIntoView({ behavior: "smooth", block: "start" });
-      }
-    }
-  };
 
   return (
     <div className="flex flex-col w-full text-charcoal">
@@ -101,35 +77,6 @@ export function HomeView({ onNavigate, onSelectLang }: HomeViewProps) {
           </div>
         </div>
       </section>
-
-      {/* Sleek, Compact Jump-Down Strip (No Heavy Boxes, Understated) */}
-      <nav
-        aria-label="On this page quick jump"
-        className="w-full bg-[#EBF7F6] border-y border-deep-teal/10 py-2.5 sm:py-3"
-      >
-        <div className="max-w-[1100px] mx-auto px-4 sm:px-6 flex items-center justify-start sm:justify-center gap-2 sm:gap-3 overflow-x-auto no-scrollbar text-xs font-sans">
-          <div className="flex items-center gap-1.5 shrink-0 font-bold uppercase tracking-wider text-deep-teal text-[11.5px]">
-            <Compass className="w-3.5 h-3.5 text-coral shrink-0" />
-            <span>Jump to:</span>
-          </div>
-          <div className="flex items-center gap-1 sm:gap-1.5 shrink-0 flex-nowrap">
-            {TOC_SECTIONS.map((sec, idx) => (
-              <React.Fragment key={sec.id}>
-                <button
-                  onClick={() => scrollToSection(sec.id)}
-                  className="px-2 sm:px-2.5 py-1 rounded-md font-semibold text-charcoal/80 hover:text-raspberry hover:bg-white/80 active:text-raspberry transition-colors whitespace-nowrap cursor-pointer"
-                >
-                  <span className="text-coral font-mono font-bold mr-1 text-[11px]">{sec.number}</span>
-                  <span>{sec.title}</span>
-                </button>
-                {idx < TOC_SECTIONS.length - 1 && (
-                  <span className="text-charcoal/30 select-none text-[10px]" aria-hidden="true">·</span>
-                )}
-              </React.Fragment>
-            ))}
-          </div>
-        </div>
-      </nav>
 
       {/* 2. THE COMMITMENT SECTION: Deep Teal (#175B5C) Full-Bleed */}
       <section id="commitment" className="w-full bg-deep-teal text-white py-16 md:py-24 scroll-mt-20 md:scroll-mt-24">
