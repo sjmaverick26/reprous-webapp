@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Globe2, X, ChevronDown } from "lucide-react";
+import { Globe2, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface LanguageBarProps {
@@ -104,7 +104,6 @@ export const SUPPORTED_LANGUAGES: LanguageOption[] = [
 export function LanguageBar({ currentLang, onSelectLang }: LanguageBarProps) {
   const [textSize, setTextSize] = useState<"" | "text-lg" | "text-xl">("");
   const [isHighContrast, setIsHighContrast] = useState(false);
-  const [langOpen, setLangOpen] = useState(false);
 
   useEffect(() => {
     if (typeof document !== "undefined") {
@@ -146,62 +145,7 @@ export function LanguageBar({ currentLang, onSelectLang }: LanguageBarProps) {
 
   return (
     <div className="bg-ivory/95 border-b border-plum/10 transition-colors" dir="ltr">
-      <div className="max-w-[1140px] mx-auto px-4 sm:px-6 py-2 flex items-center justify-between gap-4 flex-wrap">
-        {/* Language Switcher Dropdown */}
-        <div className="relative">
-          <button
-            type="button"
-            onClick={() => setLangOpen(!langOpen)}
-            className="flex items-center gap-2 px-3 py-1 rounded-lg text-[13px] font-semibold font-sans bg-white/95 border border-deep-teal/20 text-deep-teal hover:border-coral hover:text-raspberry transition-colors shadow-2xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral"
-            aria-expanded={langOpen}
-            aria-label="Select Language"
-          >
-            <Globe2 className="w-3.5 h-3.5 text-coral shrink-0" />
-            <span className="text-[12px] uppercase tracking-wider text-charcoal/70">Language:</span>
-            <span className="font-bold text-deep-teal">{activeLang?.label || "English"}</span>
-            <ChevronDown
-              className={cn("w-3.5 h-3.5 opacity-60 transition-transform", langOpen && "rotate-180")}
-            />
-          </button>
-
-          {langOpen && (
-            <div className="absolute left-0 top-full mt-1.5 w-64 z-50 bg-white rounded-xl shadow-xl border border-plum/15 p-1.5 max-h-72 overflow-y-auto animate-in fade-in zoom-in-95 duration-100 font-sans">
-              <div className="px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-charcoal/60 border-b border-plum/10 mb-1 flex items-center justify-between">
-                <span>Select Language</span>
-                <span className="text-coral font-semibold">10 Options</span>
-              </div>
-              {SUPPORTED_LANGUAGES.map((lang) => {
-                const isSelected = currentLang === lang.code;
-                return (
-                  <button
-                    key={lang.code}
-                    type="button"
-                    onClick={() => {
-                      handleSelectLang(lang.code);
-                      setLangOpen(false);
-                    }}
-                    className={cn(
-                      "w-full text-left px-3 py-1.5 rounded-lg text-[13px] font-medium transition-colors flex items-center justify-between group cursor-pointer",
-                      isSelected
-                        ? "bg-deep-teal text-white font-bold"
-                        : "text-plum hover:bg-soft-pink/40 hover:text-raspberry"
-                    )}
-                  >
-                    <span>{lang.label}</span>
-                    <span
-                      className={cn(
-                        "text-[11.5px]",
-                        isSelected ? "text-white/80" : "text-plum/50 group-hover:text-raspberry/80"
-                      )}
-                    >
-                      {lang.code === "ar" ? "العربية" : lang.englishName}
-                    </span>
-                  </button>
-                );
-              })}
-            </div>
-          )}
-        </div>
+      <div className="max-w-[1140px] mx-auto px-4 sm:px-6 py-2 flex items-center justify-end gap-4 flex-wrap">
 
         {/* Accessibility Tools (Text Size & Contrast) */}
         <div className="flex items-center gap-1.5">
