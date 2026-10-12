@@ -29,7 +29,7 @@ export function Footer({ onNavigate, currentLang = "en", onSelectLang }: FooterP
     <footer className="mt-auto border-t border-deep-teal-dark bg-deep-teal text-white py-12 transition-colors font-sans" dir="ltr">
       <div className="max-w-[1100px] mx-auto px-6 flex flex-col gap-8">
         <div className="flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 shrink-0">
             <ReproUsMark size={32} variant="light" />
             <div>
               <span className="font-serif font-bold text-light-teal text-2xl block tracking-tight inline-flex items-center">
@@ -37,13 +37,13 @@ export function Footer({ onNavigate, currentLang = "en", onSelectLang }: FooterP
                 <span className="w-2 h-2 rounded-full bg-coral mx-1 inline-block" aria-hidden="true" />
                 <span className="text-light-teal">Us</span>
               </span>
-              <p className="text-[13.5px] text-white/80 m-0 font-sans">
+              <p className="text-[13px] sm:text-[13.5px] text-white/80 m-0 font-sans sm:whitespace-nowrap">
                 Evidence-based education and self-advocacy tools for girls &amp; youth.
               </p>
             </div>
           </div>
 
-          <div className="flex items-center gap-3.5 text-[13.5px] font-medium text-white/85 flex-wrap justify-center font-sans">
+          <div className="flex items-center gap-3.5 text-[13.5px] font-medium text-white/85 flex-wrap justify-center md:justify-end font-sans">
             <span>Always Free</span>
             <span className="text-coral">•</span>
             <span>100% Anonymous</span>
