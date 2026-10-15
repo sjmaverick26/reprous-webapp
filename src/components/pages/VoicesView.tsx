@@ -1,41 +1,93 @@
 "use client";
 
-import React, { useState } from "react";
-import { Send, CheckCircle2, Sparkles, ClipboardList, CalendarCheck, BookOpen, MessageSquare, ArrowRight, X } from "lucide-react";
+import React, { useState, useEffect } from "react";
+import {
+  Send,
+  CheckCircle2,
+  Sparkles,
+  ClipboardList,
+  CalendarCheck,
+  BookOpen,
+  MessageSquare,
+  ArrowRight,
+  X,
+  Search,
+  Lock,
+  HelpCircle,
+  Shield,
+  ShieldCheck,
+  Globe,
+  Quote,
+  Check,
+  Copy,
+  Plus,
+} from "lucide-react";
 import { INITIAL_VOICES, YouthVoice } from "@/data/voicesData";
+import { FAQS_DATA } from "@/data/faqsData";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { AccessMini } from "@/components/shared/AccessMini";
-import { submitStory } from "@/lib/api";
+import {
+  Accordion,
+  AccordionItem,
+  AccordionTrigger,
+  AccordionContent,
+} from "@/components/ui/accordion";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
+import { EducationalReferences } from "@/components/shared/EducationalReferences";
+import { submitStory, submitQuestion } from "@/lib/api";
 import { PageId } from "@/components/layout/Navbar";
 
+export type CommunityTab = "stories" | "qa" | "toolkit";
+
 interface VoicesViewProps {
+  initialTab?: CommunityTab;
+  autoOpenSubmit?: boolean;
   onNavigate?: (page: PageId, categoryId?: string) => void;
 }
 
-export function VoicesView({ onNavigate }: VoicesViewProps = {}) {
+export function VoicesView({
+  initialTab = "stories",
+  autoOpenSubmit = false,
+  onNavigate,
+}: VoicesViewProps) {
+  const [activeTab, setActiveTab] = useState<CommunityTab>(initialTab);
+
+  // Sync if initialTab changes from external navigation
+  useEffect(() => {
+    if (initialTab) {
+      setActiveTab(initialTab);
+    }
+  }, [initialTab]);
+
+  // =========================================================================
+  // 1. Stories State
+  // =========================================================================
   const [voices, setVoices] = useState<YouthVoice[]>(INITIAL_VOICES);
   const [storyInput, setStoryInput] = useState("");
   const [authorAlias, setAuthorAlias] = useState("");
   const [authorAge, setAuthorAge] = useState("");
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitSuccess, setSubmitSuccess] = useState(false);
-  const [toolkitModalOpen, setToolkitModalOpen] = useState(false);
-  const [activeToolkitTab, setActiveToolkitTab] = useState<"track" | "prepare" | "language" | "speak">("prepare");
+  const [isSubmittingStory, setIsSubmittingStory] = useState(false);
+  const [submitStorySuccess, setSubmitStorySuccess] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmitStory = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!storyInput.trim()) return;
 
-    setIsSubmitting(true);
-    const res = await submitStory({
+    setIsSubmittingStory(true);
+    await submitStory({
       story: storyInput,
       author_alias: authorAlias.trim() || "Shared anonymously",
       age: authorAge ? parseInt(authorAge, 10) : 17,
     });
-    setIsSubmitting(false);
+    setIsSubmittingStory(false);
 
     // Optimistically prepend to list
     const newVoice: YouthVoice = {
@@ -46,468 +98,860 @@ export function VoicesView({ onNavigate }: VoicesViewProps = {}) {
       date: "Just now",
     };
     setVoices([newVoice, ...voices]);
-    setSubmitSuccess(true);
+    setSubmitStorySuccess(true);
     setStoryInput("");
     setAuthorAlias("");
     setAuthorAge("");
 
     setTimeout(() => {
-      setSubmitSuccess(false);
+      setSubmitStorySuccess(false);
     }, 4000);
   };
 
+  // =========================================================================
+  // 2. Q&A State
+  // =========================================================================
+  const [qaCategory, setQaCategory] = useState<string>("all");
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [isQuestionModalOpen, setIsQuestionModalOpen] = useState(autoOpenSubmit);
+  const [questionText, setQuestionText] = useState("");
+  const [questionCat, setQuestionCat] = useState("general");
+  const [ageRange, setAgeRange] = useState("16-18");
+  const [isSubmittingQuestion, setIsSubmittingQuestion] = useState(false);
+  const [submitQuestionSuccess, setSubmitQuestionSuccess] = useState(false);
+
+  useEffect(() => {
+    if (autoOpenSubmit) {
+      setActiveTab("qa");
+      setIsQuestionModalOpen(true);
+    }
+  }, [autoOpenSubmit]);
+
+  const qaCategories = [
+    { id: "all", label: "All Questions" },
+    { id: "cycles", label: "Cycles & Periods" },
+    { id: "health", label: "Pain & Symptoms" },
+    { id: "privacy", label: "Privacy & Confidentiality" },
+    { id: "workshops", label: "Workshops" },
+  ];
+
+  const filteredFaqs = FAQS_DATA.filter((faq) => {
+    const matchesCat = qaCategory === "all" || faq.category === qaCategory;
+    const matchesSearch =
+      searchQuery.trim() === "" ||
+      faq.question.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      faq.answer.toLowerCase().includes(searchQuery.toLowerCase());
+    return matchesCat && matchesSearch;
+  });
+
+  const handleSubmitQuestion = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!questionText.trim()) return;
+
+    setIsSubmittingQuestion(true);
+    await submitQuestion({
+      question: questionText,
+      category: questionCat,
+      age_range: ageRange,
+    });
+    setIsSubmittingQuestion(false);
+    setSubmitQuestionSuccess(true);
+
+    setTimeout(() => {
+      setIsQuestionModalOpen(false);
+      setSubmitQuestionSuccess(false);
+      setQuestionText("");
+    }, 2200);
+  };
+
+  // =========================================================================
+  // 3. Self-Advocacy Toolkit Modal State
+  // =========================================================================
+  const [toolkitModalOpen, setToolkitModalOpen] = useState(false);
+  const [activeToolkitTab, setActiveToolkitTab] = useState<"track" | "prepare" | "language" | "speak">("prepare");
+  const [copiedScript, setCopiedScript] = useState<string | null>(null);
+
+  const handleCopy = (text: string, id: string) => {
+    if (typeof navigator !== "undefined" && navigator.clipboard) {
+      navigator.clipboard.writeText(text);
+      setCopiedScript(id);
+      setTimeout(() => setCopiedScript(null), 2500);
+    }
+  };
+
   return (
-    <div className="max-w-[1100px] mx-auto px-6 py-12 flex flex-col gap-12">
-      {/* Header */}
-      <div className="text-center max-w-2xl mx-auto">
-        <div className="text-[13px] md:text-[14px] font-bold uppercase tracking-wider text-berry mb-2 font-sans">
-          Youth Voices
+    <div className="max-w-[1100px] mx-auto px-6 py-12 flex flex-col gap-10">
+      {/* 1. Header with Eyebrow, Title & Site-Wide Language Note */}
+      <div className="text-center max-w-3xl mx-auto">
+        <div className="text-[13px] md:text-[14px] font-bold uppercase tracking-wider text-raspberry mb-2 font-sans">
+          ✦ COMMUNITY HUB · PEER VOICES &amp; CONFIDENTIAL Q&amp;A
         </div>
-        <h1 className="text-4xl md:text-[64px] lg:text-[72px] font-normal font-serif text-plum leading-[1.08] mb-4">
-          Real stories, shared on purpose
+        <h1 className="text-4xl md:text-[56px] lg:text-[64px] font-normal font-serif text-deep-teal leading-[1.08] mb-4">
+          Youth Voices &amp; Q&amp;A
         </h1>
-        <p className="text-[17px] md:text-[19px] text-ink/80 leading-relaxed mb-6 font-sans">
-          Personal stories, questions, and reflections from young people who have navigated the exact same bodily changes, anxieties, and discoveries. <span className="font-medium text-ink/70">(Note: These quotes are mockups for demonstration purposes.)</span>
+        <p className="text-[17px] md:text-[19px] text-charcoal/80 leading-relaxed mb-4 font-sans">
+          Real stories from peers navigating bodily changes, confidential clinical answers to questions you might feel nervous asking, and practical tools to advocate for your health.
         </p>
-        <AccessMini
-          text="Stories can be submitted by text, voice memo, or in your own language — we'll translate it."
-          className="mx-auto shadow-sm"
-        />
-      </div>
 
-      {/* Voices Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {voices.map((voice) => (
-          <Card
-            key={voice.id}
-            className="p-7 flex flex-col justify-between hover:shadow-hover transition-all"
-          >
-            <div>
-              <p className="font-serif text-[18px] md:text-[20px] font-normal text-plum leading-relaxed mb-6 italic">
-                &ldquo;{voice.quote}&rdquo;
-              </p>
-            </div>
-            <div className="flex items-center justify-between pt-4 border-t border-berry/10">
-              <span className="text-[13.5px] md:text-[14px] font-bold text-ink/75 font-sans">
-                — {voice.author}, age {voice.age} <span className="font-normal text-xs text-ink/50">(mockup quote)</span>
-              </span>
-              {voice.category && (
-                <span className="text-[12px] md:text-[13px] font-bold text-berry bg-blush px-2.5 py-0.5 rounded-full font-sans">
-                  {voice.category}
-                </span>
-              )}
-            </div>
-          </Card>
-        ))}
-      </div>
+        {/* Clean, Non-Interactive Site-Wide Language Note */}
+        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/95 border border-deep-teal/15 shadow-xs text-xs sm:text-sm font-medium text-deep-teal mb-6 font-sans">
+          <Globe className="w-3.5 h-3.5 text-coral shrink-0" />
+          <span>✦ All questions and stories can be read in 10 languages via the site-wide language menu above.</span>
+        </div>
 
-      {/* Self-Advocacy Toolkit Section */}
-      <div id="advocacy-toolkit" className="rounded-3xl bg-coral text-deep-teal p-8 md:p-12 shadow-md">
-        <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-4 mb-8">
-          <div>
-            <div className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-deep-teal mb-2 font-sans">
-              <Sparkles className="w-3.5 h-3.5 text-deep-teal" />
-              Youth Patient Empowerment
-            </div>
-            <h2 className="text-3xl md:text-[42px] lg:text-[48px] font-normal font-serif text-deep-teal leading-[1.15]">
-              Know what to ask.
-            </h2>
-            <p className="text-[17px] md:text-[18px] text-deep-teal/90 max-w-xl mt-2 mb-0 font-sans">
-              Four practical tools to help you track your symptoms, prepare for appointments, and speak up with confidence.
-            </p>
-          </div>
-
+        {/* Quick Action Buttons */}
+        <div className="flex flex-wrap items-center justify-center gap-3">
           <Button
             onClick={() => {
-              setActiveToolkitTab("prepare");
+              setActiveTab("qa");
+              setIsQuestionModalOpen(true);
+            }}
+            className="bg-coral hover:bg-coral/90 text-white font-bold px-5 py-2.5 rounded-full text-xs sm:text-sm gap-2 shadow-sm cursor-pointer"
+          >
+            <HelpCircle className="w-4 h-4" />
+            <span>Ask an Anonymous Question</span>
+          </Button>
+
+          <Button
+            variant="outline"
+            onClick={() => {
+              setActiveTab("stories");
+              if (typeof window !== "undefined") {
+                const formEl = document.getElementById("share-story-form");
+                if (formEl) formEl.scrollIntoView({ behavior: "smooth" });
+              }
+            }}
+            className="border-deep-teal/25 text-deep-teal hover:bg-light-teal font-bold px-5 py-2.5 rounded-full text-xs sm:text-sm gap-2 cursor-pointer"
+          >
+            <MessageSquare className="w-4 h-4 text-coral" />
+            <span>Share Your Story</span>
+          </Button>
+
+          <Button
+            variant="outline"
+            onClick={() => {
+              setActiveTab("toolkit");
               setToolkitModalOpen(true);
             }}
-            className="bg-deep-teal text-white hover:bg-deep-teal/90 hover:text-white active:bg-deep-teal active:text-white focus-visible:text-white text-[15px] gap-2 whitespace-nowrap self-start md:self-end shadow-sm"
+            className="border-raspberry/25 text-raspberry hover:bg-soft-pink font-bold px-5 py-2.5 rounded-full text-xs sm:text-sm gap-2 cursor-pointer"
           >
-            <span>Open the Self-Advocacy Toolkit</span>
-            <ArrowRight className="w-4 h-4" />
+            <Sparkles className="w-4 h-4 text-raspberry" />
+            <span>Self-Advocacy Toolkit</span>
           </Button>
         </div>
+      </div>
 
-        {/* 4 Floating White Cards on Coral */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-          {/* Card 1: Track your symptoms */}
-          <div
-            onClick={() => {
-              setActiveToolkitTab("track");
-              setToolkitModalOpen(true);
-            }}
-            className="p-6 md:p-7 rounded-2xl bg-white text-charcoal border border-white/70 shadow-card hover:shadow-hover hover:-translate-y-1 transition-all cursor-pointer flex flex-col justify-between group"
+      {/* 2. Top Segmented Selector (3 Tabs) */}
+      <div className="flex justify-center">
+        <div className="inline-flex p-1.5 rounded-2xl bg-white/80 border-2 border-deep-teal/15 shadow-sm max-w-xl w-full">
+          <button
+            onClick={() => setActiveTab("stories")}
+            className={`flex-1 py-2.5 px-3 rounded-xl text-xs sm:text-sm font-bold font-sans transition-all cursor-pointer text-center ${
+              activeTab === "stories"
+                ? "bg-deep-teal text-white shadow-xs"
+                : "text-charcoal/70 hover:text-deep-teal hover:bg-slate-50"
+            }`}
           >
-            <div>
-              <div className="w-11 h-11 rounded-xl bg-light-teal text-deep-teal flex items-center justify-center border border-deep-teal/20 shadow-2xs mb-4">
-                <ClipboardList className="w-5 h-5 text-deep-teal" />
-              </div>
-              <h3 className="text-xl font-serif font-bold text-deep-teal group-hover:text-raspberry transition-colors leading-snug mb-2.5">
-                Track your symptoms
-              </h3>
-              <p className="text-[14.5px] text-charcoal/80 leading-relaxed font-sans m-0">
-                Download a symptom tracker to document frequency, severity, and cycle patterns.
-              </p>
-            </div>
-            <div className="pt-5 mt-5 border-t border-deep-teal/10 flex items-center justify-between">
-              <span className="text-xs font-bold text-raspberry font-sans group-hover:underline">
-                Open tracker guide
-              </span>
-              <ArrowRight className="w-3.5 h-3.5 text-raspberry group-hover:translate-x-1 transition-transform" />
-            </div>
-          </div>
-
-          {/* Card 2: Prepare for an appointment */}
-          <div
-            onClick={() => {
-              setActiveToolkitTab("prepare");
-              setToolkitModalOpen(true);
-            }}
-            className="p-6 md:p-7 rounded-2xl bg-white text-charcoal border border-white/70 shadow-card hover:shadow-hover hover:-translate-y-1 transition-all cursor-pointer flex flex-col justify-between group"
+            ✦ Real Stories ({voices.length})
+          </button>
+          <button
+            onClick={() => setActiveTab("qa")}
+            className={`flex-1 py-2.5 px-3 rounded-xl text-xs sm:text-sm font-bold font-sans transition-all cursor-pointer text-center ${
+              activeTab === "qa"
+                ? "bg-coral text-white shadow-xs"
+                : "text-charcoal/70 hover:text-coral hover:bg-slate-50"
+            }`}
           >
-            <div>
-              <div className="w-11 h-11 rounded-xl bg-[#FFE1DB] text-coral flex items-center justify-center border border-coral/30 shadow-2xs mb-4">
-                <CalendarCheck className="w-5 h-5 text-[#B83F68]" />
-              </div>
-              <h3 className="text-xl font-serif font-bold text-deep-teal group-hover:text-raspberry transition-colors leading-snug mb-2.5">
-                Prepare for an appointment
-              </h3>
-              <p className="text-[14.5px] text-charcoal/80 leading-relaxed font-sans m-0">
-                Build a personalized list of prioritized questions before seeing a healthcare provider.
-              </p>
-            </div>
-            <div className="pt-5 mt-5 border-t border-deep-teal/10 flex items-center justify-between">
-              <span className="text-xs font-bold text-raspberry font-sans group-hover:underline">
-                Build question list
-              </span>
-              <ArrowRight className="w-3.5 h-3.5 text-raspberry group-hover:translate-x-1 transition-transform" />
-            </div>
-          </div>
-
-          {/* Card 3: Learn the language */}
-          <div
-            onClick={() => {
-              setActiveToolkitTab("language");
-              setToolkitModalOpen(true);
-            }}
-            className="p-6 md:p-7 rounded-2xl bg-white text-charcoal border border-white/70 shadow-card hover:shadow-hover hover:-translate-y-1 transition-all cursor-pointer flex flex-col justify-between group"
+            ✦ Anonymous Q&amp;A ({FAQS_DATA.length})
+          </button>
+          <button
+            onClick={() => setActiveTab("toolkit")}
+            className={`flex-1 py-2.5 px-3 rounded-xl text-xs sm:text-sm font-bold font-sans transition-all cursor-pointer text-center ${
+              activeTab === "toolkit"
+                ? "bg-raspberry text-white shadow-xs"
+                : "text-charcoal/70 hover:text-raspberry hover:bg-slate-50"
+            }`}
           >
-            <div>
-              <div className="w-11 h-11 rounded-xl bg-soft-pink text-raspberry flex items-center justify-center border border-raspberry/25 shadow-2xs mb-4">
-                <BookOpen className="w-5 h-5 text-raspberry" />
-              </div>
-              <h3 className="text-xl font-serif font-bold text-deep-teal group-hover:text-raspberry transition-colors leading-snug mb-2.5">
-                Learn the language
-              </h3>
-              <p className="text-[14.5px] text-charcoal/80 leading-relaxed font-sans m-0">
-                Understand terms like PCOS, endometriosis, energy availability, and amenorrhea.
-              </p>
-            </div>
-            <div className="pt-5 mt-5 border-t border-deep-teal/10 flex items-center justify-between">
-              <span className="text-xs font-bold text-raspberry font-sans group-hover:underline">
-                Explore terminology
-              </span>
-              <ArrowRight className="w-3.5 h-3.5 text-raspberry group-hover:translate-x-1 transition-transform" />
-            </div>
-          </div>
-
-          {/* Card 4: Speak up */}
-          <div
-            onClick={() => {
-              setActiveToolkitTab("speak");
-              setToolkitModalOpen(true);
-            }}
-            className="p-6 md:p-7 rounded-2xl bg-white text-charcoal border border-white/70 shadow-card hover:shadow-hover hover:-translate-y-1 transition-all cursor-pointer flex flex-col justify-between group"
-          >
-            <div>
-              <div className="w-11 h-11 rounded-xl bg-light-teal text-deep-teal flex items-center justify-center border border-deep-teal/20 shadow-2xs mb-4">
-                <MessageSquare className="w-5 h-5 text-deep-teal" />
-              </div>
-              <h3 className="text-xl font-serif font-bold text-deep-teal group-hover:text-raspberry transition-colors leading-snug mb-2.5">
-                Speak up
-              </h3>
-              <p className="text-[14.5px] text-charcoal/80 leading-relaxed font-sans m-0">
-                Practice explaining your symptoms clearly and responding when you feel dismissed.
-              </p>
-            </div>
-            <div className="pt-5 mt-5 border-t border-deep-teal/10 flex items-center justify-between">
-              <span className="text-xs font-bold text-raspberry font-sans group-hover:underline">
-                Practice conversation scripts
-              </span>
-              <ArrowRight className="w-3.5 h-3.5 text-raspberry group-hover:translate-x-1 transition-transform" />
-            </div>
-          </div>
+            ✦ Self-Advocacy Toolkit
+          </button>
         </div>
       </div>
 
-      {/* Add Your Voice Box */}
-      <div className="rounded-3xl bg-deep-teal text-white p-8 md:p-12 shadow-lg">
-        <div className="max-w-xl mb-6">
-          <div className="flex items-center gap-2 text-coral text-[13px] font-bold uppercase tracking-wider mb-2 font-sans">
-            <Sparkles className="w-4 h-4" />
-            Community Board
+      {/* ===================================================================== */}
+      {/* TAB 1: PEER STORIES */}
+      {/* ===================================================================== */}
+      {activeTab === "stories" && (
+        <div className="space-y-12 animate-in fade-in duration-200">
+          <div>
+            <div className="flex items-center justify-between gap-4 flex-wrap mb-4">
+              <div>
+                <h2 className="text-2xl sm:text-3xl font-serif font-bold text-deep-teal">
+                  Real Stories, Shared on Purpose
+                </h2>
+                <p className="text-sm sm:text-base text-charcoal/80 font-sans mt-1">
+                  Personal reflections and lived discoveries from youth who navigated identical bodily changes and medical questions.
+                </p>
+              </div>
+              <span className="text-xs text-charcoal/60 font-sans italic">
+                (Note: Peer quotes are curated for educational empowerment.)
+              </span>
+            </div>
+
+            {/* Voices Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {voices.map((voice) => (
+                <Card
+                  key={voice.id}
+                  className="p-7 rounded-3xl bg-white border-2 border-deep-teal/15 shadow-card hover:shadow-hover hover:-translate-y-0.5 transition-all flex flex-col justify-between"
+                >
+                  <div>
+                    <div className="w-8 h-8 rounded-full bg-light-teal text-deep-teal flex items-center justify-center mb-3">
+                      <Quote className="w-4 h-4 text-deep-teal" />
+                    </div>
+                    <p className="font-serif text-[17px] sm:text-[18px] font-normal text-deep-teal leading-relaxed mb-6 italic">
+                      &ldquo;{voice.quote}&rdquo;
+                    </p>
+                  </div>
+                  <div className="flex items-center justify-between pt-4 border-t border-deep-teal/10">
+                    <span className="text-[13px] font-bold text-charcoal/75 font-sans">
+                      — {voice.author}, age {voice.age}
+                    </span>
+                    {voice.category && (
+                      <span className="text-[11.5px] font-bold text-deep-teal bg-light-teal px-2.5 py-0.5 rounded-full font-sans border border-deep-teal/20">
+                        {voice.category}
+                      </span>
+                    )}
+                  </div>
+                </Card>
+              ))}
+            </div>
           </div>
-          <h2 className="text-3xl md:text-[42px] lg:text-[48px] font-normal font-serif text-white mb-2 leading-[1.15]">
-            Add your voice
-          </h2>
-          <p className="text-[16px] md:text-[18px] text-white/90 m-0 leading-relaxed font-sans">
-            Share a story, a memory, or an encouragement for someone else. 100% anonymous by default, and never shared without your consent.
-          </p>
+
+          {/* Add Your Voice Box */}
+          <div id="share-story-form" className="rounded-3xl bg-deep-teal text-white p-8 md:p-12 shadow-lg space-y-6">
+            <div className="max-w-xl">
+              <div className="flex items-center gap-2 text-coral text-xs font-bold uppercase tracking-wider mb-2 font-sans">
+                <Sparkles className="w-4 h-4" />
+                <span>Community Voice Board</span>
+              </div>
+              <h3 className="text-2xl md:text-3xl font-serif font-bold text-white mb-2">
+                Share what you wish someone had told you.
+              </h3>
+              <p className="text-sm md:text-base text-light-teal/90 leading-relaxed font-sans m-0">
+                Did you have an experience with a doctor, a period surprise, or a lesson about your body that helped you? Your reflection could help another young person feel less alone.
+              </p>
+            </div>
+
+            {submitStorySuccess ? (
+              <div className="p-6 rounded-2xl bg-white/10 border border-white/20 text-center flex flex-col items-center gap-2">
+                <CheckCircle2 className="w-10 h-10 text-emerald-400" />
+                <h4 className="font-serif text-xl font-bold text-white">Thank you for sharing!</h4>
+                <p className="text-sm text-light-teal font-sans">
+                  Your reflection has been added to our community board.
+                </p>
+              </div>
+            ) : (
+              <form onSubmit={handleSubmitStory} className="flex flex-col gap-4 max-w-xl">
+                <div>
+                  <label className="block text-xs font-bold text-light-teal uppercase tracking-wider mb-1 font-sans">
+                    Your reflection or discovery
+                  </label>
+                  <Textarea
+                    required
+                    rows={4}
+                    placeholder="What did you learn about your cycle, symptoms, or talking with a doctor?"
+                    value={storyInput}
+                    onChange={(e) => setStoryInput(e.target.value)}
+                    className="bg-white/10 border-white/20 text-white placeholder:text-white/40 text-sm font-sans focus-visible:ring-coral rounded-xl"
+                  />
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-xs font-bold text-light-teal uppercase tracking-wider mb-1 font-sans">
+                      Display Alias (or &ldquo;Anonymous&rdquo;)
+                    </label>
+                    <Input
+                      placeholder="e.g. Maya, Soccer Player, or Anonymous"
+                      value={authorAlias}
+                      onChange={(e) => setAuthorAlias(e.target.value)}
+                      className="bg-white/10 border-white/20 text-white placeholder:text-white/40 text-sm font-sans focus-visible:ring-coral rounded-xl"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-bold text-light-teal uppercase tracking-wider mb-1 font-sans">
+                      Age
+                    </label>
+                    <Input
+                      type="number"
+                      min={12}
+                      max={25}
+                      placeholder="e.g. 17"
+                      value={authorAge}
+                      onChange={(e) => setAuthorAge(e.target.value)}
+                      className="bg-white/10 border-white/20 text-white placeholder:text-white/40 text-sm font-sans focus-visible:ring-coral rounded-xl"
+                    />
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2 text-xs text-light-teal/80 font-sans">
+                  <Lock className="w-3.5 h-3.5 text-coral shrink-0" />
+                  <span>100% private. Submissions are reviewed for respectful peer dialogue.</span>
+                </div>
+
+                <Button
+                  type="submit"
+                  disabled={isSubmittingStory}
+                  className="bg-coral hover:bg-coral/90 text-white font-bold rounded-xl gap-2 self-start px-6 py-2.5 cursor-pointer shadow-sm"
+                >
+                  <Send className="w-4 h-4" />
+                  <span>{isSubmittingStory ? "Submitting..." : "Submit Reflection"}</span>
+                </Button>
+              </form>
+            )}
+          </div>
         </div>
+      )}
 
-        {submitSuccess && (
-          <div className="mb-6 p-4 rounded-2xl bg-coral text-white flex items-center gap-3 font-bold text-[15px] font-sans shadow-sm">
-            <CheckCircle2 className="w-5 h-5 flex-shrink-0" />
-            <span>Thank you for sharing your story! It is now posted to the Youth Voices board.</span>
-          </div>
-        )}
-
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-          <Textarea
-            required
-            rows={3}
-            placeholder="Share your experience with periods, puberty, doctor visits, or learning about your body..."
-            value={storyInput}
-            onChange={(e) => setStoryInput(e.target.value)}
-            className="bg-white text-charcoal placeholder:text-charcoal/50 text-[15px] font-sans border-0 focus-visible:ring-2 focus-visible:ring-coral"
-          />
-
-          <div className="flex flex-col sm:flex-row gap-3 items-center">
-            <Input
-              placeholder="Alias / Signature (e.g. Shared anonymously or Jordan)"
-              value={authorAlias}
-              onChange={(e) => setAuthorAlias(e.target.value)}
-              className="bg-white text-charcoal sm:w-1/2 placeholder:text-charcoal/50 text-[15px] font-sans border-0 focus-visible:ring-2 focus-visible:ring-coral"
-            />
-            <Input
-              type="number"
-              min={12}
-              max={30}
-              placeholder="Age (e.g. 17)"
-              value={authorAge}
-              onChange={(e) => setAuthorAge(e.target.value)}
-              className="bg-white text-charcoal sm:w-1/4 placeholder:text-charcoal/50 text-[15px] font-sans border-0 focus-visible:ring-2 focus-visible:ring-coral"
-            />
+      {/* ===================================================================== */}
+      {/* TAB 2: ANONYMOUS Q&A */}
+      {/* ===================================================================== */}
+      {activeTab === "qa" && (
+        <div className="space-y-8 animate-in fade-in duration-200">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div>
+              <h2 className="text-2xl sm:text-3xl font-serif font-bold text-deep-teal">
+                Questions, Answered Plainly
+              </h2>
+              <p className="text-sm sm:text-base text-charcoal/80 font-sans mt-1">
+                Every question submitted is completely anonymous. Real answers written plainly from clinical guidelines.
+              </p>
+            </div>
             <Button
-              type="submit"
-              variant="coral"
-              disabled={isSubmitting}
-              className="w-full sm:w-auto ml-auto px-8 gap-2 font-bold shadow-md"
+              onClick={() => setIsQuestionModalOpen(true)}
+              className="bg-coral hover:bg-coral/90 text-white font-bold gap-2 rounded-2xl shadow-sm shrink-0 self-start sm:self-auto cursor-pointer"
             >
-              <Send className="w-4 h-4" />
-              {isSubmitting ? "Posting..." : "Share Story"}
+              <HelpCircle className="w-4 h-4" />
+              <span>Ask Anonymous Question</span>
             </Button>
           </div>
-        </form>
-      </div>
 
-      {/* Interactive Self-Advocacy Toolkit Modal */}
-      {toolkitModalOpen && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-deep-teal/60 backdrop-blur-sm animate-in fade-in duration-150"
-          onClick={() => setToolkitModalOpen(false)}
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="toolkit-title"
-        >
-          <div
-            className="w-full max-w-2xl bg-white rounded-2xl p-6 sm:p-8 shadow-2xl border border-deep-teal/20 flex flex-col gap-6 relative animate-in zoom-in-95 duration-150 max-h-[90vh] overflow-y-auto"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="flex items-start justify-between gap-4 border-b border-deep-teal/10 pb-4">
-              <div>
-                <div className="text-xs font-bold uppercase tracking-wider text-raspberry font-sans mb-1">
-                  ReproUs Patient Advocacy Series
-                </div>
-                <h3 id="toolkit-title" className="text-2xl font-serif text-deep-teal m-0 font-normal">
-                  Self-Advocacy Toolkit
-                </h3>
-              </div>
-              <button
-                onClick={() => setToolkitModalOpen(false)}
-                className="p-1.5 rounded-lg text-charcoal/50 hover:text-charcoal hover:bg-light-teal transition-colors"
-                aria-label="Close modal"
-              >
-                <X className="w-5 h-5" />
-              </button>
+          {/* Search Bar & Category Pills */}
+          <div className="flex flex-col gap-4">
+            <div className="relative">
+              <Search className="w-4 h-4 text-charcoal/40 absolute left-3.5 top-3.5" />
+              <Input
+                placeholder="Search questions (e.g. cramps, irregular, anonymous, doctor)..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="pl-10 text-[15px] font-sans bg-white border-deep-teal/20 rounded-2xl h-11"
+              />
             </div>
 
-            {/* Modal Tabs */}
-            <div className="flex items-center gap-2 border-b border-deep-teal/10 pb-2 overflow-x-auto font-sans text-[13.5px]">
-              <button
-                onClick={() => setActiveToolkitTab("prepare")}
-                className={`px-3.5 py-2 rounded-xl font-semibold whitespace-nowrap transition-colors flex items-center gap-2 ${
-                  activeToolkitTab === "prepare"
-                    ? "bg-raspberry text-white hover:bg-raspberry hover:text-white active:text-white focus:text-white shadow-2xs"
-                    : "text-charcoal/80 hover:bg-light-teal hover:text-deep-teal active:text-charcoal focus:text-deep-teal"
-                }`}
-              >
-                <CalendarCheck className="w-4 h-4 text-current" />
-                <span>Prepare for Appointment</span>
-              </button>
-              <button
-                onClick={() => setActiveToolkitTab("track")}
-                className={`px-3.5 py-2 rounded-xl font-semibold whitespace-nowrap transition-colors flex items-center gap-2 ${
-                  activeToolkitTab === "track"
-                    ? "bg-raspberry text-white hover:bg-raspberry hover:text-white active:text-white focus:text-white shadow-2xs"
-                    : "text-charcoal/80 hover:bg-light-teal hover:text-deep-teal active:text-charcoal focus:text-deep-teal"
-                }`}
-              >
-                <ClipboardList className="w-4 h-4 text-current" />
-                <span>Symptom Tracker</span>
-              </button>
-              <button
-                onClick={() => setActiveToolkitTab("language")}
-                className={`px-3.5 py-2 rounded-xl font-semibold whitespace-nowrap transition-colors flex items-center gap-2 ${
-                  activeToolkitTab === "language"
-                    ? "bg-raspberry text-white hover:bg-raspberry hover:text-white active:text-white focus:text-white shadow-2xs"
-                    : "text-charcoal/80 hover:bg-light-teal hover:text-deep-teal active:text-charcoal focus:text-deep-teal"
-                }`}
-              >
-                <BookOpen className="w-4 h-4 text-current" />
-                <span>Learn the Language</span>
-              </button>
-              <button
-                onClick={() => setActiveToolkitTab("speak")}
-                className={`px-3.5 py-2 rounded-xl font-semibold whitespace-nowrap transition-colors flex items-center gap-2 ${
-                  activeToolkitTab === "speak"
-                    ? "bg-raspberry text-white hover:bg-raspberry hover:text-white active:text-white focus:text-white shadow-2xs"
-                    : "text-charcoal/80 hover:bg-light-teal hover:text-deep-teal active:text-charcoal focus:text-deep-teal"
-                }`}
-              >
-                <MessageSquare className="w-4 h-4 text-current" />
-                <span>Practice Speaking Up</span>
-              </button>
-            </div>
-
-            {/* Tab 1: Prepare for Appointment */}
-            {activeToolkitTab === "prepare" && (
-              <div className="space-y-4 font-sans text-charcoal/90">
-                <h4 className="text-lg font-serif font-bold text-deep-teal m-0">
-                  Appointment Preparation Checklist
-                </h4>
-                <p className="text-[14.5px] leading-relaxed m-0">
-                  Before visiting a doctor, nurse practitioner, or campus health clinic, having your main concerns written down ensures nothing gets brushed aside:
-                </p>
-                <div className="space-y-2.5 bg-warm-cream/60 p-4 rounded-xl border border-deep-teal/10 text-[14px]">
-                  <div className="flex items-start gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-raspberry shrink-0 mt-0.5" />
-                    <span><strong>State your primary goal first:</strong> &ldquo;I am here today because my cramps cause me to miss school, and standard pain relievers aren&apos;t helping.&rdquo;</span>
-                  </div>
-                  <div className="flex items-start gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-raspberry shrink-0 mt-0.5" />
-                    <span><strong>Bring concrete data:</strong> Cycle dates, pain scale numbers (1–10), and days of missed activities over the last 3 months.</span>
-                  </div>
-                  <div className="flex items-start gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-raspberry shrink-0 mt-0.5" />
-                    <span><strong>Ask for documentation:</strong> If a test or medication is denied, ask: &ldquo;Could you please document in my chart that we discussed these symptoms and why this test was not ordered?&rdquo;</span>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {/* Tab 2: Symptom Tracker */}
-            {activeToolkitTab === "track" && (
-              <div className="space-y-4 font-sans text-charcoal/90">
-                <h4 className="text-lg font-serif font-bold text-deep-teal m-0">
-                  What to Record in Your Symptom Log
-                </h4>
-                <p className="text-[14.5px] leading-relaxed m-0">
-                  Doctors rely on objective patterns. Keeping a 60–90 day log provides undeniable clinical evidence:
-                </p>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-[14px]">
-                  <div className="p-3 bg-warm-cream/60 rounded-lg border border-deep-teal/10">
-                    <strong className="text-raspberry block mb-1">Cycle Metrics:</strong>
-                    First day of bleeding, last day of bleeding, and total cycle length (e.g., 28 days vs. 45 days).
-                  </div>
-                  <div className="p-3 bg-warm-cream/60 rounded-lg border border-deep-teal/10">
-                    <strong className="text-raspberry block mb-1">Pain Rating &amp; Type:</strong>
-                    Sharp, throbbing, deep ache; rated 1 to 10; noted if it radiates to back or thighs.
-                  </div>
-                  <div className="p-3 bg-warm-cream/60 rounded-lg border border-deep-teal/10">
-                    <strong className="text-raspberry block mb-1">Medications Taken:</strong>
-                    Exact doses of ibuprofen, acetaminophen, heating pads used, and whether relief was achieved.
-                  </div>
-                  <div className="p-3 bg-warm-cream/60 rounded-lg border border-deep-teal/10">
-                    <strong className="text-raspberry block mb-1">Daily Life Impact:</strong>
-                    Missed gym classes, exams, practices, or social events.
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {/* Tab 3: Learn the Language */}
-            {activeToolkitTab === "language" && (
-              <div className="space-y-4 font-sans text-charcoal/90">
-                <h4 className="text-lg font-serif font-bold text-deep-teal m-0">
-                  Essential Medical Terms
-                </h4>
-                <div className="space-y-3 text-[14px]">
-                  <div className="p-3 bg-warm-cream/60 rounded-lg border border-deep-teal/10">
-                    <strong className="text-deep-teal block font-serif text-base">Secondary Dysmenorrhea:</strong>
-                    Menstrual pain caused by an underlying reproductive condition (such as endometriosis, adenomyosis, or fibroids), rather than common primary cramps.
-                  </div>
-                  <div className="p-3 bg-warm-cream/60 rounded-lg border border-deep-teal/10">
-                    <strong className="text-deep-teal block font-serif text-base">RED-S (Relative Energy Deficiency in Sport):</strong>
-                    A syndrome where dietary energy intake is insufficient to support training and essential physiological functions, leading to period loss and bone thinning.
-                  </div>
-                  <div className="p-3 bg-warm-cream/60 rounded-lg border border-deep-teal/10">
-                    <strong className="text-deep-teal block font-serif text-base">Hyperandrogenism:</strong>
-                    Elevated levels of androgens (like testosterone) in the female body, often seen in PCOS and causing acne, excess hair, or irregular ovulation.
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {/* Tab 4: Speak Up Scripts */}
-            {activeToolkitTab === "speak" && (
-              <div className="space-y-4 font-sans text-charcoal/90">
-                <h4 className="text-lg font-serif font-bold text-deep-teal m-0">
-                  Phrases to Advocate for Yourself
-                </h4>
-                <div className="space-y-3 text-[14px]">
-                  <div className="p-3.5 bg-warm-cream/60 rounded-lg border border-deep-teal/10">
-                    <span className="text-xs font-bold uppercase tracking-wider text-charcoal/60 block mb-1">
-                      If told: &ldquo;Cramps are just part of having a period.&rdquo;
-                    </span>
-                    <strong className="text-raspberry block">Your response:</strong>
-                    &ldquo;While I understand mild cramping is normal, my pain prevents me from attending school and doesn&apos;t respond to maximum doses of ibuprofen. What clinical steps can we take to rule out secondary dysmenorrhea or endometriosis?&rdquo;
-                  </div>
-                  <div className="p-3.5 bg-warm-cream/60 rounded-lg border border-deep-teal/10">
-                    <span className="text-xs font-bold uppercase tracking-wider text-charcoal/60 block mb-1">
-                      If told: &ldquo;Missing your period is just due to stress.&rdquo;
-                    </span>
-                    <strong className="text-raspberry block">Your response:</strong>
-                    &ldquo;I know stress can play a role, but because I haven&apos;t had a period for over 3 months, I would like to check my thyroid and hormone levels to rule out RED-S or endocrine conditions.&rdquo;
-                  </div>
-                </div>
-              </div>
-            )}
-
-            <div className="pt-2 border-t border-deep-teal/10 flex items-center justify-between">
-              {onNavigate && (
-                <Button
-                  onClick={() => {
-                    setToolkitModalOpen(false);
-                    onNavigate("hub", "mind");
-                  }}
-                  variant="outline"
-                  className="text-deep-teal border-deep-teal/30 hover:bg-deep-teal/10 text-xs"
+            <div className="flex items-center gap-2 flex-wrap">
+              {qaCategories.map((c) => (
+                <button
+                  key={c.id}
+                  onClick={() => setQaCategory(c.id)}
+                  className={`px-3.5 py-1.5 rounded-full text-xs sm:text-[13.5px] font-semibold font-sans transition-all border cursor-pointer ${
+                    qaCategory === c.id
+                      ? "bg-coral border-coral text-white shadow-xs"
+                      : "bg-white border-deep-teal/20 text-deep-teal hover:bg-light-teal"
+                  }`}
                 >
-                  Explore Mind &amp; Self-Advocacy in Hub →
-                </Button>
-              )}
+                  {c.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Accordion FAQ list */}
+          <div className="w-full">
+            {filteredFaqs.length === 0 ? (
+              <div className="p-8 text-center bg-white rounded-3xl border-2 border-deep-teal/20 shadow-xs">
+                <p className="text-sm text-charcoal/70 font-sans m-0">
+                  No matching questions found for &ldquo;{searchQuery}&rdquo;. Feel free to submit your question below!
+                </p>
+              </div>
+            ) : (
+              <Accordion type="single" collapsible className="w-full space-y-4">
+                {filteredFaqs.map((faq, idx) => {
+                  const borderOutline =
+                    idx % 3 === 0
+                      ? "border-2 border-deep-teal/30 hover:border-deep-teal"
+                      : idx % 3 === 1
+                      ? "border-2 border-coral/40 hover:border-coral"
+                      : "border-2 border-raspberry/30 hover:border-raspberry";
+
+                  return (
+                    <AccordionItem
+                      key={faq.id}
+                      value={faq.id}
+                      className={`bg-white rounded-2xl px-6 py-2 shadow-xs transition-all ${borderOutline} border-b-0`}
+                    >
+                      <AccordionTrigger className="text-deep-teal hover:text-raspberry font-serif text-[17px] sm:text-[19px] font-normal py-4 text-left">
+                        {faq.question}
+                      </AccordionTrigger>
+                      <AccordionContent className="text-sm sm:text-base text-charcoal/85 leading-relaxed pt-1 pb-4 font-sans">
+                        {faq.answer}
+                      </AccordionContent>
+                    </AccordionItem>
+                  );
+                })}
+              </Accordion>
+            )}
+          </div>
+
+          {/* Educational Guidelines & Medical Sources */}
+          <div className="pt-4">
+            <EducationalReferences customTitle="Q&A Evidence Base & Medical Sources" />
+          </div>
+        </div>
+      )}
+
+      {/* ===================================================================== */}
+      {/* TAB 3: SELF-ADVOCACY TOOLKIT */}
+      {/* ===================================================================== */}
+      {activeTab === "toolkit" && (
+        <div className="space-y-8 animate-in fade-in duration-200">
+          <div className="rounded-3xl bg-coral text-deep-teal p-8 md:p-12 shadow-md">
+            <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-4 mb-8">
+              <div>
+                <div className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-deep-teal mb-2 font-sans">
+                  <Sparkles className="w-3.5 h-3.5 text-deep-teal" />
+                  <span>Youth Patient Empowerment</span>
+                </div>
+                <h2 className="text-3xl md:text-[42px] font-normal font-serif text-deep-teal leading-[1.15]">
+                  Know what to ask.
+                </h2>
+                <p className="text-[16px] md:text-[17px] text-deep-teal/90 max-w-xl mt-2 mb-0 font-sans">
+                  Four practical tools to help you track your symptoms, prepare for appointments, understand clinical terms, and speak up with confidence.
+                </p>
+              </div>
+
               <Button
-                onClick={() => setToolkitModalOpen(false)}
-                className="bg-raspberry text-white hover:bg-raspberry/90 text-sm ml-auto"
+                onClick={() => {
+                  setActiveToolkitTab("prepare");
+                  setToolkitModalOpen(true);
+                }}
+                className="bg-deep-teal text-white hover:bg-deep-teal/90 text-sm gap-2 whitespace-nowrap self-start md:self-end shadow-sm cursor-pointer"
               >
-                Close Toolkit
+                <span>Open Full Interactive Toolkit</span>
+                <ArrowRight className="w-4 h-4" />
               </Button>
+            </div>
+
+            {/* 4 Cards */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+              {/* Card 1: Track your symptoms */}
+              <div
+                onClick={() => {
+                  setActiveToolkitTab("track");
+                  setToolkitModalOpen(true);
+                }}
+                className="p-6 rounded-2xl bg-white text-charcoal border border-white/70 shadow-card hover:shadow-hover hover:-translate-y-1 transition-all cursor-pointer flex flex-col justify-between group"
+              >
+                <div>
+                  <div className="w-11 h-11 rounded-xl bg-light-teal text-deep-teal flex items-center justify-center border border-deep-teal/20 shadow-2xs mb-4">
+                    <ClipboardList className="w-5 h-5 text-deep-teal" />
+                  </div>
+                  <h3 className="text-lg font-serif font-bold text-deep-teal group-hover:text-raspberry transition-colors leading-snug mb-2">
+                    Track your symptoms
+                  </h3>
+                  <p className="text-xs sm:text-[13.5px] text-charcoal/80 leading-relaxed font-sans m-0">
+                    Use an objective framework to document frequency, severity (1-10), and cycle correlations.
+                  </p>
+                </div>
+                <div className="pt-4 mt-4 border-t border-deep-teal/10 flex items-center justify-between">
+                  <span className="text-xs font-bold text-raspberry font-sans group-hover:underline">
+                    Open tracker guide
+                  </span>
+                  <ArrowRight className="w-3.5 h-3.5 text-raspberry group-hover:translate-x-1 transition-transform" />
+                </div>
+              </div>
+
+              {/* Card 2: Prepare for an appointment */}
+              <div
+                onClick={() => {
+                  setActiveToolkitTab("prepare");
+                  setToolkitModalOpen(true);
+                }}
+                className="p-6 rounded-2xl bg-white text-charcoal border border-white/70 shadow-card hover:shadow-hover hover:-translate-y-1 transition-all cursor-pointer flex flex-col justify-between group"
+              >
+                <div>
+                  <div className="w-11 h-11 rounded-xl bg-[#FFE1DB] text-coral flex items-center justify-center border border-coral/30 shadow-2xs mb-4">
+                    <CalendarCheck className="w-5 h-5 text-[#B83F68]" />
+                  </div>
+                  <h3 className="text-lg font-serif font-bold text-deep-teal group-hover:text-raspberry transition-colors leading-snug mb-2">
+                    Prepare for an appointment
+                  </h3>
+                  <p className="text-xs sm:text-[13.5px] text-charcoal/80 leading-relaxed font-sans m-0">
+                    Build a personalized, prioritized list of questions before seeing a physician or nurse.
+                  </p>
+                </div>
+                <div className="pt-4 mt-4 border-t border-deep-teal/10 flex items-center justify-between">
+                  <span className="text-xs font-bold text-raspberry font-sans group-hover:underline">
+                    Build question list
+                  </span>
+                  <ArrowRight className="w-3.5 h-3.5 text-raspberry group-hover:translate-x-1 transition-transform" />
+                </div>
+              </div>
+
+              {/* Card 3: Learn the language */}
+              <div
+                onClick={() => {
+                  setActiveToolkitTab("language");
+                  setToolkitModalOpen(true);
+                }}
+                className="p-6 rounded-2xl bg-white text-charcoal border border-white/70 shadow-card hover:shadow-hover hover:-translate-y-1 transition-all cursor-pointer flex flex-col justify-between group"
+              >
+                <div>
+                  <div className="w-11 h-11 rounded-xl bg-soft-pink text-raspberry flex items-center justify-center border border-raspberry/25 shadow-2xs mb-4">
+                    <BookOpen className="w-5 h-5 text-raspberry" />
+                  </div>
+                  <h3 className="text-lg font-serif font-bold text-deep-teal group-hover:text-raspberry transition-colors leading-snug mb-2">
+                    Learn the language
+                  </h3>
+                  <p className="text-xs sm:text-[13.5px] text-charcoal/80 leading-relaxed font-sans m-0">
+                    Understand clinical terms like amenorrhea, RED-S, luteal phase, and Rotterdam criteria.
+                  </p>
+                </div>
+                <div className="pt-4 mt-4 border-t border-deep-teal/10 flex items-center justify-between">
+                  <span className="text-xs font-bold text-raspberry font-sans group-hover:underline">
+                    Explore terminology
+                  </span>
+                  <ArrowRight className="w-3.5 h-3.5 text-raspberry group-hover:translate-x-1 transition-transform" />
+                </div>
+              </div>
+
+              {/* Card 4: Speak up */}
+              <div
+                onClick={() => {
+                  setActiveToolkitTab("speak");
+                  setToolkitModalOpen(true);
+                }}
+                className="p-6 rounded-2xl bg-white text-charcoal border border-white/70 shadow-card hover:shadow-hover hover:-translate-y-1 transition-all cursor-pointer flex flex-col justify-between group"
+              >
+                <div>
+                  <div className="w-11 h-11 rounded-xl bg-light-teal text-deep-teal flex items-center justify-center border border-deep-teal/20 shadow-2xs mb-4">
+                    <MessageSquare className="w-5 h-5 text-deep-teal" />
+                  </div>
+                  <h3 className="text-lg font-serif font-bold text-deep-teal group-hover:text-raspberry transition-colors leading-snug mb-2">
+                    Speak up
+                  </h3>
+                  <p className="text-xs sm:text-[13.5px] text-charcoal/80 leading-relaxed font-sans m-0">
+                    Practice explaining your symptoms and learn verbatim scripts for when you feel dismissed.
+                  </p>
+                </div>
+                <div className="pt-4 mt-4 border-t border-deep-teal/10 flex items-center justify-between">
+                  <span className="text-xs font-bold text-raspberry font-sans group-hover:underline">
+                    Practice scripts
+                  </span>
+                  <ArrowRight className="w-3.5 h-3.5 text-raspberry group-hover:translate-x-1 transition-transform" />
+                </div>
+              </div>
             </div>
           </div>
         </div>
       )}
+
+      {/* ===================================================================== */}
+      {/* 4. ANONYMOUS QUESTION SUBMISSION MODAL */}
+      {/* ===================================================================== */}
+      <Dialog open={isQuestionModalOpen} onOpenChange={setIsQuestionModalOpen}>
+        <DialogContent className="max-w-lg">
+          <DialogHeader>
+            <DialogTitle className="font-serif text-2xl font-bold text-deep-teal">
+              Ask an Anonymous Question
+            </DialogTitle>
+            <DialogDescription className="text-sm font-sans text-charcoal/80 leading-relaxed">
+              No names, no cookies, no IP logging. Questions are answered by health educators following accredited clinical guidelines and published to our community Q&amp;A library.
+            </DialogDescription>
+          </DialogHeader>
+
+          {submitQuestionSuccess ? (
+            <div className="p-6 text-center flex flex-col items-center gap-2">
+              <CheckCircle2 className="w-12 h-12 text-emerald-600 animate-bounce" />
+              <h4 className="font-serif text-2xl font-bold text-deep-teal">Question Submitted!</h4>
+              <p className="text-sm font-sans text-charcoal/80">
+                Thank you! We review every question and update our library with evidence-based answers.
+              </p>
+            </div>
+          ) : (
+            <form onSubmit={handleSubmitQuestion} className="flex flex-col gap-4 mt-2">
+              <div>
+                <label className="block text-xs font-bold text-deep-teal uppercase tracking-wider mb-1 font-sans">
+                  What would you like to know?
+                </label>
+                <Textarea
+                  required
+                  rows={4}
+                  placeholder="Ask anything about your body, cycles, symptoms, or talking with a doctor..."
+                  value={questionText}
+                  onChange={(e) => setQuestionText(e.target.value)}
+                  className="text-sm font-sans rounded-xl border-deep-teal/20"
+                />
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs font-bold text-deep-teal uppercase tracking-wider mb-1 font-sans">
+                    Topic Category
+                  </label>
+                  <select
+                    value={questionCat}
+                    onChange={(e) => setQuestionCat(e.target.value)}
+                    className="flex h-11 w-full rounded-xl border border-deep-teal/20 bg-white px-3 text-xs sm:text-sm font-sans text-charcoal focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-deep-teal"
+                  >
+                    <option value="general">General Anatomy &amp; Puberty</option>
+                    <option value="cycles">Periods &amp; Cramps</option>
+                    <option value="conditions">PCOS &amp; Endometriosis</option>
+                    <option value="realtalk">STIs &amp; Consent</option>
+                    <option value="privacy">Clinic &amp; Privacy Rights</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-xs font-bold text-deep-teal uppercase tracking-wider mb-1 font-sans">
+                    Age Range (Optional)
+                  </label>
+                  <select
+                    value={ageRange}
+                    onChange={(e) => setAgeRange(e.target.value)}
+                    className="flex h-11 w-full rounded-xl border border-deep-teal/20 bg-white px-3 text-xs sm:text-sm font-sans text-charcoal focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-deep-teal"
+                  >
+                    <option value="under-15">13–15</option>
+                    <option value="16-18">16–18</option>
+                    <option value="19-24">19–24</option>
+                    <option value="25+">25+</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-2 text-xs text-charcoal/70 font-sans">
+                <Lock className="w-3.5 h-3.5 text-coral shrink-0" />
+                <span>100% anonymous — educational literacy, not medical diagnosis.</span>
+              </div>
+
+              <Button
+                type="submit"
+                disabled={isSubmittingQuestion}
+                className="w-full bg-deep-teal hover:bg-deep-teal/90 text-white font-bold rounded-xl gap-2 cursor-pointer"
+              >
+                <Send className="w-4 h-4" />
+                <span>{isSubmittingQuestion ? "Sending..." : "Submit Question Anonymously"}</span>
+              </Button>
+            </form>
+          )}
+        </DialogContent>
+      </Dialog>
+
+      {/* ===================================================================== */}
+      {/* 5. INTERACTIVE SELF-ADVOCACY TOOLKIT MODAL */}
+      {/* ===================================================================== */}
+      <Dialog open={toolkitModalOpen} onOpenChange={setToolkitModalOpen}>
+        <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto p-6 sm:p-8 rounded-3xl bg-white">
+          <DialogHeader>
+            <div className="flex items-center justify-between">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-light-teal text-deep-teal border border-deep-teal/20">
+                <Sparkles className="w-3.5 h-3.5 text-coral" />
+                <span>Patient Empowerment Guide</span>
+              </span>
+            </div>
+            <DialogTitle className="text-2xl sm:text-3xl font-serif font-bold text-deep-teal mt-2">
+              Youth Self-Advocacy Toolkit
+            </DialogTitle>
+            <DialogDescription className="text-sm font-sans text-charcoal/80">
+              Interactive guides to prepare for doctor appointments, track symptoms objectively, and communicate with clarity.
+            </DialogDescription>
+          </DialogHeader>
+
+          {/* Modal Tabs */}
+          <div className="flex gap-2 border-b border-deep-teal/15 pb-2 pt-2 overflow-x-auto">
+            <button
+              onClick={() => setActiveToolkitTab("prepare")}
+              className={`px-3 py-1.5 rounded-lg text-xs sm:text-sm font-bold font-sans transition-colors cursor-pointer ${
+                activeToolkitTab === "prepare" ? "bg-deep-teal text-white" : "text-charcoal/70 hover:bg-slate-100"
+              }`}
+            >
+              1. Appointment Prep
+            </button>
+            <button
+              onClick={() => setActiveToolkitTab("track")}
+              className={`px-3 py-1.5 rounded-lg text-xs sm:text-sm font-bold font-sans transition-colors cursor-pointer ${
+                activeToolkitTab === "track" ? "bg-deep-teal text-white" : "text-charcoal/70 hover:bg-slate-100"
+              }`}
+            >
+              2. Symptom Tracker
+            </button>
+            <button
+              onClick={() => setActiveToolkitTab("speak")}
+              className={`px-3 py-1.5 rounded-lg text-xs sm:text-sm font-bold font-sans transition-colors cursor-pointer ${
+                activeToolkitTab === "speak" ? "bg-deep-teal text-white" : "text-charcoal/70 hover:bg-slate-100"
+              }`}
+            >
+              3. Speak-Up Scripts
+            </button>
+            <button
+              onClick={() => setActiveToolkitTab("language")}
+              className={`px-3 py-1.5 rounded-lg text-xs sm:text-sm font-bold font-sans transition-colors cursor-pointer ${
+                activeToolkitTab === "language" ? "bg-deep-teal text-white" : "text-charcoal/70 hover:bg-slate-100"
+              }`}
+            >
+              4. Clinical Language
+            </button>
+          </div>
+
+          {/* Tab Content */}
+          <div className="py-4 space-y-4">
+            {activeToolkitTab === "prepare" && (
+              <div className="space-y-4">
+                <h4 className="font-serif font-bold text-lg text-deep-teal">
+                  Preparing for an Appointment: 3 Rules for Clarity
+                </h4>
+                <div className="space-y-3">
+                  <div className="p-4 rounded-2xl bg-light-teal/40 border border-deep-teal/20 space-y-1">
+                    <strong className="text-sm font-bold text-deep-teal block">Rule 1: Bring Written Notes</strong>
+                    <p className="text-xs sm:text-sm text-charcoal/80 font-sans m-0">
+                      When you enter an exam room, anxiety can make symptoms difficult to recall. Write your top 3 concerns in your phone notes ahead of time.
+                    </p>
+                  </div>
+                  <div className="p-4 rounded-2xl bg-[#FFE1DB]/50 border border-coral/30 space-y-1">
+                    <strong className="text-sm font-bold text-coral block">Rule 2: State Your Primary Goal First</strong>
+                    <p className="text-xs sm:text-sm text-charcoal/80 font-sans m-0">
+                      Start the visit with: &ldquo;My main priority today is figuring out why my period cramps keep me from going to school, and what diagnostic steps we can take.&rdquo;
+                    </p>
+                  </div>
+                  <div className="p-4 rounded-2xl bg-soft-pink/40 border border-raspberry/25 space-y-1">
+                    <strong className="text-sm font-bold text-raspberry block">Rule 3: Ask for Next Steps &amp; Timeline</strong>
+                    <p className="text-xs sm:text-sm text-charcoal/80 font-sans m-0">
+                      Before leaving, ask: &ldquo;If these symptoms continue over the next 4 weeks, what is our next diagnostic step?&rdquo;
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {activeToolkitTab === "track" && (
+              <div className="space-y-4">
+                <h4 className="font-serif font-bold text-lg text-deep-teal">
+                  How to Build an Objective Symptom Log
+                </h4>
+                <p className="text-xs sm:text-sm text-charcoal/80 font-sans">
+                  Clinicians respond to concrete numbers and timelines rather than vague recollections. Log these 4 parameters:
+                </p>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div className="p-3.5 rounded-xl border border-slate-200 bg-slate-50 space-y-1">
+                    <span className="text-xs font-bold text-deep-teal uppercase">1. Severity Scale</span>
+                    <p className="text-xs text-charcoal/80 font-sans m-0">Score pain 1-10 and note whether standard OTC medications provide relief.</p>
+                  </div>
+                  <div className="p-3.5 rounded-xl border border-slate-200 bg-slate-50 space-y-1">
+                    <span className="text-xs font-bold text-deep-teal uppercase">2. Functional Impact</span>
+                    <p className="text-xs text-charcoal/80 font-sans m-0">Record specific activities missed: school days, sports practices, or sleep disruption.</p>
+                  </div>
+                  <div className="p-3.5 rounded-xl border border-slate-200 bg-slate-50 space-y-1">
+                    <span className="text-xs font-bold text-deep-teal uppercase">3. Cycle Timing</span>
+                    <p className="text-xs text-charcoal/80 font-sans m-0">Note cycle day (Day 1 = first day of full bleeding) and how many days symptoms persist.</p>
+                  </div>
+                  <div className="p-3.5 rounded-xl border border-slate-200 bg-slate-50 space-y-1">
+                    <span className="text-xs font-bold text-deep-teal uppercase">4. Associated Signs</span>
+                    <p className="text-xs text-charcoal/80 font-sans m-0">Track nausea, bowel/urinary changes, dizziness, or fatigue alongside bleeding.</p>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {activeToolkitTab === "speak" && (
+              <div className="space-y-4">
+                <h4 className="font-serif font-bold text-lg text-deep-teal">
+                  Verbatim Scripts for Clinical Visits
+                </h4>
+                <div className="space-y-3">
+                  <div className="p-4 rounded-2xl bg-white border-2 border-deep-teal/20 space-y-2">
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-bold uppercase tracking-wider text-deep-teal">
+                        Script: Introducing Symptoms
+                      </span>
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        onClick={() =>
+                          handleCopy(
+                            "“I have documented my symptoms across the last three cycles. My pain averages an 8 out of 10 and prevents me from attending school. What diagnostic evaluation or blood work do you recommend to investigate this?”",
+                            "s1"
+                          )
+                        }
+                        className="text-xs h-7 text-deep-teal hover:bg-light-teal cursor-pointer"
+                      >
+                        {copiedScript === "s1" ? <Check className="w-3.5 h-3.5 text-emerald-600 mr-1" /> : <Copy className="w-3.5 h-3.5 mr-1" />}
+                        <span>{copiedScript === "s1" ? "Copied" : "Copy"}</span>
+                      </Button>
+                    </div>
+                    <p className="text-sm font-serif italic text-deep-teal leading-relaxed m-0">
+                      &ldquo;I have documented my symptoms across the last three cycles. My pain averages an 8 out of 10 and prevents me from attending school. What diagnostic evaluation or blood work do you recommend to investigate this?&rdquo;
+                    </p>
+                  </div>
+
+                  <div className="p-4 rounded-2xl bg-white border-2 border-coral/30 space-y-2">
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-bold uppercase tracking-wider text-coral">
+                        Script: If Your Symptoms Are Dismissed
+                      </span>
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        onClick={() =>
+                          handleCopy(
+                            "“Could you please note in my electronic health record that I reported these symptoms today, and document why further diagnostic testing or specialist referral is not indicated at this time?”",
+                            "s2"
+                          )
+                        }
+                        className="text-xs h-7 text-coral hover:bg-[#FFE1DB] cursor-pointer"
+                      >
+                        {copiedScript === "s2" ? <Check className="w-3.5 h-3.5 text-emerald-600 mr-1" /> : <Copy className="w-3.5 h-3.5 mr-1" />}
+                        <span>{copiedScript === "s2" ? "Copied" : "Copy"}</span>
+                      </Button>
+                    </div>
+                    <p className="text-sm font-serif italic text-coral leading-relaxed m-0">
+                      &ldquo;Could you please note in my electronic health record that I reported these symptoms today, and document why further diagnostic testing or specialist referral is not indicated at this time?&rdquo;
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {activeToolkitTab === "language" && (
+              <div className="space-y-4">
+                <h4 className="font-serif font-bold text-lg text-deep-teal">
+                  Essential Clinical Definitions
+                </h4>
+                <div className="space-y-2.5 text-xs sm:text-sm font-sans">
+                  <div className="p-3 rounded-xl bg-slate-50 border border-slate-200">
+                    <strong className="text-deep-teal">Amenorrhea:</strong> Absence of menstruation (primary: no period by age 15; secondary: missing periods for 90+ consecutive days after regularity).
+                  </div>
+                  <div className="p-3 rounded-xl bg-slate-50 border border-slate-200">
+                    <strong className="text-deep-teal">Dysmenorrhea:</strong> Painful menstrual cramps. Primary is caused by prostaglandins; secondary is caused by underlying conditions like endometriosis.
+                  </div>
+                  <div className="p-3 rounded-xl bg-slate-50 border border-slate-200">
+                    <strong className="text-deep-teal">RED-S (Relative Energy Deficiency in Sport):</strong> Low energy availability impairing metabolic rate, bone health, immunity, protein synthesis, and hormone production.
+                  </div>
+                  <div className="p-3 rounded-xl bg-slate-50 border border-slate-200">
+                    <strong className="text-deep-teal">Rotterdam Criteria:</strong> Clinical guideline requiring 2 of 3 features (ovulatory dysfunction, hyperandrogenism, polycystic ovarian morphology) for PCOS evaluation.
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+
+          <div className="pt-4 border-t border-deep-teal/15 flex justify-end">
+            <Button
+              onClick={() => setToolkitModalOpen(false)}
+              className="bg-deep-teal text-white hover:bg-deep-teal/90 rounded-full cursor-pointer"
+            >
+              Close Toolkit
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

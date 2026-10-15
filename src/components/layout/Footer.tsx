@@ -19,11 +19,10 @@ export function Footer({ onNavigate, currentLang = "en", onSelectLang }: FooterP
     { id: "myths", label: "Myths & Facts" },
     { id: "workshops", label: "Workshops" },
     { id: "resources", label: "Resources" },
-    { id: "qa", label: "Q&A" },
-    { id: "voices", label: "Youth Voices" },
+    { id: "voices", label: "Youth Voices & Q&A" },
     { id: "contact", tab: "ambassador", label: "Youth Ambassadors" },
     { id: "contact", label: "Contact Us" },
-    { id: "qa", tab: "ask", label: "Ask a Question →" },
+    { id: "voices", tab: "qa", label: "Ask a Question →" },
   ];
 
   return (

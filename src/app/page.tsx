@@ -9,7 +9,6 @@ import { StoryView } from "@/components/pages/StoryView";
 import { HubView } from "@/components/pages/HubView";
 import { WorkshopsView } from "@/components/pages/WorkshopsView";
 import { ResourcesView } from "@/components/pages/ResourcesView";
-import { QAView } from "@/components/pages/QAView";
 import { MythsView } from "@/components/pages/MythsView";
 import { VoicesView } from "@/components/pages/VoicesView";
 import { ContactView } from "@/components/pages/ContactView";
@@ -19,6 +18,7 @@ export default function App() {
   const [hubCategory, setHubCategory] = useState<string | null>(null);
   const [contactTab, setContactTab] = useState<"feedback" | "ambassador" | "inquiry">("feedback");
   const [resourceCategory, setResourceCategory] = useState<"all" | "help" | "petitions" | "tracker">("all");
+  const [voicesTab, setVoicesTab] = useState<"stories" | "qa" | "toolkit">("stories");
   const [qaAutoOpen, setQaAutoOpen] = useState(false);
   const [currentLang, setCurrentLang] = useState<string>("en");
 
@@ -36,10 +36,21 @@ export default function App() {
       setResourceCategory("all");
     }
 
-    if (page === "qa" && categoryOrTab === "ask") {
-      setQaAutoOpen(true);
-    } else if (page === "qa") {
-      setQaAutoOpen(false);
+    if (page === "qa") {
+      setActivePage("voices");
+      setVoicesTab("qa");
+      setQaAutoOpen(categoryOrTab === "ask");
+    } else if (page === "voices") {
+      if (categoryOrTab === "qa" || categoryOrTab === "ask") {
+        setVoicesTab("qa");
+        setQaAutoOpen(categoryOrTab === "ask");
+      } else if (categoryOrTab === "toolkit") {
+        setVoicesTab("toolkit");
+        setQaAutoOpen(false);
+      } else {
+        setVoicesTab("stories");
+        setQaAutoOpen(false);
+      }
     }
 
     if (page === "contact" && (categoryOrTab === "feedback" || categoryOrTab === "ambassador" || categoryOrTab === "inquiry")) {
@@ -104,9 +115,14 @@ export default function App() {
         {activePage === "hub" && <HubView initialCategory={hubCategory} onNavigate={handleNavigate} />}
         {activePage === "workshops" && <WorkshopsView />}
         {activePage === "resources" && <ResourcesView initialCategory={resourceCategory} onNavigate={handleNavigate} />}
-        {activePage === "qa" && <QAView autoOpenSubmit={qaAutoOpen} />}
+        {(activePage === "voices" || activePage === "qa") && (
+          <VoicesView
+            initialTab={voicesTab}
+            autoOpenSubmit={qaAutoOpen}
+            onNavigate={handleNavigate}
+          />
+        )}
         {activePage === "myths" && <MythsView onNavigate={handleNavigate} />}
-        {activePage === "voices" && <VoicesView onNavigate={handleNavigate} />}
         {activePage === "contact" && <ContactView initialTab={contactTab} />}
       </main>
 

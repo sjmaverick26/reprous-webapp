@@ -46,8 +46,7 @@ export function Navbar({ activePage, onNavigate, currentLang = "en", onSelectLan
     { id: "hub", label: "Learn", dropdownType: "learn" },
     { id: "workshops", label: "Workshops" },
     { id: "resources", label: "Resources", dropdownType: "resources" },
-    { id: "qa", label: "Q&A" },
-    { id: "voices", label: "Youth Voices" },
+    { id: "voices", label: "Youth Voices & Q&A" },
   ];
 
   const homeSections = [
