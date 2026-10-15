@@ -17,6 +17,7 @@ import {
   PlusCircle,
   Sparkles,
   ArrowRight,
+  ArrowLeft,
   Copy,
   Check,
   ShieldCheck,
@@ -282,248 +283,313 @@ export function ResourcesView({ onNavigate, initialCategory = "all" }: Resources
 
   const selectCategory = (cat: "all" | "help" | "petitions" | "tracker") => {
     setActiveCategory(cat);
-    if (cat === "help") {
-      setTimeout(() => {
-        document.getElementById("how-to-get-help-section")?.scrollIntoView({ behavior: "smooth" });
-      }, 50);
-    } else if (cat === "petitions") {
-      setTimeout(() => {
-        document.getElementById("petitions-section")?.scrollIntoView({ behavior: "smooth" });
-      }, 50);
-    } else if (cat === "tracker") {
-      setTimeout(() => {
-        document.getElementById("symptom-tracker-section")?.scrollIntoView({ behavior: "smooth" });
-      }, 50);
+    if (typeof window !== "undefined") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
   };
 
   return (
-    <div className="max-w-[1120px] mx-auto px-4 sm:px-6 py-10 md:py-14 flex flex-col gap-12 font-sans">
+    <div className="max-w-[1120px] mx-auto px-4 sm:px-6 py-10 md:py-14 flex flex-col gap-10 font-sans">
       {/* Header */}
       <div className="text-center max-w-3xl mx-auto">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-soft-pink/70 text-raspberry text-[13px] font-bold uppercase tracking-wider mb-3">
+        <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-soft-pink/70 text-raspberry text-[13px] font-bold uppercase tracking-wider mb-3">
           <HeartHandshake className="w-3.5 h-3.5 text-coral" />
           <span>Resources &amp; Action Ecosystem</span>
         </div>
         <h1 className="text-4xl sm:text-5xl md:text-6xl font-normal font-serif text-plum leading-[1.1] mb-4">
           How to get help &amp; take action
         </h1>
-        <p className="text-[17px] sm:text-[18px] text-ink/85 leading-relaxed font-sans max-w-2xl mx-auto">
+        <p className="text-[16.5px] sm:text-[17.5px] text-ink/85 leading-relaxed font-sans max-w-2xl mx-auto mb-6">
           When it&apos;s time for more than education — here is where to turn. Connect with 24/7 confidential hotlines, free clinics, youth rights guides, and join real-world legislative petitions.
         </p>
+
+        {/* Audience Category "Button" Choice Bar */}
+        <div className="flex flex-wrap items-center justify-center gap-2.5 pt-2">
+          <button
+            onClick={() => selectCategory("all")}
+            className={cn(
+              "px-4 py-2.5 rounded-full text-xs sm:text-[13px] font-bold font-sans transition-all flex items-center gap-2 cursor-pointer shadow-xs",
+              activeCategory === "all"
+                ? "bg-deep-teal text-white shadow-sm ring-2 ring-deep-teal/20 scale-[1.02]"
+                : "bg-white text-plum/80 hover:text-plum hover:bg-light-teal/30 border border-deep-teal/20"
+            )}
+            aria-label="View All Resources Overview"
+          >
+            <Sparkles className="w-3.5 h-3.5 text-coral" />
+            <span>All Resources Overview</span>
+          </button>
+
+          <button
+            onClick={() => selectCategory("tracker")}
+            className={cn(
+              "px-4 py-2.5 rounded-full text-xs sm:text-[13px] font-bold font-sans transition-all flex items-center gap-2 cursor-pointer shadow-xs",
+              activeCategory === "tracker"
+                ? "bg-deep-teal text-white shadow-sm ring-2 ring-deep-teal/20 scale-[1.02]"
+                : "bg-white text-plum/80 hover:text-plum hover:bg-light-teal/30 border border-deep-teal/20"
+            )}
+            aria-label="View Symptom Tracker"
+          >
+            <Stethoscope className="w-3.5 h-3.5 text-coral" />
+            <span>Symptom Tracker</span>
+          </button>
+
+          <button
+            onClick={() => selectCategory("help")}
+            className={cn(
+              "px-4 py-2.5 rounded-full text-xs sm:text-[13px] font-bold font-sans transition-all flex items-center gap-2 cursor-pointer shadow-xs",
+              activeCategory === "help"
+                ? "bg-deep-teal text-white shadow-sm ring-2 ring-deep-teal/20 scale-[1.02]"
+                : "bg-white text-plum/80 hover:text-plum hover:bg-light-teal/30 border border-deep-teal/20"
+            )}
+            aria-label="View How to Get Help and Clinics"
+          >
+            <LifeBuoy className="w-3.5 h-3.5 text-coral" />
+            <span>How to Get Help</span>
+          </button>
+
+          <button
+            onClick={() => selectCategory("petitions")}
+            className={cn(
+              "px-4 py-2.5 rounded-full text-xs sm:text-[13px] font-bold font-sans transition-all flex items-center gap-2 cursor-pointer shadow-xs",
+              activeCategory === "petitions"
+                ? "bg-deep-teal text-white shadow-sm ring-2 ring-deep-teal/20 scale-[1.02]"
+                : "bg-white text-plum/80 hover:text-plum hover:bg-light-teal/30 border border-deep-teal/20"
+            )}
+            aria-label="View Take Action & Petitions"
+          >
+            <Megaphone className="w-3.5 h-3.5 text-coral" />
+            <span>Take Action &amp; Petitions</span>
+          </button>
+        </div>
       </div>
 
-
-      {/* Featured Educational Resource: Medical Myth-Buster (Matte, Non-Shiny) */}
+      {/* ALL RESOURCES OVERVIEW: Grouped with Audience Button Choices (No Clutter) */}
       {activeCategory === "all" && (
-        <div className="rounded-2xl p-6 sm:p-7 bg-white border-2 border-plum/15 shadow-sm text-left flex flex-col md:flex-row md:items-center justify-between gap-5">
-          <div className="space-y-2.5 max-w-2xl">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-soft-pink/70 border border-raspberry/20 text-raspberry text-xs font-bold uppercase tracking-wider font-sans">
-              <ShieldCheck className="w-3.5 h-3.5 text-raspberry" />
-              <span>Clinical Science · Interactive Cards</span>
+        <section className="flex flex-col gap-8 max-w-5xl mx-auto w-full pt-2">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-deep-teal/15 pb-4">
+            <div>
+              <h2 className="text-2xl sm:text-3xl font-serif font-bold text-plum">
+                Select a Resource Group
+              </h2>
+              <p className="text-sm text-charcoal/70 mt-1 m-0">
+                Choose a category below to explore dedicated tools, guides, and directories without clutter.
+              </p>
             </div>
-            <h3 className="text-xl sm:text-2xl font-bold font-serif text-plum">
-              Medical Myth-Buster: Myths vs. Reality
-            </h3>
-            <p className="text-sm md:text-[14.5px] text-charcoal/80 leading-relaxed font-sans">
-              Too many girls are told severe pain or missed cycles are &ldquo;normal.&rdquo; Flip through evidence-based cards debunking misconceptions with verified guidelines.
-            </p>
-          </div>
-          <div className="flex items-center justify-between md:flex-col md:items-end gap-3 pt-3 md:pt-0 border-t md:border-t-0 border-plum/10 shrink-0">
-            <span className="text-xs text-charcoal/60 font-sans">ACOG, Endocrine Society &amp; IOC citations</span>
-            <Button
-              onClick={() => onNavigate("myths")}
-              size="sm"
-              className="bg-raspberry hover:bg-raspberry/90 text-white font-bold px-5 py-2.5 rounded-xl shadow-xs text-sm flex items-center gap-2 cursor-pointer"
-            >
-              <span>Explore Myths &amp; Facts</span>
-              <ArrowRight className="w-4 h-4 text-white" />
-            </Button>
-          </div>
-        </div>
-      )}
-
-      {/* OVERVIEW CARDS (Visible when activeCategory === "all") */}
-      {activeCategory === "all" && (
-        <section className="flex flex-col gap-6">
-          <div className="flex items-center justify-between">
-            <h2 className="text-2xl font-serif font-bold text-plum">Directory Overview</h2>
-            <span className="text-xs font-semibold text-charcoal/70">
-              Key Pathways to Care, Self-Advocacy &amp; Leadership
+            <span className="text-xs font-bold uppercase tracking-wider text-deep-teal bg-light-teal/60 px-3 py-1 rounded-full border border-deep-teal/20 self-start sm:self-auto">
+              4 Primary Groups
             </span>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {/* Card 0: Symptom Tracker & Guide */}
-            <Card className="p-6 flex flex-col justify-between hover:shadow-hover transition-all bg-white border border-deep-teal/15">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            
+            {/* GROUP 1: Symptom Tracker & Self-Advocacy */}
+            <div className="p-7 rounded-2xl bg-white border-2 border-light-teal hover:border-deep-teal shadow-xs hover:shadow-card transition-all flex flex-col justify-between gap-6 group">
               <div>
-                <div className="w-10 h-10 rounded-xl bg-light-teal flex items-center justify-center text-deep-teal mb-4">
-                  <Stethoscope className="w-5 h-5 text-deep-teal" />
+                <div className="flex items-center justify-between gap-2 mb-3">
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-light-teal text-deep-teal border border-deep-teal/20">
+                    <Stethoscope className="w-3.5 h-3.5 text-deep-teal" />
+                    <span>Clinical Guidance</span>
+                  </span>
+                  <span className="text-xs font-semibold text-charcoal/60">Self-Advocacy</span>
                 </div>
-                <h3 className="text-xl md:text-2xl font-serif text-plum mb-2">
-                  Symptom Tracker
+                <h3 className="text-2xl font-serif font-bold text-plum group-hover:text-deep-teal transition-colors mb-2">
+                  Symptom Tracker &amp; Guide
                 </h3>
-                <p className="text-[14.5px] text-ink/80 leading-relaxed mb-6">
-                  Explore 10 key symptoms, what to track in a 60–90 day log, questions to ask your doctor, and when to seek care.
+                <p className="text-[14.5px] text-charcoal/80 leading-relaxed mb-4">
+                  Identify patterns in adolescent reproductive symptoms, build an objective 60–90 day tracking log, and prepare targeted questions for your doctor.
                 </p>
+                <div className="flex flex-wrap gap-1.5 mb-2">
+                  <span className="text-[11.5px] font-semibold px-2.5 py-1 rounded-md bg-ivory text-plum border border-deep-teal/15">
+                    10 Adolescent Symptoms
+                  </span>
+                  <span className="text-[11.5px] font-semibold px-2.5 py-1 rounded-md bg-ivory text-plum border border-deep-teal/15">
+                    Copyable 60–90 Day Log
+                  </span>
+                  <span className="text-[11.5px] font-semibold px-2.5 py-1 rounded-md bg-ivory text-plum border border-deep-teal/15">
+                    Doctor Discussion Prompts
+                  </span>
+                  <span className="text-[11.5px] font-semibold px-2.5 py-1 rounded-md bg-ivory text-plum border border-deep-teal/15">
+                    Clinical Warning Flags
+                  </span>
+                </div>
               </div>
               <Button
                 onClick={() => selectCategory("tracker")}
-                variant="ghost"
-                className="w-full text-deep-teal hover:bg-light-teal/50 font-bold"
+                size="lg"
+                className="w-full bg-deep-teal hover:bg-deep-teal/90 text-white font-bold py-6 rounded-xl shadow-xs gap-2 cursor-pointer transition-transform group-hover:scale-[1.01]"
               >
-                Explore Symptoms →
+                <span>Open Symptom Tracker</span>
+                <ArrowRight className="w-4 h-4 text-coral" />
               </Button>
-            </Card>
+            </div>
 
-            {/* Card 1: Find Free Clinic */}
-            <Card className="p-6 flex flex-col justify-between hover:shadow-hover transition-all bg-white border border-deep-teal/15">
+            {/* GROUP 2: Immediate Support, Hotlines & Free Clinics */}
+            <div className="p-7 rounded-2xl bg-white border-2 border-soft-pink hover:border-coral shadow-xs hover:shadow-card transition-all flex flex-col justify-between gap-6 group">
               <div>
-                <div className="w-10 h-10 rounded-xl bg-light-teal/60 flex items-center justify-center text-deep-teal mb-4">
-                  <MapPin className="w-5 h-5" />
+                <div className="flex items-center justify-between gap-2 mb-3">
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-soft-pink text-raspberry border border-raspberry/20">
+                    <LifeBuoy className="w-3.5 h-3.5 text-coral" />
+                    <span>Immediate Care</span>
+                  </span>
+                  <span className="text-xs font-semibold text-charcoal/60">24/7 &amp; Confidential</span>
                 </div>
-                <h3 className="text-xl md:text-2xl font-serif text-plum mb-2">
-                  Find a Free Clinic
+                <h3 className="text-2xl font-serif font-bold text-plum group-hover:text-raspberry transition-colors mb-2">
+                  How to Get Help &amp; Clinics
                 </h3>
-                <p className="text-[14.5px] text-ink/80 leading-relaxed mb-6">
-                  Search verified no-cost or sliding-scale clinics offering confidential STI tests, contraception, pregnancy testing, and exams.
+                <p className="text-[14.5px] text-charcoal/80 leading-relaxed mb-4">
+                  Connect with free, confidential care when you need answers right away. Access verified phone/text lines, local clinics, and legal confidentiality rights.
                 </p>
+                <div className="flex flex-wrap gap-1.5 mb-2">
+                  <span className="text-[11.5px] font-semibold px-2.5 py-1 rounded-md bg-ivory text-plum border border-plum/15">
+                    24/7 Crisis &amp; Reproductive Lines
+                  </span>
+                  <span className="text-[11.5px] font-semibold px-2.5 py-1 rounded-md bg-ivory text-plum border border-plum/15">
+                    Zip Code Free Clinic Finder
+                  </span>
+                  <span className="text-[11.5px] font-semibold px-2.5 py-1 rounded-md bg-ivory text-plum border border-plum/15">
+                    Title X Youth Privacy Rights
+                  </span>
+                  <span className="text-[11.5px] font-semibold px-2.5 py-1 rounded-md bg-ivory text-plum border border-plum/15">
+                    CDC Maternal Warning Signs
+                  </span>
+                </div>
               </div>
               <Button
                 onClick={() => selectCategory("help")}
-                variant="ghost"
-                className="w-full text-deep-teal hover:bg-light-teal/50 font-bold"
+                size="lg"
+                className="w-full bg-raspberry hover:bg-raspberry/90 text-white font-bold py-6 rounded-xl shadow-xs gap-2 cursor-pointer transition-transform group-hover:scale-[1.01]"
               >
-                Search Clinics →
+                <span>Find Care &amp; 24/7 Hotlines</span>
+                <ArrowRight className="w-4 h-4 text-coral" />
               </Button>
-            </Card>
+            </div>
 
-            {/* Card 2: 24/7 Hotlines */}
-            <Card className="p-6 flex flex-col justify-between hover:shadow-hover transition-all bg-white border border-deep-teal/15">
+            {/* GROUP 3: Take Action, Petitions & Policy */}
+            <div className="p-7 rounded-2xl bg-white border-2 border-coral/30 hover:border-coral shadow-xs hover:shadow-card transition-all flex flex-col justify-between gap-6 group">
               <div>
-                <div className="w-10 h-10 rounded-xl bg-soft-pink flex items-center justify-center text-raspberry mb-4">
-                  <Phone className="w-5 h-5" />
+                <div className="flex items-center justify-between gap-2 mb-3">
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-coral/15 text-coral border border-coral/30">
+                    <Megaphone className="w-3.5 h-3.5 text-coral" />
+                    <span>Youth Grassroots</span>
+                  </span>
+                  <span className="text-xs font-semibold text-charcoal/60">Policy &amp; Advocacy</span>
                 </div>
-                <h3 className="text-xl md:text-2xl font-serif text-plum mb-2">
-                  Talk to Someone Now
+                <h3 className="text-2xl font-serif font-bold text-plum group-hover:text-coral transition-colors mb-2">
+                  Take Action &amp; Petitions
                 </h3>
-                <p className="text-[14.5px] text-ink/80 leading-relaxed mb-6">
-                  24/7 confidential phone and SMS lines staffed by certified counselors for reproductive questions, maternal mental health, and crisis.
+                <p className="text-[14.5px] text-charcoal/80 leading-relaxed mb-4">
+                  Turn education into change. Join active student and coalition campaigns for free period products in schools, the Momnibus Act, and minor privacy rights.
                 </p>
-              </div>
-              <Button
-                onClick={() => selectCategory("help")}
-                variant="ghost"
-                className="w-full text-raspberry hover:bg-soft-pink font-bold"
-              >
-                See 24/7 Hotlines →
-              </Button>
-            </Card>
-
-            {/* Card 3: Petitions & Grassroots Action */}
-            <Card className="p-6 flex flex-col justify-between border-2 border-coral/30 bg-cream-card hover:shadow-hover transition-all">
-              <div>
-                <div className="w-10 h-10 rounded-xl bg-coral/15 flex items-center justify-center text-coral mb-4">
-                  <PenLine className="w-5 h-5" />
+                <div className="flex flex-wrap gap-1.5 mb-2">
+                  <span className="text-[11.5px] font-semibold px-2.5 py-1 rounded-md bg-ivory text-plum border border-coral/20">
+                    7 Active Youth Petitions
+                  </span>
+                  <span className="text-[11.5px] font-semibold px-2.5 py-1 rounded-md bg-ivory text-plum border border-coral/20">
+                    School Board Letter Toolkit
+                  </span>
+                  <span className="text-[11.5px] font-semibold px-2.5 py-1 rounded-md bg-ivory text-plum border border-coral/20">
+                    National Coalitions Directory
+                  </span>
+                  <span className="text-[11.5px] font-semibold px-2.5 py-1 rounded-md bg-ivory text-plum border border-coral/20">
+                    Propose a Community Petition
+                  </span>
                 </div>
-                <div className="flex items-center gap-2 mb-2">
-                  <h3 className="text-xl md:text-2xl font-serif text-plum">
-                    Youth Petitions
-                  </h3>
-                  <Badge variant="default" className="text-[10px] uppercase bg-coral text-white">
-                    7 Active
-                  </Badge>
-                </div>
-                <p className="text-[14.5px] text-ink/80 leading-relaxed mb-6">
-                  Add your name to student and coalition campaigns for free period products in schools, the Momnibus Act, and minor privacy rights.
-                </p>
               </div>
               <Button
                 onClick={() => selectCategory("petitions")}
-                variant="default"
-                className="w-full gap-1.5 bg-deep-teal text-white hover:bg-deep-teal/90 font-bold"
+                size="lg"
+                className="w-full bg-deep-teal hover:bg-deep-teal/90 text-white font-bold py-6 rounded-xl shadow-xs gap-2 cursor-pointer transition-transform group-hover:scale-[1.01]"
               >
-                Explore Active Petitions
-                <ArrowRight className="w-3.5 h-3.5" />
+                <span>View Petitions &amp; Toolkit</span>
+                <ArrowRight className="w-4 h-4 text-coral" />
               </Button>
-            </Card>
+            </div>
 
-            {/* Card 4: Workshops */}
-            <Card className="p-6 flex flex-col justify-between hover:shadow-hover transition-all bg-white border border-deep-teal/15">
+            {/* GROUP 4: Educational Tools & Workshops */}
+            <div className="p-7 rounded-2xl bg-white border-2 border-deep-teal/20 hover:border-deep-teal shadow-xs hover:shadow-card transition-all flex flex-col justify-between gap-6 group">
               <div>
-                <div className="w-10 h-10 rounded-xl bg-yellow/40 flex items-center justify-center text-charcoal mb-4">
-                  <Calendar className="w-5 h-5" />
+                <div className="flex items-center justify-between gap-2 mb-3">
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-light-teal/50 text-deep-teal border border-deep-teal/25">
+                    <Sparkles className="w-3.5 h-3.5 text-coral" />
+                    <span>Learning &amp; Leadership</span>
+                  </span>
+                  <span className="text-xs font-semibold text-charcoal/60">Community Tools</span>
                 </div>
-                <h3 className="text-xl md:text-2xl font-serif text-plum mb-2">
-                  Student Workshops
+                <h3 className="text-2xl font-serif font-bold text-plum group-hover:text-deep-teal transition-colors mb-2">
+                  Interactive Tools &amp; Workshops
                 </h3>
-                <p className="text-[14.5px] text-ink/80 leading-relaxed mb-6">
-                  Interactive 90-minute agendas, anonymous question boxes, and school visit booking for student groups.
+                <p className="text-[14.5px] text-charcoal/80 leading-relaxed mb-4">
+                  Flip through verified medical myth-busters, join free peer-led workshops, apply as a Youth Ambassador, or download our self-paced training module.
                 </p>
+                <div className="flex flex-wrap gap-1.5 mb-2">
+                  <span className="text-[11.5px] font-semibold px-2.5 py-1 rounded-md bg-ivory text-plum border border-deep-teal/15">
+                    Medical Myth-Buster
+                  </span>
+                  <span className="text-[11.5px] font-semibold px-2.5 py-1 rounded-md bg-ivory text-plum border border-deep-teal/15">
+                    Free Student Workshops
+                  </span>
+                  <span className="text-[11.5px] font-semibold px-2.5 py-1 rounded-md bg-ivory text-plum border border-deep-teal/15">
+                    Ambassador Leadership
+                  </span>
+                  <span className="text-[11.5px] font-semibold px-2.5 py-1 rounded-md bg-ivory text-plum border border-deep-teal/15">
+                    Advocacy Guide (.txt)
+                  </span>
+                </div>
               </div>
-              <Button
-                onClick={() => onNavigate("workshops")}
-                variant="ghost"
-                className="w-full text-plum hover:bg-ivory font-bold"
-              >
-                Workshop Schedules →
-              </Button>
-            </Card>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                <Button
+                  onClick={() => onNavigate("myths")}
+                  size="default"
+                  className="bg-raspberry hover:bg-raspberry/90 text-white font-bold py-5 rounded-xl shadow-xs gap-1.5 text-xs cursor-pointer"
+                >
+                  <span>Myth-Buster</span>
+                  <ArrowRight className="w-3.5 h-3.5 text-coral" />
+                </Button>
+                <Button
+                  onClick={() => onNavigate("workshops")}
+                  variant="outline"
+                  size="default"
+                  className="border-deep-teal text-deep-teal hover:bg-light-teal/50 font-bold py-5 rounded-xl text-xs cursor-pointer"
+                >
+                  <span>Workshops</span>
+                  <ArrowRight className="w-3.5 h-3.5 text-coral" />
+                </Button>
+                <Button
+                  onClick={handleDownloadModule}
+                  variant="secondary"
+                  size="default"
+                  className="bg-ivory hover:bg-white text-plum border border-deep-teal/20 font-bold py-5 rounded-xl text-xs gap-1 cursor-pointer"
+                >
+                  <Download className="w-3 h-3 text-coral" />
+                  <span>Guide (.txt)</span>
+                </Button>
+              </div>
+            </div>
 
-            {/* Card 5: Ambassador Program */}
-            <Card className="p-6 flex flex-col justify-between hover:shadow-hover transition-all bg-white border border-deep-teal/15">
-              <div>
-                <div className="w-10 h-10 rounded-xl bg-light-teal/50 flex items-center justify-center text-deep-teal mb-4">
-                  <GraduationCap className="w-5 h-5" />
-                </div>
-                <h3 className="text-xl md:text-2xl font-serif text-plum mb-2">
-                  Youth Ambassadors
-                </h3>
-                <p className="text-[14.5px] text-ink/80 leading-relaxed mb-6">
-                  Represent ReproUs on your campus, run peer resource tables, and receive certified health advocacy training.
-                </p>
-              </div>
-              <Button
-                onClick={() => onNavigate("contact", "ambassador")}
-                variant="ghost"
-                className="w-full text-deep-teal hover:bg-light-teal/40 font-bold"
-              >
-                Apply as Ambassador →
-              </Button>
-            </Card>
-
-            {/* Card 6: Download Training Module */}
-            <Card className="p-6 flex flex-col justify-between hover:shadow-hover transition-all bg-white border border-deep-teal/15">
-              <div>
-                <div className="w-10 h-10 rounded-xl bg-soft-pink/70 flex items-center justify-center text-raspberry mb-4">
-                  <Download className="w-5 h-5" />
-                </div>
-                <h3 className="text-xl md:text-2xl font-serif text-plum mb-2">
-                  Training Module
-                </h3>
-                <p className="text-[14.5px] text-ink/80 leading-relaxed mb-6">
-                  Self-paced student guide covering non-judgmental discussions, healthcare access, and crisis escalation protocols.
-                </p>
-              </div>
-              <Button
-                onClick={handleDownloadModule}
-                variant="ghost"
-                className="w-full gap-2 text-raspberry hover:bg-soft-pink/50 font-bold"
-              >
-                <Download className="w-4 h-4" />
-                Download Guide (.txt)
-              </Button>
-            </Card>
           </div>
         </section>
       )}
 
-      {/* SECTION: SYMPTOM TRACKER & CLINICAL GUIDE (Visible if 'all' or 'tracker') */}
-      {(activeCategory === "all" || activeCategory === "tracker") && (
+      {/* SECTION: SYMPTOM TRACKER & CLINICAL GUIDE (Visible ONLY when activeCategory === "tracker") */}
+      {activeCategory === "tracker" && (
         <section
           id="symptom-tracker-section"
-          className="flex flex-col gap-8 pt-4 border-t-2 border-deep-teal/15 scroll-mt-24"
+          className="flex flex-col gap-8 pt-2 scroll-mt-24"
         >
+          {/* Back button & Category Breadcrumb */}
+          <div className="flex items-center justify-between pb-3 border-b border-deep-teal/15">
+            <button
+              onClick={() => selectCategory("all")}
+              className="inline-flex items-center gap-2 text-xs sm:text-sm font-bold text-deep-teal hover:text-raspberry transition-colors cursor-pointer group"
+            >
+              <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1 text-coral" />
+              <span>← Back to All Resources Overview</span>
+            </button>
+            <span className="text-xs font-semibold text-charcoal/60">
+              Viewing: Symptom Tracker &amp; Clinical Guide
+            </span>
+          </div>
+
           {/* Section Header */}
           <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-4">
             <div>
@@ -672,12 +738,26 @@ export function ResourcesView({ onNavigate, initialCategory = "all" }: Resources
         </section>
       )}
 
-      {/* SECTION 1: HOW TO GET HELP (Visible if 'all' or 'help') */}
-      {(activeCategory === "all" || activeCategory === "help") && (
+      {/* SECTION 1: HOW TO GET HELP (Visible ONLY when activeCategory === "help") */}
+      {activeCategory === "help" && (
         <section
           id="how-to-get-help-section"
-          className="flex flex-col gap-8 pt-4 border-t-2 border-deep-teal/15"
+          className="flex flex-col gap-8 pt-2 scroll-mt-24"
         >
+          {/* Back button & Category Breadcrumb */}
+          <div className="flex items-center justify-between pb-3 border-b border-deep-teal/15">
+            <button
+              onClick={() => selectCategory("all")}
+              className="inline-flex items-center gap-2 text-xs sm:text-sm font-bold text-deep-teal hover:text-raspberry transition-colors cursor-pointer group"
+            >
+              <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1 text-coral" />
+              <span>← Back to All Resources Overview</span>
+            </button>
+            <span className="text-xs font-semibold text-charcoal/60">
+              Viewing: How to Get Help &amp; Clinics
+            </span>
+          </div>
+
           {/* Section Header */}
           <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-4">
             <div>
@@ -974,12 +1054,26 @@ export function ResourcesView({ onNavigate, initialCategory = "all" }: Resources
         </section>
       )}
 
-      {/* SECTION 2: PETITIONS & TAKE ACTION (Visible if 'all' or 'petitions') */}
-      {(activeCategory === "all" || activeCategory === "petitions") && (
+      {/* SECTION 2: PETITIONS & TAKE ACTION (Visible ONLY when activeCategory === "petitions") */}
+      {activeCategory === "petitions" && (
         <section
           id="petitions-section"
-          className="flex flex-col gap-8 pt-4 border-t-2 border-coral/20"
+          className="flex flex-col gap-8 pt-2 scroll-mt-24"
         >
+          {/* Back button & Category Breadcrumb */}
+          <div className="flex items-center justify-between pb-3 border-b border-coral/25">
+            <button
+              onClick={() => selectCategory("all")}
+              className="inline-flex items-center gap-2 text-xs sm:text-sm font-bold text-deep-teal hover:text-raspberry transition-colors cursor-pointer group"
+            >
+              <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1 text-coral" />
+              <span>← Back to All Resources Overview</span>
+            </button>
+            <span className="text-xs font-semibold text-charcoal/60">
+              Viewing: Take Action &amp; Petitions
+            </span>
+          </div>
+
           {/* Section Header */}
           <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-4">
             <div>
