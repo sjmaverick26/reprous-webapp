@@ -98,7 +98,7 @@ export function WorkshopsView() {
           <span>Workshops &amp; Sessions (Sample Placeholders)</span>
         </div>
         <h1 className="text-4xl md:text-[64px] lg:text-[72px] font-normal font-serif text-plum leading-[1.08] mb-4">
-          Free, interactive workshops
+          Free, Interactive Workshops
         </h1>
         <p className="text-[15px] sm:text-[16px] lg:text-[17px] text-ink/80 leading-relaxed mb-3 font-sans lg:whitespace-nowrap">
           Hands-on 90-minute sessions in schools and community centers. No tests, no awkwardness — just real facts, honest discussion, and practical skills.
