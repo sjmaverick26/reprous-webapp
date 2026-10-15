@@ -17,7 +17,6 @@ import {
   PlusCircle,
   Sparkles,
   ArrowRight,
-  ChevronDown,
   Copy,
   Check,
   ShieldCheck,
@@ -102,7 +101,6 @@ Sincerely,
 
 export function ResourcesView({ onNavigate, initialCategory = "all" }: ResourcesViewProps) {
   const [activeCategory, setActiveCategory] = useState<"all" | "help" | "petitions" | "tracker">(initialCategory);
-  const [isCategoryDropdownOpen, setIsCategoryDropdownOpen] = useState(false);
   const [hotlineFilter, setHotlineFilter] = useState<string>("all");
   const [petitionFilter, setPetitionFilter] = useState<string>("all");
   const [copiedLetterId, setCopiedLetterId] = useState<string | null>(null);
@@ -172,38 +170,6 @@ export function ResourcesView({ onNavigate, initialCategory = "all" }: Resources
       setActiveCategory(initialCategory);
     }
   }, [initialCategory]);
-
-  const categoryOptions: {
-    id: "all" | "tracker" | "help" | "petitions";
-    label: string;
-    badge: string;
-    desc: string;
-  }[] = [
-    {
-      id: "all",
-      label: "All Resources (Overview)",
-      badge: "Full Hub",
-      desc: "Complete directory: symptom tracker, clinic finder, 24/7 hotlines, and youth advocacy"
-    },
-    {
-      id: "tracker",
-      label: "Symptom Tracker",
-      badge: "Clinical Guide",
-      desc: "Interactive 10-symptom tracking guide, appointment preparation & copyable symptom logs"
-    },
-    {
-      id: "help",
-      label: "How to Get Help",
-      badge: "Immediate Care",
-      desc: "24/7 confidential hotlines, free clinic finder, crisis support & minor privacy rights"
-    },
-    {
-      id: "petitions",
-      label: "Take Action",
-      badge: "Advocacy",
-      desc: "Active youth petitions, Momnibus Act, menstrual equity & school board letter toolkit"
-    }
-  ];
 
   const filteredClinics = CLINICS_DATA.filter((c) =>
     zipQuery.trim() === ""
@@ -316,7 +282,6 @@ export function ResourcesView({ onNavigate, initialCategory = "all" }: Resources
 
   const selectCategory = (cat: "all" | "help" | "petitions" | "tracker") => {
     setActiveCategory(cat);
-    setIsCategoryDropdownOpen(false);
     if (cat === "help") {
       setTimeout(() => {
         document.getElementById("how-to-get-help-section")?.scrollIntoView({ behavior: "smooth" });
@@ -348,110 +313,6 @@ export function ResourcesView({ onNavigate, initialCategory = "all" }: Resources
         </p>
       </div>
 
-      {/* DROPDOWN MENU & CATEGORY SELECTOR HUB */}
-      <div className="rounded-2xl bg-white border-2 border-deep-teal/20 p-4 sm:p-5 shadow-sm flex flex-col md:flex-row items-center justify-between gap-4">
-        {/* Left: Dropdown Trigger */}
-        <div className="flex items-center gap-3 w-full md:w-auto">
-          <span className="text-xs font-bold uppercase tracking-wider text-charcoal/70 whitespace-nowrap hidden sm:inline">
-            Jump to Section:
-          </span>
-
-          <div className="relative flex-1 md:w-84">
-            <button
-              onClick={() => setIsCategoryDropdownOpen(!isCategoryDropdownOpen)}
-              className="w-full flex items-center justify-between px-4 py-2.5 rounded-xl bg-ivory border-2 border-deep-teal/30 hover:border-deep-teal text-left font-sans font-semibold text-[14.5px] text-plum focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral transition-all cursor-pointer shadow-xs"
-              aria-label="Select Resource Category"
-              aria-expanded={isCategoryDropdownOpen}
-            >
-              <span className="flex items-center gap-2 truncate">
-                <span className="font-bold text-plum truncate">
-                  {categoryOptions.find((o) => o.id === activeCategory)?.label}
-                </span>
-              </span>
-              <ChevronDown
-                className={cn(
-                  "w-4 h-4 text-plum/70 shrink-0 ml-2 transition-transform duration-200",
-                  isCategoryDropdownOpen && "rotate-180"
-                )}
-              />
-            </button>
-
-            {/* Dropdown Menu Popup */}
-            {isCategoryDropdownOpen && (
-              <div className="absolute left-0 top-full mt-2 w-full md:w-96 z-50 bg-white rounded-xl shadow-2xl border border-plum/20 p-2 flex flex-col gap-1.5 animate-in fade-in zoom-in-95 duration-150">
-                <div className="px-3 py-1.5 text-[11px] font-bold uppercase tracking-wider text-charcoal/60 border-b border-plum/10 flex items-center justify-between">
-                  <span>Resources Navigation</span>
-                  <span className="text-coral">3 Primary Views</span>
-                </div>
-                {categoryOptions.map((opt) => {
-                  const isSelected = activeCategory === opt.id;
-                  return (
-                    <button
-                      key={opt.id}
-                      onClick={() => selectCategory(opt.id)}
-                      className={cn(
-                        "w-full text-left px-3.5 py-3 rounded-lg transition-colors flex items-start gap-3 cursor-pointer group",
-                        isSelected
-                          ? "bg-deep-teal text-white font-bold shadow-xs"
-                          : "hover:bg-ivory text-plum"
-                      )}
-                    >
-                      <div className="min-w-0 flex-1">
-                        <div className="flex items-center justify-between gap-1 mb-0.5">
-                          <span
-                            className={cn(
-                              "text-[14px] leading-tight font-bold",
-                              isSelected ? "text-white" : "text-plum group-hover:text-raspberry"
-                            )}
-                          >
-                            {opt.label}
-                          </span>
-                          <span
-                            className={cn(
-                              "text-[10px] px-2 py-0.5 rounded-full font-bold uppercase shrink-0",
-                              isSelected
-                                ? "bg-white/20 text-white"
-                                : "bg-coral/10 text-coral border border-coral/20"
-                            )}
-                          >
-                            {opt.badge}
-                          </span>
-                        </div>
-                        <span
-                          className={cn(
-                            "text-[12px] line-clamp-2 leading-relaxed block",
-                            isSelected ? "text-white/85" : "text-plum/70"
-                          )}
-                        >
-                          {opt.desc}
-                        </span>
-                      </div>
-                    </button>
-                  );
-                })}
-              </div>
-            )}
-          </div>
-        </div>
-
-        {/* Right: Quick Tab Pills */}
-        <div className="flex items-center gap-2 w-full md:w-auto overflow-x-auto pb-1 md:pb-0">
-          {categoryOptions.map((opt) => (
-            <button
-              key={opt.id}
-              onClick={() => selectCategory(opt.id)}
-              className={cn(
-                "px-3.5 py-2 rounded-xl text-xs sm:text-[13px] font-bold font-sans transition-all whitespace-nowrap flex items-center gap-1.5 cursor-pointer",
-                activeCategory === opt.id
-                  ? "bg-deep-teal text-white shadow-xs scale-[1.02]"
-                  : "bg-ivory text-plum/80 hover:text-plum hover:bg-white border border-deep-teal/20"
-              )}
-            >
-              <span>{opt.label.split("(")[0].trim()}</span>
-            </button>
-          ))}
-        </div>
-      </div>
 
       {/* Featured Educational Resource: Medical Myth-Buster (Matte, Non-Shiny) */}
       {activeCategory === "all" && (

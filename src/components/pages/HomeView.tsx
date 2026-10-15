@@ -51,7 +51,7 @@ export function HomeView({ onNavigate, onSelectLang }: HomeViewProps) {
           </h1>
 
           {/* Subtitle: Direct and Focused (Single Line on Desktop) */}
-          <p className="text-[15.5px] sm:text-[16.5px] md:text-[17px] lg:text-[17.5px] xl:text-[18px] text-charcoal/85 max-w-none lg:whitespace-nowrap leading-relaxed mb-8 font-sans">
+          <p className="text-[14px] sm:text-[15px] md:text-[15.5px] lg:text-[16px] xl:text-[16.5px] text-charcoal/85 max-w-none md:whitespace-nowrap leading-relaxed mb-8 font-sans">
             Clear, accessible health education for girls — understanding your biology, recognizing symptoms, and advocating for your care.
           </p>
 
@@ -87,126 +87,165 @@ export function HomeView({ onNavigate, onSelectLang }: HomeViewProps) {
               <span>✦ THE REPROUS COMMITMENT</span>
             </div>
 
-            <h2 className="text-2xl sm:text-3xl md:text-[38px] lg:text-[44px] xl:text-[46px] font-bold font-serif text-white leading-tight mb-4 tracking-tight text-center max-w-none lg:whitespace-nowrap">
+            <h2 className="text-xl sm:text-2xl md:text-[26px] lg:text-[28px] xl:text-[32px] font-bold font-serif text-white leading-tight mb-4 tracking-tight text-center max-w-none md:whitespace-nowrap">
               You shouldn&apos;t need to become an expert to be taken seriously.
             </h2>
 
-            <p className="text-[15px] sm:text-[16px] md:text-[16.5px] lg:text-[17.5px] xl:text-[18px] font-medium text-white/95 leading-relaxed font-sans mb-10 text-center max-w-none lg:whitespace-nowrap">
+            <p className="text-[13.5px] sm:text-[14.5px] md:text-[15px] lg:text-[15.5px] xl:text-[16px] font-medium text-white/95 leading-relaxed font-sans mb-10 text-center max-w-none md:whitespace-nowrap">
               ReproUs helps girls understand their bodies, recognize symptoms, and build the confidence to ask informed questions about their health.
             </p>
 
             {/* 3 Boxed Cards: LEARN (Teal) · RECOGNIZE (Coral) · ADVOCATE (Pink) */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-2 w-full text-center">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-2 w-full max-w-5xl mx-auto text-center justify-center items-stretch">
               {/* Box 1: LEARN (Teal) */}
-              <div className="rounded-2xl p-6 bg-[#D8EFED]/15 border-2 border-light-teal/70 shadow-md flex flex-col items-center justify-between hover:bg-[#D8EFED]/20 hover:border-light-teal transition-all">
-                <div className="flex flex-col items-center w-full">
-                  <div className="inline-flex items-center justify-center gap-2 px-3.5 py-1.5 rounded-full bg-light-teal text-deep-teal font-extrabold text-xs tracking-wider uppercase shadow-xs mb-4">
+              <div className="rounded-2xl p-6 bg-[#D8EFED]/15 border-2 border-light-teal/70 shadow-md flex flex-col items-center justify-between text-center hover:bg-[#D8EFED]/20 hover:border-light-teal transition-all">
+                <div className="flex flex-col items-center w-full text-center">
+                  <button
+                    onClick={() => onNavigate("hub", "cycle")}
+                    className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-full bg-light-teal text-deep-teal font-extrabold text-xs tracking-wider uppercase shadow-xs mb-4 mx-auto cursor-pointer hover:scale-105 transition-transform"
+                    aria-label="Learn: Explore reproductive biology"
+                  >
                     <BookOpen className="w-3.5 h-3.5 text-deep-teal" />
                     <span>LEARN</span>
-                  </div>
-                  <h3 className="text-xl font-bold font-serif text-light-teal mb-2">
+                  </button>
+                  <h3 className="text-xl font-bold font-serif text-light-teal mb-2 text-center">
                     Understand Your Body
                   </h3>
-                  <p className="text-[15px] md:text-[16px] font-semibold text-white/95 leading-relaxed font-sans m-0">
+                  <p className="text-[14.5px] md:text-[15.5px] font-semibold text-white/95 leading-relaxed font-sans m-0 text-center">
                     Grasp how your hormones, cycles, and anatomy function in clear, plain language without shame or medical jargon.
                   </p>
                 </div>
+                <button
+                  onClick={() => onNavigate("hub", "cycle")}
+                  className="mt-5 inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-light-teal hover:underline cursor-pointer"
+                >
+                  <span>Explore Biology</span>
+                  <ArrowRight className="w-3 h-3 text-coral" />
+                </button>
               </div>
 
               {/* Box 2: RECOGNIZE (Coral) */}
-              <div className="rounded-2xl p-6 bg-[#FFE1DB]/15 border-2 border-coral/70 shadow-md flex flex-col items-center justify-between hover:bg-[#FFE1DB]/20 hover:border-coral transition-all">
-                <div className="flex flex-col items-center w-full">
-                  <div className="inline-flex items-center justify-center gap-2 px-3.5 py-1.5 rounded-full bg-coral text-white font-extrabold text-xs tracking-wider uppercase shadow-xs mb-4">
+              <div className="rounded-2xl p-6 bg-[#FFE1DB]/15 border-2 border-coral/70 shadow-md flex flex-col items-center justify-between text-center hover:bg-[#FFE1DB]/20 hover:border-coral transition-all">
+                <div className="flex flex-col items-center w-full text-center">
+                  <button
+                    onClick={() => onNavigate("resources", "tracker")}
+                    className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-full bg-coral text-white font-extrabold text-xs tracking-wider uppercase shadow-xs mb-4 mx-auto cursor-pointer hover:scale-105 transition-transform"
+                    aria-label="Recognize: Spot warning signs"
+                  >
                     <Heart className="w-3.5 h-3.5 text-white" />
                     <span>RECOGNIZE</span>
-                  </div>
-                  <h3 className="text-xl font-bold font-serif text-coral mb-2">
+                  </button>
+                  <h3 className="text-xl font-bold font-serif text-coral mb-2 text-center">
                     Spot the Warning Signs
                   </h3>
-                  <p className="text-[15px] md:text-[16px] font-semibold text-white/95 leading-relaxed font-sans m-0">
+                  <p className="text-[14.5px] md:text-[15.5px] font-semibold text-white/95 leading-relaxed font-sans m-0 text-center">
                     Identify symptoms that are often dismissed or normalized—like severe period pain, missing cycles, and chronic fatigue.
                   </p>
                 </div>
+                <button
+                  onClick={() => onNavigate("resources", "tracker")}
+                  className="mt-5 inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-coral hover:underline cursor-pointer"
+                >
+                  <span>Symptom Tracker</span>
+                  <ArrowRight className="w-3 h-3 text-coral" />
+                </button>
               </div>
 
               {/* Box 3: ADVOCATE (Pink / Raspberry) */}
-              <div className="rounded-2xl p-6 bg-soft-pink/15 border-2 border-soft-pink/70 shadow-md flex flex-col items-center justify-between hover:bg-soft-pink/20 hover:border-soft-pink transition-all">
-                <div className="flex flex-col items-center w-full">
-                  <div className="inline-flex items-center justify-center gap-2 px-3.5 py-1.5 rounded-full bg-soft-pink text-raspberry font-extrabold text-xs tracking-wider uppercase shadow-xs mb-4">
+              <div className="rounded-2xl p-6 bg-soft-pink/15 border-2 border-soft-pink/70 shadow-md flex flex-col items-center justify-between text-center hover:bg-soft-pink/20 hover:border-soft-pink transition-all">
+                <div className="flex flex-col items-center w-full text-center">
+                  <button
+                    onClick={() => onNavigate("qa", "ask")}
+                    className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-full bg-soft-pink text-raspberry font-extrabold text-xs tracking-wider uppercase shadow-xs mb-4 mx-auto cursor-pointer hover:scale-105 transition-transform"
+                    aria-label="Advocate: Speak up with confidence"
+                  >
                     <ShieldCheck className="w-3.5 h-3.5 text-raspberry" />
                     <span>ADVOCATE</span>
-                  </div>
-                  <h3 className="text-xl font-bold font-serif text-soft-pink mb-2">
+                  </button>
+                  <h3 className="text-xl font-bold font-serif text-soft-pink mb-2 text-center">
                     Speak Up with Confidence
                   </h3>
-                  <p className="text-[15px] md:text-[16px] font-semibold text-white/95 leading-relaxed font-sans m-0">
+                  <p className="text-[14.5px] md:text-[15.5px] font-semibold text-white/95 leading-relaxed font-sans m-0 text-center">
                     Build the vocabulary, questions, and symptom logs to be taken seriously by clinicians, parents, and coaches.
                   </p>
                 </div>
+                <button
+                  onClick={() => onNavigate("qa", "ask")}
+                  className="mt-5 inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-soft-pink hover:underline cursor-pointer"
+                >
+                  <span>Ask a Question</span>
+                  <ArrowRight className="w-3 h-3 text-coral" />
+                </button>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 2. SYMPTOM TRACKER CALLOUT: Streamlined Banner with Button */}
-      <section id="symptom-explorer" className="w-full bg-light-teal text-charcoal py-12 md:py-16 scroll-mt-20 md:scroll-mt-24">
-        <div className="max-w-[1100px] mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
-          <div className="max-w-2xl">
-            <div className="inline-flex items-center gap-2 font-sans font-bold text-xs uppercase tracking-widest text-raspberry mb-2">
-              <span className="w-2 h-2 rounded-full bg-coral" />
-              <span>COULD THIS BE YOU?</span>
+      {/* 3. SYMPTOM TRACKER & MEDICAL MYTH-BUSTER: Organized like Our Story & Our Mission */}
+      <section id="interactive-features" className="w-full bg-white py-16 md:py-24 scroll-mt-20 md:scroll-mt-24 border-b border-deep-teal/10">
+        <div className="max-w-[1100px] mx-auto px-6 flex flex-col gap-20">
+          
+          {/* Section A: COULD THIS BE YOU? (Organized like Our Story) */}
+          <div className="text-center max-w-3xl mx-auto flex flex-col items-center">
+            <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-xs font-extrabold font-sans uppercase tracking-wider bg-light-teal/50 text-deep-teal border border-deep-teal/25 mb-3.5 shadow-2xs">
+              <span>✦ COULD THIS BE YOU?</span>
             </div>
-            <h2 className="text-2xl md:text-3xl lg:text-[36px] font-normal font-serif text-deep-teal leading-[1.2] mb-2">
-              Start with the symptoms.
+            <h2 className="text-3xl md:text-[42px] lg:text-[46px] font-bold font-serif text-deep-teal leading-[1.16] tracking-tight mb-4">
+              Start with the Symptoms
             </h2>
-            <p className="text-[15px] md:text-[17px] text-charcoal/80 leading-relaxed font-sans m-0">
-              Not sure what your symptoms might mean? Explore our symptom tracking guide, what to record in an objective log, and questions to ask your doctor.
-            </p>
+            <div className="space-y-3.5 text-center mb-8">
+              <p className="text-[17px] md:text-[19px] font-medium text-deep-teal/90 leading-relaxed font-sans max-w-2xl mx-auto m-0">
+                Not sure what your symptoms might mean, or whether what you&apos;re feeling is &ldquo;normal&rdquo;?
+              </p>
+              <p className="text-[15.5px] md:text-[16.5px] text-charcoal/80 leading-relaxed font-sans max-w-2xl mx-auto m-0">
+                Explore our interactive symptom tracking guide, understand what to record in an objective log, and learn what specific questions to ask your healthcare provider.
+              </p>
+            </div>
+            <Button
+              onClick={() => onNavigate("resources", "tracker")}
+              size="lg"
+              className="bg-deep-teal text-white hover:bg-deep-teal/90 active:bg-deep-teal-dark focus-visible:text-white shadow-md font-bold text-[15.5px] px-8 py-5 rounded-full gap-2 cursor-pointer transition-all hover:scale-105"
+            >
+              <span>Explore Symptom Tracker</span>
+              <ArrowRight className="w-4 h-4 text-coral" />
+            </Button>
           </div>
 
-          <Button
-            onClick={() => onNavigate("resources", "tracker")}
-            size="lg"
-            className="bg-deep-teal text-white hover:bg-deep-teal/90 active:bg-deep-teal-dark focus-visible:text-white shadow-md font-bold text-[15.5px] px-8 py-6 rounded-xl gap-2 shrink-0 whitespace-nowrap cursor-pointer"
-          >
-            <span>Explore Symptom Tracker</span>
-            <ArrowRight className="w-4 h-4 text-coral" />
-          </Button>
+          {/* Section B: INTERACTIVE MEDICAL MYTH-BUSTER (Organized like Our Mission) */}
+          <div className="text-center max-w-4xl mx-auto w-full flex flex-col items-center pt-12 border-t border-deep-teal/10">
+            <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-xs font-extrabold font-sans uppercase tracking-wider bg-[#FFE1DB] text-[#B83F68] border border-coral/30 mb-3.5 shadow-2xs">
+              <span>✦ INTERACTIVE MEDICAL MYTH-BUSTER</span>
+            </div>
+            <h2 className="text-3xl md:text-[42px] lg:text-[46px] font-bold font-serif text-deep-teal leading-[1.16] tracking-tight mb-4">
+              Separating Myths from Medical Reality
+            </h2>
+            <div className="space-y-3.5 text-center mb-8">
+              <p className="text-[17px] md:text-[19px] font-medium text-deep-teal/90 leading-relaxed font-sans max-w-2xl mx-auto m-0">
+                Too many girls are told that debilitating cramps, irregular cycles, or severe fatigue are &ldquo;just part of being a girl.&rdquo;
+              </p>
+              <p className="text-[15.5px] md:text-[16.5px] text-charcoal/80 leading-relaxed font-sans max-w-2xl mx-auto m-0">
+                Explore verified clinical facts, evidence-based myth breakdowns, and medical guidelines so you have the confidence to recognize warning signs and advocate for proper diagnosis and care.
+              </p>
+            </div>
+            <Button
+              onClick={() => onNavigate("myths")}
+              size="lg"
+              className="bg-raspberry text-white hover:bg-raspberry/90 active:bg-raspberry-dark active:text-white focus-visible:text-white shadow-md font-bold text-[15.5px] px-8 py-5 rounded-full gap-2 cursor-pointer transition-all hover:scale-105"
+            >
+              <span>Explore All Myths &amp; Facts</span>
+              <ArrowRight className="w-4 h-4 text-coral" />
+            </Button>
+          </div>
+
         </div>
       </section>
 
-      {/* 3. MEDICAL MYTH-BUSTER CALLOUT: Streamlined Banner with Button */}
-      <section id="myth-buster" className="w-full bg-raspberry text-white py-12 md:py-16 scroll-mt-20 md:scroll-mt-24">
-        <div className="max-w-[1100px] mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
-          <div className="max-w-2xl">
-            <div className="inline-flex items-center gap-2 font-sans font-bold text-xs uppercase tracking-widest text-soft-pink mb-2">
-              <span className="w-2 h-2 rounded-full bg-coral" />
-              <span>INTERACTIVE MEDICAL MYTH-BUSTER</span>
-            </div>
-            <h2 className="text-2xl md:text-3xl lg:text-[36px] font-normal font-serif text-white leading-[1.2] mb-2">
-              Separating myths from medical reality.
-            </h2>
-            <p className="text-[15px] md:text-[17px] text-white/90 leading-relaxed font-sans m-0">
-              Too many girls are told that severe pain or missing periods are &ldquo;just part of being a girl.&rdquo; Explore verified clinical facts and medical guidelines.
-            </p>
-          </div>
-
-          <Button
-            onClick={() => onNavigate("myths")}
-            size="lg"
-            className="bg-white text-raspberry hover:bg-white/95 hover:text-raspberry active:bg-white/90 active:text-raspberry focus-visible:text-raspberry shadow-md font-bold text-[15.5px] px-8 py-6 rounded-xl gap-2 shrink-0 whitespace-nowrap cursor-pointer"
-          >
-            <span>Explore All Myths &amp; Facts</span>
-            <ArrowRight className="w-4 h-4 text-raspberry" />
-          </Button>
-        </div>
-      </section>
-
-      {/* 8. WORKSHOPS & YOUTH VOICES: Full-Bleed Warm Cream (#FFF8F0) */}
+      {/* 4. COMMUNITY & BOTTOM SECTION: Unified Warm Cream (#FFF8F0) */}
       <section id="workshops-community" className="w-full bg-warm-cream text-charcoal py-16 md:py-24 scroll-mt-20 md:scroll-mt-24">
-        <div className="max-w-[1100px] mx-auto px-6 space-y-16">
-          {/* Upcoming Workshops Section */}
+        <div className="max-w-[1100px] mx-auto px-6 space-y-12 md:space-y-16">
+          
+          {/* Card 1: Upcoming Workshops Section */}
           <div className="rounded-2xl bg-white border border-deep-teal/15 p-8 md:p-12 shadow-card">
             <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-4 mb-8">
               <div>
@@ -215,7 +254,7 @@ export function HomeView({ onNavigate, onSelectLang }: HomeViewProps) {
                   Latest &amp; Upcoming Workshops (Sample Placeholders)
                 </div>
                 <h2 className="text-3xl md:text-[42px] lg:text-[48px] font-normal font-serif text-deep-teal leading-[1.15]">
-                  Join a free, honest workshop
+                  Join a Free, Honest Workshop
                 </h2>
                 <p className="text-[17px] md:text-[18px] text-charcoal/80 max-w-xl mt-2 mb-1 font-sans">
                   Interactive, non-judgmental sessions led by youth educators. Reserve your free spot or view full workshop agendas.
@@ -249,95 +288,72 @@ export function HomeView({ onNavigate, onSelectLang }: HomeViewProps) {
                     key={session.id}
                     className={`p-6 bg-white ${borderOutline} shadow-xs flex flex-col justify-between hover:shadow-hover hover:-translate-y-0.5 transition-all`}
                   >
-                  <div>
-                    <div className="flex items-center justify-between gap-2 mb-3">
-                      <span className="font-serif text-2xl font-bold text-deep-teal">
-                        {session.date}
-                      </span>
-                      <div className="flex items-center gap-1.5 flex-wrap justify-end">
-                        <span className="text-[11px] font-bold px-2 py-0.5 rounded bg-amber-50 text-amber-900 border border-amber-300">
-                          Placeholder
+                    <div>
+                      <div className="flex items-center justify-between gap-2 mb-3">
+                        <span className="font-serif text-2xl font-bold text-deep-teal">
+                          {session.date}
                         </span>
-                        <span
-                          className={`text-[12px] font-bold px-2.5 py-0.5 rounded inline-flex items-center gap-1.5 ${
-                            session.isOnline
-                              ? "bg-light-teal text-deep-teal border border-deep-teal/20"
-                              : "bg-soft-pink text-deep-teal border border-coral/30"
-                          }`}
-                        >
-                          {session.isOnline ? (
-                            <>
-                              <Globe className="w-3 h-3 text-deep-teal" />
-                              <span>Virtual Zoom</span>
-                            </>
-                          ) : (
-                            <>
-                              <MapPin className="w-3 h-3 text-deep-teal" />
-                              <span>In Person</span>
-                            </>
-                          )}
-                        </span>
+                        <div className="flex items-center gap-1.5 flex-wrap justify-end">
+                          <span className="text-[11px] font-bold px-2 py-0.5 rounded bg-amber-50 text-amber-900 border border-amber-300">
+                            Placeholder
+                          </span>
+                          <span
+                            className={`text-[12px] font-bold px-2.5 py-0.5 rounded inline-flex items-center gap-1.5 ${
+                              session.isOnline
+                                ? "bg-light-teal text-deep-teal border border-deep-teal/20"
+                                : "bg-soft-pink text-deep-teal border border-coral/30"
+                            }`}
+                          >
+                            {session.isOnline ? (
+                              <>
+                                <Globe className="w-3 h-3 text-deep-teal" />
+                                <span>Virtual Zoom</span>
+                              </>
+                            ) : (
+                              <>
+                                <MapPin className="w-3 h-3 text-deep-teal" />
+                                <span>In Person</span>
+                              </>
+                            )}
+                          </span>
+                        </div>
+                      </div>
+
+                      <h3 className="text-lg md:text-xl font-bold text-deep-teal mb-2 line-clamp-2 leading-snug">
+                        {session.topic}
+                      </h3>
+
+                      <div className="space-y-1.5 text-[14px] text-charcoal/80 mb-5 font-sans">
+                        <div className="flex items-center gap-1.5">
+                          <Clock className="w-3.5 h-3.5 text-raspberry shrink-0" />
+                          <span>{session.time}</span>
+                        </div>
+                        <div className="flex items-center gap-1.5">
+                          <MapPin className="w-3.5 h-3.5 text-raspberry shrink-0" />
+                          <span className="truncate">{session.location}</span>
+                        </div>
                       </div>
                     </div>
 
-                    <h3 className="text-lg md:text-xl font-bold text-deep-teal mb-2 line-clamp-2 leading-snug">
-                      {session.topic}
-                    </h3>
-
-                    <div className="space-y-1.5 text-[14px] text-charcoal/80 mb-5 font-sans">
-                      <div className="flex items-center gap-1.5">
-                        <Clock className="w-3.5 h-3.5 text-raspberry shrink-0" />
-                        <span>{session.time}</span>
+                    <div className="pt-3 border-t border-deep-teal/10 flex flex-col gap-2">
+                      <div className="text-[13px] font-semibold text-charcoal/70 text-center font-sans">
+                        {session.spotsLeft} • 100% Free
                       </div>
-                      <div className="flex items-center gap-1.5">
-                        <MapPin className="w-3.5 h-3.5 text-raspberry shrink-0" />
-                        <span className="truncate">{session.location}</span>
-                      </div>
+                      <Button
+                        onClick={() => onNavigate("workshops")}
+                        variant="secondary"
+                        className="w-full h-auto min-h-[44px] py-2.5 px-3 text-[13.5px] sm:text-[14px] font-semibold whitespace-normal text-center leading-tight gap-1.5 text-deep-teal border-deep-teal/30 hover:bg-deep-teal/5 hover:text-deep-teal active:text-deep-teal focus-visible:text-deep-teal"
+                      >
+                        Reserve Spot (Demo) →
+                      </Button>
                     </div>
-                  </div>
-
-                  <div className="pt-3 border-t border-deep-teal/10 flex flex-col gap-2">
-                    <div className="text-[13px] font-semibold text-charcoal/70 text-center font-sans">
-                      {session.spotsLeft} • 100% Free
-                    </div>
-                    <Button
-                      onClick={() => onNavigate("workshops")}
-                      variant="secondary"
-                      className="w-full h-auto min-h-[44px] py-2.5 px-3 text-[13.5px] sm:text-[14px] font-semibold whitespace-normal text-center leading-tight gap-1.5 text-deep-teal border-deep-teal/30 hover:bg-deep-teal/5 hover:text-deep-teal active:text-deep-teal focus-visible:text-deep-teal"
-                    >
-                      Reserve Spot (Demo) →
-                    </Button>
-                  </div>
-                </Card>
-              );
-            })}
+                  </Card>
+                );
+              })}
             </div>
           </div>
 
-          {/* Youth Voices CTA Banner */}
-          <div className="rounded-2xl bg-deep-teal text-white p-8 md:p-12 flex flex-col md:flex-row items-center justify-between gap-8 shadow-lg">
-            <div className="max-w-xl text-center md:text-left">
-              <h2 className="text-3xl md:text-[42px] lg:text-[48px] font-normal font-serif mb-3 text-white leading-[1.15]">
-                You&apos;re not alone in figuring this out.
-              </h2>
-              <p className="text-[17px] md:text-[18px] text-white/90 m-0 leading-relaxed font-sans">
-                Browse Learn topics, or hear directly from other young people in Youth Voices.
-              </p>
-            </div>
-            <Button
-              onClick={() => onNavigate("voices")}
-              className="bg-raspberry text-white hover:bg-raspberry/90 hover:text-white active:bg-raspberry-dark active:text-white focus-visible:text-white whitespace-nowrap shrink-0 font-bold text-[15px]"
-            >
-              Youth Voices →
-            </Button>
-          </div>
-        </div>
-      </section>
-
-      {/* 5. BOTTOM SECTION: ASK A QUESTION */}
-      <section id="ask-question" className="w-full bg-[#EBF7F6] text-charcoal py-16 md:py-20 border-t border-deep-teal/15 scroll-mt-20 md:scroll-mt-24">
-        <div className="max-w-[1100px] mx-auto px-6 space-y-8">
-          {/* Prominent "Ask a Question" Card */}
+          {/* Card 2: Prominent "Ask a Question" Card */}
           <div className="rounded-3xl bg-white border-2 border-coral p-8 md:p-12 shadow-card flex flex-col md:flex-row items-center justify-between gap-8">
             <div className="max-w-2xl text-center md:text-left">
               <div className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-raspberry mb-2.5 font-sans">
@@ -369,13 +385,32 @@ export function HomeView({ onNavigate, onSelectLang }: HomeViewProps) {
             </div>
           </div>
 
-          {/* Free & Accessible Reassurance */}
+          {/* Card 3: Youth Voices CTA Banner */}
+          <div className="rounded-2xl bg-deep-teal text-white p-8 md:p-12 flex flex-col md:flex-row items-center justify-between gap-8 shadow-lg">
+            <div className="max-w-xl text-center md:text-left">
+              <h2 className="text-3xl md:text-[42px] lg:text-[48px] font-normal font-serif mb-3 text-white leading-[1.15]">
+                You&apos;re not alone in figuring this out.
+              </h2>
+              <p className="text-[17px] md:text-[18px] text-white/90 m-0 leading-relaxed font-sans">
+                Browse Learn topics, or hear directly from other young people in Youth Voices.
+              </p>
+            </div>
+            <Button
+              onClick={() => onNavigate("voices")}
+              className="bg-raspberry text-white hover:bg-raspberry/90 hover:text-white active:bg-raspberry-dark active:text-white focus-visible:text-white whitespace-nowrap shrink-0 font-bold text-[15px]"
+            >
+              Youth Voices →
+            </Button>
+          </div>
+
+          {/* Card 4: Free & Accessible Reassurance */}
           <div className="text-center pt-2">
-            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/80 border border-deep-teal/15 text-xs sm:text-[13.5px] font-semibold text-deep-teal font-sans tracking-wide shadow-2xs">
+            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/90 border border-deep-teal/15 text-xs sm:text-[13.5px] font-semibold text-deep-teal font-sans tracking-wide shadow-2xs">
               <span className="w-2 h-2 rounded-full bg-coral inline-block" aria-hidden="true" />
               <span>All resources are free &amp; accessible</span>
             </span>
           </div>
+
         </div>
       </section>
     </div>
