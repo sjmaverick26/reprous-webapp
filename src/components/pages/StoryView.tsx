@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { BookOpen, Sparkles, MessageSquare, Compass, Lightbulb, Globe, ExternalLink, CheckCircle2 } from "lucide-react";
+import { BookOpen, Sparkles, MessageSquare, Compass, Lightbulb, Globe, ExternalLink, CheckCircle2, Award } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { PageId } from "@/components/layout/Navbar";
@@ -93,7 +93,7 @@ export function StoryView({ onNavigate }: StoryViewProps = {}) {
       yearColor: "text-raspberry",
       iconBg: "bg-soft-pink text-raspberry border border-raspberry/20",
       icon: <Globe className="w-5 h-5 text-raspberry" />,
-      text: "The ReproUs Learning Hub went live so anyone, anywhere could access reliable education — not just in-person attendees.",
+      text: "The ReproUs Learn platform went live so anyone, anywhere could access reliable education — not just in-person attendees.",
     },
     {
       year: "Today",
@@ -104,7 +104,7 @@ export function StoryView({ onNavigate }: StoryViewProps = {}) {
       yearColor: "text-deep-teal",
       iconBg: "bg-light-teal text-deep-teal border border-deep-teal/20",
       icon: <Sparkles className="w-5 h-5 text-deep-teal" />,
-      text: "Free workshops, an ever-expanding multilingual hub, and a growing network of Youth Ambassadors speaking up for their health.",
+      text: "Free workshops, an ever-expanding multilingual platform, and a growing network of Youth Ambassadors speaking up for their health.",
     },
   ];
 
@@ -113,12 +113,12 @@ export function StoryView({ onNavigate }: StoryViewProps = {}) {
       {/* Section 1: Story Hero */}
       <div className="text-center max-w-3xl mx-auto">
         <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-xs font-extrabold font-sans uppercase tracking-wider bg-light-teal/50 text-deep-teal border border-deep-teal/25 mb-3.5 shadow-2xs">
-          <span>✦ OUR STORY</span>
+          <span>✦ ABOUT REPROUS: OUR STORY &amp; MISSION</span>
         </div>
         <h1 className="text-3xl md:text-[42px] lg:text-[46px] font-bold font-serif text-deep-teal leading-[1.16] tracking-tight mb-4">
           Why ReproUs Exists
         </h1>
-        <div className="space-y-3.5 text-center">
+        <div className="space-y-3.5 text-center mb-6">
           <p className="text-[17px] md:text-[19px] font-medium text-deep-teal/90 leading-relaxed font-sans max-w-2xl mx-auto m-0">
             Too many girls grow up knowing what a &ldquo;normal&rdquo; period is supposed to look like &mdash; but not what to do when something feels wrong.
           </p>
@@ -126,6 +126,26 @@ export function StoryView({ onNavigate }: StoryViewProps = {}) {
             For generations, gaps in health research and education have left important questions about girls&apos; and women&apos;s health unanswered, misunderstood, or overlooked. Conditions like PCOS, endometriosis, and the Female Athlete Triad can be difficult to recognize, especially when young people aren&apos;t taught what signs to look for or what questions to ask. We believe understanding your body is the first step toward advocating for your health.
           </p>
         </div>
+
+        {/* Hero Actions: Prominently Differentiated Main CTA */}
+        {onNavigate && (
+          <div className="flex flex-wrap items-center justify-center gap-3.5 pt-1">
+            <button
+              onClick={() => onNavigate("contact", "ambassador")}
+              className="px-6 py-3 rounded-full bg-raspberry text-white font-sans font-bold text-sm md:text-[15px] shadow-md hover:bg-raspberry/90 hover:scale-[1.02] ring-4 ring-raspberry/20 border border-white/20 transition-all flex items-center gap-2 active:scale-95"
+            >
+              <Award className="w-4 h-4" />
+              <span>Become a Youth Ambassador →</span>
+            </button>
+            <button
+              onClick={() => onNavigate("hub")}
+              className="px-6 py-3 rounded-full bg-white text-deep-teal font-sans font-bold text-sm md:text-[15px] border-2 border-deep-teal/30 hover:bg-light-teal/40 transition-all flex items-center gap-2 active:scale-95"
+            >
+              <BookOpen className="w-4 h-4 text-deep-teal" />
+              <span>Explore Health Topics (Learn)</span>
+            </button>
+          </div>
+        )}
       </div>
 
       {/* Section 2: Mission & Core Pillars */}
@@ -261,6 +281,15 @@ export function StoryView({ onNavigate }: StoryViewProps = {}) {
                 <p className="text-[15px] md:text-[15.5px] text-charcoal/85 leading-relaxed m-0 font-sans">
                   {step.text}
                 </p>
+                {step.stepNumber === "04" && onNavigate && (
+                  <button
+                    onClick={() => onNavigate("contact", "ambassador")}
+                    className="mt-3.5 inline-flex items-center gap-1.5 text-xs font-bold text-deep-teal hover:text-raspberry transition-colors font-sans group pt-2.5 border-t border-deep-teal/15 w-full"
+                  >
+                    <span>Become a Youth Ambassador</span>
+                    <span className="group-hover:translate-x-0.5 transition-transform">→</span>
+                  </button>
+                )}
               </div>
             </Card>
           ))}
@@ -532,24 +561,62 @@ export function StoryView({ onNavigate }: StoryViewProps = {}) {
           </div>
 
           {onNavigate && (
-            <div className="mt-8 pt-5 border-t border-white/15 flex flex-col sm:flex-row items-center justify-between gap-4">
-              <span className="text-xs text-white/70 font-sans">
-                Want to dive into our curriculum or read how youth are advocating for themselves?
-              </span>
-              <div className="flex items-center gap-3">
-                <Button
+            <div className="mt-10 pt-8 border-t border-white/20 flex flex-col gap-6">
+              <div className="text-center sm:text-left flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+                <div>
+                  <div className="text-[11.5px] font-bold uppercase tracking-wider text-coral font-sans mb-1 flex items-center gap-1.5">
+                    <Sparkles className="w-3.5 h-3.5 text-coral" />
+                    <span>GET INVOLVED &amp; TAKE ACTION</span>
+                  </div>
+                  <h3 className="text-2xl md:text-3xl font-bold font-serif text-white m-0">
+                    Ready to make a difference in youth reproductive health?
+                  </h3>
+                  <p className="text-[14.5px] text-white/80 font-sans mt-1.5 mb-0 max-w-xl">
+                    Join our student leadership cohort, explore evidence-based health topics, or read real stories from peers advocating for their care.
+                  </p>
+                </div>
+              </div>
+
+              {/* Action Buttons Row: Main CTA Visually Distinct from Surrounding Buttons */}
+              <div className="flex flex-wrap items-center gap-3.5 pt-1">
+                {/* PRIMARY MAIN CALL TO ACTION: High-contrast Coral, glowing ring, elevated shadow, larger size */}
+                <button
+                  onClick={() => onNavigate("contact", "ambassador")}
+                  className="px-8 py-4 rounded-full bg-coral text-plum font-sans font-extrabold text-[15.5px] shadow-lg hover:shadow-xl hover:bg-coral-light hover:scale-[1.03] ring-4 ring-coral/30 border-2 border-white/30 transition-all flex items-center gap-2.5 active:scale-95"
+                >
+                  <Award className="w-5 h-5 text-plum shrink-0" />
+                  <span>Become a Youth Ambassador →</span>
+                </button>
+
+                {/* SURROUNDING SECONDARY BUTTONS: Clean translucent outlines that visually recede */}
+                <button
                   onClick={() => onNavigate("hub")}
-                  variant="outline"
-                  className="text-xs font-bold text-white border-white/30 hover:bg-white/10"
+                  className="px-5 py-3 rounded-full bg-white/10 hover:bg-white/20 text-white font-sans font-semibold text-sm border border-white/30 transition-all flex items-center gap-2 hover:border-white/50 active:scale-95"
                 >
-                  Explore Learning Hub →
-                </Button>
-                <Button
+                  <BookOpen className="w-4 h-4 text-coral shrink-0" />
+                  <span>Explore Health Topics (Learn) →</span>
+                </button>
+
+                <button
                   onClick={() => onNavigate("voices")}
-                  className="text-xs font-bold bg-raspberry text-white hover:bg-raspberry/90"
+                  className="px-5 py-3 rounded-full bg-white/10 hover:bg-white/20 text-white font-sans font-semibold text-sm border border-white/30 transition-all flex items-center gap-2 hover:border-white/50 active:scale-95"
                 >
-                  Visit Youth Voices →
-                </Button>
+                  <MessageSquare className="w-4 h-4 text-coral shrink-0" />
+                  <span>Read Youth Voices →</span>
+                </button>
+
+                <button
+                  onClick={() => onNavigate("workshops")}
+                  className="px-5 py-3 rounded-full bg-white/10 hover:bg-white/20 text-white font-sans font-semibold text-sm border border-white/30 transition-all flex items-center gap-2 hover:border-white/50 active:scale-95"
+                >
+                  <Compass className="w-4 h-4 text-coral shrink-0" />
+                  <span>Book Free Workshops →</span>
+                </button>
+              </div>
+
+              <div className="flex flex-wrap items-center justify-between gap-3 text-xs text-white/60 font-sans pt-2 border-t border-white/10">
+                <span>All programs and learning resources are 100% free, confidential, and evidence-based.</span>
+                <span className="text-coral">Ages 14–24 · Nationwide Student Leadership Network</span>
               </div>
             </div>
           )}

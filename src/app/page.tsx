@@ -69,6 +69,15 @@ export default function App() {
             el.scrollIntoView({ behavior: "smooth", block: "start" });
           }
         }, 60);
+      } else if (page === "contact" && categoryOrTab === "ambassador") {
+        setTimeout(() => {
+          const el = document.getElementById("ambassador-section");
+          if (el) {
+            el.scrollIntoView({ behavior: "smooth", block: "start" });
+          } else {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          }
+        }, 60);
       } else {
         window.scrollTo({ top: 0, behavior: "smooth" });
       }

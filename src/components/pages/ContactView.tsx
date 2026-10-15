@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   MessageSquareHeart,
   Award,
@@ -39,10 +39,14 @@ type ContactTab = "feedback" | "ambassador" | "inquiry";
 export function ContactView({ initialTab = "feedback" }: { initialTab?: ContactTab }) {
   const [activeTab, setActiveTab] = useState<ContactTab>(initialTab);
 
+  useEffect(() => {
+    setActiveTab(initialTab);
+  }, [initialTab]);
+
   // Feedback State
   const [feedbackRating, setFeedbackRating] = useState<number>(5);
   const [feedbackRole, setFeedbackRole] = useState<string>("Youth / Student");
-  const [feedbackCategory, setFeedbackCategory] = useState<string>("Learning Hub & Articles");
+  const [feedbackCategory, setFeedbackCategory] = useState<string>("Health Topics & Lessons");
   const [feedbackText, setFeedbackText] = useState("");
   const [topicSuggestions, setTopicSuggestions] = useState("");
   const [feedbackEmail, setFeedbackEmail] = useState("");
@@ -181,15 +185,30 @@ export function ContactView({ initialTab = "feedback" }: { initialTab?: ContactT
   return (
     <div className="max-w-[1100px] mx-auto px-6 py-12 flex flex-col gap-12">
       {/* Page Header */}
-      <div className="text-center max-w-2xl mx-auto">
-        <div className="text-[13px] md:text-[14px] font-bold uppercase tracking-wider text-berry mb-2 font-sans">
-          Get in Touch &amp; Join the Movement
+      <div className="text-center max-w-3xl mx-auto">
+        <div className="text-[13px] md:text-[14px] font-bold uppercase tracking-wider text-berry mb-2 font-sans flex items-center justify-center gap-1.5">
+          <Sparkles className="w-3.5 h-3.5 text-berry" />
+          <span>
+            {activeTab === "ambassador"
+              ? "YOUTH LEADERSHIP NETWORK"
+              : activeTab === "feedback"
+              ? "COMMUNITY VOICES & SUGGESTIONS"
+              : "GET IN TOUCH WITH REPROUS"}
+          </span>
         </div>
-        <h1 className="text-4xl md:text-[64px] lg:text-[72px] font-normal font-serif text-plum leading-[1.08] mb-4">
-          Contact Us
+        <h1 className="text-4xl md:text-[56px] lg:text-[64px] font-bold font-serif text-plum leading-[1.08] mb-4">
+          {activeTab === "ambassador"
+            ? "ReproUs Youth Ambassadors"
+            : activeTab === "feedback"
+            ? "Program Feedback"
+            : "Contact Us"}
         </h1>
-        <p className="text-[17px] md:text-[19px] text-ink/85 leading-relaxed font-sans">
-          Whether you want to share feedback on our curriculum, apply to become a Youth Ambassador, or bring a free workshop to your school — we&apos;re here for you.
+        <p className="text-[17px] md:text-[19px] text-ink/85 leading-relaxed font-sans max-w-2xl mx-auto">
+          {activeTab === "ambassador"
+            ? "Become a student leader, facilitate peer discussions, bring free workshops to your school, and advocate for reproductive health equity in your community."
+            : activeTab === "feedback"
+            ? "Share anonymous feedback on our curriculum, suggest new topics, and help us improve reproductive health education for everyone."
+            : "Whether you want to bring a free workshop to your school, partner with our clinical advisory network, or ask a question — we're here for you."}
         </p>
       </div>
 
@@ -219,7 +238,7 @@ export function ContactView({ initialTab = "feedback" }: { initialTab?: ContactT
             )}
           >
             <Award className="w-4 h-4" />
-            Become Youth Ambassador
+            Youth Ambassadors
           </button>
 
           <button
@@ -370,7 +389,7 @@ export function ContactView({ initialTab = "feedback" }: { initialTab?: ContactT
                     onChange={(e) => setFeedbackCategory(e.target.value)}
                     className="w-full h-11 px-3 rounded-xl border border-berry/20 bg-cream-card text-[15px] font-semibold font-sans text-ink focus:outline-none focus:ring-2 focus:ring-berry"
                   >
-                    <option value="Learning Hub & Articles">Learning Hub &amp; Articles</option>
+                    <option value="Health Topics & Lessons">Health Topics &amp; Lessons</option>
                     <option value="In-Person Workshops">In-Person Workshops</option>
                     <option value="Q&A & Anonymity">Q&amp;A Section &amp; Anonymity</option>
                     <option value="Myths & Interactive Tools">Myths &amp; Interactive Tools</option>
@@ -446,7 +465,7 @@ export function ContactView({ initialTab = "feedback" }: { initialTab?: ContactT
 
       {/* TAB 2: BECOME YOUTH AMBASSADOR */}
       {activeTab === "ambassador" && (
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start animate-in fade-in duration-200">
+        <div id="ambassador-section" className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start animate-in fade-in duration-200">
           {/* Ambassador Program Overview */}
           <div className="lg:col-span-5 flex flex-col gap-6">
             <Card className="p-7 bg-cream-card border-2 border-yellow-deep shadow-card">
