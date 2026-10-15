@@ -535,34 +535,6 @@ export function HubView({ initialCategory, onNavigate }: HubViewProps) {
               </div>
             </div>
 
-            {/* Featured Interactive Learning Experience: Medical Myth-Buster */}
-            <div className="mb-10">
-              <div className="rounded-3xl p-6 sm:p-7 bg-gradient-to-br from-raspberry via-[#A03558] to-[#781B3C] text-white border-2 border-coral/50 shadow-lg relative overflow-hidden flex flex-col md:flex-row md:items-center justify-between gap-5 text-left">
-                <div className="space-y-2.5 max-w-2xl">
-                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-soft-pink/20 border border-coral/40 text-soft-pink text-xs font-bold uppercase tracking-wider">
-                    <ShieldCheck className="w-3.5 h-3.5 text-coral" />
-                    <span>Clinical Science · Interactive Cards</span>
-                  </div>
-                  <h3 className="text-xl sm:text-2xl font-bold font-serif text-white">
-                    Medical Myth-Buster: Myths vs. Reality
-                  </h3>
-                  <p className="text-sm text-white/90 leading-relaxed font-sans">
-                    Too many girls are told severe pain or missed cycles are &ldquo;normal.&rdquo; Flip through evidence-based cards debunking misconceptions with verified guidelines.
-                  </p>
-                </div>
-                <div className="flex items-center justify-between md:flex-col md:items-end gap-3 pt-3 md:pt-0 border-t md:border-t-0 border-white/15 shrink-0">
-                  <span className="text-xs text-white/80 font-sans">ACOG, Endocrine Society &amp; IOC citations</span>
-                  <Button
-                    onClick={() => onNavigate?.("myths")}
-                    size="sm"
-                    className="bg-white hover:bg-white/95 text-raspberry font-bold px-5 py-2.5 rounded-xl shadow-md hover:scale-105 transition-all text-sm flex items-center gap-2 cursor-pointer border border-white/50"
-                  >
-                    <span>Explore Myths &amp; Facts</span>
-                    <ArrowRight className="w-4 h-4 text-coral" />
-                  </Button>
-                </div>
-              </div>
-            </div>
 
             {/* Category Cards Grouped: Female Athlete Health & Accessibility, Hormonal Health, Reproductive Health */}
             <div className="space-y-12">

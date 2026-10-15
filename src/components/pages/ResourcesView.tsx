@@ -453,6 +453,35 @@ export function ResourcesView({ onNavigate, initialCategory = "all" }: Resources
         </div>
       </div>
 
+      {/* Featured Educational Resource: Medical Myth-Buster (Matte, Non-Shiny) */}
+      {activeCategory === "all" && (
+        <div className="rounded-2xl p-6 sm:p-7 bg-white border-2 border-plum/15 shadow-sm text-left flex flex-col md:flex-row md:items-center justify-between gap-5">
+          <div className="space-y-2.5 max-w-2xl">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-soft-pink/70 border border-raspberry/20 text-raspberry text-xs font-bold uppercase tracking-wider font-sans">
+              <ShieldCheck className="w-3.5 h-3.5 text-raspberry" />
+              <span>Clinical Science · Interactive Cards</span>
+            </div>
+            <h3 className="text-xl sm:text-2xl font-bold font-serif text-plum">
+              Medical Myth-Buster: Myths vs. Reality
+            </h3>
+            <p className="text-sm md:text-[14.5px] text-charcoal/80 leading-relaxed font-sans">
+              Too many girls are told severe pain or missed cycles are &ldquo;normal.&rdquo; Flip through evidence-based cards debunking misconceptions with verified guidelines.
+            </p>
+          </div>
+          <div className="flex items-center justify-between md:flex-col md:items-end gap-3 pt-3 md:pt-0 border-t md:border-t-0 border-plum/10 shrink-0">
+            <span className="text-xs text-charcoal/60 font-sans">ACOG, Endocrine Society &amp; IOC citations</span>
+            <Button
+              onClick={() => onNavigate("myths")}
+              size="sm"
+              className="bg-raspberry hover:bg-raspberry/90 text-white font-bold px-5 py-2.5 rounded-xl shadow-xs text-sm flex items-center gap-2 cursor-pointer"
+            >
+              <span>Explore Myths &amp; Facts</span>
+              <ArrowRight className="w-4 h-4 text-white" />
+            </Button>
+          </div>
+        </div>
+      )}
+
       {/* OVERVIEW CARDS (Visible when activeCategory === "all") */}
       {activeCategory === "all" && (
         <section className="flex flex-col gap-6">
