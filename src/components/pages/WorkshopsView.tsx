@@ -92,7 +92,7 @@ export function WorkshopsView() {
   return (
     <div className="max-w-[1100px] mx-auto px-6 py-12 flex flex-col gap-16">
       {/* Header */}
-      <div className="text-center max-w-2xl mx-auto">
+      <div className="text-center max-w-5xl mx-auto">
         <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-xs font-bold font-sans uppercase tracking-wider bg-amber-50 text-amber-900 border border-amber-300 mb-3 shadow-2xs">
           <Sparkles className="w-3.5 h-3.5 text-amber-600" />
           <span>Workshops &amp; Sessions (Sample Placeholders)</span>
@@ -100,10 +100,10 @@ export function WorkshopsView() {
         <h1 className="text-4xl md:text-[64px] lg:text-[72px] font-normal font-serif text-plum leading-[1.08] mb-4">
           Free, interactive workshops
         </h1>
-        <p className="text-[17px] md:text-[18px] text-ink/80 leading-relaxed mb-3 font-sans">
+        <p className="text-[15px] sm:text-[16px] lg:text-[17px] text-ink/80 leading-relaxed mb-3 font-sans lg:whitespace-nowrap">
           Hands-on 90-minute sessions in schools and community centers. No tests, no awkwardness — just real facts, honest discussion, and practical skills.
         </p>
-        <p className="text-xs text-charcoal/60 font-sans italic m-0">
+        <p className="text-xs text-charcoal/60 font-sans italic m-0 lg:whitespace-nowrap">
           (Note: All workshop dates, locations, schedules, and reviews shown below are sample placeholders for demonstration purposes)
         </p>
       </div>
