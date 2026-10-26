@@ -82,11 +82,6 @@ export function HomeView({ onNavigate, onSelectLang }: HomeViewProps) {
       <section id="commitment" className="w-full bg-deep-teal text-white py-16 md:py-24 scroll-mt-20 md:scroll-mt-24">
         <div className="max-w-[1100px] mx-auto px-6">
           <div className="w-full flex flex-col items-center text-center">
-            <div className="inline-flex items-center gap-2 text-xs font-bold tracking-widest uppercase text-coral mb-4 font-sans">
-              <span className="w-2 h-2 rounded-full bg-coral" />
-              <span>✦ THE REPROUS COMMITMENT</span>
-            </div>
-
             <h2 className="text-xl sm:text-2xl md:text-[26px] lg:text-[28px] xl:text-[32px] font-bold font-serif text-white leading-tight mb-4 tracking-tight text-center max-w-none md:whitespace-nowrap">
               You shouldn&apos;t need to become an expert to be taken seriously.
             </h2>
