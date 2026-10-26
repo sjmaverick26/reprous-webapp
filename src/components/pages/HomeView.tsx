@@ -147,10 +147,10 @@ export function HomeView({ onNavigate, onSelectLang }: HomeViewProps) {
               </div>
 
               {/* Box 3: ADVOCATE (Pink / Raspberry) */}
-              <div className="rounded-2xl p-6 bg-soft-pink/15 border-2 border-soft-pink/70 shadow-md flex flex-col items-center justify-between text-center hover:bg-soft-pink/20 hover:border-soft-pink transition-all">
+              <div className="rounded-2xl p-6 bg-soft-pink/15 border-2 border-soft-pink/70 shadow-md flex flex-col items-center justify-center text-center hover:bg-soft-pink/20 hover:border-soft-pink transition-all">
                 <div className="flex flex-col items-center w-full text-center">
                   <button
-                    onClick={() => onNavigate("qa", "ask")}
+                    onClick={() => onNavigate("hub")}
                     className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-full bg-soft-pink text-raspberry font-extrabold text-xs tracking-wider uppercase shadow-xs mb-4 mx-auto cursor-pointer hover:scale-105 transition-transform"
                     aria-label="Advocate: Speak up with confidence"
                   >
@@ -164,13 +164,6 @@ export function HomeView({ onNavigate, onSelectLang }: HomeViewProps) {
                     Build the vocabulary, questions, and symptom logs to be taken seriously by clinicians, parents, and coaches.
                   </p>
                 </div>
-                <button
-                  onClick={() => onNavigate("qa", "ask")}
-                  className="mt-5 inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-soft-pink hover:underline cursor-pointer"
-                >
-                  <span>Ask a Question</span>
-                  <ArrowRight className="w-3 h-3 text-coral" />
-                </button>
               </div>
             </div>
           </div>
