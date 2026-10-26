@@ -176,6 +176,14 @@ export function FullPageLessonExperience({
   const roleplayScenarios = getTopicRoleplayScenarios(topic, categoryId);
   const activeScenario = roleplayScenarios[activeSimulationIdx] || roleplayScenarios[0];
 
+  const isAdvocateLesson =
+    topic.isAdvocateCapstone ||
+    topic.name.toLowerCase().includes("advocate") ||
+    topic.name.toLowerCase().includes("rights") ||
+    topic.id.toLowerCase().includes("advocate") ||
+    Boolean(topic.roleplayScenarios && topic.roleplayScenarios.length > 0) ||
+    Boolean(topic.roleplayScenario);
+
   const advocacyData = topic.advocacyScript || {
     situation: `When discussing ${topic.name.toLowerCase()} or questions about your body with a physician, gynecologist, or nurse practitioner.`,
     doctorScript: `“I have questions and observations regarding ${topic.name.toLowerCase()}. Here is what I have been tracking over recent cycles. What clinical evaluation or diagnostic steps do you recommend to investigate this further?”`,
@@ -272,6 +280,147 @@ export function FullPageLessonExperience({
     return null;
   };
 
+  // Shared Multi-Stage Roleplay Simulation Suite Renderer
+  const renderRoleplaySuite = (contextNotice?: string) => {
+    if (roleplayScenarios.length === 0) return null;
+
+    return (
+      <div className="space-y-6">
+        <div className="p-4 sm:p-5 rounded-2xl bg-soft-pink/50 border border-raspberry/20 text-raspberry text-xs sm:text-sm font-sans flex items-start justify-between gap-3 flex-wrap">
+          <div className="flex items-start gap-2.5">
+            <MessageSquare className="w-4 h-4 text-raspberry shrink-0 mt-0.5" />
+            <span>
+              {contextNotice ||
+                "Practice clinical self-advocacy in realistic simulations. Choose the response that establishes your symptoms and cites clinical guidelines."}
+            </span>
+          </div>
+          <span className="text-xs font-bold text-raspberry font-sans bg-white px-2.5 py-1 rounded-full border border-raspberry/30">
+            {roleplayScenarios.length} Interactive Scenarios
+          </span>
+        </div>
+
+        {/* Multi-Simulation Track Selector Tabs */}
+        {roleplayScenarios.length > 1 && (
+          <div className="rounded-3xl border-2 border-raspberry/20 bg-gradient-to-r from-raspberry/5 via-white to-light-teal/15 p-4 sm:p-5 space-y-3 shadow-2xs">
+            <div className="flex items-center justify-between gap-3 flex-wrap text-xs font-sans">
+              <span className="font-bold text-deep-teal uppercase tracking-wider flex items-center gap-1.5">
+                <Sparkles className="w-4 h-4 text-raspberry" />
+                <span>
+                  Clinical Simulation Track ({activeSimulationIdx + 1} of {roleplayScenarios.length}):
+                </span>
+              </span>
+              <span className="font-bold text-emerald-800 bg-emerald-100/90 px-3 py-1 rounded-full text-xs border border-emerald-300 shadow-2xs">
+                {Object.values(simulationBonuses).filter(Boolean).length} of {roleplayScenarios.length} Scenarios Solved · +
+                {Object.values(simulationBonuses).filter(Boolean).length * 30} XP
+              </span>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              {roleplayScenarios.map((sim, idx) => {
+                const isSimActive = activeSimulationIdx === idx;
+                const isSolved = simulationBonuses[idx];
+                return (
+                  <button
+                    key={idx}
+                    type="button"
+                    onClick={() => setActiveSimulationIdx(idx)}
+                    className={`flex items-center justify-between gap-2.5 p-3 rounded-2xl border-2 text-left transition-all cursor-pointer font-sans text-xs sm:text-[13px] ${
+                      isSimActive
+                        ? "bg-raspberry text-white border-raspberry shadow-sm font-bold scale-[1.01]"
+                        : isSolved
+                        ? "bg-emerald-50 text-emerald-950 border-emerald-300 font-semibold hover:bg-emerald-100"
+                        : "bg-white text-charcoal/80 border-slate-200 hover:border-deep-teal/40 font-medium hover:bg-slate-50"
+                    }`}
+                  >
+                    <div className="flex items-center gap-2 min-w-0">
+                      <span
+                        className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold shrink-0 ${
+                          isSimActive
+                            ? "bg-white text-raspberry"
+                            : isSolved
+                            ? "bg-emerald-600 text-white"
+                            : "bg-slate-200 text-charcoal/70"
+                        }`}
+                      >
+                        {isSolved ? <Check className="w-3.5 h-3.5" /> : idx + 1}
+                      </span>
+                      <span className="truncate">{sim.phaseName || sim.title || `Simulation ${idx + 1}`}</span>
+                    </div>
+                    <span
+                      className={`text-[10px] font-bold px-2 py-0.5 rounded-full shrink-0 ${
+                        isSimActive
+                          ? "bg-white/20 text-white"
+                          : isSolved
+                          ? "bg-emerald-200 text-emerald-900"
+                          : "bg-slate-100 text-charcoal/60"
+                      }`}
+                    >
+                      +30 XP
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
+        {/* Interactive Consultation Stage with Animated Characters */}
+        <RoleplayInteractiveStage
+          scenario={activeScenario}
+          selectedOption={simulationSelections[activeSimulationIdx] ?? null}
+          onSelectOption={(idx) => {
+            setSimulationSelections((prev) => ({ ...prev, [activeSimulationIdx]: idx }));
+            if (activeScenario.options[idx].isBest && !simulationBonuses[activeSimulationIdx]) {
+              setSimulationBonuses((prev) => ({ ...prev, [activeSimulationIdx]: true }));
+            }
+          }}
+          bonusEarned={simulationBonuses[activeSimulationIdx] ?? false}
+          simulationIndex={activeSimulationIdx}
+          totalSimulations={roleplayScenarios.length}
+          simulationTitle={
+            activeScenario.phaseName ||
+            activeScenario.title ||
+            `Simulation ${activeSimulationIdx + 1} of ${roleplayScenarios.length}`
+          }
+          onNextSimulation={
+            activeSimulationIdx < roleplayScenarios.length - 1
+              ? () => setActiveSimulationIdx((prev) => prev + 1)
+              : undefined
+          }
+          topicId={topic.id}
+          categoryId={categoryId}
+        />
+
+        {/* Clinical Evidence & Guidelines Source Box */}
+        {activeScenario.sourceCitation && (
+          <div className="rounded-3xl border-2 border-emerald-600/25 bg-emerald-50/80 p-5 sm:p-6 text-xs font-sans text-emerald-950 space-y-3 shadow-2xs">
+            <div className="flex items-start justify-between gap-3 flex-wrap">
+              <div className="flex items-center gap-2.5">
+                <div className="w-8 h-8 rounded-xl bg-emerald-600 text-white flex items-center justify-center font-bold text-xs shadow-2xs">
+                  ✦
+                </div>
+                <div>
+                  <h5 className="font-serif font-bold text-emerald-950 text-sm sm:text-base">
+                    Clinical Evidence &amp; Guideline Authority
+                  </h5>
+                  <p className="text-xs text-emerald-800 font-sans">
+                    {activeScenario.sourceCitation.organization}
+                  </p>
+                </div>
+              </div>
+              <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-white border border-emerald-300 text-emerald-900 font-bold text-xs shadow-2xs">
+                {activeScenario.sourceCitation.year}
+              </span>
+            </div>
+            <p className="text-xs sm:text-sm text-emerald-900/90 leading-relaxed font-sans italic border-l-2 border-emerald-600 pl-3 py-0.5">
+              &ldquo;{activeScenario.sourceCitation.guideline}&rdquo;
+            </p>
+          </div>
+        )}
+      </div>
+    );
+  };
+
   // Step 3 Interactive Activity Renderer
   const renderInteractiveActivity = () => {
     // 1. Athlete Arcade / Fuel Up (play-1)
@@ -343,38 +492,9 @@ export function FullPageLessonExperience({
       );
     }
 
-    // 5. Doctor-Patient Roleplay Simulation
-    if (roleplayScenarios.length > 0 && (topic.roleplayScenarios || topic.isAdvocateCapstone)) {
-      return (
-        <div className="space-y-6">
-          <div className="p-4 sm:p-5 rounded-2xl bg-soft-pink/50 border border-raspberry/20 text-raspberry text-xs sm:text-sm font-sans flex items-start gap-2.5">
-            <MessageSquare className="w-4 h-4 text-raspberry shrink-0 mt-0.5" />
-            <span>
-              Practice clinical self-advocacy in a realistic doctor appointment simulation. Choose the response that establishes your symptoms clearly.
-            </span>
-          </div>
-          <RoleplayInteractiveStage
-            scenario={activeScenario}
-            selectedOption={simulationSelections[activeSimulationIdx] ?? null}
-            onSelectOption={(idx) => {
-              setSimulationSelections((prev) => ({ ...prev, [activeSimulationIdx]: idx }));
-            }}
-            bonusEarned={simulationBonuses[activeSimulationIdx] ?? false}
-            simulationIndex={activeSimulationIdx}
-            totalSimulations={roleplayScenarios.length}
-            simulationTitle={`Simulation ${activeSimulationIdx + 1} of ${roleplayScenarios.length}`}
-            onNextSimulation={
-              activeSimulationIdx < roleplayScenarios.length - 1
-                ? () => {
-                    setActiveSimulationIdx((prev) => prev + 1);
-                  }
-                : undefined
-            }
-            topicId={topic.id}
-            categoryId={categoryId}
-          />
-        </div>
-      );
+    // 5. Doctor, Coach & Community Advocacy Roleplay Simulation (Included for all advocacy capstones & topics with scenarios)
+    if (roleplayScenarios.length > 0 && (isAdvocateLesson || topic.roleplayScenarios || topic.roleplayScenario)) {
+      return renderRoleplaySuite();
     }
 
     // 6. Labeled Interactive Anatomical or Physiological Diagram
@@ -871,10 +991,12 @@ export function FullPageLessonExperience({
                 <span>Step 3 of 5 · Hands-On Interactive Activity</span>
               </div>
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-bold text-deep-teal mb-3">
-                Put Knowledge Into Practice
+                {isAdvocateLesson ? "Clinical & Self-Advocacy Simulation" : "Put Knowledge Into Practice"}
               </h2>
               <p className="text-base sm:text-lg text-charcoal/85 leading-relaxed font-sans max-w-4xl">
-                Learning health concepts is most effective when you can interact, test scenarios, and manipulate visual models directly.
+                {isAdvocateLesson
+                  ? "Step into realistic clinical consultations. Practice presenting objective symptom data, responding to provider pushback, and citing accredited guidelines."
+                  : "Learning health concepts is most effective when you can interact, test scenarios, and manipulate visual models directly."}
               </p>
             </div>
 
@@ -969,7 +1091,7 @@ export function FullPageLessonExperience({
                 Taking Action With Confidence
               </h2>
               <p className="text-base sm:text-lg text-charcoal/85 leading-relaxed font-sans max-w-4xl">
-                Knowledge matters most when you can use it in the real world. Here is your practical communication blueprint for clinical appointments.
+                Knowledge matters most when you can use it in the real world. Here is your practical communication blueprint and interactive roleplay rehearsal for clinical appointments.
               </p>
             </div>
 
@@ -1037,6 +1159,26 @@ export function FullPageLessonExperience({
                 </div>
               </div>
             </div>
+
+            {/* Interactive Roleplay Practice Studio (Available for all Advocacy Lessons) */}
+            {roleplayScenarios.length > 0 && isAdvocateLesson && (
+              <div className="pt-6 border-t border-deep-teal/15 space-y-6">
+                <div>
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold tracking-wider uppercase bg-soft-pink text-raspberry border border-raspberry/20 mb-2 font-sans">
+                    <Gamepad2 className="w-3.5 h-3.5" />
+                    <span>Interactive Rehearsal Studio</span>
+                  </div>
+                  <h3 className="text-2xl sm:text-3xl font-serif font-bold text-deep-teal mb-2">
+                    Practice Your Clinical &amp; Self-Advocacy Roleplays
+                  </h3>
+                  <p className="text-sm sm:text-base text-charcoal/80 font-sans leading-relaxed max-w-3xl">
+                    Rehearse your responses against realistic clinical and institutional pushback. Select each scenario to test your dialogue choices, earn +30 XP bonuses, and review accredited guidelines.
+                  </p>
+                </div>
+
+                {renderRoleplaySuite("Live Dialogue Rehearsal: Practice speaking up to providers, coaches, and administrators.")}
+              </div>
+            )}
 
             {/* Big Complete Lesson & Claim XP Card */}
             <div className="rounded-3xl p-8 sm:p-10 bg-gradient-to-br from-deep-teal via-teal-900 to-deep-teal-dark text-white shadow-xl text-center space-y-4">

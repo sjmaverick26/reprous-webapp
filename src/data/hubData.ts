@@ -3112,7 +3112,10 @@ export function getTopicClinicalQuote(topic: HubTopic, categoryId?: string): Cli
  * Stage 3: Specialist Referral & Official Chart Refusal Accountability
  */
 export function getTopicRoleplayScenarios(topic: HubTopic, categoryId?: string): RoleplayScenario[] {
-  const matchedCat = categoryId || topic.id.split("-")[0];
+  const topicCatPrefix = topic.id.split("-")[0];
+  const matchedCat = (categoryId && (categoryId in { body: 1, cycle: 1, play: 1, pcos: 1, endo: 1, mind: 1, realtalk: 1, factors: 1, conditions: 1 }))
+    ? categoryId
+    : (topicCatPrefix in { body: 1, cycle: 1, play: 1, pcos: 1, endo: 1, mind: 1, realtalk: 1, factors: 1, conditions: 1 } ? topicCatPrefix : "factors");
 
   const categoryScenarios: Record<string, RoleplayScenario[]> = {
     body: [
@@ -4255,17 +4258,20 @@ export function getTopicRoleplayScenarios(topic: HubTopic, categoryId?: string):
     return topic.roleplayScenarios;
   }
 
-  // If topic has a single custom scenario, return it directly so the simulation precisely matches the lesson
+  // If topic has a single custom scenario, return it along with remaining category scenarios so users get the full 3-stage roleplay suite
   if (topic.roleplayScenario) {
+    const categoryDefaults = categoryScenarios[matchedCat] || categoryScenarios.play || [];
+    const remaining = categoryDefaults.filter((s) => s.id !== topic.roleplayScenario?.id);
     return [
       {
         ...topic.roleplayScenario,
         phaseName: topic.roleplayScenario.phaseName || "1. Self-Advocacy Simulation",
       },
+      ...remaining,
     ];
   }
 
-  return categoryScenarios[matchedCat] || categoryScenarios.body;
+  return categoryScenarios[matchedCat] || categoryScenarios.factors || categoryScenarios.body;
 }
 
 /**

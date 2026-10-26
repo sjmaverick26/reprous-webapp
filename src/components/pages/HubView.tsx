@@ -288,22 +288,26 @@ export function HubView({ initialCategory, onNavigate }: HubViewProps) {
 
   // FULL-PAGE LESSON WORKSPACE: When a user clicks "Start Lesson", take over the entire page view
   if (selectedTopic) {
+    const topicCatId = selectedTopic.id.split("-")[0];
+    const effectiveCatId = HUB_CATEGORIES[topicCatId] ? topicCatId : (activeCategoryId || "factors");
+    const effectiveCategory = HUB_CATEGORIES[effectiveCatId] || activeCategory;
+
     return (
       <FullPageLessonExperience
         topic={selectedTopic}
-        categoryId={activeCategoryId || "play"}
-        categoryTitle={activeCategory?.title || "Learn Hub"}
-        categoryBadge={activeCategory?.badge || "Health Education"}
+        categoryId={effectiveCatId}
+        categoryTitle={effectiveCategory?.title || "Learn Hub"}
+        categoryBadge={effectiveCategory?.badge || "Health Education"}
         onBack={closeTopic}
         onComplete={handleCompleteTopic}
         isCompleted={completedTopics.has(selectedTopic.id)}
         onNavigateToTopic={(topicId) => {
-          const found = activeCategory?.topics.find((t) => t.id === topicId);
+          const found = effectiveCategory?.topics.find((t) => t.id === topicId);
           if (found) {
             openTopic(found);
           }
         }}
-        siblingTopics={activeCategory?.topics || []}
+        siblingTopics={effectiveCategory?.topics || []}
       />
     );
   }
