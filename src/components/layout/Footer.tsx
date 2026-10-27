@@ -22,7 +22,6 @@ export function Footer({ onNavigate, currentLang = "en", onSelectLang }: FooterP
     { id: "voices", label: "Youth Voices & Q&A" },
     { id: "contact", tab: "ambassador", label: "Youth Ambassadors" },
     { id: "contact", label: "Contact Us" },
-    { id: "voices", tab: "qa", label: "Ask a Question →" },
   ];
 
   return (

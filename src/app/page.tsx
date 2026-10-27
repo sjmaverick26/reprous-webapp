@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { Navbar, PageId } from "@/components/layout/Navbar";
 import { LanguageBar } from "@/components/layout/LanguageBar";
 import { Footer } from "@/components/layout/Footer";
+import { ScrollProgressIndicator } from "@/components/layout/ScrollProgressIndicator";
 import { HomeView } from "@/components/pages/HomeView";
 import { StoryView } from "@/components/pages/StoryView";
 import { HubView } from "@/components/pages/HubView";
@@ -132,6 +133,9 @@ export default function App() {
         currentLang={currentLang}
         onSelectLang={setCurrentLang}
       />
+
+      {/* Slide-Down Scroll Progress Indicator on the Right */}
+      <ScrollProgressIndicator pageId={activePage} />
     </div>
   );
 }

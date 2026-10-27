@@ -50,6 +50,7 @@ import {
   RotterdamCriteriaRadar,
   ContraceptionEfficacyPyramid,
 } from "@/components/shared/LessonVisualCharts";
+import { ScrollProgressIndicator } from "@/components/layout/ScrollProgressIndicator";
 
 interface FullPageLessonExperienceProps {
   topic: HubTopic;
@@ -1301,6 +1302,12 @@ export function FullPageLessonExperience({
           </Button>
         </div>
       </footer>
+
+      {/* Slide-Down Scroll Progress Indicator on the Right */}
+      <ScrollProgressIndicator
+        containerRef={scrollContainerRef}
+        pageId={`lesson-${topic.id}-step-${currentStep}`}
+      />
     </div>
   );
 }
