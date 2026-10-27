@@ -23,6 +23,7 @@ import {
   ArrowRight,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { DictionaryHighlight } from "./DictionaryHighlight";
 
 // ============================================================================
 // 1. INTERACTIVE HORMONE WAVE & UTERINE LINING CHART (MENSTRUAL CYCLE LAB)
@@ -519,156 +520,602 @@ export function CycleVitalSignsDashboard() {
 // ============================================================================
 
 export function TannerProgressionChart() {
+  const [activeTab, setActiveTab] = useState<"milestones" | "anatomy" | "hormones">("milestones");
   const [activeStage, setActiveStage] = useState<number>(2);
+  const [selectedOrgan, setSelectedOrgan] = useState<string>("uterus");
 
   const STAGES = [
     {
       stage: 1,
-      title: "Stage I: Prepubertal",
+      title: "Stage 1: Pre-Puberty Prep",
       ageRange: "Ages <8–10",
-      neuroendocrine: "Hypothalamic GnRH release remains dormant in childhood quiescence.",
-      breastDevelopment: "Elevation of papilla only (no glandular breast bud tissue).",
-      pubicHair: "Vellus hair only, identical to abdomen.",
-      growthVelocity: "Steady childhood growth rate: ~5–6 cm per year.",
-      takeaway: "Baseline physiological state before the neuroendocrine clock wakes up.",
+      simpleHeadline: "Your body is growing steadily at its childhood pace.",
+      brainSignal: "The brain's command center is resting quietly before sending pubertal growth messengers.",
+      breastDevelopment: "No breast buds yet; your chest is completely flat with normal childhood contour.",
+      hairAndSkin: "Fine, soft baby hair only, identical to arms and tummy.",
+      growthVelocity: "Steady childhood growth rate of about 2 inches per year.",
+      takeaway: "Every body begins puberty on its own personal genetic clock. Starting earlier or later is completely natural!",
     },
     {
       stage: 2,
-      title: "Stage II: Thelarche (Budding)",
+      title: "Stage 2: First Buds",
       ageRange: "Ages 8–13",
-      neuroendocrine: "Pulsatile nocturnal GnRH pulses stimulate pituitary LH/FSH secretion.",
-      breastDevelopment: "Thelarche: Firm glandular breast bud palpable under areola.",
-      pubicHair: "Pubarche: Sparse, lightly pigmented straight hair along labia majora.",
-      growthVelocity: "Initial acceleration in somatic height velocity begins.",
-      takeaway: "The true clinical onset of female puberty. Typically occurs 2 to 2.5 years before first period.",
+      simpleHeadline: "The first physical sign of puberty begins.",
+      brainSignal: "Your brain sends gentle signals to your ovaries to wake up and begin producing estrogen.",
+      breastDevelopment: "Thelarche: Small, firm, tender breast buds appear under the areolas. Often one side buds before the other!",
+      hairAndSkin: "Sparse, fine, soft hair begins to appear.",
+      growthVelocity: "Your growth spurt starts revving up.",
+      takeaway: "Asymmetry in breast budding is 100% normal and evens out as tissue matures over the next few years.",
     },
     {
       stage: 3,
-      title: "Stage III: Further Enlargement",
+      title: "Stage 3: Growth Spurt & Curves",
       ageRange: "Ages 10–14",
-      neuroendocrine: "Sustained daytime GnRH pulsatility; rising systemic estrogen.",
-      breastDevelopment: "Enlargement of breast and areola with continuous contour.",
-      pubicHair: "Considerably darker, coarser, curlier hair spreading over junction of pubes.",
-      growthVelocity: "Approaching Peak Height Velocity (~8 cm/year).",
-      takeaway: "Body composition naturally shifts, depositing healthy pelvic and thigh adipose reserves.",
+      simpleHeadline: "Growth accelerates and curves naturally develop.",
+      brainSignal: "Estrogen levels rise steadily, protecting bone density and strengthening your muscles.",
+      breastDevelopment: "Breasts continue to round and gently enlarge naturally.",
+      hairAndSkin: "Body hair becomes darker and curlier; sweat glands become more active.",
+      growthVelocity: "Peak height growth spurt (often 3+ inches in a single year!).",
+      takeaway: "Widening hips and softer tissue are healthy biological milestones designed to protect your bones and vitality.",
     },
     {
       stage: 4,
-      title: "Stage IV: Secondary Mound",
+      title: "Stage 4: First Period (Menarche)",
       ageRange: "Ages 11–15",
-      neuroendocrine: "Robust estrogen feedback; priming of endometrial receptors.",
-      breastDevelopment: "Areola and papilla project above contour of breast to form a secondary mound.",
-      pubicHair: "Adult in type and curl, covering pubis but sparing medial thighs.",
-      growthVelocity: "Peak Height Velocity achieved; Menarche (first period) typically occurs here.",
-      takeaway: "Average age of menarche in the US is 12.4 years. Early cycles are frequently anovulatory.",
+      simpleHeadline: "Menstruation begins as the brain and ovaries synchronize.",
+      brainSignal: "Rising estrogen primes the endometrium (soft inner lining) to build up and cycle.",
+      breastDevelopment: "The areola forms a small secondary contour above the breast curve.",
+      hairAndSkin: "Adult hair pattern fills in; skin oil glands may cause temporary breakouts.",
+      growthVelocity: "Height growth naturally slows down after your first period arrives.",
+      takeaway: "Average age of menarche is 12.4 years. Early cycles are frequently irregular for the first 1–2 years while your body syncs!",
     },
     {
       stage: 5,
-      title: "Stage V: Adult Maturity",
-      ageRange: "Ages 12–18+",
-      neuroendocrine: "Mature positive feedback loop established between ovaries and pituitary.",
-      breastDevelopment: "Mature contour: recession of areola to general contour with projecting papilla.",
-      pubicHair: "Adult quantity and inverted triangle distribution, spreading to medial thighs.",
-      growthVelocity: "Epiphyseal plate fusion under estrogen influence; adult height reached.",
-      takeaway: "Full biological maturity. Cycles mature into regular ovulatory rhythm within 1–2 years.",
+      title: "Stage 5: Adult Rhythm",
+      ageRange: "Ages 14–18+",
+      simpleHeadline: "Your body reaches full reproductive maturity.",
+      brainSignal: "A mature, coordinated feedback loop is established between your brain and ovaries.",
+      breastDevelopment: "Full mature breast contour with smooth, balanced curves.",
+      hairAndSkin: "Adult hair distribution; skin oil glands stabilize as hormones balance out.",
+      growthVelocity: "Adult height is achieved; bones achieve peak lifelong density.",
+      takeaway: "Your menstrual cycle settles into its personal regular rhythm (typically 21 to 35 days).",
     },
   ];
 
   const current = STAGES[activeStage - 1];
 
+  const ORGANS: Record<
+    string,
+    {
+      name: string;
+      nickname: string;
+      color: string;
+      bgClass: string;
+      borderClass: string;
+      whatItDoes: React.ReactNode;
+      whyItMatters: React.ReactNode;
+      doctorTip: React.ReactNode;
+    }
+  > = {
+    uterus: {
+      name: "The Uterus (Womb)",
+      nickname: "The Muscular Home",
+      color: "#F47A6A",
+      bgClass: "bg-[#FFE1DB]",
+      borderClass: "border-coral",
+      whatItDoes: (
+        <span>
+          A hollow, strong pear-shaped muscle about the size of a fist. During periods, it flexes gently to shed its lining. If someone gets pregnant, it expands safely to hold a baby.
+        </span>
+      ),
+      whyItMatters: (
+        <span>
+          Mild cramps occur when this muscle flexes. Debilitating cramps mean that high chemicals or secondary conditions like{" "}
+          <DictionaryHighlight term="Endometriosis">Endometriosis</DictionaryHighlight> or{" "}
+          <DictionaryHighlight term="Uterine anomalies">Uterine anomalies or fibroids</DictionaryHighlight> warrant an evaluation.
+        </span>
+      ),
+      doctorTip: (
+        <span>
+          Doctors can check its position and health on a quick, painless ultrasound. Having a tilted (retroverted) uterus is totally normal!
+        </span>
+      ),
+    },
+    endometrium: {
+      name: "The Endometrium",
+      nickname: "The Plush Monthly Cushion",
+      color: "#E11D48",
+      bgClass: "bg-rose-100",
+      borderClass: "border-rose-300",
+      whatItDoes: (
+        <span>
+          The soft, velvety inner lining of your uterus. <DictionaryHighlight term="Estrogen">Estrogen</DictionaryHighlight> builds it up each month into a cushion; when pregnancy doesn't occur,{" "}
+          <DictionaryHighlight term="Progesterone">Progesterone</DictionaryHighlight> drops and it gently sheds as your period flow.
+        </span>
+      ),
+      whyItMatters: (
+        <span>
+          If tissue similar to the <DictionaryHighlight term="Endometrium">Endometrium</DictionaryHighlight> grows outside the uterus, it is called{" "}
+          <DictionaryHighlight term="Endometriosis">Endometriosis</DictionaryHighlight>. If it burrows into uterine muscle, it is{" "}
+          <DictionaryHighlight term="Adenomyosis">Adenomyosis</DictionaryHighlight>.
+        </span>
+      ),
+      doctorTip: (
+        <span>
+          Measured in millimeters on ultrasound. A healthy endometrium naturally changes thickness depending on your cycle phase.
+        </span>
+      ),
+    },
+    ovaries: {
+      name: "The Ovaries (Twin Glands)",
+      nickname: "The Egg & Hormone Twins",
+      color: "#175B5C",
+      bgClass: "bg-light-teal",
+      borderClass: "border-deep-teal",
+      whatItDoes: (
+        <span>
+          Two almond-sized powerhouses on either side of your uterus. They hold all your eggs and produce your body's vital sex hormones:{" "}
+          <DictionaryHighlight term="Estrogen">Estrogen</DictionaryHighlight> and{" "}
+          <DictionaryHighlight term="Progesterone">Progesterone</DictionaryHighlight>.
+        </span>
+      ),
+      whyItMatters: (
+        <span>
+          Every month, one ovary releases a mature egg during <DictionaryHighlight term="Ovulation">Ovulation</DictionaryHighlight>. Healthy ovaries provide steady physical energy, radiant skin, and strong bones!
+        </span>
+      ),
+      doctorTip: (
+        <span>
+          When ovaries have trouble releasing eggs regularly due to insulin or androgen signals, doctors evaluate for conditions like PCOS.
+        </span>
+      ),
+    },
+    cervix: {
+      name: "The Cervix",
+      nickname: "The Smart Doorway",
+      color: "#D97706",
+      bgClass: "bg-amber-100",
+      borderClass: "border-amber-400",
+      whatItDoes: (
+        <span>
+          The strong doorway connecting the bottom of your uterus to the vagina canal. It makes healthy, natural fluids that change texture across your cycle.
+        </span>
+      ),
+      whyItMatters: (
+        <span>
+          Noticing clear, stretchy fluid like raw egg whites means <DictionaryHighlight term="Ovulation">Ovulation</DictionaryHighlight> is happening! The cervix also naturally keeps bacteria out of the sterile uterus.
+        </span>
+      ),
+      doctorTip: (
+        <span>
+          Adolescents do not need Pap smears until age 21! Routine adolescent pelvic checks are gentle and explanatory.
+        </span>
+      ),
+    },
+    tubes: {
+      name: "The Fallopian Tubes",
+      nickname: "The Gentle Connecting Bridges",
+      color: "#991B4B",
+      bgClass: "bg-soft-pink",
+      borderClass: "border-raspberry",
+      whatItDoes: (
+        <span>
+          Two delicate tubes with soft, wave-like fingers (cilia) that gently sweep the egg from the ovary toward the uterus each month.
+        </span>
+      ),
+      whyItMatters: (
+        <span>
+          Fertilization naturally takes place inside these tubes. Protecting your body from untreated infections keeps these delicate tubes open and healthy.
+        </span>
+      ),
+      doctorTip: (
+        <span>
+          They are about the width of a strand of spaghetti and stay healthy with good hydration, routine screening, and anti-inflammatory nutrition.
+        </span>
+      ),
+    },
+  };
+
+  const currentOrgan = ORGANS[selectedOrgan];
+
   return (
     <div className="rounded-3xl border-2 border-deep-teal/20 bg-white p-5 sm:p-7 shadow-sm space-y-5 font-sans">
+      {/* Header with Visual Mode Tabs */}
       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-deep-teal/10 pb-4">
         <div>
           <div className="flex items-center gap-2">
             <span className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-xs font-bold uppercase tracking-wider bg-coral text-white shadow-2xs">
               <Sparkles className="w-3.5 h-3.5" />
-              <span>Puberty Staging Continuum</span>
+              <span>Body Basics Interactive Visual Lab</span>
             </span>
             <span className="text-xs font-bold text-deep-teal bg-light-teal px-2.5 py-0.5 rounded-full">
-              AAP & FIGO Clinical SMR Rating
+              Tap Yellow Words for Dictionary
             </span>
           </div>
           <h4 className="text-2xl sm:text-3xl font-serif font-bold text-deep-teal mt-1">
-            Tanner Sexual Maturity Rating (Stages I–V)
+            Anatomy, Puberty &amp; Hormone Visual Explorer
           </h4>
         </div>
-        <span className="text-xs sm:text-sm font-semibold text-charcoal/70">
-          Biological progression is individual · chronological age varies widely!
-        </span>
+
+        {/* 3 View Tabs */}
+        <div className="flex items-center gap-1.5 p-1 rounded-2xl bg-slate-100 border border-slate-200">
+          <button
+            type="button"
+            onClick={() => setActiveTab("milestones")}
+            className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+              activeTab === "milestones"
+                ? "bg-white text-deep-teal shadow-xs border border-deep-teal/20"
+                : "text-charcoal/70 hover:text-charcoal"
+            }`}
+          >
+            Puberty Milestones
+          </button>
+          <button
+            type="button"
+            onClick={() => setActiveTab("anatomy")}
+            className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+              activeTab === "anatomy"
+                ? "bg-white text-deep-teal shadow-xs border border-deep-teal/20"
+                : "text-charcoal/70 hover:text-charcoal"
+            }`}
+          >
+            Interactive Anatomy Map
+          </button>
+          <button
+            type="button"
+            onClick={() => setActiveTab("hormones")}
+            className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+              activeTab === "hormones"
+                ? "bg-white text-deep-teal shadow-xs border border-deep-teal/20"
+                : "text-charcoal/70 hover:text-charcoal"
+            }`}
+          >
+            Hormone Helpers
+          </button>
+        </div>
       </div>
 
-      {/* 5-Step Stage Selector Pills */}
-      <div className="grid grid-cols-2 sm:grid-cols-5 gap-2">
-        {STAGES.map((s) => {
-          const isActive = activeStage === s.stage;
-          return (
-            <button
-              key={s.stage}
-              type="button"
-              onClick={() => setActiveStage(s.stage)}
-              className={`p-3 rounded-2xl border text-center transition-all cursor-pointer ${
-                isActive
-                  ? "bg-deep-teal text-white border-deep-teal shadow-md scale-102 font-bold"
-                  : "bg-slate-50 text-charcoal/80 border-slate-200 hover:border-deep-teal/40 hover:bg-white font-medium"
-              }`}
-            >
-              <span className="block text-xs uppercase tracking-wider opacity-80">Stage {s.stage}</span>
-              <span className="text-sm font-bold block truncate">{s.title.split(":")[1]?.trim() || s.title}</span>
-              <span className={`text-[11px] block mt-0.5 ${isActive ? "text-white/80" : "text-charcoal/60"}`}>
-                {s.ageRange}
+      {/* VIEW 1: PUBERTY MILESTONES (Simplified, Non-Intimidating) */}
+      {activeTab === "milestones" && (
+        <div className="space-y-4 animate-in fade-in duration-150">
+          <p className="text-xs sm:text-sm text-charcoal/80 font-sans leading-relaxed m-0">
+            Puberty follows a 5-step developmental roadmap called{" "}
+            <DictionaryHighlight term="Tanner Staging">Tanner Staging</DictionaryHighlight>. Everyone develops on their own genetic clock—starting at age 9 or age 14 is completely normal!
+          </p>
+
+          {/* 5-Step Stage Selector Pills */}
+          <div className="grid grid-cols-2 sm:grid-cols-5 gap-2">
+            {STAGES.map((s) => {
+              const isActive = activeStage === s.stage;
+              return (
+                <button
+                  key={s.stage}
+                  type="button"
+                  onClick={() => setActiveStage(s.stage)}
+                  className={`p-3 rounded-2xl border text-center transition-all cursor-pointer ${
+                    isActive
+                      ? "bg-deep-teal text-white border-deep-teal shadow-md scale-102 font-bold"
+                      : "bg-slate-50 text-charcoal/80 border-slate-200 hover:border-deep-teal/40 hover:bg-white font-medium"
+                  }`}
+                >
+                  <span className="block text-xs uppercase tracking-wider opacity-80">Stage {s.stage}</span>
+                  <span className="text-sm font-bold block truncate">{s.title.split(":")[1]?.trim() || s.title}</span>
+                  <span className={`text-[11px] block mt-0.5 ${isActive ? "text-white/80" : "text-charcoal/60"}`}>
+                    {s.ageRange}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Stage Detail Card */}
+          <div className="p-5 sm:p-6 rounded-3xl bg-gradient-to-br from-light-teal/40 via-white to-amber-50/40 border-2 border-deep-teal/20 space-y-4 shadow-2xs">
+            <div className="flex items-center justify-between flex-wrap gap-2">
+              <div>
+                <h5 className="text-xl sm:text-2xl font-serif font-bold text-deep-teal m-0">
+                  {current.title} <span className="text-sm font-sans font-normal text-charcoal/70">({current.ageRange})</span>
+                </h5>
+                <p className="text-xs sm:text-sm text-charcoal/80 font-sans mt-0.5 m-0 font-medium">
+                  {current.simpleHeadline}
+                </p>
+              </div>
+              <span className="text-xs font-bold uppercase tracking-wider bg-white px-3 py-1 rounded-full border border-deep-teal/20 text-deep-teal">
+                Stage {current.stage} of 5
               </span>
-            </button>
-          );
-        })}
-      </div>
+            </div>
 
-      {/* Visual Detail Breakdown for Selected Stage */}
-      <div className="p-5 sm:p-6 rounded-3xl bg-gradient-to-br from-light-teal/40 via-white to-amber-50/40 border-2 border-deep-teal/20 space-y-4 shadow-2xs">
-        <div className="flex items-center justify-between flex-wrap gap-2">
-          <h5 className="text-xl sm:text-2xl font-serif font-bold text-deep-teal">
-            {current.title} <span className="text-sm font-sans font-normal text-charcoal/70">({current.ageRange})</span>
-          </h5>
-          <span className="text-xs font-bold uppercase tracking-wider bg-white px-3 py-1 rounded-full border border-deep-teal/20 text-deep-teal">
-            Biological Milestone
-          </span>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs sm:text-sm">
+              <div className="p-3.5 rounded-2xl bg-white border border-slate-200 space-y-1">
+                <strong className="block text-deep-teal font-bold uppercase tracking-wider text-[11px]">
+                  Brain &amp; Hormone Signal:
+                </strong>
+                <p className="text-charcoal/90 m-0 leading-relaxed">
+                  {current.brainSignal}
+                </p>
+              </div>
+
+              <div className="p-3.5 rounded-2xl bg-white border border-slate-200 space-y-1">
+                <strong className="block text-coral font-bold uppercase tracking-wider text-[11px]">
+                  Breast Budding (Thelarche):
+                </strong>
+                <p className="text-charcoal/90 m-0 leading-relaxed">
+                  {current.breastDevelopment.includes("Thelarche") ? (
+                    <span>
+                      <DictionaryHighlight term="Thelarche">Thelarche</DictionaryHighlight>: Small, tender breast buds form under the areolas. Often one side buds before the other!
+                    </span>
+                  ) : (
+                    current.breastDevelopment
+                  )}
+                </p>
+              </div>
+
+              <div className="p-3.5 rounded-2xl bg-white border border-slate-200 space-y-1">
+                <strong className="block text-amber-800 font-bold uppercase tracking-wider text-[11px]">
+                  Body Hair &amp; Skin Changes:
+                </strong>
+                <p className="text-charcoal/90 m-0 leading-relaxed">{current.hairAndSkin}</p>
+              </div>
+
+              <div className="p-3.5 rounded-2xl bg-white border border-slate-200 space-y-1">
+                <strong className="block text-raspberry font-bold uppercase tracking-wider text-[11px]">
+                  Height Spurt &amp; Menarche:
+                </strong>
+                <p className="text-charcoal/90 m-0 leading-relaxed">
+                  {current.stage === 4 ? (
+                    <span>
+                      Height spurt slows down after your first period (
+                      <DictionaryHighlight term="Menarche">Menarche</DictionaryHighlight>) arrives.
+                    </span>
+                  ) : (
+                    current.growthVelocity
+                  )}
+                </p>
+              </div>
+            </div>
+
+            <div className="p-3.5 rounded-2xl bg-deep-teal text-white flex items-center gap-3">
+              <Sparkles className="w-5 h-5 text-coral shrink-0" />
+              <span className="text-xs sm:text-sm font-medium">{current.takeaway}</span>
+            </div>
+          </div>
         </div>
+      )}
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs sm:text-sm">
-          <div className="p-3.5 rounded-2xl bg-white border border-slate-200 space-y-1">
-            <strong className="block text-deep-teal font-bold uppercase tracking-wider text-[11px]">
-              Neuroendocrine GnRH Driver:
-            </strong>
-            <p className="text-charcoal/90 m-0 leading-relaxed">{current.neuroendocrine}</p>
-          </div>
+      {/* VIEW 2: INTERACTIVE ANATOMY MAP (SVG + Organ Cards) */}
+      {activeTab === "anatomy" && (
+        <div className="space-y-5 animate-in fade-in duration-150">
+          <p className="text-xs sm:text-sm text-charcoal/80 font-sans leading-relaxed m-0">
+            Tap any organ in the diagram below to explore what it does, why it matters, and see how medical terms connect in the dictionary.
+          </p>
 
-          <div className="p-3.5 rounded-2xl bg-white border border-slate-200 space-y-1">
-            <strong className="block text-coral font-bold uppercase tracking-wider text-[11px]">
-              Breast Tissue &amp; Thelarche:
-            </strong>
-            <p className="text-charcoal/90 m-0 leading-relaxed">{current.breastDevelopment}</p>
-          </div>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
+            {/* Visual SVG Diagram (5 cols) */}
+            <div className="lg:col-span-5 rounded-3xl bg-gradient-to-b from-teal-50/70 via-white to-rose-50/50 p-5 border-2 border-deep-teal/15 flex flex-col items-center">
+              <svg viewBox="0 0 400 250" className="w-full h-52 sm:h-60 select-none">
+                {/* Uterine body */}
+                <path
+                  d="M 140 100 C 140 45, 260 45, 260 100 C 260 160, 220 180, 200 180 C 180 180, 140 160, 140 100 Z"
+                  fill={selectedOrgan === "uterus" ? "#F47A6A" : "#FEE2E2"}
+                  stroke="#E11D48"
+                  strokeWidth={selectedOrgan === "uterus" ? "3.5" : "2"}
+                  className="cursor-pointer transition-all hover:opacity-90"
+                  onClick={() => setSelectedOrgan("uterus")}
+                />
 
-          <div className="p-3.5 rounded-2xl bg-white border border-slate-200 space-y-1">
-            <strong className="block text-amber-800 font-bold uppercase tracking-wider text-[11px]">
-              Pubic Hair &amp; Pubarche:
-            </strong>
-            <p className="text-charcoal/90 m-0 leading-relaxed">{current.pubicHair}</p>
-          </div>
+                {/* Endometrium inner cavity */}
+                <path
+                  d="M 170 95 C 170 70, 230 70, 230 95 C 230 140, 205 150, 200 150 C 195 150, 170 140, 170 95 Z"
+                  fill={selectedOrgan === "endometrium" ? "#E11D48" : "#FDA4AF"}
+                  stroke="#BE123C"
+                  strokeWidth={selectedOrgan === "endometrium" ? "2.5" : "1.5"}
+                  className="cursor-pointer transition-all hover:opacity-95"
+                  onClick={() => setSelectedOrgan("endometrium")}
+                />
 
-          <div className="p-3.5 rounded-2xl bg-white border border-slate-200 space-y-1">
-            <strong className="block text-raspberry font-bold uppercase tracking-wider text-[11px]">
-              ⚡ Somatic Height Velocity:
-            </strong>
-            <p className="text-charcoal/90 m-0 leading-relaxed">{current.growthVelocity}</p>
+                {/* Fallopian Tubes */}
+                <path
+                  d="M 148 75 C 100 50, 70 70, 50 90"
+                  fill="none"
+                  stroke={selectedOrgan === "tubes" ? "#991B4B" : "#F47A6A"}
+                  strokeWidth={selectedOrgan === "tubes" ? "5.5" : "3.5"}
+                  strokeLinecap="round"
+                  className="cursor-pointer transition-all"
+                  onClick={() => setSelectedOrgan("tubes")}
+                />
+                <path
+                  d="M 252 75 C 300 50, 330 70, 350 90"
+                  fill="none"
+                  stroke={selectedOrgan === "tubes" ? "#991B4B" : "#F47A6A"}
+                  strokeWidth={selectedOrgan === "tubes" ? "5.5" : "3.5"}
+                  strokeLinecap="round"
+                  className="cursor-pointer transition-all"
+                  onClick={() => setSelectedOrgan("tubes")}
+                />
+
+                {/* Ovaries */}
+                <ellipse
+                  cx="48"
+                  cy="100"
+                  rx="20"
+                  ry="14"
+                  fill={selectedOrgan === "ovaries" ? "#175B5C" : "#D8EFED"}
+                  stroke="#175B5C"
+                  strokeWidth={selectedOrgan === "ovaries" ? "3" : "2"}
+                  className="cursor-pointer transition-all hover:scale-105"
+                  onClick={() => setSelectedOrgan("ovaries")}
+                />
+                <ellipse
+                  cx="352"
+                  cy="100"
+                  rx="20"
+                  ry="14"
+                  fill={selectedOrgan === "ovaries" ? "#175B5C" : "#D8EFED"}
+                  stroke="#175B5C"
+                  strokeWidth={selectedOrgan === "ovaries" ? "3" : "2"}
+                  className="cursor-pointer transition-all hover:scale-105"
+                  onClick={() => setSelectedOrgan("ovaries")}
+                />
+
+                {/* Cervix */}
+                <rect
+                  x="185"
+                  y="180"
+                  width="30"
+                  height="36"
+                  rx="6"
+                  fill={selectedOrgan === "cervix" ? "#D97706" : "#FEF3C7"}
+                  stroke="#B45309"
+                  strokeWidth={selectedOrgan === "cervix" ? "3" : "2"}
+                  className="cursor-pointer transition-all hover:opacity-90"
+                  onClick={() => setSelectedOrgan("cervix")}
+                />
+
+                {/* Vagina Canal (Outflow) */}
+                <path d="M 180 216 L 180 240 M 220 216 L 220 240" stroke="#94A3B8" strokeWidth="2.5" strokeDasharray="3,3" />
+
+                {/* Interactive SVG Text Labels */}
+                <text x="48" y="104" textAnchor="middle" fill={selectedOrgan === "ovaries" ? "#fff" : "#175B5C"} fontSize="11" fontWeight="bold">Ovary</text>
+                <text x="352" y="104" textAnchor="middle" fill={selectedOrgan === "ovaries" ? "#fff" : "#175B5C"} fontSize="11" fontWeight="bold">Ovary</text>
+                <text x="200" y="85" textAnchor="middle" fill={selectedOrgan === "uterus" ? "#fff" : "#991B4B"} fontSize="11" fontWeight="bold">Uterus</text>
+                <text x="200" y="125" textAnchor="middle" fill="#fff" fontSize="10" fontWeight="bold">Lining</text>
+                <text x="200" y="202" textAnchor="middle" fill={selectedOrgan === "cervix" ? "#fff" : "#92400E"} fontSize="10" fontWeight="bold">Cervix</text>
+              </svg>
+
+              {/* Selector Pills */}
+              <div className="flex flex-wrap items-center justify-center gap-1.5 mt-3">
+                {Object.entries(ORGANS).map(([key, organ]) => (
+                  <button
+                    key={key}
+                    type="button"
+                    onClick={() => setSelectedOrgan(key)}
+                    className={`px-3 py-1 rounded-full text-xs font-bold transition-all cursor-pointer ${
+                      selectedOrgan === key
+                        ? `${organ.bgClass} text-charcoal border-2 ${organ.borderClass} shadow-xs scale-105`
+                        : "bg-white text-charcoal/70 border border-slate-200 hover:bg-slate-50"
+                    }`}
+                  >
+                    {organ.name.split(" ")[1] || organ.name}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Organ Detail Card (7 cols) */}
+            <div className={`lg:col-span-7 p-6 rounded-3xl border-2 ${currentOrgan.borderClass} bg-white shadow-card space-y-4`}>
+              <div className="flex items-start justify-between gap-3 flex-wrap">
+                <div>
+                  <span className={`text-[11px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full border ${currentOrgan.borderClass} ${currentOrgan.bgClass} text-charcoal`}>
+                    {currentOrgan.nickname}
+                  </span>
+                  <h4 className="text-2xl font-serif font-bold text-deep-teal mt-1 mb-0">
+                    {currentOrgan.name}
+                  </h4>
+                </div>
+                <span className="text-xs font-bold text-deep-teal bg-light-teal px-3 py-1 rounded-full border border-deep-teal/20">
+                  Tap yellow words for definitions
+                </span>
+              </div>
+
+              <div className="space-y-3 text-xs sm:text-sm">
+                <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 space-y-1">
+                  <strong className="block text-deep-teal font-bold uppercase tracking-wider text-[11px]">
+                    What It Does:
+                  </strong>
+                  <p className="text-charcoal/90 m-0 leading-relaxed">
+                    {currentOrgan.whatItDoes}
+                  </p>
+                </div>
+
+                <div className="p-3.5 rounded-2xl bg-amber-50/70 border border-amber-200 space-y-1">
+                  <strong className="block text-amber-950 font-bold uppercase tracking-wider text-[11px]">
+                    Why It Matters for Your Health:
+                  </strong>
+                  <p className="text-charcoal/90 m-0 leading-relaxed">
+                    {currentOrgan.whyItMatters}
+                  </p>
+                </div>
+
+                <div className="p-3.5 rounded-2xl bg-light-teal/50 border border-deep-teal/20 space-y-1">
+                  <strong className="block text-deep-teal font-bold uppercase tracking-wider text-[11px]">
+                    Doctor Visit Insight:
+                  </strong>
+                  <p className="text-charcoal/90 m-0 leading-relaxed">
+                    {currentOrgan.doctorTip}
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
+      )}
 
-        <div className="p-3.5 rounded-2xl bg-deep-teal text-white flex items-center gap-3">
-          <Sparkles className="w-5 h-5 text-coral shrink-0" />
-          <span className="text-xs sm:text-sm font-medium">{current.takeaway}</span>
+      {/* VIEW 3: HORMONE HELPERS (Simplified) */}
+      {activeTab === "hormones" && (
+        <div className="space-y-5 animate-in fade-in duration-150">
+          <p className="text-xs sm:text-sm text-charcoal/80 font-sans leading-relaxed m-0">
+            Hormones are your body's natural chemical messengers. Three primary players orchestrate your energy, bone strength, cycle rhythm, and skin:
+          </p>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {/* Estrogen */}
+            <div className="p-5 rounded-3xl bg-rose-50/60 border-2 border-rose-200 space-y-3 flex flex-col justify-between">
+              <div className="space-y-2">
+                <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-xs font-bold uppercase tracking-wider bg-rose-200 text-rose-900 border border-rose-300">
+                  <Sparkles className="w-3.5 h-3.5 text-rose-700" />
+                  <span>The Builder</span>
+                </div>
+                <h5 className="font-serif font-bold text-xl text-deep-teal m-0">
+                  <DictionaryHighlight term="Estrogen">Estrogen</DictionaryHighlight>
+                </h5>
+                <p className="text-xs sm:text-sm text-charcoal/85 leading-relaxed font-sans m-0">
+                  Gives you daily physical energy, protects your heart and bone density from stress fractures, and builds up your uterine lining each month.
+                </p>
+              </div>
+              <div className="p-2.5 rounded-xl bg-white border border-rose-200 text-[11px] text-rose-950 font-medium">
+                ✦ High in Follicular Phase (Days 6–13)
+              </div>
+            </div>
+
+            {/* Progesterone */}
+            <div className="p-5 rounded-3xl bg-light-teal/50 border-2 border-deep-teal/20 space-y-3 flex flex-col justify-between">
+              <div className="space-y-2">
+                <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-xs font-bold uppercase tracking-wider bg-light-teal text-deep-teal border border-deep-teal/30">
+                  <Heart className="w-3.5 h-3.5 text-coral" />
+                  <span>The Calmer</span>
+                </div>
+                <h5 className="font-serif font-bold text-xl text-deep-teal m-0">
+                  <DictionaryHighlight term="Progesterone">Progesterone</DictionaryHighlight>
+                </h5>
+                <p className="text-xs sm:text-sm text-charcoal/85 leading-relaxed font-sans m-0">
+                  Produced only after <DictionaryHighlight term="Ovulation">Ovulation</DictionaryHighlight>. Helps you sleep deeply, stabilizes mood, and balances out estrogen to prevent excessive bleeding.
+                </p>
+              </div>
+              <div className="p-2.5 rounded-xl bg-white border border-deep-teal/20 text-[11px] text-deep-teal font-medium">
+                ✦ High in Luteal Phase (Days 15–26)
+              </div>
+            </div>
+
+            {/* Androgens */}
+            <div className="p-5 rounded-3xl bg-amber-50/70 border-2 border-amber-200 space-y-3 flex flex-col justify-between">
+              <div className="space-y-2">
+                <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-xs font-bold uppercase tracking-wider bg-amber-200 text-amber-950 border border-amber-300">
+                  <Zap className="w-3.5 h-3.5 text-amber-800" />
+                  <span>Strength &amp; Skin</span>
+                </div>
+                <h5 className="font-serif font-bold text-xl text-deep-teal m-0">
+                  Androgens
+                </h5>
+                <p className="text-xs sm:text-sm text-charcoal/85 leading-relaxed font-sans m-0">
+                  Provide muscle tone, stamina, and drive. During puberty, waking androgens can temporarily cause oily skin or breakouts before stabilizing.
+                </p>
+              </div>
+              <div className="p-2.5 rounded-xl bg-white border border-amber-200 text-[11px] text-amber-950 font-medium">
+                ✦ Evaluated if severe acne or cycle delays occur
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }

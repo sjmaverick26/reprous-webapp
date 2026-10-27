@@ -8,7 +8,7 @@ export interface QuizQuestion {
 }
 
 export interface LessonDiagram {
-  type: "cycle-wheel" | "energy-balance" | "pcos-loop" | "pelvic-map" | "anatomy-callout" | "timeline" | "athlete-plate" | "hormone-scale" | "reds-triangle" | "water-glass" | "sleep-recovery" | "iron-ferritin" | "cycle-training" | "cycle-fueling" | "puberty-brain" | "maternal-warning-signs";
+  type: "cycle-wheel" | "energy-balance" | "pcos-loop" | "pelvic-map" | "anatomy-callout" | "timeline" | "athlete-plate" | "hormone-scale" | "reds-triangle" | "water-glass" | "sleep-recovery" | "iron-ferritin" | "cycle-training" | "cycle-fueling" | "puberty-brain" | "maternal-warning-signs" | "body-neutrality-growth";
   title: string;
   caption: string;
 }
@@ -143,9 +143,9 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
         readTime: "4 min read",
         summary: "Puberty is the biological transition where your brain releases hormones signaling your body to grow and mature. There is no single 'right' age — changes can start anywhere between 8 and 14+.",
         clinicalQuote: {
-          quote: "Adolescent pubertal timing is a neuroendocrine continuum governed by pulsatile GnRH release. Understanding Tanner staging and individual physiological variation provides young people with essential reassurance that bodily changes follow their own biological timeline.",
+          quote: "Puberty timing is completely individual for every young person. Understanding that your body develops on its own natural timeline provides reassurance that changes happen at the right pace for you.",
           source: "The Global Library of Women's Medicine (GLOWM)",
-          publication: "GLOWM / FIGO Textbook of Adolescent Health",
+          publication: "GLOWM / FIGO Adolescent Health Guidelines",
         },
         keyTakeaways: [
           "Growth spurts, voice changes, hair growth, and skin changes are completely normal.",
@@ -184,9 +184,9 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
           youtubeId: "TRyOzsm_xvg",
           medicalReviewer: "Grounded in Clinical Pediatric and Adolescent Health Guidelines",
           keyHighlights: [
-            "Puberty is governed by complex hormonal cascades between the brain and endocrine glands.",
-            "Bone mineral consolidation and body composition changes prepare the body for adult vitality.",
-            "Mental and emotional fluctuations reflect ongoing neurodevelopmental remodeling in the brain."
+            "Puberty is governed by natural chemical messengers sent between the brain and body.",
+            "Bones grow stronger and curves develop naturally to give your body adult energy.",
+            "Big feelings and mood shifts are normal as your brain updates during your teen years."
           ]
         },
         sorterGame: {
@@ -308,7 +308,12 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
           "Bodies are designed to change during your teens; widening hips and softer skin are healthy biological milestones.",
           "Treating your body like a team partner instead of an ornament builds lasting confidence.",
           "Comparing yourself to edited pictures online causes needless stress. Real health is about energy, not size."
-        ]
+        ],
+        diagram: {
+          type: "body-neutrality-growth",
+          title: "Puberty Growth & Body Neutrality Compass",
+          caption: "Tap through real body changes vs. filtered myths to explore how your body protects you during puberty."
+        }
       },
       {
         id: "body-4",

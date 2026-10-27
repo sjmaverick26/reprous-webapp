@@ -870,9 +870,15 @@ export function FullPageLessonExperience({
         {currentStep === 2 && (
           <div className="space-y-8 animate-in fade-in duration-200">
             <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold tracking-wider uppercase bg-light-teal text-deep-teal border border-deep-teal/20 mb-3">
-                <BookOpen className="w-3.5 h-3.5 text-coral" />
-                <span>Step 2 of 5 · Physiology &amp; Core Concepts</span>
+              <div className="flex items-center justify-between gap-3 flex-wrap mb-3">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold tracking-wider uppercase bg-light-teal text-deep-teal border border-deep-teal/20">
+                  <BookOpen className="w-3.5 h-3.5 text-coral" />
+                  <span>Step 2 of 5 · Physiology &amp; Core Concepts</span>
+                </div>
+                <div className="inline-flex items-center gap-1.5 text-xs text-amber-950 bg-amber-100/90 border border-amber-300 px-3 py-1 rounded-full font-semibold shadow-2xs">
+                  <Sparkles className="w-3 h-3 text-amber-800" />
+                  <span>Tap yellow highlighted words to view plain-English dictionary meanings</span>
+                </div>
               </div>
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-bold text-deep-teal mb-3">
                 Understanding the Biology of {topic.name}

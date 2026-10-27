@@ -34,6 +34,7 @@ import {
   X,
 } from "lucide-react";
 import { OvertrainingBodyInspectionDiagram } from "./OvertrainingBodyInspectionDiagram";
+import { DictionaryHighlight } from "./DictionaryHighlight";
 
 export interface DiagramClinicalSource {
   organization: string;
@@ -139,6 +140,12 @@ export const DIAGRAM_CLINICAL_SOURCES: Record<string, DiagramClinicalSource> = {
     year: "2023",
     url: "https://www.cdc.gov/hearher",
   },
+  "body-neutrality-growth": {
+    organization: "American Academy of Pediatrics (AAP) & Academy for Eating Disorders",
+    guideline: "AAP Clinical Report: Identification and Management of Eating Disorders & Adolescent Body Image",
+    year: "2023",
+    url: "https://publications.aap.org/pediatrics",
+  },
 };
 
 export function ClinicalSourceBanner({ citation }: { citation?: DiagramClinicalSource }) {
@@ -224,6 +231,8 @@ export function InteractiveLessonDiagram({ diagram, themeColor = "#175B5C" }: In
         return <PubertyBrainDiagram diagram={diagram} themeColor={themeColor} />;
       case "maternal-warning-signs":
         return <MaternalWarningSignsDiagram diagram={diagram} themeColor={themeColor} />;
+      case "body-neutrality-growth":
+        return <BodyNeutralityGrowthDiagram diagram={diagram} themeColor={themeColor} />;
       case "timeline":
       default:
         return <PubertyTimelineDiagram diagram={diagram} themeColor={themeColor} />;
@@ -812,7 +821,11 @@ function PubertyTimelineDiagram({ diagram }: { diagram: LessonDiagram; themeColo
       title: "Adrenarche & Early Signals",
       ageRange: "Ages 8–11",
       milestone: "Adrenal hormone activation",
-      details: "Adrenal glands begin producing mild androgens (DHEA). Early signs include slight body odor, slight skin oiliness, and initial emotional shifts.",
+      details: (
+        <span>
+          Adrenal glands begin producing mild androgens (DHEA). Early signs include slight body odor, slight skin oiliness, and initial emotional shifts as your body wakes up.
+        </span>
+      ),
       reassurance: "Beginning earlier or later than peers is completely healthy and guided by family genetics.",
     },
     {
@@ -820,7 +833,13 @@ function PubertyTimelineDiagram({ diagram }: { diagram: LessonDiagram; themeColo
       title: "Thelarche (Breast Budding)",
       ageRange: "Ages 9–12",
       milestone: "Estrogen triggers tissue development",
-      details: "Small, firm 'breast buds' appear beneath the areolas, often tender and frequently asymmetrical at first. This is typically the first physical marker.",
+      details: (
+        <span>
+          Small, firm breast buds appear beneath the areolas during{" "}
+          <DictionaryHighlight term="Thelarche">Thelarche</DictionaryHighlight>, stimulated by rising{" "}
+          <DictionaryHighlight term="Estrogen">Estrogen</DictionaryHighlight>. Buds are often tender and frequently asymmetrical at first. This is typically the first physical marker of puberty.
+        </span>
+      ),
       reassurance: "Asymmetry is completely normal and evens out as tissue matures over several years.",
     },
     {
@@ -828,7 +847,11 @@ function PubertyTimelineDiagram({ diagram }: { diagram: LessonDiagram; themeColo
       title: "Peak Height Velocity & Pubarche",
       ageRange: "Ages 10–13",
       milestone: "Growth spurt & body hair growth",
-      details: "Rapid acceleration in height, bone density consolidation, widening of hips, and development of fine pubic and underarm hair.",
+      details: (
+        <span>
+          Rapid acceleration in height, bone density consolidation, natural widening of hips, and development of fine pubic and underarm hair.
+        </span>
+      ),
       reassurance: "Your body requires more daily calories, sleep, and hydration during rapid growth spurts.",
     },
     {
@@ -836,7 +859,11 @@ function PubertyTimelineDiagram({ diagram }: { diagram: LessonDiagram; themeColo
       title: "Menarche (First Period)",
       ageRange: "Ages 11–15",
       milestone: "First menstrual bleeding",
-      details: "Occurs typically 1.5 to 2.5 years after breast budding begins. Initial cycles are often irregular for the first 1–2 years as the brain and ovaries synchronize.",
+      details: (
+        <span>
+          <DictionaryHighlight term="Menarche">Menarche</DictionaryHighlight> (your very first period) typically occurs 1.5 to 2.5 years after breast budding begins. Initial cycles are often irregular for the first 1–2 years as the brain and ovaries synchronize.
+        </span>
+      ),
       reassurance: "Irregular spacing during the first two years is standard as ovulatory cycles mature.",
     },
   ];
@@ -910,9 +937,9 @@ function AnatomyCalloutDiagram({ diagram }: { diagram: LessonDiagram; themeColor
       color: string;
       bgClass: string;
       borderClass: string;
-      whatItDoes: string;
-      whyItMatters: string;
-      doctorSays: string;
+      whatItDoes: React.ReactNode;
+      whyItMatters: React.ReactNode;
+      doctorSays: React.ReactNode;
     }
   > = {
     uterus: {
@@ -921,9 +948,23 @@ function AnatomyCalloutDiagram({ diagram }: { diagram: LessonDiagram; themeColor
       color: "#F47A6A",
       bgClass: "bg-[#FFE1DB]",
       borderClass: "border-coral",
-      whatItDoes: "A hollow, strong pear-shaped muscle about the size of a fist. During periods, it gently contracts to shed blood. If a pregnancy happens, it stretches safely to hold a baby.",
-      whyItMatters: "Mild cramps happen when this muscle flexes. Severe pain means natural chemicals (prostaglandins) or inflammation need care.",
-      doctorSays: "Evaluated during ultrasound or pelvic checks for fibroids, adenomyosis, or position (e.g. tilted/retroverted uterus, which is totally normal!).",
+      whatItDoes: (
+        <span>
+          A hollow, strong pear-shaped muscle about the size of a fist. During periods, it gently contracts to shed blood. If a pregnancy happens, it stretches safely to hold a baby.
+        </span>
+      ),
+      whyItMatters: (
+        <span>
+          Mild cramps happen when this muscle flexes. Severe pain means natural chemicals (prostaglandins) or underlying conditions like{" "}
+          <DictionaryHighlight term="Endometriosis">Endometriosis</DictionaryHighlight> or{" "}
+          <DictionaryHighlight term="Uterine anomalies">Uterine anomalies or fibroids</DictionaryHighlight> need care.
+        </span>
+      ),
+      doctorSays: (
+        <span>
+          Evaluated during ultrasound or pelvic checks for fibroids, <DictionaryHighlight term="Adenomyosis">adenomyosis</DictionaryHighlight>, or position (e.g. tilted/retroverted uterus, which is totally normal!).
+        </span>
+      ),
     },
     ovaries: {
       name: "The Ovaries (Twin Glands)",
@@ -931,9 +972,23 @@ function AnatomyCalloutDiagram({ diagram }: { diagram: LessonDiagram; themeColor
       color: "#175B5C",
       bgClass: "bg-light-teal",
       borderClass: "border-deep-teal",
-      whatItDoes: "Two almond-sized glands on either side of the uterus. They house all the eggs you were born with and produce your key hormones: estrogen and progesterone.",
-      whyItMatters: "Every month, one ovary matures and releases an egg (ovulation). Healthy ovaries mean steady energy, strong bones, and healthy cycles.",
-      doctorSays: "Checked for cysts, ovulation maturity, and ovarian reserve using blood hormones (AMH, FSH) and pelvic ultrasound.",
+      whatItDoes: (
+        <span>
+          Two almond-sized glands on either side of the uterus. They house all the eggs you were born with and produce your key hormones:{" "}
+          <DictionaryHighlight term="Estrogen">estrogen</DictionaryHighlight> and{" "}
+          <DictionaryHighlight term="Progesterone">progesterone</DictionaryHighlight>.
+        </span>
+      ),
+      whyItMatters: (
+        <span>
+          Every month, one ovary matures and releases an egg (<DictionaryHighlight term="Ovulation">ovulation</DictionaryHighlight>). Healthy ovaries mean steady energy, strong bones, and healthy cycles.
+        </span>
+      ),
+      doctorSays: (
+        <span>
+          Checked for cysts, ovulation maturity, and ovarian reserve using blood hormones and pelvic ultrasound.
+        </span>
+      ),
     },
     tubes: {
       name: "The Fallopian Tubes",
@@ -941,9 +996,21 @@ function AnatomyCalloutDiagram({ diagram }: { diagram: LessonDiagram; themeColor
       color: "#991B4B",
       bgClass: "bg-soft-pink",
       borderClass: "border-raspberry",
-      whatItDoes: "Two delicate, trumpet-ended tubes with tiny hair-like fingers (cilia) that sweep the egg from the ovary toward the uterus each month.",
-      whyItMatters: "Fertilization happens inside these tubes. Keeping them free of infections (like untreated STIs) protects your future choices.",
-      doctorSays: "Assessed if there is concern about pelvic inflammatory disease (PID) or blockages that could cause ectopic pregnancy.",
+      whatItDoes: (
+        <span>
+          Two delicate, trumpet-ended tubes with tiny hair-like fingers (cilia) that sweep the egg from the ovary toward the uterus each month.
+        </span>
+      ),
+      whyItMatters: (
+        <span>
+          Fertilization happens inside these tubes. Keeping them free of infections protects your future choices.
+        </span>
+      ),
+      doctorSays: (
+        <span>
+          Assessed if there is concern about pelvic inflammation or blockages that could cause ectopic pregnancy.
+        </span>
+      ),
     },
     endometrium: {
       name: "The Endometrium",
@@ -951,9 +1018,23 @@ function AnatomyCalloutDiagram({ diagram }: { diagram: LessonDiagram; themeColor
       color: "#E11D48",
       bgClass: "bg-rose-100",
       borderClass: "border-rose-300",
-      whatItDoes: "The soft, velvety inner lining of your uterus. Estrogen builds it up each cycle into a plush bed; when pregnancy doesn't occur, progesterone drops and it sheds as your period.",
-      whyItMatters: "Spotting or extra heavy periods happen when hormones build this lining up too thick or unevenly.",
-      doctorSays: "Measured on ultrasound in millimeters to check for balanced hormones or signs of endometriosis outside the uterus.",
+      whatItDoes: (
+        <span>
+          The soft, velvety inner lining of your uterus. <DictionaryHighlight term="Estrogen">Estrogen</DictionaryHighlight> builds it up each cycle into a plush bed; when pregnancy doesn't occur,{" "}
+          <DictionaryHighlight term="Progesterone">progesterone</DictionaryHighlight> drops and it sheds as your period.
+        </span>
+      ),
+      whyItMatters: (
+        <span>
+          Spotting or extra heavy periods happen when hormones build this lining up too thick or unevenly. Tissue outside the uterus causes{" "}
+          <DictionaryHighlight term="Endometriosis">Endometriosis</DictionaryHighlight>.
+        </span>
+      ),
+      doctorSays: (
+        <span>
+          Measured on ultrasound in millimeters to check for balanced hormones or signs of endometriosis outside the uterus.
+        </span>
+      ),
     },
     cervix: {
       name: "The Cervix",
@@ -961,9 +1042,21 @@ function AnatomyCalloutDiagram({ diagram }: { diagram: LessonDiagram; themeColor
       color: "#D97706",
       bgClass: "bg-amber-100",
       borderClass: "border-amber-400",
-      whatItDoes: "The lower neck of the uterus that connects to the vagina. It makes natural, healthy fluids that change texture across your cycle (from lotiony to stretchy egg-white).",
-      whyItMatters: "Noticing stretchy clear fluid means ovulation is near! The cervix also naturally keeps bacteria from entering the sterile uterus.",
-      doctorSays: "Screened in older teens and adults via routine, gentle Pap smears starting at age 21 to keep cervical cells healthy.",
+      whatItDoes: (
+        <span>
+          The lower neck of the uterus that connects to the vagina. It makes natural, healthy fluids that change texture across your cycle (from lotiony to stretchy egg-white).
+        </span>
+      ),
+      whyItMatters: (
+        <span>
+          Noticing stretchy clear fluid means <DictionaryHighlight term="Ovulation">ovulation</DictionaryHighlight> is near! The <DictionaryHighlight term="Cervix">cervix</DictionaryHighlight> also naturally keeps bacteria from entering the sterile uterus.
+        </span>
+      ),
+      doctorSays: (
+        <span>
+          Screened in older teens and adults via routine, gentle Pap smears starting at age 21 to keep cervical cells healthy.
+        </span>
+      ),
     },
   };
 
@@ -5420,6 +5513,253 @@ function MaternalWarningSignsDiagram({ diagram, themeColor }: { diagram: LessonD
 
                 <div className="text-[11px] text-charcoal/75 bg-sand/20 rounded-xl p-2.5 border border-charcoal/10">
                   <strong>Why this works:</strong> {item.whyItWorks}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// --------------------------------------------------------------------------
+// 17. Body Neutrality & Puberty Growth Compass Diagram
+// --------------------------------------------------------------------------
+function BodyNeutralityGrowthDiagram({ diagram, themeColor }: { diagram: LessonDiagram; themeColor: string }) {
+  const [activeTab, setActiveTab] = useState<"biology" | "myths" | "habits">("biology");
+
+  const BIOLOGY_FACTS = [
+    {
+      title: "Widening Pelvis & Bone Density",
+      badge: "Healthy Anatomy",
+      badgeClass: "bg-coral/15 text-coral border-coral/30",
+      iconName: "Shield",
+      explanation:
+        "Your hip bones widen naturally during puberty to create an adult center of gravity and protect internal reproductive organs like your uterus.",
+      reassurance:
+        "Bone widening is determined by DNA. It builds the strong structural framework that supports you for the rest of your life!",
+    },
+    {
+      title: "Protective Soft Tissue (Fat Reserves)",
+      badge: "Hormone Shield",
+      badgeClass: "bg-rose-100 text-rose-900 border-rose-300",
+      iconName: "Heart",
+      explanation: (
+        <span>
+          Bodies naturally deposit healthy soft tissue around the hips, thighs, and chest during puberty. Your body needs these reserves to produce{" "}
+          <DictionaryHighlight term="Estrogen">Estrogen</DictionaryHighlight> and maintain regular cycles.
+        </span>
+      ),
+      reassurance:
+        "Losing this healthy tissue can cause cycles to stop and weaken your bones (RED-S). Soft tissue is vital biological armor!",
+    },
+    {
+      title: "Rapid Growth Spurts",
+      badge: "Energy Engine",
+      badgeClass: "bg-light-teal text-deep-teal border-deep-teal/30",
+      iconName: "Zap",
+      explanation:
+        "During peak height velocity, your skeleton can grow 3 to 4 inches in a year! Muscles and ligaments stretch to keep pace with longer limbs.",
+      reassurance:
+        "Feeling temporarily clumsy or extra hungry is completely normal as your brain recalibrates to your new height.",
+    },
+    {
+      title: "Skin & Sweat Gland Awakening",
+      badge: "Temporary Shift",
+      badgeClass: "bg-amber-100 text-amber-900 border-amber-300",
+      iconName: "Sparkles",
+      explanation:
+        "Rising pubertal hormones temporarily stimulate oil glands and sweat production. This natural phase gradually levels out as your endocrine system matures.",
+      reassurance:
+        "Breakouts and sweat are biological signs of growth, not poor hygiene. Gentle cleansing and patience are all your skin needs.",
+    },
+  ];
+
+  const MYTHS_VS_FACTS = [
+    {
+      myth: "“My body should look like the models on my social feed.”",
+      reality:
+        "Social media feeds use filters, professional lighting, dehydrating prep, and specific angles. Real human biology includes skin texture, natural curves, and belly softness that protects your organs.",
+    },
+    {
+      myth: "“Widening hips or softer thighs mean I need to diet.”",
+      reality: (
+        <span>
+          Dieting during puberty starves growing bones and can shut down your menstrual cycle (
+          <DictionaryHighlight term="Amenorrhea">amenorrhea</DictionaryHighlight>). Your body needs fuel to build adult bone density and steady hormones.
+        </span>
+      ),
+    },
+    {
+      myth: "“Everyone else has completely clear skin and effortless confidence.”",
+      reality:
+        "Over 85% of teens experience acne, skin oil shifts, and emotional waves during puberty. Everyone is navigating bodily changes, even if they don't show it online.",
+    },
+  ];
+
+  const NEUTRALITY_HABITS = [
+    {
+      title: "Focus on Function Over Form",
+      tip: "Appreciate what your body DOES each day—walking to school, laughing with friends, kicking a soccer ball, dancing, and studying.",
+    },
+    {
+      title: "Treat Your Body Like a Valued Teammate",
+      tip: "You wouldn't insult a teammate when they are learning new skills. Speak to yourself with the same patience you'd offer a best friend.",
+    },
+    {
+      title: "Curate Your Digital Environment",
+      tip: "Mute or unfollow accounts that trigger body anxiety or promote restrictive diets. Follow educators and creators who celebrate real, diverse bodies.",
+    },
+  ];
+
+  return (
+    <div className="rounded-3xl border-2 border-deep-teal/20 bg-white p-5 sm:p-7 shadow-sm space-y-5 font-sans">
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-deep-teal/10 pb-4">
+        <div>
+          <div className="flex items-center gap-2">
+            <span className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-xs font-bold uppercase tracking-wider bg-coral text-white shadow-2xs">
+              <Sparkles className="w-3.5 h-3.5" />
+              <span>Puberty Growth &amp; Body Neutrality Compass</span>
+            </span>
+          </div>
+          <h4 className="text-2xl sm:text-3xl font-serif font-bold text-deep-teal mt-1">
+            Understanding Your Body's Changes Without the Comparison Spiral
+          </h4>
+        </div>
+
+        {/* Tab switcher */}
+        <div className="flex items-center gap-1.5 p-1 rounded-2xl bg-slate-100 border border-slate-200">
+          <button
+            type="button"
+            onClick={() => setActiveTab("biology")}
+            className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+              activeTab === "biology"
+                ? "bg-white text-deep-teal shadow-xs border border-deep-teal/20"
+                : "text-charcoal/70 hover:text-charcoal"
+            }`}
+          >
+            Biological Changes
+          </button>
+          <button
+            type="button"
+            onClick={() => setActiveTab("myths")}
+            className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+              activeTab === "myths"
+                ? "bg-white text-deep-teal shadow-xs border border-deep-teal/20"
+                : "text-charcoal/70 hover:text-charcoal"
+            }`}
+          >
+            Filters vs. Reality
+          </button>
+          <button
+            type="button"
+            onClick={() => setActiveTab("habits")}
+            className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+              activeTab === "habits"
+                ? "bg-white text-deep-teal shadow-xs border border-deep-teal/20"
+                : "text-charcoal/70 hover:text-charcoal"
+            }`}
+          >
+            Body Neutrality Practices
+          </button>
+        </div>
+      </div>
+
+      {/* Tab 1: Biological Changes */}
+      {activeTab === "biology" && (
+        <div className="space-y-4 animate-in fade-in duration-150">
+          <p className="text-xs sm:text-sm text-charcoal/80 leading-relaxed font-sans m-0">
+            During puberty, your body is doing critical biological work: building adult bone strength, widening the pelvis, and establishing hormonal vitality. Tap any card below to see the science behind it.
+          </p>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {BIOLOGY_FACTS.map((item, idx) => (
+              <div
+                key={idx}
+                className="p-5 rounded-3xl bg-slate-50 border-2 border-slate-200/80 hover:border-deep-teal/30 hover:bg-white transition-all space-y-3 shadow-2xs flex flex-col justify-between"
+              >
+                <div className="space-y-2">
+                  <span className={`inline-block text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full border ${item.badgeClass}`}>
+                    {item.badge}
+                  </span>
+                  <h5 className="font-serif font-bold text-lg text-deep-teal m-0">
+                    {item.title}
+                  </h5>
+                  <div className="text-xs sm:text-sm text-charcoal/85 leading-relaxed font-sans">
+                    {item.explanation}
+                  </div>
+                </div>
+
+                <div className="p-3 rounded-2xl bg-white border border-slate-200 text-xs text-deep-teal font-medium mt-2">
+                  <strong className="text-coral">Medical Reassurance: </strong>
+                  {item.reassurance}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Tab 2: Filter Myths vs. Reality */}
+      {activeTab === "myths" && (
+        <div className="space-y-4 animate-in fade-in duration-150">
+          <p className="text-xs sm:text-sm text-charcoal/80 leading-relaxed font-sans m-0">
+            Comparing your changing body to curated social media feeds causes needless distress. Here is what is actually going on:
+          </p>
+
+          <div className="space-y-3">
+            {MYTHS_VS_FACTS.map((item, idx) => (
+              <div
+                key={idx}
+                className="p-5 rounded-3xl bg-gradient-to-r from-red-50/50 via-white to-teal-50/50 border-2 border-deep-teal/15 shadow-2xs space-y-3"
+              >
+                <div className="flex items-start gap-2">
+                  <span className="px-2 py-0.5 rounded-md bg-red-100 text-red-900 border border-red-200 text-[11px] font-bold shrink-0">
+                    MYTH
+                  </span>
+                  <p className="font-serif font-bold text-sm sm:text-base text-red-950 m-0">
+                    {item.myth}
+                  </p>
+                </div>
+
+                <div className="flex items-start gap-2 pl-4 border-l-2 border-emerald-500">
+                  <span className="px-2 py-0.5 rounded-md bg-emerald-100 text-emerald-950 border border-emerald-300 text-[11px] font-bold shrink-0">
+                    BIOLOGICAL REALITY
+                  </span>
+                  <div className="text-xs sm:text-sm text-charcoal/90 leading-relaxed font-sans m-0">
+                    {item.reality}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Tab 3: Body Neutrality Practices */}
+      {activeTab === "habits" && (
+        <div className="space-y-4 animate-in fade-in duration-150">
+          <p className="text-xs sm:text-sm text-charcoal/80 leading-relaxed font-sans m-0">
+            Body neutrality means you don't have to love every single change every day—it means recognizing that your worth as a human is not defined by your reflection.
+          </p>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {NEUTRALITY_HABITS.map((habit, idx) => (
+              <div
+                key={idx}
+                className="p-5 rounded-3xl bg-light-teal/40 border-2 border-deep-teal/20 space-y-2.5 flex flex-col justify-between"
+              >
+                <div className="space-y-1.5">
+                  <div className="w-8 h-8 rounded-xl bg-deep-teal text-white flex items-center justify-center font-bold text-xs">
+                    0{idx + 1}
+                  </div>
+                  <h5 className="font-serif font-bold text-base text-deep-teal m-0">
+                    {habit.title}
+                  </h5>
+                  <p className="text-xs sm:text-sm text-charcoal/85 leading-relaxed font-sans m-0">
+                    {habit.tip}
+                  </p>
                 </div>
               </div>
             ))}

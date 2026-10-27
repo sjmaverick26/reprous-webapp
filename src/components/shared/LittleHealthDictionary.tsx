@@ -27,18 +27,18 @@ export interface ModuleTab {
 export const MODULE_TABS: ModuleTab[] = [
   {
     id: "all",
-    label: "All Modules & Jargon",
+    label: "All Words & Clinic Examples",
     shortLabel: "All Words",
     groupColor: "all",
-    tagline: "Explore all tricky medical words and clinical jargon across every ReproUs module.",
+    tagline: "Explore all tricky medical words, anatomy, hormones, and real doctor clinic examples across every ReproUs module.",
   },
-  // Doctor Jargon & Chart Code
+  // Doctor Notes & Clinic Examples
   {
     id: "jargon",
-    label: "Doctor Jargon & Chart Code",
-    shortLabel: "Doctor Jargon",
+    label: "Doctor Notes & Clinic Examples",
+    shortLabel: "Doctor Examples",
     groupColor: "purple",
-    tagline: "De-code patient portal notes, doctor shorthand, and clinical terms (WNL, R/O, Analgesics, Oligoanalgesia, ADR).",
+    tagline: "Real-world examples of doctor chart notes, clinic visit phrases, and medical terms explained in plain English (WNL, R/O, Analgesics, and more).",
   },
   // Teal group
   {
@@ -117,7 +117,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     term: "WNL (“Within Normal Limits”)",
     pronunciation: "dub-ul-yoo-en-el",
     moduleId: "jargon",
-    moduleTitle: "Doctor Jargon",
+    moduleTitle: "Doctor Examples",
     categoryColor: "bg-purple-100 text-purple-900 border-purple-300",
     chartJargon: "Chart note: “Pelvic ultrasound and routine CBC within normal limits (WNL).”",
     plainEnglish: "The most common medical abbreviation on charts and patient portals! It means your blood tests or scans fell within standard averages. Warning: Just because test results are 'WNL' does NOT mean your pain is imaginary! Many chronic conditions like superficial endometriosis or early hormonal imbalances do not show up on basic standard tests.",
@@ -129,7 +129,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     term: "Rule Out (“R/O”)",
     pronunciation: "ROOL OWT (or R-O)",
     moduleId: "jargon",
-    moduleTitle: "Doctor Jargon",
+    moduleTitle: "Doctor Examples",
     categoryColor: "bg-purple-100 text-purple-900 border-purple-300",
     chartJargon: "Chart requisition: “Severe dysmenorrhea with bowel distress. R/O endometriosis; order pelvic ultrasound.”",
     plainEnglish: "When a doctor writes 'R/O [Condition]' on your clinic paperwork, it does NOT mean they ruled it out already! It actually means the opposite: they suspect it might be the cause and are ordering tests to investigate and make sure you do NOT have it.",
@@ -141,7 +141,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     term: "Idiopathic",
     pronunciation: "id-ee-oh-PATH-ik",
     moduleId: "jargon",
-    moduleTitle: "Doctor Jargon",
+    moduleTitle: "Doctor Examples",
     categoryColor: "bg-purple-100 text-purple-900 border-purple-300",
     chartJargon: "Chart note: “Adolescent female presenting with idiopathic dysmenorrhea; trial of scheduled NSAIDs.”",
     plainEnglish: "A fancy Greek-derived medical word that literally means 'arising on its own.' In plain English: the doctors have not identified a specific anatomical disease causing the symptom yet.",
@@ -153,7 +153,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     term: "Refractory (e.g. Refractory Pain)",
     pronunciation: "ree-FRAK-tor-ee",
     moduleId: "jargon",
-    moduleTitle: "Doctor Jargon",
+    moduleTitle: "Doctor Examples",
     categoryColor: "bg-purple-100 text-purple-900 border-purple-300",
     chartJargon: "Chart note: “Cyclical pelvic pain refractory to maximum-dose ibuprofen and acetaminophen.”",
     plainEnglish: "Doctor jargon for 'resistant to standard treatment.' If your period cramps are described as 'refractory to NSAIDs,' it means standard drugstore painkillers like Advil, Aleve, or Tylenol do not touch your pain.",
@@ -165,7 +165,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     term: "Empiric Treatment / Empiric Therapy",
     pronunciation: "em-PEER-ik",
     moduleId: "jargon",
-    moduleTitle: "Doctor Jargon",
+    moduleTitle: "Doctor Examples",
     categoryColor: "bg-purple-100 text-purple-900 border-purple-300",
     chartJargon: "Chart note: “Suspected endometriosis. Initiate empiric hormonal suppression with combined oral contraceptive.”",
     plainEnglish: "Starting a medication based on an educated guess before performing surgery or invasive tests to prove the diagnosis. Doctors frequently prescribe birth control as empiric therapy for suspected endometriosis.",
@@ -177,7 +177,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     term: "Differential Diagnosis (“The Differential”)",
     pronunciation: "dif-er-EN-shul dy-ug-NOH-sis",
     moduleId: "jargon",
-    moduleTitle: "Doctor Jargon",
+    moduleTitle: "Doctor Examples",
     categoryColor: "bg-purple-100 text-purple-900 border-purple-300",
     chartJargon: "Chart note: “Differential includes secondary dysmenorrhea, endometriosis, adenomyosis, and interstitial cystitis.”",
     plainEnglish: "The doctor's mental detective list of all the different medical conditions that could explain your symptoms, ranked from most likely to least likely.",
@@ -189,7 +189,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     term: "Unremarkable (e.g. Unremarkable Scan)",
     pronunciation: "un-ree-MARK-uh-bul",
     moduleId: "jargon",
-    moduleTitle: "Doctor Jargon",
+    moduleTitle: "Doctor Examples",
     categoryColor: "bg-purple-100 text-purple-900 border-purple-300",
     chartJargon: "Radiology report: “Pelvic ultrasound demonstrates unremarkable uterus and bilateral adnexa. No cysts or masses.”",
     plainEnglish: "Radiologist code meaning 'nothing stood out as visibly abnormal on this specific scan.' Crucial fact: Superficial endometriosis and early hormonal disorders are almost always 'unremarkable' on ultrasound!",
@@ -201,7 +201,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     term: "Somatic / Psychosomatic",
     pronunciation: "soh-MAT-ik & sy-koh-soh-MAT-ik",
     moduleId: "jargon",
-    moduleTitle: "Doctor Jargon",
+    moduleTitle: "Doctor Examples",
     categoryColor: "bg-purple-100 text-purple-900 border-purple-300",
     chartJargon: "Chart note: “Chronic pelvic pain with prominent somatic anxiety features.”",
     plainEnglish: "Pertaining to real physical sensations in your body that interact with the nervous system. Too often misused by dismissive providers to imply pain is 'in your head'—in reality, severe pain and chronic stress physically trigger nerve pathways and muscle tension.",
@@ -213,7 +213,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     term: "Off-Label Prescription",
     pronunciation: "OFF-lay-bul",
     moduleId: "jargon",
-    moduleTitle: "Doctor Jargon",
+    moduleTitle: "Doctor Examples",
     categoryColor: "bg-purple-100 text-purple-900 border-purple-300",
     chartJargon: "Chart note: “Initiating spironolactone 50mg daily off-label for hormonal cystic acne.”",
     plainEnglish: "When a doctor prescribes an FDA-approved medication for a symptom other than what the FDA originally approved it for. It is very common, safe, and legal in reproductive health (such as using spironolactone, a blood pressure medication, to block acne-causing testosterone).",
@@ -225,7 +225,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     term: "Contraindication",
     pronunciation: "kon-truh-in-dih-KAY-shun",
     moduleId: "jargon",
-    moduleTitle: "Doctor Jargon",
+    moduleTitle: "Doctor Examples",
     categoryColor: "bg-purple-100 text-purple-900 border-purple-300",
     chartJargon: "Chart note: “History of migraine with visual aura represents an absolute contraindication to combined estrogen contraceptives.”",
     plainEnglish: "A specific medical reason or health history that makes a medication or procedure dangerous or unsafe for you (for example, having migraines with visual auras means you should NOT take estrogen-containing birth control pills due to stroke risk).",
@@ -237,7 +237,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     term: "Tanner Staging (Stages 1–5)",
     pronunciation: "TAN-er STAY-jing",
     moduleId: "jargon",
-    moduleTitle: "Doctor Jargon",
+    moduleTitle: "Doctor Examples",
     categoryColor: "bg-purple-100 text-purple-900 border-purple-300",
     chartJargon: "Chart note: “13-year-old female at Tanner Stage 3 breast development, Tanner Stage 3 pubic hair. Pre-menarcheal.”",
     plainEnglish: "The standard 1 to 5 clinical scale doctors use to track puberty progress (Stage 1 is pre-puberty; Stage 5 is fully mature). It helps doctors verify that growth spurts and body changes are developing in expected sequence.",
@@ -249,7 +249,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     term: "Fasting Blood Draw (“Fasted Labs”)",
     pronunciation: "FAS-ted LABZ",
     moduleId: "jargon",
-    moduleTitle: "Doctor Jargon",
+    moduleTitle: "Doctor Examples",
     categoryColor: "bg-purple-100 text-purple-900 border-purple-300",
     chartJargon: "Lab requisition: “Fasted 8–12 hours. Draw 8:00 AM: total/free testosterone, DHEA-S, fasting glucose and insulin.”",
     plainEnglish: "Going to the lab in the morning without eating or drinking anything (except plain water) for 8 to 12 hours. If you eat breakfast before a hormone test, your insulin spikes and distorts testosterone and metabolic accuracy!",
@@ -261,7 +261,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     term: "Transvaginal vs. Transabdominal Ultrasound",
     pronunciation: "tranz-VAJ-ih-nul vs tranz-ab-DOM-ih-nul",
     moduleId: "jargon",
-    moduleTitle: "Doctor Jargon",
+    moduleTitle: "Doctor Examples",
     categoryColor: "bg-purple-100 text-purple-900 border-purple-300",
     chartJargon: "Radiology order: “Transabdominal pelvic ultrasound indicated; patient is adolescent. Transvaginal deferred.”",
     plainEnglish: "Transabdominal means warm gel and a wand on your belly (you need a full bladder!). Transvaginal means a slender wand gently inserted into the vagina for clearer images. In teens or anyone not comfortable, transabdominal is standard!",
@@ -273,7 +273,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     term: "Analgesic / Analgesia",
     pronunciation: "an-ul-JEE-zik / an-ul-JEE-zee-uh",
     moduleId: "jargon",
-    moduleTitle: "Doctor Jargon",
+    moduleTitle: "Doctor Examples",
     categoryColor: "bg-purple-100 text-purple-900 border-purple-300",
     chartJargon: "Requisition order: “Severe acute abdominal pain. Administer intravenous non-opioid analgesic protocol per pain score.”",
     plainEnglish: "A medication specifically formulated to relieve or eliminate physical pain without causing you to lose consciousness. Examples include NSAIDs (ibuprofen), acetaminophen, and prescription pain medications. Critical rule: Analgesics treat pain; sedatives do not!",
@@ -285,7 +285,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     term: "Sedative / Anxiolytic",
     pronunciation: "SED-uh-tiv / ang-zee-oh-LIT-ik",
     moduleId: "jargon",
-    moduleTitle: "Doctor Jargon",
+    moduleTitle: "Doctor Examples",
     categoryColor: "bg-purple-100 text-purple-900 border-purple-300",
     chartJargon: "Emergency triage note: “Patient tearful and hyperventilating from pelvic pain; administered low-dose anxiolytic sedative.”",
     plainEnglish: "Medications designed to reduce anxiety, relax muscles, or induce sleepiness (like Valium or Ativan). In clinical studies, women reporting severe pain are statistically far more likely to be given sedatives than painkillers because clinicians mistakenly attribute their pain to emotional distress.",
@@ -297,7 +297,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     term: "Oligoanalgesia (Pain Under-Treatment)",
     pronunciation: "ah-li-go-an-ul-JEE-zee-uh",
     moduleId: "jargon",
-    moduleTitle: "Doctor Jargon",
+    moduleTitle: "Doctor Examples",
     categoryColor: "bg-purple-100 text-purple-900 border-purple-300",
     chartJargon: "Emergency quality audit: “ED protocol review indicates oligoanalgesia with a 65-minute median wait time for acute female abdominal pain.”",
     plainEnglish: "The medical term for the under-treatment of pain—either when clinicians fail to give pain medicine at all, give too low a dose, or make the patient wait unreasonably long. Studies show women face significant oligoanalgesia in emergency care.",
@@ -309,7 +309,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     term: "Psychogenic Pain / Psychogenic Attribution",
     pronunciation: "sy-koh-JEN-ik",
     moduleId: "jargon",
-    moduleTitle: "Doctor Jargon",
+    moduleTitle: "Doctor Examples",
     categoryColor: "bg-purple-100 text-purple-900 border-purple-300",
     chartJargon: "Chart note: “Recurrent severe pelvic pain with unremarkable ultrasound. Consider psychogenic etiology or somatization.”",
     plainEnglish: "A medical label meaning symptoms originate from psychological distress or emotions rather than physical disease. In women's healthcare history, physical pain (like endometriosis or ruptured cysts) has frequently been mislabeled 'psychogenic' simply because routine tests looked normal.",
@@ -321,7 +321,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     term: "Acute Abdominal Pain",
     pronunciation: "uh-KYOOT ab-DOM-in-ul PAYN",
     moduleId: "jargon",
-    moduleTitle: "Doctor Jargon",
+    moduleTitle: "Doctor Examples",
     categoryColor: "bg-purple-100 text-purple-900 border-purple-300",
     chartJargon: "Triage code: “Female presenting with non-traumatic acute abdominal pain, R/O appendicitis, ovarian torsion, ruptured cyst.”",
     plainEnglish: "Sudden, severe pain in the stomach, abdomen, or pelvic region developing over hours or days. It is a critical emergency room symptom where research proves women wait an average of 16 minutes longer for pain medication and are less likely to receive opioid pain relief than men with identical pain scores.",
@@ -333,7 +333,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     term: "Adverse Drug Reaction (ADR)",
     pronunciation: "ad-VERS DRUG ree-AK-shun",
     moduleId: "jargon",
-    moduleTitle: "Doctor Jargon",
+    moduleTitle: "Doctor Examples",
     categoryColor: "bg-purple-100 text-purple-900 border-purple-300",
     chartJargon: "Medication portal record: “Documented adverse drug reaction (ADR) to standard dose zolpidem; morning impairment and dizziness.”",
     plainEnglish: "An unwanted, harmful, or dangerous reaction caused by a medication taken at standard doses. Women experience adverse drug reactions at nearly twice the rate of men because clinical drug trials historically excluded female bodies and hormonal variations.",
@@ -345,7 +345,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     term: "Chart Documentation Request (“Document in Chart”)",
     pronunciation: "CHART dok-yoo-men-TAY-shun",
     moduleId: "jargon",
-    moduleTitle: "Doctor Jargon",
+    moduleTitle: "Doctor Examples",
     categoryColor: "bg-purple-100 text-purple-900 border-purple-300",
     chartJargon: "EHR addendum: “Patient requested pelvic MRI and specialist referral. Provider declined as not indicated; rationale entered per patient request.”",
     plainEnglish: "An essential patient self-advocacy phrase: asking a healthcare provider to write down in your medical record that you requested a specific diagnostic test or referral and that they decided to refuse it. Because medical charts are legal records, this often prompts clinicians to re-evaluate their refusal.",
@@ -1311,14 +1311,14 @@ export function LittleHealthDictionary({
           <div>
             <div className="flex items-center gap-2 flex-wrap">
               <h4 className="font-serif font-bold text-lg sm:text-xl text-deep-teal m-0">
-                Little Health Dictionary & Medical Jargon Buster
+                Little Health Dictionary &amp; Clinical Terms Guide
               </h4>
               <span className="text-[10px] font-extrabold uppercase tracking-wider bg-amber-200 text-amber-950 px-2.5 py-0.5 rounded-full border border-amber-300">
-                Plain English + Chart Code
+                Plain English + Clinic Examples
               </span>
             </div>
             <p className="text-xs sm:text-sm text-charcoal/75 m-0 font-sans mt-0.5">
-              Doctor shorthand, chart buzzwords, and tricky medical terms translated into clear, empowering language. <span className="font-semibold text-deep-teal">(This is education, not medical advice.)</span>
+              Doctor chart examples, clinical phrases, and tricky medical terms translated into clear, empowering language. <span className="font-semibold text-deep-teal">(This is education, not medical advice.)</span>
             </p>
           </div>
         </div>
@@ -1333,14 +1333,14 @@ export function LittleHealthDictionary({
         <div className="flex items-center justify-between gap-2">
           <span className="text-xs font-extrabold uppercase tracking-wider text-charcoal/70 flex items-center gap-1.5">
             <Sparkles className="w-3.5 h-3.5 text-amber-600" />
-            <span>Select a Topic or Jargon Tab:</span>
+            <span>Select a Topic or Doctor Examples Tab:</span>
           </span>
           {activeTab !== "all" && (
             <button
               onClick={() => setActiveTab("all")}
               className="text-[11px] font-bold text-deep-teal hover:text-raspberry underline transition-colors"
             >
-              View All Words & Jargon ({DICTIONARY_ENTRIES.length})
+              View All Words &amp; Clinic Examples ({DICTIONARY_ENTRIES.length})
             </button>
           )}
         </div>
@@ -1399,7 +1399,7 @@ export function LittleHealthDictionary({
           type="text"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          placeholder={`Search ${activeTab === "all" ? "all words & jargon" : `${activeModuleMeta.shortLabel} terms`} (e.g. WNL, R/O, idiopathic, dysmenorrhea, prostaglandins)...`}
+          placeholder={`Search ${activeTab === "all" ? "all words & doctor examples" : `${activeModuleMeta.shortLabel} terms`} (e.g. WNL, R/O, idiopathic, dysmenorrhea, prostaglandins)...`}
           className="w-full pl-9 pr-8 py-2 rounded-xl bg-white border border-amber-300 text-xs sm:text-sm text-charcoal placeholder:text-charcoal/40 focus:outline-none focus:ring-2 focus:ring-amber-400 font-sans shadow-2xs"
         />
         {searchQuery && (
@@ -1461,15 +1461,15 @@ export function LittleHealthDictionary({
                     </span>
                   </div>
 
-                  {/* Doctor Jargon / Chart Note Callout */}
+                  {/* Real Clinic / Chart Example Callout */}
                   {entry.chartJargon && (
-                    <div className="p-2 rounded-lg bg-slate-50 border border-slate-200 text-xs font-sans text-slate-800 flex items-start gap-1.5 mt-2 shadow-2xs">
-                      <FileText className="w-3.5 h-3.5 text-slate-600 mt-0.5 shrink-0" />
+                    <div className="p-2.5 rounded-xl bg-purple-50/70 border border-purple-200/70 text-xs font-sans text-purple-950 flex items-start gap-2 mt-2 shadow-2xs">
+                      <FileText className="w-3.5 h-3.5 text-purple-700 mt-0.5 shrink-0" />
                       <div className="leading-snug">
-                        <span className="text-[10px] font-extrabold uppercase tracking-wider text-slate-600 block">
-                          Doctor / Chart Jargon:
+                        <span className="text-[10px] font-extrabold uppercase tracking-wider text-purple-800 block mb-0.5">
+                          Real Clinic / Chart Example:
                         </span>
-                        <span className="italic text-[11px] text-slate-800 font-mono">
+                        <span className="italic text-[11px] text-purple-950 font-mono">
                           {entry.chartJargon}
                         </span>
                       </div>

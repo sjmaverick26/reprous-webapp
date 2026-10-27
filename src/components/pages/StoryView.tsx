@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { BookOpen, Sparkles, MessageSquare, Compass, Lightbulb, Globe, ExternalLink, CheckCircle2, Award } from "lucide-react";
+import { BookOpen, Sparkles, MessageSquare, Compass, ExternalLink, Award } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { PageId } from "@/components/layout/Navbar";
@@ -61,53 +61,6 @@ export function StoryView({ onNavigate }: StoryViewProps = {}) {
     },
   ];
 
-  const timeline = [
-    {
-      year: "Spark",
-      stepNumber: "01",
-      borderClass: "border-2 border-deep-teal",
-      topBorder: "border-t-4 border-t-deep-teal",
-      badgeClass: "bg-light-teal text-deep-teal border-deep-teal/25",
-      yearColor: "text-deep-teal",
-      iconBg: "bg-light-teal text-deep-teal border border-deep-teal/20",
-      icon: <Lightbulb className="w-5 h-5 text-deep-teal" />,
-      text: "A workshop we ran for free in a local community center, just to see if anyone would show up. They did, with endless questions.",
-    },
-    {
-      year: "Growth",
-      stepNumber: "02",
-      borderClass: "border-2 border-coral",
-      topBorder: "border-t-4 border-t-coral",
-      badgeClass: "bg-[#FFE1DB] text-[#B83F68] border-coral/30",
-      yearColor: "text-[#B83F68]",
-      iconBg: "bg-[#FFE1DB] text-coral border border-coral/30",
-      icon: <Compass className="w-5 h-5 text-coral" />,
-      text: "Word spread across high schools and youth groups. We built out a full, modular curriculum instead of one-off sessions.",
-    },
-    {
-      year: "Online",
-      stepNumber: "03",
-      borderClass: "border-2 border-raspberry",
-      topBorder: "border-t-4 border-t-raspberry",
-      badgeClass: "bg-soft-pink text-raspberry border-raspberry/25",
-      yearColor: "text-raspberry",
-      iconBg: "bg-soft-pink text-raspberry border border-raspberry/20",
-      icon: <Globe className="w-5 h-5 text-raspberry" />,
-      text: "The ReproUs Learn platform went live so anyone, anywhere could access reliable education — not just in-person attendees.",
-    },
-    {
-      year: "Today",
-      stepNumber: "04",
-      borderClass: "border-2 border-deep-teal",
-      topBorder: "border-t-4 border-t-deep-teal",
-      badgeClass: "bg-light-teal text-deep-teal border-deep-teal/25",
-      yearColor: "text-deep-teal",
-      iconBg: "bg-light-teal text-deep-teal border border-deep-teal/20",
-      icon: <Sparkles className="w-5 h-5 text-deep-teal" />,
-      text: "Free workshops, an ever-expanding multilingual platform, and a growing network of Youth Ambassadors speaking up for their health.",
-    },
-  ];
-
   return (
     <div className="max-w-[1100px] mx-auto px-6 py-12 flex flex-col gap-20">
       {/* Section 1: Story Hero */}
@@ -136,13 +89,6 @@ export function StoryView({ onNavigate }: StoryViewProps = {}) {
             >
               <Award className="w-4 h-4" />
               <span>Become a Youth Ambassador →</span>
-            </button>
-            <button
-              onClick={() => onNavigate("hub")}
-              className="px-6 py-3 rounded-full bg-white text-deep-teal font-sans font-bold text-sm md:text-[15px] border-2 border-deep-teal/30 hover:bg-light-teal/40 transition-all flex items-center gap-2 active:scale-95"
-            >
-              <BookOpen className="w-4 h-4 text-deep-teal" />
-              <span>Explore Health Topics (Learn)</span>
             </button>
           </div>
         )}
@@ -246,57 +192,7 @@ export function StoryView({ onNavigate }: StoryViewProps = {}) {
         </div>
       </div>
 
-      {/* Section 3: Timeline / The Journey */}
-      <div className="text-center max-w-5xl mx-auto w-full">
-        <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-xs font-extrabold font-sans uppercase tracking-wider bg-soft-pink text-raspberry border border-raspberry/25 mb-3.5 shadow-2xs">
-          <span>✦ THE JOURNEY</span>
-        </div>
-        <h2 className="text-3xl md:text-[42px] lg:text-[46px] font-bold font-serif text-deep-teal leading-[1.16] tracking-tight mb-4">
-          How ReproUs Grew
-        </h2>
-        <div className="space-y-3.5 text-center mb-10">
-          <p className="text-[17px] md:text-[19px] font-medium text-deep-teal/90 leading-relaxed font-sans max-w-2xl mx-auto m-0">
-            From a single free community workshop with endless questions to an expanding nationwide youth education network.
-          </p>
-          <p className="text-[15.5px] md:text-[16.5px] text-charcoal/80 leading-relaxed font-sans max-w-2xl mx-auto m-0">
-            Here is how grassroots curiosity, youth leadership, and evidence-based educational resources came together to build a safe, stigma-free learning space. <span className="text-xs sm:text-[13px] text-charcoal/65 font-sans italic font-normal block mt-1.5">(Note: This timeline and organizational journey are sample placeholders for demonstration purposes.)</span>
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 text-left">
-          {timeline.map((step, idx) => (
-            <Card key={idx} className={`p-6 relative bg-white shadow-xs hover:shadow-md transition-all flex flex-col justify-between ${step.borderClass} ${step.topBorder}`}>
-              <div>
-                <div className="flex items-center justify-between mb-3">
-                  <span className={`font-serif text-xl md:text-[22px] font-bold ${step.yearColor}`}>
-                    {step.year}
-                  </span>
-                  <div className={`p-2 rounded-xl ${step.iconBg}`}>
-                    {step.icon}
-                  </div>
-                </div>
-                <span className={`text-[10.5px] font-extrabold uppercase tracking-wider px-2.5 py-0.5 rounded-full border inline-block mb-3 ${step.badgeClass}`}>
-                  Phase {step.stepNumber}
-                </span>
-                <p className="text-[15px] md:text-[15.5px] text-charcoal/85 leading-relaxed m-0 font-sans">
-                  {step.text}
-                </p>
-                {step.stepNumber === "04" && onNavigate && (
-                  <button
-                    onClick={() => onNavigate("contact", "ambassador")}
-                    className="mt-3.5 inline-flex items-center gap-1.5 text-xs font-bold text-deep-teal hover:text-raspberry transition-colors font-sans group pt-2.5 border-t border-deep-teal/15 w-full"
-                  >
-                    <span>Become a Youth Ambassador</span>
-                    <span className="group-hover:translate-x-0.5 transition-transform">→</span>
-                  </button>
-                )}
-              </div>
-            </Card>
-          ))}
-        </div>
-      </div>
-
-      {/* Section 4: The Gender Research Gap & Clinical Evidence (Background Information) */}
+      {/* Section 3: The Gender Research Gap & Clinical Evidence (Background Information) */}
       <div id="research-gap" className="rounded-3xl bg-[#174C4F] text-white p-8 md:p-12 shadow-xl space-y-12">
         {/* Header */}
         <div>
@@ -398,72 +294,6 @@ export function StoryView({ onNavigate }: StoryViewProps = {}) {
                 <span>Academic Emergency Medicine Study</span>
                 <ExternalLink className="w-3.5 h-3.5" />
               </a>
-            </div>
-          </div>
-        </div>
-
-        {/* Horizontal Pathway: 6 Steps */}
-        <div className="pt-6 border-t border-white/15">
-          <div className="text-xs uppercase font-bold tracking-wider text-coral mb-5 font-sans flex items-center gap-2">
-            <Sparkles className="w-3.5 h-3.5 text-coral" />
-            <span>The Pathway from Gap to Self-Advocacy:</span>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-6 gap-3 lg:gap-2">
-            <div className="rounded-xl bg-white/10 border border-white/15 p-4 flex flex-col justify-between">
-              <div>
-                <span className="text-[11px] font-bold text-coral uppercase tracking-wider block font-sans mb-1">01</span>
-                <h4 className="font-bold text-[14px] text-white tracking-wide font-sans mb-1.5">RESEARCH</h4>
-                <p className="text-[12px] text-white/80 font-sans leading-relaxed m-0">Historical biomedical research underrepresented female hormonal cycles.</p>
-              </div>
-              <div className="hidden md:flex justify-end pt-2 text-coral font-bold text-sm">→</div>
-            </div>
-
-            <div className="rounded-xl bg-white/10 border border-white/15 p-4 flex flex-col justify-between">
-              <div>
-                <span className="text-[11px] font-bold text-coral uppercase tracking-wider block font-sans mb-1">02</span>
-                <h4 className="font-bold text-[14px] text-white tracking-wide font-sans mb-1.5">WHAT WE KNOW</h4>
-                <p className="text-[12px] text-white/80 font-sans leading-relaxed m-0">Foundational biology: menstrual cycle length, hormone feedback, and ovulation.</p>
-              </div>
-              <div className="hidden md:flex justify-end pt-2 text-coral font-bold text-sm">→</div>
-            </div>
-
-            <div className="rounded-xl bg-white/10 border border-white/15 p-4 flex flex-col justify-between">
-              <div>
-                <span className="text-[11px] font-bold text-coral uppercase tracking-wider block font-sans mb-1">03</span>
-                <h4 className="font-bold text-[14px] text-white tracking-wide font-sans mb-1.5">WHAT MAY BE MISSED</h4>
-                <p className="text-[12px] text-white/80 font-sans leading-relaxed m-0">Under-researched conditions like Endometriosis, RED-S, and atypical PCOS presentations.</p>
-              </div>
-              <div className="hidden md:flex justify-end pt-2 text-coral font-bold text-sm">→</div>
-            </div>
-
-            <div className="rounded-xl bg-white/10 border border-white/15 p-4 flex flex-col justify-between">
-              <div>
-                <span className="text-[11px] font-bold text-coral uppercase tracking-wider block font-sans mb-1">04</span>
-                <h4 className="font-bold text-[14px] text-white tracking-wide font-sans mb-1.5">RECOGNIZE SIGNS</h4>
-                <p className="text-[12px] text-white/80 font-sans leading-relaxed m-0">Validating that debilitating pain, cycle loss, or extreme fatigue are real medical data.</p>
-              </div>
-              <div className="hidden md:flex justify-end pt-2 text-coral font-bold text-sm">→</div>
-            </div>
-
-            <div className="rounded-xl bg-white/10 border border-white/15 p-4 flex flex-col justify-between">
-              <div>
-                <span className="text-[11px] font-bold text-coral uppercase tracking-wider block font-sans mb-1">05</span>
-                <h4 className="font-bold text-[14px] text-white tracking-wide font-sans mb-1.5">ASK QUESTIONS</h4>
-                <p className="text-[12px] text-white/80 font-sans leading-relaxed m-0">Preparing targeted questions and symptom tracking logs before doctor appointments.</p>
-              </div>
-              <div className="hidden md:flex justify-end pt-2 text-coral font-bold text-sm">→</div>
-            </div>
-
-            <div className="rounded-xl bg-raspberry text-white border border-raspberry p-4 flex flex-col justify-between shadow-sm">
-              <div>
-                <span className="text-[11px] font-bold text-white/90 uppercase tracking-wider block font-sans mb-1">06</span>
-                <h4 className="font-bold text-[14px] text-white tracking-wide font-sans mb-1.5">ADVOCATE</h4>
-                <p className="text-[12px] text-white/90 font-sans leading-relaxed m-0">Building the vocabulary, evidence, and confidence to be heard by clinicians.</p>
-              </div>
-              <div className="hidden md:flex justify-end pt-2 text-white">
-                <CheckCircle2 className="w-4 h-4 text-white" />
-              </div>
             </div>
           </div>
         </div>
