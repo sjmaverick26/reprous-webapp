@@ -1125,6 +1125,7 @@ export function TannerProgressionChart() {
 // ============================================================================
 
 export function RotterdamCriteriaRadar() {
+  const [activeTab, setActiveTab] = useState<"checker" | "phenotypes" | "adolescents">("checker");
   const [activeCriteria, setActiveCriteria] = useState<Set<number>>(new Set([0, 1]));
 
   const CRITERIA = [
@@ -1132,28 +1133,78 @@ export function RotterdamCriteriaRadar() {
       id: 0,
       title: "1. Ovulatory Dysfunction",
       subtitle: "Oligo- or Anovulation",
-      badge: "Cycle Timing",
-      clinicalFact: "Infrequent cycles (>35–45 days apart) or absent menses (amenorrhea >90 days).",
+      badge: "Rotterdam Criterion 1",
+      clinicalFact: (
+        <span>
+          Infrequent cycles (&gt;35–45 days apart), fewer than 8 periods a year, or absent menses (
+          <DictionaryHighlight term="Amenorrhea">amenorrhea</DictionaryHighlight> for &gt;90 days) due to irregular{" "}
+          <DictionaryHighlight term="Ovulation">ovulation</DictionaryHighlight>.
+        </span>
+      ),
       icon: Clock,
       color: "text-coral border-coral/40 bg-coral/10",
+      keySign: "Irregular Cycle Timing",
     },
     {
       id: 1,
       title: "2. Hyperandrogenism",
-      subtitle: "Clinical or Biochemical",
-      badge: "Hormone Level",
-      clinicalFact: "Clinical hirsutism (Ferriman-Gallwey scale), severe cystic acne, or elevated free/total testosterone.",
+      subtitle: "Clinical or Biochemical Excess",
+      badge: "Rotterdam Criterion 2",
+      clinicalFact: (
+        <span>
+          Physical signs of elevated androgens (persistent cystic jawline acne, coarse facial or body hair / hirsutism, scalp hair thinning) OR blood tests showing elevated total/free testosterone or DHEA-S (
+          <DictionaryHighlight term="Hyperandrogenism">Hyperandrogenism</DictionaryHighlight>).
+        </span>
+      ),
       icon: Flame,
       color: "text-amber-800 border-amber-300 bg-amber-50",
+      keySign: "Androgen Signs or High Labs",
     },
     {
       id: 2,
       title: "3. Polycystic Morphology",
       subtitle: "Ultrasound Ovarian Appearance",
-      badge: "Pelvic Imaging",
-      clinicalFact: ">=20 follicles per ovary (2–9 mm) or ovarian volume >10 mL on transvaginal or transabdominal ultrasound.",
+      badge: "Rotterdam Criterion 3",
+      clinicalFact: (
+        <span>
+          Pelvic ultrasound showing 20+ small, immature follicles (2–9 mm) paused in growth per ovary (&ldquo;string of pearls&rdquo;) or ovarian volume &gt;10 mL. (
+          <em>Note: Not required if criteria 1 &amp; 2 are already present!</em>)
+        </span>
+      ),
       icon: Droplets,
       color: "text-deep-teal border-deep-teal/40 bg-light-teal",
+      keySign: "Ultrasound Follicles (≥20)",
+    },
+  ];
+
+  const PHENOTYPES = [
+    {
+      name: "Phenotype A (Full / Classic)",
+      criteria: "All 3 Criteria (1 + 2 + 3)",
+      badge: "Full Criteria",
+      badgeClass: "bg-raspberry text-white border-raspberry",
+      desc: "Ovulatory dysfunction + hyperandrogenism + polycystic ovaries on ultrasound. Represents the classic presentation with highest metabolic vigilance recommended.",
+    },
+    {
+      name: "Phenotype B (Non-Polycystic Ovary PCOS)",
+      criteria: "Criteria 1 + 2 (No Cysts on Ultrasound!)",
+      badge: "No Cysts Needed!",
+      badgeClass: "bg-emerald-600 text-white border-emerald-600",
+      desc: "Irregular cycles + androgen excess, with a completely NORMAL ultrasound! Busts the widespread myth: you do NOT need ovarian cysts to have a formal PCOS diagnosis.",
+    },
+    {
+      name: "Phenotype C (Ovulatory PCOS)",
+      criteria: "Criteria 2 + 3 (Regular Periods!)",
+      badge: "Regular Cycles",
+      badgeClass: "bg-amber-600 text-white border-amber-600",
+      desc: "Hyperandrogenism + polycystic ovaries on ultrasound, but with regular monthly periods. Busts another myth: you can have PCOS even if your period arrives every month.",
+    },
+    {
+      name: "Phenotype D (Non-Hyperandrogenic PCOS)",
+      criteria: "Criteria 1 + 3 (Normal Androgen Labs)",
+      badge: "Normal Labs",
+      badgeClass: "bg-deep-teal text-white border-deep-teal",
+      desc: "Irregular cycles + polycystic ovaries on ultrasound, but normal androgen blood levels without severe acne or hirsutism.",
     },
   ];
 
@@ -1169,8 +1220,21 @@ export function RotterdamCriteriaRadar() {
 
   const meetsRotterdam = activeCriteria.size >= 2;
 
+  // Determine current phenotype based on selection
+  const currentPhenotype = (() => {
+    const has0 = activeCriteria.has(0);
+    const has1 = activeCriteria.has(1);
+    const has2 = activeCriteria.has(2);
+    if (has0 && has1 && has2) return "Phenotype A (Classic / Full)";
+    if (has0 && has1 && !has2) return "Phenotype B (Non-Polycystic Ovary — No cysts needed!)";
+    if (!has0 && has1 && has2) return "Phenotype C (Ovulatory — Regular cycles!)";
+    if (has0 && !has1 && has2) return "Phenotype D (Non-Hyperandrogenic)";
+    return null;
+  })();
+
   return (
     <div className="rounded-3xl border-2 border-deep-teal/20 bg-white p-5 sm:p-7 shadow-sm space-y-5 font-sans">
+      {/* Header */}
       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-deep-teal/10 pb-4">
         <div>
           <div className="flex items-center gap-2">
@@ -1179,92 +1243,247 @@ export function RotterdamCriteriaRadar() {
               <span>International Diagnostic Standard</span>
             </span>
             <span className="text-xs font-bold text-deep-teal bg-light-teal px-2.5 py-0.5 rounded-full">
-              Rotterdam Consensus (2 of 3 Rule)
+              Rotterdam Consensus (The 2-of-3 Rule)
             </span>
           </div>
           <h4 className="text-2xl sm:text-3xl font-serif font-bold text-deep-teal mt-1">
-            PCOS Rotterdam Diagnostic Criteria Interactive Triangle
+            PCOS Rotterdam Diagnostic Criteria Interactive Lab
           </h4>
         </div>
-        <p className="text-xs sm:text-sm text-charcoal/70 max-w-sm">
-          A diagnosis of PCOS requires meeting <strong>at least 2 out of 3</strong> criteria, after excluding other conditions like thyroid or adrenal disorders.
-        </p>
-      </div>
 
-      {/* 3 Interactive Clickable Criteria Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-        {CRITERIA.map((crit) => {
-          const isSelected = activeCriteria.has(crit.id);
-          const IconComp = crit.icon;
-
-          return (
-            <button
-              key={crit.id}
-              type="button"
-              onClick={() => toggleCriteria(crit.id)}
-              className={`p-5 rounded-3xl border-2 text-left transition-all cursor-pointer flex flex-col justify-between space-y-3 ${
-                isSelected
-                  ? "bg-white border-deep-teal ring-2 ring-deep-teal/20 shadow-md"
-                  : "bg-slate-50 border-slate-200 opacity-60 hover:opacity-100 hover:border-slate-300"
-              }`}
-            >
-              <div>
-                <div className="flex items-center justify-between mb-2">
-                  <span className={`p-2 rounded-xl border ${crit.color}`}>
-                    <IconComp className="w-4 h-4" />
-                  </span>
-                  <span
-                    className={`text-[11px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full border ${
-                      isSelected ? "bg-emerald-100 text-emerald-800 border-emerald-300" : "bg-slate-200 text-charcoal/60 border-slate-300"
-                    }`}
-                  >
-                    {isSelected ? "Active (✓)" : "Tap to Add"}
-                  </span>
-                </div>
-                <h6 className="font-serif font-bold text-lg text-deep-teal">{crit.title}</h6>
-                <span className="text-xs text-charcoal/70 font-semibold block">{crit.subtitle}</span>
-              </div>
-              <p className="text-xs text-charcoal/90 leading-relaxed m-0 border-t border-slate-100 pt-2">
-                {crit.clinicalFact}
-              </p>
-            </button>
-          );
-        })}
-      </div>
-
-      {/* Live Diagnostic Status Bar */}
-      <div
-        className={`p-5 sm:p-6 rounded-3xl border-2 flex flex-col sm:flex-row sm:items-center justify-between gap-4 transition-all shadow-2xs ${
-          meetsRotterdam
-            ? "bg-emerald-50 border-emerald-500 text-emerald-950"
-            : "bg-amber-50 border-amber-400 text-amber-950"
-        }`}
-      >
-        <div className="flex items-start gap-3">
-          <div
-            className={`w-10 h-10 rounded-2xl flex items-center justify-center shrink-0 shadow-xs ${
-              meetsRotterdam ? "bg-emerald-600 text-white" : "bg-amber-500 text-white"
+        {/* View Switcher Tabs */}
+        <div className="flex items-center gap-1.5 p-1 rounded-2xl bg-slate-100 border border-slate-200">
+          <button
+            type="button"
+            onClick={() => setActiveTab("checker")}
+            className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+              activeTab === "checker"
+                ? "bg-white text-deep-teal shadow-xs border border-deep-teal/20"
+                : "text-charcoal/70 hover:text-charcoal"
             }`}
           >
-            {meetsRotterdam ? <CheckCircle2 className="w-6 h-6" /> : <Info className="w-6 h-6" />}
-          </div>
-          <div>
-            <span className="text-xs font-bold uppercase tracking-wider block opacity-80">
-              Rotterdam Diagnostic Status: {activeCriteria.size} of 3 Criteria Met
-            </span>
-            <h5 className="text-lg sm:text-xl font-bold font-serif">
-              {meetsRotterdam
-                ? "Meets Rotterdam Criteria for Clinical PCOS Workup"
-                : "Does Not Meet Rotterdam 2-of-3 Threshold"}
-            </h5>
-            <p className="text-xs sm:text-sm opacity-90 mt-0.5 leading-relaxed">
-              {meetsRotterdam
-                ? "Clinical guidelines recommend comprehensive metabolic screening (fasting glucose, lipids) and personalized management."
-                : "Meeting only 1 criterion indicates possible isolated irregular cycles or acne; monitor symptoms or evaluate alternate etiologies."}
-            </p>
-          </div>
+            2 of 3 Checker
+          </button>
+          <button
+            type="button"
+            onClick={() => setActiveTab("phenotypes")}
+            className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+              activeTab === "phenotypes"
+                ? "bg-white text-deep-teal shadow-xs border border-deep-teal/20"
+                : "text-charcoal/70 hover:text-charcoal"
+            }`}
+          >
+            The 4 Phenotypes
+          </button>
+          <button
+            type="button"
+            onClick={() => setActiveTab("adolescents")}
+            className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+              activeTab === "adolescents"
+                ? "bg-white text-deep-teal shadow-xs border border-deep-teal/20"
+                : "text-charcoal/70 hover:text-charcoal"
+            }`}
+          >
+            Teen / Adolescent Rules
+          </button>
         </div>
       </div>
+
+      {/* TAB 1: 2-OF-3 CHECKER */}
+      {activeTab === "checker" && (
+        <div className="space-y-4 animate-in fade-in duration-150">
+          <p className="text-xs sm:text-sm text-charcoal/80 font-sans leading-relaxed m-0">
+            Under the international{" "}
+            <DictionaryHighlight term="Rotterdam Diagnostic Criteria">
+              Rotterdam Criteria
+            </DictionaryHighlight>
+            , a clinical diagnosis of <DictionaryHighlight term="PCOS">PCOS</DictionaryHighlight> requires meeting{" "}
+            <strong>at least 2 out of 3</strong> criteria below. Tap the cards to see how the combinations work:
+          </p>
+
+          {/* 3 Interactive Clickable Criteria Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+            {CRITERIA.map((crit) => {
+              const isSelected = activeCriteria.has(crit.id);
+              const IconComp = crit.icon;
+
+              return (
+                <button
+                  key={crit.id}
+                  type="button"
+                  onClick={() => toggleCriteria(crit.id)}
+                  className={`p-5 rounded-3xl border-2 text-left transition-all cursor-pointer flex flex-col justify-between space-y-3 ${
+                    isSelected
+                      ? "bg-white border-deep-teal ring-2 ring-deep-teal/20 shadow-md"
+                      : "bg-slate-50 border-slate-200 opacity-60 hover:opacity-100 hover:border-slate-300"
+                  }`}
+                >
+                  <div>
+                    <div className="flex items-center justify-between mb-2">
+                      <span className={`p-2 rounded-xl border ${crit.color}`}>
+                        <IconComp className="w-4 h-4" />
+                      </span>
+                      <span
+                        className={`text-[11px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full border ${
+                          isSelected
+                            ? "bg-emerald-100 text-emerald-800 border-emerald-300"
+                            : "bg-slate-200 text-charcoal/60 border-slate-300"
+                        }`}
+                      >
+                        {isSelected ? "Selected (✓)" : "Tap to Select"}
+                      </span>
+                    </div>
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-coral block mb-0.5">
+                      {crit.badge}
+                    </span>
+                    <h6 className="font-serif font-bold text-lg text-deep-teal m-0 leading-tight">
+                      {crit.title}
+                    </h6>
+                    <span className="text-xs text-charcoal/70 font-semibold block mt-0.5">
+                      {crit.subtitle}
+                    </span>
+                  </div>
+                  <div className="text-xs text-charcoal/90 leading-relaxed m-0 border-t border-slate-100 pt-2 font-sans">
+                    {crit.clinicalFact}
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Live Diagnostic Status Bar */}
+          <div
+            className={`p-5 sm:p-6 rounded-3xl border-2 flex flex-col sm:flex-row sm:items-center justify-between gap-4 transition-all shadow-2xs ${
+              meetsRotterdam
+                ? "bg-emerald-50 border-emerald-500 text-emerald-950"
+                : "bg-amber-50 border-amber-400 text-amber-950"
+            }`}
+          >
+            <div className="flex items-start gap-3">
+              <div
+                className={`w-10 h-10 rounded-2xl flex items-center justify-center shrink-0 shadow-xs ${
+                  meetsRotterdam ? "bg-emerald-600 text-white" : "bg-amber-500 text-white"
+                }`}
+              >
+                {meetsRotterdam ? <CheckCircle2 className="w-6 h-6" /> : <Info className="w-6 h-6" />}
+              </div>
+              <div className="space-y-1">
+                <span className="text-xs font-bold uppercase tracking-wider block opacity-80">
+                  Rotterdam Diagnostic Status: {activeCriteria.size} of 3 Criteria Met
+                </span>
+                <h5 className="text-lg sm:text-xl font-bold font-serif m-0">
+                  {meetsRotterdam
+                    ? `Meets Rotterdam Criteria for PCOS (${currentPhenotype})`
+                    : "Does Not Meet Rotterdam 2-of-3 Diagnostic Threshold"}
+                </h5>
+                <p className="text-xs sm:text-sm opacity-90 m-0 leading-relaxed font-sans">
+                  {meetsRotterdam ? (
+                    <span>
+                      Under international guidelines (Monash &amp; ACOG 2023), fulfilling at least 2 criteria confirms clinical PCOS. Clinicians should evaluate metabolic health (fasting glucose, lipids) and offer individualized symptom care.{" "}
+                      <strong>
+                        Notice: Even if Criterion 3 (ultrasound) is unselected, Criteria 1 + 2 alone constitute a definitive diagnosis!
+                      </strong>
+                    </span>
+                  ) : (
+                    <span>
+                      Meeting only 1 criterion does not fulfill the international diagnostic standard for PCOS. An isolated symptom may stem from temporary stress, nutritional shifts, or normal adolescent cycle maturation.
+                    </span>
+                  )}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* TAB 2: THE 4 ROTTERDAM PHENOTYPES */}
+      {activeTab === "phenotypes" && (
+        <div className="space-y-4 animate-in fade-in duration-150">
+          <p className="text-xs sm:text-sm text-charcoal/80 font-sans leading-relaxed m-0">
+            Because Rotterdam only requires <strong>2 of 3</strong> criteria, PCOS actually presents in <strong>4 distinct clinical phenotypes</strong>. This explains why two people with PCOS can look and feel completely different!
+          </p>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {PHENOTYPES.map((p, idx) => (
+              <div
+                key={idx}
+                className="p-5 rounded-3xl bg-slate-50 border-2 border-slate-200/90 hover:border-deep-teal/40 hover:bg-white transition-all space-y-2.5 flex flex-col justify-between shadow-2xs"
+              >
+                <div className="space-y-1.5">
+                  <div className="flex items-center justify-between gap-2 flex-wrap">
+                    <span className={`text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full border ${p.badgeClass}`}>
+                      {p.badge}
+                    </span>
+                    <span className="text-xs font-bold text-charcoal/60 font-sans">
+                      {p.criteria}
+                    </span>
+                  </div>
+                  <h5 className="font-serif font-bold text-lg text-deep-teal m-0">
+                    {p.name}
+                  </h5>
+                  <p className="text-xs sm:text-sm text-charcoal/85 leading-relaxed font-sans m-0">
+                    {p.desc}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="p-4 rounded-2xl bg-amber-50/80 border border-amber-300 text-xs sm:text-sm text-amber-950 flex items-start gap-2.5">
+            <Sparkles className="w-4 h-4 text-amber-800 shrink-0 mt-0.5" />
+            <span>
+              <strong>Crucial Patient Takeaway:</strong> If a doctor ever tells you &ldquo;Your ultrasound looked clear, so you don&apos;t have PCOS,&rdquo; remind them of <strong>Phenotype B</strong>! Under Rotterdam guidelines, irregular cycles plus signs of high androgens fulfill the diagnostic criteria with zero cysts required.
+            </span>
+          </div>
+        </div>
+      )}
+
+      {/* TAB 3: ADOLESCENT GUIDELINES (ACOG / PEDIATRIC ENDOCRINOLOGY) */}
+      {activeTab === "adolescents" && (
+        <div className="space-y-4 animate-in fade-in duration-150">
+          <p className="text-xs sm:text-sm text-charcoal/80 font-sans leading-relaxed m-0">
+            Adolescent bodies are actively developing. The 2023 International Evidence-Based PCOS Guidelines and ACOG have established specific diagnostic protections for teenagers:
+          </p>
+
+          <div className="space-y-3">
+            <div className="p-4 rounded-2xl bg-light-teal/50 border border-deep-teal/20 space-y-1.5">
+              <div className="flex items-center gap-2">
+                <span className="w-6 h-6 rounded-full bg-deep-teal text-white flex items-center justify-center font-bold text-xs">1</span>
+                <h6 className="font-serif font-bold text-sm sm:text-base text-deep-teal m-0">
+                  Ultrasound Is NOT Recommended Within 8 Years of First Period
+                </h6>
+              </div>
+              <p className="text-xs sm:text-sm text-charcoal/85 leading-relaxed font-sans pl-8 m-0">
+                During adolescence, healthy developing ovaries naturally have multiple follicles maturing at once. Over 80% of healthy teenage girls have &ldquo;polycystic-appearing&rdquo; ovaries on ultrasound! Using ultrasound can lead to false diagnoses.
+              </p>
+            </div>
+
+            <div className="p-4 rounded-2xl bg-soft-pink/50 border border-raspberry/20 space-y-1.5">
+              <div className="flex items-center gap-2">
+                <span className="w-6 h-6 rounded-full bg-raspberry text-white flex items-center justify-center font-bold text-xs">2</span>
+                <h6 className="font-serif font-bold text-sm sm:text-base text-raspberry m-0">
+                  Adolescent Diagnosis Requires Both Criteria 1 AND 2
+                </h6>
+              </div>
+              <p className="text-xs sm:text-sm text-charcoal/85 leading-relaxed font-sans pl-8 m-0">
+                For adolescents, clinicians must confirm <strong>both</strong> persistent ovulatory dysfunction (cycles &gt;45 days apart after the first year of menarche) <strong>and</strong> clinical or biochemical hyperandrogenism (severe inflammatory acne, hirsutism, or elevated free testosterone).
+              </p>
+            </div>
+
+            <div className="p-4 rounded-2xl bg-amber-50 border border-amber-300 space-y-1.5">
+              <div className="flex items-center gap-2">
+                <span className="w-6 h-6 rounded-full bg-amber-700 text-white flex items-center justify-center font-bold text-xs">3</span>
+                <h6 className="font-serif font-bold text-sm sm:text-base text-amber-950 m-0">
+                  &ldquo;At-Risk&rdquo; Labeling Instead of Stigmatizing Labels
+                </h6>
+              </div>
+              <p className="text-xs sm:text-sm text-charcoal/85 leading-relaxed font-sans pl-8 m-0">
+                If a teenager meets only one feature, guidelines recommend reassessment every 1–2 years rather than prescribing hormonal birth control blindly, ensuring underlying metabolic wellness is monitored and supported.
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

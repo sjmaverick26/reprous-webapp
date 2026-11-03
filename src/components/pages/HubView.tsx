@@ -772,6 +772,40 @@ export function HubView({ initialCategory, onNavigate }: HubViewProps) {
                 </div>
               )}
 
+              {/* Featured Interactive Experience: Rotterdam Diagnostic Criteria in PCOS Category */}
+              {activeCategoryId === "pcos" && (
+                <div className="mt-6 mb-2 rounded-3xl p-6 sm:p-7 bg-gradient-to-br from-raspberry/95 via-deep-teal to-teal-950 text-white border-2 border-raspberry/40 shadow-lg relative overflow-hidden flex flex-col md:flex-row md:items-center justify-between gap-5 text-left">
+                  <div className="space-y-2.5 max-w-2xl">
+                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-soft-pink/20 border border-soft-pink/40 text-soft-pink text-xs font-bold uppercase tracking-wider">
+                      <Sparkles className="w-3.5 h-3.5 text-soft-pink" />
+                      <span>Clinical Diagnostic Standard · 2-of-3 Rule</span>
+                    </div>
+                    <h3 className="text-xl sm:text-2xl font-bold font-serif text-white">
+                      The Rotterdam Criteria Diagnostic Guide
+                    </h3>
+                    <p className="text-sm text-slate-100 leading-relaxed font-sans">
+                      Under international consensus guidelines, PCOS requires meeting at least <strong>2 of 3 specific criteria</strong>: irregular ovulation, elevated androgens (signs or labs), and polycystic ovaries on ultrasound. You do <em>not</em> need ovarian cysts to have PCOS (Phenotype B), and you can have regular cycles (Phenotype C)!
+                    </p>
+                  </div>
+                  <div className="flex items-center justify-between md:flex-col md:items-end gap-3 pt-3 md:pt-0 border-t md:border-t-0 border-white/10 shrink-0">
+                    <span className="text-xs text-slate-200 font-sans">Interactive Criteria Checker &amp; 4 Phenotypes</span>
+                    <Button
+                      onClick={() => {
+                        const pcosTopic = activeCategory.topics.find(
+                          (t) => t.id === "pcos-1" || t.id === "pcos-0"
+                        );
+                        if (pcosTopic) openTopic(pcosTopic);
+                      }}
+                      size="sm"
+                      className="bg-white hover:bg-soft-pink text-deep-teal font-bold px-5 py-2.5 rounded-xl shadow-md hover:scale-105 transition-all text-sm flex items-center gap-2 cursor-pointer border border-white/40"
+                    >
+                      <Sparkles className="w-4 h-4 text-raspberry" />
+                      <span>Explore Rotterdam Criteria</span>
+                    </Button>
+                  </div>
+                </div>
+              )}
+
               {/* Serpentine Track */}
               <div className="py-8">
                 <div className="relative flex flex-col gap-6">

@@ -720,39 +720,156 @@ function PelvicMapDiagram({ diagram }: { diagram: LessonDiagram; themeColor: str
 }
 
 // --------------------------------------------------------------------------
-// 4. PCOS Metabolic & Endocrine Cycle Loop
+// 4. PCOS Rotterdam Criteria & Metabolic Loop Diagram
 // --------------------------------------------------------------------------
 function PcosLoopDiagram({ diagram }: { diagram: LessonDiagram; themeColor: string }) {
+  const [viewMode, setViewMode] = useState<"rotterdam" | "loop">("rotterdam");
   const [activeStep, setActiveStep] = useState<number>(0);
+  const [selectedCriteria, setSelectedCriteria] = useState<Set<number>>(new Set([0, 1]));
+
+  const ROTTERDAM_CRITERIA = [
+    {
+      id: 0,
+      title: "1. Ovulatory Dysfunction",
+      sub: "Oligo- or Anovulation",
+      badge: "Criterion 1",
+      desc: (
+        <span>
+          Delayed or absent periods (&gt;35–45 days between cycles, fewer than 8 periods per year, or{" "}
+          <DictionaryHighlight term="Amenorrhea">amenorrhea</DictionaryHighlight> for &gt;90 days) caused by irregular{" "}
+          <DictionaryHighlight term="Ovulation">ovulation</DictionaryHighlight>.
+        </span>
+      ),
+      icon: Clock,
+      color: "border-coral/40 bg-coral/10 text-coral",
+    },
+    {
+      id: 1,
+      title: "2. Hyperandrogenism",
+      sub: "Clinical or Biochemical Excess",
+      badge: "Criterion 2",
+      desc: (
+        <span>
+          Physical signs of elevated androgens (cystic jawline acne, coarse facial/body hair / hirsutism, scalp thinning) OR morning blood tests showing elevated total/free testosterone or DHEA-S (
+          <DictionaryHighlight term="Hyperandrogenism">Hyperandrogenism</DictionaryHighlight>).
+        </span>
+      ),
+      icon: Flame,
+      color: "border-amber-300 bg-amber-50 text-amber-900",
+    },
+    {
+      id: 2,
+      title: "3. Polycystic Morphology",
+      sub: "Ultrasound Ovarian Appearance",
+      badge: "Criterion 3",
+      desc: (
+        <span>
+          Pelvic ultrasound showing 20+ small immature follicles (2–9 mm) paused in growth per ovary (&ldquo;string of pearls&rdquo;) or ovarian volume &gt;10 mL. (
+          <em>Not required if Criteria 1 &amp; 2 are already present!</em>)
+        </span>
+      ),
+      icon: Droplets,
+      color: "border-deep-teal/40 bg-light-teal text-deep-teal",
+    },
+  ];
+
+  const toggleCriterion = (id: number) => {
+    setSelectedCriteria((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) {
+        next.delete(id);
+      } else {
+        next.add(id);
+      }
+      return next;
+    });
+  };
+
+  const meetsRotterdam = selectedCriteria.size >= 2;
+
+  const getPhenotype = () => {
+    const has0 = selectedCriteria.has(0);
+    const has1 = selectedCriteria.has(1);
+    const has2 = selectedCriteria.has(2);
+
+    if (has0 && has1 && has2) {
+      return {
+        label: "Phenotype A (Classic / Full)",
+        badge: "All 3 Criteria",
+        summary: "Ovulatory dysfunction + androgen excess + polycystic ovaries on ultrasound.",
+      };
+    }
+    if (has0 && has1) {
+      return {
+        label: "Phenotype B (Non-Polycystic Ovary PCOS)",
+        badge: "No Cysts Required!",
+        summary: "Irregular cycles + androgen excess with completely NORMAL ultrasound! Proves you do NOT need ovarian cysts for a PCOS diagnosis.",
+      };
+    }
+    if (has1 && has2) {
+      return {
+        label: "Phenotype C (Ovulatory PCOS)",
+        badge: "Regular Periods!",
+        summary: "Androgen excess + polycystic ovaries on ultrasound with regular monthly periods! Proves you can have PCOS even with monthly menses.",
+      };
+    }
+    if (has0 && has2) {
+      return {
+        label: "Phenotype D (Non-Hyperandrogenic PCOS)",
+        badge: "Normal Labs",
+        summary: "Irregular cycles + polycystic ovaries on ultrasound with normal androgen levels.",
+      };
+    }
+    return null;
+  };
+
+  const phenotype = getPhenotype();
 
   const steps = [
     {
       id: 0,
       title: "1. Insulin Resistance",
       driver: "Metabolic Trigger",
-      desc: "Receptors on muscle and fat cells respond less efficiently to insulin. The pancreas compensates by producing higher circulating insulin levels.",
-      intervention: "Intervention: Whole food complex carbs, dietary fiber, resistance training, and myo-inositol improve cellular insulin sensitivity.",
+      desc: (
+        <span>
+          Receptors on muscle and fat cells respond less efficiently to insulin. The pancreas compensates by producing higher circulating insulin levels.
+        </span>
+      ),
+      intervention: "Intervention: Whole-food complex carbs, dietary fiber, resistance training, and myo-inositol improve cellular insulin sensitivity.",
     },
     {
       id: 1,
       title: "2. Ovarian Androgen Production",
       driver: "Hormonal Cascade",
-      desc: "High circulating insulin stimulates the ovarian theca cells to overproduce androgens (testosterone and DHEA-S).",
-      intervention: "Intervention: Lowering insulin surges or using anti-androgenic nutrition/medications helps curb excess androgen synthesis.",
+      desc: (
+        <span>
+          High circulating insulin stimulates ovarian theca cells to overproduce androgens (<DictionaryHighlight term="Hyperandrogenism">testosterone and DHEA-S</DictionaryHighlight>).
+        </span>
+      ),
+      intervention: "Intervention: Lowering insulin surges through balanced meals and movement curbs excess ovarian androgen synthesis.",
     },
     {
       id: 2,
       title: "3. Arrested Follicle Maturation",
       driver: "Ovulatory Disruption",
-      desc: "Elevated androgens prevent dominant follicle selection. Multiple immature follicles pause in development, creating a ring of follicles.",
+      desc: (
+        <span>
+          Elevated androgens prevent dominant follicle selection. Multiple immature follicles pause in development, creating a ring of follicles.
+        </span>
+      ),
       intervention: "Intervention: Restoring metabolic balance prompts follicles to complete maturation and release an egg naturally.",
     },
     {
       id: 3,
       title: "4. Missing Ovulation & Progesterone Deficit",
       driver: "Cycle Symptom",
-      desc: "Without egg release, no corpus luteum forms to produce progesterone. Cycles become delayed, irregular, or absent (oligomenorrhea).",
-      intervention: "Intervention: Cyclical progestin or bio-identical progesterone can protect the endometrium and regulate cycle timing.",
+      desc: (
+        <span>
+          Without egg release (<DictionaryHighlight term="Ovulation">ovulation</DictionaryHighlight>), no corpus luteum forms to produce{" "}
+          <DictionaryHighlight term="Progesterone">progesterone</DictionaryHighlight>. Cycles become delayed or absent.
+        </span>
+      ),
+      intervention: "Intervention: Cyclical progestin or bio-identical progesterone protects the uterine lining (endometrium) and regulates cycle timing.",
     },
   ];
 
@@ -760,51 +877,188 @@ function PcosLoopDiagram({ diagram }: { diagram: LessonDiagram; themeColor: stri
 
   return (
     <div className="rounded-2xl border border-raspberry/20 bg-white p-4 md:p-5 shadow-sm space-y-4">
-      <div className="flex items-start justify-between gap-2 border-b border-raspberry/10 pb-3">
+      {/* Header & View Mode Switcher */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-raspberry/10 pb-3">
         <div>
           <div className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-raspberry">
             <Sparkles className="w-3.5 h-3.5 text-raspberry" />
-            Endocrine Feedback Loop
+            <span>PCOS Clinical Explorer</span>
           </div>
           <h4 className="text-base md:text-lg font-serif font-bold text-deep-teal mt-0.5">
             {diagram.title}
           </h4>
         </div>
-        <span className="text-[11px] font-semibold bg-soft-pink px-2.5 py-1 rounded-full text-raspberry border border-raspberry/20">
-          Click step to trace loop
-        </span>
-      </div>
 
-      {/* Interactive Loop Steps */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-        {steps.map((s) => (
+        {/* Tab Toggle */}
+        <div className="inline-flex rounded-xl bg-gray-100 p-1 border border-gray-200 self-start sm:self-auto">
           <button
-            key={s.id}
-            onClick={() => setActiveStep(s.id)}
-            className={`p-3 rounded-xl text-left border transition-all ${
-              activeStep === s.id
-                ? "bg-soft-pink border-raspberry text-raspberry shadow-sm font-bold scale-[1.02]"
-                : "bg-gray-50 border-gray-200 text-charcoal/70 hover:bg-white hover:border-raspberry/30"
+            onClick={() => setViewMode("rotterdam")}
+            className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
+              viewMode === "rotterdam"
+                ? "bg-white text-raspberry shadow-xs font-bold"
+                : "text-charcoal/70 hover:text-charcoal"
             }`}
           >
-            <div className="text-[10px] font-semibold uppercase tracking-wider opacity-70">{s.driver}</div>
-            <div className="text-xs font-bold mt-1 leading-snug">{s.title}</div>
+            Rotterdam 2-of-3 Rule
           </button>
-        ))}
+          <button
+            onClick={() => setViewMode("loop")}
+            className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
+              viewMode === "loop"
+                ? "bg-white text-raspberry shadow-xs font-bold"
+                : "text-charcoal/70 hover:text-charcoal"
+            }`}
+          >
+            Metabolic &amp; Androgen Loop
+          </button>
+        </div>
       </div>
 
-      {/* Active Step Details */}
-      <div className="p-4 rounded-xl bg-gradient-to-br from-soft-pink/30 to-white border border-raspberry/30 space-y-3">
-        <div>
-          <span className="text-xs font-bold uppercase tracking-wider text-raspberry">{current.driver}</span>
-          <h5 className="text-base font-bold font-serif text-deep-teal mt-0.5">{current.title}</h5>
+      {/* VIEW 1: ROTTERDAM CRITERIA CHECKER */}
+      {viewMode === "rotterdam" && (
+        <div className="space-y-4">
+          <p className="text-xs sm:text-sm text-charcoal/80 font-sans leading-relaxed m-0">
+            Under the international <DictionaryHighlight term="Rotterdam Diagnostic Criteria">Rotterdam Diagnostic Criteria</DictionaryHighlight>, a formal diagnosis of <DictionaryHighlight term="PCOS">PCOS</DictionaryHighlight> requires meeting <strong>at least 2 out of 3</strong> criteria. Click each card to simulate your clinical evaluation:
+          </p>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+            {ROTTERDAM_CRITERIA.map((crit) => {
+              const isSelected = selectedCriteria.has(crit.id);
+              const IconComp = crit.icon;
+              return (
+                <button
+                  key={crit.id}
+                  onClick={() => toggleCriterion(crit.id)}
+                  className={`p-3.5 rounded-2xl border text-left transition-all flex flex-col justify-between gap-2.5 cursor-pointer ${
+                    isSelected
+                      ? "border-raspberry bg-soft-pink/30 ring-2 ring-raspberry/30 shadow-xs"
+                      : "border-gray-200 bg-gray-50/70 opacity-75 hover:opacity-100 hover:border-gray-300"
+                  }`}
+                >
+                  <div className="flex items-center justify-between w-full">
+                    <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-white border border-gray-200 text-charcoal/70">
+                      {crit.badge}
+                    </span>
+                    <div
+                      className={`w-5 h-5 rounded-full flex items-center justify-center transition-all ${
+                        isSelected ? "bg-raspberry text-white" : "border-2 border-gray-300"
+                      }`}
+                    >
+                      {isSelected && <Check className="w-3.5 h-3.5" />}
+                    </div>
+                  </div>
+
+                  <div>
+                    <h5 className="font-serif font-bold text-sm text-deep-teal flex items-center gap-1.5">
+                      <IconComp className="w-4 h-4 text-raspberry shrink-0" />
+                      <span>{crit.title}</span>
+                    </h5>
+                    <div className="text-[11px] font-semibold text-charcoal/60 mt-0.5">
+                      {crit.sub}
+                    </div>
+                  </div>
+
+                  <div className="text-xs text-charcoal/80 leading-relaxed font-sans border-t border-raspberry/10 pt-2">
+                    {crit.desc}
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Diagnostic Outcome Indicator */}
+          <div
+            className={`p-4 rounded-2xl border transition-all ${
+              meetsRotterdam
+                ? "bg-light-teal/50 border-deep-teal/30 text-deep-teal"
+                : "bg-amber-50 border-amber-300 text-amber-950"
+            }`}
+          >
+            <div className="flex items-start gap-3">
+              {meetsRotterdam ? (
+                <CheckCircle2 className="w-5 h-5 text-deep-teal shrink-0 mt-0.5" />
+              ) : (
+                <AlertTriangle className="w-5 h-5 text-amber-700 shrink-0 mt-0.5" />
+              )}
+              <div className="space-y-1">
+                <div className="flex items-center gap-2 flex-wrap">
+                  <h5 className="text-sm sm:text-base font-serif font-bold">
+                    {meetsRotterdam
+                      ? `Meets Rotterdam Criteria for PCOS (${selectedCriteria.size} of 3)`
+                      : `Does Not Meet 2-of-3 Diagnostic Threshold (${selectedCriteria.size} of 3)`}
+                  </h5>
+                  {phenotype && (
+                    <span className="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-deep-teal text-white">
+                      {phenotype.label}
+                    </span>
+                  )}
+                </div>
+                <p className="text-xs sm:text-sm leading-relaxed opacity-90 font-sans m-0">
+                  {phenotype
+                    ? phenotype.summary
+                    : "Meeting only 1 isolated criterion does not establish PCOS under international guidelines. Symptoms like temporary cycle changes or isolated acne should be monitored or evaluated for other causes."}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Clinical Insights: Phenotype B & Teen Protections */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+            <div className="p-3.5 rounded-xl bg-raspberry/5 border border-raspberry/20 space-y-1">
+              <strong className="text-raspberry font-serif block">
+                Myth Buster: Phenotype B (No Cysts Needed!)
+              </strong>
+              <p className="text-charcoal/85 leading-relaxed font-sans m-0">
+                You can have a completely normal ultrasound with zero cysts and still meet full diagnostic criteria if you have irregular periods and signs of androgen excess.
+              </p>
+            </div>
+            <div className="p-3.5 rounded-xl bg-deep-teal/5 border border-deep-teal/20 space-y-1">
+              <strong className="text-deep-teal font-serif block">
+                Adolescent Protection (ACOG &amp; Monash)
+              </strong>
+              <p className="text-charcoal/85 leading-relaxed font-sans m-0">
+                Ultrasound is NOT recommended within 2–3 years of your first period because 80% of healthy teens naturally have multi-follicular ovaries! In teens, diagnosis requires both Criteria 1 and 2.
+              </p>
+            </div>
+          </div>
         </div>
-        <p className="text-xs md:text-sm text-charcoal/85 leading-relaxed">{current.desc}</p>
-        <div className="p-3 rounded-lg bg-white border border-raspberry/20 text-xs text-charcoal/90">
-          <strong className="text-raspberry">Empowered Action: </strong>
-          {current.intervention}
+      )}
+
+      {/* VIEW 2: METABOLIC & ANDROGEN FEEDBACK LOOP */}
+      {viewMode === "loop" && (
+        <div className="space-y-4">
+          {/* Interactive Loop Steps */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+            {steps.map((s) => (
+              <button
+                key={s.id}
+                onClick={() => setActiveStep(s.id)}
+                className={`p-3 rounded-xl text-left border transition-all cursor-pointer ${
+                  activeStep === s.id
+                    ? "bg-soft-pink border-raspberry text-raspberry shadow-sm font-bold scale-[1.02]"
+                    : "bg-gray-50 border-gray-200 text-charcoal/70 hover:bg-white hover:border-raspberry/30"
+                }`}
+              >
+                <div className="text-[10px] font-semibold uppercase tracking-wider opacity-70">{s.driver}</div>
+                <div className="text-xs font-bold mt-1 leading-snug">{s.title}</div>
+              </button>
+            ))}
+          </div>
+
+          {/* Active Step Details */}
+          <div className="p-4 rounded-xl bg-gradient-to-br from-soft-pink/30 to-white border border-raspberry/30 space-y-3">
+            <div>
+              <span className="text-xs font-bold uppercase tracking-wider text-raspberry">{current.driver}</span>
+              <h5 className="text-base font-bold font-serif text-deep-teal mt-0.5">{current.title}</h5>
+            </div>
+            <div className="text-xs md:text-sm text-charcoal/85 leading-relaxed font-sans">{current.desc}</div>
+            <div className="p-3 rounded-lg bg-white border border-raspberry/20 text-xs text-charcoal/90">
+              <strong className="text-raspberry">Empowered Action: </strong>
+              {current.intervention}
+            </div>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }

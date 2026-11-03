@@ -860,8 +860,10 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
           publication: "ACOG Practice Bulletin No. 194",
         },
         keyTakeaways: [
-          "Common hallmarks include irregular periods, hormonal acne, and excess hair growth.",
-          "Lifestyle adjustments, resistance exercise, and targeted medical support make PCOS highly manageable."
+          "Under the international Rotterdam criteria, diagnosis requires meeting at least 2 of 3 features: (1) irregular ovulation, (2) elevated androgens (signs or labs), and (3) polycystic ovaries on ultrasound.",
+          "Common physical hallmarks include irregular cycle timing, hormonal acne, and excess facial or body hair growth.",
+          "You do NOT need ovarian cysts on ultrasound to have PCOS (Phenotype B)! And in adolescents, ultrasound is avoided due to normal adolescent multi-follicular ovaries.",
+          "Lifestyle adjustments, resistance training, and targeted medical support make PCOS exceptionally manageable."
         ],
         visualCards: [
           {
@@ -957,29 +959,150 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
       },
       {
         id: "pcos-1",
-        name: "Hormones & Androgens",
+        name: "Rotterdam Criteria & Hormone Panels",
         type: "lesson",
-        desc: "Breaking down insulin, testosterone, and LH/FSH ratios.",
+        desc: "The 2-of-3 diagnostic standard, the 4 clinical phenotypes, and morning hormone testing.",
         xp: 50,
         readTime: "4 min read",
-        summary: "Understanding how insulin resistance and adrenal or ovarian androgens interact to influence cycle regularity.",
+        summary: "The Rotterdam Consensus (reaffirmed by the 2023 International Evidence-Based Guidelines and ACOG) establishes that PCOS is diagnosed by meeting at least 2 of 3 core features. Discover how the 4 clinical phenotypes work, why you do not need ovarian cysts to have PCOS, and how morning blood panels evaluate androgen excess and insulin sensitivity.",
+        clinicalQuote: {
+          quote: "Under the international Rotterdam consensus, PCOS is diagnosed by the presence of at least two of the following three features: ovulatory dysfunction, hyperandrogenism (clinical or biochemical), and polycystic ovarian morphology on ultrasound, with other etiologies excluded. For adolescents, pelvic ultrasound is not recommended within 8 years of menarche.",
+          source: "International Evidence-Based Guideline for the Assessment and Management of PCOS",
+          publication: "Monash University & ACOG (2023)",
+        },
         keyTakeaways: [
-          "Insulin resistance frequently drives higher androgen production in PCOS.",
-          "Balanced nutrition with complex carbs and protein supports healthy blood sugar stability."
+          "The Rotterdam consensus requires at least 2 of 3: (1) Ovulatory dysfunction, (2) Hyperandrogenism (clinical signs or blood tests), (3) Polycystic ovarian morphology on ultrasound.",
+          "Phenotype B (Non-Polycystic Ovary PCOS) busts the #1 myth: you do NOT need cysts on an ultrasound to receive a formal diagnosis.",
+          "Phenotype C (Ovulatory PCOS) proves that having regular monthly cycles does not rule out PCOS if you have androgen excess and polycystic ovaries.",
+          "For adolescents (within 2–3 years of menarche), ultrasound is NOT recommended because 80% of healthy teenagers have multi-follicular ovaries; diagnosis requires both criteria 1 and 2."
+        ],
+        visualCards: [
+          {
+            title: "The 2-of-3 Standard",
+            iconName: "CheckCircle2",
+            text: "Diagnosis requires at least two of three criteria: irregular ovulation, elevated androgens, or polycystic ovaries on ultrasound.",
+            highlight: "Rotterdam Consensus"
+          },
+          {
+            title: "The 4 Phenotypes",
+            iconName: "Sparkles",
+            text: "Phenotype A (Full), Phenotype B (No Cysts Needed!), Phenotype C (Regular Periods!), and Phenotype D (Normal Labs) classify clinical variation.",
+            highlight: "Phenotypes A–D"
+          },
+          {
+            title: "Morning Fasted Labs",
+            iconName: "Activity",
+            text: "Diagnostic testing evaluates total & free testosterone, DHEA-S, fasting insulin, HbA1c, plus thyroid and prolactin to exclude copycat conditions.",
+            highlight: "Fasted Hormone Panel"
+          },
+          {
+            title: "Adolescent Protections",
+            iconName: "Shield",
+            text: "Adolescent ovaries naturally look multi-follicular. ACOG guidelines require both irregular periods AND high androgens before diagnosing teens.",
+            highlight: "ACOG Teen Rules"
+          }
+        ],
+        diagram: {
+          type: "pcos-loop",
+          title: "Rotterdam Diagnostic Criteria & Hormone Feedback Loop",
+          caption: "Interactive analysis of the Rotterdam 2-of-3 diagnostic standard, the 4 clinical phenotypes, and the insulin-androgen endocrine cycle."
+        },
+        quiz: [
+          {
+            question: "Can someone receive a formal PCOS diagnosis if their pelvic ultrasound shows completely normal ovaries with zero cysts?",
+            options: [
+              "No, ultrasound cysts are mandatory for any diagnosis",
+              "Yes, under Rotterdam Phenotype B if they have irregular cycles and androgen excess",
+              "Only after age 35",
+              "Only if they have elevated blood glucose"
+            ],
+            correctIndex: 1,
+            explanation: "Under Rotterdam Phenotype B, having ovulatory dysfunction plus clinical or biochemical hyperandrogenism fulfills the 2-of-3 rule with zero ovarian cysts required."
+          },
+          {
+            question: "Why do ACOG and the 2023 International Guidelines advise against pelvic ultrasound for diagnosing PCOS in adolescents within 2–3 years of their first period?",
+            options: [
+              "Ultrasounds are too painful for adolescents",
+              "Up to 80% of healthy developing teenagers naturally have polycystic-appearing ovaries",
+              "Adolescent hormones cannot be detected by ultrasound",
+              "Ultrasound machines cannot scan teenage pelvic anatomy"
+            ],
+            correctIndex: 1,
+            explanation: "During normal puberty, healthy developing ovaries naturally have multiple maturing follicles at once. Using ultrasound in teens often causes false-positive overdiagnosis."
+          },
+          {
+            question: "What is Rotterdam Phenotype C often called, and why does it surprise patients?",
+            options: [
+              "Silent PCOS because there are no symptoms at all",
+              "Ovulatory PCOS because periods arrive regularly every month despite androgen excess and polycystic ovaries",
+              "Post-pill PCOS",
+              "Adrenal-only PCOS"
+            ],
+            correctIndex: 1,
+            explanation: "Phenotype C includes hyperandrogenism and polycystic ovaries on ultrasound, but the person ovulates and has regular monthly periods."
+          }
         ]
       },
       {
         id: "pcos-2",
-        name: "PCOS Symptom Match",
+        name: "PCOS Diagnostic & Symptom Match",
         type: "game",
-        desc: "Sort real symptoms from common myths about PCOS.",
+        desc: "Sort real Rotterdam criteria from common myths and associated features.",
         xp: 75,
-        summary: "Identify clinical hallmarks vs. outdated misconceptions about fertility and body changes.",
+        summary: "Master the Rotterdam 2-of-3 framework by distinguishing clinical diagnostic criteria from associated symptoms and outdated medical myths.",
         keyTakeaways: [
-          "PCOS does not mean you cannot get pregnant; ovulation can be supported effectively.",
-          "Weight is a symptom rather than the root cause of metabolic fluctuations."
+          "Rotterdam requires at least 2 of 3: irregular cycles, androgen excess, or polycystic ovaries on ultrasound.",
+          "Weight or BMI is NOT a diagnostic criterion; PCOS occurs across all body types.",
+          "The 'cysts' are immature egg follicles paused in development, not dangerous fluid tumors.",
+          "In adolescents, ultrasound findings are non-diagnostic; criteria 1 and 2 must both be present."
         ],
-        gameType: "sort"
+        gameType: "sort",
+        sorterGame: {
+          title: "Rotterdam Diagnostic Criteria vs. Associated Features & Myths",
+          instructions: "Classify each scenario into whether it represents a core Rotterdam diagnostic criterion or an associated feature / misconception.",
+          categories: [
+            { id: "rotterdam", name: "Meets Rotterdam Criteria (2 of 3)", colorClass: "bg-emerald-50 border-emerald-300 text-emerald-900" },
+            { id: "myth_or_feature", name: "Associated Feature or Myth", colorClass: "bg-amber-50 border-amber-300 text-amber-950" }
+          ],
+          items: [
+            {
+              id: "rot1",
+              text: "Cycles arriving >50 days apart paired with elevated free testosterone on morning bloodwork",
+              correctCategory: "rotterdam",
+              explanation: "Fulfills Criterion 1 (Ovulatory Dysfunction) and Criterion 2 (Hyperandrogenism) — meeting Rotterdam Phenotype B with zero cysts required!"
+            },
+            {
+              id: "rot2",
+              text: "Being clinically overweight or having a higher BMI number",
+              correctCategory: "myth_or_feature",
+              explanation: "BMI or weight is NOT a diagnostic criterion. PCOS affects individuals across all body sizes and weights (lean PCOS is well-documented)."
+            },
+            {
+              id: "rot3",
+              text: "Severe jawline cystic acne + ultrasound showing 24 follicles per ovary, with regular monthly periods",
+              correctCategory: "rotterdam",
+              explanation: "Fulfills Criterion 2 (Hyperandrogenism) and Criterion 3 (Polycystic Morphology) — meeting Rotterdam Phenotype C (Ovulatory PCOS)!"
+            },
+            {
+              id: "rot4",
+              text: "Must have painful fluid-filled cysts that risk rupturing to qualify as PCOS",
+              correctCategory: "myth_or_feature",
+              explanation: "A major misconception! The 'cysts' in PCOS are actually small, harmless immature egg follicles paused in growth, not painful rupturing cysts."
+            },
+            {
+              id: "rot5",
+              text: "Ultrasound showing 22 follicles in a healthy 14-year-old just 1 year after her first period",
+              correctCategory: "myth_or_feature",
+              explanation: "In adolescents within 2–3 years of menarche, ultrasound is non-diagnostic because 80% of healthy teens naturally have multi-follicular ovaries."
+            },
+            {
+              id: "rot6",
+              text: "Periods absent for 4 months (amenorrhea) + ultrasound showing ovarian volume of 12 mL",
+              correctCategory: "rotterdam",
+              explanation: "Fulfills Criterion 1 (Ovulatory Dysfunction) and Criterion 3 (Polycystic Morphology) — meeting Rotterdam Phenotype D!"
+            }
+          ]
+        }
       },
       {
         id: "pcos-3",

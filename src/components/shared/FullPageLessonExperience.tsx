@@ -256,12 +256,23 @@ export function FullPageLessonExperience({
         </div>
       );
     }
-    if (categoryId === "conditions" || categoryId === "pcos" || categoryId === "endo") {
+    if (categoryId === "pcos") {
+      return (
+        <div className="space-y-4">
+          <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-raspberry font-sans">
+            <Sparkles className="w-4 h-4 text-coral" />
+            <span>PCOS Rotterdam Diagnostic Criteria (The 2-of-3 Rule)</span>
+          </div>
+          <RotterdamCriteriaRadar />
+        </div>
+      );
+    }
+    if (categoryId === "conditions") {
       return (
         <div className="space-y-4">
           <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-deep-teal font-sans">
             <Sparkles className="w-4 h-4 text-coral" />
-            <span>Diagnostic Radar &amp; Criteria Analysis</span>
+            <span>Diagnostic Radar &amp; Clinical Criteria Analysis</span>
           </div>
           <RotterdamCriteriaRadar />
         </div>
