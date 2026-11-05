@@ -1,428 +1,81 @@
 "use client";
 
-import React, { useState } from "react";
-import {
-  Calendar,
-  Clock,
-  MapPin,
-  Users,
-  CheckCircle2,
-  Sparkles,
-  Camera,
-  HeartHandshake
-} from "lucide-react";
-import {
-  WORKSHOP_STEPS,
-  SAMPLE_AGENDA,
-  WORKSHOP_REVIEWS,
-  UPCOMING_SESSIONS,
-  WorkshopSession,
-} from "@/data/workshopsData";
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-} from "@/components/ui/dialog";
-import { rsvpWorkshop, requestWorkshopVisit } from "@/lib/api";
+import React from "react";
+import { Calendar, Mail } from "lucide-react";
+import { WORKSHOP_STEPS } from "@/data/workshopsData";
+import { siteLinks } from "@/data/siteLinks";
+import { cn } from "@/lib/utils";
+
+const focusRing =
+  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-deep-teal focus-visible:ring-offset-2";
+const card = "rounded-2xl border border-[#E5E1DC] bg-white p-5 shadow-sm md:p-6";
+const h2Class = "font-serif text-h2 font-normal text-deep-teal text-balance";
 
 export function WorkshopsView() {
-  const [selectedSession, setSelectedSession] = useState<WorkshopSession | null>(null);
-  const [rsvpName, setRsvpName] = useState("");
-  const [rsvpEmail, setRsvpEmail] = useState("");
-  const [rsvpSuccess, setRsvpSuccess] = useState(false);
-  const [isSubmittingRsvp, setIsSubmittingRsvp] = useState(false);
-
-  const [isRequestModalOpen, setIsRequestModalOpen] = useState(false);
-  const [requestOrg, setRequestOrg] = useState("");
-  const [requestName, setRequestName] = useState("");
-  const [requestEmail, setRequestEmail] = useState("");
-  const [requestNotes, setRequestNotes] = useState("");
-  const [requestSuccess, setRequestSuccess] = useState(false);
-  const [isSubmittingRequest, setIsSubmittingRequest] = useState(false);
-
-  const handleRsvpSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!selectedSession || !rsvpName || !rsvpEmail) return;
-
-    setIsSubmittingRsvp(true);
-    await rsvpWorkshop({
-      session_id: selectedSession.id,
-      attendee_name: rsvpName,
-      email: rsvpEmail,
-    });
-    setIsSubmittingRsvp(false);
-    setRsvpSuccess(true);
-    setTimeout(() => {
-      setSelectedSession(null);
-      setRsvpSuccess(false);
-      setRsvpName("");
-      setRsvpEmail("");
-    }, 2200);
-  };
-
-  const handleRequestSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!requestOrg || !requestName || !requestEmail) return;
-
-    setIsSubmittingRequest(true);
-    await requestWorkshopVisit({
-      organization_name: requestOrg,
-      contact_name: requestName,
-      email: requestEmail,
-      notes: requestNotes,
-    });
-    setIsSubmittingRequest(false);
-    setRequestSuccess(true);
-    setTimeout(() => {
-      setIsRequestModalOpen(false);
-      setRequestSuccess(false);
-      setRequestOrg("");
-      setRequestName("");
-      setRequestEmail("");
-      setRequestNotes("");
-    }, 2200);
-  };
+  const requestMailto = `mailto:${siteLinks.contactEmail}?subject=${encodeURIComponent("Workshop request")}`;
 
   return (
-    <div className="max-w-[1100px] mx-auto px-6 py-12 flex flex-col gap-16">
+    <div className="font-sans text-charcoal">
       {/* Header */}
-      <div className="text-center max-w-5xl mx-auto">
-        <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-xs font-bold font-sans uppercase tracking-wider bg-amber-50 text-amber-900 border border-amber-300 mb-3 shadow-2xs">
-          <Sparkles className="w-3.5 h-3.5 text-amber-600" />
-          <span>Workshops &amp; Sessions (Sample Placeholders)</span>
-        </div>
-        <h1 className="text-4xl md:text-[64px] lg:text-[72px] font-normal font-serif text-plum leading-[1.08] mb-4">
+      <header className="mx-auto max-w-6xl px-4 pb-10 pt-16 text-center md:px-6 md:pb-14 md:pt-20">
+        <h1 className="mx-auto max-w-4xl font-serif text-h1 font-normal text-deep-teal text-balance">
           Free, Interactive Workshops
         </h1>
-        <p className="text-[15px] sm:text-[16px] lg:text-[17px] text-ink/80 leading-relaxed mb-3 font-sans lg:whitespace-nowrap">
+        <p className="mx-auto mt-5 max-w-2xl text-body text-charcoal text-pretty">
           Hands-on 90-minute sessions in schools and community centers. No tests, no awkwardness — just real facts, honest discussion, and practical skills.
         </p>
-        <p className="text-xs text-charcoal/60 font-sans italic m-0 lg:whitespace-nowrap">
-          (Note: All workshop dates, locations, schedules, and reviews shown below are sample placeholders for demonstration purposes)
-        </p>
-      </div>
+      </header>
 
-      {/* 4 Steps Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        {WORKSHOP_STEPS.map((step, idx) => {
-          const borderOutline =
-            idx % 3 === 0
-              ? "border-2 border-deep-teal"
-              : idx % 3 === 1
-              ? "border-2 border-coral"
-              : "border-2 border-raspberry";
-          const numBg =
-            idx % 3 === 0
-              ? "bg-deep-teal text-white"
-              : idx % 3 === 1
-              ? "bg-coral text-white"
-              : "bg-raspberry text-white";
+      {/* What to expect */}
+      <section className="bg-warm-cream">
+        <div className="mx-auto max-w-6xl px-4 py-16 md:px-6 md:py-24">
+          <h2 className={h2Class}>What to expect</h2>
+          <ul className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {WORKSHOP_STEPS.map((step) => (
+              <li key={step.step} className={card}>
+                <h3 className="font-serif text-lg font-normal text-deep-teal text-balance">{step.title}</h3>
+                <p className="mt-2 text-base text-charcoal text-pretty">{step.desc}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
 
-          return (
-            <Card
-              key={step.step}
-              className={`p-6 text-center bg-white ${borderOutline} shadow-xs hover:shadow-hover transition-all`}
-            >
-              <div className={`w-10 h-10 rounded-full ${numBg} flex items-center justify-center font-bold text-base mx-auto mb-3 font-sans`}>
-                {step.step}
-              </div>
-              <h3 className="text-xl md:text-[22px] font-normal font-serif text-deep-teal mb-2 leading-snug">
-                {step.title}
-              </h3>
-              <p className="text-[14px] text-charcoal/80 leading-relaxed m-0 font-sans">
-                {step.desc}
-              </p>
-            </Card>
-          );
-        })}
-      </div>
-
-      {/* Sample Agenda */}
-      <div className="max-w-2xl mx-auto w-full">
-        <div className="text-center mb-6">
-          <div className="text-xs font-extrabold uppercase tracking-wider text-deep-teal">
-            Sample Agenda • 90 Minutes (Placeholder Format)
+      {/* Upcoming workshops: none yet */}
+      <section>
+        <div className="mx-auto max-w-6xl px-4 py-16 md:px-6 md:py-24">
+          <h2 className={h2Class}>Join an upcoming free workshop</h2>
+          <div className={cn(card, "mt-8 flex items-start gap-4 md:p-8")}>
+            <Calendar className="mt-1 h-6 w-6 shrink-0 text-deep-teal" aria-hidden="true" />
+            <p className="font-serif text-lg text-deep-teal">No upcoming workshops yet</p>
           </div>
         </div>
-        <Card className="p-4 md:p-8 divide-y divide-deep-teal/10 bg-white shadow-xs border-2 border-deep-teal">
-          {SAMPLE_AGENDA.map((item, idx) => (
-            <div key={idx} className="flex flex-col sm:flex-row gap-4 py-4 first:pt-0 last:pb-0 items-baseline">
-              <div className="font-serif font-bold text-berry w-24 flex-shrink-0 text-base">
-                {item.time}
-              </div>
-              <div>
-                <b className="block text-sm md:text-base text-ink">{item.title}</b>
-                <span className="text-xs md:text-sm text-ink/75 leading-relaxed">{item.detail}</span>
-              </div>
-            </div>
-          ))}
-        </Card>
-      </div>
+      </section>
 
-      {/* Past Workshops Visual Gallery */}
-      <div>
-        <div className="text-center mb-6">
-          <div className="text-xs font-extrabold uppercase tracking-wider text-berry/75">
-            From Past Workshops (Placeholder Photo Gallery)
+      {/* Bring ReproUs to your school or group */}
+      <section className="bg-deep-teal">
+        <div className="mx-auto flex max-w-6xl flex-col items-start justify-between gap-8 px-4 py-16 md:flex-row md:items-center md:px-6 md:py-24">
+          <div className="max-w-xl">
+            <h2 className="font-serif text-h2 font-normal text-white text-balance">
+              Bring ReproUs to your school or group
+            </h2>
+            <p className="mt-4 text-body text-white text-pretty">
+              We will travel to you or host a dedicated virtual session for your class, youth organization, or community center.
+            </p>
           </div>
+          <a
+            href={requestMailto}
+            className={cn(
+              "inline-flex min-h-11 shrink-0 items-center justify-center gap-2 rounded-full bg-raspberry px-6 py-2.5 text-center text-base font-semibold text-white transition-colors duration-200 hover:bg-raspberry-dark",
+              focusRing,
+              "focus-visible:ring-offset-deep-teal focus-visible:ring-white"
+            )}
+          >
+            <Mail className="h-4 w-4" aria-hidden="true" />
+            <span>Request a workshop</span>
+          </a>
         </div>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <div className="aspect-square rounded-2xl bg-yellow-deep flex items-center justify-center text-cream-card shadow-sm hover:scale-[1.02] transition-transform">
-            <Camera className="w-8 h-8" />
-          </div>
-          <div className="aspect-square rounded-2xl bg-blush-deep flex items-center justify-center text-berry shadow-sm hover:scale-[1.02] transition-transform">
-            <Users className="w-8 h-8" />
-          </div>
-          <div className="aspect-square rounded-2xl bg-berry flex items-center justify-center text-cream-card shadow-sm hover:scale-[1.02] transition-transform">
-            <Sparkles className="w-8 h-8" />
-          </div>
-          <div className="aspect-square rounded-2xl bg-yellow flex items-center justify-center text-berry shadow-sm hover:scale-[1.02] transition-transform">
-            <HeartHandshake className="w-8 h-8" />
-          </div>
-        </div>
-      </div>
-
-      {/* What Attendees Said */}
-      <div>
-        <div className="text-center mb-8">
-          <div className="text-xs font-extrabold uppercase tracking-wider text-berry/75">
-            What People Said
-          </div>
-          <p className="text-xs text-charcoal/60 font-sans mt-1">
-            (These quotes are mockups for demonstration purposes)
-          </p>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {WORKSHOP_REVIEWS.map((r, i) => {
-            const borderOutline =
-              i % 3 === 0
-                ? "border-2 border-deep-teal"
-                : i % 3 === 1
-                ? "border-2 border-coral"
-                : "border-2 border-raspberry";
-
-            return (
-              <Card key={i} className={`p-6 flex flex-col justify-between bg-white shadow-xs ${borderOutline}`}>
-                <p className="font-serif text-base text-deep-teal leading-relaxed mb-4 italic">
-                  &ldquo;{r.quote}&rdquo;
-                </p>
-                <div className="text-xs font-extrabold text-charcoal/70 font-sans">
-                  — {r.attendee}, age {r.age} <span className="font-normal text-charcoal/50">(mockup quote)</span>
-                </div>
-              </Card>
-            );
-          })}
-        </div>
-      </div>
-
-      {/* Upcoming Sessions Grid */}
-      <div>
-        <div className="text-center mb-8">
-          <div className="text-[13px] font-bold font-sans uppercase tracking-wider text-deep-teal mb-2">
-            Upcoming Sessions (Sample Placeholders)
-          </div>
-          <h2 className="text-3xl md:text-[44px] lg:text-[50px] font-normal font-serif text-deep-teal leading-[1.15]">
-            Join an upcoming free workshop
-          </h2>
-          <p className="text-xs text-charcoal/60 font-sans mt-2">
-            (All workshop sessions listed below are placeholders for demonstration purposes)
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {UPCOMING_SESSIONS.map((session, idx) => {
-            const borderOutline =
-              idx % 3 === 0
-                ? "border-2 border-deep-teal"
-                : idx % 3 === 1
-                ? "border-2 border-coral"
-                : "border-2 border-raspberry";
-
-            return (
-              <Card key={session.id} className={`p-7 flex flex-col justify-between text-center items-center bg-white shadow-xs ${borderOutline}`}>
-                <div>
-                  <div className="mb-2">
-                    <span className="inline-block px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-amber-100 text-amber-900 border border-amber-300">
-                      Placeholder Workshop
-                    </span>
-                  </div>
-                  <div className="font-serif text-3xl font-bold text-deep-teal mb-2">
-                    {session.date}
-                  </div>
-                  <div className="text-[13px] font-bold font-sans text-raspberry uppercase tracking-wider mb-2">
-                    {session.topic}
-                  </div>
-                  <p className="text-[14px] text-charcoal/75 mb-4 font-sans">
-                    {session.time} • {session.location}
-                  </p>
-                  <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-light-teal/50 text-deep-teal border border-deep-teal/20 text-[13px] font-semibold mb-6 font-sans">
-                    <Users className="w-3.5 h-3.5" />
-                    {session.spotsLeft} spots available
-                  </div>
-                </div>
-                <Button
-                  onClick={() => setSelectedSession(session)}
-                  className="w-full h-auto min-h-[44px] py-2.5 px-3 text-[13.5px] sm:text-[14px] font-semibold whitespace-normal text-center leading-tight bg-raspberry hover:bg-raspberry/90 text-white cursor-pointer"
-                >
-                  RSVP for Free (Demo)
-                </Button>
-              </Card>
-            );
-          })}
-        </div>
-      </div>
-
-      {/* Request Workshop for School or Group Banner */}
-      <div className="rounded-3xl bg-berry text-cream-card p-8 md:p-12 flex flex-col md:flex-row items-center justify-between gap-6 shadow-lg">
-        <div className="max-w-xl text-center md:text-left">
-          <div className="inline-block px-3 py-0.5 rounded-full text-xs font-bold bg-white/20 text-white mb-2">
-            Inquiry &amp; Interest Form (Placeholder Demonstration)
-          </div>
-          <h2 className="text-3xl md:text-[42px] lg:text-[48px] font-normal font-serif text-cream-card mb-2 leading-[1.15]">
-            Bring ReproUs to your school or group
-          </h2>
-          <p className="text-[17px] md:text-[18px] text-cream-card/90 m-0 leading-relaxed font-sans">
-            We will travel to you or host a dedicated virtual session for your class, youth organization, or community center.
-          </p>
-        </div>
-        <Button
-          onClick={() => setIsRequestModalOpen(true)}
-          size="lg"
-          className="bg-white text-raspberry font-bold hover:bg-white/95 hover:text-raspberry active:bg-white/90 active:text-raspberry focus-visible:text-raspberry shadow-md whitespace-nowrap flex-shrink-0 cursor-pointer"
-        >
-          Request a workshop (Demo)
-        </Button>
-      </div>
-
-      {/* RSVP Modal */}
-      <Dialog open={!!selectedSession} onOpenChange={(open) => !open && setSelectedSession(null)}>
-        <DialogContent className="max-w-md">
-          {selectedSession && (
-            <div>
-              <DialogHeader className="mb-3">
-                <DialogTitle>Reserve Your Free Spot (Placeholder Demo)</DialogTitle>
-                <DialogDescription>
-                  {selectedSession.topic} • {selectedSession.date} ({selectedSession.time})
-                </DialogDescription>
-              </DialogHeader>
-
-              <div className="p-3 rounded-xl bg-amber-50 border border-amber-300 text-amber-900 text-xs font-sans mb-3 leading-relaxed">
-                <strong>Demonstration Note:</strong> This workshop listing is a mockup placeholder for illustration. Submitting an RSVP is for demonstration only.
-              </div>
-
-              {rsvpSuccess ? (
-                <div className="p-6 text-center flex flex-col items-center gap-2">
-                  <CheckCircle2 className="w-12 h-12 text-green-600 animate-bounce" />
-                  <h4 className="font-serif text-xl font-bold text-plum">You&apos;re All Set!</h4>
-                  <p className="text-xs text-ink/80">
-                    We saved your spot. See you at {selectedSession.location}!
-                  </p>
-                </div>
-              ) : (
-                <form onSubmit={handleRsvpSubmit} className="flex flex-col gap-4">
-                  <div>
-                    <label className="block text-xs font-bold text-berry mb-1">Your Name or Alias</label>
-                    <Input
-                      required
-                      placeholder="e.g. Alex"
-                      value={rsvpName}
-                      onChange={(e) => setRsvpName(e.target.value)}
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-bold text-berry mb-1">Email for Confirmation</label>
-                    <Input
-                      type="email"
-                      required
-                      placeholder="alex@example.com"
-                      value={rsvpEmail}
-                      onChange={(e) => setRsvpEmail(e.target.value)}
-                    />
-                  </div>
-                  <p className="text-[11px] text-ink/60 italic m-0">
-                    * No payment required. You will receive a reminder email 24 hours prior.
-                  </p>
-                  <Button type="submit" disabled={isSubmittingRsvp} className="w-full mt-2">
-                    {isSubmittingRsvp ? "Reserving..." : "Confirm RSVP"}
-                  </Button>
-                </form>
-              )}
-            </div>
-          )}
-        </DialogContent>
-      </Dialog>
-
-      {/* School / Group Request Modal */}
-      <Dialog open={isRequestModalOpen} onOpenChange={setIsRequestModalOpen}>
-        <DialogContent className="max-w-lg">
-          <DialogHeader className="mb-4">
-            <DialogTitle>Request a ReproUs Workshop (Placeholder Demo)</DialogTitle>
-            <DialogDescription>
-              Tell us about your group and we will coordinate dates and curriculum fit with you (Demonstration form).
-            </DialogDescription>
-          </DialogHeader>
-
-          {requestSuccess ? (
-            <div className="p-6 text-center flex flex-col items-center gap-2">
-              <CheckCircle2 className="w-12 h-12 text-green-600 animate-bounce" />
-              <h4 className="font-serif text-xl font-bold text-plum">Request Sent!</h4>
-              <p className="text-xs text-ink/80">
-                Our outreach coordinator will reach out to you within 2 business days.
-              </p>
-            </div>
-          ) : (
-            <form onSubmit={handleRequestSubmit} className="flex flex-col gap-4">
-              <div>
-                <label className="block text-xs font-bold text-berry mb-1">School / Organization Name</label>
-                <Input
-                  required
-                  placeholder="e.g. Lincoln High School or Youth Club"
-                  value={requestOrg}
-                  onChange={(e) => setRequestOrg(e.target.value)}
-                />
-              </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-xs font-bold text-berry mb-1">Contact Name</label>
-                  <Input
-                    required
-                    placeholder="Your Name"
-                    value={requestName}
-                    onChange={(e) => setRequestName(e.target.value)}
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs font-bold text-berry mb-1">Contact Email</label>
-                  <Input
-                    type="email"
-                    required
-                    placeholder="contact@school.edu"
-                    value={requestEmail}
-                    onChange={(e) => setRequestEmail(e.target.value)}
-                  />
-                </div>
-              </div>
-              <div>
-                <label className="block text-xs font-bold text-berry mb-1">Notes / Target Age Group</label>
-                <Textarea
-                  placeholder="Estimated number of students, preferred dates or topics..."
-                  value={requestNotes}
-                  onChange={(e) => setRequestNotes(e.target.value)}
-                />
-              </div>
-              <Button type="submit" disabled={isSubmittingRequest} className="w-full mt-2">
-                {isSubmittingRequest ? "Submitting..." : "Submit Workshop Request"}
-              </Button>
-            </form>
-          )}
-        </DialogContent>
-      </Dialog>
+      </section>
     </div>
   );
 }

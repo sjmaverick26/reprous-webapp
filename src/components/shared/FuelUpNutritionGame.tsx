@@ -3,7 +3,7 @@
 import React, { useState, useMemo, useEffect, useRef, useCallback } from "react";
 import {
   Trophy,
-  Sparkles,
+  Flower2,
   CheckCircle2,
   XCircle,
   RotateCcw,
@@ -1383,7 +1383,7 @@ export function FuelUpNutritionGame({
         <div className="flex flex-wrap items-center justify-between gap-3 border-b border-deep-teal/10 pb-3 pr-8 sm:pr-10">
           <div className="flex items-center gap-2 flex-wrap">
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-deep-teal text-white text-xs font-bold tracking-wide font-sans shadow-2xs">
-              <Sparkles className="w-3.5 h-3.5 text-coral" />
+              <Flower2 className="w-3.5 h-3.5 text-coral" />
               Athlete Nutrition Arcade
             </span>
             <span className="text-xs font-bold text-coral tracking-wider px-2.5 py-1 rounded-full bg-rose-50 border border-coral/25 font-sans">
@@ -1819,7 +1819,7 @@ export function FuelUpNutritionGame({
                       : "bg-slate-200 text-slate-400 cursor-not-allowed"
                   }`}
                 >
-                  <Sparkles className="w-4 h-4" />
+                  <Flower2 className="w-4 h-4" />
                   <span>{isBlended ? "Shake Ready! ⭐⭐⭐" : "BLEND RECOVERY SHAKE!"}</span>
                 </Button>
               </div>
@@ -2254,7 +2254,7 @@ export function FuelUpNutritionGame({
                       ) : (
                         <div className="flex flex-col items-center justify-center p-3 text-slate-400 space-y-1">
                           <div className="w-12 h-12 rounded-full border-2 border-dashed border-slate-300 flex items-center justify-center">
-                            <Sparkles className="w-5 h-5 text-slate-300" />
+                            <Flower2 className="w-5 h-5 text-slate-300" />
                           </div>
                           <span className="text-[10px] font-semibold text-slate-400">
                             {selectedMealId ? "Tap to Place" : slot.ruleTitle}

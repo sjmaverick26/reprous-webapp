@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useMemo, useEffect } from "react";
-import { BookOpen, Search, Volume2, Sparkles, X, ChevronRight, Stethoscope, MessageSquare, FileText } from "lucide-react";
+import { Search, X, ChevronDown } from "lucide-react";
 
 export interface DictionaryEntry {
   id: string;
@@ -20,7 +20,6 @@ export interface ModuleTab {
   id: string; // "all" | "jargon" | "body" | "cycle" | etc.
   label: string;
   shortLabel: string;
-  groupColor: "purple" | "teal" | "pink" | "coral" | "all";
   tagline: string;
 }
 
@@ -29,7 +28,6 @@ export const MODULE_TABS: ModuleTab[] = [
     id: "all",
     label: "All Words & Clinic Examples",
     shortLabel: "All Words",
-    groupColor: "all",
     tagline: "Explore all tricky medical words, anatomy, hormones, and real doctor clinic examples across every ReproUs module.",
   },
   // Doctor Notes & Clinic Examples
@@ -37,7 +35,6 @@ export const MODULE_TABS: ModuleTab[] = [
     id: "jargon",
     label: "Doctor Notes & Clinic Examples",
     shortLabel: "Doctor Examples",
-    groupColor: "purple",
     tagline: "Real-world examples of doctor chart notes, clinic visit phrases, and medical terms explained in plain English (WNL, R/O, Analgesics, and more).",
   },
   // Teal group
@@ -45,21 +42,18 @@ export const MODULE_TABS: ModuleTab[] = [
     id: "play",
     label: "Female Athlete Health",
     shortLabel: "Athlete Health",
-    groupColor: "teal",
     tagline: "Tricky words on RED-S, energy availability, sports anemia, and bone density.",
   },
   {
     id: "mind",
     label: "Mind & Self",
     shortLabel: "Mind & Self",
-    groupColor: "teal",
     tagline: "Tricky words on PMDD, luteal neurosteroids, cortisol loops, and body neutrality.",
   },
   {
     id: "factors",
     label: "The Bigger Picture",
     shortLabel: "Bigger Picture",
-    groupColor: "teal",
     tagline: "Tricky words on the gender research gap, patient advocacy, period poverty, and healthcare rights.",
   },
   // Pink group
@@ -67,21 +61,18 @@ export const MODULE_TABS: ModuleTab[] = [
     id: "pcos",
     label: "PCOS & Hormonal Health",
     shortLabel: "PCOS & Hormones",
-    groupColor: "pink",
     tagline: "Tricky words on Rotterdam criteria, androgens, and insulin resistance.",
   },
   {
     id: "cycle",
     label: "Cycle Sense",
     shortLabel: "Cycle Sense",
-    groupColor: "pink",
     tagline: "Tricky words on dysmenorrhea, amenorrhea, prostaglandins, and cycle phases.",
   },
   {
     id: "realtalk",
     label: "Real Talk & STIs",
     shortLabel: "Real Talk",
-    groupColor: "pink",
     tagline: "Tricky words on asymptomatic infections, PrEP/PEP, and barrier boundaries.",
   },
   // Coral group
@@ -89,21 +80,18 @@ export const MODULE_TABS: ModuleTab[] = [
     id: "endo",
     label: "Endometriosis & Pelvic Pain",
     shortLabel: "Endometriosis",
-    groupColor: "coral",
     tagline: "Tricky words on retrograde flow, laparoscopy excision, adenomyosis, fibroids, and pelvic adhesions.",
   },
   {
     id: "body",
     label: "Body Basics",
     shortLabel: "Body Basics",
-    groupColor: "coral",
     tagline: "Tricky words on menarche, thelarche, anatomy milestones, and sex hormones.",
   },
   {
     id: "conditions",
     label: "Pregnancy & Reproductive Care",
     shortLabel: "Repro Care",
-    groupColor: "coral",
     tagline: "Tricky words on Title X confidentiality, hCG, pelvic exams, and chaperones.",
   },
 ];
@@ -118,7 +106,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     pronunciation: "dub-ul-yoo-en-el",
     moduleId: "jargon",
     moduleTitle: "Doctor Examples",
-    categoryColor: "bg-purple-100 text-purple-900 border-purple-300",
+    categoryColor: "bg-white text-charcoal border-charcoal-muted",
     chartJargon: "Chart note: “Pelvic ultrasound and routine CBC within normal limits (WNL).”",
     plainEnglish: "The most common medical abbreviation on charts and patient portals! It means your blood tests or scans fell within standard averages. Warning: Just because test results are 'WNL' does NOT mean your pain is imaginary! Many chronic conditions like superficial endometriosis or early hormonal imbalances do not show up on basic standard tests.",
     doctorDefinition: "A standardized clinical charting designation indicating that quantitative laboratory values or diagnostic imaging findings fall within established parametric reference intervals.",
@@ -130,7 +118,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     pronunciation: "ROOL OWT (or R-O)",
     moduleId: "jargon",
     moduleTitle: "Doctor Examples",
-    categoryColor: "bg-purple-100 text-purple-900 border-purple-300",
+    categoryColor: "bg-white text-charcoal border-charcoal-muted",
     chartJargon: "Chart requisition: “Severe dysmenorrhea with bowel distress. R/O endometriosis; order pelvic ultrasound.”",
     plainEnglish: "When a doctor writes 'R/O [Condition]' on your clinic paperwork, it does NOT mean they ruled it out already! It actually means the opposite: they suspect it might be the cause and are ordering tests to investigate and make sure you do NOT have it.",
     doctorDefinition: "A clinical directive used in patient documentation and lab requisitions instructing evaluators to conduct tests to confirm or eliminate a suspected diagnostic condition.",
@@ -142,7 +130,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     pronunciation: "id-ee-oh-PATH-ik",
     moduleId: "jargon",
     moduleTitle: "Doctor Examples",
-    categoryColor: "bg-purple-100 text-purple-900 border-purple-300",
+    categoryColor: "bg-white text-charcoal border-charcoal-muted",
     chartJargon: "Chart note: “Adolescent female presenting with idiopathic dysmenorrhea; trial of scheduled NSAIDs.”",
     plainEnglish: "A fancy Greek-derived medical word that literally means 'arising on its own.' In plain English: the doctors have not identified a specific anatomical disease causing the symptom yet.",
     doctorDefinition: "Denoting any condition or symptom arising spontaneously or for which the precise primary etiology or pathophysiology remains unidentified.",
@@ -154,7 +142,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     pronunciation: "ree-FRAK-tor-ee",
     moduleId: "jargon",
     moduleTitle: "Doctor Examples",
-    categoryColor: "bg-purple-100 text-purple-900 border-purple-300",
+    categoryColor: "bg-white text-charcoal border-charcoal-muted",
     chartJargon: "Chart note: “Cyclical pelvic pain refractory to maximum-dose ibuprofen and acetaminophen.”",
     plainEnglish: "Doctor jargon for 'resistant to standard treatment.' If your period cramps are described as 'refractory to NSAIDs,' it means standard drugstore painkillers like Advil, Aleve, or Tylenol do not touch your pain.",
     doctorDefinition: "Resistant to standard pharmacological intervention, non-responsive to conventional first-line therapeutic regimens, or failing to yield satisfactory clinical resolution.",
@@ -166,7 +154,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     pronunciation: "em-PEER-ik",
     moduleId: "jargon",
     moduleTitle: "Doctor Examples",
-    categoryColor: "bg-purple-100 text-purple-900 border-purple-300",
+    categoryColor: "bg-white text-charcoal border-charcoal-muted",
     chartJargon: "Chart note: “Suspected endometriosis. Initiate empiric hormonal suppression with combined oral contraceptive.”",
     plainEnglish: "Starting a medication based on an educated guess before performing surgery or invasive tests to prove the diagnosis. Doctors frequently prescribe birth control as empiric therapy for suspected endometriosis.",
     doctorDefinition: "Medical therapy initiated on the basis of clinical probability prior to obtaining definitive histological, bacteriological, or anatomical diagnostic confirmation.",
@@ -178,7 +166,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     pronunciation: "dif-er-EN-shul dy-ug-NOH-sis",
     moduleId: "jargon",
     moduleTitle: "Doctor Examples",
-    categoryColor: "bg-purple-100 text-purple-900 border-purple-300",
+    categoryColor: "bg-white text-charcoal border-charcoal-muted",
     chartJargon: "Chart note: “Differential includes secondary dysmenorrhea, endometriosis, adenomyosis, and interstitial cystitis.”",
     plainEnglish: "The doctor's mental detective list of all the different medical conditions that could explain your symptoms, ranked from most likely to least likely.",
     doctorDefinition: "The systematic clinical method of identifying a disease by distinguishing it from other pathological conditions presenting with overlapping signs and symptoms.",
@@ -190,7 +178,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     pronunciation: "un-ree-MARK-uh-bul",
     moduleId: "jargon",
     moduleTitle: "Doctor Examples",
-    categoryColor: "bg-purple-100 text-purple-900 border-purple-300",
+    categoryColor: "bg-white text-charcoal border-charcoal-muted",
     chartJargon: "Radiology report: “Pelvic ultrasound demonstrates unremarkable uterus and bilateral adnexa. No cysts or masses.”",
     plainEnglish: "Radiologist code meaning 'nothing stood out as visibly abnormal on this specific scan.' Crucial fact: Superficial endometriosis and early hormonal disorders are almost always 'unremarkable' on ultrasound!",
     doctorDefinition: "A formal diagnostic imaging term indicating that examined tissues exhibit no gross anatomical lesions, cysts, or morphological deviations from standard baseline.",
@@ -202,7 +190,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     pronunciation: "soh-MAT-ik & sy-koh-soh-MAT-ik",
     moduleId: "jargon",
     moduleTitle: "Doctor Examples",
-    categoryColor: "bg-purple-100 text-purple-900 border-purple-300",
+    categoryColor: "bg-white text-charcoal border-charcoal-muted",
     chartJargon: "Chart note: “Chronic pelvic pain with prominent somatic anxiety features.”",
     plainEnglish: "Pertaining to real physical sensations in your body that interact with the nervous system. Too often misused by dismissive providers to imply pain is 'in your head'—in reality, severe pain and chronic stress physically trigger nerve pathways and muscle tension.",
     doctorDefinition: "Relating to physical symptoms (somatic) or bodily symptoms caused or exacerbated by psychological or neuroendocrine factors through central nervous system pathways.",
@@ -214,7 +202,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     pronunciation: "OFF-lay-bul",
     moduleId: "jargon",
     moduleTitle: "Doctor Examples",
-    categoryColor: "bg-purple-100 text-purple-900 border-purple-300",
+    categoryColor: "bg-white text-charcoal border-charcoal-muted",
     chartJargon: "Chart note: “Initiating spironolactone 50mg daily off-label for hormonal cystic acne.”",
     plainEnglish: "When a doctor prescribes an FDA-approved medication for a symptom other than what the FDA originally approved it for. It is very common, safe, and legal in reproductive health (such as using spironolactone, a blood pressure medication, to block acne-causing testosterone).",
     doctorDefinition: "The clinical use of a pharmaceutical agent for an unapproved indication, age group, dose, or route of administration supported by evidence-based clinical practice guidelines.",
@@ -226,7 +214,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     pronunciation: "kon-truh-in-dih-KAY-shun",
     moduleId: "jargon",
     moduleTitle: "Doctor Examples",
-    categoryColor: "bg-purple-100 text-purple-900 border-purple-300",
+    categoryColor: "bg-white text-charcoal border-charcoal-muted",
     chartJargon: "Chart note: “History of migraine with visual aura represents an absolute contraindication to combined estrogen contraceptives.”",
     plainEnglish: "A specific medical reason or health history that makes a medication or procedure dangerous or unsafe for you (for example, having migraines with visual auras means you should NOT take estrogen-containing birth control pills due to stroke risk).",
     doctorDefinition: "A specific condition, symptom, or circumstance that renders a particular medical treatment, diagnostic procedure, or pharmaceutical agent inadvisable or hazardous.",
@@ -238,7 +226,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     pronunciation: "TAN-er STAY-jing",
     moduleId: "jargon",
     moduleTitle: "Doctor Examples",
-    categoryColor: "bg-purple-100 text-purple-900 border-purple-300",
+    categoryColor: "bg-white text-charcoal border-charcoal-muted",
     chartJargon: "Chart note: “13-year-old female at Tanner Stage 3 breast development, Tanner Stage 3 pubic hair. Pre-menarcheal.”",
     plainEnglish: "The standard 1 to 5 clinical scale doctors use to track puberty progress (Stage 1 is pre-puberty; Stage 5 is fully mature). It helps doctors verify that growth spurts and body changes are developing in expected sequence.",
     doctorDefinition: "An objective sexual maturity rating (SMR) scale developed by James Tanner defining physical development stages based on secondary sex characteristics.",
@@ -250,7 +238,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     pronunciation: "FAS-ted LABZ",
     moduleId: "jargon",
     moduleTitle: "Doctor Examples",
-    categoryColor: "bg-purple-100 text-purple-900 border-purple-300",
+    categoryColor: "bg-white text-charcoal border-charcoal-muted",
     chartJargon: "Lab requisition: “Fasted 8–12 hours. Draw 8:00 AM: total/free testosterone, DHEA-S, fasting glucose and insulin.”",
     plainEnglish: "Going to the lab in the morning without eating or drinking anything (except plain water) for 8 to 12 hours. If you eat breakfast before a hormone test, your insulin spikes and distorts testosterone and metabolic accuracy!",
     doctorDefinition: "A diagnostic laboratory protocol requiring oral caloric restriction for 8–12 hours prior to venipuncture to establish basal metabolic and endocrine homeostasis.",
@@ -262,7 +250,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     pronunciation: "tranz-VAJ-ih-nul vs tranz-ab-DOM-ih-nul",
     moduleId: "jargon",
     moduleTitle: "Doctor Examples",
-    categoryColor: "bg-purple-100 text-purple-900 border-purple-300",
+    categoryColor: "bg-white text-charcoal border-charcoal-muted",
     chartJargon: "Radiology order: “Transabdominal pelvic ultrasound indicated; patient is adolescent. Transvaginal deferred.”",
     plainEnglish: "Transabdominal means warm gel and a wand on your belly (you need a full bladder!). Transvaginal means a slender wand gently inserted into the vagina for clearer images. In teens or anyone not comfortable, transabdominal is standard!",
     doctorDefinition: "Pelvic sonographic modalities; transabdominal utilizes acoustic windows via a distended urinary bladder, whereas transvaginal places higher-frequency transducers closer to pelvic viscera.",
@@ -274,7 +262,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     pronunciation: "an-ul-JEE-zik / an-ul-JEE-zee-uh",
     moduleId: "jargon",
     moduleTitle: "Doctor Examples",
-    categoryColor: "bg-purple-100 text-purple-900 border-purple-300",
+    categoryColor: "bg-white text-charcoal border-charcoal-muted",
     chartJargon: "Requisition order: “Severe acute abdominal pain. Administer intravenous non-opioid analgesic protocol per pain score.”",
     plainEnglish: "A medication specifically formulated to relieve or eliminate physical pain without causing you to lose consciousness. Examples include NSAIDs (ibuprofen), acetaminophen, and prescription pain medications. Critical rule: Analgesics treat pain; sedatives do not!",
     doctorDefinition: "A class of pharmacological agents that selectively alleviate nociceptive or neuropathic pain by acting on peripheral or central nervous system receptors without suppressing consciousness.",
@@ -286,7 +274,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     pronunciation: "SED-uh-tiv / ang-zee-oh-LIT-ik",
     moduleId: "jargon",
     moduleTitle: "Doctor Examples",
-    categoryColor: "bg-purple-100 text-purple-900 border-purple-300",
+    categoryColor: "bg-white text-charcoal border-charcoal-muted",
     chartJargon: "Emergency triage note: “Patient tearful and hyperventilating from pelvic pain; administered low-dose anxiolytic sedative.”",
     plainEnglish: "Medications designed to reduce anxiety, relax muscles, or induce sleepiness (like Valium or Ativan). In clinical studies, women reporting severe pain are statistically far more likely to be given sedatives than painkillers because clinicians mistakenly attribute their pain to emotional distress.",
     doctorDefinition: "A central nervous system depressant prescribed to reduce irritability or excitement, which does not possess primary antinociceptive (pain-relieving) properties.",
@@ -298,7 +286,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     pronunciation: "ah-li-go-an-ul-JEE-zee-uh",
     moduleId: "jargon",
     moduleTitle: "Doctor Examples",
-    categoryColor: "bg-purple-100 text-purple-900 border-purple-300",
+    categoryColor: "bg-white text-charcoal border-charcoal-muted",
     chartJargon: "Emergency quality audit: “ED protocol review indicates oligoanalgesia with a 65-minute median wait time for acute female abdominal pain.”",
     plainEnglish: "The medical term for the under-treatment of pain—either when clinicians fail to give pain medicine at all, give too low a dose, or make the patient wait unreasonably long. Studies show women face significant oligoanalgesia in emergency care.",
     doctorDefinition: "The failure to administer adequate and timely analgesic therapy to patients experiencing acute or chronic pain in healthcare settings.",
@@ -310,7 +298,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     pronunciation: "sy-koh-JEN-ik",
     moduleId: "jargon",
     moduleTitle: "Doctor Examples",
-    categoryColor: "bg-purple-100 text-purple-900 border-purple-300",
+    categoryColor: "bg-white text-charcoal border-charcoal-muted",
     chartJargon: "Chart note: “Recurrent severe pelvic pain with unremarkable ultrasound. Consider psychogenic etiology or somatization.”",
     plainEnglish: "A medical label meaning symptoms originate from psychological distress or emotions rather than physical disease. In women's healthcare history, physical pain (like endometriosis or ruptured cysts) has frequently been mislabeled 'psychogenic' simply because routine tests looked normal.",
     doctorDefinition: "Physical pain or physiological dysfunction attributed to psychological, emotional, or behavioral factors rather than verifiable organic or anatomical disease.",
@@ -322,7 +310,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     pronunciation: "uh-KYOOT ab-DOM-in-ul PAYN",
     moduleId: "jargon",
     moduleTitle: "Doctor Examples",
-    categoryColor: "bg-purple-100 text-purple-900 border-purple-300",
+    categoryColor: "bg-white text-charcoal border-charcoal-muted",
     chartJargon: "Triage code: “Female presenting with non-traumatic acute abdominal pain, R/O appendicitis, ovarian torsion, ruptured cyst.”",
     plainEnglish: "Sudden, severe pain in the stomach, abdomen, or pelvic region developing over hours or days. It is a critical emergency room symptom where research proves women wait an average of 16 minutes longer for pain medication and are less likely to receive opioid pain relief than men with identical pain scores.",
     doctorDefinition: "Rapid-onset, severe nociceptive pain localized to the abdominal or pelvic cavity requiring prompt emergency triage and diagnostic workup to exclude surgical or life-threatening pathology.",
@@ -334,7 +322,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     pronunciation: "ad-VERS DRUG ree-AK-shun",
     moduleId: "jargon",
     moduleTitle: "Doctor Examples",
-    categoryColor: "bg-purple-100 text-purple-900 border-purple-300",
+    categoryColor: "bg-white text-charcoal border-charcoal-muted",
     chartJargon: "Medication portal record: “Documented adverse drug reaction (ADR) to standard dose zolpidem; morning impairment and dizziness.”",
     plainEnglish: "An unwanted, harmful, or dangerous reaction caused by a medication taken at standard doses. Women experience adverse drug reactions at nearly twice the rate of men because clinical drug trials historically excluded female bodies and hormonal variations.",
     doctorDefinition: "An appreciably harmful or noxious reaction resulting from an intervention related to the use of a medicinal product, often driven by sex differences in body composition and hepatic clearance.",
@@ -346,7 +334,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     pronunciation: "CHART dok-yoo-men-TAY-shun",
     moduleId: "jargon",
     moduleTitle: "Doctor Examples",
-    categoryColor: "bg-purple-100 text-purple-900 border-purple-300",
+    categoryColor: "bg-white text-charcoal border-charcoal-muted",
     chartJargon: "EHR addendum: “Patient requested pelvic MRI and specialist referral. Provider declined as not indicated; rationale entered per patient request.”",
     plainEnglish: "An essential patient self-advocacy phrase: asking a healthcare provider to write down in your medical record that you requested a specific diagnostic test or referral and that they decided to refuse it. Because medical charts are legal records, this often prompts clinicians to re-evaluate their refusal.",
     doctorDefinition: "A formal patient directive instructing a healthcare clinician to enter a contemporaneous record of a declined diagnostic test, refused referral, or clinical rationale into the legal electronic health record (EHR).",
@@ -362,7 +350,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     pronunciation: "men-AR-kee",
     moduleId: "body",
     moduleTitle: "Body Basics",
-    categoryColor: "bg-[#FFE1DB] text-[#B83F68] border-coral/40",
+    categoryColor: "bg-white text-charcoal border-coral",
     chartJargon: "Chart note: “Patient reached menarche at age 12; cycle interval currently 45–60 days.”",
     plainEnglish: "The official medical name for your very first menstrual period. It usually arrives about two years after breast buds start to develop, anywhere between ages 9 and 15.",
     doctorDefinition: "The initial occurrence of menstruation in females, marking the onset of female reproductive maturity and ovarian cycle activity.",
@@ -374,7 +362,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     pronunciation: "thee-LAR-kee",
     moduleId: "body",
     moduleTitle: "Body Basics",
-    categoryColor: "bg-[#FFE1DB] text-[#B83F68] border-coral/40",
+    categoryColor: "bg-white text-charcoal border-coral",
     chartJargon: "Chart note: “Onset of thelarche noted at age 10; anticipated menarche in 18–24 months.”",
     plainEnglish: "The start of breast bud development during puberty. It is usually the very first physical change you notice, stimulated by your body starting to produce estrogen.",
     doctorDefinition: "The onset of female breast development during puberty, stimulated by rising circulating estradiol concentrations.",
@@ -386,7 +374,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     pronunciation: "en-doh-MEE-tree-um",
     moduleId: "body",
     moduleTitle: "Body Basics",
-    categoryColor: "bg-[#FFE1DB] text-[#B83F68] border-coral/40",
+    categoryColor: "bg-white text-charcoal border-coral",
     chartJargon: "Ultrasound note: “Endometrial stripe thickness 12mm; proliferative phase morphology.”",
     plainEnglish: "The plush, soft cushion that grows inside your uterus each month. When you don't get pregnant, your body gently sheds it—that shed lining is what creates your period bleeding!",
     doctorDefinition: "The mucosal inner epithelial layer of the uterus that thickens and sheds cyclically in response to ovarian estrogen and progesterone stimulation.",
@@ -398,7 +386,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     pronunciation: "SER-viks",
     moduleId: "body",
     moduleTitle: "Body Basics",
-    categoryColor: "bg-[#FFE1DB] text-[#B83F68] border-coral/40",
+    categoryColor: "bg-white text-charcoal border-coral",
     chartJargon: "Physical exam note: “Cervix appears nulliparous, pink, without lesions or cervical motion tenderness (CMT).”",
     plainEnglish: "The small, donut-shaped doorway connecting the bottom of your uterus to your vagina. It opens slightly during periods to let blood out and makes healthy fluids to protect against bacteria.",
     doctorDefinition: "The lower narrow cylindrical portion of the uterus that opens into the vagina, featuring an internal and external os lined with mucus-secreting glandular epithelium.",
@@ -410,7 +398,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     pronunciation: "ESS-truh-jin",
     moduleId: "body",
     moduleTitle: "Body Basics",
-    categoryColor: "bg-[#FFE1DB] text-[#B83F68] border-coral/40",
+    categoryColor: "bg-white text-charcoal border-coral",
     chartJargon: "Lab note: “Serum estradiol level suppressed consistent with functional hypothalamic hypogonadism.”",
     plainEnglish: "Your body's natural builder hormone. It gives you energy, protects your heart and bones from breaking, and rebuilds the soft lining of your uterus every single month.",
     doctorDefinition: "The primary female steroid sex hormone responsible for secondary sexual characteristics, bone mineral density preservation, and endometrial proliferation.",
@@ -422,7 +410,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     pronunciation: "pro-JESS-tuh-rone",
     moduleId: "body",
     moduleTitle: "Body Basics",
-    categoryColor: "bg-[#FFE1DB] text-[#B83F68] border-coral/40",
+    categoryColor: "bg-white text-charcoal border-coral",
     chartJargon: "Lab note: “Mid-luteal serum progesterone <3 ng/mL indicating anovulatory cycle.”",
     plainEnglish: "Your body's calming, balancing hormone. It only gets made after you release an egg (ovulate), helping your sleep, stabilizing your mood, and balancing out estrogen.",
     doctorDefinition: "An endogenous steroid hormone synthesized by the corpus luteum following ovulation to stabilize the endometrium and regulate gonadotropin secretion.",
@@ -438,7 +426,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     pronunciation: "dis-men-oh-REE-uh",
     moduleId: "cycle",
     moduleTitle: "Cycle Sense",
-    categoryColor: "bg-soft-pink text-raspberry border-raspberry/30",
+    categoryColor: "bg-white text-charcoal border-raspberry",
     chartJargon: "Chart note: “Primary vs. secondary dysmenorrhea refractory to first-line NSAIDs.”",
     plainEnglish: "Severe, throbbing period cramps that stop you from going to school, playing sports, or doing normal things. Mild cramps are common; pain that knocks you out is not.",
     doctorDefinition: "Painful menstruation classified as primary (caused by excess myometrial prostaglandins) or secondary (caused by pelvic pathology like endometriosis or adenomyosis).",
@@ -450,7 +438,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     pronunciation: "ay-men-oh-REE-uh",
     moduleId: "cycle",
     moduleTitle: "Cycle Sense",
-    categoryColor: "bg-soft-pink text-raspberry border-raspberry/30",
+    categoryColor: "bg-white text-charcoal border-raspberry",
     chartJargon: "Chart note: “Secondary amenorrhea workup; order hCG, prolactin, TSH, FSH, and LH.”",
     plainEnglish: "Missing your period for 3 or more months in a row when not pregnant. It is your body's emergency brake signaling that stress, low nutrition, or hormones need attention.",
     doctorDefinition: "The absence of menstrual bleeding; classified as primary (no menses by age 15) or secondary (cessation of menses for ≥90 days in previously cycling individuals).",
@@ -462,7 +450,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     pronunciation: "ov-yoo-LAY-shun",
     moduleId: "cycle",
     moduleTitle: "Cycle Sense",
-    categoryColor: "bg-soft-pink text-raspberry border-raspberry/30",
+    categoryColor: "bg-white text-charcoal border-raspberry",
     chartJargon: "Chart note: “Mid-cycle LH surge documentation; presumptive ovulatory follicle rupture.”",
     plainEnglish: "The main event of your cycle! Roughly halfway through, one ovary releases a mature egg into the fallopian tube. This is the only trigger that unlocks natural progesterone.",
     doctorDefinition: "The release of a secondary oocyte from a mature ovarian follicle triggered by a sharp mid-cycle luteinizing hormone (LH) surge.",
@@ -474,7 +462,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     pronunciation: "pros-tuh-GLAN-dinz",
     moduleId: "cycle",
     moduleTitle: "Cycle Sense",
-    categoryColor: "bg-soft-pink text-raspberry border-raspberry/30",
+    categoryColor: "bg-white text-charcoal border-raspberry",
     chartJargon: "Chart note: “Prostaglandin-mediated myometrial hypercontractility with vasospasm and GI hypermotility.”",
     plainEnglish: "Natural chemicals your uterus releases to make muscles squeeze and push out period blood. Excess amounts cause painful cramps, nausea, and loose stools ('period poops').",
     doctorDefinition: "Lipid autacoids produced from arachidonic acid that stimulate violent uterine myometrial contractions and pelvic vascular constriction during menses.",
@@ -486,7 +474,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     pronunciation: "men-oh-RAY-jee-uh",
     moduleId: "cycle",
     moduleTitle: "Cycle Sense",
-    categoryColor: "bg-soft-pink text-raspberry border-raspberry/30",
+    categoryColor: "bg-white text-charcoal border-raspberry",
     chartJargon: "Chart note: “Menorrhagia with documented microcytic anemia; ferritin 8 ng/mL.”",
     plainEnglish: "Abnormally heavy or prolonged menstrual bleeding—such as soaking through a pad or tampon every single hour, bleeding over 7 days, or passing clots bigger than a quarter.",
     doctorDefinition: "Excessive menstrual blood loss exceeding 80 mL per cycle or lasting longer than 7 days, carrying a significant risk for iron-deficiency anemia.",
@@ -498,7 +486,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     pronunciation: "foh-LIK-yoo-ler & LOO-tee-ul",
     moduleId: "cycle",
     moduleTitle: "Cycle Sense",
-    categoryColor: "bg-soft-pink text-raspberry border-raspberry/30",
+    categoryColor: "bg-white text-charcoal border-raspberry",
     chartJargon: "Chart note: “Shortened luteal phase (<10 days); evaluation for luteal phase defect.”",
     plainEnglish: "The two halves of your cycle: the Follicular Phase (Day 1 of bleeding until ovulation, dominated by estrogen) and the Luteal Phase (ovulation until your next period, dominated by progesterone).",
     doctorDefinition: "The proliferative pre-ovulatory ovarian phase followed by the secretory post-ovulatory phase maintained by corpus luteum endocrine secretions.",
@@ -514,7 +502,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     pronunciation: "TITLE TEN",
     moduleId: "conditions",
     moduleTitle: "Reproductive Care",
-    categoryColor: "bg-[#FFE1DB] text-[#B83F68] border-coral/40",
+    categoryColor: "bg-white text-charcoal border-coral",
     chartJargon: "Intake form: “Confidential adolescent minor assent under Title X statutory guidelines.”",
     plainEnglish: "A United States federal program that guarantees confidential, low-cost or free reproductive health services (like birth control, STI testing, and exams) without requiring parental notification.",
     doctorDefinition: "The federal grant program (42 U.S.C. 300) dedicated to providing individuals with comprehensive family planning and preventive health services with strict statutory confidentiality protections.",
@@ -526,7 +514,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     pronunciation: "aych-see-JEE",
     moduleId: "conditions",
     moduleTitle: "Reproductive Care",
-    categoryColor: "bg-[#FFE1DB] text-[#B83F68] border-coral/40",
+    categoryColor: "bg-white text-charcoal border-coral",
     chartJargon: "Lab order: “Quantitative serum beta-hCG: <2 mIU/mL (negative for pregnancy).”",
     plainEnglish: "Known as the 'pregnancy hormone.' It is produced by the early placenta right after an egg implants in the uterus. Home urine tests detect this hormone.",
     doctorDefinition: "A heterodimeric glycoprotein hormone secreted by the syncytiotrophoblast of the blastocyst that stimulates continuous corpus luteal progesterone synthesis.",
@@ -538,7 +526,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     pronunciation: "pree-ee-KLAMP-see-uh",
     moduleId: "conditions",
     moduleTitle: "Reproductive Care",
-    categoryColor: "bg-[#FFE1DB] text-[#B83F68] border-coral/40",
+    categoryColor: "bg-white text-charcoal border-coral",
     chartJargon: "Triage note: “Gestational hypertension (BP 158/104 mmHg) with proteinuria (UPCR 0.42) and scotoma.”",
     plainEnglish: "A serious, potentially life-threatening pregnancy and postpartum disorder characterized by high blood pressure and organ stress (especially the kidneys and liver). Classic warning signs include unrelenting headaches, vision changes, and sudden facial swelling.",
     doctorDefinition: "A multisystem progressive disorder characterized by new-onset hypertension (systolic ≥140 mmHg or diastolic ≥90 mmHg) occurring after 20 weeks gestation or postpartum, paired with proteinuria or systemic end-organ dysfunction.",
@@ -550,7 +538,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     pronunciation: "UR-jint muh-TER-nul WAR-ning synz",
     moduleId: "conditions",
     moduleTitle: "Reproductive Care",
-    categoryColor: "bg-[#FFE1DB] text-[#B83F68] border-coral/40",
+    categoryColor: "bg-white text-charcoal border-coral",
     chartJargon: "Clinical nursing protocol: “Patient reports CDC Hear Her urgent maternal red flag criteria (pleuritic chest pain, dyspnea).”",
     plainEnglish: "A set of 15 critical physical symptoms identified by the CDC that can indicate a dangerous, life-threatening complication during pregnancy or up to a full year after giving birth. They require immediate emergency care.",
     doctorDefinition: "Evidence-based clinical red flags established by the CDC Hear Her campaign and maternal mortality review committees requiring urgent obstetric and emergency evaluation to prevent maternal morbidity and mortality.",
@@ -562,7 +550,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     pronunciation: "SPEK-yuh-lum",
     moduleId: "conditions",
     moduleTitle: "Reproductive Care",
-    categoryColor: "bg-[#FFE1DB] text-[#B83F68] border-coral/40",
+    categoryColor: "bg-white text-charcoal border-coral",
     chartJargon: "Physical exam note: “Pediatric speculum placed with patient assent and warm water lubrication.”",
     plainEnglish: "A smooth, duckbill-shaped medical instrument that a doctor gently uses to hold open the vaginal walls so they can see your cervix and perform a Pap smear or swab.",
     doctorDefinition: "A medical instrument used to dilate the vaginal canal by retracting anterior and posterior vaginal walls, facilitating direct visualization of the cervix.",
@@ -574,7 +562,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     pronunciation: "SHAP-er-ohn",
     moduleId: "conditions",
     moduleTitle: "Reproductive Care",
-    categoryColor: "bg-[#FFE1DB] text-[#B83F68] border-coral/40",
+    categoryColor: "bg-white text-charcoal border-coral",
     chartJargon: "Clinical charting: “Formal clinical chaperone (RN) present throughout pelvic examination.”",
     plainEnglish: "A trained clinic staff member (like a nurse or medical assistant) who stands in the room during sensitive exams to protect your safety, comfort, and boundaries. You can always ask for one!",
     doctorDefinition: "A trained healthcare observer present during intimate physical examinations to safeguard patient dignity, provide reassurance, and maintain clinical liability standards.",
@@ -586,7 +574,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     pronunciation: "ih-MER-jen-see kon-truh-SEP-shun",
     moduleId: "conditions",
     moduleTitle: "Reproductive Care",
-    categoryColor: "bg-[#FFE1DB] text-[#B83F68] border-coral/40",
+    categoryColor: "bg-white text-charcoal border-coral",
     chartJargon: "Chart note: “Administered 1.5mg oral levonorgestrel post-coital prophylaxis within 48-hour window.”",
     plainEnglish: "Pills (like Plan B or Ella) taken within 3 to 5 days after unprotected sex or a condom accident. They delay ovulation so an egg is never released to meet sperm—they do not cause an abortion.",
     doctorDefinition: "Post-coital therapies (oral levonorgestrel, ulipristal acetate, or copper IUD) that inhibit or delay the mid-cycle LH surge to prevent fertilization.",
@@ -602,7 +590,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     pronunciation: "pee-see-oh-ess",
     moduleId: "pcos",
     moduleTitle: "PCOS & Hormones",
-    categoryColor: "bg-soft-pink text-raspberry border-raspberry/30",
+    categoryColor: "bg-white text-charcoal border-raspberry",
     chartJargon: "Chart note: “Confirmed PCOS phenotype B (hyperandrogenism and oligo-amenorrhea).”",
     plainEnglish: "A super common hormonal pattern where ovaries produce slightly more androgens (testosterone), causing irregular periods, acne, extra hair, or difficulty releasing eggs regularly.",
     doctorDefinition: "An endocrine disorder characterized by hyperandrogenism, ovulatory dysfunction (oligo/amenorrhea), and polycystic ovarian morphology on ultrasound.",
@@ -614,7 +602,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     pronunciation: "ROT-er-dam cry-TEER-ee-uh",
     moduleId: "pcos",
     moduleTitle: "PCOS & Hormones",
-    categoryColor: "bg-soft-pink text-raspberry border-raspberry/30",
+    categoryColor: "bg-white text-charcoal border-raspberry",
     chartJargon: "Chart note: “Patient fulfills 2 of 3 Rotterdam criteria (oligo-ovulation + clinical hyperandrogenism).”",
     plainEnglish: "The international medical guideline doctors use to diagnose PCOS. You need at least 2 of these 3: irregular periods, high androgen levels (or symptoms like chin hair/acne), and polycystic ovaries on ultrasound.",
     doctorDefinition: "The 2003 consensus criteria requiring at least two of three features: oligo/anovulation, clinical or biochemical hyperandrogenism, and polycystic ovarian morphology, with exclusion of related disorders.",
@@ -626,7 +614,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     pronunciation: "hy-per-AN-droh-jen-iz-um",
     moduleId: "pcos",
     moduleTitle: "PCOS & Hormones",
-    categoryColor: "bg-soft-pink text-raspberry border-raspberry/30",
+    categoryColor: "bg-white text-charcoal border-raspberry",
     chartJargon: "Lab note: “Free testosterone elevated at 9.4 pg/mL; elevated DHEA-S 380 ug/dL.”",
     plainEnglish: "Having higher amounts of male-pattern hormones (like testosterone or DHEA-S) in your blood. It can cause coarse facial hair (hirsutism), scalp hair thinning, and persistent cystic acne.",
     doctorDefinition: "Excessive secretion or bioavailability of androgenic hormones in females, presenting clinically as hirsutism, cystic acne, androgenic alopecia, or elevated serum free testosterone.",
@@ -638,7 +626,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     pronunciation: "IN-suh-lin ree-ZIS-tins",
     moduleId: "pcos",
     moduleTitle: "PCOS & Hormones",
-    categoryColor: "bg-soft-pink text-raspberry border-raspberry/30",
+    categoryColor: "bg-white text-charcoal border-raspberry",
     chartJargon: "Lab note: “Fasting insulin 22 uIU/mL with HOMA-IR 4.2 indicating moderate insulin resistance.”",
     plainEnglish: "When your body's cells stop responding properly to insulin. The pancreas pumps out extra insulin, and that high insulin directly instructs your ovaries to produce excess testosterone!",
     doctorDefinition: "A metabolic state wherein normal insulin levels produce a subnormal physiological response, leading to compensatory hyperinsulinemia that stimulates ovarian theca cell androgen production.",
@@ -650,7 +638,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     pronunciation: "ay-kan-THOH-sis NY-grih-kanz",
     moduleId: "pcos",
     moduleTitle: "PCOS & Hormones",
-    categoryColor: "bg-soft-pink text-raspberry border-raspberry/30",
+    categoryColor: "bg-white text-charcoal border-raspberry",
     chartJargon: "Physical exam note: “Hyperpigmented velvety plaques on posterior neck consistent with acanthosis nigricans.”",
     plainEnglish: "Dark, velvety patches of skin that appear in body creases like the back of your neck or underarms. It is NOT dirt; it is a physical indicator of high circulating insulin levels.",
     doctorDefinition: "A dermatologic condition marked by hyperpigmented, velvety cutaneous plaques in intertriginous flexural folds, strongly associated with severe insulin resistance.",
@@ -662,7 +650,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     pronunciation: "an-ov-yoo-LAY-shun",
     moduleId: "pcos",
     moduleTitle: "PCOS & Hormones",
-    categoryColor: "bg-soft-pink text-raspberry border-raspberry/30",
+    categoryColor: "bg-white text-charcoal border-raspberry",
     chartJargon: "Chart note: “Anovulatory dysfunctional uterine bleeding secondary to chronic follicular arrest.”",
     plainEnglish: "When you experience bleeding, but your ovary did not actually release an egg that cycle. Without ovulation, your body doesn't produce calming progesterone, leaving estrogen unopposed.",
     doctorDefinition: "The failure of the ovary to release an oocyte during a menstrual cycle, leading to unopposed estrogen and unpredictable endometrial sloughing.",
@@ -678,7 +666,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     pronunciation: "en-doh-mee-tree-OH-sis",
     moduleId: "endo",
     moduleTitle: "Endometriosis",
-    categoryColor: "bg-[#FFE1DB] text-[#B83F68] border-coral/40",
+    categoryColor: "bg-white text-charcoal border-coral",
     chartJargon: "Operative note: “Laparoscopic exploration reveals Stage II peritoneal endometriosis with cul-de-sac implants.”",
     plainEnglish: "A chronic inflammatory condition where tissue similar to the lining inside the uterus grows outside on other organs (like ovaries, bladder, or bowel), bleeding and causing severe pain.",
     doctorDefinition: "A systemic inflammatory disease characterized by endometrial-like stroma and glandular tissue outside the uterine cavity, inciting persistent inflammation, fibrosis, and chronic pain.",
@@ -690,7 +678,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     pronunciation: "REH-troh-grayd",
     moduleId: "endo",
     moduleTitle: "Endometriosis",
-    categoryColor: "bg-[#FFE1DB] text-[#B83F68] border-coral/40",
+    categoryColor: "bg-white text-charcoal border-coral",
     chartJargon: "Pathophysiology note: “Sampson's theory of transtubal retrograde seeding of viable endometrial cells.”",
     plainEnglish: "When period blood and tissue flow backward through the fallopian tubes into the pelvis instead of leaving the body. In endometriosis, those backward cells survive and form painful implants.",
     doctorDefinition: "The transtubal reflux of viable menstrual shedding containing endometrial cells and blood backwards into the peritoneal cavity during menstruation.",
@@ -702,7 +690,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     pronunciation: "lap-uh-ROS-kuh-pee & ek-SIZH-un",
     moduleId: "endo",
     moduleTitle: "Endometriosis",
-    categoryColor: "bg-[#FFE1DB] text-[#B83F68] border-coral/40",
+    categoryColor: "bg-white text-charcoal border-coral",
     chartJargon: "Surgical consent: “Diagnostic and operative laparoscopy with wide cold-scissors lesion excision.”",
     plainEnglish: "Keyhole surgery with a tiny camera through your belly button to find endometriosis. 'Excision' means surgically cutting out the roots of the lesions completely, which prevents pain from returning.",
     doctorDefinition: "The gold-standard diagnostic and therapeutic minimally invasive procedure; surgical excision achieves complete histological removal of deep infiltrating peritoneal and visceral lesions.",
@@ -714,7 +702,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     pronunciation: "ad-HEE-zhunz",
     moduleId: "endo",
     moduleTitle: "Endometriosis",
-    categoryColor: "bg-[#FFE1DB] text-[#B83F68] border-coral/40",
+    categoryColor: "bg-white text-charcoal border-coral",
     chartJargon: "Operative note: “Extensive dense pelvic adhesions tethering left ovary to posterior uterine serosa.”",
     plainEnglish: "Fibrous bands of scar tissue that act like glue inside your pelvis, sticking organs together (like gluing an ovary to your bowel) and causing sharp tugging pain when you stretch or move.",
     doctorDefinition: "Fibrous scar bands forming between adjacent visceral peritoneum surfaces as a result of chronic pelvic inflammation, trauma, or surgical intervention.",
@@ -726,7 +714,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     pronunciation: "dis-puh-ROO-nee-uh",
     moduleId: "endo",
     moduleTitle: "Endometriosis",
-    categoryColor: "bg-[#FFE1DB] text-[#B83F68] border-coral/40",
+    categoryColor: "bg-white text-charcoal border-coral",
     chartJargon: "Clinical note: “Deep insertional dyspareunia accompanied by pelvic floor myalgia and levator ani spasm.”",
     plainEnglish: "Recurrent deep pelvic pain or burning before, during, or after sexual intercourse or tampon insertion, often caused by pelvic floor muscle spasms in defense against chronic pain.",
     doctorDefinition: "Persistent or recurrent genital or deep pelvic pain occurring in association with sexual intercourse or penetrative exam, frequently complicated by pelvic floor hypertonicity.",
@@ -738,7 +726,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     pronunciation: "ad-uh-noh-my-OH-sis",
     moduleId: "endo",
     moduleTitle: "Endometriosis",
-    categoryColor: "bg-[#FFE1DB] text-[#B83F68] border-coral/40",
+    categoryColor: "bg-white text-charcoal border-coral",
     chartJargon: "Transvaginal ultrasound: “Globular, enlarged uterus with asymmetrical myometrial thickening; suspect diffuse adenomyosis.”",
     plainEnglish: "Often called endometriosis's sister condition: when the cells that normally line the inside of the uterus burrow deep inside the uterine muscular wall. When you get your period, that trapped muscle tissue bleeds and swells, causing an enlarged, tender uterus, severe knife-like cramps, and unusually heavy periods.",
     doctorDefinition: "A non-malignant gynecological disorder defined by the presence of heterotopic endometrial glands and stroma within the myometrium, accompanied by reactive myometrial hyperplasia and hypertrophy.",
@@ -750,7 +738,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     pronunciation: "YOO-ter-in uh-NOM-uh-leez (myoo-LEER-ee-un)",
     moduleId: "endo",
     moduleTitle: "Endometriosis",
-    categoryColor: "bg-[#FFE1DB] text-[#B83F68] border-coral/40",
+    categoryColor: "bg-white text-charcoal border-coral",
     chartJargon: "Pelvic MRI report: “Evaluation for secondary dysmenorrhea reveals septate uterine anomaly with complete midline septum; no obstructive outflow tract lesion.”",
     plainEnglish: "Structural variations in the shape, development, or division of the uterus that someone is born with (congenital). Common examples include a septate uterus (a fibrous wall dividing the inside of the uterus) or a bicornuate ('heart-shaped') uterus. When uterine anomalies partially obstruct period blood outflow or cause muscular spasms, they can trigger severe menstrual cramps starting from a person's very first period. Grouped clinically with uterine anomalies or fibroids as structural causes of secondary dysmenorrhea.",
     doctorDefinition: "Congenital structural malformations of the female reproductive tract resulting from abnormal embryological fusion, canalization, or resorption of the paired paramesonephric (Müllerian) ducts.",
@@ -762,7 +750,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     pronunciation: "YOO-ter-in FY-broyds (ly-oh-my-OH-muhz)",
     moduleId: "endo",
     moduleTitle: "Endometriosis",
-    categoryColor: "bg-[#FFE1DB] text-[#B83F68] border-coral/40",
+    categoryColor: "bg-white text-charcoal border-coral",
     chartJargon: "Pelvic ultrasound report: “Transabdominal pelvic sonogram reveals a 3.4 cm intramural uterine leiomyoma (fibroid) in the fundal myometrium; endometrial stripe intact.”",
     plainEnglish: "Non-cancerous (benign) muscular growths that form in or on the walls of the uterus. While more frequent in older adults, they can develop in adolescents and young adults. Depending on their size and location, uterine fibroids can cause very heavy bleeding (soaking through pads/tampons quickly), pelvic pressure, prolonged periods, and intense cramping. Evaluated alongside uterine anomalies or fibroids when investigating heavy or painful periods.",
     doctorDefinition: "Benign monoclonal smooth muscle neoplasms arising from the myometrial layer of the uterus, characterized by an overgrowth of smooth muscle and abundant fibrous extracellular matrix.",
@@ -778,7 +766,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     pronunciation: "ay-simp-tuh-MAT-ik",
     moduleId: "realtalk",
     moduleTitle: "Real Talk & STIs",
-    categoryColor: "bg-soft-pink text-raspberry border-raspberry/30",
+    categoryColor: "bg-white text-charcoal border-raspberry",
     chartJargon: "Screening report: “Asymptomatic chlamydia genital screening positive via urine NAAT assay.”",
     plainEnglish: "Carrying an infection without showing ANY symptoms or feeling sick at all. Over 70% of people with common STIs (like chlamydia or HPV) have zero symptoms, which is why testing is routine care!",
     doctorDefinition: "Presenting no subjective complaints or physical signs of disease despite the active carriage and transmissibility of a pathogen.",
@@ -790,7 +778,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     pronunciation: "PREP and PEP",
     moduleId: "realtalk",
     moduleTitle: "Real Talk & STIs",
-    categoryColor: "bg-soft-pink text-raspberry border-raspberry/30",
+    categoryColor: "bg-white text-charcoal border-raspberry",
     chartJargon: "Prescription note: “Initiate Truvada for daily pre-exposure prophylaxis (PrEP) with 3-month renal/STI panels.”",
     plainEnglish: "Medications that prevent HIV! PrEP is a daily pill or shot taken *before* potential exposure to stay protected. PEP is an emergency 28-day medication started within 72 hours *after* an exposure.",
     doctorDefinition: "Pre-exposure and post-exposure antiretroviral regimens utilizing tenofovir/emtricitabine to prevent human immunodeficiency virus (HIV) viral integration into host CD4+ T-cell DNA.",
@@ -802,7 +790,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     pronunciation: "kluh-MID-ee-uh & gon-uh-REE-uh",
     moduleId: "realtalk",
     moduleTitle: "Real Talk & STIs",
-    categoryColor: "bg-soft-pink text-raspberry border-raspberry/30",
+    categoryColor: "bg-white text-charcoal border-raspberry",
     chartJargon: "Lab order: “Urine nucleic acid amplification test (NAAT) for C. trachomatis and N. gonorrhoeae.”",
     plainEnglish: "Two very common bacterial infections spread through sexual contact. Both are easily cured with standard antibiotics, but if ignored, they can cause pelvic inflammatory disease (PID).",
     doctorDefinition: "Bacterial genital tract infections caused by *Chlamydia trachomatis* and *Neisseria gonorrhoeae*, primary preventable etiologies of upper genital tract scarring and PID.",
@@ -814,7 +802,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     pronunciation: "aych-pee-VEE",
     moduleId: "realtalk",
     moduleTitle: "Real Talk & STIs",
-    categoryColor: "bg-soft-pink text-raspberry border-raspberry/30",
+    categoryColor: "bg-white text-charcoal border-raspberry",
     chartJargon: "Immunization record: “Completed 3-dose series of 9-valent recombinant human papillomavirus vaccine.”",
     plainEnglish: "The most common viral STI, which almost all active people come into contact with. Most strains clear up on their own, but the routine HPV vaccine protects against high-risk cancer-causing strains.",
     doctorDefinition: "A double-stranded DNA virus; high-risk oncogenic types (such as 16 and 18) integrate into host cervical genomes, which is preventable via recombinant virus-like particle vaccination.",
@@ -826,7 +814,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     pronunciation: "WIN-doh PEER-ee-ud",
     moduleId: "realtalk",
     moduleTitle: "Real Talk & STIs",
-    categoryColor: "bg-soft-pink text-raspberry border-raspberry/30",
+    categoryColor: "bg-white text-charcoal border-raspberry",
     chartJargon: "Counseling note: “Patient advised on serological window period; recommend repeat 4th-gen HIV at 45 days.”",
     plainEnglish: "The time gap between when an exposure might have happened and when a clinic test can accurately detect the infection. Testing too early can produce a false negative result!",
     doctorDefinition: "The time interval between initial pathogen transmission and the earliest clinical point when diagnostic assays (antigen, antibody, or NAAT) can reliably detect the infection.",
@@ -842,7 +830,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     pronunciation: "pee-em-dee-dee",
     moduleId: "mind",
     moduleTitle: "Mind & Self",
-    categoryColor: "bg-light-teal text-deep-teal border-deep-teal/30",
+    categoryColor: "bg-light-teal text-deep-teal border-deep-teal",
     chartJargon: "Psychiatric note: “DSM-5 criteria fulfilled for PMDD; symptoms strictly confined to late luteal phase.”",
     plainEnglish: "A severe medical condition where the brain reacts unusually intensely to normal hormone drops during the 1 to 2 weeks before your period, causing deep depression or rage that vanishes once bleeding begins.",
     doctorDefinition: "A distinct DSM-5 depressive disorder characterized by affective lability, dysphoria, severe irritability, and somatic symptoms recurring cyclically during the luteal phase and remitting post-menses.",
@@ -854,7 +842,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     pronunciation: "al-oh-preg-NAN-oh-lohn",
     moduleId: "mind",
     moduleTitle: "Mind & Self",
-    categoryColor: "bg-light-teal text-deep-teal border-deep-teal/30",
+    categoryColor: "bg-light-teal text-deep-teal border-deep-teal",
     chartJargon: "Neuroendocrine note: “Suspected abnormal GABA-A receptor sensitivity to allopregnanolone fluctuations.”",
     plainEnglish: "A calming chemical made when your body breaks down progesterone. In most people it soothes the nervous system, but in girls with PMDD, brain receptors misread it and trigger panic or mood swings.",
     doctorDefinition: "A neuroactive steroid metabolite of progesterone acting as a positive allosteric modulator of GABA-A receptors, implicated in the pathophysiology of luteal phase mood disorders.",
@@ -866,7 +854,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     pronunciation: "KOR-tuh-zol",
     moduleId: "mind",
     moduleTitle: "Mind & Self",
-    categoryColor: "bg-light-teal text-deep-teal border-deep-teal/30",
+    categoryColor: "bg-light-teal text-deep-teal border-deep-teal",
     chartJargon: "Endocrine note: “Hypothalamic-pituitary-adrenal (HPA) axis hyperactivation suppressing GnRH pulsatility.”",
     plainEnglish: "Your body's chief alarm hormone, released when you are stressed or sleep-deprived. When cortisol stays high for too long, it tells your brain to hit the emergency brake on ovulation and periods.",
     doctorDefinition: "A glucocorticoid steroid hormone synthesized by the adrenal cortex that suppresses hypothalamic gonadotropin-releasing hormone (GnRH) pulsatility during prolonged stress.",
@@ -878,7 +866,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     pronunciation: "sair-uh-TOH-nin",
     moduleId: "mind",
     moduleTitle: "Mind & Self",
-    categoryColor: "bg-light-teal text-deep-teal border-deep-teal/30",
+    categoryColor: "bg-light-teal text-deep-teal border-deep-teal",
     chartJargon: "Pharmacology note: “Intermittent luteal-phase SSRI dosing (fluoxetine 10mg) targeting premenstrual dysphoria.”",
     plainEnglish: "A key brain chemical that manages mood, sleep, and appetite. Because estrogen helps keep serotonin levels high, when estrogen drops before your period, serotonin plunges too, sparking tears and cravings.",
     doctorDefinition: "A monoamine neurotransmitter whose synaptic availability fluctuates downstream of ovarian estrogen receptor stimulation across the menstrual cycle.",
@@ -890,7 +878,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     pronunciation: "BAH-dee noo-TRAL-ih-tee",
     moduleId: "mind",
     moduleTitle: "Mind & Self",
-    categoryColor: "bg-light-teal text-deep-teal border-deep-teal/30",
+    categoryColor: "bg-light-teal text-deep-teal border-deep-teal",
     chartJargon: "Behavioral health note: “Cognitive reframing utilizing body neutrality to reduce dysmorphic weight scrutiny.”",
     plainEnglish: "A liberating mindset where you don't pressure yourself to love how your body looks in every outfit. Instead, you appreciate what your body does for you—letting you breathe, dance, laugh, and live.",
     doctorDefinition: "A psychological and somatic framework that decouples personal self-worth from aesthetic physical appearance, prioritizing functional capability and non-judgmental acceptance.",
@@ -906,7 +894,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     pronunciation: "red-ess",
     moduleId: "play",
     moduleTitle: "Athlete Health",
-    categoryColor: "bg-light-teal text-deep-teal border-deep-teal/30",
+    categoryColor: "bg-light-teal text-deep-teal border-deep-teal",
     chartJargon: "Sports medicine note: “Clinical diagnosis of RED-S; energy availability estimated <25 kcal/kg FFM/day.”",
     plainEnglish: "When an active girl or athlete does not eat enough fuel to match how hard she trains. The brain turns off periods, slows down metabolism, and pulls minerals out of bones to conserve energy.",
     doctorDefinition: "A clinical syndrome of impaired physiological functioning caused by low energy availability, compromising bone health, immunity, protein synthesis, and cycle regularity.",
@@ -918,7 +906,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     pronunciation: "TRI-ad",
     moduleId: "play",
     moduleTitle: "Athlete Health",
-    categoryColor: "bg-light-teal text-deep-teal border-deep-teal/30",
+    categoryColor: "bg-light-teal text-deep-teal border-deep-teal",
     chartJargon: "Orthopedic note: “Recurrent metatarsal stress fracture in setting of athletic amenorrhea; Female Athlete Triad.”",
     plainEnglish: "Three connected red flags in active girls: under-fueling (not eating enough food for workouts), missing periods, and weak, brittle bones that suffer stress fractures.",
     doctorDefinition: "An interrelationship between low energy availability, menstrual dysfunction (amenorrhea), and decreased bone mineral density leading to osteopenia or osteoporosis.",
@@ -930,7 +918,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     pronunciation: "LO-en-er-jee uh-vay-luh-BIL-ih-tee",
     moduleId: "play",
     moduleTitle: "Athlete Health",
-    categoryColor: "bg-light-teal text-deep-teal border-deep-teal/30",
+    categoryColor: "bg-light-teal text-deep-teal border-deep-teal",
     chartJargon: "Dietary consult note: “Estimated EA at 22 kcal/kg FFM; target EA >45 kcal/kg FFM for endocrine recovery.”",
     plainEnglish: "The math behind under-fueling: when the calories you eat minus the calories you burn in practice leaves less than 30 calories per kilogram of muscle for your heart, organs, and hormones to survive.",
     doctorDefinition: "The physiological threshold wherein dietary energy intake minus exercise energy expenditure is <30 kcal/kg fat-free mass (FFM)/day, inducing neuroendocrine suppression.",
@@ -942,7 +930,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     pronunciation: "FAIR-ih-tin",
     moduleId: "play",
     moduleTitle: "Athlete Health",
-    categoryColor: "bg-light-teal text-deep-teal border-deep-teal/30",
+    categoryColor: "bg-light-teal text-deep-teal border-deep-teal",
     chartJargon: "Lab note: “Ferritin 11 ng/mL with hemoglobin 12.1 g/dL; stage 1 non-anemic iron deficiency.”",
     plainEnglish: "The battery storage for iron in your body. Active girls lose iron through sweat, foot-strike pounding, and monthly periods. When ferritin dips low, you feel completely wiped out and breathless.",
     doctorDefinition: "A universal intracellular protein that stores iron and releases it in a controlled fashion; the most reliable serum marker for total body iron reserves.",
@@ -954,7 +942,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     pronunciation: "BOHN MIN-er-ul",
     moduleId: "play",
     moduleTitle: "Athlete Health",
-    categoryColor: "bg-light-teal text-deep-teal border-deep-teal/30",
+    categoryColor: "bg-light-teal text-deep-teal border-deep-teal",
     chartJargon: "DEXA report: “Lumbar spine Z-score -1.8; low bone mass for chronological age.”",
     plainEnglish: "How strong and densely packed your bones are. Over 90% of your adult skeleton is built before age 20! If estrogen stays low from missed periods, that bone loss can be permanent.",
     doctorDefinition: "The quantitative measurement of bone mineral content per unit area assessed via dual-energy X-ray absorptiometry (DEXA), heavily dependent on pubertal estrogen exposure.",
@@ -966,7 +954,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     pronunciation: "GLY-kuh-jin",
     moduleId: "play",
     moduleTitle: "Athlete Health",
-    categoryColor: "bg-light-teal text-deep-teal border-deep-teal/30",
+    categoryColor: "bg-light-teal text-deep-teal border-deep-teal",
     chartJargon: "Sports nutrition note: “Depleted glycogen reserves following two-a-day practices; counsel on acute carbohydrate restoration.”",
     plainEnglish: "The body's rapid-access storage battery for carbohydrates, packed inside your muscles and liver. During high-intensity sprints, jumps, or fast breaks, your muscles run directly on glycogen. If you under-fuel or skip carbs, your tanks run dry and you 'hit the wall' (sudden exhaustion, heavy legs, and brain fog).",
     doctorDefinition: "A multibranched polysaccharide of glucose that serves as a form of energy storage in animals, primarily synthesized and stored in hepatocytes and skeletal myocytes to buffer blood glucose and power anaerobic glycolysis.",
@@ -978,7 +966,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     pronunciation: "three to one ree-KUV-er-ee",
     moduleId: "play",
     moduleTitle: "Athlete Health",
-    categoryColor: "bg-light-teal text-deep-teal border-deep-teal/30",
+    categoryColor: "bg-light-teal text-deep-teal border-deep-teal",
     chartJargon: "Post-exercise recovery protocol: “Administer 1.0–1.2 g/kg CHO paired with 0.3 g/kg protein within 45 min post-bout to optimize insulin-mediated glycogen resynthesis.”",
     plainEnglish: "The golden 30- to 45-minute window right after a grueling workout or game when muscle cells act like open sponges. Consuming 3 to 4 grams of easily digestible carbohydrates for every 1 gram of protein (like chocolate milk, a smoothie, or a banana with Greek yogurt) speeds up glycogen refilling by up to 200% and halts muscle breakdown.",
     doctorDefinition: "The biphasic post-exercise metabolic window characterized by elevated insulin sensitivity and GLUT4 translocation, during which co-ingestion of carbohydrates and essential amino acids at a 3:1 or 4:1 ratio maximizes rates of glycogen synthase activity and myofibrillar protein synthesis.",
@@ -990,7 +978,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     pronunciation: "funk-shun-ul hy-poh-thuh-LAM-ik ay-men-or-EE-uh",
     moduleId: "play",
     moduleTitle: "Athlete Health",
-    categoryColor: "bg-light-teal text-deep-teal border-deep-teal/30",
+    categoryColor: "bg-light-teal text-deep-teal border-deep-teal",
     chartJargon: "Endocrine note: “Low serum LH/FSH with estradiol <20 pg/mL in female cross-country runner; clinical presentation consistent with FHA secondary to energetic deficit.”",
     plainEnglish: "When the control center of your brain (the hypothalamus) decides that your body is burning too much energy or under too much physical/mental stress, so it deliberately pauses your reproductive system to protect your life. Your ovaries stop receiving hormone pulses, estrogen crashes, and periods disappear.",
     doctorDefinition: "A form of chronic anovulation and hypogonadotropic hypogonadism resulting from suppressed gonadotropin-releasing hormone (GnRH) pulsatility induced by low energy availability, psychological stress, or excessive exercise volume, without identifiable organic or anatomical disease.",
@@ -1002,7 +990,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     pronunciation: "non uh-NEE-mik EYE-ern dih-FISH-en-see",
     moduleId: "play",
     moduleTitle: "Athlete Health",
-    categoryColor: "bg-light-teal text-deep-teal border-deep-teal/30",
+    categoryColor: "bg-light-teal text-deep-teal border-deep-teal",
     chartJargon: "Hematology note: “Microtrauma hemolysis; serum ferritin 12 ng/mL with normal Hgb/Hct; athlete presents with exertional fatigue and lactic acid intolerance.”",
     plainEnglish: "You don't have to be officially 'anemic' to feel wiped out! Runners and jumping athletes physically crush red blood cells inside the capillaries of their soles every time their feet strike the hard ground (foot-strike hemolysis). You also lose iron through heavy sweating. When your ferritin storage drops below 30 ng/mL, your endurance drops even if your regular blood counts look 'normal'.",
     doctorDefinition: "Depleted somatic iron stores (ferritin <30 ng/mL) with preserved hemoglobin and hematocrit, frequently exacerbated in endurance athletes by intravascular hemolysis from mechanical ground reaction forces (foot-strike hemolysis), gastrointestinal micro-bleeding, and hepcidin-mediated absorption blocks.",
@@ -1014,7 +1002,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     pronunciation: "ES-troh-jin BOHN SHEELD",
     moduleId: "play",
     moduleTitle: "Athlete Health",
-    categoryColor: "bg-light-teal text-deep-teal border-deep-teal/30",
+    categoryColor: "bg-light-teal text-deep-teal border-deep-teal",
     chartJargon: "Dual-energy X-ray absorptiometry: “Z-score -1.6 at femoral neck; adolescent athletic osteopenia secondary to chronic hypoestrogenism.”",
     plainEnglish: "Estrogen acts like a natural bulletproof shield for young bones by keeping bone-dissolving cells in check. Teen and young adult years are the ONLY window when your body deposits high-density bone mass. If missing periods rob your body of estrogen, bone density drops rapidly (osteopenia), opening the door to stress fractures in feet, shins, or hips.",
     doctorDefinition: "The protective skeletal regulatory mechanism whereby circulating 17β-estradiol binds osteoblast and osteocyte estrogen receptors (ER-alpha) to inhibit RANKL-induced osteoclastic bone resorption; hypoestrogenemia in active adolescents impairs peak bone mass acquisition, predisposing to premature micro-fractures.",
@@ -1026,7 +1014,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     pronunciation: "ee-lek-troh-lytes / hy-poh-nuh-TREE-mee-uh",
     moduleId: "play",
     moduleTitle: "Athlete Health",
-    categoryColor: "bg-light-teal text-deep-teal border-deep-teal/30",
+    categoryColor: "bg-light-teal text-deep-teal border-deep-teal",
     chartJargon: "Post-event medical tent note: “Serum sodium 129 mEq/L following 4-hour competition in high heat; diagnosis of exercise-associated hyponatremia due to over-hydration with hypotonic water.”",
     plainEnglish: "Essential mineral salts (sodium, potassium, magnesium, and chloride) that conduct electrical signals to contract your muscles and keep your heart beating steadily. If you sweat heavily and drink huge amounts of plain water without sodium, you dilute your blood's salt levels (hyponatremia), which causes severe muscle cramps, nausea, confusion, and dizziness.",
     doctorDefinition: "Essential ionized minerals regulating osmotic pressure, fluid homeostasis, and neuromuscular transmission; excessive consumption of hypotonic fluids relative to sweat sodium losses during prolonged exertion causes exercise-associated hyponatremia (serum Na+ <135 mmol/L).",
@@ -1038,7 +1026,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     pronunciation: "TAN-inz and FY-tayts vs uh-SKOR-bik ASS-id",
     moduleId: "play",
     moduleTitle: "Athlete Health",
-    categoryColor: "bg-light-teal text-deep-teal border-deep-teal/30",
+    categoryColor: "bg-light-teal text-deep-teal border-deep-teal",
     chartJargon: "Clinical nutrition assessment: “Impaired non-heme iron bioavailability attributed to concurrent consumption of polyphenol/tannin-rich beverages with meals.”",
     plainEnglish: "Plant-based iron (non-heme iron in spinach, beans, and lentils) needs help getting absorbed into your bloodstream. Tannins (found in coffee and tea) and phytates (in unsoaked whole grains) bind to iron like handcuffs, blocking up to 70% of absorption. But pairing plant iron with Vitamin C (ascorbic acid, like citrus, bell peppers, or strawberries) triples absorption!",
     doctorDefinition: "Nutritional biochemical interactions affecting intestinal divalent metal transporter 1 (DMT1) uptake; polyphenols (tannins) and phytic acid form insoluble chelates with ferric iron (Fe3+), whereas ascorbic acid reduces ferric to soluble ferrous iron (Fe2+), dramatically enhancing mucosal absorption.",
@@ -1050,7 +1038,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     pronunciation: "oh-ver-TRAYN-ing SIN-drohm",
     moduleId: "play",
     moduleTitle: "Athlete Health",
-    categoryColor: "bg-light-teal text-deep-teal border-deep-teal/30",
+    categoryColor: "bg-light-teal text-deep-teal border-deep-teal",
     chartJargon: "Sports medicine note: “Persistent parasympathetic exhaustion and exercise intolerance; clinical diagnosis of Overtraining Syndrome.”",
     plainEnglish: "When extreme physical training outpaces your body's ability to recover. Instead of getting faster and stronger, your nervous system burns out, your waking heart rate spikes, sleep fractures, and performance collapses.",
     doctorDefinition: "A maladaptive neuroendocrine and autonomic condition characterized by chronic performance decrements persisting for weeks to months despite prolonged rest, accompanied by hormonal dysregulation and mood disturbances.",
@@ -1062,7 +1050,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     pronunciation: "LO TEE-three SIN-drohm",
     moduleId: "play",
     moduleTitle: "Athlete Health",
-    categoryColor: "bg-light-teal text-deep-teal border-deep-teal/30",
+    categoryColor: "bg-light-teal text-deep-teal border-deep-teal",
     chartJargon: "Endocrine lab report: “Suppressed Free T3 at 2.1 pg/mL with normal TSH; consistent with non-thyroidal illness syndrome secondary to energetic deficit.”",
     plainEnglish: "When your body is not getting enough food to match your workouts, your liver shuts down the conversion of thyroid hormone (T4 into active T3). This puts your body in 'emergency battery saver mode' to slow down your metabolism, making your hands and feet feel freezing cold.",
     doctorDefinition: "An adaptive neuroendocrine downregulation wherein low energy availability suppresses hepatic 5'-deiodinase activity, blunting active triiodothyronine (T3) to decrease resting metabolic rate without primary thyroid gland pathology.",
@@ -1074,7 +1062,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     pronunciation: "H-P-A AK-sis / KOR-tih-sawl",
     moduleId: "play",
     moduleTitle: "Athlete Health",
-    categoryColor: "bg-light-teal text-deep-teal border-deep-teal/30",
+    categoryColor: "bg-light-teal text-deep-teal border-deep-teal",
     chartJargon: "Endocrinology note: “Hypercortisolemia with blunted diurnal variation; nocturnal cortisol spikes disrupting deep slow-wave sleep architecture.”",
     plainEnglish: "The communication network between your brain and adrenal glands. When you overtrain without enough food, this system stays stuck in emergency 'fight or flight' mode. Cortisol spikes at 2 AM instead of morning, waking you up in a sweat with a racing heart and shutting down your reproductive hormones.",
     doctorDefinition: "Dysregulation of the hypothalamic-pituitary-adrenal axis driven by chronic uncompensated physiological stress, leading to blunted diurnal cortisol rhythms, nocturnal cortisol surges, and downstream suppression of hypothalamic GnRH pulsatility.",
@@ -1090,7 +1078,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     pronunciation: "PEER-ee-ud POV-er-tee",
     moduleId: "factors",
     moduleTitle: "The Bigger Picture",
-    categoryColor: "bg-light-teal text-deep-teal border-deep-teal/30",
+    categoryColor: "bg-light-teal text-deep-teal border-deep-teal",
     chartJargon: "Social determinants of health (SDOH): “Patient reports inability to consistently afford menstrual products.”",
     plainEnglish: "The inability to afford or access menstrual hygiene products (pads, tampons, cups), clean private restrooms, or proper disposal bins, forcing students to miss school or use unsafe items.",
     doctorDefinition: "Lack of access to sanitary products, menstrual hygiene education, toilets, hand washing facilities, and waste management, exacerbating educational inequality.",
@@ -1102,7 +1090,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     pronunciation: "TAM-pon taks",
     moduleId: "factors",
     moduleTitle: "The Bigger Picture",
-    categoryColor: "bg-light-teal text-deep-teal border-deep-teal/30",
+    categoryColor: "bg-light-teal text-deep-teal border-deep-teal",
     chartJargon: "Policy brief: “Legislative repeal of luxury excise classification on female hygiene supplies.”",
     plainEnglish: "An unfair sales tax placed on menstrual products by classifying them as non-essential 'luxury items,' while items like men's shaving cream or golf club memberships are often tax-exempt.",
     doctorDefinition: "State and municipal sales taxes levied against menstrual hygiene necessities through discriminatory classification as non-essential luxury commodities.",
@@ -1114,7 +1102,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     pronunciation: "DEZ-ert",
     moduleId: "factors",
     moduleTitle: "The Bigger Picture",
-    categoryColor: "bg-light-teal text-deep-teal border-deep-teal/30",
+    categoryColor: "bg-light-teal text-deep-teal border-deep-teal",
     chartJargon: "Public health index: “Rural county designated maternal health desert with zero practicing OB/GYN clinicians.”",
     plainEnglish: "A county, town, or rural area where there are zero obstetricians, gynecologists, or hospitals with birthing centers, forcing people to travel hours just to get basic reproductive care.",
     doctorDefinition: "A geographic region characterized by a severe lack of obstetric and gynecologic resources, defined by having no hospitals providing obstetric care and no OB/GYN providers.",
@@ -1126,7 +1114,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     pronunciation: "in-TER-pruh-ter",
     moduleId: "factors",
     moduleTitle: "The Bigger Picture",
-    categoryColor: "bg-light-teal text-deep-teal border-deep-teal/30",
+    categoryColor: "bg-light-teal text-deep-teal border-deep-teal",
     chartJargon: "Chart documentation: “Informed consent obtained with Spanish certified medical interpreter (#39281) via telehealth.”",
     plainEnglish: "A professional translator trained specifically in medical words who ensures doctors and patients understand each other clearly. Under federal law, clinics must provide one for free!",
     doctorDefinition: "A credentialed healthcare communication specialist legally mandated under Title VI of the Civil Rights Act to provide accurate, unbiased linguistic translation in clinical settings.",
@@ -1138,7 +1126,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     pronunciation: "helth LIT-er-uh-see",
     moduleId: "factors",
     moduleTitle: "The Bigger Picture",
-    categoryColor: "bg-light-teal text-deep-teal border-deep-teal/30",
+    categoryColor: "bg-light-teal text-deep-teal border-deep-teal",
     chartJargon: "Adolescent transition protocol: “Health literacy screening demonstrates competent patient self-advocacy skills.”",
     plainEnglish: "Having the knowledge, confidence, and vocabulary to understand what a doctor tells you, ask the right questions, and make informed choices that honor your own body.",
     doctorDefinition: "The degree to which individuals have the ability to find, understand, and use information and services to inform health-related decisions and actions for themselves and others.",
@@ -1150,7 +1138,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     pronunciation: "JEN-der ree-SURCH gap",
     moduleId: "factors",
     moduleTitle: "The Bigger Picture",
-    categoryColor: "bg-light-teal text-deep-teal border-deep-teal/30",
+    categoryColor: "bg-light-teal text-deep-teal border-deep-teal",
     chartJargon: "Health equity brief: “The historical gender research gap in biomedical cohorts contributes to protracted diagnostic intervals for female patients.”",
     plainEnglish: "The historical and enduring reality that most medical research, drug trials, and symptom guides were tested almost exclusively on male cells, male animals, and men. This created a massive blind spot where conditions affecting women take longer to diagnose and treatments are less tailored.",
     doctorDefinition: "The systemic underrepresentation or historical exclusion of female subjects in biomedical research and clinical trials, leading to medical knowledge calibrated predominantly to male physiology.",
@@ -1162,7 +1150,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     pronunciation: "en-eye-AYCH ree-vy-tuh-luh-ZAY-shun akt",
     moduleId: "factors",
     moduleTitle: "The Bigger Picture",
-    categoryColor: "bg-light-teal text-deep-teal border-deep-teal/30",
+    categoryColor: "bg-light-teal text-deep-teal border-deep-teal",
     chartJargon: "Public health mandate: “42 U.S.C. 289a-2 compliance mandating the inclusion of women and racial minorities in all NIH-funded clinical research.”",
     plainEnglish: "The landmark United States federal law passed in 1993 that finally made it mandatory for government-funded medical clinical trials to include women and girls. Prior to this law, most prescription drug safety guidelines were built without testing on female hormonal cycles.",
     doctorDefinition: "United States public law (P.L. 103-43) establishing statutory mandates for the National Institutes of Health to ensure women and minorities are included as clinical trial subjects and that trials are designed to analyze sex differences.",
@@ -1174,7 +1162,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     pronunciation: "dy-ug-NAHS-tik dee-LAY",
     moduleId: "factors",
     moduleTitle: "The Bigger Picture",
-    categoryColor: "bg-light-teal text-deep-teal border-deep-teal/30",
+    categoryColor: "bg-light-teal text-deep-teal border-deep-teal",
     chartJargon: "Epidemiological profile: “Endometriosis cohort exhibits a mean diagnostic delay of 7.5 years across initial presentations.”",
     plainEnglish: "The delay between when a patient first reports symptoms to a doctor and when they finally receive an accurate diagnosis. For gynecological conditions like endometriosis and PCOS, this delay averages 7 to 10 years because adolescent pain is frequently normalized as 'just bad cramps.'",
     doctorDefinition: "The time interval between the initial onset or presentation of disease symptoms and the definitive clinical, radiological, or histological diagnosis.",
@@ -1186,7 +1174,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     pronunciation: "ub-JEK-tiv SIMP-tum TRAK-ing",
     moduleId: "factors",
     moduleTitle: "The Bigger Picture",
-    categoryColor: "bg-light-teal text-deep-teal border-deep-teal/30",
+    categoryColor: "bg-light-teal text-deep-teal border-deep-teal",
     chartJargon: "Clinical intake: “Patient presents with structured 90-day objective symptom log documenting pain frequency, bleeding volume, and medication response.”",
     plainEnglish: "The practice of keeping a concrete, dated record of symptoms (timing, 1–10 pain scale, interference with school/sports, pad count, and medications taken). Presenting objective data transforms vague conversations into undeniable clinical evidence that doctors take seriously.",
     doctorDefinition: "The prospective, systematic recording of quantifiable patient-reported outcomes (PROs), pain scales, and physiological events to facilitate accurate differential diagnosis and ongoing tracking over time.",
@@ -1198,7 +1186,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     pronunciation: "SEK-und uh-PIN-yun",
     moduleId: "factors",
     moduleTitle: "The Bigger Picture",
-    categoryColor: "bg-light-teal text-deep-teal border-deep-teal/30",
+    categoryColor: "bg-light-teal text-deep-teal border-deep-teal",
     chartJargon: "Care plan: “Patient elective request for secondary specialist consultation regarding surgical vs. medical management.”",
     plainEnglish: "Consulting an independent second doctor or specialist to review your symptoms, test results, and treatment plan. It is a completely standard, routine medical right and the hallmark of self-advocacy—never feel guilty or worried about hurting a doctor's feelings!",
     doctorDefinition: "A formal consultation with an independent qualified clinician to verify a preliminary diagnosis, evaluate proposed therapeutic interventions, or explore alternative management strategies.",
@@ -1210,7 +1198,7 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     pronunciation: "MED-ih-kul GAS-ly-ting",
     moduleId: "factors",
     moduleTitle: "The Bigger Picture",
-    categoryColor: "bg-light-teal text-deep-teal border-deep-teal/30",
+    categoryColor: "bg-light-teal text-deep-teal border-deep-teal",
     chartJargon: "Clinical advocacy note: “Patient history notable for recurrent dismissal of debilitating menstrual symptoms prior to subspecialty referral.”",
     plainEnglish: "When doctors or clinical providers brush off, trivialize, or minimize your real physical pain by blaming it on 'normal teenage stress', 'dramatics', or 'anxiety.' It is a recognized systemic problem that contributes to multi-year diagnostic delays. Knowing your rights, bringing objective symptom logs, and asking providers to chart their refusals protects your care.",
     doctorDefinition: "The systematic invalidation or trivialization of a patient's reported symptoms by healthcare professionals, frequently resulting in prolonged diagnostic latency, therapeutic neglect, and secondary psychological distress.",
@@ -1219,7 +1207,6 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
 ];
 
 export function LittleHealthDictionary({
-  compact = false,
   initialModuleId,
 }: {
   compact?: boolean;
@@ -1267,269 +1254,159 @@ export function LittleHealthDictionary({
     });
   }, [searchQuery, activeTab]);
 
-  const getTabButtonClass = (tab: ModuleTab) => {
-    const isSelected = activeTab === tab.id;
-
-    if (isSelected) {
-      switch (tab.groupColor) {
-        case "purple":
-          return "bg-purple-600 text-white border-2 border-purple-800 shadow-xs font-extrabold scale-[1.02]";
-        case "teal":
-          return "bg-light-teal text-deep-teal border-2 border-deep-teal shadow-xs font-extrabold scale-[1.02]";
-        case "pink":
-          return "bg-soft-pink text-raspberry border-2 border-raspberry shadow-xs font-extrabold scale-[1.02]";
-        case "coral":
-          return "bg-[#FFE1DB] text-[#B83F68] border-2 border-coral shadow-xs font-extrabold scale-[1.02]";
-        default:
-          return "bg-amber-400 text-slate-950 border-2 border-amber-600 shadow-xs font-extrabold scale-[1.02]";
-      }
-    }
-
-    // Inactive state
-    switch (tab.groupColor) {
-      case "purple":
-        return "bg-white text-purple-900 border border-purple-300 hover:bg-purple-100/60";
-      case "teal":
-        return "bg-white text-deep-teal/80 border border-light-teal/70 hover:bg-light-teal/20";
-      case "pink":
-        return "bg-white text-raspberry/80 border border-soft-pink/70 hover:bg-soft-pink/20";
-      case "coral":
-        return "bg-white text-[#B83F68]/80 border border-coral/50 hover:bg-[#FFE1DB]/30";
-      default:
-        return "bg-white text-charcoal/75 border border-amber-300 hover:bg-amber-100/50";
-    }
-  };
-
   return (
-    <div className="rounded-2xl bg-gradient-to-b from-amber-50/70 via-white to-orange-50/30 border-2 border-amber-300/80 p-5 sm:p-6 shadow-sm space-y-4">
-      {/* Header Banner */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-amber-200/80 pb-4">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-2xl bg-amber-400 text-slate-950 flex items-center justify-center font-bold shadow-xs shrink-0">
-            <BookOpen className="w-5 h-5 text-slate-950" />
-          </div>
-          <div>
-            <div className="flex items-center gap-2 flex-wrap">
-              <h4 className="font-serif font-bold text-lg sm:text-xl text-deep-teal m-0">
-                Little Health Dictionary &amp; Clinical Terms Guide
-              </h4>
-              <span className="text-[10px] font-extrabold uppercase tracking-wider bg-amber-200 text-amber-950 px-2.5 py-0.5 rounded-full border border-amber-300">
-                Plain English + Clinic Examples
-              </span>
-            </div>
-            <p className="text-xs sm:text-sm text-charcoal/75 m-0 font-sans mt-0.5">
-              Doctor chart examples, clinical phrases, and tricky medical terms translated into clear, empowering language. <span className="font-semibold text-deep-teal">(This is education, not medical advice.)</span>
-            </p>
-          </div>
-        </div>
+    <div id="health-dictionary" className="w-full space-y-6 font-sans">
+      {/* Title */}
+      <header className="max-w-[65ch]">
+        <h1 className="font-serif text-h2 text-deep-teal text-balance m-0">
+          Little Health Dictionary &amp; Clinical Terms Guide
+        </h1>
+        <p className="text-body text-charcoal-light text-pretty mt-3 mb-0">
+          Doctor chart examples, clinical phrases, and tricky medical terms translated into clear, empowering language. <span className="font-semibold text-deep-teal">(This is education, not medical advice.)</span>
+        </p>
+      </header>
 
-        <div className="text-xs text-charcoal/70 font-semibold shrink-0 bg-white px-3 py-1.5 rounded-full border border-amber-200 shadow-2xs self-start sm:self-center">
-          Showing <span className="font-bold text-deep-teal">{filteredEntries.length}</span> {filteredEntries.length === 1 ? "word" : "words"}
-        </div>
-      </div>
-
-      {/* Module Tabs Navigation */}
-      <div className="space-y-2">
-        <div className="flex items-center justify-between gap-2">
-          <span className="text-xs font-extrabold uppercase tracking-wider text-charcoal/70 flex items-center gap-1.5">
-            <Sparkles className="w-3.5 h-3.5 text-amber-600" />
-            <span>Select a Topic or Doctor Examples Tab:</span>
-          </span>
-          {activeTab !== "all" && (
-            <button
-              onClick={() => setActiveTab("all")}
-              className="text-[11px] font-bold text-deep-teal hover:text-raspberry underline transition-colors"
-            >
-              View All Words &amp; Clinic Examples ({DICTIONARY_ENTRIES.length})
-            </button>
-          )}
-        </div>
-
-        {/* Scrollable Tab Pills */}
-        <div className="flex items-center gap-1.5 overflow-x-auto pb-1.5 scrollbar-thin">
-          {MODULE_TABS.map((tab) => {
-            const count = moduleCounts[tab.id] || 0;
-            return (
-              <button
-                key={tab.id}
-                onClick={() => {
-                  setActiveTab(tab.id);
-                  setExpandedId(null);
-                }}
-                className={`px-3 py-1.5 rounded-xl text-xs whitespace-nowrap transition-all flex items-center gap-1.5 shrink-0 ${getTabButtonClass(
-                  tab
-                )}`}
-              >
-                {tab.id === "jargon" && (
-                  <Stethoscope className="w-3 h-3 text-current shrink-0" />
-                )}
-                <span>{tab.shortLabel}</span>
-                <span
-                  className={`text-[10px] px-1.5 py-0.2 rounded-full font-mono font-bold ${
-                    activeTab === tab.id
-                      ? "bg-black/20 text-white"
-                      : "bg-black/5 text-charcoal/70"
-                  }`}
-                >
-                  {count}
-                </span>
-              </button>
-            );
-          })}
-        </div>
-      </div>
-
-      {/* Active Tab Explanation Banner */}
-      <div className="px-3.5 py-2.5 rounded-xl bg-amber-100/50 border border-amber-200/80 flex items-center justify-between gap-3 text-xs text-charcoal/85">
-        <div className="flex items-center gap-2">
-          <span className="font-bold text-deep-teal">{activeModuleMeta.label}:</span>
-          <span className="text-charcoal/75">{activeModuleMeta.tagline}</span>
-        </div>
-        {activeTab !== "all" && (
-          <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-white text-deep-teal border border-amber-200 shrink-0">
-            {filteredEntries.length} Terms
-          </span>
-        )}
-      </div>
-
-      {/* Search Input Bar */}
+      {/* Search */}
       <div className="relative">
-        <Search className="w-4 h-4 text-charcoal/40 absolute left-3 top-1/2 -translate-y-1/2" />
+        <label htmlFor="health-words-search" className="sr-only">
+          Search the Little Health Dictionary
+        </label>
+        <Search className="w-5 h-5 text-charcoal-muted absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none" aria-hidden="true" />
         <input
+          id="health-words-search"
           type="text"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          placeholder={`Search ${activeTab === "all" ? "all words & doctor examples" : `${activeModuleMeta.shortLabel} terms`} (e.g. WNL, R/O, idiopathic, dysmenorrhea, prostaglandins)...`}
-          className="w-full pl-9 pr-8 py-2 rounded-xl bg-white border border-amber-300 text-xs sm:text-sm text-charcoal placeholder:text-charcoal/40 focus:outline-none focus:ring-2 focus:ring-amber-400 font-sans shadow-2xs"
+          placeholder={`Search ${activeTab === "all" ? "all words & doctor examples" : `${activeModuleMeta.shortLabel} terms`}`}
+          className="w-full h-12 pl-12 pr-12 rounded-full bg-white border border-[#E5E1DC] text-base text-charcoal placeholder:text-charcoal-muted focus:outline-none focus-visible:ring-2 focus-visible:ring-deep-teal font-sans"
         />
         {searchQuery && (
           <button
+            type="button"
             onClick={() => setSearchQuery("")}
-            className="absolute right-2.5 top-1/2 -translate-y-1/2 p-1 text-charcoal/40 hover:text-charcoal transition-colors"
+            className="absolute right-0 top-1/2 -translate-y-1/2 w-12 h-12 flex items-center justify-center text-charcoal-light hover:text-charcoal rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-deep-teal"
+            aria-label="Clear search"
           >
-            <X className="w-3.5 h-3.5" />
+            <X className="w-5 h-5" aria-hidden="true" />
           </button>
         )}
       </div>
 
-      {/* Dictionary Word Cards Grid */}
+      {/* Topic filters: one row, scrolls sideways inside itself on phones */}
       <div
-        className={`grid grid-cols-1 ${
-          compact ? "gap-3" : "sm:grid-cols-2 gap-3.5"
-        } max-h-[480px] overflow-y-auto pr-1 scrollbar-thin`}
+        role="group"
+        aria-label="Filter words by topic"
+        className="flex gap-2 overflow-x-auto md:flex-wrap md:overflow-visible pb-1"
       >
-        {filteredEntries.length === 0 ? (
-          <div className="col-span-full p-8 text-center bg-white rounded-xl border border-amber-200 text-charcoal/70 text-xs sm:text-sm space-y-2">
-            <p className="font-semibold text-charcoal/90 m-0">
-              No terms found matching &ldquo;{searchQuery}&rdquo; in {activeModuleMeta.label}.
-            </p>
+        {MODULE_TABS.map((tab) => {
+          const isSelected = activeTab === tab.id;
+          return (
             <button
+              key={tab.id}
+              type="button"
+              aria-pressed={isSelected}
               onClick={() => {
-                setSearchQuery("");
-                setActiveTab("all");
+                setActiveTab(tab.id);
+                setExpandedId(null);
               }}
-              className="text-xs font-bold text-deep-teal hover:underline pt-1"
+              className={`shrink-0 min-h-[44px] px-4 rounded-full text-sm font-semibold whitespace-nowrap border transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-deep-teal focus-visible:ring-offset-2 ${
+                isSelected
+                  ? "bg-deep-teal text-white border-deep-teal"
+                  : "bg-white text-deep-teal border-[#E5E1DC] hover:border-deep-teal"
+              }`}
             >
-              Clear search & view all words →
+              {tab.shortLabel} ({moduleCounts[tab.id] || 0})
             </button>
-          </div>
-        ) : (
-          filteredEntries.map((entry) => {
+          );
+        })}
+      </div>
+
+      {/* Active topic line + count */}
+      <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-2">
+        <p className="text-small text-charcoal-light text-pretty m-0 max-w-[65ch]">
+          <span className="font-semibold text-deep-teal">{activeModuleMeta.label}:</span> {activeModuleMeta.tagline}
+        </p>
+        <p className="text-small text-charcoal-light m-0 shrink-0" aria-live="polite">
+          Showing <strong className="text-deep-teal">{filteredEntries.length}</strong> {filteredEntries.length === 1 ? "word" : "words"}
+        </p>
+      </div>
+
+      {/* Word list */}
+      {filteredEntries.length === 0 ? (
+        <div className="p-8 text-center bg-white rounded-2xl border border-[#E5E1DC] text-charcoal-light space-y-2">
+          <p className="font-semibold text-charcoal m-0">
+            No terms found matching &ldquo;{searchQuery}&rdquo; in {activeModuleMeta.label}.
+          </p>
+          <button
+            type="button"
+            onClick={() => {
+              setSearchQuery("");
+              setActiveTab("all");
+            }}
+            className="min-h-[44px] px-4 text-small font-semibold text-deep-teal underline hover:text-raspberry transition-colors duration-150"
+          >
+            Clear search &amp; view all words
+          </button>
+        </div>
+      ) : (
+        <ul className="list-none m-0 p-0 bg-white rounded-2xl border border-[#E5E1DC] shadow-sm divide-y divide-[#E5E1DC] overflow-hidden">
+          {filteredEntries.map((entry) => {
             const isExpanded = expandedId === entry.id;
+            const panelId = `word-panel-${entry.id}`;
 
             return (
-              <div
-                key={entry.id}
-                className="p-4 rounded-xl bg-white border-2 border-amber-200/90 shadow-2xs hover:shadow-xs transition-all space-y-2.5 flex flex-col justify-between hover:border-amber-400"
-              >
-                <div>
-                  <div className="flex items-start justify-between gap-2 mb-1.5">
-                    <div>
-                      <h5 className="font-serif font-bold text-base text-deep-teal m-0 leading-tight">
-                        {entry.term}
-                      </h5>
-                      <span className="inline-flex items-center gap-1 text-[11px] font-mono text-charcoal/70 bg-amber-50 px-2 py-0.5 rounded mt-1 border border-amber-200/70 font-semibold">
-                        <Volume2 className="w-3 h-3 text-amber-700" />
-                        &ldquo;{entry.pronunciation}&rdquo;
-                      </span>
-                    </div>
+              <li key={entry.id}>
+                <button
+                  type="button"
+                  aria-expanded={isExpanded}
+                  aria-controls={panelId}
+                  onClick={() => setExpandedId(isExpanded ? null : entry.id)}
+                  className="w-full min-h-[56px] px-4 md:px-6 py-3 flex items-center justify-between gap-4 text-left hover:bg-warm-cream transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-deep-teal"
+                >
+                  <span className="min-w-0">
+                    <span className="block font-serif text-lg text-deep-teal leading-snug">{entry.term}</span>
+                    <span className="block text-small text-charcoal-light">&ldquo;{entry.pronunciation}&rdquo;</span>
+                  </span>
+                  <ChevronDown
+                    className={`w-5 h-5 shrink-0 text-deep-teal transition-transform duration-150 ${isExpanded ? "rotate-180" : ""}`}
+                    aria-hidden="true"
+                  />
+                </button>
 
-                    <span
-                      className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full border ${entry.categoryColor} shrink-0`}
-                    >
+                {isExpanded && (
+                  <div id={panelId} className="px-4 md:px-6 pb-6 pt-1 space-y-5">
+                    <span className={`inline-flex items-center px-3 py-1 rounded-full border text-small font-semibold ${entry.categoryColor}`}>
                       {entry.moduleTitle}
                     </span>
-                  </div>
 
-                  {/* Real Clinic / Chart Example Callout */}
-                  {entry.chartJargon && (
-                    <div className="p-2.5 rounded-xl bg-purple-50/70 border border-purple-200/70 text-xs font-sans text-purple-950 flex items-start gap-2 mt-2 shadow-2xs">
-                      <FileText className="w-3.5 h-3.5 text-purple-700 mt-0.5 shrink-0" />
-                      <div className="leading-snug">
-                        <span className="text-[10px] font-extrabold uppercase tracking-wider text-purple-800 block mb-0.5">
-                          Real Clinic / Chart Example:
-                        </span>
-                        <span className="italic text-[11px] text-purple-950 font-mono">
-                          {entry.chartJargon}
-                        </span>
-                      </div>
+                    <div className="max-w-[65ch]">
+                      <p className="text-base font-bold text-deep-teal m-0 mb-1">Plain English Meaning</p>
+                      <p className="text-base text-charcoal text-pretty leading-relaxed m-0">{entry.plainEnglish}</p>
                     </div>
-                  )}
 
-                  {/* Plain English Translation */}
-                  <div className="p-3 rounded-lg bg-amber-50/70 border border-amber-200/70 text-xs text-charcoal/90 leading-relaxed font-sans mt-2">
-                    <strong className="text-amber-950 font-bold block mb-0.5 flex items-center gap-1.5">
-                      <Sparkles className="w-3.5 h-3.5 text-amber-700 shrink-0" />
-                      <span>Plain English Meaning:</span>
-                    </strong>
-                    {entry.plainEnglish}
-                  </div>
-                </div>
-
-                {/* Expandable Clinical Details & Doctor Script */}
-                <div>
-                  {isExpanded ? (
-                    <div className="space-y-2.5 pt-2 border-t border-amber-100 text-xs animate-in fade-in duration-150">
-                      <div className="p-2.5 rounded-lg bg-slate-50 border border-slate-200">
-                        <span className="text-[11px] font-bold text-slate-700 flex items-center gap-1.5 mb-0.5">
-                          <Stethoscope className="w-3.5 h-3.5 text-slate-600 shrink-0" />
-                          <span>Clinical Pathology Definition:</span>
-                        </span>
-                        <p className="text-slate-800 italic text-[11.5px] m-0 leading-relaxed">
-                          {entry.doctorDefinition}
-                        </p>
+                    {entry.chartJargon && (
+                      <div className="max-w-[65ch] border-l-4 border-deep-teal pl-4">
+                        <p className="text-base font-bold text-deep-teal m-0 mb-1">Real Clinic / Chart Example</p>
+                        <p className="font-mono text-small text-charcoal leading-relaxed m-0">{entry.chartJargon}</p>
                       </div>
+                    )}
 
-                      <div className="p-2.5 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-950 text-[11.5px] leading-relaxed">
-                        <strong className="block mb-0.5 font-bold flex items-center gap-1.5 text-emerald-900">
-                          <MessageSquare className="w-3.5 h-3.5 text-emerald-700 shrink-0" />
-                          <span>What to say in your appointment:</span>
-                        </strong>
-                        {entry.howToSayIt}
-                      </div>
-
-                      <button
-                        onClick={() => setExpandedId(null)}
-                        className="text-[11px] font-bold text-amber-900 hover:underline pt-0.5 block"
-                      >
-                        Hide clinical details ↑
-                      </button>
+                    <div className="max-w-[65ch] border-l-4 border-coral pl-4">
+                      <p className="text-base font-bold text-deep-teal m-0 mb-1">Clinical Pathology Definition</p>
+                      <p className="text-base text-charcoal text-pretty leading-relaxed m-0">{entry.doctorDefinition}</p>
                     </div>
-                  ) : (
-                    <button
-                      onClick={() => setExpandedId(entry.id)}
-                      className="text-[11.5px] font-bold text-deep-teal hover:text-raspberry transition-colors flex items-center gap-1 pt-1 group"
-                    >
-                      <span>How to say this to a doctor</span>
-                      <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
-                    </button>
-                  )}
-                </div>
-              </div>
+
+                    <div className="max-w-[65ch] border-l-4 border-raspberry pl-4">
+                      <p className="text-base font-bold text-deep-teal m-0 mb-1">What to say in your appointment</p>
+                      <p className="text-base text-charcoal text-pretty leading-relaxed m-0">{entry.howToSayIt}</p>
+                    </div>
+                  </div>
+                )}
+              </li>
             );
-          })
-        )}
-      </div>
+          })}
+        </ul>
+      )}
     </div>
   );
 }

@@ -1,58 +1,51 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useId, useRef } from "react";
 import {
-  MapPin,
   Phone,
-  Calendar,
-  GraduationCap,
   Download,
-  AlertCircle,
-  Search,
   ExternalLink,
-  CheckCircle2,
-  FileText,
-  Users,
-  PenLine,
-  PlusCircle,
-  Sparkles,
-  ArrowRight,
-  ArrowLeft,
   Copy,
   Check,
-  ShieldCheck,
-  HeartHandshake,
-  MessageSquare,
-  LifeBuoy,
-  Megaphone,
-  Building2,
   AlertTriangle,
-  Activity,
-  Stethoscope
+  MessageSquare,
+  Plus,
 } from "lucide-react";
-import { CLINICS_DATA, HOTLINES_DATA, Clinic, Hotline } from "@/data/clinicsData";
-import { PETITIONS_DATA, REAL_WORLD_ADVOCACY_LINKS, PetitionItem } from "@/data/petitionsData";
-import { SYMPTOMS_DATA, SymptomDetail, SYMPTOM_LOG_TEMPLATE } from "@/data/symptomsData";
-import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Badge } from "@/components/ui/badge";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-} from "@/components/ui/dialog";
-import { signPetitionApi, submitCommunityPetition } from "@/lib/api";
+import { HOTLINES_DATA, Hotline } from "@/data/clinicsData";
+import { PETITIONS_DATA, REAL_WORLD_ADVOCACY_LINKS } from "@/data/petitionsData";
+import { SYMPTOMS_DATA, SYMPTOM_LOG_TEMPLATE } from "@/data/symptomsData";
 import { PageId } from "@/components/layout/Navbar";
 import { cn } from "@/lib/utils";
 
 interface ResourcesViewProps {
   onNavigate: (page: PageId, categoryOrTab?: string) => void;
-  initialCategory?: "all" | "help" | "petitions" | "tracker";
+  /** all | tracker | toolkit | help | library | petitions. Anything else is treated as "all". */
+  initialCategory?: string;
 }
+
+// ---------------------------------------------------------------------------
+// Shared look (DESIGN.md): one card, one primary button, one secondary, text links.
+// ---------------------------------------------------------------------------
+const focusRing =
+  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-deep-teal focus-visible:ring-offset-2";
+const card = "rounded-2xl border border-[#E5E1DC] bg-white p-5 shadow-sm md:p-6";
+const btnPrimary = cn(
+  "inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-raspberry px-6 py-2.5 text-center text-base font-semibold text-white transition-colors duration-200 hover:bg-raspberry-dark",
+  focusRing
+);
+const btnSecondary = cn(
+  "inline-flex min-h-11 items-center justify-center gap-2 rounded-full border-2 border-deep-teal bg-white px-6 py-2.5 text-center text-base font-semibold text-deep-teal transition-colors duration-200 hover:bg-light-teal",
+  focusRing
+);
+const textLink = cn(
+  "inline-flex min-h-11 items-center gap-1.5 text-base font-semibold text-deep-teal underline-offset-4 hover:underline",
+  focusRing
+);
+const sectionInner = "mx-auto max-w-6xl px-4 py-16 md:px-6 md:py-24";
+const h2Class = "font-serif text-h2 font-normal text-deep-teal text-balance";
+const h3Class = "font-serif text-h3 font-normal text-deep-teal text-balance";
+const cardTitle = "font-serif text-lg font-normal text-deep-teal text-balance";
+const bodyText = "text-body text-charcoal text-pretty max-w-[65ch]";
 
 const ADVOCACY_LETTER_TEMPLATES = [
   {
@@ -100,30 +93,222 @@ Sincerely,
   }
 ];
 
-export function ResourcesView({ onNavigate, initialCategory = "all" }: ResourcesViewProps) {
-  const [activeCategory, setActiveCategory] = useState<"all" | "help" | "petitions" | "tracker">(initialCategory);
-  const [hotlineFilter, setHotlineFilter] = useState<string>("all");
-  const [petitionFilter, setPetitionFilter] = useState<string>("all");
-  const [copiedLetterId, setCopiedLetterId] = useState<string | null>(null);
+const APPOINTMENT_RULES = [
+  {
+    title: "Rule 1: Bring Written Notes",
+    text: "When you enter an exam room, anxiety can make symptoms difficult to recall. Write your top 3 concerns in your phone notes ahead of time."
+  },
+  {
+    title: "Rule 2: State Your Primary Goal First",
+    text: "Start the visit with: “My main priority today is figuring out why my period cramps keep me from going to school, and what diagnostic steps we can take.”"
+  },
+  {
+    title: "Rule 3: Ask for Next Steps & Timeline",
+    text: "Before leaving, ask: “If these symptoms continue over the next 4 weeks, what is our next diagnostic step?”"
+  }
+];
 
-  // Symptom Tracker State
-  const [selectedSymptomId, setSelectedSymptomId] = useState<string>("painful-periods");
-  const [activeSymptom, setActiveSymptom] = useState<SymptomDetail>(
-    () => SYMPTOMS_DATA.find((s) => s.id === "painful-periods") || SYMPTOMS_DATA[0]
+const LOG_PARAMETERS = [
+  {
+    title: "Severity Scale",
+    text: "Score pain 1-10 and note whether standard OTC medications provide relief."
+  },
+  {
+    title: "Functional Impact",
+    text: "Record specific activities missed: school days, sports practices, or sleep disruption."
+  },
+  {
+    title: "Cycle Timing",
+    text: "Note cycle day (Day 1 = first day of full bleeding) and how many days symptoms persist."
+  },
+  {
+    title: "Associated Signs",
+    text: "Track nausea, bowel/urinary changes, dizziness, or fatigue alongside bleeding."
+  }
+];
+
+const SPEAK_UP_SCRIPTS = [
+  {
+    id: "s1",
+    title: "Script: Introducing Symptoms",
+    text: "“I have documented my symptoms across the last three cycles. My pain averages an 8 out of 10 and prevents me from attending school. What diagnostic evaluation or blood work do you recommend to investigate this?”"
+  },
+  {
+    id: "s2",
+    title: "Script: If Your Symptoms Are Dismissed",
+    text: "“Could you please note in my electronic health record that I reported these symptoms today, and document why further diagnostic testing or specialist referral is not indicated at this time?”"
+  }
+];
+
+const MATERNAL_WARNING_SIGNS = [
+  "Severe persistent headache",
+  "Dizziness or fainting spells",
+  "Vision changes or seeing spots",
+  "Fever of 100.4°F or higher",
+  "Extreme swelling of face or hands",
+  "Chest pain or rapid heartbeat",
+  "Severe shortness of breath",
+  "Severe abdominal / upper stomach pain",
+  "Heavy vaginal bleeding or clots",
+  "Fluid leaking before 37 weeks",
+  "Decreased baby movement",
+  "Overwhelming sadness or panic"
+];
+
+// Crisis lines first, then the rest. Display order only: no numbers are added or changed.
+const HOTLINE_ORDER: Record<string, number> = { crisis: 0, lgbtq: 1, safety: 2, reproductive: 3, maternal: 4 };
+const sortedHotlines: Hotline[] = [...HOTLINES_DATA].sort(
+  (a, b) => (HOTLINE_ORDER[a.category ?? ""] ?? 9) - (HOTLINE_ORDER[b.category ?? ""] ?? 9)
+);
+
+type GroupId = "toolkit" | "help" | "petitions";
+
+const GROUP_TABS: { id: GroupId; label: string }[] = [
+  { id: "toolkit", label: "Self-advocacy toolkit" },
+  { id: "help", label: "Get help now" },
+  { id: "petitions", label: "Take action" }
+];
+
+// initialCategory -> which tab opens. Anything else (all, library, unknown) opens the toolkit.
+const TAB_FOR: Record<string, GroupId> = {
+  tracker: "toolkit",
+  toolkit: "toolkit",
+  help: "help",
+  petitions: "petitions",
+  action: "petitions"
+};
+
+// initialCategory -> element id to scroll to. "all" (and anything unknown) does not scroll.
+const SCROLL_TARGETS: Record<string, string> = {
+  tracker: "symptom-tracker-section",
+  toolkit: "toolkit",
+  help: "help",
+  petitions: "petitions",
+  action: "petitions"
+};
+
+const rowFocus =
+  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-deep-teal";
+const accordionBox =
+  "divide-y divide-[#E5E1DC] overflow-hidden rounded-2xl border border-[#E5E1DC] bg-white shadow-sm";
+const panelInner = "mx-auto max-w-6xl px-4 py-12 md:px-6 md:py-16";
+
+function CopyButton({
+  text,
+  label,
+  done,
+  onCopy
+}: {
+  text: string;
+  label: string;
+  done: boolean;
+  onCopy: (text: string) => void;
+}) {
+  return (
+    <button type="button" onClick={() => onCopy(text)} className={btnSecondary}>
+      {done ? <Check className="h-4 w-4" aria-hidden="true" /> : <Copy className="h-4 w-4" aria-hidden="true" />}
+      <span aria-live="polite">{done ? "Copied" : label}</span>
+    </button>
   );
-  const [copiedLogTemplate, setCopiedLogTemplate] = useState(false);
+}
 
+/** One accordion row: a heading with a button (aria-expanded) and a panel. Rows sit inside `accordionBox`. */
+function Collapsible({
+  title,
+  level = 3,
+  titleClass,
+  open,
+  onToggle,
+  children
+}: {
+  title: string;
+  level?: 3 | 4;
+  titleClass?: string;
+  open?: boolean;
+  onToggle?: () => void;
+  children: React.ReactNode;
+}) {
+  const uid = useId();
+  const [innerOpen, setInnerOpen] = useState(false);
+  const isOpen = open ?? innerOpen;
+  const Heading = `h${level}` as "h3" | "h4";
+  return (
+    <div>
+      <Heading className="m-0">
+        <button
+          type="button"
+          id={`${uid}-btn`}
+          aria-expanded={isOpen}
+          aria-controls={`${uid}-panel`}
+          onClick={() => (onToggle ? onToggle() : setInnerOpen((o) => !o))}
+          className={cn(
+            "flex min-h-11 w-full items-center justify-between gap-4 px-5 py-3 text-left transition-colors duration-200 hover:bg-light-teal md:px-6",
+            titleClass ?? "font-serif text-lg font-normal text-deep-teal",
+            rowFocus
+          )}
+        >
+          <span className="text-pretty">{title}</span>
+          <Plus
+            className={cn("h-5 w-5 shrink-0 text-raspberry transition-transform duration-200", isOpen && "rotate-45")}
+            aria-hidden="true"
+          />
+        </button>
+      </Heading>
+      <div id={`${uid}-panel`} role="region" aria-labelledby={`${uid}-btn`} hidden={!isOpen} className="px-5 pb-6 pt-1 md:px-6">
+        {isOpen && children}
+      </div>
+    </div>
+  );
+}
+
+export function ResourcesView({ onNavigate, initialCategory = "all" }: ResourcesViewProps) {
+  const [tab, setTab] = useState<GroupId>(() => TAB_FOR[initialCategory] ?? "toolkit");
+  const [openSymptomId, setOpenSymptomId] = useState<string | null>(null);
+  const [copiedKey, setCopiedKey] = useState<string | null>(null);
+  const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
+
+  const scrollToId = (id: string) => {
+    if (typeof document === "undefined") return;
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
+  // Open the requested tab (and scroll to its target) when the view opens or the category changes.
   useEffect(() => {
-    const active = SYMPTOMS_DATA.find((s) => s.id === selectedSymptomId) || SYMPTOMS_DATA[0];
-    setActiveSymptom(active);
-  }, [selectedSymptomId]);
+    setTab(TAB_FOR[initialCategory] ?? "toolkit");
+    const target = SCROLL_TARGETS[initialCategory];
+    if (!target) return;
+    const t = setTimeout(() => scrollToId(target), 80);
+    return () => clearTimeout(t);
+  }, [initialCategory]);
 
-  const handleCopyLogTemplate = () => {
-    navigator.clipboard.writeText(SYMPTOM_LOG_TEMPLATE);
-    setCopiedLogTemplate(true);
+  const selectTab = (id: GroupId) => {
+    setTab(id);
+    // If the page was scrolled past the top of the panel, bring the new panel into view.
     setTimeout(() => {
-      setCopiedLogTemplate(false);
-    }, 2500);
+      const el = document.getElementById(id);
+      if (el && el.getBoundingClientRect().top < 120) scrollToId(id);
+    }, 0);
+  };
+
+  const onTabKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>, idx: number) => {
+    const n = GROUP_TABS.length;
+    let next = -1;
+    if (e.key === "ArrowRight") next = (idx + 1) % n;
+    else if (e.key === "ArrowLeft") next = (idx - 1 + n) % n;
+    else if (e.key === "Home") next = 0;
+    else if (e.key === "End") next = n - 1;
+    if (next < 0) return;
+    e.preventDefault();
+    setTab(GROUP_TABS[next].id);
+    tabRefs.current[next]?.focus();
+  };
+
+  const copyText = (key: string, text: string) => {
+    if (typeof navigator !== "undefined" && navigator.clipboard) {
+      navigator.clipboard.writeText(text);
+      setCopiedKey(key);
+      setTimeout(() => setCopiedKey((k) => (k === key ? null : k)), 2500);
+    }
   };
 
   const handleDownloadLogTemplate = () => {
@@ -136,1561 +321,428 @@ export function ResourcesView({ onNavigate, initialCategory = "all" }: Resources
     document.body.removeChild(element);
   };
 
-  // Modals
-  const [isClinicModalOpen, setIsClinicModalOpen] = useState(false);
-  const [zipQuery, setZipQuery] = useState("");
-  const [isHotlinesModalOpen, setIsHotlinesModalOpen] = useState(false);
-  const [selectedLetter, setSelectedLetter] = useState<(typeof ADVOCACY_LETTER_TEMPLATES)[0] | null>(null);
-
-  // Petitions State
-  const [petitions, setPetitions] = useState<PetitionItem[]>(PETITIONS_DATA);
-  const [selectedPetition, setSelectedPetition] = useState<PetitionItem | null>(null);
-  const [signerName, setSignerName] = useState("");
-  const [signerEmail, setSignerEmail] = useState("");
-  const [signerZip, setSignerZip] = useState("");
-  const [signerComment, setSignerComment] = useState("");
-  const [isSigning, setIsSigning] = useState(false);
-  const [signSuccess, setSignSuccess] = useState(false);
-  const [signedPetitionIds, setSignedPetitionIds] = useState<string[]>([]);
-
-  // Propose Petition Modal State
-  const [isProposeModalOpen, setIsProposeModalOpen] = useState(false);
-  const [propTitle, setPropTitle] = useState("");
-  const [propTarget, setPropTarget] = useState("");
-  const [propSummary, setPropSummary] = useState("");
-  const [propDemands, setPropDemands] = useState("");
-  const [propName, setPropName] = useState("");
-  const [propEmail, setPropEmail] = useState("");
-  const [propLocation, setPropLocation] = useState("");
-  const [isSubmittingProp, setIsSubmittingProp] = useState(false);
-  const [propSuccess, setPropSuccess] = useState(false);
-
-  // Sync when initialCategory changes from Navbar navigation
-  useEffect(() => {
-    if (initialCategory) {
-      setActiveCategory(initialCategory);
-    }
-  }, [initialCategory]);
-
-  const filteredClinics = CLINICS_DATA.filter((c) =>
-    zipQuery.trim() === ""
-      ? true
-      : c.zip.includes(zipQuery.trim()) ||
-        c.city.toLowerCase().includes(zipQuery.trim().toLowerCase())
-  );
-
-  const filteredHotlines = HOTLINES_DATA.filter((h) => {
-    if (hotlineFilter === "all") return true;
-    return h.category === hotlineFilter;
-  });
-
-  const filteredPetitions = petitions.filter((p) => {
-    if (petitionFilter === "all") return true;
-    return p.category === petitionFilter;
-  });
-
-  const handleCopyLetter = (letterId: string, text: string) => {
-    navigator.clipboard.writeText(text);
-    setCopiedLetterId(letterId);
-    setTimeout(() => {
-      setCopiedLetterId(null);
-    }, 2500);
-  };
-
-  const handleDownloadModule = () => {
-    const element = document.createElement("a");
-    const file = new Blob(
-      [
-        "ReproUs Youth Ambassador Training Module (Self-Paced Guide)\n\n" +
-          "1. Core Principles: Non-judgmental language, active listening, affirming youth autonomy.\n" +
-          "2. Workshop Facilitation: Running the 90-minute session, handling anonymous question boxes.\n" +
-          "3. Resource Navigation: How to connect peers with local Title X sliding-scale clinics.\n" +
-          "4. Crisis Protocols: Recognizing when to hand off to 24/7 confidential hotlines.\n\n" +
-          "© ReproUs Education Network"
-      ],
-      { type: "text/plain" }
-    );
-    element.href = URL.createObjectURL(file);
-    element.download = "ReproUs-Ambassador-Training-Module.txt";
-    document.body.appendChild(element);
-    element.click();
-    document.body.removeChild(element);
-  };
-
-  const handleSignSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!selectedPetition || !signerName || !signerEmail) return;
-
-    setIsSigning(true);
-    await signPetitionApi({
-      petitionId: selectedPetition.id,
-      signerName,
-      email: signerEmail,
-      zipCode: signerZip,
-      comment: signerComment
-    });
-    setIsSigning(false);
-    setSignSuccess(true);
-
-    // Update local signature count
-    setPetitions((prev) =>
-      prev.map((p) =>
-        p.id === selectedPetition.id
-          ? { ...p, currentSignatures: p.currentSignatures + 1 }
-          : p
-      )
-    );
-    setSignedPetitionIds((prev) => [...prev, selectedPetition.id]);
-
-    setTimeout(() => {
-      setSelectedPetition(null);
-      setSignSuccess(false);
-      setSignerName("");
-      setSignerEmail("");
-      setSignerZip("");
-      setSignerComment("");
-    }, 2400);
-  };
-
-  const handleProposeSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!propTitle || !propTarget || !propSummary || !propName || !propEmail) return;
-
-    setIsSubmittingProp(true);
-    await submitCommunityPetition({
-      title: propTitle,
-      target: propTarget,
-      summary: propSummary,
-      demands: propDemands,
-      proposerName: propName,
-      proposerEmail: propEmail,
-      location: propLocation
-    });
-    setIsSubmittingProp(false);
-    setPropSuccess(true);
-    setTimeout(() => {
-      setIsProposeModalOpen(false);
-      setPropSuccess(false);
-      setPropTitle("");
-      setPropTarget("");
-      setPropSummary("");
-      setPropDemands("");
-      setPropName("");
-      setPropEmail("");
-      setPropLocation("");
-    }, 2400);
-  };
-
-  const selectCategory = (cat: "all" | "help" | "petitions" | "tracker") => {
-    setActiveCategory(cat);
-    if (typeof window !== "undefined") {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }
-  };
-
   return (
-    <div className="max-w-[1120px] mx-auto px-4 sm:px-6 py-10 md:py-14 flex flex-col gap-10 font-sans">
+    <div className="font-sans text-charcoal">
       {/* Header */}
-      <div className="text-center max-w-3xl mx-auto">
-        <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-soft-pink/70 text-raspberry text-[13px] font-bold uppercase tracking-wider mb-3">
-          <HeartHandshake className="w-3.5 h-3.5 text-coral" />
-          <span>Resources &amp; Action Ecosystem</span>
-        </div>
-        <h1 className="text-4xl sm:text-5xl md:text-6xl font-normal font-serif text-plum leading-[1.1] mb-4">
+      <header className="mx-auto max-w-6xl px-4 pb-10 pt-16 text-center md:px-6 md:pb-14 md:pt-20">
+        <h1 className="mx-auto max-w-4xl font-serif text-h1 font-normal text-deep-teal text-balance">
           How to get help &amp; take action
         </h1>
-        <p className="text-[16.5px] sm:text-[17.5px] text-ink/85 leading-relaxed font-sans max-w-2xl mx-auto mb-6">
-          When it&apos;s time for more than education — here is where to turn. Connect with 24/7 confidential hotlines, free clinics, youth rights guides, and join real-world legislative petitions.
+        <p className="mx-auto mt-5 max-w-2xl text-body text-charcoal text-pretty">
+          When it&apos;s time for more than education — here is where to turn. Connect with 24/7 confidential hotlines, youth rights guides, and join real-world legislative petitions.
         </p>
+      </header>
 
-        {/* Audience Category "Button" Choice Bar */}
-        <div className="flex flex-wrap items-center justify-center gap-2.5 pt-2">
-          <button
-            onClick={() => selectCategory("all")}
-            className={cn(
-              "px-4 py-2.5 rounded-full text-xs sm:text-[13px] font-bold font-sans transition-all flex items-center gap-2 cursor-pointer shadow-xs",
-              activeCategory === "all"
-                ? "bg-deep-teal text-white shadow-sm ring-2 ring-deep-teal/20 scale-[1.02]"
-                : "bg-white text-plum/80 hover:text-plum hover:bg-light-teal/30 border border-deep-teal/20"
-            )}
-            aria-label="View All Resources Overview"
-          >
-            <Sparkles className="w-3.5 h-3.5 text-coral" />
-            <span>All Resources Overview</span>
-          </button>
-
-          <button
-            onClick={() => selectCategory("tracker")}
-            className={cn(
-              "px-4 py-2.5 rounded-full text-xs sm:text-[13px] font-bold font-sans transition-all flex items-center gap-2 cursor-pointer shadow-xs",
-              activeCategory === "tracker"
-                ? "bg-deep-teal text-white shadow-sm ring-2 ring-deep-teal/20 scale-[1.02]"
-                : "bg-white text-plum/80 hover:text-plum hover:bg-light-teal/30 border border-deep-teal/20"
-            )}
-            aria-label="View Symptom Tracker"
-          >
-            <Stethoscope className="w-3.5 h-3.5 text-coral" />
-            <span>Symptom Tracker</span>
-          </button>
-
-          <button
-            onClick={() => selectCategory("help")}
-            className={cn(
-              "px-4 py-2.5 rounded-full text-xs sm:text-[13px] font-bold font-sans transition-all flex items-center gap-2 cursor-pointer shadow-xs",
-              activeCategory === "help"
-                ? "bg-deep-teal text-white shadow-sm ring-2 ring-deep-teal/20 scale-[1.02]"
-                : "bg-white text-plum/80 hover:text-plum hover:bg-light-teal/30 border border-deep-teal/20"
-            )}
-            aria-label="View How to Get Help and Clinics"
-          >
-            <LifeBuoy className="w-3.5 h-3.5 text-coral" />
-            <span>How to Get Help</span>
-          </button>
-
-          <button
-            onClick={() => selectCategory("petitions")}
-            className={cn(
-              "px-4 py-2.5 rounded-full text-xs sm:text-[13px] font-bold font-sans transition-all flex items-center gap-2 cursor-pointer shadow-xs",
-              activeCategory === "petitions"
-                ? "bg-deep-teal text-white shadow-sm ring-2 ring-deep-teal/20 scale-[1.02]"
-                : "bg-white text-plum/80 hover:text-plum hover:bg-light-teal/30 border border-deep-teal/20"
-            )}
-            aria-label="View Take Action & Petitions"
-          >
-            <Megaphone className="w-3.5 h-3.5 text-coral" />
-            <span>Take Action &amp; Petitions</span>
-          </button>
+      {/* Sticky tabs */}
+      <div className="sticky top-16 z-40 border-b border-[#E5E1DC] bg-white">
+        <div
+          role="tablist"
+          aria-label="Resources sections"
+          className="mx-auto grid max-w-6xl grid-cols-3 gap-2 px-4 py-2 md:flex md:justify-center md:gap-3 md:px-6"
+        >
+          {GROUP_TABS.map((g, idx) => {
+            const selected = tab === g.id;
+            return (
+              <button
+                key={g.id}
+                ref={(el) => {
+                  tabRefs.current[idx] = el;
+                }}
+                type="button"
+                role="tab"
+                id={`tab-${g.id}`}
+                aria-selected={selected}
+                aria-controls={g.id}
+                tabIndex={selected ? 0 : -1}
+                onClick={() => selectTab(g.id)}
+                onKeyDown={(e) => onTabKeyDown(e, idx)}
+                className={cn(
+                  "min-h-11 rounded-full px-2 text-sm font-semibold leading-tight transition-colors duration-200 md:px-6 md:text-base",
+                  focusRing,
+                  selected ? "bg-deep-teal text-white" : "text-deep-teal hover:bg-light-teal"
+                )}
+              >
+                {g.label}
+              </button>
+            );
+          })}
         </div>
       </div>
 
-      {/* ALL RESOURCES OVERVIEW: Grouped with Audience Button Choices (No Clutter) */}
-      {activeCategory === "all" && (
-        <section className="flex flex-col gap-8 max-w-5xl mx-auto w-full pt-2">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-deep-teal/15 pb-4">
-            <div>
-              <h2 className="text-2xl sm:text-3xl font-serif font-bold text-plum">
-                Select a Resource Group
-              </h2>
-              <p className="text-sm text-charcoal/70 mt-1 m-0">
-                Choose a category below to explore dedicated tools, guides, and directories without clutter.
-              </p>
-            </div>
-            <span className="text-xs font-bold uppercase tracking-wider text-deep-teal bg-light-teal/60 px-3 py-1 rounded-full border border-deep-teal/20 self-start sm:self-auto">
-              4 Primary Groups
-            </span>
-          </div>
+      {/* ------------------------------------------------------------------ */}
+      {/* SELF-ADVOCACY TOOLKIT */}
+      {/* ------------------------------------------------------------------ */}
+      {tab === "toolkit" && (
+        <section role="tabpanel" id="toolkit" aria-labelledby="tab-toolkit" className="scroll-mt-32 bg-warm-cream">
+          <div className={panelInner}>
+            <h2 className={h2Class}>Self-advocacy toolkit</h2>
+            <p className={cn(bodyText, "mt-4")}>
+              Practical tools to help you track your symptoms, prepare for appointments, and speak up with confidence.
+            </p>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            
-            {/* GROUP 1: Symptom Tracker & Self-Advocacy */}
-            <div className="p-7 rounded-2xl bg-white border-2 border-light-teal hover:border-deep-teal shadow-xs hover:shadow-card transition-all flex flex-col justify-between gap-6 group">
-              <div>
-                <div className="flex items-center justify-between gap-2 mb-3">
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-light-teal text-deep-teal border border-deep-teal/20">
-                    <Stethoscope className="w-3.5 h-3.5 text-deep-teal" />
-                    <span>Clinical Guidance</span>
-                  </span>
-                  <span className="text-xs font-semibold text-charcoal/60">Self-Advocacy</span>
-                </div>
-                <h3 className="text-2xl font-serif font-bold text-plum group-hover:text-deep-teal transition-colors mb-2">
-                  Symptom Tracker &amp; Guide
-                </h3>
-                <p className="text-[14.5px] text-charcoal/80 leading-relaxed mb-4">
-                  Identify patterns in adolescent reproductive symptoms, build an objective 60–90 day tracking log, and prepare targeted questions for your doctor.
-                </p>
-                <div className="flex flex-wrap gap-1.5 mb-2">
-                  <span className="text-[11.5px] font-semibold px-2.5 py-1 rounded-md bg-ivory text-plum border border-deep-teal/15">
-                    10 Adolescent Symptoms
-                  </span>
-                  <span className="text-[11.5px] font-semibold px-2.5 py-1 rounded-md bg-ivory text-plum border border-deep-teal/15">
-                    Copyable 60–90 Day Log
-                  </span>
-                  <span className="text-[11.5px] font-semibold px-2.5 py-1 rounded-md bg-ivory text-plum border border-deep-teal/15">
-                    Doctor Discussion Prompts
-                  </span>
-                  <span className="text-[11.5px] font-semibold px-2.5 py-1 rounded-md bg-ivory text-plum border border-deep-teal/15">
-                    Clinical Warning Flags
-                  </span>
-                </div>
-              </div>
-              <Button
-                onClick={() => selectCategory("tracker")}
-                size="lg"
-                className="w-full bg-deep-teal hover:bg-deep-teal/90 text-white font-bold py-6 rounded-xl shadow-xs gap-2 cursor-pointer transition-transform group-hover:scale-[1.01]"
-              >
-                <span>Open Symptom Tracker</span>
-                <ArrowRight className="w-4 h-4 text-coral" />
-              </Button>
-            </div>
-
-            {/* GROUP 2: Immediate Support, Hotlines & Free Clinics */}
-            <div className="p-7 rounded-2xl bg-white border-2 border-soft-pink hover:border-coral shadow-xs hover:shadow-card transition-all flex flex-col justify-between gap-6 group">
-              <div>
-                <div className="flex items-center justify-between gap-2 mb-3">
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-soft-pink text-raspberry border border-raspberry/20">
-                    <LifeBuoy className="w-3.5 h-3.5 text-coral" />
-                    <span>Immediate Care</span>
-                  </span>
-                  <span className="text-xs font-semibold text-charcoal/60">24/7 &amp; Confidential</span>
-                </div>
-                <h3 className="text-2xl font-serif font-bold text-plum group-hover:text-raspberry transition-colors mb-2">
-                  How to Get Help &amp; Clinics
-                </h3>
-                <p className="text-[14.5px] text-charcoal/80 leading-relaxed mb-4">
-                  Connect with free, confidential care when you need answers right away. Access verified phone/text lines, local clinics, and legal confidentiality rights.
-                </p>
-                <div className="flex flex-wrap gap-1.5 mb-2">
-                  <span className="text-[11.5px] font-semibold px-2.5 py-1 rounded-md bg-ivory text-plum border border-plum/15">
-                    24/7 Crisis &amp; Reproductive Lines
-                  </span>
-                  <span className="text-[11.5px] font-semibold px-2.5 py-1 rounded-md bg-ivory text-plum border border-plum/15">
-                    Zip Code Free Clinic Finder
-                  </span>
-                  <span className="text-[11.5px] font-semibold px-2.5 py-1 rounded-md bg-ivory text-plum border border-plum/15">
-                    Title X Youth Privacy Rights
-                  </span>
-                  <span className="text-[11.5px] font-semibold px-2.5 py-1 rounded-md bg-ivory text-plum border border-plum/15">
-                    CDC Maternal Warning Signs
-                  </span>
-                </div>
-              </div>
-              <Button
-                onClick={() => selectCategory("help")}
-                size="lg"
-                className="w-full bg-raspberry hover:bg-raspberry/90 text-white font-bold py-6 rounded-xl shadow-xs gap-2 cursor-pointer transition-transform group-hover:scale-[1.01]"
-              >
-                <span>Find Care &amp; 24/7 Hotlines</span>
-                <ArrowRight className="w-4 h-4 text-coral" />
-              </Button>
-            </div>
-
-            {/* GROUP 3: Take Action, Petitions & Policy */}
-            <div className="p-7 rounded-2xl bg-white border-2 border-coral/30 hover:border-coral shadow-xs hover:shadow-card transition-all flex flex-col justify-between gap-6 group">
-              <div>
-                <div className="flex items-center justify-between gap-2 mb-3">
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-coral/15 text-coral border border-coral/30">
-                    <Megaphone className="w-3.5 h-3.5 text-coral" />
-                    <span>Youth Grassroots</span>
-                  </span>
-                  <span className="text-xs font-semibold text-charcoal/60">Policy &amp; Advocacy</span>
-                </div>
-                <h3 className="text-2xl font-serif font-bold text-plum group-hover:text-coral transition-colors mb-2">
-                  Take Action &amp; Petitions
-                </h3>
-                <p className="text-[14.5px] text-charcoal/80 leading-relaxed mb-4">
-                  Turn education into change. Join active student and coalition campaigns for free period products in schools, the Momnibus Act, and minor privacy rights.
-                </p>
-                <div className="flex flex-wrap gap-1.5 mb-2">
-                  <span className="text-[11.5px] font-semibold px-2.5 py-1 rounded-md bg-ivory text-plum border border-coral/20">
-                    7 Active Youth Petitions
-                  </span>
-                  <span className="text-[11.5px] font-semibold px-2.5 py-1 rounded-md bg-ivory text-plum border border-coral/20">
-                    School Board Letter Toolkit
-                  </span>
-                  <span className="text-[11.5px] font-semibold px-2.5 py-1 rounded-md bg-ivory text-plum border border-coral/20">
-                    National Coalitions Directory
-                  </span>
-                  <span className="text-[11.5px] font-semibold px-2.5 py-1 rounded-md bg-ivory text-plum border border-coral/20">
-                    Propose a Community Petition
-                  </span>
-                </div>
-              </div>
-              <Button
-                onClick={() => selectCategory("petitions")}
-                size="lg"
-                className="w-full bg-deep-teal hover:bg-deep-teal/90 text-white font-bold py-6 rounded-xl shadow-xs gap-2 cursor-pointer transition-transform group-hover:scale-[1.01]"
-              >
-                <span>View Petitions &amp; Toolkit</span>
-                <ArrowRight className="w-4 h-4 text-coral" />
-              </Button>
-            </div>
-
-            {/* GROUP 4: Educational Tools & Workshops */}
-            <div className="p-7 rounded-2xl bg-white border-2 border-deep-teal/20 hover:border-deep-teal shadow-xs hover:shadow-card transition-all flex flex-col justify-between gap-6 group">
-              <div>
-                <div className="flex items-center justify-between gap-2 mb-3">
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-light-teal/50 text-deep-teal border border-deep-teal/25">
-                    <Sparkles className="w-3.5 h-3.5 text-coral" />
-                    <span>Learning &amp; Leadership</span>
-                  </span>
-                  <span className="text-xs font-semibold text-charcoal/60">Community Tools</span>
-                </div>
-                <h3 className="text-2xl font-serif font-bold text-plum group-hover:text-deep-teal transition-colors mb-2">
-                  Interactive Tools &amp; Workshops
-                </h3>
-                <p className="text-[14.5px] text-charcoal/80 leading-relaxed mb-4">
-                  Flip through verified medical myth-busters, join free peer-led workshops, apply as a Youth Ambassador, or download our self-paced training module.
-                </p>
-                <div className="flex flex-wrap gap-1.5 mb-2">
-                  <span className="text-[11.5px] font-semibold px-2.5 py-1 rounded-md bg-ivory text-plum border border-deep-teal/15">
-                    Medical Myth-Buster
-                  </span>
-                  <span className="text-[11.5px] font-semibold px-2.5 py-1 rounded-md bg-ivory text-plum border border-deep-teal/15">
-                    Free Student Workshops
-                  </span>
-                  <span className="text-[11.5px] font-semibold px-2.5 py-1 rounded-md bg-ivory text-plum border border-deep-teal/15">
-                    Ambassador Leadership
-                  </span>
-                  <span className="text-[11.5px] font-semibold px-2.5 py-1 rounded-md bg-ivory text-plum border border-deep-teal/15">
-                    Advocacy Guide (.txt)
-                  </span>
-                </div>
-              </div>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
-                <Button
-                  onClick={() => onNavigate("myths")}
-                  size="default"
-                  className="bg-raspberry hover:bg-raspberry/90 text-white font-bold py-5 rounded-xl shadow-xs gap-1.5 text-xs cursor-pointer"
-                >
-                  <span>Myth-Buster</span>
-                  <ArrowRight className="w-3.5 h-3.5 text-coral" />
-                </Button>
-                <Button
-                  onClick={() => onNavigate("workshops")}
-                  variant="outline"
-                  size="default"
-                  className="border-deep-teal text-deep-teal hover:bg-light-teal/50 font-bold py-5 rounded-xl text-xs cursor-pointer"
-                >
-                  <span>Workshops</span>
-                  <ArrowRight className="w-3.5 h-3.5 text-coral" />
-                </Button>
-                <Button
-                  onClick={handleDownloadModule}
-                  variant="secondary"
-                  size="default"
-                  className="bg-ivory hover:bg-white text-plum border border-deep-teal/20 font-bold py-5 rounded-xl text-xs gap-1 cursor-pointer"
-                >
-                  <Download className="w-3 h-3 text-coral" />
-                  <span>Guide (.txt)</span>
-                </Button>
-              </div>
-            </div>
-
-          </div>
-        </section>
-      )}
-
-      {/* SECTION: SYMPTOM TRACKER & CLINICAL GUIDE (Visible ONLY when activeCategory === "tracker") */}
-      {activeCategory === "tracker" && (
-        <section
-          id="symptom-tracker-section"
-          className="flex flex-col gap-8 pt-2 scroll-mt-24"
-        >
-          {/* Back button & Category Breadcrumb */}
-          <div className="flex items-center justify-between pb-3 border-b border-deep-teal/15">
-            <button
-              onClick={() => selectCategory("all")}
-              className="inline-flex items-center gap-2 text-xs sm:text-sm font-bold text-deep-teal hover:text-raspberry transition-colors cursor-pointer group"
-            >
-              <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1 text-coral" />
-              <span>← Back to All Resources Overview</span>
-            </button>
-            <span className="text-xs font-semibold text-charcoal/60">
-              Viewing: Symptom Tracker &amp; Clinical Guide
-            </span>
-          </div>
-
-          {/* Section Header */}
-          <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-4">
-            <div>
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-light-teal text-deep-teal text-[13px] font-bold uppercase tracking-wider mb-2 font-sans">
-                <Stethoscope className="w-3.5 h-3.5 text-deep-teal" />
-                <span>Self-Advocacy &amp; Symptom Tracking</span>
-              </div>
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif font-normal text-plum">
-                Symptom Tracker &amp; Clinical Guide
-              </h2>
-              <p className="text-[16px] sm:text-[17px] text-ink/80 max-w-2xl mt-1 mb-0 leading-relaxed font-sans">
+            <div id="symptom-tracker-section" className="mt-10 scroll-mt-32">
+              <h3 className={h3Class}>Symptom Tracker &amp; Clinical Guide</h3>
+              <p className={cn(bodyText, "mt-3")}>
                 Too often, adolescent reproductive symptoms are dismissed as &ldquo;just growing pains&rdquo; or normal cramps. Use this guide to identify patterns, build an objective symptom log, and know what to ask your doctor.
               </p>
-            </div>
 
-            <div className="flex items-center gap-2.5 flex-wrap">
-              <Button
-                onClick={handleCopyLogTemplate}
-                variant="outline"
-                className="gap-2 text-deep-teal border-deep-teal/30 hover:bg-light-teal/40 font-bold"
-              >
-                {copiedLogTemplate ? (
-                  <>
-                    <Check className="w-4 h-4 text-emerald-600" />
-                    <span>Template Copied!</span>
-                  </>
-                ) : (
-                  <>
-                    <Copy className="w-4 h-4 text-deep-teal" />
-                    <span>Copy 60–90 Day Log Template</span>
-                  </>
-                )}
-              </Button>
-              <Button
-                onClick={handleDownloadLogTemplate}
-                className="gap-2 bg-deep-teal text-white hover:bg-deep-teal/90 font-bold"
-              >
-                <Download className="w-4 h-4 text-coral" />
-                <span>Download Log (.txt)</span>
-              </Button>
-            </div>
-          </div>
-
-          {/* 10 Clickable Symptom Chips */}
-          <div className="flex items-center justify-start sm:justify-center gap-2 flex-wrap py-2">
-            {SYMPTOMS_DATA.map((symptom) => {
-              const isSelected = symptom.id === selectedSymptomId;
-              return (
-                <button
-                  key={symptom.id}
-                  onClick={() => setSelectedSymptomId(symptom.id)}
-                  className={`px-3.5 py-2 rounded-xl text-[13.5px] md:text-[14px] font-semibold font-sans transition-all border cursor-pointer ${
-                    isSelected
-                      ? "bg-deep-teal text-white border-deep-teal shadow-xs hover:bg-deep-teal hover:text-white"
-                      : "bg-white text-charcoal border-deep-teal/20 hover:border-raspberry hover:text-raspberry hover:bg-white"
-                  }`}
-                >
-                  {symptom.name}
+              <div className="mt-6 flex flex-wrap gap-3">
+                <button type="button" onClick={handleDownloadLogTemplate} className={btnPrimary}>
+                  <Download className="h-4 w-4" aria-hidden="true" />
+                  <span>Download Log (.txt)</span>
                 </button>
-              );
-            })}
-          </div>
-
-          {/* Dynamic Educational Symptom Details Card */}
-          <div className="rounded-2xl bg-white border border-deep-teal/20 p-7 md:p-10 shadow-card">
-            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border-b border-deep-teal/10 pb-5 mb-6">
-              <div>
-                <span className="text-xs font-bold uppercase tracking-wider text-raspberry block font-sans mb-1">
-                  Symptom Profile
-                </span>
-                <h3 className="text-2xl md:text-[30px] font-normal font-serif text-deep-teal m-0">
-                  Exploring: {activeSymptom.name}
-                </h3>
-              </div>
-              <div className="flex items-center gap-2">
-                <Button
-                  onClick={() => onNavigate("hub", activeSymptom.learnCategory)}
-                  variant="secondary"
-                  size="sm"
-                  className="text-[14px] gap-1.5 text-deep-teal border-deep-teal/30 hover:bg-deep-teal/5"
-                >
-                  <span>{activeSymptom.learnLabel}</span>
-                </Button>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 font-sans">
-              {/* Col 1: Associated With & What To Track */}
-              <div className="space-y-6">
-                <div>
-                  <h4 className="text-[14.5px] font-bold text-deep-teal uppercase tracking-wider mb-2.5 flex items-center gap-2">
-                    <Activity className="w-4 h-4 text-raspberry" />
-                    What it can be associated with:
-                  </h4>
-                  <ul className="space-y-1.5 pl-4 list-disc text-[15px] text-charcoal/85 leading-relaxed">
-                    {activeSymptom.associatedWith.map((item, i) => (
-                      <li key={i}>{item}</li>
-                    ))}
-                  </ul>
-                </div>
-
-                <div>
-                  <h4 className="text-[14.5px] font-bold text-deep-teal uppercase tracking-wider mb-2.5 flex items-center gap-2">
-                    <FileText className="w-4 h-4 text-raspberry" />
-                    What you can track in your log:
-                  </h4>
-                  <ul className="space-y-1.5 pl-4 list-disc text-[15px] text-charcoal/85 leading-relaxed">
-                    {activeSymptom.whatToTrack.map((item, i) => (
-                      <li key={i}>{item}</li>
-                    ))}
-                  </ul>
-                </div>
+                <CopyButton
+                  text={SYMPTOM_LOG_TEMPLATE}
+                  label="Copy 60–90 Day Log Template"
+                  done={copiedKey === "log-template"}
+                  onCopy={(t) => copyText("log-template", t)}
+                />
               </div>
 
-              {/* Col 2: Questions To Ask & When To Seek Care */}
-              <div className="space-y-6">
-                <div>
-                  <h4 className="text-[14.5px] font-bold text-deep-teal uppercase tracking-wider mb-2.5 flex items-center gap-2">
-                    <MessageSquare className="w-4 h-4 text-raspberry" />
-                    Questions you can ask a healthcare provider:
-                  </h4>
-                  <ul className="space-y-2 pl-4 list-disc text-[14.5px] text-charcoal/85 leading-relaxed">
-                    {activeSymptom.questionsToAsk.map((item, i) => (
-                      <li key={i}>&ldquo;{item}&rdquo;</li>
-                    ))}
-                  </ul>
-                </div>
-
-                <div className="p-4 rounded-xl bg-soft-pink/40 border border-coral/30">
-                  <h4 className="text-[13.5px] font-bold text-raspberry uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
-                    <Stethoscope className="w-4 h-4 text-coral" />
-                    When to seek medical care:
-                  </h4>
-                  <p className="text-[14px] text-charcoal/85 leading-relaxed m-0">
-                    {activeSymptom.whenToSeekCare}
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Educational Disclaimer */}
-            <div className="mt-8 pt-4 border-t border-deep-teal/10 text-center text-xs font-sans text-charcoal/70 bg-warm-cream/80 p-3 rounded-lg border border-deep-teal/10">
-              <strong>Important Clinical Note:</strong> This symptom tracking information is compiled for health education and self-advocacy preparation, not medical diagnosis. If symptoms persist or cause you concern, consult a healthcare professional.
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* SECTION 1: HOW TO GET HELP (Visible ONLY when activeCategory === "help") */}
-      {activeCategory === "help" && (
-        <section
-          id="how-to-get-help-section"
-          className="flex flex-col gap-8 pt-2 scroll-mt-24"
-        >
-          {/* Back button & Category Breadcrumb */}
-          <div className="flex items-center justify-between pb-3 border-b border-deep-teal/15">
-            <button
-              onClick={() => selectCategory("all")}
-              className="inline-flex items-center gap-2 text-xs sm:text-sm font-bold text-deep-teal hover:text-raspberry transition-colors cursor-pointer group"
-            >
-              <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1 text-coral" />
-              <span>← Back to All Resources Overview</span>
-            </button>
-            <span className="text-xs font-semibold text-charcoal/60">
-              Viewing: How to Get Help &amp; Clinics
-            </span>
-          </div>
-
-          {/* Section Header */}
-          <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-4">
-            <div>
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-soft-pink text-raspberry text-[13px] font-bold uppercase tracking-wider mb-2">
-                <LifeBuoy className="w-3.5 h-3.5 text-coral" />
-                <span>Immediate Support &amp; Care Directory</span>
-              </div>
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif font-normal text-plum">
-                How to Get Help
-              </h2>
-              <p className="text-[16px] sm:text-[17px] text-ink/80 max-w-2xl mt-1 mb-0 leading-relaxed">
-                Confidential 24/7 hotlines, verified free clinics, adolescent privacy guarantees, and maternal warning signs triage.
-              </p>
-            </div>
-
-            <Button
-              onClick={() => setIsClinicModalOpen(true)}
-              variant="outline"
-              className="border-deep-teal/30 hover:bg-light-teal/50 text-deep-teal font-bold gap-2 shrink-0"
-            >
-              <Search className="w-4 h-4" />
-              Quick Clinic Zip Search
-            </Button>
-          </div>
-
-          {/* Emergency Crisis Callout Banner */}
-          <div className="rounded-2xl bg-raspberry/10 border-2 border-raspberry/25 p-5 md:p-6 flex items-start gap-4 shadow-xs">
-            <AlertTriangle className="w-6 h-6 text-raspberry shrink-0 mt-0.5" />
-            <div className="space-y-1">
-              <h4 className="font-bold font-serif text-lg text-raspberry">
-                Emergency &amp; Life-Threatening Situations
-              </h4>
-              <p className="text-[14px] text-charcoal/90 leading-relaxed m-0">
-                If you or someone you know is experiencing acute severe bleeding, sudden chest pain, difficulty breathing, suicidal thoughts, or immediate domestic danger: <strong>call 911</strong> or proceed directly to the nearest emergency department immediately. You do not need insurance to receive emergency stabilization.
-              </p>
-            </div>
-          </div>
-
-          {/* 24/7 HOTLINES DIRECTORY */}
-          <div className="flex flex-col gap-5">
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-              <div>
-                <h3 className="text-xl sm:text-2xl font-serif font-bold text-plum flex items-center gap-2">
-                  <Phone className="w-5 h-5 text-coral" />
-                  <span>24/7 Confidential Hotlines &amp; Text Lines</span>
-                </h3>
-                <p className="text-xs text-charcoal/70 mt-0.5 mb-0">
-                  Always free, confidential, and staffed by trained educators &amp; crisis clinicians.
-                </p>
-              </div>
-
-              {/* Hotline Filter Pills */}
-              <div className="flex items-center gap-1.5 flex-wrap">
-                {[
-                  { id: "all", label: "All Hotlines" },
-                  { id: "maternal", label: "Maternal Health" },
-                  { id: "reproductive", label: "Reproductive" },
-                  { id: "crisis", label: "Crisis Support" },
-                  { id: "lgbtq", label: "LGBTQ+ Youth" },
-                  { id: "safety", label: "Safety / Domestic" }
-                ].map((f) => (
-                  <button
-                    key={f.id}
-                    onClick={() => setHotlineFilter(f.id)}
-                    className={cn(
-                      "px-2.5 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer",
-                      hotlineFilter === f.id
-                        ? "bg-raspberry text-white shadow-xs"
-                        : "bg-white text-plum/70 hover:bg-soft-pink border border-plum/15"
-                    )}
+              <div className={cn(accordionBox, "mt-8")}>
+                {SYMPTOMS_DATA.map((symptom) => (
+                  <Collapsible
+                    key={symptom.id}
+                    level={4}
+                    title={symptom.name}
+                    titleClass="text-base font-semibold text-deep-teal"
+                    open={openSymptomId === symptom.id}
+                    onToggle={() => setOpenSymptomId((cur) => (cur === symptom.id ? null : symptom.id))}
                   >
-                    {f.label}
-                  </button>
+                    <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+                      <div className="space-y-6">
+                        <div>
+                          <h5 className="text-base font-semibold text-deep-teal">What it can be associated with:</h5>
+                          <ul className="mt-2 list-disc space-y-1.5 pl-5 text-base text-charcoal">
+                            {symptom.associatedWith.map((item, i) => (
+                              <li key={i}>{item}</li>
+                            ))}
+                          </ul>
+                        </div>
+                        <div>
+                          <h5 className="text-base font-semibold text-deep-teal">What you can track in your log:</h5>
+                          <ul className="mt-2 list-disc space-y-1.5 pl-5 text-base text-charcoal">
+                            {symptom.whatToTrack.map((item, i) => (
+                              <li key={i}>{item}</li>
+                            ))}
+                          </ul>
+                        </div>
+                      </div>
+                      <div className="space-y-6">
+                        <div>
+                          <h5 className="text-base font-semibold text-deep-teal">Questions you can ask a healthcare provider:</h5>
+                          <ul className="mt-2 list-disc space-y-2 pl-5 text-base text-charcoal">
+                            {symptom.questionsToAsk.map((item, i) => (
+                              <li key={i}>&ldquo;{item}&rdquo;</li>
+                            ))}
+                          </ul>
+                        </div>
+                        <div className="border-l-4 border-coral pl-4">
+                          <h5 className="text-base font-semibold text-raspberry">When to seek medical care:</h5>
+                          <p className="mt-1 text-base text-charcoal">{symptom.whenToSeekCare}</p>
+                        </div>
+                      </div>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => onNavigate("hub", symptom.learnCategory)}
+                      className={cn(textLink, "mt-4")}
+                    >
+                      {symptom.learnLabel}
+                    </button>
+                  </Collapsible>
                 ))}
               </div>
+              <p className="mt-4 text-sm text-charcoal-light">
+                <strong>Important Clinical Note:</strong> This symptom tracking information is compiled for health education and self-advocacy preparation, not medical diagnosis. If symptoms persist or cause you concern, consult a healthcare professional.
+              </p>
             </div>
 
-            {/* Hotline Cards Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {filteredHotlines.map((hotline, idx) => (
-                <div
-                  key={idx}
-                  className="p-5 rounded-2xl bg-white border border-deep-teal/15 shadow-xs hover:shadow-card transition-all flex flex-col justify-between gap-4"
-                >
-                  <div className="space-y-2">
-                    <div className="flex items-start justify-between gap-2">
-                      <h4 className="font-serif font-bold text-lg text-plum leading-snug">
-                        {hotline.name}
-                      </h4>
-                      {hotline.badge && (
-                        <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-soft-pink text-raspberry shrink-0 border border-raspberry/15">
-                          {hotline.badge}
-                        </span>
-                      )}
+            <div className={cn(accordionBox, "mt-12")}>
+              <Collapsible title="How to Build an Objective Symptom Log">
+                <p className="text-base text-charcoal text-pretty">
+                  Clinicians respond to concrete numbers and timelines rather than vague recollections. Log these 4 parameters:
+                </p>
+                <dl className="mt-4 grid grid-cols-1 gap-5 sm:grid-cols-2">
+                  {LOG_PARAMETERS.map((p) => (
+                    <div key={p.title}>
+                      <dt className="text-base font-semibold text-deep-teal">{p.title}</dt>
+                      <dd className="mt-1 text-base text-charcoal">{p.text}</dd>
                     </div>
-                    <span className="inline-flex items-center gap-1 text-[11px] font-bold text-green-700 bg-green-50 border border-green-200 px-2 py-0.5 rounded-md">
-                      <CheckCircle2 className="w-3 h-3 text-green-600" />
-                      <span>{hotline.hours}</span>
-                    </span>
-                    <p className="text-[13.5px] text-charcoal/80 leading-relaxed m-0">
-                      {hotline.desc}
-                    </p>
-                  </div>
+                  ))}
+                </dl>
+              </Collapsible>
+              <Collapsible title="Preparing for an Appointment: 3 Rules for Clarity">
+                <ul className="grid grid-cols-1 gap-5 md:grid-cols-3">
+                  {APPOINTMENT_RULES.map((rule) => (
+                    <li key={rule.title} className="border-l-4 border-light-teal pl-4">
+                      <h4 className="text-base font-semibold text-deep-teal">{rule.title}</h4>
+                      <p className="mt-1 text-base text-charcoal text-pretty">{rule.text}</p>
+                    </li>
+                  ))}
+                </ul>
+              </Collapsible>
+              <Collapsible title="Verbatim Scripts for Clinical Visits">
+                <ul className="grid grid-cols-1 gap-6 md:grid-cols-2">
+                  {SPEAK_UP_SCRIPTS.map((script) => (
+                    <li key={script.id} className="flex flex-col items-start gap-4 border-l-4 border-light-teal pl-4">
+                      <div>
+                        <h4 className="text-base font-semibold text-deep-teal">{script.title}</h4>
+                        <p className="mt-1 font-serif text-lg text-charcoal text-pretty">{script.text}</p>
+                      </div>
+                      <CopyButton
+                        text={script.text}
+                        label="Copy"
+                        done={copiedKey === script.id}
+                        onCopy={(t) => copyText(script.id, t)}
+                      />
+                    </li>
+                  ))}
+                </ul>
+              </Collapsible>
+            </div>
 
-                  {/* Call & Text Actions */}
-                  <div className="flex items-center gap-2 pt-2 border-t border-deep-teal/10 flex-wrap">
-                    <a
-                      href={`tel:${hotline.number.replace(/[^0-9]/g, "")}`}
-                      className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-deep-teal text-white hover:bg-deep-teal/90 text-xs font-bold transition-colors shadow-2xs"
-                    >
-                      <Phone className="w-3.5 h-3.5 text-coral" />
-                      <span>Call {hotline.number}</span>
-                    </a>
+            <p className="mt-6">
+              <button type="button" onClick={() => onNavigate("hub", "words")} className={textLink}>
+                Looking up a clinical term? See Health words
+              </button>
+            </p>
+          </div>
+        </section>
+      )}
 
+      {/* ------------------------------------------------------------------ */}
+      {/* GET HELP NOW */}
+      {/* ------------------------------------------------------------------ */}
+      {tab === "help" && (
+        <section role="tabpanel" id="help" aria-labelledby="tab-help" className="scroll-mt-32">
+          <div className={panelInner}>
+            <h2 className={h2Class}>Get help now</h2>
+            <p className={cn(bodyText, "mt-4")}>
+              Confidential 24/7 hotlines, adolescent privacy guarantees, and maternal warning signs triage.
+            </p>
+
+            <div className="mt-8 flex items-start gap-4 rounded-2xl border border-[#E5E1DC] border-l-4 border-l-raspberry bg-white p-5 shadow-sm md:p-6">
+              <AlertTriangle className="mt-1 h-6 w-6 shrink-0 text-raspberry" aria-hidden="true" />
+              <div>
+                <h3 className="font-serif text-lg font-normal text-raspberry">
+                  Emergency &amp; Life-Threatening Situations
+                </h3>
+                <p className="mt-1 text-base text-charcoal text-pretty">
+                  If you or someone you know is experiencing acute severe bleeding, sudden chest pain, difficulty breathing, suicidal thoughts, or immediate domestic danger: <strong>call 911</strong> or proceed directly to the nearest emergency department immediately. You do not need insurance to receive emergency stabilization.
+                </p>
+              </div>
+            </div>
+
+            <h3 className={cn(h3Class, "mt-12")}>24/7 Confidential Hotlines &amp; Text Lines</h3>
+            <p className="mt-2 text-base text-charcoal-light">
+              Always free, confidential, and staffed by trained educators &amp; crisis clinicians.
+            </p>
+            <ul className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-2">
+              {sortedHotlines.map((hotline) => (
+                <li key={hotline.name} className={cn(card, "flex flex-col justify-between gap-5")}>
+                  <div>
+                    <h4 className={cardTitle}>{hotline.name}</h4>
+                    <p className="mt-1 text-sm font-semibold text-deep-teal">{hotline.hours}</p>
+                    <p className="mt-2 text-base text-charcoal text-pretty">{hotline.desc}</p>
                     {hotline.sms && (
-                      <span className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-light-teal text-deep-teal border border-deep-teal/20 text-xs font-bold">
-                        <MessageSquare className="w-3.5 h-3.5 text-coral" />
+                      <p className="mt-3 flex items-start gap-2 text-sm font-semibold text-charcoal">
+                        <MessageSquare className="mt-0.5 h-4 w-4 shrink-0 text-deep-teal" aria-hidden="true" />
                         <span>{hotline.sms}</span>
-                      </span>
+                      </p>
                     )}
                   </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* INLINE CLINIC FINDER */}
-          <div className="rounded-2xl bg-light-teal/30 border-2 border-deep-teal/20 p-5 md:p-7 flex flex-col gap-6">
-            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-              <div>
-                <h3 className="text-xl sm:text-2xl font-serif font-bold text-deep-teal flex items-center gap-2">
-                  <MapPin className="w-5 h-5 text-coral" />
-                  <span>Verified Free &amp; Sliding-Scale Health Clinics</span>
-                </h3>
-                <p className="text-xs sm:text-sm text-charcoal/75 mt-0.5 mb-0">
-                  Search by zip code or city. All listed clinics offer confidential care, teen consultations, and interpreter services.
-                </p>
-              </div>
-
-              {/* Search input */}
-              <div className="relative w-full md:w-72">
-                <Search className="w-4 h-4 text-charcoal/40 absolute left-3.5 top-3" />
-                <Input
-                  placeholder="Zip code (e.g. 90210) or City..."
-                  className="pl-9 bg-white border-deep-teal/25 rounded-xl h-10 text-sm"
-                  value={zipQuery}
-                  onChange={(e) => setZipQuery(e.target.value)}
-                />
-              </div>
-            </div>
-
-            {/* Results Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              {filteredClinics.length === 0 ? (
-                <div className="col-span-full p-8 text-center bg-white rounded-xl border border-deep-teal/15">
-                  <p className="text-sm text-charcoal/70 mb-2">No clinics matched your search query.</p>
-                  <Button onClick={() => setZipQuery("")} variant="outline" size="sm">
-                    Clear Search Filter
-                  </Button>
-                </div>
-              ) : (
-                filteredClinics.map((clinic) => (
-                  <div
-                    key={clinic.id}
-                    className="p-5 rounded-xl bg-white border border-deep-teal/15 shadow-xs flex flex-col justify-between gap-3"
-                  >
-                    <div>
-                      <div className="flex items-start justify-between gap-2 mb-1.5">
-                        <h4 className="font-serif font-bold text-base text-plum leading-snug">
-                          {clinic.name}
-                        </h4>
-                        <span className="text-[11px] font-bold px-2 py-0.5 rounded-md bg-yellow/60 text-ink shrink-0">
-                          Zip {clinic.zip}
-                        </span>
-                      </div>
-                      <p className="text-xs text-charcoal/80 mb-1">
-                        {clinic.address}, {clinic.city}
-                      </p>
-                      <p className="text-xs font-semibold text-deep-teal mb-2 flex items-center gap-1.5">
-                        <Phone className="w-3.5 h-3.5 text-deep-teal shrink-0" />
-                        <span>{clinic.phone} • {clinic.hours}</span>
-                      </p>
-
-                      <div className="flex flex-wrap gap-1 mb-2">
-                        {clinic.services.map((svc, i) => (
-                          <span
-                            key={i}
-                            className="text-[10.5px] font-medium px-2 py-0.5 rounded bg-ivory text-plum border border-plum/10"
-                          >
-                            {svc}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-
-                    <div className="pt-2 border-t border-deep-teal/10 space-y-1">
-                      {clinic.busAccessible && (
-                        <div className="text-[11px] font-semibold text-green-800 flex items-center gap-1.5">
-                          <MapPin className="w-3.5 h-3.5 text-green-700 shrink-0" />
-                          <span>Public Transit / Bus Line Accessible</span>
-                        </div>
-                      )}
-                      {clinic.languages && (
-                        <p className="text-[11px] text-charcoal/70 m-0 flex items-center gap-1.5">
-                          <Users className="w-3.5 h-3.5 text-deep-teal shrink-0" />
-                          <span><strong>Languages:</strong> {clinic.languages.join(", ")}</span>
-                        </p>
-                      )}
-                    </div>
+                  <div>
+                    {hotline.number.replace(/[^0-9]/g, "").length > 6 ? (
+                      <a href={`tel:${hotline.number.replace(/[^0-9]/g, "")}`} className={btnSecondary}>
+                        <Phone className="h-4 w-4" aria-hidden="true" />
+                        <span>Call {hotline.number}</span>
+                      </a>
+                    ) : (
+                      <a href={`sms:${hotline.number.replace(/[^0-9]/g, "")}`} className={btnSecondary}>
+                        <Phone className="h-4 w-4" aria-hidden="true" />
+                        <span>Text {hotline.number}</span>
+                      </a>
+                    )}
                   </div>
-                ))
-              )}
-            </div>
-          </div>
-
-          {/* KNOW YOUR RIGHTS: ADOLESCENT CONFIDENTIALITY */}
-          <div className="rounded-2xl bg-white border border-deep-teal/20 p-6 md:p-7 shadow-xs space-y-5">
-            <div className="flex items-center gap-2">
-              <ShieldCheck className="w-5 h-5 text-deep-teal" />
-              <h3 className="text-xl sm:text-2xl font-serif font-bold text-plum">
-                Know Your Rights: Confidential Adolescent Care Guide
-              </h3>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-              <div className="p-4 rounded-xl bg-ivory border border-deep-teal/15 space-y-2">
-                <h4 className="font-bold text-sm text-deep-teal flex items-center gap-1.5">
-                  <Building2 className="w-4 h-4 text-deep-teal shrink-0" />
-                  <span>Title X Federal Protection</span>
-                </h4>
-                <p className="text-xs text-charcoal/80 leading-relaxed m-0">
-                  Under federal Title X guidelines, youth and minors have the absolute legal right to receive confidential contraceptive counseling, STI testing, and pregnancy checks at any Title X clinic without parental consent or notification.
-                </p>
-              </div>
-
-              <div className="p-4 rounded-xl bg-ivory border border-deep-teal/15 space-y-2">
-                <h4 className="font-bold text-sm text-raspberry flex items-center gap-1.5">
-                  <ShieldCheck className="w-4 h-4 text-raspberry shrink-0" />
-                  <span>Preventing Insurance EOB Letters</span>
-                </h4>
-                <p className="text-xs text-charcoal/80 leading-relaxed m-0">
-                  If you use your parent&apos;s insurance, an &quot;Explanation of Benefits&quot; (EOB) mailer could be sent home. Tell clinic staff: <em>&quot;I need this visit confidential. Please suppress the EOB or charge on your sliding fee scale.&quot;</em>
-                </p>
-              </div>
-
-              <div className="p-4 rounded-xl bg-ivory border border-deep-teal/15 space-y-2">
-                <h4 className="font-bold text-sm text-coral flex items-center gap-1.5">
-                  <MessageSquare className="w-4 h-4 text-coral shrink-0" />
-                  <span>Front Desk Check-in Script</span>
-                </h4>
-                <p className="text-xs text-charcoal/80 leading-relaxed m-0">
-                  Say to reception: <em>&quot;Hi, I am here for confidential reproductive services. I would like to be seen under your sliding scale program and ensure no mail or texts are sent to my family home.&quot;</em>
-                </p>
-              </div>
-            </div>
-          </div>
-
-          {/* URGENT MATERNAL WARNING SIGNS (CDC Hear Her Protocol) */}
-          <div className="rounded-2xl bg-ivory border-2 border-coral/25 p-6 md:p-7 space-y-4">
-            <div className="flex items-center gap-2">
-              <AlertCircle className="w-5 h-5 text-coral" />
-              <h3 className="text-xl sm:text-2xl font-serif font-bold text-plum">
-                Urgent Maternal Warning Signs (CDC Hear Her Protocol)
-              </h3>
-            </div>
-            <p className="text-xs sm:text-sm text-charcoal/80 m-0">
-              During pregnancy and for up to 1 full year postpartum, these warning signs require urgent medical evaluation — do not allow symptoms to be dismissed:
-            </p>
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2.5 pt-1 text-xs text-plum font-semibold">
-              {[
-                "Severe persistent headache",
-                "Dizziness or fainting spells",
-                "Vision changes or seeing spots",
-                "Fever of 100.4°F or higher",
-                "Extreme swelling of face or hands",
-                "Chest pain or rapid heartbeat",
-                "Severe shortness of breath",
-                "Severe abdominal / upper stomach pain",
-                "Heavy vaginal bleeding or clots",
-                "Fluid leaking before 37 weeks",
-                "Decreased baby movement",
-                "Overwhelming sadness or panic"
-              ].map((sign, idx) => (
-                <div
-                  key={idx}
-                  className="p-2.5 rounded-lg bg-white border border-coral/20 flex items-center gap-2"
-                >
-                  <span className="w-2 h-2 rounded-full bg-coral shrink-0" />
-                  <span className="leading-snug">{sign}</span>
-                </div>
+                </li>
               ))}
+            </ul>
+
+            <div className={cn(accordionBox, "mt-12")}>
+              <Collapsible title="Know Your Rights: Confidential Adolescent Care Guide">
+                <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+                  <div>
+                    <h4 className="text-base font-semibold text-deep-teal">Title X Federal Protection</h4>
+                    <p className="mt-2 text-base text-charcoal text-pretty">
+                      Under federal Title X guidelines, youth and minors have the absolute legal right to receive confidential contraceptive counseling, STI testing, and pregnancy checks at any Title X clinic without parental consent or notification.
+                    </p>
+                  </div>
+                  <div>
+                    <h4 className="text-base font-semibold text-deep-teal">Preventing Insurance EOB Letters</h4>
+                    <p className="mt-2 text-base text-charcoal text-pretty">
+                      If you use your parent&apos;s insurance, an &quot;Explanation of Benefits&quot; (EOB) mailer could be sent home. Tell clinic staff: <em>&quot;I need this visit confidential. Please suppress the EOB or charge on your sliding fee scale.&quot;</em>
+                    </p>
+                  </div>
+                  <div>
+                    <h4 className="text-base font-semibold text-deep-teal">Front Desk Check-in Script</h4>
+                    <p className="mt-2 text-base text-charcoal text-pretty">
+                      Say to reception: <em>&quot;Hi, I am here for confidential reproductive services. I would like to be seen under your sliding scale program and ensure no mail or texts are sent to my family home.&quot;</em>
+                    </p>
+                  </div>
+                </div>
+              </Collapsible>
+              <Collapsible title="Urgent Maternal Warning Signs (CDC Hear Her Protocol)">
+                <p className="text-base text-charcoal text-pretty">
+                  During pregnancy and for up to 1 full year postpartum, these warning signs require urgent medical evaluation — do not allow symptoms to be dismissed:
+                </p>
+                <ul className="mt-4 grid grid-cols-1 gap-x-8 gap-y-3 sm:grid-cols-2 lg:grid-cols-3">
+                  {MATERNAL_WARNING_SIGNS.map((sign) => (
+                    <li key={sign} className="flex items-start gap-3 text-base text-charcoal">
+                      <span className="mt-2 h-2 w-2 shrink-0 rounded-full bg-coral" aria-hidden="true" />
+                      <span>{sign}</span>
+                    </li>
+                  ))}
+                </ul>
+              </Collapsible>
             </div>
           </div>
         </section>
       )}
 
-      {/* SECTION 2: PETITIONS & TAKE ACTION (Visible ONLY when activeCategory === "petitions") */}
-      {activeCategory === "petitions" && (
-        <section
-          id="petitions-section"
-          className="flex flex-col gap-8 pt-2 scroll-mt-24"
-        >
-          {/* Back button & Category Breadcrumb */}
-          <div className="flex items-center justify-between pb-3 border-b border-coral/25">
-            <button
-              onClick={() => selectCategory("all")}
-              className="inline-flex items-center gap-2 text-xs sm:text-sm font-bold text-deep-teal hover:text-raspberry transition-colors cursor-pointer group"
-            >
-              <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1 text-coral" />
-              <span>← Back to All Resources Overview</span>
-            </button>
-            <span className="text-xs font-semibold text-charcoal/60">
-              Viewing: Take Action &amp; Petitions
-            </span>
-          </div>
+      {/* ------------------------------------------------------------------ */}
+      {/* TAKE ACTION */}
+      {/* ------------------------------------------------------------------ */}
+      {tab === "petitions" && (
+        <section role="tabpanel" id="petitions" aria-labelledby="tab-petitions" className="scroll-mt-32 bg-warm-cream">
+          <div className={panelInner}>
+            <h2 className={h2Class}>Take Action &amp; Petitions</h2>
+            <p className={cn(bodyText, "mt-4")}>
+              Add your voice to active legislative campaigns and download pre-drafted advocacy letters.
+            </p>
 
-          {/* Section Header */}
-          <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-4">
-            <div>
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-coral/15 text-coral text-[13px] font-bold uppercase tracking-wider mb-2">
-                <Megaphone className="w-3.5 h-3.5" />
-                <span>Grassroots Advocacy &amp; Legislation</span>
-              </div>
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif font-normal text-plum">
-                Take Action &amp; Petitions
-              </h2>
-              <p className="text-[16px] sm:text-[17px] text-ink/80 max-w-2xl mt-1 mb-0 leading-relaxed">
-                Add your voice to active legislative campaigns, sign community pledges, propose local school initiatives, and download pre-drafted advocacy letters.
-              </p>
-            </div>
-
-            <div className="flex items-center gap-2.5 flex-wrap">
-              <Button
-                onClick={() => setIsProposeModalOpen(true)}
-                variant="coral"
-                className="gap-2 cursor-pointer shadow-sm hover:shadow transition-all"
-              >
-                <PlusCircle className="w-4 h-4 text-white" />
-                Propose a Petition
-              </Button>
-            </div>
-          </div>
-
-          {/* Petition Category Filter Pills */}
-          <div className="flex items-center gap-2 overflow-x-auto pb-1">
-            {[
-              { id: "all", label: "All Campaigns" },
-              { id: "policy", label: "Federal & State Policy" },
-              { id: "schools", label: "School & Campus Rights" },
-              { id: "access", label: "Community Healthcare Access" },
-              { id: "healthcare", label: "Minor Privacy Protections" }
-            ].map((f) => (
-              <button
-                key={f.id}
-                onClick={() => setPetitionFilter(f.id)}
-                className={cn(
-                  "px-3 py-1.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap cursor-pointer",
-                  petitionFilter === f.id
-                    ? "bg-deep-teal text-white shadow-xs"
-                    : "bg-white text-plum/70 hover:bg-ivory border border-deep-teal/15"
-                )}
-              >
-                {f.label}
-              </button>
-            ))}
-          </div>
-
-          {/* PETITIONS GRID */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {filteredPetitions.map((petition) => {
-              const percent = Math.min(
-                100,
-                Math.round((petition.currentSignatures / petition.targetSignatures) * 100)
-              );
-              const isSigned = signedPetitionIds.includes(petition.id);
-
-              return (
-                <Card
-                  key={petition.id}
-                  className="p-6 md:p-7 flex flex-col justify-between bg-white border border-deep-teal/20 shadow-xs hover:shadow-card transition-all"
-                >
-                  <div>
-                    {/* Location & Category Badges */}
-                    <div className="flex items-start justify-between gap-2 mb-3 flex-wrap">
-                      <span className="text-[12px] font-bold font-sans uppercase tracking-wider text-raspberry">
-                        {petition.location} • {petition.organizer}
-                      </span>
-                      <Badge variant="outline" className="capitalize text-[11px] border-deep-teal/25 text-deep-teal">
-                        {petition.category}
-                      </Badge>
-                    </div>
-
-                    {/* Live Coalition & Bill Badges */}
-                    <div className="flex items-center gap-2 mb-3.5 flex-wrap">
+            <ul className="mt-8 divide-y divide-[#E5E1DC] rounded-2xl border border-[#E5E1DC] bg-white shadow-sm">
+              {PETITIONS_DATA.map((petition) => (
+                <li key={petition.id} className="px-5 py-5 md:px-6">
+                  <p className="text-sm font-semibold text-raspberry">
+                    {petition.location} • {petition.organizer}
+                  </p>
+                  <h3 className={cn(cardTitle, "mt-1")}>{petition.title}</h3>
+                  <p className="mt-1 text-sm font-semibold text-charcoal-light">Target: {petition.target}</p>
+                  <div className="mt-3">
+                    <a
+                      href={petition.externalUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={btnSecondary}
+                    >
+                      <span>Open petition</span>
+                      <ExternalLink className="h-4 w-4" aria-hidden="true" />
+                      <span className="sr-only">(opens in a new tab)</span>
+                    </a>
+                  </div>
+                  <details className="mt-1">
+                    <summary
+                      className={cn(
+                        "flex min-h-11 cursor-pointer items-center text-base font-semibold text-deep-teal underline-offset-4 hover:underline",
+                        focusRing
+                      )}
+                    >
+                      Details and key demands
+                    </summary>
+                    <p className="mt-1 text-base text-charcoal text-pretty">{petition.summary}</p>
+                    <h4 className="mt-3 text-base font-semibold text-deep-teal">Key Demands</h4>
+                    <ul className="mt-1 list-disc space-y-1.5 pl-5 text-base text-charcoal">
+                      {petition.fullDemands.map((demand, idx) => (
+                        <li key={idx}>{demand}</li>
+                      ))}
+                    </ul>
+                    {petition.legislativeMilestone && (
+                      <p className="mt-3 text-sm text-charcoal-light">
+                        <strong>{petition.legislativeGoalType || "Legislative Threshold"}:</strong>{" "}
+                        {petition.legislativeMilestone}
+                      </p>
+                    )}
+                    {petition.billOrInitiative && (
                       <a
-                        href={petition.coalitionUrl || petition.externalUrl}
+                        href={petition.billUrl || petition.externalUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11.5px] font-bold bg-light-teal text-deep-teal border border-deep-teal/25 hover:bg-deep-teal hover:text-white transition-all shadow-2xs group"
+                        className={cn(textLink, "mt-1 text-sm")}
                       >
-                        <ExternalLink className="w-3.5 h-3.5 text-coral group-hover:text-white shrink-0" />
-                        <span>Live Coalition: {petition.realWorldCampaign.split("&")[0].trim()}</span>
+                        <span>{petition.billOrInitiative}</span>
+                        <ExternalLink className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+                        <span className="sr-only">(opens in a new tab)</span>
                       </a>
+                    )}
+                  </details>
+                </li>
+              ))}
+            </ul>
 
-                      {petition.billOrInitiative && (
-                        <a
-                          href={petition.billUrl || petition.externalUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1.5 text-[11px] font-bold text-raspberry bg-soft-pink/70 hover:bg-soft-pink px-2.5 py-0.5 rounded-lg border border-raspberry/25 transition-colors"
-                        >
-                          <Building2 className="w-3 h-3 text-raspberry shrink-0" />
-                          <span>{petition.billOrInitiative}</span>
-                          <ExternalLink className="w-3 h-3 ml-0.5 shrink-0" />
-                        </a>
-                      )}
-                    </div>
-
-                    <h3 className="text-xl sm:text-2xl font-serif text-plum mb-2 leading-snug">
-                      {petition.title}
-                    </h3>
-
-                    <p className="text-xs font-bold text-charcoal/70 mb-2">
-                      Target: {petition.target}
-                    </p>
-
-                    <p className="text-sm text-ink/85 leading-relaxed mb-4">
-                      {petition.summary}
-                    </p>
-
-                    {/* Demands preview */}
-                    <div className="p-4 rounded-xl bg-ivory border border-deep-teal/10 mb-5">
-                      <h4 className="text-xs font-extrabold text-deep-teal uppercase tracking-wider mb-2">
-                        Key Demands:
-                      </h4>
-                      <ul className="space-y-1 text-xs text-charcoal/80 list-disc list-inside">
-                        {petition.fullDemands.map((demand, idx) => (
-                          <li key={idx} className="leading-snug">
-                            {demand}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </div>
-
-                  <div>
-                    {/* Progress bar */}
-                    <div className="mb-4">
-                      <div className="flex justify-between text-xs font-bold mb-1">
-                        <span className="text-raspberry font-mono">
-                          {petition.currentSignatures.toLocaleString()} signatures
-                        </span>
-                        <span className="text-charcoal/70">
-                          Legislative Goal: {petition.targetSignatures.toLocaleString()} ({percent}%)
-                        </span>
-                      </div>
-                      <div className="w-full h-2.5 bg-soft-pink/60 rounded-full overflow-hidden">
-                        <div
-                          className="h-full bg-raspberry transition-all duration-500 rounded-full"
-                          style={{ width: `${percent}%` }}
-                        />
-                      </div>
-                      {petition.legislativeMilestone && (
-                        <div className="mt-2.5 flex items-start gap-2 p-2.5 rounded-xl bg-ivory border border-deep-teal/15 text-[11.5px] text-charcoal/85 leading-snug">
-                          <CheckCircle2 className="w-3.5 h-3.5 text-deep-teal shrink-0 mt-0.5" />
-                          <div>
-                            <span className="font-bold text-deep-teal block">
-                              {petition.legislativeGoalType || "Legislative Threshold"}:
-                            </span>
-                            <span>{petition.legislativeMilestone}</span>
-                          </div>
-                        </div>
-                      )}
-                    </div>
-
-                    {/* Dual Action Buttons */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                      <Button
-                        onClick={() => setSelectedPetition(petition)}
-                        disabled={isSigned}
-                        variant={isSigned ? "ghost" : "default"}
-                        className={`w-full gap-1.5 font-bold text-xs sm:text-sm h-11 ${
-                          isSigned
-                            ? "text-green-700 bg-green-50 border border-green-300"
-                            : "bg-deep-teal text-white hover:bg-deep-teal/90"
-                        }`}
-                      >
-                        {isSigned ? (
-                          <>
-                            <CheckCircle2 className="w-4 h-4 text-green-600 shrink-0" />
-                            <span>Pledged on ReproUs</span>
-                          </>
-                        ) : (
-                          <>
-                            <PenLine className="w-4 h-4 shrink-0" />
-                            <span>Sign Community Pledge</span>
-                          </>
-                        )}
-                      </Button>
-
-                      <a
-                        href={petition.externalUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="w-full inline-flex items-center justify-center gap-1.5 rounded-xl border-2 border-deep-teal/25 bg-white text-deep-teal hover:bg-light-teal/50 hover:border-deep-teal font-bold text-xs sm:text-sm h-11 px-3 transition-all shadow-2xs text-center"
-                      >
-                        <span>Sign on {petition.petitionPlatform || "Action Network"}</span>
-                        <ExternalLink className="w-3.5 h-3.5 text-raspberry shrink-0" />
-                      </a>
-                    </div>
-                  </div>
-                </Card>
-              );
-            })}
-          </div>
-
-          {/* STUDENT ADVOCACY TOOLKIT: PRE-WRITTEN LETTERS */}
-          <div className="rounded-2xl bg-white border-2 border-coral/25 p-6 md:p-8 space-y-6">
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-              <div>
-                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-coral/10 text-coral text-xs font-bold uppercase tracking-wider mb-1.5">
-                  <FileText className="w-3.5 h-3.5" />
-                  <span>Student Action Toolkit</span>
-                </div>
-                <h3 className="text-2xl sm:text-3xl font-serif font-bold text-plum">
-                  Pre-Written Advocacy Letter Templates
-                </h3>
-                <p className="text-xs sm:text-sm text-charcoal/80 mt-1 mb-0">
+            <div className={cn(accordionBox, "mt-10")}>
+              <Collapsible title="Pre-Written Advocacy Letter Templates">
+                <p className="text-base text-charcoal text-pretty">
                   Ready-to-use letters to send to your school principal, district superintendent, or elected officials. Copy with 1 click and customize!
                 </p>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-              {ADVOCACY_LETTER_TEMPLATES.map((letter) => {
-                const isCopied = copiedLetterId === letter.id;
-                return (
-                  <div
-                    key={letter.id}
-                    className="p-5 rounded-xl bg-ivory border border-deep-teal/20 flex flex-col justify-between gap-4"
-                  >
-                    <div>
-                      <div className="flex items-center justify-between gap-2 mb-2">
-                        <span className="text-[11px] font-bold text-coral uppercase tracking-wider">
-                          {letter.category}
-                        </span>
-                        <span className="text-[11px] text-charcoal/60">
-                          Target: {letter.targetAudience.split(",")[0]}
-                        </span>
+                <ul className="mt-5 grid grid-cols-1 gap-6 md:grid-cols-2">
+                  {ADVOCACY_LETTER_TEMPLATES.map((letter) => (
+                    <li key={letter.id} className="flex flex-col items-start gap-3 border-l-4 border-light-teal pl-4">
+                      <div>
+                        <p className="text-sm font-semibold text-raspberry">{letter.category}</p>
+                        <h4 className={cn(cardTitle, "mt-1")}>{letter.title}</h4>
                       </div>
-                      <h4 className="font-serif font-bold text-base sm:text-lg text-plum mb-3">
-                        {letter.title}
-                      </h4>
-                      <div className="p-3.5 rounded-lg bg-white border border-plum/10 text-xs text-charcoal/80 font-mono max-h-48 overflow-y-auto leading-relaxed whitespace-pre-wrap">
-                        {letter.text}
+                      <details className="w-full">
+                        <summary
+                          className={cn(
+                            "flex min-h-11 cursor-pointer items-center text-base font-semibold text-deep-teal underline-offset-4 hover:underline",
+                            focusRing
+                          )}
+                        >
+                          Read the letter
+                        </summary>
+                        <p className="mt-1 whitespace-pre-wrap text-sm text-charcoal">{letter.text}</p>
+                      </details>
+                      <div className="flex flex-wrap items-center gap-3">
+                        <CopyButton
+                          text={letter.text}
+                          label="Copy Letter Template"
+                          done={copiedKey === letter.id}
+                          onCopy={(t) => copyText(letter.id, t)}
+                        />
+                        <span className="text-sm text-charcoal-light">Paste into email or print</span>
                       </div>
-                    </div>
-
-                    <div className="flex items-center justify-between gap-2 pt-2 border-t border-deep-teal/10">
-                      <Button
-                        onClick={() => handleCopyLetter(letter.id, letter.text)}
-                        variant="default"
-                        size="sm"
-                        className={cn(
-                          "gap-1.5 font-bold text-xs h-9 px-4 transition-all cursor-pointer",
-                          isCopied
-                            ? "bg-green-700 text-white"
-                            : "bg-deep-teal text-white hover:bg-deep-teal/90"
-                        )}
+                    </li>
+                  ))}
+                </ul>
+              </Collapsible>
+              <Collapsible title="National Advocacy & Legislative Coalitions">
+                <p className="text-base text-charcoal text-pretty">
+                  Direct access to verified non-profit networks driving federal bills and state-level policy change:
+                </p>
+                <ul className="mt-5 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+                  {REAL_WORLD_ADVOCACY_LINKS.map((link) => (
+                    <li key={link.url} className="border-l-4 border-light-teal pl-4">
+                      <a
+                        href={link.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={cn("font-serif text-lg text-deep-teal underline-offset-4 hover:underline", focusRing)}
                       >
-                        {isCopied ? (
-                          <>
-                            <Check className="w-3.5 h-3.5 text-white" />
-                            <span>Copied to Clipboard!</span>
-                          </>
-                        ) : (
-                          <>
-                            <Copy className="w-3.5 h-3.5" />
-                            <span>Copy Letter Template</span>
-                          </>
-                        )}
-                      </Button>
-                      <span className="text-[11px] text-charcoal/60">
-                        Paste into email or print
-                      </span>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-
-          {/* VERIFIED NATIONAL ADVOCACY DIRECTORY */}
-          <div className="p-6 md:p-8 rounded-2xl bg-light-teal/25 border border-deep-teal/20 space-y-4">
-            <h3 className="text-xl sm:text-2xl font-serif font-bold text-deep-teal flex items-center gap-2">
-              <Building2 className="w-5 h-5 text-coral" />
-              <span>National Advocacy &amp; Legislative Coalitions</span>
-            </h3>
-            <p className="text-xs sm:text-sm text-charcoal/80 m-0">
-              Direct access to verified non-profit networks driving federal bills and state-level policy change:
-            </p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 pt-1">
-              {REAL_WORLD_ADVOCACY_LINKS.map((link, idx) => (
-                <a
-                  key={idx}
-                  href={link.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="p-4 rounded-xl bg-white border border-deep-teal/15 hover:border-deep-teal hover:shadow-xs transition-all flex flex-col justify-between group"
-                >
-                  <div className="space-y-1 mb-2">
-                    <div className="flex items-center justify-between">
-                      <span className="text-[10px] font-bold uppercase tracking-wider text-coral">
-                        {link.badge}
-                      </span>
-                      <ExternalLink className="w-3 h-3 text-charcoal/40 group-hover:text-deep-teal" />
-                    </div>
-                    <h4 className="font-serif font-bold text-sm text-plum group-hover:text-raspberry leading-snug">
-                      {link.title}
-                    </h4>
-                    <p className="text-[11.5px] text-charcoal/70 line-clamp-2 m-0 leading-relaxed">
-                      {link.description}
-                    </p>
-                  </div>
-                  <span className="text-[11px] font-bold text-deep-teal flex items-center gap-1 pt-1">
-                    <span>{link.organization}</span>
-                    <span>→</span>
-                  </span>
-                </a>
-              ))}
+                        {link.title}
+                        <ExternalLink className="ml-1.5 inline h-3.5 w-3.5 align-baseline" aria-hidden="true" />
+                        <span className="sr-only">(opens in a new tab)</span>
+                      </a>
+                      <p className="mt-1 text-sm font-semibold text-raspberry">{link.organization}</p>
+                      <p className="mt-1 text-base text-charcoal text-pretty">{link.description}</p>
+                    </li>
+                  ))}
+                </ul>
+              </Collapsible>
             </div>
           </div>
         </section>
       )}
-
-      {/* SIGN PETITION PLEDGE MODAL */}
-      <Dialog open={!!selectedPetition} onOpenChange={(open) => !open && setSelectedPetition(null)}>
-        <DialogContent className="max-w-md">
-          {selectedPetition && (
-            <div>
-              <DialogHeader className="mb-3">
-                <DialogTitle>Sign Petition Pledge</DialogTitle>
-                <DialogDescription>
-                  {selectedPetition.title}
-                </DialogDescription>
-              </DialogHeader>
-
-              {/* Real World Direct Outbound Banner */}
-              <div className="p-3.5 rounded-2xl bg-light-teal/50 border border-deep-teal/20 text-xs text-charcoal/90 space-y-1.5 mb-4">
-                <div className="flex items-center justify-between font-bold text-deep-teal">
-                  <span className="flex items-center gap-1.5">
-                    <ExternalLink className="w-4 h-4 text-coral shrink-0" />
-                    Official Live Petition Link:
-                  </span>
-                  <span className="text-[10px] uppercase font-bold px-2 py-0.5 rounded-md bg-white border border-deep-teal/20 text-deep-teal">
-                    National Coalition
-                  </span>
-                </div>
-                <p className="text-[11.5px] leading-relaxed m-0 text-charcoal/80">
-                  This community initiative supports <strong>{selectedPetition.realWorldCampaign}</strong> ({selectedPetition.billOrInitiative || "Grassroots Initiative"}), currently at <strong>{selectedPetition.currentSignatures.toLocaleString()}</strong> of its <strong>{selectedPetition.targetSignatures.toLocaleString()}</strong> legislative goal for {selectedPetition.legislativeGoalType?.toLowerCase() || "legislative action"}.
-                  Add your name to the ReproUs student ledger below, or sign the official petition directly on the host website:
-                </p>
-                <a
-                  href={selectedPetition.externalUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 font-bold text-raspberry hover:underline text-xs pt-1"
-                >
-                  <span>Sign Live on {selectedPetition.petitionPlatform || selectedPetition.realWorldCampaign.split("&")[0].trim()}</span>
-                  <ExternalLink className="w-3.5 h-3.5" />
-                </a>
-              </div>
-
-              {signSuccess ? (
-                <div className="p-6 text-center flex flex-col items-center gap-3">
-                  <CheckCircle2 className="w-12 h-12 text-green-600 animate-bounce" />
-                  <h4 className="font-serif text-xl font-bold text-deep-teal">Pledge Recorded!</h4>
-                  <p className="text-xs text-charcoal/80">
-                    Thank you for standing up for youth reproductive rights. Next, please add your name to the official live national petition:
-                  </p>
-                  {selectedPetition.externalUrl && (
-                    <div className="mt-2 pt-3 border-t border-deep-teal/15 w-full text-left bg-light-teal/50 p-4 rounded-xl space-y-2.5">
-                      <p className="text-xs text-charcoal/80 font-bold mb-0">Official Host Campaign:</p>
-                      <p className="text-xs text-charcoal/70 mb-1">{selectedPetition.realWorldCampaign}</p>
-                      <a
-                        href={selectedPetition.externalUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="w-full inline-flex items-center justify-center gap-2 font-bold text-xs sm:text-sm h-11 px-4 rounded-xl bg-deep-teal text-white hover:bg-deep-teal/90 shadow-sm transition-all"
-                      >
-                        <span>Sign Live on {selectedPetition.petitionPlatform || selectedPetition.realWorldCampaign.split("&")[0].trim()}</span>
-                        <ExternalLink className="w-4 h-4" />
-                      </a>
-                    </div>
-                  )}
-                </div>
-              ) : (
-                <form onSubmit={handleSignSubmit} className="flex flex-col gap-3.5">
-                  <div>
-                    <label className="block text-xs font-bold text-raspberry mb-1">Your Full Name *</label>
-                    <Input
-                      required
-                      placeholder="e.g. Maya Chen"
-                      value={signerName}
-                      onChange={(e) => setSignerName(e.target.value)}
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-bold text-raspberry mb-1">Email Address *</label>
-                    <Input
-                      type="email"
-                      required
-                      placeholder="maya@example.com"
-                      value={signerEmail}
-                      onChange={(e) => setSignerEmail(e.target.value)}
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-bold text-raspberry mb-1">Zip Code / City</label>
-                    <Input
-                      placeholder="e.g. 90210"
-                      value={signerZip}
-                      onChange={(e) => setSignerZip(e.target.value)}
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-bold text-raspberry mb-1">
-                      Why does this matter to you? (Optional Public Comment)
-                    </label>
-                    <Textarea
-                      rows={2}
-                      placeholder="Add a brief reason why you are signing..."
-                      value={signerComment}
-                      onChange={(e) => setSignerComment(e.target.value)}
-                    />
-                  </div>
-                  {selectedPetition.externalUrl && (
-                    <div className="p-2.5 rounded-lg bg-light-teal/40 border border-deep-teal/10 text-[11.5px] text-charcoal/80 flex items-center justify-between gap-2">
-                      <span className="truncate">Modeled after: {selectedPetition.realWorldCampaign}</span>
-                      <a
-                        href={selectedPetition.externalUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="font-bold text-raspberry hover:underline inline-flex items-center gap-1 shrink-0"
-                      >
-                        <span>Official Action</span>
-                        <ExternalLink className="w-3 h-3" />
-                      </a>
-                    </div>
-                  )}
-                  <p className="text-[11px] text-charcoal/65 italic m-0">
-                    * Your email will not be published publicly. We only count verified signatures.
-                  </p>
-                  <Button type="submit" disabled={isSigning} className="w-full mt-2 bg-deep-teal text-white hover:bg-deep-teal/90">
-                    {isSigning ? "Recording Signature..." : "Record Community Pledge"}
-                  </Button>
-                </form>
-              )}
-            </div>
-          )}
-        </DialogContent>
-      </Dialog>
-
-      {/* PROPOSE PETITION MODAL */}
-      <Dialog open={isProposeModalOpen} onOpenChange={setIsProposeModalOpen}>
-        <DialogContent className="max-w-lg">
-          <DialogHeader className="mb-4">
-            <DialogTitle>Propose a Community Petition</DialogTitle>
-            <DialogDescription>
-              Lead change in your school district, city, or campus. Submit a petition for the ReproUs youth coalition to review and amplify.
-            </DialogDescription>
-          </DialogHeader>
-
-          {propSuccess ? (
-            <div className="p-6 text-center flex flex-col items-center gap-2">
-              <CheckCircle2 className="w-12 h-12 text-green-600 animate-bounce" />
-              <h4 className="font-serif text-xl font-bold text-plum">Petition Proposed!</h4>
-              <p className="text-xs text-ink/80">
-                Our advocacy team will review your proposal and follow up with you within 2 business days.
-              </p>
-            </div>
-          ) : (
-            <form onSubmit={handleProposeSubmit} className="flex flex-col gap-3.5">
-              <div>
-                <label className="block text-xs font-bold text-berry mb-1">Petition Title *</label>
-                <Input
-                  required
-                  placeholder="e.g. Provide Free Menstrual Products in Central High Restrooms"
-                  value={propTitle}
-                  onChange={(e) => setPropTitle(e.target.value)}
-                />
-              </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <div>
-                  <label className="block text-xs font-bold text-berry mb-1">Target Decision Maker *</label>
-                  <Input
-                    required
-                    placeholder="e.g. School Board / City Council"
-                    value={propTarget}
-                    onChange={(e) => setPropTarget(e.target.value)}
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs font-bold text-berry mb-1">Location / Campus *</label>
-                  <Input
-                    required
-                    placeholder="e.g. Chicago Public Schools"
-                    value={propLocation}
-                    onChange={(e) => setPropLocation(e.target.value)}
-                  />
-                </div>
-              </div>
-              <div>
-                <label className="block text-xs font-bold text-berry mb-1">Summary / Context *</label>
-                <Textarea
-                  required
-                  rows={2}
-                  placeholder="Explain why this issue is important in your community..."
-                  value={propSummary}
-                  onChange={(e) => setPropSummary(e.target.value)}
-                />
-              </div>
-              <div>
-                <label className="block text-xs font-bold text-berry mb-1">Key Action Demands *</label>
-                <Textarea
-                  required
-                  rows={2}
-                  placeholder="What specific actions do you want leadership to take?"
-                  value={propDemands}
-                  onChange={(e) => setPropDemands(e.target.value)}
-                />
-              </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <div>
-                  <label className="block text-xs font-bold text-berry mb-1">Your Name / Group *</label>
-                  <Input
-                    required
-                    placeholder="Your Name or Club"
-                    value={propName}
-                    onChange={(e) => setPropName(e.target.value)}
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs font-bold text-berry mb-1">Contact Email *</label>
-                  <Input
-                    type="email"
-                    required
-                    placeholder="you@example.com"
-                    value={propEmail}
-                    onChange={(e) => setPropEmail(e.target.value)}
-                  />
-                </div>
-              </div>
-              <Button type="submit" disabled={isSubmittingProp} className="w-full mt-2 bg-deep-teal text-white hover:bg-deep-teal/90">
-                {isSubmittingProp ? "Submitting Proposal..." : "Submit Petition Proposal"}
-              </Button>
-            </form>
-          )}
-        </DialogContent>
-      </Dialog>
-
-      {/* CLINIC SEARCH MODAL */}
-      <Dialog open={isClinicModalOpen} onOpenChange={setIsClinicModalOpen}>
-        <DialogContent className="max-w-2xl">
-          <DialogHeader>
-            <DialogTitle>Find Free &amp; Sliding-Scale Clinics</DialogTitle>
-            <DialogDescription>
-              Filter clinics by zip code or city. All listed clinics offer confidential care.
-            </DialogDescription>
-          </DialogHeader>
-
-          <div className="my-2 relative">
-            <Search className="w-4 h-4 text-ink/50 absolute left-3.5 top-3.5" />
-            <Input
-              placeholder="Search by Zip Code (e.g. 90210) or City..."
-              className="pl-10"
-              value={zipQuery}
-              onChange={(e) => setZipQuery(e.target.value)}
-            />
-          </div>
-
-          <div className="flex flex-col gap-4 max-h-[50vh] overflow-y-auto pr-1">
-            {filteredClinics.length === 0 ? (
-              <p className="text-xs text-ink/70 text-center py-6">
-                No clinics found matching that search. Try another zip code or clear the search.
-              </p>
-            ) : (
-              filteredClinics.map((clinic) => (
-                <div
-                  key={clinic.id}
-                  className="p-4 rounded-xl bg-ivory border border-deep-teal/15 flex flex-col gap-2"
-                >
-                  <div className="flex items-start justify-between gap-2">
-                    <h4 className="font-bold text-plum text-base">{clinic.name}</h4>
-                    <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-yellow text-ink">
-                      Zip {clinic.zip}
-                    </span>
-                  </div>
-                  <p className="text-xs text-ink/80 m-0">
-                    {clinic.address}, {clinic.city} • <b>{clinic.phone}</b>
-                  </p>
-                  <p className="text-xs text-ink/70 m-0">Hours: {clinic.hours}</p>
-                  <div className="flex flex-wrap gap-1.5 mt-1">
-                    {clinic.services.map((s, i) => (
-                      <span
-                        key={i}
-                        className="text-[11px] font-semibold px-2 py-0.5 rounded bg-cream-card text-berry border border-berry/10"
-                      >
-                        {s}
-                      </span>
-                    ))}
-                    {clinic.busAccessible && (
-                      <span className="text-[11px] font-semibold px-2 py-0.5 rounded bg-green-100 text-green-900 inline-flex items-center gap-1">
-                        <MapPin className="w-3 h-3 text-green-800" />
-                        <span>Bus Line Accessible</span>
-                      </span>
-                    )}
-                  </div>
-                  {clinic.languages && clinic.languages.length > 0 && (
-                    <p className="text-[11.5px] text-plum/85 m-0 font-sans mt-0.5 flex items-center gap-1.5">
-                      <Users className="w-3.5 h-3.5 text-deep-teal shrink-0" />
-                      <span>
-                        <strong className="text-plum">Languages &amp; Interpretation:</strong>{" "}
-                        <span className="text-ink/80">{clinic.languages.join(", ")}</span>
-                      </span>
-                    </p>
-                  )}
-                </div>
-              ))
-            )}
-          </div>
-        </DialogContent>
-      </Dialog>
     </div>
   );
 }

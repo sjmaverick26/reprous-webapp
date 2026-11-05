@@ -4,7 +4,7 @@ import React, { useState, useMemo, useEffect } from "react";
 import { RoleplayScenario } from "@/data/hubData";
 import {
   Stethoscope,
-  Sparkles,
+  Flower2,
   Check,
   CheckCircle2,
   AlertTriangle,
@@ -1822,7 +1822,7 @@ export function RoleplayInteractiveStage({
           <div className="pt-0.5 text-[11px] font-bold font-sans">
             {chosenOpt === null ? (
               <span className="flex items-center gap-1.5 text-deep-teal">
-                <Sparkles className="w-3.5 h-3.5" />
+                <Flower2 className="w-3.5 h-3.5" />
                 Evidence Ready in Hand: Review your records above, then choose the response below that best presents this data to your provider!
               </span>
             ) : isBest ? (

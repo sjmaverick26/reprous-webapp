@@ -6,7 +6,7 @@ import {
   AlertTriangle,
   CheckCircle2,
   Info,
-  Sparkles,
+  Flower2,
   Zap,
   Shield,
   Heart,
@@ -725,7 +725,7 @@ export function TannerProgressionChart() {
         <div>
           <div className="flex items-center gap-2">
             <span className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-xs font-bold uppercase tracking-wider bg-coral text-white shadow-2xs">
-              <Sparkles className="w-3.5 h-3.5" />
+              <Flower2 className="w-3.5 h-3.5" />
               <span>Body Basics Interactive Visual Lab</span>
             </span>
             <span className="text-xs font-bold text-deep-teal bg-light-teal px-2.5 py-0.5 rounded-full">
@@ -874,7 +874,7 @@ export function TannerProgressionChart() {
             </div>
 
             <div className="p-3.5 rounded-2xl bg-deep-teal text-white flex items-center gap-3">
-              <Sparkles className="w-5 h-5 text-coral shrink-0" />
+              <Flower2 className="w-5 h-5 text-coral shrink-0" />
               <span className="text-xs sm:text-sm font-medium">{current.takeaway}</span>
             </div>
           </div>
@@ -1061,7 +1061,7 @@ export function TannerProgressionChart() {
             <div className="p-5 rounded-3xl bg-rose-50/60 border-2 border-rose-200 space-y-3 flex flex-col justify-between">
               <div className="space-y-2">
                 <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-xs font-bold uppercase tracking-wider bg-rose-200 text-rose-900 border border-rose-300">
-                  <Sparkles className="w-3.5 h-3.5 text-rose-700" />
+                  <Flower2 className="w-3.5 h-3.5 text-rose-700" />
                   <span>The Builder</span>
                 </div>
                 <h5 className="font-serif font-bold text-xl text-deep-teal m-0">
@@ -1430,7 +1430,7 @@ export function RotterdamCriteriaRadar() {
           </div>
 
           <div className="p-4 rounded-2xl bg-amber-50/80 border border-amber-300 text-xs sm:text-sm text-amber-950 flex items-start gap-2.5">
-            <Sparkles className="w-4 h-4 text-amber-800 shrink-0 mt-0.5" />
+            <Flower2 className="w-4 h-4 text-amber-800 shrink-0 mt-0.5" />
             <span>
               <strong>Crucial Patient Takeaway:</strong> If a doctor ever tells you &ldquo;Your ultrasound looked clear, so you don&apos;t have PCOS,&rdquo; remind them of <strong>Phenotype B</strong>! Under Rotterdam guidelines, irregular cycles plus signs of high androgens fulfill the diagnostic criteria with zero cysts required.
             </span>
@@ -1656,7 +1656,7 @@ export function ContraceptionEfficacyPyramid() {
                 <span className="px-2 py-0.5 rounded-md bg-slate-100 text-charcoal border border-slate-200">
                   {m.rate}
                 </span>
-                <span className={`px-2 py-0.5 rounded-md ${m.hormonal ? "bg-purple-100 text-purple-900 border border-purple-200" : "bg-emerald-100 text-emerald-900 border border-emerald-200"}`}>
+                <span className={`px-2 py-0.5 rounded-md ${m.hormonal ? "bg-soft-pink-light text-raspberry-dark border border-soft-pink-dark" : "bg-emerald-100 text-emerald-900 border border-emerald-200"}`}>
                   {m.hormonal ? "Hormonal" : "Non-Hormonal"}
                 </span>
                 {m.sti && (

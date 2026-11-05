@@ -52,7 +52,7 @@ const DEFAULT_REFERENCES: Record<string, ReferenceItem[]> = {
       type: "Patient education resource",
       title: "Reproductive & Endocrine Health for Youth: Fact Sheets & Diagrams",
       source: "MedlinePlus / U.S. National Library of Medicine",
-      url: "https://medlineplus.gov/teensemualhealth.html",
+      url: "https://medlineplus.gov/teensexualhealth.html",
       linkText: "Browse Health Guides",
     },
   ],
@@ -429,153 +429,79 @@ export function EducationalReferences({
   const getTypeIcon = (type: ReferenceItem["type"]) => {
     switch (type) {
       case "Research article":
-        return <BookOpen className="w-3.5 h-3.5 text-berry" />;
+        return <BookOpen className="w-4 h-4 text-raspberry" aria-hidden="true" />;
       case "Clinical guideline":
-        return <FileCheck className="w-3.5 h-3.5 text-plum" />;
+        return <FileCheck className="w-4 h-4 text-deep-teal" aria-hidden="true" />;
       case "Patient education resource":
-        return <HeartHandshake className="w-3.5 h-3.5 text-berry" />;
+        return <HeartHandshake className="w-4 h-4 text-raspberry" aria-hidden="true" />;
       case "Additional reading":
-        return <Bookmark className="w-3.5 h-3.5 text-plum" />;
+        return <Bookmark className="w-4 h-4 text-deep-teal" aria-hidden="true" />;
     }
+  };
+
+  const renderCard = (item: ReferenceItem) => {
+    const card = (
+      <div className="group rounded-2xl bg-white p-5 md:p-6 border border-[#E5E1DC] shadow-sm hover:border-deep-teal transition-colors duration-200 flex flex-col justify-between h-full">
+        <div>
+          <span className="inline-flex items-center gap-1.5 text-small font-semibold text-charcoal-light mb-3">
+            {getTypeIcon(item.type)}
+            <span>{item.type}</span>
+          </span>
+          <h4 className="font-sans font-bold text-base text-deep-teal leading-snug mb-2 group-hover:underline">
+            {item.title}
+          </h4>
+          <p className="text-small text-charcoal-light leading-relaxed m-0">{item.source}</p>
+        </div>
+        {item.url && (
+          <div className="mt-4 pt-3 border-t border-[#E5E1DC] flex items-center justify-between text-small font-semibold text-deep-teal">
+            <span>{item.linkText || "Clinical Evidence"}</span>
+            <ExternalLink className="w-4 h-4" aria-hidden="true" />
+          </div>
+        )}
+      </div>
+    );
+
+    if (item.url) {
+      return (
+        <a
+          key={item.number}
+          href={item.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="block no-underline rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-deep-teal"
+        >
+          {card}
+        </a>
+      );
+    }
+    return <div key={item.number}>{card}</div>;
   };
 
   if (compact) {
     return (
-      <div className={cn("mt-6 pt-5 border-t border-plum/15 font-sans", className)}>
-        <div className="flex items-center gap-2 mb-3">
-          <span className="text-[10px] uppercase font-bold tracking-widest text-berry bg-ivory-darker px-2.5 py-0.5 rounded border border-plum/10">
-            ✦ Clinical &amp; Educational References
-          </span>
-        </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-          {items.map((item) => {
-            const content = (
-              <div
-                key={item.number}
-                className="p-3.5 rounded-xl bg-white border border-plum/15 flex flex-col justify-between shadow-xs hover:border-berry/40 transition-all h-full"
-              >
-                <div>
-                  <div className="flex items-center justify-between gap-1.5 mb-1">
-                    <span className="text-[11px] font-bold text-berry uppercase">
-                      {item.number} · {item.type}
-                    </span>
-                    {item.url && (
-                      <ExternalLink className="w-3 h-3 text-plum/60 shrink-0" />
-                    )}
-                  </div>
-                  <h5 className="font-bold text-[13px] text-plum leading-snug font-sans">
-                    {item.title}
-                  </h5>
-                  <p className="text-[11.5px] text-plum/70 font-sans leading-tight mt-1 mb-0">
-                    {item.source}
-                  </p>
-                </div>
-                {item.url && (
-                  <div className="mt-2 pt-2 border-t border-plum/10 text-[11px] font-bold text-deep-teal flex items-center gap-1">
-                    <span>{item.linkText || "View Clinical Source"}</span>
-                    <ExternalLink className="w-3 h-3" />
-                  </div>
-                )}
-              </div>
-            );
-
-            if (item.url) {
-              return (
-                <a
-                  key={item.number}
-                  href={item.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="block no-underline group focus:outline-none"
-                >
-                  {content}
-                </a>
-              );
-            }
-            return content;
-          })}
-        </div>
+      <div className={cn("mt-6 pt-5 border-t border-[#E5E1DC] font-sans", className)}>
+        <h4 className="font-serif text-lg text-deep-teal mb-3">Clinical &amp; Educational References</h4>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">{items.map(renderCard)}</div>
       </div>
     );
   }
 
   return (
-    <section className={cn("w-full mt-12 pt-8 border-t border-plum/15 font-sans", className)}>
-      {/* Section Eyebrow & Title */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-3 mb-6">
-        <div>
-          <div className="inline-flex items-center gap-1.5 text-[11.5px] font-bold tracking-widest uppercase text-berry mb-1.5">
-            <span className="text-gold">✦</span>
-            <span>VERIFIED CLINICAL SOURCES</span>
-          </div>
-          <h3 className="text-2xl md:text-[28px] font-normal font-serif text-plum leading-tight tracking-tight">
-            {customTitle || "Evidence & Educational References"}
-          </h3>
-          <p className="text-[14px] md:text-[15px] text-plum/80 font-sans mt-1 mb-0 max-w-2xl">
-            ReproUs educational materials are grounded in evidence-based research and clinical guidelines from the American College of Obstetricians and Gynecologists (ACOG), The Global Library of Women&apos;s Medicine (GLOWM / FIGO), the American Academy of Pediatrics (AAP), and the International Olympic Committee (IOC). <em>This is health education, not medical advice.</em>
-          </p>
-        </div>
-
-        <div className="text-xs font-semibold text-plum/70 font-sans self-start md:self-end">
-          Evidence-Based • Clinically Grounded
-        </div>
+    <section className={cn("w-full mt-12 pt-8 border-t border-[#E5E1DC] font-sans", className)}>
+      <div className="mb-6">
+        <h3 className="text-2xl md:text-3xl font-normal font-serif text-deep-teal leading-tight text-balance">
+          {customTitle || "Evidence & Educational References"}
+        </h3>
+        <p className="text-base text-charcoal-light font-sans mt-2 mb-0 max-w-[65ch] text-pretty">
+          ReproUs educational materials are grounded in evidence-based research and clinical guidelines from the American College of Obstetricians and Gynecologists (ACOG), The Global Library of Women&apos;s Medicine (GLOWM / FIGO), the American Academy of Pediatrics (AAP), and the International Olympic Committee (IOC). <em>This is health education, not medical advice.</em>
+        </p>
       </div>
 
-      {/* 4 Cards Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        {items.map((item) => {
-          const card = (
-            <div
-              key={item.number}
-              className="group rounded-xl bg-white p-5 border border-plum/15 shadow-xs hover:shadow-card hover:-translate-y-0.5 transition-all flex flex-col justify-between h-full"
-            >
-              <div>
-                <div className="flex items-center justify-between gap-2 mb-3">
-                  <span className="font-serif font-bold text-xl text-gold tracking-tight">
-                    {item.number}
-                  </span>
-                  <span className="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-plum bg-ivory px-2.5 py-0.5 rounded border border-plum/10">
-                    {getTypeIcon(item.type)}
-                    <span>{item.type}</span>
-                  </span>
-                </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">{items.map(renderCard)}</div>
 
-                <h4 className="font-bold text-[14.5px] text-plum leading-snug mb-1.5 group-hover:text-berry transition-colors">
-                  {item.title}
-                </h4>
-
-                <p className="text-[12.5px] text-plum/75 leading-relaxed m-0">
-                  {item.source}
-                </p>
-              </div>
-
-              <div className="mt-4 pt-3 border-t border-plum/10 flex items-center justify-between text-[12px] font-semibold text-plum/80 group-hover:text-berry transition-colors">
-                <span>{item.linkText || "Clinical Evidence"}</span>
-                <ExternalLink className="w-3.5 h-3.5 opacity-70 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-              </div>
-            </div>
-          );
-
-          if (item.url) {
-            return (
-              <a
-                key={item.number}
-                href={item.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="block no-underline focus:outline-none"
-              >
-                {card}
-              </a>
-            );
-          }
-          return card;
-        })}
-      </div>
-
-      <div className="mt-4 p-3 rounded-xl bg-plum/5 border border-plum/10 text-xs text-plum/75 text-center font-sans">
+      <p className="mt-6 text-small text-charcoal-light font-sans text-pretty">
         <strong>Educational Notice:</strong> All references and materials are provided for health literacy and self-advocacy education, not personalized medical advice or treatment.
-      </div>
+      </p>
     </section>
   );
 }

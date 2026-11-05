@@ -6,7 +6,7 @@ import {
   Brain,
   Heart,
   ShieldAlert,
-  Sparkles,
+  Flower2,
   Thermometer,
   Zap,
   AlertTriangle,
@@ -61,7 +61,7 @@ export const OVERTRAINING_HOTSPOTS: Record<HotspotId, HotspotData> = {
     name: "Neuroendocrine & Sleep Architecture",
     system: "Central Nervous System & Hypothalamic Axis",
     category: "Neuroendocrine",
-    tagColor: "bg-indigo-100 text-indigo-800 border-indigo-200",
+    tagColor: "bg-soft-pink-light text-raspberry-dark border-soft-pink-dark",
     x: 170,
     y: 56,
     lensOffset: { hx: 232, hy: 28 },
@@ -394,7 +394,7 @@ export function OvertrainingBodyInspectionDiagram({ diagram, themeColor }: Props
               onClick={() => setSelectedCharacter("vivian")}
               className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer ${
                 selectedCharacter === "vivian"
-                  ? "bg-violet-700 text-white shadow-xs"
+                  ? "bg-raspberry text-white shadow-xs"
                   : "text-charcoal/70 hover:bg-slate-100"
               }`}
             >
@@ -458,7 +458,7 @@ export function OvertrainingBodyInspectionDiagram({ diagram, themeColor }: Props
                 : "text-charcoal/70 hover:text-charcoal"
             }`}
           >
-            <Sparkles className="w-3.5 h-3.5 text-raspberry" />
+            <Flower2 className="w-3.5 h-3.5 text-raspberry" />
             Why Women Are Uniquely Affected
           </button>
           <button
@@ -1213,7 +1213,7 @@ export function OvertrainingBodyInspectionDiagram({ diagram, themeColor }: Props
                 {/* Female Biological Impact */}
                 <div className="rounded-xl bg-pink-50/80 border border-pink-200 p-3.5 space-y-1">
                   <div className="flex items-center gap-1.5 text-xs font-extrabold text-pink-950 uppercase tracking-wide">
-                    <Sparkles className="w-3.5 h-3.5 text-raspberry shrink-0" />
+                    <Flower2 className="w-3.5 h-3.5 text-raspberry shrink-0" />
                     Female Biology Impact:
                   </div>
                   <p className="text-xs md:text-sm text-pink-950/90 leading-relaxed font-medium">

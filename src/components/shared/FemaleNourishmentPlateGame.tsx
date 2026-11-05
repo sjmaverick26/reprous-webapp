@@ -266,9 +266,9 @@ export const FEMALE_FOOD_GROUPS: Record<FoodGroupId, FoodGroupData> = {
     sliceStart: 315,
     sliceEnd: 360,
     colorHex: "#8B5CF6",
-    bgLight: "bg-violet-50",
-    borderColor: "border-violet-300",
-    textColor: "text-violet-900",
+    bgLight: "bg-soft-pink-light",
+    borderColor: "border-soft-pink-dark",
+    textColor: "text-raspberry-dark",
     biologicalPurpose:
       "Neutralizes reactive oxygen species (ROS), speeds recovery between demanding workouts, and protects cellular DNA from oxidative damage.",
     femaleBodyBenefits: [

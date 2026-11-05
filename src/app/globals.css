@@ -327,6 +327,23 @@ html.contrast *:focus-visible {
   outline-offset: 2px !important;
 }
 
+/* Home: the three pillar icons float gently ("three ways in") */
+@keyframes pillar-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+@layer utilities {
+  .animate-pillar-float {
+    animation: pillar-float 7s ease-in-out infinite;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   * {
     animation-duration: 0.01ms !important;

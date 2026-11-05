@@ -1,10 +1,9 @@
 "use client";
 
-import React, { useState } from "react";
-import { Menu, X, ChevronDown, Globe2, Sparkles, Gamepad2 } from "lucide-react";
+import React, { useEffect, useRef, useState } from "react";
+import { Menu, X } from "lucide-react";
 import { ReproUsMark } from "@/components/shared/ReproUsMark";
 import { cn } from "@/lib/utils";
-import { SUPPORTED_LANGUAGES } from "@/components/layout/LanguageBar";
 
 export type PageId =
   | "home"
@@ -20,393 +19,116 @@ export type PageId =
 interface NavbarProps {
   activePage: PageId;
   onNavigate: (page: PageId, categoryId?: string) => void;
-  currentLang?: string;
-  onSelectLang?: (lang: string) => void;
 }
 
-export function Navbar({ activePage, onNavigate, currentLang = "en", onSelectLang }: NavbarProps) {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [homeDropdownOpen, setHomeDropdownOpen] = useState(false);
-  const [learnDropdownOpen, setLearnDropdownOpen] = useState(false);
-  const [aboutDropdownOpen, setAboutDropdownOpen] = useState(false);
-  const [resourcesDropdownOpen, setResourcesDropdownOpen] = useState(false);
-  const [langDropdownOpen, setLangDropdownOpen] = useState(false);
-  const [mobileHomeExpanded, setMobileHomeExpanded] = useState(false);
-  const [mobileLearnExpanded, setMobileLearnExpanded] = useState(false);
-  const [mobileAboutExpanded, setMobileAboutExpanded] = useState(false);
-  const [mobileResourcesExpanded, setMobileResourcesExpanded] = useState(false);
+const NAV_ITEMS: { id: PageId; label: string }[] = [
+  { id: "story", label: "About" },
+  { id: "hub", label: "Learn" },
+  { id: "resources", label: "Resources" },
+  { id: "voices", label: "Youth Voices" },
+];
 
-  const navItems: {
-    id: PageId;
-    label: string;
-    dropdownType?: "home" | "learn" | "about" | "resources";
-  }[] = [
-    { id: "home", label: "Home", dropdownType: "home" },
-    { id: "story", label: "About", dropdownType: "about" },
-    { id: "hub", label: "Learn", dropdownType: "learn" },
-    { id: "workshops", label: "Workshops" },
-    { id: "resources", label: "Resources", dropdownType: "resources" },
-    { id: "voices", label: "Youth Voices & Q&A" },
-  ];
+const FOCUS_RING =
+  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-raspberry focus-visible:ring-offset-2";
 
-  const homeSections = [
-    { id: "commitment", number: "01", label: "The Commitment", description: "Learn · Recognize · Advocate framework" },
-    { id: "symptom-explorer", number: "02", label: "Symptom Tracker", description: "10-symptom tracking guide & clinical red flags" },
-    { id: "myth-buster", number: "03", label: "Medical Myth-Buster", description: "Debunking myths with clinical science" },
-    { id: "workshops-community", number: "04", label: "Workshops & Community", description: "Free student workshops & youth stories" },
-    { id: "ask-question", number: "05", label: "Ask a Question", description: "Confidential youth reproductive Q&A" },
-  ];
+export function Navbar({ activePage, onNavigate }: NavbarProps) {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
 
-  const learnCategories = [
-    // Female athlete health & Accessibility
-    { id: "play", label: "Female Athlete Health" },
-    { id: "mind", label: "Mind & Self-Advocacy" },
-    { id: "factors", label: "The Bigger Picture" },
-    // Hormonal Health
-    { id: "pcos", label: "PCOS & Hormonal Health" },
-    { id: "cycle", label: "Cycle Sense & Menstruation" },
-    { id: "realtalk", label: "Real Talk & STIs" },
-    // Reproductive Health
-    { id: "endo", label: "Endometriosis & Reproductive Pain" },
-    { id: "body", label: "Body Basics & Hormones" },
-    { id: "conditions", label: "Pregnancy & Reproductive Care" },
-  ];
+  // Escape closes the phone menu and hands focus back to its button.
+  useEffect(() => {
+    if (!menuOpen) return;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setMenuOpen(false);
+        menuButtonRef.current?.focus();
+      }
+    };
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, [menuOpen]);
 
-  const aboutItems = [
-    { id: "story" as PageId, label: "Our Story & Research Gap", description: "Mission, gender research gaps & youth leadership" },
-    { id: "contact" as PageId, tab: "ambassador", label: "Youth Ambassadors", description: "Join student leadership cohort" },
-    { id: "contact" as PageId, tab: "inquiry", label: "Contact Us", description: "Direct questions & partnerships" },
-    { id: "contact" as PageId, tab: "feedback", label: "Program Feedback", description: "Anonymous input & suggestions" },
-  ];
-
-  const resourceDropdownItems = [
-    {
-      tab: "tracker",
-      label: "Symptom Tracker",
-      tag: "Clinical Guide",
-      description: "10-symptom tracking guide, clinical red flags, symptom logs & provider discussion prompts"
-    },
-    {
-      tab: "help",
-      label: "How to Get Help",
-      tag: "Immediate Care",
-      description: "24/7 confidential hotlines, free & sliding-scale clinics, crisis text lines & minor privacy rights"
-    },
-    {
-      tab: "petitions",
-      label: "Take Action",
-      tag: "Advocacy",
-      description: "Active youth campaigns, Black Maternal Health Momnibus, period equity & school action toolkit"
-    },
-  ];
-
-  const isItemActive = (id: PageId) => {
-    if (id === "story") {
-      return activePage === "story" || activePage === "contact";
-    }
-    return activePage === id;
-  };
-
-  const currentLanguageObj =
-    SUPPORTED_LANGUAGES.find((l) => l.code === currentLang) || SUPPORTED_LANGUAGES[0];
-
-  const handleLanguageChange = (code: string) => {
-    onSelectLang?.(code);
-    if (typeof document !== "undefined") {
-      document.documentElement.lang = code;
-    }
+  const go = (page: PageId) => {
+    setMenuOpen(false);
+    onNavigate(page);
   };
 
   return (
-    <nav className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-deep-teal/10 transition-colors shadow-xs" dir="ltr">
-      <div className="max-w-[1140px] mx-auto px-4 sm:px-6 py-3.5 flex items-center justify-between gap-4">
-        {/* Brand Logo */}
+    <header className="sticky top-0 z-50 bg-white border-b border-deep-teal/15" dir="ltr">
+      <nav aria-label="Main" className="max-w-6xl mx-auto px-4 md:px-6 min-h-16 flex items-center justify-between gap-4">
         <button
-          onClick={() => {
-            onNavigate("home");
-            setMobileMenuOpen(false);
-          }}
-          className="flex items-center gap-2.5 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-raspberry rounded-lg shrink-0 group"
-          aria-label="ReproUs Homepage"
+          type="button"
+          onClick={() => go("home")}
+          className={cn("flex items-center gap-2.5 text-left rounded-lg shrink-0 min-h-11", FOCUS_RING)}
+          aria-label="ReproUs home"
         >
           <ReproUsMark size={30} />
-          <span className="font-serif text-2xl md:text-[26px] font-bold tracking-tight inline-flex items-center">
+          <span className="font-serif text-2xl tracking-tight inline-flex items-center">
             <span className="text-deep-teal">Repro</span>
             <span className="w-2 h-2 rounded-full bg-coral mx-1 inline-block" aria-hidden="true" />
             <span className="text-raspberry">Us</span>
           </span>
         </button>
 
-        {/* Desktop Navigation Links (Aligned to Far Right, Labels Kept on One Line) */}
-        <div className="hidden lg:flex items-center gap-5 xl:gap-7 ml-auto">
-          <ul className="flex items-center gap-5 xl:gap-6 list-none m-0 p-0">
-            {navItems.map((item) => {
-              const active = isItemActive(item.id);
+        {/* Desktop links */}
+        <ul className="hidden md:flex items-center gap-8 list-none m-0 p-0">
+          {NAV_ITEMS.map((item) => {
+            const active = activePage === item.id;
+            return (
+              <li key={item.id}>
+                <button
+                  type="button"
+                  onClick={() => go(item.id)}
+                  aria-current={active ? "page" : undefined}
+                  className={cn(
+                    "relative min-h-11 px-1 text-base font-sans whitespace-nowrap rounded transition-colors duration-150",
+                    FOCUS_RING,
+                    active
+                      ? "text-deep-teal font-bold after:absolute after:left-0 after:right-0 after:bottom-1.5 after:h-0.5 after:bg-raspberry"
+                      : "text-charcoal-light font-medium hover:text-raspberry"
+                  )}
+                >
+                  {item.label}
+                </button>
+              </li>
+            );
+          })}
+        </ul>
 
-              if (item.dropdownType === "home") {
-                return (
-                  <li
-                    key={item.id}
-                    className="relative"
-                    onMouseEnter={() => setHomeDropdownOpen(true)}
-                    onMouseLeave={() => setHomeDropdownOpen(false)}
-                  >
-                    <button
-                      onClick={() => onNavigate("home")}
-                      className={cn(
-                        "flex items-center gap-1 text-[14.5px] font-medium font-sans py-1 transition-colors relative focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-berry rounded whitespace-nowrap",
-                        active
-                          ? "text-plum font-bold after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[2px] after:bg-berry"
-                          : "text-plum/80 hover:text-berry"
-                      )}
-                    >
-                      <span>{item.label}</span>
-                      <ChevronDown className="w-3.5 h-3.5 opacity-70" />
-                    </button>
+        {/* Phone menu button */}
+        <button
+          ref={menuButtonRef}
+          type="button"
+          onClick={() => setMenuOpen((open) => !open)}
+          className={cn(
+            "md:hidden inline-flex items-center justify-center min-h-11 min-w-11 rounded-lg text-deep-teal hover:bg-soft-pink transition-colors duration-150",
+            FOCUS_RING
+          )}
+          aria-label={menuOpen ? "Close menu" : "Open menu"}
+          aria-expanded={menuOpen}
+          aria-controls="mobile-menu"
+        >
+          {menuOpen ? <X className="w-6 h-6" aria-hidden="true" /> : <Menu className="w-6 h-6" aria-hidden="true" />}
+        </button>
+      </nav>
 
-                    {/* Home Sections Dropdown */}
-                    {homeDropdownOpen && (
-                      <div className="absolute left-0 top-full pt-2 w-72 z-50 animate-in fade-in zoom-in-95 duration-150">
-                        <div className="rounded-xl bg-white p-2 shadow-xl border border-plum/15 flex flex-col gap-0.5">
-                          <button
-                            onClick={() => {
-                              onNavigate("home");
-                              setHomeDropdownOpen(false);
-                            }}
-                            className="w-full text-left px-3 py-2 text-[13.5px] font-bold font-sans text-plum rounded-lg hover:bg-ivory-darker transition-colors border-b border-plum/10 pb-2 mb-1 flex items-center justify-between"
-                          >
-                            <span>Home Page Overview</span>
-                            <span className="text-[11px] font-medium text-coral uppercase tracking-wider">Top ↑</span>
-                          </button>
-                          {homeSections.map((sec) => (
-                            <button
-                              key={sec.id}
-                              onClick={() => {
-                                onNavigate("home", sec.id);
-                                setHomeDropdownOpen(false);
-                              }}
-                              className="w-full text-left px-3 py-1.5 rounded-lg hover:bg-ivory-darker transition-colors group flex items-start gap-2.5 cursor-pointer"
-                            >
-                              <span className="text-[11px] font-mono font-bold text-coral bg-coral/10 px-1.5 py-0.5 rounded shrink-0 mt-0.5">
-                                {sec.number}
-                              </span>
-                              <div className="min-w-0">
-                                <span className="text-[13.5px] font-semibold font-sans text-plum group-hover:text-berry block leading-snug">
-                                  {sec.label}
-                                </span>
-                                <span className="text-[11.5px] font-normal font-sans text-plum/70 block leading-tight truncate">
-                                  {sec.description}
-                                </span>
-                              </div>
-                            </button>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-                  </li>
-                );
-              }
-
-              if (item.dropdownType === "learn") {
-                return (
-                  <li
-                    key={item.id}
-                    className="relative"
-                    onMouseEnter={() => setLearnDropdownOpen(true)}
-                    onMouseLeave={() => setLearnDropdownOpen(false)}
-                  >
-                    <button
-                      onClick={() => onNavigate("hub")}
-                      className={cn(
-                        "flex items-center gap-1 text-[14.5px] font-medium font-sans py-1 transition-colors relative focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-berry rounded whitespace-nowrap",
-                        active
-                          ? "text-plum font-bold after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[2px] after:bg-berry"
-                          : "text-plum/80 hover:text-berry"
-                      )}
-                    >
-                      <span>{item.label}</span>
-                      <ChevronDown className="w-3.5 h-3.5 opacity-70" />
-                    </button>
-
-                    {/* Learn Dropdown */}
-                    {learnDropdownOpen && (
-                      <div className="absolute left-0 top-full pt-2 w-72 z-50 animate-in fade-in zoom-in-95 duration-150">
-                        <div className="rounded-xl bg-white p-2 shadow-xl border border-plum/15 flex flex-col gap-1">
-                          <button
-                            onClick={() => {
-                              onNavigate("hub");
-                              setLearnDropdownOpen(false);
-                            }}
-                            className="w-full text-left px-3 py-2 text-[14px] font-bold font-sans text-plum rounded-lg hover:bg-ivory-darker transition-colors border-b border-plum/10 pb-2 mb-1"
-                          >
-                            Explore All Topics →
-                          </button>
-                          {learnCategories.map((cat) => (
-                            <button
-                              key={cat.id}
-                              onClick={() => {
-                                onNavigate("hub", cat.id);
-                                setLearnDropdownOpen(false);
-                              }}
-                              className="w-full text-left px-3 py-1.5 text-[13.5px] font-medium font-sans text-plum hover:text-berry hover:bg-ivory-darker rounded-lg transition-colors flex items-center justify-between"
-                            >
-                              <span>{cat.label}</span>
-                            </button>
-                          ))}
-                          <div className="pt-1 border-t border-plum/10 mt-1 flex flex-col gap-1">
-                            <button
-                              onClick={() => {
-                                onNavigate("hub", "arcade");
-                                setLearnDropdownOpen(false);
-                              }}
-                              className="w-full text-left px-3 py-1.5 text-[13.5px] font-bold font-sans text-deep-teal hover:bg-deep-teal/10 rounded-lg transition-colors flex items-center gap-1.5"
-                            >
-                              <Gamepad2 className="w-3.5 h-3.5 text-deep-teal shrink-0" />
-                              <span>Athlete Nutrition Arcade (4 Games)</span>
-                            </button>
-                            <button
-                              onClick={() => {
-                                onNavigate("myths");
-                                setLearnDropdownOpen(false);
-                              }}
-                              className="w-full text-left px-3 py-1.5 text-[13.5px] font-bold font-sans text-berry hover:bg-berry/10 rounded-lg transition-colors flex items-center gap-1.5"
-                            >
-                              <Sparkles className="w-3.5 h-3.5 text-berry shrink-0" />
-                              <span>Myths &amp; Facts Interactive Cards</span>
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    )}
-                  </li>
-                );
-              }
-
-              if (item.dropdownType === "about") {
-                return (
-                  <li
-                    key={item.id}
-                    className="relative"
-                    onMouseEnter={() => setAboutDropdownOpen(true)}
-                    onMouseLeave={() => setAboutDropdownOpen(false)}
-                  >
-                    <button
-                      onClick={() => onNavigate("story")}
-                      className={cn(
-                        "flex items-center gap-1 text-[14.5px] font-medium font-sans py-1 transition-colors relative focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-berry rounded whitespace-nowrap",
-                        active
-                          ? "text-plum font-bold after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[2px] after:bg-berry"
-                          : "text-plum/80 hover:text-berry"
-                      )}
-                    >
-                      <span>{item.label}</span>
-                      <ChevronDown className="w-3.5 h-3.5 opacity-70" />
-                    </button>
-
-                    {/* About Dropdown */}
-                    {aboutDropdownOpen && (
-                      <div className="absolute left-0 top-full pt-2 w-64 z-50 animate-in fade-in zoom-in-95 duration-150">
-                        <div className="rounded-xl bg-white p-2 shadow-xl border border-plum/15 flex flex-col gap-1">
-                          {aboutItems.map((sub) => (
-                            <button
-                              key={sub.label}
-                              onClick={() => {
-                                onNavigate(sub.id, sub.tab);
-                                setAboutDropdownOpen(false);
-                              }}
-                              className="w-full text-left px-3 py-2 rounded-lg hover:bg-ivory-darker transition-colors group"
-                            >
-                              <span className="text-[14px] font-bold font-sans text-plum group-hover:text-berry block">
-                                {sub.label}
-                              </span>
-                              <span className="text-[12px] font-normal font-sans text-plum/70 block">
-                                {sub.description}
-                              </span>
-                            </button>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-                  </li>
-                );
-              }
-
-              if (item.dropdownType === "resources") {
-                return (
-                  <li
-                    key={item.id}
-                    className="relative"
-                    onMouseEnter={() => setResourcesDropdownOpen(true)}
-                    onMouseLeave={() => setResourcesDropdownOpen(false)}
-                  >
-                    <button
-                      onClick={() => onNavigate("resources", "all")}
-                      className={cn(
-                        "flex items-center gap-1 text-[14.5px] font-medium font-sans py-1 transition-colors relative focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-berry rounded whitespace-nowrap",
-                        active
-                          ? "text-plum font-bold after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[2px] after:bg-berry"
-                          : "text-plum/80 hover:text-berry"
-                      )}
-                    >
-                      <span>{item.label}</span>
-                      <ChevronDown className="w-3.5 h-3.5 opacity-70" />
-                    </button>
-
-                    {/* Resources Dropdown */}
-                    {resourcesDropdownOpen && (
-                      <div className="absolute left-0 top-full pt-2 w-80 z-50 animate-in fade-in zoom-in-95 duration-150">
-                        <div className="rounded-xl bg-white p-2.5 shadow-xl border border-plum/15 flex flex-col gap-1.5">
-                          {resourceDropdownItems.map((sub) => (
-                            <button
-                              key={sub.tab}
-                              onClick={() => {
-                                onNavigate("resources", sub.tab);
-                                setResourcesDropdownOpen(false);
-                              }}
-                              className="w-full text-left px-3 py-2.5 rounded-lg hover:bg-ivory-darker transition-colors group flex flex-col gap-0.5 cursor-pointer text-left"
-                            >
-                              <div className="flex items-center justify-between">
-                                <span className="text-[14px] font-bold font-sans text-plum group-hover:text-berry">
-                                  {sub.label}
-                                </span>
-                                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-coral/10 text-coral border border-coral/20">
-                                  {sub.tag}
-                                </span>
-                              </div>
-                              <span className="text-[12px] font-normal font-sans text-plum/70 leading-snug">
-                                {sub.description}
-                              </span>
-                            </button>
-                          ))}
-
-                          <div className="pt-1.5 border-t border-plum/10 mt-0.5">
-                            <button
-                              onClick={() => {
-                                onNavigate("resources", "all");
-                                setResourcesDropdownOpen(false);
-                              }}
-                              className="w-full text-left px-3 py-1.5 text-[13px] font-semibold font-sans text-plum/80 rounded-lg hover:bg-ivory-darker hover:text-berry transition-colors flex items-center justify-between"
-                            >
-                              <span>Explore All Resources Directory</span>
-                              <span className="text-[11px] font-bold text-coral uppercase tracking-wider">Overview →</span>
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    )}
-                  </li>
-                );
-              }
-
+      {menuOpen && (
+        <div id="mobile-menu" className="md:hidden bg-white border-t border-deep-teal/15 px-4 py-3">
+          <ul className="flex flex-col list-none m-0 p-0">
+            {NAV_ITEMS.map((item) => {
+              const active = activePage === item.id;
               return (
                 <li key={item.id}>
                   <button
-                    onClick={() => onNavigate(item.id)}
+                    type="button"
+                    onClick={() => go(item.id)}
+                    aria-current={active ? "page" : undefined}
                     className={cn(
-                      "text-[14.5px] font-medium font-sans py-1 transition-colors relative focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-berry rounded whitespace-nowrap",
+                      "w-full text-left min-h-12 px-3 rounded-lg text-lg font-sans transition-colors duration-150",
+                      FOCUS_RING,
                       active
-                        ? "text-plum font-bold after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[2px] after:bg-berry"
-                        : "text-plum/80 hover:text-berry"
+                        ? "text-deep-teal font-bold bg-light-teal"
+                        : "text-charcoal-light font-medium hover:bg-soft-pink"
                     )}
                   >
                     {item.label}
@@ -415,389 +137,8 @@ export function Navbar({ activePage, onNavigate, currentLang = "en", onSelectLan
               );
             })}
           </ul>
-
-          {/* Desktop Language Selector Dropdown */}
-          <div
-            className="relative"
-            onMouseEnter={() => setLangDropdownOpen(true)}
-            onMouseLeave={() => setLangDropdownOpen(false)}
-          >
-            <button
-              onClick={() => setLangDropdownOpen(!langDropdownOpen)}
-              className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-[13.5px] font-semibold font-sans text-deep-teal hover:text-raspberry hover:bg-soft-pink/50 transition-colors border border-deep-teal/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral shrink-0 whitespace-nowrap"
-              aria-label={`Language selector. Current language is ${currentLanguageObj.label}`}
-              aria-expanded={langDropdownOpen}
-            >
-              <Globe2 className="w-4 h-4 text-coral shrink-0" />
-              <span>{currentLanguageObj.label}</span>
-              <ChevronDown className="w-3.5 h-3.5 opacity-70" />
-            </button>
-
-            {langDropdownOpen && (
-              <div className="absolute right-0 top-full pt-2 w-64 z-50 animate-in fade-in zoom-in-95 duration-150">
-                <div className="rounded-xl bg-white p-2 shadow-xl border border-plum/15 flex flex-col gap-1 max-h-80 overflow-y-auto font-sans">
-                  <div className="px-3 py-1.5 text-[11.5px] font-bold uppercase tracking-wider text-charcoal/60 border-b border-plum/10 flex items-center justify-between">
-                    <span>Languages</span>
-                    <span className="text-coral font-semibold">10 Available</span>
-                  </div>
-                  {SUPPORTED_LANGUAGES.map((lang) => {
-                    const isSelected = currentLanguageObj.code === lang.code;
-                    return (
-                      <button
-                        key={lang.code}
-                        onClick={() => {
-                          handleLanguageChange(lang.code);
-                          setLangDropdownOpen(false);
-                        }}
-                        className={cn(
-                          "w-full text-left px-3 py-2 rounded-lg text-[13.5px] font-medium transition-colors flex items-center justify-between group",
-                          isSelected
-                            ? "bg-deep-teal text-white font-bold"
-                            : "text-plum hover:text-raspberry hover:bg-soft-pink/40"
-                        )}
-                      >
-                        <span className="font-medium">{lang.label}</span>
-                        <span
-                          className={cn(
-                            "text-[12px]",
-                            isSelected ? "text-white/80" : "text-plum/50 group-hover:text-raspberry/80"
-                          )}
-                        >
-                          {lang.code === "ar" ? "العربية" : lang.englishName}
-                        </span>
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-
-        {/* Mobile Menu Toggle Button */}
-        <button
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="lg:hidden p-2 rounded-lg text-plum hover:bg-ivory-darker transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-berry"
-          aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
-          aria-expanded={mobileMenuOpen}
-        >
-          {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-        </button>
-      </div>
-
-      {/* Mobile Drawer Menu */}
-      {mobileMenuOpen && (
-        <div className="lg:hidden bg-ivory border-b border-plum/15 px-6 py-5 flex flex-col gap-2 shadow-lg animate-in slide-in-from-top-4 duration-200 max-h-[85vh] overflow-y-auto font-sans">
-          {navItems.map((item) => {
-            const active = isItemActive(item.id);
-
-            if (item.dropdownType === "home") {
-              return (
-                <div key={item.id} className="flex flex-col border-b border-plum/10 pb-1">
-                  <div className="flex items-center justify-between">
-                    <button
-                      onClick={() => {
-                        onNavigate("home");
-                        setMobileMenuOpen(false);
-                      }}
-                      className={cn(
-                        "flex-1 text-left px-3 py-2.5 rounded-lg font-semibold text-[15px] transition-colors",
-                        active ? "text-berry font-bold" : "text-plum hover:bg-ivory-darker"
-                      )}
-                    >
-                      {item.label}
-                    </button>
-                    <button
-                      onClick={() => setMobileHomeExpanded(!mobileHomeExpanded)}
-                      className="p-2 text-plum hover:bg-ivory-darker rounded-lg ml-1"
-                      aria-label="Expand Home sections"
-                    >
-                      <ChevronDown
-                        className={cn(
-                          "w-4 h-4 transition-transform duration-200",
-                          mobileHomeExpanded && "rotate-180"
-                        )}
-                      />
-                    </button>
-                  </div>
-
-                  {mobileHomeExpanded && (
-                    <div className="pl-4 pr-2 py-1.5 flex flex-col gap-1">
-                      {homeSections.map((sec) => (
-                        <button
-                          key={sec.id}
-                          onClick={() => {
-                            onNavigate("home", sec.id);
-                            setMobileMenuOpen(false);
-                          }}
-                          className="w-full text-left px-3 py-1.5 text-[13.5px] font-medium text-plum/85 hover:text-berry rounded-lg flex items-center gap-2"
-                        >
-                          <span className="text-coral font-mono text-[11px] font-bold">{sec.number}</span>
-                          <span>{sec.label}</span>
-                        </button>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              );
-            }
-
-            if (item.dropdownType === "learn") {
-              return (
-                <div key={item.id} className="flex flex-col border-b border-plum/10 pb-1">
-                  <div className="flex items-center justify-between">
-                    <button
-                      onClick={() => {
-                        onNavigate("hub");
-                        setMobileMenuOpen(false);
-                      }}
-                      className={cn(
-                        "flex-1 text-left px-3 py-2.5 rounded-lg font-semibold text-[15px] transition-colors",
-                        active ? "text-berry font-bold" : "text-plum hover:bg-ivory-darker"
-                      )}
-                    >
-                      {item.label}
-                    </button>
-                    <button
-                      onClick={() => setMobileLearnExpanded(!mobileLearnExpanded)}
-                      className="p-2 text-plum hover:bg-ivory-darker rounded-lg ml-1"
-                      aria-label="Expand Learn categories"
-                    >
-                      <ChevronDown
-                        className={cn(
-                          "w-4 h-4 transition-transform duration-200",
-                          mobileLearnExpanded && "rotate-180"
-                        )}
-                      />
-                    </button>
-                  </div>
-
-                  {mobileLearnExpanded && (
-                    <div className="pl-4 pr-2 py-1.5 flex flex-col gap-1">
-                      {learnCategories.map((cat) => (
-                        <button
-                          key={cat.id}
-                          onClick={() => {
-                            onNavigate("hub", cat.id);
-                            setMobileMenuOpen(false);
-                          }}
-                          className="w-full text-left px-3 py-1.5 text-[14px] font-medium text-plum/85 hover:text-berry rounded-lg"
-                        >
-                          ↳ {cat.label}
-                        </button>
-                      ))}
-                      <button
-                        onClick={() => {
-                          onNavigate("hub", "arcade");
-                          setMobileMenuOpen(false);
-                        }}
-                        className="w-full text-left px-3 py-1.5 text-[14px] font-bold text-deep-teal rounded-lg flex items-center gap-1.5"
-                      >
-                        <span className="text-charcoal/40">↳</span>
-                        <Gamepad2 className="w-3.5 h-3.5 text-deep-teal shrink-0" />
-                        <span>Athlete Nutrition Arcade (4 Games)</span>
-                      </button>
-                      <button
-                        onClick={() => {
-                          onNavigate("myths");
-                          setMobileMenuOpen(false);
-                        }}
-                        className="w-full text-left px-3 py-1.5 text-[14px] font-bold text-berry rounded-lg flex items-center gap-1.5"
-                      >
-                        <span className="text-charcoal/40">↳</span>
-                        <Sparkles className="w-3.5 h-3.5 text-berry shrink-0" />
-                        <span>Myths &amp; Facts Interactive Cards</span>
-                      </button>
-                    </div>
-                  )}
-                </div>
-              );
-            }
-
-            if (item.dropdownType === "about") {
-              return (
-                <div key={item.id} className="flex flex-col border-b border-plum/10 pb-1">
-                  <div className="flex items-center justify-between">
-                    <button
-                      onClick={() => {
-                        onNavigate("story");
-                        setMobileMenuOpen(false);
-                      }}
-                      className={cn(
-                        "flex-1 text-left px-3 py-2.5 rounded-lg font-semibold text-[15px] transition-colors",
-                        active ? "text-berry font-bold" : "text-plum hover:bg-ivory-darker"
-                      )}
-                    >
-                      {item.label}
-                    </button>
-                    <button
-                      onClick={() => setMobileAboutExpanded(!mobileAboutExpanded)}
-                      className="p-2 text-plum hover:bg-ivory-darker rounded-lg ml-1"
-                      aria-label="Expand About subpages"
-                    >
-                      <ChevronDown
-                        className={cn(
-                          "w-4 h-4 transition-transform duration-200",
-                          mobileAboutExpanded && "rotate-180"
-                        )}
-                      />
-                    </button>
-                  </div>
-
-                  {mobileAboutExpanded && (
-                    <div className="pl-4 pr-2 py-1.5 flex flex-col gap-1">
-                      {aboutItems.map((sub) => (
-                        <button
-                          key={sub.label}
-                          onClick={() => {
-                            onNavigate(sub.id, sub.tab);
-                            setMobileMenuOpen(false);
-                          }}
-                          className="w-full text-left px-3 py-1.5 text-[14px] font-medium text-plum/85 hover:text-berry rounded-lg"
-                        >
-                          ↳ {sub.label}
-                        </button>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              );
-            }
-
-            if (item.dropdownType === "resources") {
-              return (
-                <div key={item.id} className="flex flex-col border-b border-plum/10 pb-1">
-                  <div className="flex items-center justify-between">
-                    <button
-                      onClick={() => {
-                        onNavigate("resources", "all");
-                        setMobileMenuOpen(false);
-                      }}
-                      className={cn(
-                        "flex-1 text-left px-3 py-2.5 rounded-lg font-semibold text-[15px] transition-colors",
-                        active ? "text-berry font-bold" : "text-plum hover:bg-ivory-darker"
-                      )}
-                    >
-                      {item.label}
-                    </button>
-                    <button
-                      onClick={() => setMobileResourcesExpanded(!mobileResourcesExpanded)}
-                      className="p-2 text-plum hover:bg-ivory-darker rounded-lg ml-1"
-                      aria-label="Expand Resources subpages"
-                    >
-                      <ChevronDown
-                        className={cn(
-                          "w-4 h-4 transition-transform duration-200",
-                          mobileResourcesExpanded && "rotate-180"
-                        )}
-                      />
-                    </button>
-                  </div>
-
-                  {mobileResourcesExpanded && (
-                    <div className="pl-4 pr-2 py-1.5 flex flex-col gap-1">
-                      <button
-                        onClick={() => {
-                          onNavigate("resources", "help");
-                          setMobileMenuOpen(false);
-                        }}
-                        className="w-full text-left px-3 py-2 text-[14px] font-bold text-plum hover:text-berry rounded-lg flex items-center justify-between"
-                      >
-                        <span className="flex items-center gap-2">
-                          <span className="text-charcoal/40">↳</span>
-                          <span>How to Get Help</span>
-                        </span>
-                        <span className="text-[10px] text-raspberry font-semibold bg-soft-pink px-2 py-0.5 rounded-full">Immediate Care</span>
-                      </button>
-                      <button
-                        onClick={() => {
-                          onNavigate("resources", "petitions");
-                          setMobileMenuOpen(false);
-                        }}
-                        className="w-full text-left px-3 py-2 text-[14px] font-bold text-plum hover:text-berry rounded-lg flex items-center justify-between"
-                      >
-                        <span className="flex items-center gap-2">
-                          <span className="text-charcoal/40">↳</span>
-                          <span>Take Action</span>
-                        </span>
-                        <span className="text-[10px] text-deep-teal font-semibold bg-light-teal px-2 py-0.5 rounded-full">Advocacy</span>
-                      </button>
-                      <button
-                        onClick={() => {
-                          onNavigate("resources", "all");
-                          setMobileMenuOpen(false);
-                        }}
-                        className="w-full text-left px-3 py-1.5 text-[13px] font-medium text-plum/70 hover:text-berry rounded-lg flex items-center justify-between border-t border-plum/10 pt-2 mt-1"
-                      >
-                        <span className="flex items-center gap-2">
-                          <span className="text-charcoal/40">↳</span>
-                          <span>All Resources Directory</span>
-                        </span>
-                        <span className="text-[10px] text-coral font-bold uppercase">Overview →</span>
-                      </button>
-                    </div>
-                  )}
-                </div>
-              );
-            }
-
-            return (
-              <button
-                key={item.id}
-                onClick={() => {
-                  onNavigate(item.id);
-                  setMobileMenuOpen(false);
-                }}
-                className={cn(
-                  "w-full text-left px-3 py-2.5 rounded-lg font-semibold text-[15px] transition-colors",
-                  active ? "text-berry font-bold" : "text-plum hover:bg-ivory-darker"
-                )}
-              >
-                {item.label}
-              </button>
-            );
-          })}
-
-          {/* Mobile Language Selector */}
-          <div className="pt-3 pb-2 border-t border-plum/10 mt-2">
-            <div className="flex items-center justify-between px-1 pb-2">
-              <span className="text-[12px] font-bold uppercase tracking-wider text-charcoal/70 flex items-center gap-1.5">
-                <Globe2 className="w-3.5 h-3.5 text-coral" />
-                <span>Languages ({SUPPORTED_LANGUAGES.length})</span>
-              </span>
-              <span className="text-[11px] font-semibold text-coral">
-                Current: {currentLanguageObj.label}
-              </span>
-            </div>
-            <div className="grid grid-cols-2 gap-1.5">
-              {SUPPORTED_LANGUAGES.map((lang) => {
-                const isSelected = currentLanguageObj.code === lang.code;
-                return (
-                  <button
-                    key={lang.code}
-                    onClick={() => {
-                      handleLanguageChange(lang.code);
-                      setMobileMenuOpen(false);
-                    }}
-                    className={cn(
-                      "px-2.5 py-1.5 rounded-lg text-[13px] font-medium text-left transition-colors flex items-center justify-between",
-                      isSelected
-                        ? "bg-deep-teal text-white font-bold shadow-xs ring-1 ring-coral"
-                        : "bg-white/80 border border-plum/15 text-plum hover:bg-white hover:text-raspberry"
-                    )}
-                  >
-                    <span>{lang.label}</span>
-                    <span className={cn("text-[10px]", isSelected ? "text-white/75" : "text-plum/45")}>
-                      {lang.code === "ar" ? "عربي" : lang.code.toUpperCase()}
-                    </span>
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-
         </div>
       )}
-    </nav>
+    </header>
   );
 }

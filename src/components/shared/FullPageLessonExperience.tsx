@@ -22,7 +22,7 @@ import {
   Shield,
   ShieldAlert,
   ShieldCheck,
-  Sparkles,
+  Flower2,
   Stethoscope,
   Trophy,
   Users,
@@ -237,7 +237,7 @@ export function FullPageLessonExperience({
       return (
         <div className="space-y-4">
           <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-deep-teal font-sans">
-            <Sparkles className="w-4 h-4 text-coral" />
+            <Flower2 className="w-4 h-4 text-coral" />
             <span>Interactive Hormonal Wave &amp; Cycle Phases</span>
           </div>
           <HormoneWaveChart />
@@ -249,7 +249,7 @@ export function FullPageLessonExperience({
       return (
         <div className="space-y-4">
           <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-deep-teal font-sans">
-            <Sparkles className="w-4 h-4 text-coral" />
+            <Flower2 className="w-4 h-4 text-coral" />
             <span>Tanner Staging &amp; Anatomical Development</span>
           </div>
           <TannerProgressionChart />
@@ -260,7 +260,7 @@ export function FullPageLessonExperience({
       return (
         <div className="space-y-4">
           <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-raspberry font-sans">
-            <Sparkles className="w-4 h-4 text-coral" />
+            <Flower2 className="w-4 h-4 text-coral" />
             <span>PCOS Rotterdam Diagnostic Criteria (The 2-of-3 Rule)</span>
           </div>
           <RotterdamCriteriaRadar />
@@ -271,7 +271,7 @@ export function FullPageLessonExperience({
       return (
         <div className="space-y-4">
           <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-deep-teal font-sans">
-            <Sparkles className="w-4 h-4 text-coral" />
+            <Flower2 className="w-4 h-4 text-coral" />
             <span>Diagnostic Radar &amp; Clinical Criteria Analysis</span>
           </div>
           <RotterdamCriteriaRadar />
@@ -282,7 +282,7 @@ export function FullPageLessonExperience({
       return (
         <div className="space-y-4">
           <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-deep-teal font-sans">
-            <Sparkles className="w-4 h-4 text-coral" />
+            <Flower2 className="w-4 h-4 text-coral" />
             <span>Contraceptive Efficacy &amp; Tiered Comparison</span>
           </div>
           <ContraceptionEfficacyPyramid />
@@ -316,7 +316,7 @@ export function FullPageLessonExperience({
           <div className="rounded-3xl border-2 border-raspberry/20 bg-gradient-to-r from-raspberry/5 via-white to-light-teal/15 p-4 sm:p-5 space-y-3 shadow-2xs">
             <div className="flex items-center justify-between gap-3 flex-wrap text-xs font-sans">
               <span className="font-bold text-deep-teal uppercase tracking-wider flex items-center gap-1.5">
-                <Sparkles className="w-4 h-4 text-raspberry" />
+                <Flower2 className="w-4 h-4 text-raspberry" />
                 <span>
                   Clinical Simulation Track ({activeSimulationIdx + 1} of {roleplayScenarios.length}):
                 </span>
@@ -616,7 +616,7 @@ export function FullPageLessonExperience({
             </Button>
 
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-light-teal text-deep-teal text-xs font-bold border border-deep-teal/20">
-              <Sparkles className="w-3.5 h-3.5 text-coral" />
+              <Flower2 className="w-3.5 h-3.5 text-coral" />
               <span>+{topic.xp} XP</span>
             </div>
 
@@ -708,7 +708,7 @@ export function FullPageLessonExperience({
               <div className="lg:col-span-7 space-y-6">
                 <div>
                   <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold tracking-wider uppercase bg-light-teal text-deep-teal border border-deep-teal/20 mb-3">
-                    <Sparkles className="w-3.5 h-3.5 text-coral" />
+                    <Flower2 className="w-3.5 h-3.5 text-coral" />
                     <span>Step 1 of 5 · Clinical Foundations &amp; Overview</span>
                   </div>
                   <h1 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-bold text-deep-teal leading-tight mb-3">
@@ -887,7 +887,7 @@ export function FullPageLessonExperience({
                   <span>Step 2 of 5 · Physiology &amp; Core Concepts</span>
                 </div>
                 <div className="inline-flex items-center gap-1.5 text-xs text-amber-950 bg-amber-100/90 border border-amber-300 px-3 py-1 rounded-full font-semibold shadow-2xs">
-                  <Sparkles className="w-3 h-3 text-amber-800" />
+                  <Flower2 className="w-3 h-3 text-amber-800" />
                   <span>Tap yellow highlighted words to view plain-English dictionary meanings</span>
                 </div>
               </div>

@@ -7,7 +7,7 @@ import {
   AlertTriangle,
   CheckCircle2,
   Info,
-  Sparkles,
+  Flower2,
   Zap,
   Shield,
   Heart,
@@ -307,7 +307,7 @@ function CycleWheelDiagram({ diagram }: { diagram: LessonDiagram; themeColor: st
       <div className="flex items-start justify-between gap-2 border-b border-deep-teal/10 pb-3">
         <div>
           <div className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-deep-teal">
-            <Sparkles className="w-3.5 h-3.5 text-raspberry" />
+            <Flower2 className="w-3.5 h-3.5 text-raspberry" />
             Interactive Diagram
           </div>
           <h4 className="text-base md:text-lg font-serif font-bold text-deep-teal mt-0.5">
@@ -881,7 +881,7 @@ function PcosLoopDiagram({ diagram }: { diagram: LessonDiagram; themeColor: stri
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-raspberry/10 pb-3">
         <div>
           <div className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-raspberry">
-            <Sparkles className="w-3.5 h-3.5 text-raspberry" />
+            <Flower2 className="w-3.5 h-3.5 text-raspberry" />
             <span>PCOS Clinical Explorer</span>
           </div>
           <h4 className="text-base md:text-lg font-serif font-bold text-deep-teal mt-0.5">
@@ -1321,7 +1321,7 @@ function AnatomyCalloutDiagram({ diagram }: { diagram: LessonDiagram; themeColor
       <div className="flex items-start justify-between gap-2 border-b border-deep-teal/10 pb-3">
         <div>
           <div className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-deep-teal">
-            <Sparkles className="w-3.5 h-3.5 text-raspberry" />
+            <Flower2 className="w-3.5 h-3.5 text-raspberry" />
             Interactive Anatomy Guide
           </div>
           <h4 className="text-base md:text-lg font-serif font-bold text-deep-teal mt-0.5">
@@ -2601,7 +2601,7 @@ function AthletePlateDiagram({ diagram }: { diagram: LessonDiagram; themeColor: 
 
           {/* Practical Action Tip */}
           <div className="p-3 rounded-xl bg-amber-50/70 border border-amber-200 text-xs text-charcoal/90 flex items-start gap-2 font-sans">
-            <Sparkles className="w-4 h-4 text-amber-700 shrink-0 mt-0.5" />
+            <Flower2 className="w-4 h-4 text-amber-700 shrink-0 mt-0.5" />
             <div>
               <strong className="text-amber-900 block text-[11.5px]">Coach &amp; Athlete Pro Tip:</strong>
               <p className="text-[11px] text-amber-950/80 m-0 leading-relaxed">{config.actionTip}</p>
@@ -2701,7 +2701,7 @@ function HormoneScaleDiagram({ diagram }: { diagram: LessonDiagram; themeColor: 
       </div>
 
       {/* Seesaw SVG Animation */}
-      <div className="rounded-2xl bg-gradient-to-b from-purple-50/50 to-pink-50/50 p-4 border border-raspberry/20 flex flex-col items-center justify-center">
+      <div className="rounded-2xl bg-gradient-to-b from-soft-pink-light/50 to-pink-50/50 p-4 border border-raspberry/20 flex flex-col items-center justify-center">
         <svg viewBox="0 0 320 120" className="w-full max-w-xs h-28">
           {/* Fulcrum (Triangle base) */}
           <polygon points="160,80 145,115 175,115" fill="#175B5C" />
@@ -3059,7 +3059,7 @@ function HydrationWaterGlassDiagram({ diagram }: { diagram: LessonDiagram; theme
           {/* Current Status Box */}
           <div className={`p-3 rounded-xl border ${status.bg} space-y-1`}>
             <div className="flex items-center gap-1.5 text-xs font-bold">
-              <Sparkles className="w-3.5 h-3.5 text-blue-600" />
+              <Flower2 className="w-3.5 h-3.5 text-blue-600" />
               <span className={status.color}>{status.status}</span>
             </div>
             <p className="text-[11.5px] text-charcoal/85 leading-relaxed m-0">{status.advice}</p>
@@ -3134,7 +3134,7 @@ function SleepRecoveryDiagram({ diagram }: { diagram: LessonDiagram; themeColor:
       name: "Stage 3 NREM (Slow-Wave / Deep Sleep)",
       duration: "20–25% of Night",
       badge: "✦ 95% HGH REPAIR CENTER",
-      color: "border-indigo-400 bg-indigo-50 text-indigo-950",
+      color: "border-raspberry bg-soft-pink-light text-raspberry-dark",
       description: "High-voltage delta brain waves dominate. Your pituitary gland releases up to 95% of your daily Human Growth Hormone (HGH).",
       athleticRole: "The ultimate recovery factory: repairs muscle micro-tears, synthesizes glycogen, rebuilds bone density, and clears systemic metabolic waste.",
     },
@@ -3142,7 +3142,7 @@ function SleepRecoveryDiagram({ diagram }: { diagram: LessonDiagram; themeColor:
       name: "REM Sleep (Dream / Rapid Eye Movement)",
       duration: "20–25% of Night",
       badge: "Neuromuscular Memory",
-      color: "border-purple-300 bg-purple-50 text-purple-900",
+      color: "border-soft-pink-dark bg-soft-pink-light text-raspberry-dark",
       description: "Brain activity resembles waking states while muscles are temporarily paralyzed. Heart rate and breathing become variable.",
       athleticRole: "Permanently encodes complex motor memory (footwork, tactical plays, hand-eye coordination) and balances emotional cortisol.",
     },
@@ -3161,14 +3161,14 @@ function SleepRecoveryDiagram({ diagram }: { diagram: LessonDiagram; themeColor:
       <div className="flex items-start justify-between gap-2 border-b border-deep-teal/10 pb-3">
         <div>
           <div className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-deep-teal">
-            <Moon className="w-3.5 h-3.5 text-indigo-600" />
+            <Moon className="w-3.5 h-3.5 text-raspberry" />
             Interactive Sleep Cycle & Neuroendocrine Lab
           </div>
           <h4 className="text-base md:text-lg font-serif font-bold text-deep-teal mt-0.5">
             {diagram.title}
           </h4>
         </div>
-        <span className="text-[11px] font-semibold bg-indigo-50 px-2.5 py-1 rounded-full text-indigo-700 border border-indigo-200">
+        <span className="text-[11px] font-semibold bg-soft-pink-light px-2.5 py-1 rounded-full text-raspberry border border-soft-pink-dark">
           Click sleep stages & slider
         </span>
       </div>
@@ -3182,7 +3182,7 @@ function SleepRecoveryDiagram({ diagram }: { diagram: LessonDiagram; themeColor:
             onClick={() => setActiveStage(st)}
             className={`p-2.5 rounded-xl text-left border transition-all ${
               activeStage === st
-                ? "bg-indigo-900 text-white border-indigo-950 font-bold shadow-xs scale-[1.01]"
+                ? "bg-raspberry-dark text-white border-raspberry font-bold shadow-xs scale-[1.01]"
                 : "bg-gray-50 border-gray-200 text-charcoal/70 hover:bg-white"
             }`}
           >
@@ -3196,7 +3196,7 @@ function SleepRecoveryDiagram({ diagram }: { diagram: LessonDiagram; themeColor:
       <div className="rounded-xl bg-slate-950 text-white p-4 space-y-2 relative overflow-hidden">
         <div className="flex items-center justify-between text-xs text-slate-400">
           <span>90-Minute Sleep Architecture Wave (Repeats 4–5x per Night)</span>
-          <span className="text-indigo-300 font-bold text-[11px]">Slow-Wave = Muscle Repair</span>
+          <span className="text-soft-pink font-bold text-[11px]">Slow-Wave = Muscle Repair</span>
         </div>
 
         <svg viewBox="0 0 600 130" className="w-full h-28 overflow-visible">
@@ -3238,7 +3238,7 @@ function SleepRecoveryDiagram({ diagram }: { diagram: LessonDiagram; themeColor:
         {/* Selected Stage Detail Banner */}
         <div className="pt-2 border-t border-slate-800 text-xs flex flex-col sm:flex-row sm:items-center justify-between gap-1">
           <div>
-            <strong className="text-indigo-300 font-bold">{currentStage.name}: </strong>
+            <strong className="text-soft-pink font-bold">{currentStage.name}: </strong>
             <span className="text-slate-300">{currentStage.description}</span>
           </div>
           <span className="text-emerald-400 font-bold shrink-0">{currentStage.athleticRole}</span>
@@ -4247,7 +4247,7 @@ function PubertyBrainDiagram({ diagram }: { diagram: LessonDiagram; themeColor: 
           <div className="bg-slate-50 p-3 rounded-2xl border border-slate-200">
             <div className="flex items-center justify-between mb-2">
               <span className="text-xs font-bold text-deep-teal uppercase tracking-wider flex items-center gap-1.5">
-                <Sparkles className="w-3.5 h-3.5 text-coral" />
+                <Flower2 className="w-3.5 h-3.5 text-coral" />
                 Select Puberty Stage to Simulate:
               </span>
               <span className="text-[11px] font-bold text-charcoal/70 bg-white px-2 py-0.5 rounded-lg border border-slate-200">
@@ -4384,7 +4384,7 @@ function PubertyBrainDiagram({ diagram }: { diagram: LessonDiagram; themeColor: 
               {[
                 { id: "none", label: "None (Raw Surge)", icon: AlertTriangle },
                 { id: "sigh", label: "Physiological Sigh", icon: Wind },
-                { id: "label", label: "Neuro-Labeling", icon: Sparkles },
+                { id: "label", label: "Neuro-Labeling", icon: Flower2 },
                 { id: "dive", label: "Cold Water Splash", icon: Droplets },
                 { id: "rest", label: "Carb Snack + Sleep", icon: Moon },
               ].map((res) => {
@@ -5822,7 +5822,7 @@ function BodyNeutralityGrowthDiagram({ diagram, themeColor }: { diagram: LessonD
       title: "Skin & Sweat Gland Awakening",
       badge: "Temporary Shift",
       badgeClass: "bg-amber-100 text-amber-900 border-amber-300",
-      iconName: "Sparkles",
+      iconName: "Flower2",
       explanation:
         "Rising pubertal hormones temporarily stimulate oil glands and sweat production. This natural phase gradually levels out as your endocrine system matures.",
       reassurance:
@@ -5873,7 +5873,7 @@ function BodyNeutralityGrowthDiagram({ diagram, themeColor }: { diagram: LessonD
         <div>
           <div className="flex items-center gap-2">
             <span className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-xs font-bold uppercase tracking-wider bg-coral text-white shadow-2xs">
-              <Sparkles className="w-3.5 h-3.5" />
+              <Flower2 className="w-3.5 h-3.5" />
               <span>Puberty Growth &amp; Body Neutrality Compass</span>
             </span>
           </div>

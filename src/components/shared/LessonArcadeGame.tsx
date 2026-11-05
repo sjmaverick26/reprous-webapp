@@ -4,7 +4,7 @@ import React, { useState, useEffect, useRef, useMemo, useCallback } from "react"
 import {
   Gamepad2,
   Trophy,
-  Sparkles,
+  Flower2,
   Heart,
   Flame,
   RotateCcw,
@@ -653,7 +653,7 @@ function ArcadeSpeedCatcher({
                 }`}
               >
                 {entity.item.isGood ? (
-                  <Sparkles className="w-3.5 h-3.5 text-emerald-500" />
+                  <Flower2 className="w-3.5 h-3.5 text-emerald-500" />
                 ) : (
                   <XCircle className="w-3.5 h-3.5 text-rose-500" />
                 )}
@@ -869,7 +869,7 @@ function ArcadeMemoryMatch({
               ) : (
                 <div className="h-full w-full flex flex-col items-center justify-center text-center py-4 space-y-1">
                   <div className="w-8 h-8 rounded-full bg-deep-teal/10 text-deep-teal flex items-center justify-center font-bold text-sm">
-                    <Sparkles className="w-4 h-4" />
+                    <Flower2 className="w-4 h-4" />
                   </div>
                   <span className="text-[11px] font-bold uppercase tracking-wider text-charcoal/50">
                     Tap to Flip

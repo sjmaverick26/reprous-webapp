@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import {
   Trophy,
   Flame,
-  Sparkles,
+  Flower2,
   CheckCircle2,
   XCircle,
   RotateCcw,
@@ -167,7 +167,7 @@ export function InteractiveQuizGame({
             </span>
           </div>
           <div className="flex items-center gap-1.5 rounded-2xl bg-white border border-deep-teal/20 px-4 py-2 shadow-2xs">
-            <Sparkles className="w-4 h-4 text-emerald-500" />
+            <Flower2 className="w-4 h-4 text-emerald-500" />
             <span className="text-xs font-bold text-emerald-700 font-sans">
               +{topicXp} XP Ready
             </span>
@@ -344,7 +344,7 @@ export function InteractiveQuizGame({
         >
           <div className="flex items-center gap-2">
             {isCorrect ? (
-              <Sparkles className="w-4 h-4 text-emerald-600 shrink-0" />
+              <Flower2 className="w-4 h-4 text-emerald-600 shrink-0" />
             ) : (
               <Lightbulb className="w-4 h-4 text-amber-600 shrink-0" />
             )}

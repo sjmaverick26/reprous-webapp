@@ -7,7 +7,7 @@ import {
   XCircle,
   RotateCcw,
   Trophy,
-  Sparkles,
+  Flower2,
   ArrowRight,
   Gamepad2,
   Heart,
@@ -243,7 +243,7 @@ export function LessonSorterGameComponent({
           </div>
 
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-100 text-emerald-800 text-xs sm:text-sm font-bold border border-emerald-300 shadow-2xs font-sans">
-            <Sparkles className="w-4 h-4 text-emerald-700" />
+            <Flower2 className="w-4 h-4 text-emerald-700" />
             <span>Bonus +25 XP Added to Health Bank!</span>
           </div>
 

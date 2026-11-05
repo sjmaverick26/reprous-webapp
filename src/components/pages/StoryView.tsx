@@ -1,457 +1,240 @@
 "use client";
 
-import React, { useState } from "react";
-import { BookOpen, Sparkles, MessageSquare, Compass, ExternalLink, Award } from "lucide-react";
-import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import React from "react";
+import { ArrowRight, BookOpen, Search, ShieldCheck, ExternalLink } from "lucide-react";
 import { PageId } from "@/components/layout/Navbar";
+import { FounderNote } from "@/components/shared/FounderNote";
 
 interface StoryViewProps {
   onNavigate?: (page: PageId, categoryId?: string) => void;
 }
 
+const sourceLink =
+  "inline-flex min-h-[44px] items-center gap-2 font-sans text-base font-semibold underline-offset-4 hover:underline focus-visible:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 rounded-sm transition-colors duration-150";
+
+const evidence = [
+  {
+    title: "Conditions are minimized as “just bad periods.”",
+    body: (
+      <>
+        Endometriosis takes an average of <strong>7 to 10 years</strong> to be diagnosed, with patients consulting 4 to 5 clinicians. Because heavy menstrual bleeding and debilitating pelvic pain were historically dismissed as emotional or &ldquo;normal,&rdquo; progressive inflammatory damage is often caught late.
+      </>
+    ),
+    href: "https://www.acog.org/clinical/clinical-guidance/committee-opinion/articles/2018/12/dysmenorrhea-and-endometriosis-in-the-adolescent",
+    source: "ACOG Committee Opinion No. 760",
+  },
+  {
+    title: "Dosages were tested primarily on male biology.",
+    body: (
+      <>
+        Women experience adverse drug reactions at <strong>nearly twice the rate of men</strong>. Because pharmaceutical trials historically excluded female hormonal cycles, differences in gastrointestinal transit, fat distribution, and liver enzyme clearance were overlooked. In 2013, the FDA had to halve the recommended dose of zolpidem for women.
+      </>
+    ),
+    href: "https://bsd.biomedcentral.com/articles/10.1186/s13293-020-00308-5",
+    source: "Nature / BMC: Sex-Bias in Biomedical Research",
+  },
+  {
+    title: "Female pain is more often labeled psychological.",
+    body: (
+      <>
+        In a landmark emergency medicine study on acute abdominal pain, women waited an average of <strong>16 minutes longer</strong> to receive analgesia than men presenting with identical pain scores, and were significantly less likely to receive opioid pain relief. Published clinical research demonstrates that female pain is disproportionately categorized as psychogenic or emotional.
+      </>
+    ),
+    href: "https://onlinelibrary.wiley.com/doi/10.1111/j.1553-2712.2008.00100.x",
+    source: "Academic Emergency Medicine Study",
+  },
+];
+
+const moreSources = [
+  {
+    href: "https://orwh.od.nih.gov/sex-gender/nih-policy-sex-biological-variable",
+    name: "NIH ORWH Policy",
+    note: "Inclusion of Women in Clinical Research & Sex as a Biological Variable Mandate",
+  },
+  {
+    href: "https://www.thelancet.com/series/gender-equality-norms-health",
+    name: "The Lancet Series",
+    note: "Advancing the Science of Women’s Health & Eliminating Evidence Gaps",
+  },
+  {
+    href: "https://www.fda.gov/consumers/womens-health",
+    name: "FDA Office of Women’s Health",
+    note: "Sex-Specific Dosage Adjustments & Drug Safety in Female Patients",
+  },
+];
+
+const pillars = [
+  {
+    id: "learn",
+    title: "Learn",
+    icon: <BookOpen className="h-5 w-5 text-deep-teal" aria-hidden="true" />,
+    chip: "bg-light-teal",
+    rule: "border-t-deep-teal",
+    desc: "Understand your body and how it works — including reproductive biology, hormonal cycles, and female athlete physiology.",
+  },
+  {
+    id: "recognize",
+    title: "Recognize",
+    icon: <Search className="h-5 w-5 text-deep-teal-dark" aria-hidden="true" />,
+    chip: "bg-coral",
+    rule: "border-t-coral",
+    desc: "Spot symptoms that shouldn't be overlooked or dismissed, such as severe pain, cycle irregularity, PCOS, and RED-S.",
+  },
+  {
+    id: "advocate",
+    title: "Advocate",
+    icon: <ShieldCheck className="h-5 w-5 text-white" aria-hidden="true" />,
+    chip: "bg-raspberry",
+    rule: "border-t-raspberry",
+    desc: "Build the vocabulary, questions, and confidence to prepare for healthcare visits and advocate for the care you deserve.",
+  },
+];
+
 export function StoryView({ onNavigate }: StoryViewProps = {}) {
-  const [selectedPillar, setSelectedPillar] = useState<string | null>(null);
-
-  const pillars = [
-    {
-      id: "learn",
-      title: "Learn",
-      tag: "TEAL PILLAR",
-      color: "teal",
-      borderClass: "border-2 border-deep-teal",
-      topBorder: "border-t-4 border-t-deep-teal",
-      cardBg: "bg-white hover:bg-light-teal/20",
-      activeRing: "ring-2 ring-deep-teal",
-      badgeClass: "bg-light-teal text-deep-teal border-deep-teal/30",
-      iconBg: "bg-light-teal text-deep-teal border border-deep-teal/20",
-      icon: <BookOpen className="w-6 h-6 text-deep-teal" />,
-      titleColor: "text-deep-teal",
-      desc: "Understand your body and how it works — including reproductive biology, hormonal cycles, and female athlete physiology.",
-    },
-    {
-      id: "recognize",
-      title: "Recognize",
-      tag: "CORAL PILLAR",
-      color: "coral",
-      borderClass: "border-2 border-coral",
-      topBorder: "border-t-4 border-t-coral",
-      cardBg: "bg-white hover:bg-[#FFE1DB]/20",
-      activeRing: "ring-2 ring-coral",
-      badgeClass: "bg-[#FFE1DB] text-[#B83F68] border-coral/40",
-      iconBg: "bg-[#FFE1DB] text-coral border border-coral/30",
-      icon: <Sparkles className="w-6 h-6 text-coral" />,
-      titleColor: "text-[#B83F68]",
-      desc: "Spot symptoms that shouldn't be overlooked or dismissed, such as severe pain, cycle irregularity, PCOS, and RED-S.",
-    },
-    {
-      id: "advocate",
-      title: "Advocate",
-      tag: "PINK PILLAR",
-      color: "pink",
-      borderClass: "border-2 border-raspberry",
-      topBorder: "border-t-4 border-t-raspberry",
-      cardBg: "bg-white hover:bg-soft-pink/20",
-      activeRing: "ring-2 ring-raspberry",
-      badgeClass: "bg-soft-pink text-raspberry border-raspberry/30",
-      iconBg: "bg-soft-pink text-raspberry border border-raspberry/20",
-      icon: <MessageSquare className="w-6 h-6 text-raspberry" />,
-      titleColor: "text-raspberry",
-      desc: "Build the vocabulary, questions, and confidence to prepare for healthcare visits and advocate for the care you deserve.",
-    },
-  ];
-
   return (
-    <div className="max-w-[1100px] mx-auto px-6 py-12 flex flex-col gap-20">
-      {/* Section 1: Story Hero */}
-      <div className="text-center max-w-3xl mx-auto">
-        <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-xs font-extrabold font-sans uppercase tracking-wider bg-light-teal/50 text-deep-teal border border-deep-teal/25 mb-3.5 shadow-2xs">
-          <span>✦ ABOUT REPROUS: OUR STORY &amp; MISSION</span>
-        </div>
-        <h1 className="text-3xl md:text-[42px] lg:text-[46px] font-bold font-serif text-deep-teal leading-[1.16] tracking-tight mb-4">
-          Why ReproUs Exists
-        </h1>
-        <div className="space-y-3.5 text-center mb-6">
-          <p className="text-[17px] md:text-[19px] font-medium text-deep-teal/90 leading-relaxed font-sans max-w-2xl mx-auto m-0">
-            Too many girls grow up knowing what a &ldquo;normal&rdquo; period is supposed to look like &mdash; but not what to do when something feels wrong.
-          </p>
-          <p className="text-[15.5px] md:text-[16.5px] text-charcoal/80 leading-relaxed font-sans max-w-2xl mx-auto m-0">
-            For generations, gaps in health research and education have left important questions about girls&apos; and women&apos;s health unanswered, misunderstood, or overlooked. Conditions like PCOS, endometriosis, and the Female Athlete Triad can be difficult to recognize, especially when young people aren&apos;t taught what signs to look for or what questions to ask. We believe understanding your body is the first step toward advocating for your health.
-          </p>
-        </div>
-
-        {/* Hero Actions: Prominently Differentiated Main CTA */}
-        {onNavigate && (
-          <div className="flex flex-wrap items-center justify-center gap-3.5 pt-1">
-            <button
-              onClick={() => onNavigate("contact", "ambassador")}
-              className="px-6 py-3 rounded-full bg-raspberry text-white font-sans font-bold text-sm md:text-[15px] shadow-md hover:bg-raspberry/90 hover:scale-[1.02] ring-4 ring-raspberry/20 border border-white/20 transition-all flex items-center gap-2 active:scale-95"
-            >
-              <Award className="w-4 h-4" />
-              <span>Become a Youth Ambassador →</span>
-            </button>
+    <div className="flex w-full min-w-0 flex-col text-charcoal">
+      {/* 1. The problem */}
+      <section className="w-full bg-light-teal py-16 md:py-24">
+        <div className="mx-auto w-full max-w-6xl min-w-0 px-4 md:px-6">
+          <div className="max-w-3xl">
+            <h1 className="mb-6 font-serif text-h1 font-normal text-balance text-deep-teal">
+              Why ReproUs Exists
+            </h1>
+            <p className="mb-4 font-sans text-body font-medium text-pretty text-deep-teal">
+              Too many girls grow up knowing what a &ldquo;normal&rdquo; period is supposed to look like &mdash; but not what to do when something feels wrong.
+            </p>
+            <p className="font-sans text-body text-pretty text-charcoal-light">
+              For generations, gaps in health research and education have left important questions about girls&apos; and women&apos;s health unanswered, misunderstood, or overlooked. Conditions like PCOS, endometriosis, and the Female Athlete Triad can be difficult to recognize, especially when young people aren&apos;t taught what signs to look for or what questions to ask. We believe understanding your body is the first step toward advocating for your health.
+            </p>
           </div>
-        )}
-      </div>
-
-      {/* Section 2: Mission & Core Pillars */}
-      <div className="text-center max-w-4xl mx-auto w-full">
-        <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-xs font-extrabold font-sans uppercase tracking-wider bg-[#FFE1DB] text-[#B83F68] border border-coral/30 mb-3.5 shadow-2xs">
-          <span>✦ OUR MISSION</span>
         </div>
-        <h2 className="text-3xl md:text-[42px] lg:text-[46px] font-bold font-serif text-deep-teal leading-[1.16] tracking-tight mb-4">
-          Accessible Education for Every Girl
-        </h2>
-        <div className="space-y-3.5 text-center mb-8">
-          <p className="text-[17px] md:text-[19px] font-medium text-deep-teal/90 leading-relaxed font-sans max-w-2xl mx-auto m-0">
-            ReproUs gives girls accessible health education focused on reproductive biology, female athlete physiology, and under-recognized conditions like PCOS and endometriosis.
-          </p>
-          <p className="text-[15.5px] md:text-[16.5px] text-charcoal/80 leading-relaxed font-sans max-w-2xl mx-auto m-0">
-            Through interactive learning, workshops, and self-advocacy tools, we turn complicated health information into knowledge that young people can actually use.
-          </p>
-        </div>
+      </section>
 
-        {/* Learn · Recognize · Advocate Interactive Buttons with Teal, Coral, and Pink Palette */}
-        <div className="flex flex-wrap items-center justify-center gap-3 mb-10">
-          <button
-            onClick={() => setSelectedPillar(selectedPillar === "learn" ? null : "learn")}
-            className={`font-sans font-bold text-xs uppercase tracking-wider px-5 py-2.5 rounded-full transition-all shadow-xs flex items-center gap-2 border-2 ${
-              selectedPillar === "learn"
-                ? "bg-deep-teal text-white border-deep-teal ring-2 ring-deep-teal/30 scale-105"
-                : "bg-white text-deep-teal border-deep-teal hover:bg-light-teal/40"
-            }`}
-          >
-            <span className={`w-2 h-2 rounded-full ${selectedPillar === "learn" ? "bg-white" : "bg-deep-teal"}`} />
-            <span>LEARN</span>
-          </button>
+      {/* 2. What happens when questions aren't asked: the one deep-teal band */}
+      <section id="research-gap" className="w-full bg-deep-teal py-16 text-white md:py-24">
+        <div className="mx-auto w-full max-w-6xl min-w-0 px-4 md:px-6">
+          <div className="mb-10 max-w-3xl md:mb-12">
+            <h2 className="mb-4 font-serif text-h2 font-normal text-balance text-white">
+              What happens when questions aren&apos;t asked?
+            </h2>
+            <p className="font-sans text-body text-pretty text-white">
+              Until the 1993 NIH Revitalization Act, women and girls were routinely excluded from clinical trials. For generations, medical textbooks, dosage recommendations, and diagnostic criteria were based almost exclusively on male physiology. Today, that enduring data gap directly influences diagnostic delays, medication safety, and how seriously female pain is treated.
+            </p>
+          </div>
 
-          <span className="text-charcoal/30 hidden sm:inline">✦</span>
-
-          <button
-            onClick={() => setSelectedPillar(selectedPillar === "recognize" ? null : "recognize")}
-            className={`font-sans font-bold text-xs uppercase tracking-wider px-5 py-2.5 rounded-full transition-all shadow-xs flex items-center gap-2 border-2 ${
-              selectedPillar === "recognize"
-                ? "bg-coral text-white border-coral ring-2 ring-coral/30 scale-105"
-                : "bg-white text-[#B83F68] border-coral hover:bg-[#FFE1DB]/40"
-            }`}
-          >
-            <span className={`w-2 h-2 rounded-full ${selectedPillar === "recognize" ? "bg-white" : "bg-coral"}`} />
-            <span>RECOGNIZE</span>
-          </button>
-
-          <span className="text-charcoal/30 hidden sm:inline">✦</span>
-
-          <button
-            onClick={() => setSelectedPillar(selectedPillar === "advocate" ? null : "advocate")}
-            className={`font-sans font-bold text-xs uppercase tracking-wider px-5 py-2.5 rounded-full transition-all shadow-xs flex items-center gap-2 border-2 ${
-              selectedPillar === "advocate"
-                ? "bg-raspberry text-white border-raspberry ring-2 ring-raspberry/30 scale-105"
-                : "bg-white text-raspberry border-raspberry hover:bg-soft-pink/40"
-            }`}
-          >
-            <span className={`w-2 h-2 rounded-full ${selectedPillar === "advocate" ? "bg-white" : "bg-raspberry"}`} />
-            <span>ADVOCATE</span>
-          </button>
-        </div>
-
-        {/* 3 Pillar Cards: White text boxes boldly outlined with Teal, Coral, and Raspberry */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-left">
-          {pillars.map((pillar) => {
-            const isHighlighted = selectedPillar === pillar.id;
-            const isFaded = selectedPillar !== null && !isHighlighted;
-
-            return (
-              <Card
-                key={pillar.id}
-                onClick={() => setSelectedPillar(pillar.id === selectedPillar ? null : pillar.id)}
-                className={`p-6 md:p-7 transition-all cursor-pointer ${pillar.borderClass} ${pillar.topBorder} ${pillar.cardBg} ${
-                  isHighlighted
-                    ? `${pillar.activeRing} shadow-lg scale-[1.02]`
-                    : isFaded
-                    ? "opacity-60"
-                    : "shadow-xs hover:shadow-md"
-                }`}
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+            {evidence.map((e) => (
+              <article
+                key={e.title}
+                className="flex min-w-0 flex-col rounded-2xl border border-[#E5E1DC] bg-white p-5 text-charcoal md:p-6"
               >
-                <div className="flex items-center justify-between mb-4">
-                  <div className={`w-12 h-12 rounded-2xl flex items-center justify-center ${pillar.iconBg}`}>
-                    {pillar.icon}
-                  </div>
-                  <span className={`text-[10.5px] font-extrabold uppercase tracking-wider px-2.5 py-0.5 rounded-full border ${pillar.badgeClass}`}>
-                    {pillar.tag}
-                  </span>
-                </div>
-                <h3 className={`text-xl md:text-[22px] font-bold font-serif mb-2 leading-snug ${pillar.titleColor}`}>
-                  {pillar.title}
+                <h3 className="mb-3 font-serif text-xl font-normal text-balance text-deep-teal md:text-2xl">
+                  {e.title}
                 </h3>
-                <p className="text-[15px] md:text-[15.5px] text-charcoal/85 leading-relaxed m-0 font-sans">
-                  {pillar.desc}
-                </p>
-              </Card>
-            );
-          })}
-        </div>
-      </div>
-
-      {/* Section 3: The Gender Research Gap & Clinical Evidence (Background Information) */}
-      <div id="research-gap" className="rounded-3xl bg-[#174C4F] text-white p-8 md:p-12 shadow-xl space-y-12">
-        {/* Header */}
-        <div>
-          <div className="inline-flex items-center gap-2 font-sans font-bold text-xs uppercase tracking-widest text-coral mb-3">
-            <span className="w-2 h-2 rounded-full bg-coral" />
-            <span>✦ BACKGROUND &amp; EVIDENCE: THE GENDER RESEARCH GAP</span>
-          </div>
-          <h2 className="text-3xl md:text-[42px] lg:text-[46px] font-bold font-serif text-light-teal leading-[1.14] mb-4 tracking-tight">
-            What happens when questions aren&apos;t asked?
-          </h2>
-          <p className="text-[16.5px] md:text-[18px] text-white/90 leading-relaxed font-sans max-w-3xl m-0">
-            Until the 1993 NIH Revitalization Act, women and girls were routinely excluded from clinical trials. For generations, medical textbooks, dosage recommendations, and diagnostic criteria were based almost exclusively on male physiology. Today, that enduring data gap directly influences diagnostic delays, medication safety, and how seriously female pain is treated.
-          </p>
-        </div>
-
-        {/* 3 Evidence Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {/* Card 1: Diagnostic Delays */}
-          <div className="rounded-2xl bg-white/10 border border-white/20 p-6 sm:p-7 flex flex-col justify-between shadow-card hover:bg-white/[0.13] transition-all">
-            <div>
-              <div className="flex items-center justify-between gap-2 mb-3">
-                <span className="text-[11px] font-bold uppercase tracking-wider text-coral font-sans bg-coral/10 px-2.5 py-1 rounded-full border border-coral/30">
-                  DIAGNOSTIC DELAYS
-                </span>
-                <span className="text-xs font-bold text-white/60 font-sans">Avg. 7–10 Years</span>
-              </div>
-              <h3 className="text-xl sm:text-2xl font-serif font-bold text-white mb-3 leading-snug">
-                Conditions are minimized as &ldquo;just bad periods.&rdquo;
-              </h3>
-              <p className="text-[14.5px] text-white/85 leading-relaxed font-sans mb-4">
-                Endometriosis takes an average of <strong>7 to 10 years</strong> to be diagnosed, with patients consulting 4 to 5 clinicians. Because heavy menstrual bleeding and debilitating pelvic pain were historically dismissed as emotional or &ldquo;normal,&rdquo; progressive inflammatory damage is often caught late.
-              </p>
-            </div>
-            <div className="pt-4 border-t border-white/15">
-              <a
-                href="https://www.acog.org/clinical/clinical-guidance/committee-opinion/articles/2018/12/dysmenorrhea-and-endometriosis-in-the-adolescent"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 text-xs font-bold text-coral hover:underline font-sans"
-              >
-                <span>ACOG Committee Opinion No. 760</span>
-                <ExternalLink className="w-3.5 h-3.5" />
-              </a>
-            </div>
+                <p className="mb-4 font-sans text-base text-pretty text-charcoal">{e.body}</p>
+                <div className="mt-auto border-t border-[#E5E1DC] pt-2">
+                  <a
+                    href={e.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`${sourceLink} text-deep-teal focus-visible:ring-deep-teal`}
+                  >
+                    <span className="min-w-0">{e.source}</span>
+                    <ExternalLink className="h-4 w-4 shrink-0" aria-hidden="true" />
+                  </a>
+                </div>
+              </article>
+            ))}
           </div>
 
-          {/* Card 2: Adverse Drug Reactions */}
-          <div className="rounded-2xl bg-white/10 border border-white/20 p-6 sm:p-7 flex flex-col justify-between shadow-card hover:bg-white/[0.13] transition-all">
-            <div>
-              <div className="flex items-center justify-between gap-2 mb-3">
-                <span className="text-[11px] font-bold uppercase tracking-wider text-coral font-sans bg-coral/10 px-2.5 py-1 rounded-full border border-coral/30">
-                  MEDICATION SAFETY
-                </span>
-                <span className="text-xs font-bold text-white/60 font-sans">2x Adverse Reactions</span>
-              </div>
-              <h3 className="text-xl sm:text-2xl font-serif font-bold text-white mb-3 leading-snug">
-                Dosages were tested primarily on male biology.
-              </h3>
-              <p className="text-[14.5px] text-white/85 leading-relaxed font-sans mb-4">
-                Women experience adverse drug reactions at <strong>nearly twice the rate of men</strong>. Because pharmaceutical trials historically excluded female hormonal cycles, differences in gastrointestinal transit, fat distribution, and liver enzyme clearance were overlooked. In 2013, the FDA had to halve the recommended dose of zolpidem for women.
-              </p>
-            </div>
-            <div className="pt-4 border-t border-white/15">
-              <a
-                href="https://bsd.biomedcentral.com/articles/10.1186/s13293-020-00308-5"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 text-xs font-bold text-coral hover:underline font-sans"
-              >
-                <span>Nature / BMC: Sex-Bias in Biomedical Research</span>
-                <ExternalLink className="w-3.5 h-3.5" />
-              </a>
-            </div>
-          </div>
-
-          {/* Card 3: The Pain Disparity */}
-          <div className="rounded-2xl bg-white/10 border border-white/20 p-6 sm:p-7 flex flex-col justify-between shadow-card hover:bg-white/[0.13] transition-all">
-            <div>
-              <div className="flex items-center justify-between gap-2 mb-3">
-                <span className="text-[11px] font-bold uppercase tracking-wider text-coral font-sans bg-coral/10 px-2.5 py-1 rounded-full border border-coral/30">
-                  PAIN TREATMENT GAP
-                </span>
-                <span className="text-xs font-bold text-white/60 font-sans">+16 Min Wait Time</span>
-              </div>
-              <h3 className="text-xl sm:text-2xl font-serif font-bold text-white mb-3 leading-snug">
-                Female pain is more often labeled psychological.
-              </h3>
-              <p className="text-[14.5px] text-white/85 leading-relaxed font-sans mb-4">
-                In a landmark emergency medicine study on acute abdominal pain, women waited an average of <strong>16 minutes longer</strong> to receive analgesia than men presenting with identical pain scores, and were significantly less likely to receive opioid pain relief. Published clinical research demonstrates that female pain is disproportionately categorized as psychogenic or emotional.
-              </p>
-            </div>
-            <div className="pt-4 border-t border-white/15">
-              <a
-                href="https://onlinelibrary.wiley.com/doi/10.1111/j.1553-2712.2008.00100.x"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 text-xs font-bold text-coral hover:underline font-sans"
-              >
-                <span>Academic Emergency Medicine Study</span>
-                <ExternalLink className="w-3.5 h-3.5" />
-              </a>
-            </div>
-          </div>
-        </div>
-
-        {/* Peer-Reviewed Citations */}
-        <div className="pt-6 border-t border-white/15">
-          <div className="flex items-center justify-between flex-wrap gap-2 mb-4">
-            <div className="text-xs uppercase font-bold tracking-wider text-coral font-sans flex items-center gap-1.5">
-              <BookOpen className="w-3.5 h-3.5 text-coral" />
-              <span>Peer-Reviewed Literature &amp; Institutional Research Citations:</span>
-            </div>
-            <span className="text-[11px] text-white/60 font-sans italic">
+          <div className="mt-10 border-t border-light-teal pt-8">
+            <h3 className="mb-1 font-sans text-base font-semibold text-white">
+              Peer-Reviewed Literature &amp; Institutional Research Citations
+            </h3>
+            <p className="mb-4 font-sans text-small text-light-teal">
               Educational reference links · Not medical advice
-            </span>
+            </p>
+            <ul className="m-0 grid list-none grid-cols-1 gap-x-8 p-0 md:grid-cols-3">
+              {moreSources.map((s) => (
+                <li key={s.href} className="min-w-0">
+                  <a
+                    href={s.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group flex min-h-[44px] flex-col justify-center py-2 font-sans focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white rounded-sm"
+                  >
+                    <span className="inline-flex items-center gap-2 text-base font-semibold text-white underline-offset-4 group-hover:underline">
+                      <span className="min-w-0">{s.name}</span>
+                      <ExternalLink className="h-4 w-4 shrink-0" aria-hidden="true" />
+                    </span>
+                    <span className="text-small text-light-teal">{s.note}</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
           </div>
+        </div>
+      </section>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 text-xs font-sans text-white/90">
-            <a
-              href="https://orwh.od.nih.gov/sex-gender/nih-policy-sex-biological-variable"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-3.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 hover:border-coral/50 transition-all flex items-start justify-between gap-2 group"
-            >
-              <div>
-                <strong className="text-coral block mb-0.5 group-hover:underline">NIH ORWH Policy</strong>
-                <span>Inclusion of Women in Clinical Research &amp; Sex as a Biological Variable Mandate</span>
-              </div>
-              <ExternalLink className="w-3.5 h-3.5 text-coral shrink-0 mt-0.5" />
-            </a>
-
-            <a
-              href="https://bsd.biomedcentral.com/articles/10.1186/s13293-020-00308-5"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-3.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 hover:border-coral/50 transition-all flex items-start justify-between gap-2 group"
-            >
-              <div>
-                <strong className="text-coral block mb-0.5 group-hover:underline">Nature / BMC (Zucker &amp; Prendergast)</strong>
-                <span>A century of sex-bias in research: how male models impact female health</span>
-              </div>
-              <ExternalLink className="w-3.5 h-3.5 text-coral shrink-0 mt-0.5" />
-            </a>
-
-            <a
-              href="https://www.thelancet.com/series/gender-equality-norms-health"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-3.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 hover:border-coral/50 transition-all flex items-start justify-between gap-2 group"
-            >
-              <div>
-                <strong className="text-coral block mb-0.5 group-hover:underline">The Lancet Series</strong>
-                <span>Advancing the Science of Women&apos;s Health &amp; Eliminating Evidence Gaps</span>
-              </div>
-              <ExternalLink className="w-3.5 h-3.5 text-coral shrink-0 mt-0.5" />
-            </a>
-
-            <a
-              href="https://www.acog.org/clinical/clinical-guidance/committee-opinion/articles/2018/12/dysmenorrhea-and-endometriosis-in-the-adolescent"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-3.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 hover:border-coral/50 transition-all flex items-start justify-between gap-2 group"
-            >
-              <div>
-                <strong className="text-coral block mb-0.5 group-hover:underline">ACOG Practice Opinion 760</strong>
-                <span>Adolescent Dysmenorrhea &amp; Endometriosis Early Diagnosis Protocols</span>
-              </div>
-              <ExternalLink className="w-3.5 h-3.5 text-coral shrink-0 mt-0.5" />
-            </a>
-
-            <a
-              href="https://onlinelibrary.wiley.com/doi/10.1111/j.1553-2712.2008.00100.x"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-3.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 hover:border-coral/50 transition-all flex items-start justify-between gap-2 group"
-            >
-              <div>
-                <strong className="text-coral block mb-0.5 group-hover:underline">Academic Emergency Medicine</strong>
-                <span>Gender Disparities in Analgesic Administration &amp; Pain Treatment Delays</span>
-              </div>
-              <ExternalLink className="w-3.5 h-3.5 text-coral shrink-0 mt-0.5" />
-            </a>
-
-            <a
-              href="https://www.fda.gov/consumers/womens-health"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-3.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 hover:border-coral/50 transition-all flex items-start justify-between gap-2 group"
-            >
-              <div>
-                <strong className="text-coral block mb-0.5 group-hover:underline">FDA Office of Women&apos;s Health</strong>
-                <span>Sex-Specific Dosage Adjustments &amp; Drug Safety in Female Patients</span>
-              </div>
-              <ExternalLink className="w-3.5 h-3.5 text-coral shrink-0 mt-0.5" />
-            </a>
+      {/* 3. Mission, beside the founder photo slot */}
+      <section className="w-full bg-warm-cream py-16 md:py-24">
+        <div className="mx-auto grid w-full max-w-6xl min-w-0 grid-cols-1 items-start gap-10 px-4 md:grid-cols-[minmax(0,1fr)_240px] md:gap-16 md:px-6">
+          <div className="min-w-0 max-w-3xl">
+            <h2 className="mb-6 font-serif text-h2 font-normal text-balance text-deep-teal">
+              Accessible Education for Every Girl
+            </h2>
+            <p className="mb-4 font-sans text-body font-medium text-pretty text-deep-teal">
+              ReproUs gives girls accessible health education focused on reproductive biology, female athlete physiology, and under-recognized conditions like PCOS and endometriosis.
+            </p>
+            <p className="font-sans text-body text-pretty text-charcoal-light">
+              Through interactive learning, workshops, and self-advocacy tools, we turn complicated health information into knowledge that young people can actually use.
+            </p>
           </div>
+          <FounderNote />
+        </div>
+      </section>
+
+      {/* 4. How we do it, then one way forward */}
+      <section className="w-full bg-white py-16 md:py-24">
+        <div className="mx-auto w-full max-w-6xl min-w-0 px-4 md:px-6">
+          <h2 className="mb-8 font-serif text-h3 font-normal text-balance text-deep-teal">
+            Learn. Recognize. Advocate.
+          </h2>
+          <ul className="m-0 mb-12 grid list-none grid-cols-1 gap-8 p-0 md:grid-cols-3 md:gap-6">
+            {pillars.map((p) => (
+              <li key={p.id} className={`min-w-0 border-t-4 pt-5 ${p.rule}`}>
+                <span
+                  className={`mb-3 inline-flex h-10 w-10 items-center justify-center rounded-xl ${p.chip}`}
+                >
+                  {p.icon}
+                </span>
+                <h3 className="mb-2 font-serif text-xl font-normal text-deep-teal">{p.title}</h3>
+                <p className="m-0 font-sans text-base text-pretty text-charcoal">{p.desc}</p>
+              </li>
+            ))}
+          </ul>
 
           {onNavigate && (
-            <div className="mt-10 pt-8 border-t border-white/20 flex flex-col gap-6">
-              <div className="text-center sm:text-left flex flex-col sm:flex-row sm:items-end justify-between gap-4">
-                <div>
-                  <div className="text-[11.5px] font-bold uppercase tracking-wider text-coral font-sans mb-1 flex items-center gap-1.5">
-                    <Sparkles className="w-3.5 h-3.5 text-coral" />
-                    <span>GET INVOLVED &amp; TAKE ACTION</span>
-                  </div>
-                  <h3 className="text-2xl md:text-3xl font-bold font-serif text-white m-0">
-                    Ready to make a difference in youth reproductive health?
-                  </h3>
-                  <p className="text-[14.5px] text-white/80 font-sans mt-1.5 mb-0 max-w-xl">
-                    Join our student leadership cohort, explore evidence-based health topics, or read real stories from peers advocating for their care.
-                  </p>
-                </div>
-              </div>
-
-              {/* Action Buttons Row: Main CTA Visually Distinct from Surrounding Buttons */}
-              <div className="flex flex-wrap items-center gap-3.5 pt-1">
-                {/* PRIMARY MAIN CALL TO ACTION: High-contrast Coral, glowing ring, elevated shadow, larger size */}
-                <button
-                  onClick={() => onNavigate("contact", "ambassador")}
-                  className="px-8 py-4 rounded-full bg-coral text-plum font-sans font-extrabold text-[15.5px] shadow-lg hover:shadow-xl hover:bg-coral-light hover:scale-[1.03] ring-4 ring-coral/30 border-2 border-white/30 transition-all flex items-center gap-2.5 active:scale-95"
-                >
-                  <Award className="w-5 h-5 text-plum shrink-0" />
-                  <span>Become a Youth Ambassador →</span>
-                </button>
-
-                {/* SURROUNDING SECONDARY BUTTONS: Clean translucent outlines that visually recede */}
-                <button
-                  onClick={() => onNavigate("hub")}
-                  className="px-5 py-3 rounded-full bg-white/10 hover:bg-white/20 text-white font-sans font-semibold text-sm border border-white/30 transition-all flex items-center gap-2 hover:border-white/50 active:scale-95"
-                >
-                  <BookOpen className="w-4 h-4 text-coral shrink-0" />
-                  <span>Explore Health Topics (Learn) →</span>
-                </button>
-
-                <button
-                  onClick={() => onNavigate("voices")}
-                  className="px-5 py-3 rounded-full bg-white/10 hover:bg-white/20 text-white font-sans font-semibold text-sm border border-white/30 transition-all flex items-center gap-2 hover:border-white/50 active:scale-95"
-                >
-                  <MessageSquare className="w-4 h-4 text-coral shrink-0" />
-                  <span>Read Youth Voices →</span>
-                </button>
-
-                <button
-                  onClick={() => onNavigate("workshops")}
-                  className="px-5 py-3 rounded-full bg-white/10 hover:bg-white/20 text-white font-sans font-semibold text-sm border border-white/30 transition-all flex items-center gap-2 hover:border-white/50 active:scale-95"
-                >
-                  <Compass className="w-4 h-4 text-coral shrink-0" />
-                  <span>Book Free Workshops →</span>
-                </button>
-              </div>
-
-              <div className="flex flex-wrap items-center justify-between gap-3 text-xs text-white/60 font-sans pt-2 border-t border-white/10">
-                <span>All programs and learning resources are 100% free, confidential, and evidence-based.</span>
-                <span className="text-coral">Ages 14–24 · Nationwide Student Leadership Network</span>
-              </div>
+            <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
+              <button
+                type="button"
+                onClick={() => onNavigate("hub")}
+                className="inline-flex min-h-[48px] items-center justify-center gap-2 rounded-full bg-raspberry px-7 py-3 font-sans text-btn text-white shadow-sm transition-colors duration-150 hover:bg-raspberry-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-raspberry focus-visible:ring-offset-2 active:bg-raspberry-dark"
+              >
+                <span>Start learning</span>
+                <ArrowRight className="h-4 w-4" aria-hidden="true" />
+              </button>
+              <button
+                type="button"
+                onClick={() => onNavigate("contact", "ambassador")}
+                className={`${sourceLink} text-deep-teal focus-visible:ring-deep-teal`}
+              >
+                Become a Youth Ambassador
+              </button>
             </div>
           )}
         </div>
-      </div>
+      </section>
     </div>
   );
 }
