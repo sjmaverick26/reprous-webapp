@@ -328,22 +328,22 @@ export function VoicesView({
           </div>
 
           {/* Add Your Voice Box */}
-          <div id="share-story-form" className="rounded-3xl bg-deep-teal text-white p-8 md:p-12 shadow-lg space-y-6">
-            <div className="max-w-xl">
-              <div className="flex items-center gap-2 text-coral text-xs font-bold uppercase tracking-wider mb-2 font-sans">
+          <div id="share-story-form" className="rounded-3xl bg-deep-teal text-white p-8 md:p-12 shadow-lg space-y-6 flex flex-col items-center">
+            <div className="max-w-2xl text-center flex flex-col items-center">
+              <div className="inline-flex items-center justify-center gap-2 text-coral text-xs font-bold uppercase tracking-wider mb-2 font-sans">
                 <Sparkles className="w-4 h-4" />
                 <span>Community Voice Board</span>
               </div>
-              <h3 className="text-2xl md:text-3xl font-serif font-bold text-white mb-2">
+              <h3 className="text-2xl md:text-3xl lg:text-[32px] font-serif font-bold text-white mb-2 text-center">
                 Share what you wish someone had told you.
               </h3>
-              <p className="text-sm md:text-base text-light-teal/90 leading-relaxed font-sans m-0">
+              <p className="text-sm md:text-base text-light-teal/90 leading-relaxed font-sans m-0 text-center max-w-xl">
                 Did you have an experience with a doctor, a period surprise, or a lesson about your body that helped you? Your reflection could help another young person feel less alone.
               </p>
             </div>
 
             {submitStorySuccess ? (
-              <div className="p-6 rounded-2xl bg-white/10 border border-white/20 text-center flex flex-col items-center gap-2">
+              <div className="p-6 rounded-2xl bg-white/10 border border-white/20 text-center flex flex-col items-center gap-2 max-w-2xl w-full">
                 <CheckCircle2 className="w-10 h-10 text-emerald-400" />
                 <h4 className="font-serif text-xl font-bold text-white">Thank you for sharing!</h4>
                 <p className="text-sm text-light-teal font-sans">
@@ -351,7 +351,7 @@ export function VoicesView({
                 </p>
               </div>
             ) : (
-              <form onSubmit={handleSubmitStory} className="flex flex-col gap-4 max-w-xl">
+              <form onSubmit={handleSubmitStory} className="flex flex-col gap-4 max-w-2xl w-full">
                 <div>
                   <label className="block text-xs font-bold text-light-teal uppercase tracking-wider mb-1 font-sans">
                     Your reflection or discovery
@@ -362,7 +362,7 @@ export function VoicesView({
                     placeholder="What did you learn about your cycle, symptoms, or talking with a doctor?"
                     value={storyInput}
                     onChange={(e) => setStoryInput(e.target.value)}
-                    className="bg-white/10 border-white/20 text-white placeholder:text-white/40 text-sm font-sans focus-visible:ring-coral rounded-xl"
+                    className="bg-white/10 border-white/20 text-white placeholder:text-white/40 text-sm font-sans focus-visible:ring-coral rounded-xl w-full"
                   />
                 </div>
 
@@ -394,19 +394,21 @@ export function VoicesView({
                   </div>
                 </div>
 
-                <div className="flex items-center gap-2 text-xs text-light-teal/80 font-sans">
+                <div className="flex items-center justify-center gap-2 text-xs text-light-teal/80 font-sans text-center">
                   <Lock className="w-3.5 h-3.5 text-coral shrink-0" />
                   <span>100% private. Submissions are reviewed for respectful peer dialogue.</span>
                 </div>
 
-                <Button
-                  type="submit"
-                  disabled={isSubmittingStory}
-                  className="bg-coral hover:bg-coral/90 text-white font-bold rounded-xl gap-2 self-start px-6 py-2.5 cursor-pointer shadow-sm"
-                >
-                  <Send className="w-4 h-4" />
-                  <span>{isSubmittingStory ? "Submitting..." : "Submit Reflection"}</span>
-                </Button>
+                <div className="flex justify-center pt-2">
+                  <Button
+                    type="submit"
+                    disabled={isSubmittingStory}
+                    className="bg-coral hover:bg-coral/90 text-white font-bold rounded-full gap-2 px-8 py-3 cursor-pointer shadow-md text-sm md:text-base hover:scale-105 transition-all"
+                  >
+                    <Send className="w-4 h-4" />
+                    <span>{isSubmittingStory ? "Submitting..." : "Submit Reflection"}</span>
+                  </Button>
+                </div>
               </form>
             )}
           </div>
