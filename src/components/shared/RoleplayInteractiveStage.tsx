@@ -99,7 +99,7 @@ const DIVERSE_PATIENT_PROFILES: PatientVisualProfile[] = [
     hairStyle: "straight-bangs", // Sleek straight hair with fringe bangs and chic gold hairpin
     hasGlasses: false,
     topType: "hoodie",
-    topColor: "#6366F1", // Modern indigo / periwinkle
+    topColor: "#6366F1", // Modern indigo / periwinkle // unslop-ignore: drawn indigo top, an illustration colour
     topAccentColor: "#EEF2FF",
     binderColor: "#10B981",
   },
@@ -474,7 +474,7 @@ function getProviderVisualProfile(characterName: string, role?: string): Provide
       hairStyle: "curly-fade",
       hasGlasses: false,
       clothingType: "casual-sweater",
-      primaryClothColor: "#7E22CE",
+      primaryClothColor: "#7E22CE", // unslop-ignore: drawn sweater colour
       accentClothColor: "#10B981",
       accessory: "badge",
     };
@@ -1419,7 +1419,7 @@ export function RoleplayInteractiveStage({
         type: "passive" as const,
         tag: "Leaves Evidence in Bag (Silent Acceptance)",
         desc: "Keeps your symptom log hidden; accepts dismissal with zero evaluation.",
-        badgeClass: "bg-slate-100 text-slate-700 border-slate-300",
+        badgeClass: "bg-warm-cream text-charcoal-light border-deep-teal/30",
       };
     }
 
@@ -1427,7 +1427,7 @@ export function RoleplayInteractiveStage({
       type: "frustrated" as const,
       tag: "Omits Evidence (Venting Without Proof)",
       desc: "Expresses understandable frustration, but without data the clinician can easily dismiss it.",
-      badgeClass: "bg-amber-100 text-amber-900 border-amber-300",
+      badgeClass: "bg-soft-pink text-charcoal border-coral-light",
     };
   };
 
@@ -1512,7 +1512,6 @@ export function RoleplayInteractiveStage({
         <div className="flex flex-wrap items-center justify-between gap-2 border-b border-deep-teal/15 bg-white/80 px-4 py-2.5 backdrop-blur-xs">
           <div className="flex items-center gap-2 text-xs sm:text-sm font-bold text-deep-teal font-sans">
             <span className="relative flex h-2.5 w-2.5">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75"></span>
               <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-emerald-500"></span>
             </span>
             <span className="inline-flex items-center gap-1.5">
@@ -1548,15 +1547,15 @@ export function RoleplayInteractiveStage({
               <div className="h-1 w-12 bg-deep-teal/20 rounded-xs mb-0.5"></div>
               <div className="h-1 w-10 bg-deep-teal/20 rounded-xs"></div>
               <div className="mt-1 flex justify-center">
-                <span className="w-2.5 h-2.5 rounded-full bg-amber-400 inline-block"></span>
+                <span className="w-2.5 h-2.5 rounded-full bg-coral inline-block"></span>
               </div>
             </div>
 
             {/* Vitals Heart Rate Monitor */}
-            <div className="absolute top-4 right-6 hidden md:block w-32 rounded-xl border border-slate-700 bg-slate-900 p-2 shadow-xs text-white">
+            <div className="absolute top-4 right-6 hidden md:block w-32 rounded-xl border border-charcoal-muted bg-charcoal p-2 shadow-xs text-white">
               <div className="flex items-center justify-between text-[9px] text-emerald-400 font-mono">
                 <span className="flex items-center gap-1">
-                  <Activity className="w-2.5 h-2.5 text-emerald-400 animate-pulse" />
+                  <Activity className="w-2.5 h-2.5 text-emerald-400" />
                   ECG
                 </span>
                 <span>72 BPM</span>
@@ -1567,7 +1566,7 @@ export function RoleplayInteractiveStage({
             </div>
 
             {/* Examination Couch silhouette */}
-            <div className="absolute bottom-0 right-10 hidden lg:block w-44 h-14 rounded-t-xl border-t-2 border-l-2 border-r-2 border-slate-300 bg-slate-100">
+            <div className="absolute bottom-0 right-10 hidden lg:block w-44 h-14 rounded-t-xl border-t-2 border-l-2 border-r-2 border-deep-teal/30 bg-warm-cream">
               <div className="w-12 h-4 rounded-t-lg bg-teal-100/70 border-t border-teal-300 ml-2 mt-1"></div>
             </div>
           </div>
@@ -1582,7 +1581,7 @@ export function RoleplayInteractiveStage({
                   <span className="text-[11px] font-bold uppercase tracking-wider text-deep-teal font-sans">
                     {scenario.character}
                   </span>
-                  <span className="text-[10px] font-bold uppercase px-2 py-0.5 rounded-full bg-slate-100 text-charcoal/70">
+                  <span className="text-[10px] font-bold uppercase px-2 py-0.5 rounded-full bg-warm-cream text-charcoal/70">
                     {chosenOpt === null
                       ? "Provider Statement"
                       : isBest
@@ -1620,7 +1619,7 @@ export function RoleplayInteractiveStage({
                     ? "border-dashed border-deep-teal/25 bg-white/70"
                     : isBest
                     ? "border-emerald-500 bg-emerald-50/90 text-emerald-950 ring-2 ring-emerald-500/20"
-                    : "border-amber-400 bg-amber-50/90 text-amber-950"
+                    : "border-coral bg-soft-pink-light/90 text-charcoal"
                 }`}
               >
                 <div className="flex items-center justify-between gap-2 border-b border-deep-teal/10 pb-1.5 mb-1.5">
@@ -1631,7 +1630,7 @@ export function RoleplayInteractiveStage({
                   {chosenOpt !== null && (
                     <span
                       className={`text-[10px] font-bold uppercase px-2 py-0.5 rounded-full ${
-                        isBest ? "bg-emerald-600 text-white" : "bg-amber-600 text-white"
+                        isBest ? "bg-emerald-600 text-white" : "bg-raspberry text-white"
                       }`}
                     >
                       {isBest ? "Correct Response" : "Suboptimal Response"}
@@ -1655,7 +1654,7 @@ export function RoleplayInteractiveStage({
                     isBest
                       ? "bg-emerald-50 border-emerald-500"
                       : chosenOpt !== null
-                      ? "bg-amber-50 border-amber-400"
+                      ? "bg-soft-pink-light border-coral"
                       : "bg-white border-deep-teal/25"
                   }`}
                 ></div>
@@ -1666,7 +1665,7 @@ export function RoleplayInteractiveStage({
                 <div className="relative group">
                   <PatientAvatarSvg profile={patientProfile} isBest={isBest} chosenOpt={chosenOpt} />
                   {/* Character Label */}
-                  <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-coral px-2.5 py-0.5 text-[10px] font-bold text-white shadow-xs">
+                  <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-coral px-2.5 py-0.5 text-[10px] font-bold text-charcoal shadow-xs">
                     {patientProfile.name} · {patientProfile.role}
                     {patientProfile.identityTag ? ` (${patientProfile.identityTag})` : ""}
                   </div>
@@ -1684,7 +1683,7 @@ export function RoleplayInteractiveStage({
             ? {
                 title: "Pending Your Response (50% Baseline)",
                 sub: "Every appointment starts here. Presenting objective data from your evidence log is what moves the needle from being dismissed to getting tested.",
-                badgeBg: "bg-slate-100 text-slate-800 border-slate-300",
+                badgeBg: "bg-warm-cream text-charcoal border-deep-teal/30",
                 barColor: "bg-deep-teal",
               }
             : isBest
@@ -1697,8 +1696,8 @@ export function RoleplayInteractiveStage({
             : {
                 title: "Incorrect: High Dismissal Risk (25%)",
                 sub: "Symptoms brushed off without testing! Without documented logs or clinical guidelines, the provider defaulted to reassurance or “wait and see.” No diagnostic evaluation was ordered.",
-                badgeBg: "bg-amber-100 text-amber-900 border-amber-300",
-                barColor: "bg-amber-500",
+                badgeBg: "bg-soft-pink text-charcoal border-coral-light",
+                barColor: "bg-coral-dark",
               };
 
         return (
@@ -1719,14 +1718,14 @@ export function RoleplayInteractiveStage({
 
             {/* Visual Alignment Meter Track */}
             <div className="space-y-1.5">
-              <div className="relative h-3.5 w-full rounded-full border border-slate-200 bg-slate-100 p-0.5 overflow-hidden">
+              <div className="relative h-3.5 w-full rounded-full border border-light-teal-dark bg-warm-cream p-0.5 overflow-hidden">
                 <div
                   className={`h-full rounded-full transition-all duration-700 ease-out ${statusConfig.barColor}`}
                   style={{ width: `${alignmentPercent}%` }}
                 />
               </div>
               <div className="flex justify-between px-1 text-[11px] font-sans font-semibold text-charcoal/60">
-                <span className={alignmentPercent <= 35 ? "font-bold text-amber-700" : ""}>
+                <span className={alignmentPercent <= 35 ? "font-bold text-raspberry-dark" : ""}>
                   Brushed Off · High Dismissal Risk (0–35%)
                 </span>
                 <span
@@ -1756,10 +1755,10 @@ export function RoleplayInteractiveStage({
         <div
           className={`rounded-3xl border-2 p-5 sm:p-6 transition-all shadow-2xs space-y-3.5 ${
             chosenOpt === null
-              ? "border-dashed border-deep-teal/30 bg-slate-50/90"
+              ? "border-dashed border-deep-teal/30 bg-warm-cream-light/90"
               : isBest
               ? "border-emerald-500 bg-emerald-50/80 ring-2 ring-emerald-500/20 shadow-sm"
-              : "border-amber-300 bg-amber-50/70"
+              : "border-coral-light bg-soft-pink-light/70"
           }`}
         >
           <div className="flex flex-wrap items-center justify-between gap-3">
@@ -1797,7 +1796,7 @@ export function RoleplayInteractiveStage({
           {/* Documented Evidence Guidance */}
           <div className="rounded-2xl border border-deep-teal/20 bg-teal-50/75 p-3.5 space-y-1.5">
             <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-deep-teal font-sans">
-              <Lightbulb className="w-4 h-4 text-amber-500 shrink-0" />
+              <Lightbulb className="w-4 h-4 text-raspberry shrink-0" />
               <span>Why Documented Evidence Matters in Clinical Encounters:</span>
             </div>
             <p className="text-xs sm:text-sm text-charcoal/85 leading-relaxed font-sans m-0">
@@ -1831,8 +1830,8 @@ export function RoleplayInteractiveStage({
                 Correct: Evidence admitted to medical record! Clinicians cannot legally ignore documented symptoms matching clinical guidelines.
               </span>
             ) : (
-              <span className="flex items-center gap-1.5 text-amber-800">
-                <AlertTriangle className="w-3.5 h-3.5 text-amber-600" />
+              <span className="flex items-center gap-1.5 text-raspberry-dark">
+                <AlertTriangle className="w-3.5 h-3.5 text-raspberry-dark" />
                 Suboptimal: Documented evidence was not cited. Try selecting a response that actively references this log!
               </span>
             )}
@@ -1870,7 +1869,7 @@ export function RoleplayInteractiveStage({
                   isSelected
                     ? opt.isBest
                       ? "border-emerald-500 bg-emerald-50/90 shadow-md ring-2 ring-emerald-500/25"
-                      : "border-amber-400 bg-amber-50/90 shadow-sm ring-2 ring-amber-400/25"
+                      : "border-coral bg-soft-pink-light/90 shadow-sm ring-2 ring-coral/25"
                     : selectedOption !== null
                     ? "border-deep-teal/15 bg-white/85 opacity-80 hover:opacity-100 hover:border-deep-teal/40 hover:bg-light-teal/20"
                     : "border-deep-teal/15 bg-white hover:border-deep-teal/40 hover:bg-light-teal/20"
@@ -1884,8 +1883,8 @@ export function RoleplayInteractiveStage({
                           isSelected
                             ? opt.isBest
                               ? "bg-emerald-200/90 text-emerald-950 border border-emerald-300"
-                              : "bg-amber-200/90 text-amber-950 border border-amber-300"
-                            : "bg-slate-100 text-charcoal/70 border border-slate-200"
+                              : "bg-soft-pink-dark/90 text-charcoal border border-coral-light"
+                            : "bg-warm-cream text-charcoal/70 border border-light-teal-dark"
                         }`}
                       >
                         {optionLabels[optIdx] || `Option ${optIdx + 1}`}
@@ -1896,7 +1895,7 @@ export function RoleplayInteractiveStage({
                         <>
                           <span
                             className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider font-sans text-white ${
-                              opt.isBest ? "bg-emerald-600" : "bg-amber-600"
+                              opt.isBest ? "bg-emerald-600" : "bg-raspberry"
                             }`}
                           >
                             {opt.isBest ? "Correct" : "Incorrect"}
@@ -1916,7 +1915,7 @@ export function RoleplayInteractiveStage({
                         isSelected && opt.isBest
                           ? "font-semibold text-emerald-950"
                           : isSelected && !opt.isBest
-                          ? "font-semibold text-amber-950"
+                          ? "font-semibold text-charcoal"
                           : "font-medium text-charcoal/90"
                       }`}
                     >
@@ -1927,7 +1926,7 @@ export function RoleplayInteractiveStage({
                     {isSelected && (
                       <p
                         className={`text-xs font-sans m-0 pt-0.5 ${
-                          opt.isBest ? "text-emerald-900 font-medium" : "text-amber-900 font-medium"
+                          opt.isBest ? "text-emerald-900 font-medium" : "text-charcoal font-medium"
                         }`}
                       >
                         {strategy.desc}
@@ -1942,7 +1941,7 @@ export function RoleplayInteractiveStage({
                     </span>
                   )}
                   {isSelected && !opt.isBest && (
-                    <span className="mt-1 inline-flex shrink-0 items-center gap-1 rounded-full bg-amber-500 px-3 py-1 text-xs font-bold text-white shadow-2xs font-sans">
+                    <span className="mt-1 inline-flex shrink-0 items-center gap-1 rounded-full bg-raspberry px-3 py-1 text-xs font-bold text-white shadow-2xs font-sans">
                       <AlertTriangle className="w-3.5 h-3.5" />
                       <span>0 XP</span>
                     </span>
@@ -1960,7 +1959,7 @@ export function RoleplayInteractiveStage({
           className={`rounded-3xl border-2 p-5 sm:p-6 space-y-3 animate-in fade-in ${
             isBest
               ? "border-emerald-400 bg-emerald-50 text-emerald-950"
-              : "border-amber-400 bg-amber-50 text-amber-950"
+              : "border-coral bg-soft-pink-light text-charcoal"
           }`}
         >
           <div className="flex items-center justify-between flex-wrap gap-2">
@@ -1968,7 +1967,7 @@ export function RoleplayInteractiveStage({
               {isBest ? (
                 <CheckCircle2 className="w-5 h-5 shrink-0 text-emerald-700" />
               ) : (
-                <AlertTriangle className="w-5 h-5 shrink-0 text-amber-700" />
+                <AlertTriangle className="w-5 h-5 shrink-0 text-raspberry-dark" />
               )}
               <span className="text-sm sm:text-base font-bold uppercase tracking-wider font-sans">
                 {isBest ? "Correct — Self-Advocacy Goal Achieved!" : "Suboptimal — Medical Dismissal Risk"}
@@ -1979,7 +1978,7 @@ export function RoleplayInteractiveStage({
                 +{chosenOpt.xpBonus} XP Earned
               </span>
             ) : (
-              <span className="rounded-full bg-amber-200 border border-amber-300 px-3 py-1 text-xs font-bold text-amber-900 font-sans">
+              <span className="rounded-full bg-soft-pink-dark border border-coral-light px-3 py-1 text-xs font-bold text-charcoal font-sans">
                 Suboptimal Response · Try Again
               </span>
             )}
@@ -2027,13 +2026,13 @@ export function RoleplayInteractiveStage({
               )}
             </div>
           ) : (
-            <div className="mt-2 rounded-2xl border border-amber-300/80 bg-white/95 p-3.5 space-y-2">
-              <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-amber-900 font-sans">
-                <AlertTriangle className="w-4 h-4 text-amber-600" />
+            <div className="mt-2 rounded-2xl border border-coral-light/80 bg-white/95 p-3.5 space-y-2">
+              <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-charcoal font-sans">
+                <AlertTriangle className="w-4 h-4 text-raspberry-dark" />
                 <span>Why This Response Was Dismissed:</span>
               </div>
-              <div className="rounded-xl bg-amber-50/80 p-2.5 border border-amber-200 text-xs font-sans space-y-1">
-                <span className="font-bold text-amber-950 block">
+              <div className="rounded-xl bg-soft-pink-light/80 p-2.5 border border-soft-pink-dark text-xs font-sans space-y-1">
+                <span className="font-bold text-charcoal block">
                   Unused Documented Evidence: {scenario.evidence?.title}
                 </span>
                 <p className="text-charcoal/80 m-0">

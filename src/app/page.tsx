@@ -10,6 +10,7 @@ import { WorkshopsView } from "@/components/pages/WorkshopsView";
 import { ResourcesView } from "@/components/pages/ResourcesView";
 import { VoicesView } from "@/components/pages/VoicesView";
 import { ContactView } from "@/components/pages/ContactView";
+import { useReveal } from "@/components/shared/useReveal";
 
 type Route = { page: PageId; tab?: string };
 type ResourcesCategory = React.ComponentProps<typeof ResourcesView>["initialCategory"];
@@ -84,6 +85,10 @@ export default function App() {
   const [voicesTab, setVoicesTab] = useState<"stories" | "qa" | "toolkit">("stories");
   const [qaAutoOpen, setQaAutoOpen] = useState(false);
   const mainRef = useRef<HTMLElement>(null);
+  // True after the first in-app navigation: only then do views fade in.
+  const [hasNavigated, setHasNavigated] = useState(false);
+  const viewKey = activePage;
+  useReveal([activePage, hubCategory, resourceCategory, voicesTab]);
 
   const applyRoute = useCallback(({ page, tab }: Route) => {
     setActivePage(page);
@@ -131,6 +136,7 @@ export default function App() {
 
   const handleNavigate = (page: PageId, categoryOrTab?: string) => {
     const route = normalizeRoute(page, categoryOrTab);
+    setHasNavigated(true);
     applyRoute(route);
 
     if (typeof window !== "undefined") {
@@ -152,6 +158,7 @@ export default function App() {
       const current = window.location.hash;
       if (current && !current.startsWith("#/")) return;
       const route = hashToRoute(window.location.hash);
+      setHasNavigated(true);
       applyRoute(route);
       window.scrollTo({ top: 0, behavior: "auto" });
     };
@@ -173,6 +180,8 @@ export default function App() {
       <Navbar activePage={activePage} onNavigate={handleNavigate} />
 
       <main id="main" ref={mainRef} tabIndex={-1} className="flex-1 w-full outline-none">
+        {/* Soft fade between views; skipped on first load so the first paint is immediate */}
+        <div key={viewKey} className={hasNavigated ? "motion-view" : undefined}>
         {activePage === "home" && <HomeView onNavigate={handleNavigate} />}
         {activePage === "story" && <StoryView onNavigate={handleNavigate} />}
         {activePage === "hub" && <HubView initialCategory={hubCategory} onNavigate={handleNavigate} />}
@@ -191,6 +200,7 @@ export default function App() {
           />
         )}
         {activePage === "contact" && <ContactView initialTab={contactTab} onNavigate={handleNavigate} />}
+        </div>
       </main>
 
       <Footer onNavigate={handleNavigate} />

@@ -79,13 +79,13 @@ export function QAView({ autoOpenSubmit = false }: { autoOpenSubmit?: boolean })
     <div className="max-w-[760px] mx-auto px-6 py-12 flex flex-col gap-10">
       {/* Header */}
       <div className="text-center">
-        <div className="text-[13px] md:text-[14px] font-bold uppercase tracking-wider text-berry mb-2 font-sans">
+        <div className="text-sm font-bold uppercase tracking-wider text-berry mb-2 font-sans">
           Q&amp;A
         </div>
-        <h1 className="text-4xl md:text-[64px] lg:text-[72px] font-normal font-serif text-plum leading-[1.08] mb-4">
+        <h1 className="text-h1 font-normal font-serif text-plum mb-4">
           Questions, answered plainly
         </h1>
-        <p className="text-[17px] md:text-[19px] text-ink/80 leading-relaxed max-w-xl mx-auto font-sans">
+        <p className="text-base md:text-lg text-ink/80 leading-relaxed max-w-xl mx-auto font-sans">
           Every question submitted is completely anonymous. Real answers written plainly for health literacy.
         </p>
         <p className="text-xs text-ink/65 font-sans mt-2 italic">
@@ -101,7 +101,7 @@ export function QAView({ autoOpenSubmit = false }: { autoOpenSubmit?: boolean })
             placeholder="Search questions (e.g. cramps, irregular, anonymous)..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-10 text-[15px] font-sans"
+            className="pl-10 text-base font-sans"
           />
         </div>
 
@@ -110,7 +110,7 @@ export function QAView({ autoOpenSubmit = false }: { autoOpenSubmit?: boolean })
             <button
               key={c.id}
               onClick={() => setActiveCategory(c.id)}
-              className={`px-3.5 py-1.5 rounded-full text-[13.5px] md:text-[14px] font-semibold font-sans transition-all border ${
+              className={`px-3.5 py-1.5 rounded-full text-sm font-semibold font-sans transition-colors border ${
                 activeCategory === c.id
                   ? "bg-berry border-berry text-white shadow-sm hover:bg-berry hover:text-white active:bg-berry-dark active:text-white focus:text-white"
                   : "bg-white border-berry/20 text-berry hover:bg-soft-pink hover:text-berry active:bg-soft-pink active:text-berry focus:text-berry"
@@ -126,7 +126,7 @@ export function QAView({ autoOpenSubmit = false }: { autoOpenSubmit?: boolean })
       <div className="w-full">
         {filteredFaqs.length === 0 ? (
           <div className="p-8 text-center bg-white rounded-2xl border-2 border-deep-teal shadow-xs">
-            <p className="text-[15px] text-ink/70 m-0 font-sans">
+            <p className="text-base text-ink/70 m-0 font-sans">
               No matching questions found. Feel free to submit your own below!
             </p>
           </div>
@@ -144,12 +144,12 @@ export function QAView({ autoOpenSubmit = false }: { autoOpenSubmit?: boolean })
                 <AccordionItem
                   key={faq.id}
                   value={faq.id}
-                  className={`bg-white rounded-2xl px-6 py-2 shadow-xs transition-all ${borderOutline} border-b-0`}
+                  className={`bg-white rounded-2xl px-6 py-2 shadow-xs transition-colors ${borderOutline} border-b-0`}
                 >
-                  <AccordionTrigger className="text-deep-teal hover:text-raspberry font-serif text-[18px] md:text-[20px] font-normal py-4">
+                  <AccordionTrigger className="text-deep-teal hover:text-raspberry font-sans text-lg font-semibold py-4">
                     {faq.question}
                   </AccordionTrigger>
-                  <AccordionContent className="text-[15px] md:text-[16px] text-charcoal/85 leading-relaxed pt-1 pb-4">
+                  <AccordionContent className="text-base text-charcoal/85 leading-relaxed pt-1 pb-4">
                     {faq.answer}
                   </AccordionContent>
                 </AccordionItem>
@@ -180,10 +180,10 @@ export function QAView({ autoOpenSubmit = false }: { autoOpenSubmit?: boolean })
       <Dialog open={isSubmitModalOpen} onOpenChange={setIsSubmitModalOpen}>
         <DialogContent className="max-w-lg">
           <DialogHeader>
-            <DialogTitle className="font-serif text-2xl md:text-[30px] font-normal text-plum">
+            <DialogTitle className="font-serif text-h3 font-normal text-plum">
               Ask a Question Anonymously
             </DialogTitle>
-            <DialogDescription className="text-[14px] md:text-[15px] font-sans text-ink/80 leading-relaxed">
+            <DialogDescription className="text-sm md:text-base font-sans text-ink/80 leading-relaxed">
               No names, no tracking. Answers are curated from evidence-based clinical guidelines and added to the community library. Please note: This is health education, not individualized medical advice or diagnosis.
             </DialogDescription>
           </DialogHeader>
@@ -192,14 +192,14 @@ export function QAView({ autoOpenSubmit = false }: { autoOpenSubmit?: boolean })
             <div className="p-6 text-center flex flex-col items-center gap-2">
               <CheckCircle2 className="w-12 h-12 text-green-600 animate-bounce" />
               <h4 className="font-serif text-2xl font-normal text-plum">Question Submitted!</h4>
-              <p className="text-[14px] font-sans text-ink/80">
+              <p className="text-sm font-sans text-ink/80">
                 Thank you! We answer every question and regularly update the Q&amp;A directory.
               </p>
             </div>
           ) : (
             <form onSubmit={handleSubmitQuestion} className="flex flex-col gap-4 mt-2">
               <div>
-                <label className="block text-[13.5px] font-semibold text-berry mb-1 font-sans">
+                <label className="block text-sm font-semibold text-berry mb-1 font-sans">
                   What would you like to know?
                 </label>
                 <Textarea
@@ -208,17 +208,17 @@ export function QAView({ autoOpenSubmit = false }: { autoOpenSubmit?: boolean })
                   placeholder="Ask anything about your body, periods, hormones, or relationships..."
                   value={questionText}
                   onChange={(e) => setQuestionText(e.target.value)}
-                  className="text-[15px] font-sans"
+                  className="text-base font-sans"
                 />
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-[13.5px] font-semibold text-berry mb-1 font-sans">Topic Category</label>
+                  <label className="block text-sm font-semibold text-berry mb-1 font-sans">Topic Category</label>
                   <select
                     value={questionCat}
                     onChange={(e) => setQuestionCat(e.target.value)}
-                    className="flex h-12 w-full rounded-xl border border-berry/20 bg-cream-card px-3 text-[14px] font-sans text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-berry"
+                    className="flex h-12 w-full rounded-xl border border-berry/20 bg-cream-card px-3 text-sm font-sans text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-berry"
                   >
                     <option value="general">General Anatomy &amp; Puberty</option>
                     <option value="cycles">Periods &amp; Cramps</option>
@@ -228,11 +228,11 @@ export function QAView({ autoOpenSubmit = false }: { autoOpenSubmit?: boolean })
                   </select>
                 </div>
                 <div>
-                  <label className="block text-[13.5px] font-semibold text-berry mb-1 font-sans">Age Range (Optional)</label>
+                  <label className="block text-sm font-semibold text-berry mb-1 font-sans">Age Range (Optional)</label>
                   <select
                     value={ageRange}
                     onChange={(e) => setAgeRange(e.target.value)}
-                    className="flex h-12 w-full rounded-xl border border-berry/20 bg-cream-card px-3 text-[14px] font-sans text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-berry"
+                    className="flex h-12 w-full rounded-xl border border-berry/20 bg-cream-card px-3 text-sm font-sans text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-berry"
                   >
                     <option value="under-15">13–15</option>
                     <option value="16-18">16–18</option>
@@ -242,7 +242,7 @@ export function QAView({ autoOpenSubmit = false }: { autoOpenSubmit?: boolean })
                 </div>
               </div>
 
-              <div className="flex items-center gap-2 text-[13px] text-ink/70 font-sans">
+              <div className="flex items-center gap-2 text-sm text-ink/70 font-sans">
                 <Lock className="w-3.5 h-3.5 text-ink/60 shrink-0" />
                 <span>100% anonymous — no IP logging or cookies stored.</span>
               </div>

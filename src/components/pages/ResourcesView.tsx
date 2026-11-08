@@ -28,13 +28,12 @@ interface ResourcesViewProps {
 // ---------------------------------------------------------------------------
 const focusRing =
   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-deep-teal focus-visible:ring-offset-2";
-const card = "rounded-2xl border border-[#E5E1DC] bg-white p-5 shadow-sm md:p-6";
 const btnPrimary = cn(
-  "inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-raspberry px-6 py-2.5 text-center text-base font-semibold text-white transition-colors duration-200 hover:bg-raspberry-dark",
+  "inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-raspberry px-6 py-2.5 text-center text-base font-semibold text-white transition-colors duration-200 hover:bg-raspberry-dark motion-press motion-arrow",
   focusRing
 );
 const btnSecondary = cn(
-  "inline-flex min-h-11 items-center justify-center gap-2 rounded-full border-2 border-deep-teal bg-white px-6 py-2.5 text-center text-base font-semibold text-deep-teal transition-colors duration-200 hover:bg-light-teal",
+  "inline-flex min-h-11 items-center justify-center gap-2 rounded-full border-2 border-deep-teal bg-white px-6 py-2.5 text-center text-base font-semibold text-deep-teal transition-colors duration-200 hover:bg-light-teal motion-press motion-arrow",
   focusRing
 );
 const textLink = cn(
@@ -44,7 +43,10 @@ const textLink = cn(
 const sectionInner = "mx-auto max-w-6xl px-4 py-16 md:px-6 md:py-24";
 const h2Class = "font-serif text-h2 font-normal text-deep-teal text-balance";
 const h3Class = "font-serif text-h3 font-normal text-deep-teal text-balance";
-const cardTitle = "font-serif text-lg font-normal text-deep-teal text-balance";
+const cardTitle = "font-sans text-lg font-semibold text-deep-teal text-balance";
+// Callouts: a tinted ground, no side bar.
+const tintTeal = "rounded-2xl bg-light-teal-light p-5";
+const tintPink = "rounded-2xl bg-soft-pink-light p-5";
 const bodyText = "text-body text-charcoal text-pretty max-w-[65ch]";
 
 const ADVOCACY_LETTER_TEMPLATES = [
@@ -216,14 +218,12 @@ function CopyButton({
 function Collapsible({
   title,
   level = 3,
-  titleClass,
   open,
   onToggle,
   children
 }: {
   title: string;
   level?: 3 | 4;
-  titleClass?: string;
   open?: boolean;
   onToggle?: () => void;
   children: React.ReactNode;
@@ -234,7 +234,7 @@ function Collapsible({
   const Heading = `h${level}` as "h3" | "h4";
   return (
     <div>
-      <Heading className="m-0">
+      <Heading className="m-0 font-sans text-lg font-semibold">
         <button
           type="button"
           id={`${uid}-btn`}
@@ -243,18 +243,18 @@ function Collapsible({
           onClick={() => (onToggle ? onToggle() : setInnerOpen((o) => !o))}
           className={cn(
             "flex min-h-11 w-full items-center justify-between gap-4 px-5 py-3 text-left transition-colors duration-200 hover:bg-light-teal md:px-6",
-            titleClass ?? "font-serif text-lg font-normal text-deep-teal",
+            "font-sans text-lg font-semibold text-deep-teal",
             rowFocus
           )}
         >
-          <span className="text-pretty">{title}</span>
+          <span className="text-balance">{title}</span>
           <Plus
-            className={cn("h-5 w-5 shrink-0 text-raspberry transition-transform duration-200", isOpen && "rotate-45")}
+            className={cn("h-5 w-5 shrink-0 text-deep-teal transition-transform duration-200", isOpen && "rotate-45")}
             aria-hidden="true"
           />
         </button>
       </Heading>
-      <div id={`${uid}-panel`} role="region" aria-labelledby={`${uid}-btn`} hidden={!isOpen} className="px-5 pb-6 pt-1 md:px-6">
+      <div id={`${uid}-panel`} role="region" aria-labelledby={`${uid}-btn`} hidden={!isOpen} className="motion-panel px-5 pb-6 pt-1 md:px-6">
         {isOpen && children}
       </div>
     </div>
@@ -324,11 +324,22 @@ export function ResourcesView({ onNavigate, initialCategory = "all" }: Resources
   return (
     <div className="font-sans text-charcoal">
       {/* Header */}
-      <header className="mx-auto max-w-6xl px-4 pb-10 pt-16 text-center md:px-6 md:pb-14 md:pt-20">
-        <h1 className="mx-auto max-w-4xl font-serif text-h1 font-normal text-deep-teal text-balance">
+      <header className="mx-auto max-w-6xl px-4 pb-10 pt-16 md:px-6 md:pb-14 md:pt-20">
+        {/* Pillar marker: her two tool groups, Recognize and Advocate */}
+        <p className="m-0 mb-4 flex flex-wrap items-center gap-x-5 gap-y-1 text-base font-semibold text-deep-teal">
+          <span className="inline-flex items-center gap-2.5">
+            <span aria-hidden="true" className="h-3 w-3 shrink-0 rounded-full bg-coral ring-4 ring-soft-pink" />
+            Recognize
+          </span>
+          <span className="inline-flex items-center gap-2.5">
+            <span aria-hidden="true" className="h-3 w-3 shrink-0 rounded-full bg-raspberry ring-4 ring-soft-pink" />
+            Advocate
+          </span>
+        </p>
+        <h1 className="max-w-4xl font-serif text-h1 font-normal text-deep-teal text-balance">
           How to get help &amp; take action
         </h1>
-        <p className="mx-auto mt-5 max-w-2xl text-body text-charcoal text-pretty">
+        <p className="mt-5 max-w-[65ch] text-body text-charcoal text-pretty">
           When it&apos;s time for more than education — here is where to turn. Connect with 24/7 confidential hotlines, youth rights guides, and join real-world legislative petitions.
         </p>
       </header>
@@ -338,7 +349,7 @@ export function ResourcesView({ onNavigate, initialCategory = "all" }: Resources
         <div
           role="tablist"
           aria-label="Resources sections"
-          className="mx-auto grid max-w-6xl grid-cols-3 gap-2 px-4 py-2 md:flex md:justify-center md:gap-3 md:px-6"
+          className="mx-auto flex max-w-6xl snap-x snap-mandatory scroll-px-4 gap-2 overflow-x-auto overscroll-x-contain px-4 py-2 md:gap-3 md:overflow-visible md:px-6"
         >
           {GROUP_TABS.map((g, idx) => {
             const selected = tab === g.id;
@@ -357,7 +368,7 @@ export function ResourcesView({ onNavigate, initialCategory = "all" }: Resources
                 onClick={() => selectTab(g.id)}
                 onKeyDown={(e) => onTabKeyDown(e, idx)}
                 className={cn(
-                  "min-h-11 rounded-full px-2 text-sm font-semibold leading-tight transition-colors duration-200 md:px-6 md:text-base",
+                  "min-h-11 shrink-0 snap-start whitespace-nowrap rounded-full px-4 text-sm font-semibold transition-colors duration-200 md:px-6 md:text-base",
                   focusRing,
                   selected ? "bg-deep-teal text-white" : "text-deep-teal hover:bg-light-teal"
                 )}
@@ -373,7 +384,7 @@ export function ResourcesView({ onNavigate, initialCategory = "all" }: Resources
       {/* SELF-ADVOCACY TOOLKIT */}
       {/* ------------------------------------------------------------------ */}
       {tab === "toolkit" && (
-        <section role="tabpanel" id="toolkit" aria-labelledby="tab-toolkit" className="scroll-mt-32 bg-warm-cream">
+        <section role="tabpanel" id="toolkit" aria-labelledby="tab-toolkit" className="motion-panel scroll-mt-32 bg-warm-cream">
           <div className={panelInner}>
             <h2 className={h2Class}>Self-advocacy toolkit</h2>
             <p className={cn(bodyText, "mt-4")}>
@@ -405,11 +416,10 @@ export function ResourcesView({ onNavigate, initialCategory = "all" }: Resources
                     key={symptom.id}
                     level={4}
                     title={symptom.name}
-                    titleClass="text-base font-semibold text-deep-teal"
                     open={openSymptomId === symptom.id}
                     onToggle={() => setOpenSymptomId((cur) => (cur === symptom.id ? null : symptom.id))}
                   >
-                    <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+                    <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
                       <div className="space-y-6">
                         <div>
                           <h5 className="text-base font-semibold text-deep-teal">What it can be associated with:</h5>
@@ -437,9 +447,9 @@ export function ResourcesView({ onNavigate, initialCategory = "all" }: Resources
                             ))}
                           </ul>
                         </div>
-                        <div className="border-l-4 border-coral pl-4">
-                          <h5 className="text-base font-semibold text-raspberry">When to seek medical care:</h5>
-                          <p className="mt-1 text-base text-charcoal">{symptom.whenToSeekCare}</p>
+                        <div className={tintPink}>
+                          <h5 className="text-base font-semibold text-deep-teal">When to seek medical care:</h5>
+                          <p className="mt-1 max-w-[65ch] text-base text-charcoal text-pretty">{symptom.whenToSeekCare}</p>
                         </div>
                       </div>
                     </div>
@@ -453,17 +463,17 @@ export function ResourcesView({ onNavigate, initialCategory = "all" }: Resources
                   </Collapsible>
                 ))}
               </div>
-              <p className="mt-4 text-sm text-charcoal-light">
+              <p className="mt-4 max-w-[65ch] text-sm text-charcoal-light text-pretty">
                 <strong>Important Clinical Note:</strong> This symptom tracking information is compiled for health education and self-advocacy preparation, not medical diagnosis. If symptoms persist or cause you concern, consult a healthcare professional.
               </p>
             </div>
 
             <div className={cn(accordionBox, "mt-12")}>
               <Collapsible title="How to Build an Objective Symptom Log">
-                <p className="text-base text-charcoal text-pretty">
+                <p className="max-w-[65ch] text-base text-charcoal text-pretty">
                   Clinicians respond to concrete numbers and timelines rather than vague recollections. Log these 4 parameters:
                 </p>
-                <dl className="mt-4 grid grid-cols-1 gap-5 sm:grid-cols-2">
+                <dl className="mt-4 grid grid-cols-1 gap-5 lg:grid-cols-2">
                   {LOG_PARAMETERS.map((p) => (
                     <div key={p.title}>
                       <dt className="text-base font-semibold text-deep-teal">{p.title}</dt>
@@ -473,22 +483,22 @@ export function ResourcesView({ onNavigate, initialCategory = "all" }: Resources
                 </dl>
               </Collapsible>
               <Collapsible title="Preparing for an Appointment: 3 Rules for Clarity">
-                <ul className="grid grid-cols-1 gap-5 md:grid-cols-3">
+                <ul className="grid grid-cols-1 gap-5 lg:grid-cols-3">
                   {APPOINTMENT_RULES.map((rule) => (
-                    <li key={rule.title} className="border-l-4 border-light-teal pl-4">
-                      <h4 className="text-base font-semibold text-deep-teal">{rule.title}</h4>
-                      <p className="mt-1 text-base text-charcoal text-pretty">{rule.text}</p>
+                    <li key={rule.title} className={tintTeal}>
+                      <h4 className="font-sans text-base font-semibold text-deep-teal">{rule.title}</h4>
+                      <p className="mt-1 max-w-[65ch] text-base text-charcoal text-pretty">{rule.text}</p>
                     </li>
                   ))}
                 </ul>
               </Collapsible>
               <Collapsible title="Verbatim Scripts for Clinical Visits">
-                <ul className="grid grid-cols-1 gap-6 md:grid-cols-2">
+                <ul className="grid grid-cols-1 gap-6 lg:grid-cols-2">
                   {SPEAK_UP_SCRIPTS.map((script) => (
-                    <li key={script.id} className="flex flex-col items-start gap-4 border-l-4 border-light-teal pl-4">
+                    <li key={script.id} className={cn(tintTeal, "flex flex-col items-start gap-4")}>
                       <div>
-                        <h4 className="text-base font-semibold text-deep-teal">{script.title}</h4>
-                        <p className="mt-1 font-serif text-lg text-charcoal text-pretty">{script.text}</p>
+                        <h4 className="font-sans text-base font-semibold text-deep-teal">{script.title}</h4>
+                        <p className="mt-1 max-w-[65ch] text-lg text-charcoal text-pretty">{script.text}</p>
                       </div>
                       <CopyButton
                         text={script.text}
@@ -515,36 +525,42 @@ export function ResourcesView({ onNavigate, initialCategory = "all" }: Resources
       {/* GET HELP NOW */}
       {/* ------------------------------------------------------------------ */}
       {tab === "help" && (
-        <section role="tabpanel" id="help" aria-labelledby="tab-help" className="scroll-mt-32">
+        <section role="tabpanel" id="help" aria-labelledby="tab-help" className="motion-panel scroll-mt-32">
           <div className={panelInner}>
             <h2 className={h2Class}>Get help now</h2>
             <p className={cn(bodyText, "mt-4")}>
               Confidential 24/7 hotlines, adolescent privacy guarantees, and maternal warning signs triage.
             </p>
 
-            <div className="mt-8 flex items-start gap-4 rounded-2xl border border-[#E5E1DC] border-l-4 border-l-raspberry bg-white p-5 shadow-sm md:p-6">
-              <AlertTriangle className="mt-1 h-6 w-6 shrink-0 text-raspberry" aria-hidden="true" />
+            <div className={cn(tintPink, "mt-8 flex items-start gap-4 md:p-6")}>
+              <AlertTriangle className="mt-1 h-6 w-6 shrink-0 text-deep-teal" aria-hidden="true" />
               <div>
-                <h3 className="font-serif text-lg font-normal text-raspberry">
+                <h3 className="font-sans text-lg font-semibold text-deep-teal">
                   Emergency &amp; Life-Threatening Situations
                 </h3>
-                <p className="mt-1 text-base text-charcoal text-pretty">
+                <p className="mt-1 max-w-[65ch] text-base text-charcoal text-pretty">
                   If you or someone you know is experiencing acute severe bleeding, sudden chest pain, difficulty breathing, suicidal thoughts, or immediate domestic danger: <strong>call 911</strong> or proceed directly to the nearest emergency department immediately. You do not need insurance to receive emergency stabilization.
                 </p>
               </div>
             </div>
 
             <h3 className={cn(h3Class, "mt-12")}>24/7 Confidential Hotlines &amp; Text Lines</h3>
-            <p className="mt-2 text-base text-charcoal-light">
+            <p className="mt-2 max-w-[65ch] text-base text-charcoal-light text-pretty">
               Always free, confidential, and staffed by trained educators &amp; crisis clinicians.
             </p>
-            <ul className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-2">
+            {/* One directory of rows: no half-empty card rows at any width */}
+            <ul className="mt-6 divide-y divide-[#E5E1DC] rounded-2xl border border-[#E5E1DC] bg-white shadow-sm">
               {sortedHotlines.map((hotline) => (
-                <li key={hotline.name} className={cn(card, "flex flex-col justify-between gap-5")}>
-                  <div>
+                <li
+                  key={hotline.name}
+                  className="grid grid-cols-1 gap-4 px-5 py-5 md:px-6 xl:grid-cols-12 xl:items-center xl:gap-6"
+                >
+                  <div className="xl:col-span-4">
                     <h4 className={cardTitle}>{hotline.name}</h4>
                     <p className="mt-1 text-sm font-semibold text-deep-teal">{hotline.hours}</p>
-                    <p className="mt-2 text-base text-charcoal text-pretty">{hotline.desc}</p>
+                  </div>
+                  <div className="xl:col-span-5">
+                    <p className="max-w-[65ch] text-base text-charcoal text-pretty">{hotline.desc}</p>
                     {hotline.sms && (
                       <p className="mt-3 flex items-start gap-2 text-sm font-semibold text-charcoal">
                         <MessageSquare className="mt-0.5 h-4 w-4 shrink-0 text-deep-teal" aria-hidden="true" />
@@ -552,16 +568,16 @@ export function ResourcesView({ onNavigate, initialCategory = "all" }: Resources
                       </p>
                     )}
                   </div>
-                  <div>
+                  <div className="xl:col-span-3 xl:justify-self-end">
                     {hotline.number.replace(/[^0-9]/g, "").length > 6 ? (
                       <a href={`tel:${hotline.number.replace(/[^0-9]/g, "")}`} className={btnSecondary}>
                         <Phone className="h-4 w-4" aria-hidden="true" />
-                        <span>Call {hotline.number}</span>
+                        <span>Call <span className="whitespace-nowrap">{hotline.number}</span></span>
                       </a>
                     ) : (
                       <a href={`sms:${hotline.number.replace(/[^0-9]/g, "")}`} className={btnSecondary}>
                         <Phone className="h-4 w-4" aria-hidden="true" />
-                        <span>Text {hotline.number}</span>
+                        <span>Text <span className="whitespace-nowrap">{hotline.number}</span></span>
                       </a>
                     )}
                   </div>
@@ -571,29 +587,29 @@ export function ResourcesView({ onNavigate, initialCategory = "all" }: Resources
 
             <div className={cn(accordionBox, "mt-12")}>
               <Collapsible title="Know Your Rights: Confidential Adolescent Care Guide">
-                <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+                <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
                   <div>
-                    <h4 className="text-base font-semibold text-deep-teal">Title X Federal Protection</h4>
-                    <p className="mt-2 text-base text-charcoal text-pretty">
+                    <h4 className="font-sans text-base font-semibold text-deep-teal">Title X Federal Protection</h4>
+                    <p className="mt-2 max-w-[65ch] text-base text-charcoal text-pretty">
                       Under federal Title X guidelines, youth and minors have the absolute legal right to receive confidential contraceptive counseling, STI testing, and pregnancy checks at any Title X clinic without parental consent or notification.
                     </p>
                   </div>
                   <div>
-                    <h4 className="text-base font-semibold text-deep-teal">Preventing Insurance EOB Letters</h4>
-                    <p className="mt-2 text-base text-charcoal text-pretty">
+                    <h4 className="font-sans text-base font-semibold text-deep-teal">Preventing Insurance EOB Letters</h4>
+                    <p className="mt-2 max-w-[65ch] text-base text-charcoal text-pretty">
                       If you use your parent&apos;s insurance, an &quot;Explanation of Benefits&quot; (EOB) mailer could be sent home. Tell clinic staff: <em>&quot;I need this visit confidential. Please suppress the EOB or charge on your sliding fee scale.&quot;</em>
                     </p>
                   </div>
                   <div>
-                    <h4 className="text-base font-semibold text-deep-teal">Front Desk Check-in Script</h4>
-                    <p className="mt-2 text-base text-charcoal text-pretty">
+                    <h4 className="font-sans text-base font-semibold text-deep-teal">Front Desk Check-in Script</h4>
+                    <p className="mt-2 max-w-[65ch] text-base text-charcoal text-pretty">
                       Say to reception: <em>&quot;Hi, I am here for confidential reproductive services. I would like to be seen under your sliding scale program and ensure no mail or texts are sent to my family home.&quot;</em>
                     </p>
                   </div>
                 </div>
               </Collapsible>
               <Collapsible title="Urgent Maternal Warning Signs (CDC Hear Her Protocol)">
-                <p className="text-base text-charcoal text-pretty">
+                <p className="max-w-[65ch] text-base text-charcoal text-pretty">
                   During pregnancy and for up to 1 full year postpartum, these warning signs require urgent medical evaluation — do not allow symptoms to be dismissed:
                 </p>
                 <ul className="mt-4 grid grid-cols-1 gap-x-8 gap-y-3 sm:grid-cols-2 lg:grid-cols-3">
@@ -614,7 +630,7 @@ export function ResourcesView({ onNavigate, initialCategory = "all" }: Resources
       {/* TAKE ACTION */}
       {/* ------------------------------------------------------------------ */}
       {tab === "petitions" && (
-        <section role="tabpanel" id="petitions" aria-labelledby="tab-petitions" className="scroll-mt-32 bg-warm-cream">
+        <section role="tabpanel" id="petitions" aria-labelledby="tab-petitions" className="motion-panel scroll-mt-32 bg-warm-cream">
           <div className={panelInner}>
             <h2 className={h2Class}>Take Action &amp; Petitions</h2>
             <p className={cn(bodyText, "mt-4")}>
@@ -624,7 +640,7 @@ export function ResourcesView({ onNavigate, initialCategory = "all" }: Resources
             <ul className="mt-8 divide-y divide-[#E5E1DC] rounded-2xl border border-[#E5E1DC] bg-white shadow-sm">
               {PETITIONS_DATA.map((petition) => (
                 <li key={petition.id} className="px-5 py-5 md:px-6">
-                  <p className="text-sm font-semibold text-raspberry">
+                  <p className="text-sm font-semibold text-deep-teal">
                     {petition.location} • {petition.organizer}
                   </p>
                   <h3 className={cn(cardTitle, "mt-1")}>{petition.title}</h3>
@@ -641,17 +657,18 @@ export function ResourcesView({ onNavigate, initialCategory = "all" }: Resources
                       <span className="sr-only">(opens in a new tab)</span>
                     </a>
                   </div>
-                  <details className="mt-1">
+                  <details className="group mt-1">
                     <summary
                       className={cn(
-                        "flex min-h-11 cursor-pointer items-center text-base font-semibold text-deep-teal underline-offset-4 hover:underline",
+                        "flex min-h-11 cursor-pointer list-none items-center gap-2 font-sans text-base font-semibold text-deep-teal underline-offset-4 hover:underline [&::-webkit-details-marker]:hidden",
                         focusRing
                       )}
                     >
+                      <Plus className="h-5 w-5 shrink-0 transition-transform duration-200 group-open:rotate-45" aria-hidden="true" />
                       Details and key demands
                     </summary>
-                    <p className="mt-1 text-base text-charcoal text-pretty">{petition.summary}</p>
-                    <h4 className="mt-3 text-base font-semibold text-deep-teal">Key Demands</h4>
+                    <p className="mt-1 max-w-[65ch] text-base text-charcoal text-pretty">{petition.summary}</p>
+                    <h4 className="mt-3 font-sans text-base font-semibold text-deep-teal">Key Demands</h4>
                     <ul className="mt-1 list-disc space-y-1.5 pl-5 text-base text-charcoal">
                       {petition.fullDemands.map((demand, idx) => (
                         <li key={idx}>{demand}</li>
@@ -682,26 +699,27 @@ export function ResourcesView({ onNavigate, initialCategory = "all" }: Resources
 
             <div className={cn(accordionBox, "mt-10")}>
               <Collapsible title="Pre-Written Advocacy Letter Templates">
-                <p className="text-base text-charcoal text-pretty">
+                <p className="max-w-[65ch] text-base text-charcoal text-pretty">
                   Ready-to-use letters to send to your school principal, district superintendent, or elected officials. Copy with 1 click and customize!
                 </p>
-                <ul className="mt-5 grid grid-cols-1 gap-6 md:grid-cols-2">
+                <ul className="mt-5 grid grid-cols-1 gap-6 lg:grid-cols-2">
                   {ADVOCACY_LETTER_TEMPLATES.map((letter) => (
-                    <li key={letter.id} className="flex flex-col items-start gap-3 border-l-4 border-light-teal pl-4">
+                    <li key={letter.id} className={cn(tintTeal, "flex flex-col items-start gap-3")}>
                       <div>
-                        <p className="text-sm font-semibold text-raspberry">{letter.category}</p>
+                        <p className="text-sm font-semibold text-deep-teal">{letter.category}</p>
                         <h4 className={cn(cardTitle, "mt-1")}>{letter.title}</h4>
                       </div>
-                      <details className="w-full">
+                      <details className="group w-full">
                         <summary
                           className={cn(
-                            "flex min-h-11 cursor-pointer items-center text-base font-semibold text-deep-teal underline-offset-4 hover:underline",
+                            "flex min-h-11 cursor-pointer list-none items-center gap-2 font-sans text-base font-semibold text-deep-teal underline-offset-4 hover:underline [&::-webkit-details-marker]:hidden",
                             focusRing
                           )}
                         >
+                          <Plus className="h-5 w-5 shrink-0 transition-transform duration-200 group-open:rotate-45" aria-hidden="true" />
                           Read the letter
                         </summary>
-                        <p className="mt-1 whitespace-pre-wrap text-sm text-charcoal">{letter.text}</p>
+                        <p className="mt-1 max-w-[65ch] whitespace-pre-wrap text-base text-charcoal">{letter.text}</p>
                       </details>
                       <div className="flex flex-wrap items-center gap-3">
                         <CopyButton
@@ -717,24 +735,26 @@ export function ResourcesView({ onNavigate, initialCategory = "all" }: Resources
                 </ul>
               </Collapsible>
               <Collapsible title="National Advocacy & Legislative Coalitions">
-                <p className="text-base text-charcoal text-pretty">
+                <p className="max-w-[65ch] text-base text-charcoal text-pretty">
                   Direct access to verified non-profit networks driving federal bills and state-level policy change:
                 </p>
-                <ul className="mt-5 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+                <ul className="mt-5 divide-y divide-[#E5E1DC] border-y border-[#E5E1DC]">
                   {REAL_WORLD_ADVOCACY_LINKS.map((link) => (
-                    <li key={link.url} className="border-l-4 border-light-teal pl-4">
+                    <li key={link.url} className="grid grid-cols-1 gap-1 py-4 lg:grid-cols-12 lg:gap-6">
+                      <div className="lg:col-span-5">
                       <a
                         href={link.url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className={cn("font-serif text-lg text-deep-teal underline-offset-4 hover:underline", focusRing)}
+                        className={cn("text-balance font-sans text-lg font-semibold text-deep-teal underline-offset-4 hover:underline", focusRing)}
                       >
                         {link.title}
                         <ExternalLink className="ml-1.5 inline h-3.5 w-3.5 align-baseline" aria-hidden="true" />
                         <span className="sr-only">(opens in a new tab)</span>
                       </a>
-                      <p className="mt-1 text-sm font-semibold text-raspberry">{link.organization}</p>
-                      <p className="mt-1 text-base text-charcoal text-pretty">{link.description}</p>
+                      <p className="mt-1 text-sm font-semibold text-deep-teal">{link.organization}</p>
+                      </div>
+                      <p className="mt-1 text-base text-charcoal text-pretty lg:col-span-7 lg:mt-0">{link.description}</p>
                     </li>
                   ))}
                 </ul>

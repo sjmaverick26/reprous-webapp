@@ -16,6 +16,7 @@ import {
 import { MYTHS_DATA, MythItem, MythSource } from "@/data/mythsData";
 import { EducationalReferences } from "@/components/shared/EducationalReferences";
 import { PageId } from "@/components/layout/Navbar";
+import { keepUnits } from "@/components/shared/keepUnits";
 
 interface MythsViewProps {
   onNavigate?: (page: PageId, categoryOrTab?: string) => void;
@@ -103,7 +104,7 @@ export function MythsView({ onNavigate, embedded = false }: MythsViewProps) {
 
   return (
     <div
-      className={`max-w-6xl mx-auto flex flex-col gap-8 text-charcoal font-sans ${
+      className={`w-full min-w-0 max-w-6xl mx-auto flex flex-col gap-8 text-charcoal font-sans ${
         embedded ? "" : "px-4 md:px-6 py-12 md:py-16"
       }`}
     >
@@ -117,18 +118,20 @@ export function MythsView({ onNavigate, embedded = false }: MythsViewProps) {
         </p>
 
         {/* Global Controls: Search + Reveal All */}
-        <div className="w-full max-w-xl flex flex-col sm:flex-row items-stretch gap-3 mt-6">
+        {/* Her hint sits above the field as its label, so it wraps instead of being clipped */}
+        <div className="w-full max-w-xl mt-6">
+          <label htmlFor="myths-search" className="block mb-2 text-sm font-semibold text-deep-teal text-pretty">
+            Search myths by condition, pain, cycle...
+          </label>
+          <div className="w-full flex flex-col sm:flex-row items-stretch gap-3">
           <div className="relative w-full flex-1">
-            <label htmlFor="myths-search" className="sr-only">
-              Search myths
-            </label>
             <Search className="w-5 h-5 text-charcoal-muted absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none" aria-hidden="true" />
             <input
               id="myths-search"
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search myths by condition, pain, cycle..."
+              placeholder="Search"
               className="w-full h-12 pl-12 pr-12 rounded-full bg-white border border-[#E5E1DC] text-base text-charcoal placeholder:text-charcoal-muted focus:outline-none focus-visible:ring-2 focus-visible:ring-deep-teal font-sans"
             />
             {searchQuery && (
@@ -156,6 +159,7 @@ export function MythsView({ onNavigate, embedded = false }: MythsViewProps) {
               </>
             )}
           </button>
+        </div>
         </div>
       </div>
 
@@ -191,9 +195,9 @@ export function MythsView({ onNavigate, embedded = false }: MythsViewProps) {
       {/* Empty State */}
       {filteredMyths.length === 0 && (
         <div className="text-center py-12 px-4 bg-white rounded-2xl border border-[#E5E1DC] shadow-sm">
-          <HelpCircle className="w-10 h-10 text-raspberry mx-auto mb-3" aria-hidden="true" />
-          <h3 className="text-xl font-serif text-deep-teal mb-2">No matching myths found</h3>
-          <p className="text-base text-charcoal-light mb-4">
+          <HelpCircle className="w-10 h-10 text-deep-teal mx-auto mb-3" aria-hidden="true" />
+          <h3 className="text-2xl font-serif font-normal text-deep-teal text-balance mb-2">No matching myths found</h3>
+          <p className="mx-auto max-w-[65ch] text-base text-charcoal-light mb-4">
             Try adjusting your search terms or clearing the category filter.
           </p>
           <button
@@ -210,14 +214,23 @@ export function MythsView({ onNavigate, embedded = false }: MythsViewProps) {
       )}
 
       {/* Interactive Myth & Fact Cards Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {filteredMyths.map((item) => {
+      {/* One column below 1024; three from 1024, with wide cards filling the last row (no half-empty rows) */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {filteredMyths.map((item, idx) => {
           const isRevealed = revealedIds.has(item.id);
+          const count = filteredMyths.length;
+          const rest = count % 3;
+          const span =
+            count === 1
+              ? "lg:col-span-3"
+              : (rest === 2 && idx === 0) || (rest === 1 && (idx === 0 || idx === count - 1))
+              ? "lg:col-span-2"
+              : "";
 
           return (
             <div
               key={item.id}
-              className="rounded-2xl flex flex-col justify-between bg-white border border-[#E5E1DC] shadow-sm"
+              className={`rounded-2xl flex flex-col justify-between bg-white border border-[#E5E1DC] shadow-sm ${span}`}
             >
               {/* Card Main Body */}
               <div className="p-5 md:p-6 flex flex-col gap-4">
@@ -229,7 +242,7 @@ export function MythsView({ onNavigate, embedded = false }: MythsViewProps) {
                       Fact
                     </span>
                   ) : (
-                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-small font-semibold bg-white text-raspberry border border-raspberry">
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-small font-semibold bg-soft-pink-light text-deep-teal border border-coral">
                       <HelpCircle className="w-4 h-4" aria-hidden="true" />
                       Myth
                     </span>
@@ -239,7 +252,7 @@ export function MythsView({ onNavigate, embedded = false }: MythsViewProps) {
 
                 {!isRevealed ? (
                   <div className="flex flex-col gap-5">
-                    <blockquote className="text-xl font-normal font-serif text-deep-teal leading-snug text-balance border-l-4 border-coral pl-4 m-0">
+                    <blockquote className="text-2xl font-normal font-serif text-deep-teal leading-snug text-balance rounded-2xl bg-soft-pink-light p-4 m-0">
                       &ldquo;{item.myth}&rdquo;
                     </blockquote>
                     <div>
@@ -252,24 +265,24 @@ export function MythsView({ onNavigate, embedded = false }: MythsViewProps) {
                 ) : (
                   <div className="flex flex-col gap-4">
                     {/* The original myth, kept as a quiet line */}
-                    <div className="flex items-start justify-between gap-3 border-l-4 border-coral pl-4">
-                      <p className="text-base font-serif italic text-charcoal-light m-0">
+                    <div className="flex items-start justify-between gap-3 rounded-2xl bg-soft-pink-light px-4 py-3">
+                      <p className="max-w-[65ch] text-base italic text-charcoal-light text-pretty m-0">
                         &ldquo;{item.myth}&rdquo;
                       </p>
                       <button
                         type="button"
                         onClick={() => toggleReveal(item.id)}
-                        className="min-h-[44px] px-2 -my-2 text-small font-semibold text-deep-teal underline hover:text-raspberry whitespace-nowrap shrink-0 transition-colors duration-150"
+                        className="min-h-[44px] px-2 -my-2 text-small font-semibold text-deep-teal underline hover:text-deep-teal-dark whitespace-nowrap shrink-0 transition-colors duration-150"
                       >
                         Hide Fact
                       </button>
                     </div>
 
-                    <h3 className="text-xl font-normal font-serif text-deep-teal leading-snug text-balance m-0">
+                    <h3 className="text-2xl font-normal font-serif text-deep-teal leading-snug text-balance m-0">
                       {item.quickFact}
                     </h3>
 
-                    <p className="text-base text-charcoal text-pretty leading-relaxed m-0 whitespace-pre-line">{item.explanation}</p>
+                    <p className="max-w-[65ch] text-base text-charcoal text-pretty leading-relaxed m-0 whitespace-pre-line">{item.explanation}</p>
 
                     {item.takeaways && item.takeaways.length > 0 && (
                       <div>
@@ -295,7 +308,7 @@ export function MythsView({ onNavigate, embedded = false }: MythsViewProps) {
                 >
                   <BookOpen className="w-4 h-4 shrink-0" aria-hidden="true" />
                   <span>
-                    <span className="font-bold">Sources: </span>
+                    <span className="font-semibold">Sources: </span>
                     <span className="font-semibold">{item.source.organization}</span>
                   </span>
                   <ExternalLink className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
@@ -331,7 +344,7 @@ export function MythsView({ onNavigate, embedded = false }: MythsViewProps) {
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-start justify-between gap-4 pr-10">
-              <h3 id="source-modal-title" className="text-xl font-normal font-serif text-deep-teal m-0">
+              <h3 id="source-modal-title" className="text-2xl font-normal font-serif text-deep-teal text-balance m-0">
                 Verified Clinical Source
               </h3>
               <button
@@ -347,7 +360,7 @@ export function MythsView({ onNavigate, embedded = false }: MythsViewProps) {
             <div className="space-y-3 font-sans">
               <div>
                 <p className="text-small font-semibold text-charcoal-light m-0">Authoring Medical Body</p>
-                <p className="text-base font-bold text-deep-teal m-0">{activeSourceModal.source.organization}</p>
+                <p className="text-base font-semibold text-deep-teal m-0">{activeSourceModal.source.organization}</p>
               </div>
 
               <div>
@@ -361,21 +374,21 @@ export function MythsView({ onNavigate, embedded = false }: MythsViewProps) {
                 {activeSourceModal.source.guidelineNumber && (
                   <div>
                     <p className="text-small font-semibold text-charcoal-light m-0">Guideline ID</p>
-                    <p className="text-base text-charcoal m-0">{activeSourceModal.source.guidelineNumber}</p>
+                    <p className="max-w-[65ch] text-base text-charcoal m-0">{keepUnits(activeSourceModal.source.guidelineNumber)}</p>
                   </div>
                 )}
                 {activeSourceModal.source.citationYear && (
                   <div>
                     <p className="text-small font-semibold text-charcoal-light m-0">Published / Status</p>
-                    <p className="text-base text-charcoal m-0">{activeSourceModal.source.citationYear}</p>
+                    <p className="max-w-[65ch] text-base text-charcoal m-0">{activeSourceModal.source.citationYear}</p>
                   </div>
                 )}
               </div>
 
               {activeSourceModal.source.keyFinding && (
-                <div className="border-l-4 border-raspberry pl-4">
-                  <p className="text-base font-bold text-deep-teal m-0 mb-1">Clinical Consensus Finding</p>
-                  <p className="text-base text-charcoal text-pretty leading-relaxed m-0">
+                <div className="rounded-2xl bg-light-teal-light p-4">
+                  <p className="text-base font-semibold text-deep-teal m-0 mb-1">Clinical Consensus Finding</p>
+                  <p className="max-w-[65ch] text-base text-charcoal text-pretty leading-relaxed m-0">
                     {activeSourceModal.source.keyFinding}
                   </p>
                 </div>
@@ -410,7 +423,7 @@ export function MythsView({ onNavigate, embedded = false }: MythsViewProps) {
               <button
                 type="button"
                 onClick={() => setActiveSourceModal(null)}
-                className="min-h-[44px] px-4 rounded-full text-sm font-semibold font-sans text-deep-teal underline hover:text-raspberry transition-colors duration-150"
+                className="min-h-[44px] px-4 rounded-full text-sm font-semibold font-sans text-deep-teal underline hover:text-deep-teal-dark transition-colors duration-150"
               >
                 Close
               </button>

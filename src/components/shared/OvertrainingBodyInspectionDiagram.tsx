@@ -82,7 +82,7 @@ export const OVERTRAINING_HOTSPOTS: Record<HotspotId, HotspotData> = {
     name: "Thyroid & Metabolic Regulation",
     system: "Endocrine & Basal Metabolic Rate",
     category: "Metabolic",
-    tagColor: "bg-amber-100 text-amber-800 border-amber-200",
+    tagColor: "bg-soft-pink text-raspberry-dark border-soft-pink-dark",
     x: 170,
     y: 110,
     lensOffset: { hx: 236, hy: 90 },
@@ -220,8 +220,9 @@ export const OVERTRAINING_HOTSPOTS: Record<HotspotId, HotspotData> = {
       "Without estrogen to brake bone breakdown, osteoclasts resorb bone faster than osteoblasts build it, turning impact microcracks into stress fractures.",
     femaleSpecificImpact:
       "Over 90% of lifetime bone density is banked before age 20. Bone lost during teen amenorrhea can cause lifelong osteoporosis.",
+    // Dose hidden until KP rules (Herdy, 8 Nov 2026). Original: "...switch to pool/bike, ensure 1,300mg calcium + 2,000 IU Vitamin D3, and restore nutrition."
     recoverySolution:
-      "Stop high-impact running immediately on focal bone pain; switch to pool/bike, ensure 1,300mg calcium + 2,000 IU Vitamin D3, and restore nutrition.",
+      "Stop high-impact running immediately on focal bone pain; switch to pool/bike, and restore nutrition.",
     clinicalMarker: "DXA Z-score < -1.0 with focal bone edema on MRI",
   },
 };
@@ -321,12 +322,12 @@ export function OvertrainingBodyInspectionDiagram({ diagram, themeColor }: Props
           hasGlasses: false,
           hasFreckles: false,
           glassesColor: "#475569",
-          headbandColor: "#7C3AED", // Royal purple headband
-          topColor: "#7C3AED", // Royal purple training top
+          headbandColor: "#7C3AED", // Royal purple headband // unslop-ignore: athlete clothing is drawn in this colour
+          topColor: "#7C3AED", // Royal purple training top // unslop-ignore: athlete clothing is drawn in this colour
           topAccentColor: "#EDE9FE",
           tightsColor: "#0F172A",
-          tightsStripe: "#7C3AED",
-          shoeColor: "#6D28D9",
+          tightsStripe: "#7C3AED", // unslop-ignore: athlete clothing is drawn in this colour
+          shoeColor: "#6D28D9", // unslop-ignore: athlete clothing is drawn in this colour
           shoeAccent: "#A78BFA",
           scenarioNarrative:
             "Vivian played full 90-minute club soccer matches on weekends while running high-mileage interval practices every weekday. She noticed her sprint acceleration slowing down, caught two recurring sinus infections, and her menstrual cycle vanished for 3 months. When her coach told her to 'run through the fatigue,' sports medicine testing revealed elevated resting heart rate, suppressed bone turnover markers, and secondary amenorrhea.",
@@ -339,14 +340,14 @@ export function OvertrainingBodyInspectionDiagram({ diagram, themeColor }: Props
       {/* ------------------------------------------------------------------ */}
       {/* 1. ATHLETE SCENARIO CARD ON TOP                                     */}
       {/* ------------------------------------------------------------------ */}
-      <div className="rounded-2xl border-2 border-amber-300/80 bg-gradient-to-br from-amber-50/90 via-orange-50/40 to-white p-4 md:p-5 shadow-xs space-y-3">
-        <div className="flex flex-wrap items-center justify-between gap-2 border-b border-amber-200/70 pb-2.5">
+      <div className="rounded-2xl border-2 border-coral-light/80 bg-gradient-to-br from-soft-pink-light/90 via-orange-50/40 to-white p-4 md:p-5 shadow-xs space-y-3">
+        <div className="flex flex-wrap items-center justify-between gap-2 border-b border-soft-pink-dark/70 pb-2.5">
           <div className="flex items-center gap-2">
-            <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-amber-500 text-white shadow-xs">
+            <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-raspberry text-white shadow-xs">
               <Stethoscope className="w-4 h-4" />
             </span>
             <div>
-              <span className="text-[10px] font-extrabold uppercase tracking-wider text-amber-900">
+              <span className="text-[10px] font-extrabold uppercase tracking-wider text-charcoal">
                 Relatable Athlete Case Study & Clinical Scenario
               </span>
               <h4 className="text-base md:text-lg font-serif font-bold text-charcoal leading-tight">
@@ -356,7 +357,7 @@ export function OvertrainingBodyInspectionDiagram({ diagram, themeColor }: Props
           </div>
 
           {/* Character Switcher */}
-          <div className="flex items-center gap-1.5 bg-white/90 p-1 rounded-xl border border-amber-200 shadow-2xs flex-wrap">
+          <div className="flex items-center gap-1.5 bg-white/90 p-1 rounded-xl border border-soft-pink-dark shadow-2xs flex-wrap">
             <span className="text-[11px] font-semibold text-charcoal/70 px-1.5 flex items-center gap-1">
               <User className="w-3 h-3 text-deep-teal" /> Athlete:
             </span>
@@ -365,7 +366,7 @@ export function OvertrainingBodyInspectionDiagram({ diagram, themeColor }: Props
               className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer ${
                 selectedCharacter === "sierra"
                   ? "bg-deep-teal text-white shadow-xs"
-                  : "text-charcoal/70 hover:bg-slate-100"
+                  : "text-charcoal/70 hover:bg-warm-cream"
               }`}
             >
               Sierra (Runner)
@@ -374,8 +375,8 @@ export function OvertrainingBodyInspectionDiagram({ diagram, themeColor }: Props
               onClick={() => setSelectedCharacter("maya")}
               className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer ${
                 selectedCharacter === "maya"
-                  ? "bg-coral text-white shadow-xs"
-                  : "text-charcoal/70 hover:bg-slate-100"
+                  ? "bg-coral text-charcoal shadow-xs"
+                  : "text-charcoal/70 hover:bg-warm-cream"
               }`}
             >
               Maya (Sprinter)
@@ -385,7 +386,7 @@ export function OvertrainingBodyInspectionDiagram({ diagram, themeColor }: Props
               className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer ${
                 selectedCharacter === "autumn"
                   ? "bg-emerald-700 text-white shadow-xs"
-                  : "text-charcoal/70 hover:bg-slate-100"
+                  : "text-charcoal/70 hover:bg-warm-cream"
               }`}
             >
               Autumn (Swimmer)
@@ -395,7 +396,7 @@ export function OvertrainingBodyInspectionDiagram({ diagram, themeColor }: Props
               className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer ${
                 selectedCharacter === "vivian"
                   ? "bg-raspberry text-white shadow-xs"
-                  : "text-charcoal/70 hover:bg-slate-100"
+                  : "text-charcoal/70 hover:bg-warm-cream"
               }`}
             >
               Vivian (Soccer)
@@ -410,9 +411,9 @@ export function OvertrainingBodyInspectionDiagram({ diagram, themeColor }: Props
               <strong className="text-charcoal font-bold">{character.title}: </strong>
               {character.scenarioNarrative}
             </p>
-            <div className="flex flex-wrap items-center gap-2 text-[11px] font-medium text-amber-950">
-              <span className="inline-flex items-center gap-1 bg-amber-100/90 text-amber-900 px-2.5 py-0.5 rounded-full font-bold border border-amber-200">
-                <AlertTriangle className="w-3 h-3 text-amber-700" />
+            <div className="flex flex-wrap items-center gap-2 text-[11px] font-medium text-charcoal">
+              <span className="inline-flex items-center gap-1 bg-soft-pink/90 text-charcoal px-2.5 py-0.5 rounded-full font-bold border border-soft-pink-dark">
+                <AlertTriangle className="w-3 h-3 text-raspberry-dark" />
                 Root Cause: Low Energy Availability (LEA)
               </span>
               <span className="inline-flex items-center gap-1 bg-rose-100/90 text-rose-900 px-2.5 py-0.5 rounded-full font-bold border border-rose-200">
@@ -422,7 +423,7 @@ export function OvertrainingBodyInspectionDiagram({ diagram, themeColor }: Props
             </div>
           </div>
 
-          <div className="md:col-span-4 rounded-xl bg-white/95 p-3 border border-amber-200 shadow-2xs space-y-1.5 text-[11.5px]">
+          <div className="md:col-span-4 rounded-xl bg-white/95 p-3 border border-soft-pink-dark shadow-2xs space-y-1.5 text-[11.5px]">
             <div className="flex items-center gap-1 text-deep-teal font-bold uppercase tracking-wider text-[10px]">
               <Search className="w-3 h-3 text-deep-teal" />
               Inspection Mission
@@ -437,8 +438,8 @@ export function OvertrainingBodyInspectionDiagram({ diagram, themeColor }: Props
       {/* ------------------------------------------------------------------ */}
       {/* 2. MODE NAVIGATION TABS                                            */}
       {/* ------------------------------------------------------------------ */}
-      <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-200 pb-3">
-        <div className="flex items-center gap-1 bg-slate-100 p-1 rounded-xl border border-slate-200">
+      <div className="flex flex-wrap items-center justify-between gap-2 border-b border-light-teal-dark pb-3">
+        <div className="flex items-center gap-1 bg-warm-cream p-1 rounded-xl border border-light-teal-dark">
           <button
             onClick={() => setActiveTab("magnifier")}
             className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all ${
@@ -510,7 +511,7 @@ export function OvertrainingBodyInspectionDiagram({ diagram, themeColor }: Props
           </div>
 
           {/* SVG CANVAS CONTAINER: ENLARGED FULL SCREEN FEEL (PRESERVES HEIGHT) */}
-          <div className="relative w-full max-w-[580px] sm:max-w-[620px] rounded-3xl bg-gradient-to-b from-slate-50 via-teal-50/20 to-slate-100 p-3 sm:p-5 border-2 border-deep-teal/20 shadow-md flex flex-col items-center overflow-hidden">
+          <div className="relative w-full max-w-[580px] sm:max-w-[620px] rounded-3xl bg-gradient-to-b from-warm-cream-light via-teal-50/20 to-warm-cream p-3 sm:p-5 border-2 border-deep-teal/20 shadow-md flex flex-col items-center overflow-hidden">
             {/* Subtle background grid & anatomical measurement lines */}
             <div
               className="absolute inset-0 opacity-15 pointer-events-none"
@@ -526,7 +527,7 @@ export function OvertrainingBodyInspectionDiagram({ diagram, themeColor }: Props
                 Full Body Anatomical Scan ({character.name})
               </span>
               <span className="text-[10px] font-extrabold text-rose-700 bg-rose-100/90 px-2.5 py-0.5 rounded-full border border-rose-200 flex items-center gap-1 shadow-2xs">
-                <span className="w-1.5 h-1.5 rounded-full bg-rose-600 animate-ping inline-block" />
+                <span className="w-1.5 h-1.5 rounded-full bg-rose-600 inline-block" />
                 Active Inspection Lens
               </span>
             </div>
@@ -606,7 +607,7 @@ export function OvertrainingBodyInspectionDiagram({ diagram, themeColor }: Props
                 ) : (
                   // Vivian's sleek dark ponytail
                   <g>
-                    <circle cx="190" cy="50" r="4" fill="#7C3AED" />
+                    <circle cx="190" cy="50" r="4" fill="#7C3AED" /> {/* unslop-ignore: drawn hair tie, athlete clothing colour */}
                     <path d="M 172 48 C 205 52, 225 85, 220 135 C 212 110, 198 75, 178 58 Z" fill={character.hairColor} />
                     <path d="M 180 62 Q 210 92 210 130" stroke={character.hairAccent} strokeWidth="1.5" fill="none" strokeLinecap="round" />
                   </g>
@@ -947,7 +948,6 @@ export function OvertrainingBodyInspectionDiagram({ diagram, themeColor }: Props
                           r="18"
                           fill="#F43F5E"
                           opacity="0.25"
-                          className="animate-ping"
                         />
                       )}
 
@@ -1114,7 +1114,7 @@ export function OvertrainingBodyInspectionDiagram({ diagram, themeColor }: Props
                     className={`py-2 px-2 rounded-xl text-xs font-bold text-center transition-all truncate border flex items-center justify-center gap-1.5 cursor-pointer ${
                       activeHotspot === spot.id
                         ? "bg-deep-teal text-white border-deep-teal shadow-xs font-extrabold"
-                        : "bg-white/95 text-charcoal/80 border-slate-200 hover:bg-teal-50 hover:text-deep-teal hover:border-teal-300"
+                        : "bg-white/95 text-charcoal/80 border-light-teal-dark hover:bg-teal-50 hover:text-deep-teal hover:border-teal-300"
                     }`}
                     title={`Click to inspect ${spot.name}`}
                   >
@@ -1155,7 +1155,7 @@ export function OvertrainingBodyInspectionDiagram({ diagram, themeColor }: Props
                 onClick={(e) => e.stopPropagation()}
               >
                 {/* Modal Header */}
-                <div className="flex items-start justify-between gap-3 border-b border-slate-100 pb-3">
+                <div className="flex items-start justify-between gap-3 border-b border-warm-cream-dark pb-3">
                   <div>
                     <div className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-deep-teal">
                       <ZoomIn className="w-4 h-4 text-deep-teal" />
@@ -1175,7 +1175,7 @@ export function OvertrainingBodyInspectionDiagram({ diagram, themeColor }: Props
                     </span>
                     <button
                       onClick={() => setIsDetailOpen(false)}
-                      className="p-1.5 rounded-full hover:bg-slate-100 text-charcoal/60 hover:text-charcoal transition-colors cursor-pointer"
+                      className="p-1.5 rounded-full hover:bg-warm-cream text-charcoal/60 hover:text-charcoal transition-colors cursor-pointer"
                       aria-label="Close inspection findings"
                     >
                       <X className="w-5 h-5" />
@@ -1205,7 +1205,7 @@ export function OvertrainingBodyInspectionDiagram({ diagram, themeColor }: Props
                     <Activity className="w-3.5 h-3.5 text-deep-teal" />
                     Physiological Mechanism:
                   </div>
-                  <p className="text-xs md:text-sm text-charcoal/85 leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-200">
+                  <p className="text-xs md:text-sm text-charcoal/85 leading-relaxed bg-warm-cream-light p-3 rounded-xl border border-light-teal-dark">
                     {current.physiologicalMechanism}
                   </p>
                 </div>
@@ -1233,24 +1233,24 @@ export function OvertrainingBodyInspectionDiagram({ diagram, themeColor }: Props
                 </div>
 
                 {/* Clinical Biomarker */}
-                <div className="flex items-center justify-between gap-2 pt-2 border-t border-slate-100 text-[11px] text-charcoal/70">
+                <div className="flex items-center justify-between gap-2 pt-2 border-t border-warm-cream-dark text-[11px] text-charcoal/70">
                   <span className="font-semibold text-charcoal flex items-center gap-1">
                     <Stethoscope className="w-3.5 h-3.5 text-deep-teal" />
                     Key Clinical Marker:
                   </span>
-                  <span className="font-mono bg-slate-100 px-2 py-0.5 rounded text-charcoal font-medium text-right">
+                  <span className="font-mono bg-warm-cream px-2 py-0.5 rounded text-charcoal font-medium text-right">
                     {current.clinicalMarker}
                   </span>
                 </div>
 
                 {/* Modal Footer */}
-                <div className="flex items-center justify-between gap-2 pt-2 border-t border-slate-100">
+                <div className="flex items-center justify-between gap-2 pt-2 border-t border-warm-cream-dark">
                   <span className="text-[11px] text-charcoal/60">
                     Click another spot or close to return to full scan
                   </span>
                   <button
                     onClick={() => setIsDetailOpen(false)}
-                    className="px-4 py-1.5 bg-slate-100 hover:bg-slate-200 text-charcoal text-xs font-bold rounded-lg transition-colors cursor-pointer"
+                    className="px-4 py-1.5 bg-warm-cream hover:bg-warm-cream-dark text-charcoal text-xs font-bold rounded-lg transition-colors cursor-pointer"
                   >
                     Back to Scan
                   </button>
@@ -1266,7 +1266,7 @@ export function OvertrainingBodyInspectionDiagram({ diagram, themeColor }: Props
       {/* ------------------------------------------------------------------ */}
       {activeTab === "female-vulnerability" && (
         <div className="space-y-4">
-          <div className="rounded-2xl bg-gradient-to-r from-teal-50 via-pink-50/40 to-amber-50 p-4 md:p-5 border border-deep-teal/20">
+          <div className="rounded-2xl bg-gradient-to-r from-teal-50 via-pink-50/40 to-soft-pink-light p-4 md:p-5 border border-deep-teal/20">
             <h4 className="text-base md:text-lg font-serif font-bold text-deep-teal mb-1">
               Why Female Athletes Face Unique Physiological Risks Under-Fueling
             </h4>
@@ -1338,7 +1338,7 @@ export function OvertrainingBodyInspectionDiagram({ diagram, themeColor }: Props
       {/* ------------------------------------------------------------------ */}
       {activeTab === "checklist" && (
         <div className="space-y-4">
-          <div className="rounded-2xl bg-slate-50 p-4 border border-slate-200">
+          <div className="rounded-2xl bg-warm-cream-light p-4 border border-light-teal-dark">
             <h4 className="text-base font-bold text-charcoal mb-1">
               Differential Diagnosis: Healthy Training Fatigue vs. Chronic Overtraining
             </h4>
@@ -1347,10 +1347,10 @@ export function OvertrainingBodyInspectionDiagram({ diagram, themeColor }: Props
             </p>
           </div>
 
-          <div className="overflow-x-auto rounded-2xl border border-slate-200">
+          <div className="overflow-x-auto rounded-2xl border border-light-teal-dark">
             <table className="w-full text-left text-xs border-collapse">
               <thead>
-                <tr className="bg-slate-100 border-b border-slate-200 text-charcoal">
+                <tr className="bg-warm-cream border-b border-light-teal-dark text-charcoal">
                   <th className="p-3 font-bold uppercase tracking-wider text-[11px]">Physiological Parameter</th>
                   <th className="p-3 font-bold uppercase tracking-wider text-[11px] text-emerald-800 bg-emerald-50/70">
                     Productive Fatigue (Green Flag)
@@ -1360,34 +1360,34 @@ export function OvertrainingBodyInspectionDiagram({ diagram, themeColor }: Props
                   </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100 text-charcoal/85">
+              <tbody className="divide-y divide-warm-cream-dark text-charcoal/85">
                 <tr>
-                  <td className="p-3 font-bold text-charcoal bg-slate-50/50">Menstrual Cycle</td>
+                  <td className="p-3 font-bold text-charcoal bg-warm-cream-light/50">Menstrual Cycle</td>
                   <td className="p-3 text-emerald-900 bg-emerald-50/30">Regular predictable cycles (24–35 days); normal bleeding flow.</td>
                   <td className="p-3 text-rose-950 bg-rose-50/30 font-medium">Cycles spread past 35+ days, flow becomes faint, or periods vanish (Amenorrhea).</td>
                 </tr>
                 <tr>
-                  <td className="p-3 font-bold text-charcoal bg-slate-50/50">Morning Resting Heart Rate</td>
+                  <td className="p-3 font-bold text-charcoal bg-warm-cream-light/50">Morning Resting Heart Rate</td>
                   <td className="p-3 text-emerald-900 bg-emerald-50/30">Stable (within +/- 2 bpm of athlete&apos;s baseline).</td>
                   <td className="p-3 text-rose-950 bg-rose-50/30 font-medium">Elevated +5 to 12+ bpm for 3+ consecutive mornings.</td>
                 </tr>
                 <tr>
-                  <td className="p-3 font-bold text-charcoal bg-slate-50/50">Sleep Quality</td>
+                  <td className="p-3 font-bold text-charcoal bg-warm-cream-light/50">Sleep Quality</td>
                   <td className="p-3 text-emerald-900 bg-emerald-50/30">Deep, restorative sleep; wakes refreshed within 15 minutes.</td>
                   <td className="p-3 text-rose-950 bg-rose-50/30 font-medium">Insomnia, nighttime sweats, waking at 2–3 AM with racing heart.</td>
                 </tr>
                 <tr>
-                  <td className="p-3 font-bold text-charcoal bg-slate-50/50">Muscle Soreness (DOMS)</td>
+                  <td className="p-3 font-bold text-charcoal bg-warm-cream-light/50">Muscle Soreness (DOMS)</td>
                   <td className="p-3 text-emerald-900 bg-emerald-50/30">Resolves cleanly within 24 to 48 hours with food and hydration.</td>
                   <td className="p-3 text-rose-950 bg-rose-50/30 font-medium">Deep soreness lasting 72+ hours; persistent heavy &quot;wooden&quot; legs.</td>
                 </tr>
                 <tr>
-                  <td className="p-3 font-bold text-charcoal bg-slate-50/50">Bone & Shin Health</td>
+                  <td className="p-3 font-bold text-charcoal bg-warm-cream-light/50">Bone & Shin Health</td>
                   <td className="p-3 text-emerald-900 bg-emerald-50/30">No focal bone pain; muscles adapt to ground impact.</td>
                   <td className="p-3 text-rose-950 bg-rose-50/30 font-medium">Pinpoint bone tenderness, recurring shin splints, stress reactions on MRI.</td>
                 </tr>
                 <tr>
-                  <td className="p-3 font-bold text-charcoal bg-slate-50/50">Thermoregulation</td>
+                  <td className="p-3 font-bold text-charcoal bg-warm-cream-light/50">Thermoregulation</td>
                   <td className="p-3 text-emerald-900 bg-emerald-50/30">Warm extremities; normal sweat rates during workouts.</td>
                   <td className="p-3 text-rose-950 bg-rose-50/30 font-medium">Freezing hands, feet, and nose indoors; hypothermic shivering.</td>
                 </tr>
@@ -1400,7 +1400,7 @@ export function OvertrainingBodyInspectionDiagram({ diagram, themeColor }: Props
       {/* ------------------------------------------------------------------ */}
       {/* 6. CLINICAL GUIDELINES FOOTER & CITATION                          */}
       {/* ------------------------------------------------------------------ */}
-      <div className="rounded-2xl bg-slate-50 p-3.5 border border-slate-200 flex flex-wrap items-center justify-between gap-3 text-xs text-charcoal/70">
+      <div className="rounded-2xl bg-warm-cream-light p-3.5 border border-light-teal-dark flex flex-wrap items-center justify-between gap-3 text-xs text-charcoal/70">
         <div className="flex items-center gap-2">
           <ShieldCheck className="w-4 h-4 text-deep-teal shrink-0" />
           <span>

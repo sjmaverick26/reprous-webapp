@@ -164,7 +164,7 @@ export function ScrollProgressIndicator({
         aria-valuemin={0}
         aria-valuemax={100}
         tabIndex={0}
-        className="relative w-2 sm:w-2.5 h-full rounded-full bg-deep-teal/15 hover:bg-deep-teal/25 border border-deep-teal/15 shadow-inner cursor-pointer transition-all duration-150 flex flex-col justify-start"
+        className="relative w-2 sm:w-2.5 h-full rounded-full bg-deep-teal/15 hover:bg-deep-teal/25 border border-deep-teal/15 shadow-inner cursor-pointer transition-colors duration-150 flex flex-col justify-start"
         title={`Page progress: ${Math.round(progress)}% (${remainingPct}% scrolling remaining). Click or drag to navigate.`}
       >
         {/* Active Fill Bar Sliding Down from Top */}
@@ -185,7 +185,7 @@ export function ScrollProgressIndicator({
         {/* Floating Percentage Tooltip */}
         {showTooltip && (
           <div
-            className="absolute right-6 sm:right-7 -translate-y-1/2 px-2.5 py-1 rounded-full bg-deep-teal text-white text-[11px] font-bold shadow-lg border border-white/20 whitespace-nowrap animate-in fade-in zoom-in-95 duration-150 flex items-center gap-1.5 font-sans pointer-events-none"
+            className="absolute right-6 sm:right-7 -translate-y-1/2 px-2.5 py-1 rounded-full bg-deep-teal text-white text-sm font-bold shadow-lg border border-white/20 whitespace-nowrap animate-in fade-in zoom-in-95 duration-150 flex items-center gap-1.5 font-sans pointer-events-none"
             style={{ top: `${progress}%` }}
           >
             {progress >= 98 ? (
@@ -194,7 +194,7 @@ export function ScrollProgressIndicator({
               <>
                 <span className="text-white">{Math.round(progress)}%</span>
                 <span className="text-coral">•</span>
-                <span className="text-light-teal/90 text-[10px] font-medium font-sans">
+                <span className="text-light-teal/90 text-sm font-medium font-sans">
                   {remainingPct}% left
                 </span>
               </>
@@ -207,7 +207,7 @@ export function ScrollProgressIndicator({
       {progress > 15 && (
         <button
           onClick={scrollToTop}
-          className="mt-2 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white/95 hover:bg-light-teal text-deep-teal shadow-md border border-deep-teal/20 flex items-center justify-center cursor-pointer hover:scale-110 active:scale-95 transition-all text-xs font-bold shrink-0 animate-in fade-in duration-200"
+          className="mt-2 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white/95 hover:bg-light-teal text-deep-teal shadow-md border border-deep-teal/20 flex items-center justify-center cursor-pointer hover:scale-110 active:scale-95 transition-colors text-xs font-bold shrink-0 animate-in fade-in duration-200"
           title="Scroll back to top"
           aria-label="Scroll to top of page"
         >

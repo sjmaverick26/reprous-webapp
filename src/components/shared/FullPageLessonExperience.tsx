@@ -10,32 +10,24 @@ import {
   CheckCircle2,
   Clock,
   Copy,
-  ExternalLink,
-  Flame,
   Gamepad2,
   HelpCircle,
   Lightbulb,
   Maximize2,
   Minimize2,
   MessageSquare,
-  RotateCcw,
-  Shield,
   ShieldAlert,
   ShieldCheck,
   Flower2,
   Stethoscope,
-  Trophy,
-  Users,
   Video,
   X,
-  Zap,
 } from "lucide-react";
 import {
   HubTopic,
   getTopicClinicalQuote,
   getTopicRoleplayScenarios,
 } from "@/data/hubData";
-import { Button } from "@/components/ui/button";
 import { InteractiveLessonDiagram } from "@/components/shared/InteractiveLessonDiagram";
 import { OvertrainingBodyInspectionDiagram } from "@/components/shared/OvertrainingBodyInspectionDiagram";
 import { LessonVideoCard } from "@/components/shared/LessonVideoCard";
@@ -50,7 +42,7 @@ import {
   RotterdamCriteriaRadar,
   ContraceptionEfficacyPyramid,
 } from "@/components/shared/LessonVisualCharts";
-import { ScrollProgressIndicator } from "@/components/layout/ScrollProgressIndicator";
+import { keepUnits } from "./keepUnits";
 
 interface FullPageLessonExperienceProps {
   topic: HubTopic;
@@ -63,6 +55,28 @@ interface FullPageLessonExperienceProps {
   onNavigateToTopic?: (topicId: string) => void;
   siblingTopics?: HubTopic[];
 }
+
+/* Shell kit (DESIGN.md): one container edge, one raspberry primary, deep-teal outline secondary,
+   white cards with a 1px pillar or #E5E1DC border, DM Sans semibold labels, serif only at 24px+. */
+const FOCUS_RING =
+  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-deep-teal focus-visible:ring-offset-2";
+const CONTAINER = "max-w-6xl w-full mx-auto px-4 md:px-6";
+const BTN_PRIMARY = `inline-flex items-center justify-center gap-2 min-h-11 px-5 rounded-full bg-raspberry text-white text-sm font-semibold font-sans text-center hover:bg-raspberry-dark transition-colors duration-150 cursor-pointer ${FOCUS_RING}`;
+const BTN_SECONDARY = `inline-flex items-center justify-center gap-2 min-h-11 px-5 py-2 rounded-full border border-deep-teal bg-white text-deep-teal text-sm font-semibold font-sans text-center hover:bg-light-teal transition-colors duration-150 cursor-pointer ${FOCUS_RING}`;
+const BTN_TEXT = `inline-flex items-center justify-center gap-2 min-h-11 px-2 rounded-full text-deep-teal text-sm font-semibold font-sans text-center underline-offset-4 hover:underline cursor-pointer ${FOCUS_RING}`;
+const CARD = "rounded-2xl bg-white border border-[#E5E1DC]";
+const LABEL = "flex items-center gap-2 text-sm font-semibold text-deep-teal font-sans";
+const STEP_PILL =
+  "inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm font-semibold font-sans bg-light-teal text-deep-teal mb-3";
+const STEP_TITLE = "font-serif text-h2 font-normal text-deep-teal text-balance mb-3";
+const STEP_LEAD = "text-base sm:text-lg text-charcoal leading-relaxed font-sans text-pretty max-w-[65ch]";
+const SECTION_TITLE = "font-serif text-2xl font-normal text-deep-teal text-balance";
+const NOTICE_TEAL =
+  "p-4 sm:p-5 rounded-2xl bg-light-teal-light border border-light-teal-dark text-charcoal text-sm sm:text-base font-sans flex items-start gap-2.5";
+const NOTICE_PINK =
+  "p-4 sm:p-5 rounded-2xl bg-soft-pink-light border border-soft-pink-dark text-charcoal text-sm sm:text-base font-sans flex items-start gap-2.5";
+const STEP_NAV =
+  "pt-8 border-t border-[#E5E1DC] flex flex-col-reverse sm:flex-row sm:items-center sm:justify-between gap-3";
 
 export function FullPageLessonExperience({
   topic,
@@ -231,13 +245,28 @@ export function FullPageLessonExperience({
     { number: 5, title: "Resources & Next Steps", short: "Resources", desc: "Advocacy & Next Steps" },
   ];
 
+  // Shared bottom-of-step navigation: a text link back, a deep-teal outline forward.
+  // The raspberry primary lives once, in the sticky footer.
+  const renderStepNav = (backLabel: string, nextLabel: string) => (
+    <div className={STEP_NAV}>
+      <button type="button" onClick={prevStep} className={`${BTN_TEXT} self-start sm:self-auto`}>
+        <ArrowLeft className="w-4 h-4 shrink-0" aria-hidden="true" />
+        <span>{backLabel}</span>
+      </button>
+      <button type="button" onClick={nextStep} className={`${BTN_SECONDARY} w-full sm:w-auto`}>
+        <span>{nextLabel}</span>
+        <ArrowRight className="w-4 h-4 shrink-0" aria-hidden="true" />
+      </button>
+    </div>
+  );
+
   // Specific visual physiology chart renderer for Step 2
   const renderPhysiologyChart = () => {
     if (categoryId === "cycle") {
       return (
         <div className="space-y-4">
-          <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-deep-teal font-sans">
-            <Flower2 className="w-4 h-4 text-coral" />
+          <div className={LABEL}>
+            <Flower2 className="w-4 h-4 shrink-0" aria-hidden="true" />
             <span>Interactive Hormonal Wave &amp; Cycle Phases</span>
           </div>
           <HormoneWaveChart />
@@ -248,8 +277,8 @@ export function FullPageLessonExperience({
     if (categoryId === "body") {
       return (
         <div className="space-y-4">
-          <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-deep-teal font-sans">
-            <Flower2 className="w-4 h-4 text-coral" />
+          <div className={LABEL}>
+            <Flower2 className="w-4 h-4 shrink-0" aria-hidden="true" />
             <span>Tanner Staging &amp; Anatomical Development</span>
           </div>
           <TannerProgressionChart />
@@ -259,8 +288,8 @@ export function FullPageLessonExperience({
     if (categoryId === "pcos") {
       return (
         <div className="space-y-4">
-          <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-raspberry font-sans">
-            <Flower2 className="w-4 h-4 text-coral" />
+          <div className={LABEL}>
+            <Flower2 className="w-4 h-4 shrink-0" aria-hidden="true" />
             <span>PCOS Rotterdam Diagnostic Criteria (The 2-of-3 Rule)</span>
           </div>
           <RotterdamCriteriaRadar />
@@ -270,8 +299,8 @@ export function FullPageLessonExperience({
     if (categoryId === "conditions") {
       return (
         <div className="space-y-4">
-          <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-deep-teal font-sans">
-            <Flower2 className="w-4 h-4 text-coral" />
+          <div className={LABEL}>
+            <Flower2 className="w-4 h-4 shrink-0" aria-hidden="true" />
             <span>Diagnostic Radar &amp; Clinical Criteria Analysis</span>
           </div>
           <RotterdamCriteriaRadar />
@@ -281,8 +310,8 @@ export function FullPageLessonExperience({
     if (categoryId === "realtalk" || categoryId === "factors") {
       return (
         <div className="space-y-4">
-          <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-deep-teal font-sans">
-            <Flower2 className="w-4 h-4 text-coral" />
+          <div className={LABEL}>
+            <Flower2 className="w-4 h-4 shrink-0" aria-hidden="true" />
             <span>Contraceptive Efficacy &amp; Tiered Comparison</span>
           </div>
           <ContraceptionEfficacyPyramid />
@@ -295,35 +324,35 @@ export function FullPageLessonExperience({
   // Shared Multi-Stage Roleplay Simulation Suite Renderer
   const renderRoleplaySuite = (contextNotice?: string) => {
     if (roleplayScenarios.length === 0) return null;
+    const solvedCount = Object.values(simulationBonuses).filter(Boolean).length;
 
     return (
       <div className="space-y-6">
-        <div className="p-4 sm:p-5 rounded-2xl bg-soft-pink/50 border border-raspberry/20 text-raspberry text-xs sm:text-sm font-sans flex items-start justify-between gap-3 flex-wrap">
-          <div className="flex items-start gap-2.5">
-            <MessageSquare className="w-4 h-4 text-raspberry shrink-0 mt-0.5" />
+        <div className={`${NOTICE_PINK} justify-between flex-wrap`}>
+          <div className="flex items-start gap-2.5 min-w-0">
+            <MessageSquare className="w-4 h-4 text-raspberry shrink-0 mt-1" aria-hidden="true" />
             <span>
               {contextNotice ||
                 "Practice clinical self-advocacy in realistic simulations. Choose the response that establishes your symptoms and cites clinical guidelines."}
             </span>
           </div>
-          <span className="text-xs font-bold text-raspberry font-sans bg-white px-2.5 py-1 rounded-full border border-raspberry/30">
+          <span className="text-sm font-semibold text-charcoal font-sans">
             {roleplayScenarios.length} Interactive Scenarios
           </span>
         </div>
 
         {/* Multi-Simulation Track Selector Tabs */}
         {roleplayScenarios.length > 1 && (
-          <div className="rounded-3xl border-2 border-raspberry/20 bg-gradient-to-r from-raspberry/5 via-white to-light-teal/15 p-4 sm:p-5 space-y-3 shadow-2xs">
-            <div className="flex items-center justify-between gap-3 flex-wrap text-xs font-sans">
-              <span className="font-bold text-deep-teal uppercase tracking-wider flex items-center gap-1.5">
-                <Flower2 className="w-4 h-4 text-raspberry" />
+          <div className={`${CARD} p-4 sm:p-5 space-y-3`}>
+            <div className="flex items-center justify-between gap-x-3 gap-y-1 flex-wrap text-sm font-sans">
+              <span className="font-semibold text-deep-teal flex items-center gap-1.5">
+                <Flower2 className="w-4 h-4 shrink-0" aria-hidden="true" />
                 <span>
                   Clinical Simulation Track ({activeSimulationIdx + 1} of {roleplayScenarios.length}):
                 </span>
               </span>
-              <span className="font-bold text-emerald-800 bg-emerald-100/90 px-3 py-1 rounded-full text-xs border border-emerald-300 shadow-2xs">
-                {Object.values(simulationBonuses).filter(Boolean).length} of {roleplayScenarios.length} Scenarios Solved · +
-                {Object.values(simulationBonuses).filter(Boolean).length * 30} XP
+              <span className="font-semibold text-charcoal-light">
+                {solvedCount} of {roleplayScenarios.length} Scenarios Solved
               </span>
             </div>
 
@@ -331,44 +360,33 @@ export function FullPageLessonExperience({
               {roleplayScenarios.map((sim, idx) => {
                 const isSimActive = activeSimulationIdx === idx;
                 const isSolved = simulationBonuses[idx];
+                const simLabel = sim.phaseName || sim.title || `Simulation ${idx + 1}`;
                 return (
                   <button
                     key={idx}
                     type="button"
                     onClick={() => setActiveSimulationIdx(idx)}
-                    className={`flex items-center justify-between gap-2.5 p-3 rounded-2xl border-2 text-left transition-all cursor-pointer font-sans text-xs sm:text-[13px] ${
+                    aria-pressed={isSimActive}
+                    className={`flex items-center gap-2.5 min-h-11 p-3 rounded-xl border text-left font-sans text-sm font-semibold transition-colors duration-150 cursor-pointer ${FOCUS_RING} ${
                       isSimActive
-                        ? "bg-raspberry text-white border-raspberry shadow-sm font-bold scale-[1.01]"
+                        ? "bg-deep-teal text-white border-deep-teal"
                         : isSolved
-                        ? "bg-emerald-50 text-emerald-950 border-emerald-300 font-semibold hover:bg-emerald-100"
-                        : "bg-white text-charcoal/80 border-slate-200 hover:border-deep-teal/40 font-medium hover:bg-slate-50"
+                        ? "bg-light-teal text-deep-teal border-deep-teal hover:bg-light-teal-dark"
+                        : "bg-white text-charcoal border-[#E5E1DC] hover:border-deep-teal"
                     }`}
                   >
-                    <div className="flex items-center gap-2 min-w-0">
-                      <span
-                        className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold shrink-0 ${
-                          isSimActive
-                            ? "bg-white text-raspberry"
-                            : isSolved
-                            ? "bg-emerald-600 text-white"
-                            : "bg-slate-200 text-charcoal/70"
-                        }`}
-                      >
-                        {isSolved ? <Check className="w-3.5 h-3.5" /> : idx + 1}
-                      </span>
-                      <span className="truncate">{sim.phaseName || sim.title || `Simulation ${idx + 1}`}</span>
-                    </div>
                     <span
-                      className={`text-[10px] font-bold px-2 py-0.5 rounded-full shrink-0 ${
+                      className={`w-6 h-6 rounded-full flex items-center justify-center text-sm font-semibold shrink-0 ${
                         isSimActive
-                          ? "bg-white/20 text-white"
+                          ? "bg-white text-deep-teal"
                           : isSolved
-                          ? "bg-emerald-200 text-emerald-900"
-                          : "bg-slate-100 text-charcoal/60"
+                          ? "bg-deep-teal text-white"
+                          : "bg-warm-cream-dark text-charcoal"
                       }`}
                     >
-                      +30 XP
+                      {isSolved ? <Check className="w-3.5 h-3.5" aria-label="Solved" /> : idx + 1}
                     </span>
+                    <span className="min-w-0">{simLabel}</span>
                   </button>
                 );
               })}
@@ -405,27 +423,27 @@ export function FullPageLessonExperience({
 
         {/* Clinical Evidence & Guidelines Source Box */}
         {activeScenario.sourceCitation && (
-          <div className="rounded-3xl border-2 border-emerald-600/25 bg-emerald-50/80 p-5 sm:p-6 text-xs font-sans text-emerald-950 space-y-3 shadow-2xs">
+          <div className="rounded-2xl border border-light-teal-dark bg-light-teal-light p-5 sm:p-6 font-sans text-charcoal space-y-3">
             <div className="flex items-start justify-between gap-3 flex-wrap">
-              <div className="flex items-center gap-2.5">
-                <div className="w-8 h-8 rounded-xl bg-emerald-600 text-white flex items-center justify-center font-bold text-xs shadow-2xs">
-                  ✦
-                </div>
-                <div>
-                  <h5 className="font-serif font-bold text-emerald-950 text-sm sm:text-base">
+              <div className="flex items-center gap-2.5 min-w-0">
+                <span className="w-8 h-8 rounded-full bg-deep-teal text-white flex items-center justify-center shrink-0">
+                  <ShieldCheck className="w-4 h-4" aria-hidden="true" />
+                </span>
+                <div className="min-w-0">
+                  <h5 className="font-sans font-semibold text-deep-teal text-base m-0">
                     Clinical Evidence &amp; Guideline Authority
                   </h5>
-                  <p className="text-xs text-emerald-800 font-sans">
+                  <p className="text-sm text-charcoal-light font-sans m-0">
                     {activeScenario.sourceCitation.organization}
                   </p>
                 </div>
               </div>
-              <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-white border border-emerald-300 text-emerald-900 font-bold text-xs shadow-2xs">
+              <span className="text-sm font-semibold text-deep-teal">
                 {activeScenario.sourceCitation.year}
               </span>
             </div>
-            <p className="text-xs sm:text-sm text-emerald-900/90 leading-relaxed font-sans italic border-l-2 border-emerald-600 pl-3 py-0.5">
-              &ldquo;{activeScenario.sourceCitation.guideline}&rdquo;
+            <p className="max-w-[65ch] text-sm sm:text-base text-charcoal leading-relaxed font-sans italic border-l-2 border-deep-teal pl-3 py-0.5 m-0">
+              &ldquo;{keepUnits(activeScenario.sourceCitation.guideline)}&rdquo;
             </p>
           </div>
         )}
@@ -439,19 +457,19 @@ export function FullPageLessonExperience({
     if (topic.id === "play-1" || topic.name.toLowerCase().includes("fuel up")) {
       return (
         <div className="space-y-6">
-          <div className="rounded-3xl bg-slate-900 text-white p-6 sm:p-8 shadow-md border-2 border-gold/40">
-            <div className="flex items-center gap-2 text-gold text-xs font-bold uppercase tracking-wider mb-2">
-              <Gamepad2 className="w-4 h-4" />
+          <div>
+            <div className={`${LABEL} mb-2`}>
+              <Gamepad2 className="w-4 h-4 shrink-0" aria-hidden="true" />
               <span>Interactive Athlete Fueling Experience</span>
             </div>
-            <h3 className="text-2xl sm:text-3xl font-serif font-bold text-white mb-2">
+            <h3 className={`${SECTION_TITLE} mb-2`}>
               Athlete Nutrition &amp; Fueling Simulation
             </h3>
-            <p className="text-sm sm:text-base text-slate-200 leading-relaxed font-sans mb-6">
+            <p className="text-base text-charcoal-light leading-relaxed font-sans text-pretty max-w-[65ch] m-0">
               Explore how carbohydrates, protein, and hydration support peak athletic endurance and hormone stability.
             </p>
-            <FemaleNourishmentPlateGame initialTab="game" />
           </div>
+          <FemaleNourishmentPlateGame initialTab="game" />
         </div>
       );
     }
@@ -465,8 +483,8 @@ export function FullPageLessonExperience({
     ) {
       return (
         <div className="space-y-6">
-          <div className="p-4 sm:p-5 rounded-2xl bg-amber-50 border border-amber-200 text-amber-900 text-xs sm:text-sm font-sans flex items-start gap-2.5">
-            <ShieldAlert className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
+          <div className={NOTICE_PINK}>
+            <ShieldAlert className="w-4 h-4 text-raspberry shrink-0 mt-1" aria-hidden="true" />
             <span>
               Tap each anatomical hotspot to examine how energy deficiency cascades through the brain, bones, metabolic rate, and reproductive system.
             </span>
@@ -489,10 +507,10 @@ export function FullPageLessonExperience({
     if (topic.sorterGame) {
       return (
         <div className="space-y-6">
-          <div className="p-4 sm:p-5 rounded-2xl bg-light-teal/50 border border-deep-teal/20 text-deep-teal text-xs sm:text-sm font-sans flex items-start gap-2.5">
-            <Gamepad2 className="w-4 h-4 text-coral shrink-0 mt-0.5" />
+          <div className={NOTICE_TEAL}>
+            <Gamepad2 className="w-4 h-4 text-deep-teal shrink-0 mt-1" aria-hidden="true" />
             <span>
-              Categorize each scenario into the correct clinical bucket to test your instincts and earn XP.
+              Categorize each scenario into the correct clinical bucket to test your instincts.
             </span>
           </div>
           <LessonSorterGameComponent
@@ -513,8 +531,8 @@ export function FullPageLessonExperience({
     if (topic.diagram) {
       return (
         <div className="space-y-6">
-          <div className="p-4 sm:p-5 rounded-2xl bg-light-teal/50 border border-deep-teal/20 text-deep-teal text-xs sm:text-sm font-sans flex items-start gap-2.5">
-            <Lightbulb className="w-4 h-4 text-coral shrink-0 mt-0.5" />
+          <div className={NOTICE_TEAL}>
+            <Lightbulb className="w-4 h-4 text-deep-teal shrink-0 mt-1" aria-hidden="true" />
             <span>
               Interact with the visual diagram below. Tap labels, phases, and components to inspect clinical details and evidence.
             </span>
@@ -526,35 +544,37 @@ export function FullPageLessonExperience({
 
     // 7. General Interactive Signal Explorer
     return (
-      <div className="rounded-3xl bg-white p-6 sm:p-10 border-2 border-deep-teal/15 shadow-sm space-y-6">
-        <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-deep-teal">
-          <ShieldCheck className="w-4 h-4 text-coral" />
-          <span>Interactive Clinical Signal Explorer</span>
+      <div className="space-y-6">
+        <div>
+          <div className={`${LABEL} mb-2`}>
+            <ShieldCheck className="w-4 h-4 shrink-0" aria-hidden="true" />
+            <span>Interactive Clinical Signal Explorer</span>
+          </div>
+          <h3 className={`${SECTION_TITLE} mb-2`}>
+            Evaluating What Your Body Is Telling You
+          </h3>
+          <p className="text-base text-charcoal-light leading-relaxed font-sans text-pretty max-w-[65ch] m-0">
+            Review common observations and clinical indicators associated with {topic.name.toLowerCase()}. Notice which signals warrant a discussion with a healthcare provider.
+          </p>
         </div>
-        <h3 className="text-2xl sm:text-3xl font-serif font-bold text-deep-teal">
-          Evaluating What Your Body Is Telling You
-        </h3>
-        <p className="text-base text-charcoal/80 leading-relaxed font-sans max-w-3xl">
-          Review common observations and clinical indicators associated with {topic.name.toLowerCase()}. Notice which signals warrant a discussion with a healthcare provider.
-        </p>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
-          <div className="p-6 rounded-2xl bg-light-teal/40 border border-deep-teal/20 space-y-3">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="p-5 sm:p-6 rounded-2xl bg-white border border-deep-teal space-y-3">
             <div className="flex items-center gap-2">
-              <CheckCircle className="w-5 h-5 text-emerald-600" />
-              <h4 className="font-serif font-bold text-base text-deep-teal">Normal Physiological Variations</h4>
+              <CheckCircle className="w-5 h-5 text-deep-teal shrink-0" aria-hidden="true" />
+              <h4 className="font-sans font-semibold text-base text-deep-teal m-0">Normal Physiological Variations</h4>
             </div>
-            <p className="text-xs sm:text-sm text-charcoal/80 leading-relaxed font-sans">
+            <p className="max-w-[65ch] text-sm sm:text-base text-charcoal-light leading-relaxed font-sans m-0">
               Mild cramping relieved by warmth or standard OTC pain relief, minor mood fluctuations corresponding to the luteal phase, and natural cycle length shifts during adolescence.
             </p>
           </div>
 
-          <div className="p-6 rounded-2xl bg-[#FFE1DB]/60 border border-coral/30 space-y-3">
+          <div className="p-5 sm:p-6 rounded-2xl bg-white border border-coral space-y-3">
             <div className="flex items-center gap-2">
-              <ShieldAlert className="w-5 h-5 text-coral" />
-              <h4 className="font-serif font-bold text-base text-coral">Signals Warranting Clinical Attention</h4>
+              <span aria-hidden="true" className="h-3 w-3 shrink-0 rounded-full bg-coral ring-4 ring-soft-pink" />
+              <h4 className="font-sans font-semibold text-base text-charcoal m-0">Signals Warranting Clinical Attention</h4>
             </div>
-            <p className="text-xs sm:text-sm text-charcoal/80 leading-relaxed font-sans">
+            <p className="max-w-[65ch] text-sm sm:text-base text-charcoal-light leading-relaxed font-sans m-0">
               Pain requiring missing school or sports, bleeding soaking through a pad or tampon in under an hour, or cycles absent for more than 90 consecutive days.
             </p>
           </div>
@@ -563,314 +583,284 @@ export function FullPageLessonExperience({
     );
   };
 
+  const PILLAR_CARDS = [
+    {
+      title: "Biological Foundations",
+      text: "Learn the physiological feedback loops and endocrine pathways governing your reproductive and physical health.",
+      border: "border-deep-teal",
+      chip: "bg-deep-teal text-white",
+      Icon: BookOpen,
+    },
+    {
+      title: "Symptom Recognition",
+      text: "Differentiate between expected bodily variations and clinical red-flag signs that deserve provider evaluation.",
+      border: "border-coral",
+      chip: "bg-coral text-charcoal",
+      Icon: ShieldAlert,
+    },
+    {
+      title: "Self-Advocacy Power",
+      text: "Gain verbatim doctor scripts and objective symptom tracking methods to be heard and taken seriously.",
+      border: "border-raspberry",
+      chip: "bg-raspberry text-white",
+      Icon: MessageSquare,
+    },
+  ];
+
+  const JOURNEY = [
+    ["Step 1:", "Foundational context & clinical framing"],
+    ["Step 2:", "Deep-dive into endocrine & anatomical mechanisms"],
+    ["Step 3:", "Hands-on interactive activity / diagnostic simulation"],
+    ["Step 4:", "Scenario-based clinical knowledge check"],
+    ["Step 5:", "Doctor discussion script & self-advocacy tools"],
+  ];
+
   return (
     <div
       ref={scrollContainerRef}
-      className="fixed inset-0 z-[100] w-screen h-screen overflow-y-auto bg-warm-cream text-charcoal flex flex-col font-sans selection:bg-coral/20"
+      className="motion-panel fixed inset-0 z-[100] overflow-y-auto overflow-x-hidden bg-warm-cream text-charcoal flex flex-col font-sans selection:bg-soft-pink"
     >
-      {/* 1. Sticky Top Navigation Header: Takes over the whole screen */}
-      <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-deep-teal/15 px-4 sm:px-8 lg:px-12 py-3.5 shadow-xs transition-all">
-        <div className="max-w-[1440px] w-full mx-auto flex items-center justify-between gap-4">
+      {/* 1. Sticky top header */}
+      <header className="sticky top-0 z-40 bg-white border-b border-[#E5E1DC]">
+        <div className={`${CONTAINER} flex items-center gap-2 sm:gap-4 py-2`}>
           {/* Back button */}
           <button
+            type="button"
             onClick={onBack}
-            className="inline-flex items-center gap-2 text-xs sm:text-sm font-bold text-deep-teal hover:text-raspberry transition-colors py-2 px-3.5 rounded-full hover:bg-light-teal/60 cursor-pointer border border-transparent hover:border-deep-teal/20"
+            className={`${BTN_TEXT} shrink-0 min-w-11 px-3 hover:bg-light-teal hover:no-underline transition-colors duration-150`}
+            aria-label={`Back to ${categoryTitle}`}
+            title={`Back to ${categoryTitle}`}
           >
-            <ArrowLeft className="w-4 h-4" />
-            <span className="hidden sm:inline">Back to</span>
-            <span className="truncate max-w-[180px] sm:max-w-none">{categoryTitle}</span>
+            <ArrowLeft className="w-4 h-4 shrink-0" aria-hidden="true" />
+            <span className="hidden sm:inline xl:hidden">Back</span>
+            <span className="hidden xl:inline">Back to {categoryTitle}</span>
           </button>
 
-          {/* Topic Title in header */}
-          <div className="flex flex-col items-center text-center">
-            <div className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-charcoal/60 flex items-center gap-1.5">
-              <span>{categoryBadge}</span>
-              <span>·</span>
-              <span className="text-coral">Full-Screen Immersive Lesson</span>
+          {/* Topic title in header */}
+          <div className="flex-1 min-w-0 flex flex-col items-center text-center">
+            <div className="hidden md:block max-w-full text-sm font-semibold leading-snug text-charcoal-light text-balance">
+              {categoryBadge}
             </div>
-            <div className="text-sm sm:text-base font-serif font-bold text-deep-teal truncate max-w-xs sm:max-w-md lg:max-w-xl">
+            <div
+              className="max-w-full text-sm sm:text-base font-semibold leading-snug text-deep-teal text-balance"
+            >
               {topic.name}
             </div>
           </div>
 
-          {/* Actions: Fullscreen toggle + XP Badge + Close */}
-          <div className="flex items-center gap-2 sm:gap-3 shrink-0">
-            <Button
-              variant="outline"
-              size="sm"
+          {/* Actions: fullscreen toggle + close */}
+          <div className="flex items-center gap-1 sm:gap-2 shrink-0">
+            <button
+              type="button"
               onClick={toggleBrowserFullScreen}
-              className="hidden sm:inline-flex items-center gap-1.5 rounded-full text-xs font-bold border-deep-teal/20 text-deep-teal hover:bg-light-teal cursor-pointer px-3"
+              className={`hidden sm:inline-flex items-center justify-center gap-1.5 min-h-11 min-w-11 px-3 rounded-full border border-deep-teal bg-white text-deep-teal text-sm font-semibold hover:bg-light-teal transition-colors duration-150 cursor-pointer ${FOCUS_RING}`}
               title={isBrowserFullScreen ? "Exit Browser Fullscreen" : "Enter Browser Fullscreen"}
+              aria-label={isBrowserFullScreen ? "Exit Browser Fullscreen" : "Enter Browser Fullscreen"}
             >
               {isBrowserFullScreen ? (
                 <>
-                  <Minimize2 className="w-3.5 h-3.5 text-coral" />
+                  <Minimize2 className="w-4 h-4 shrink-0" aria-hidden="true" />
                   <span className="hidden md:inline">Exit Fullscreen</span>
                 </>
               ) : (
                 <>
-                  <Maximize2 className="w-3.5 h-3.5 text-coral" />
+                  <Maximize2 className="w-4 h-4 shrink-0" aria-hidden="true" />
                   <span className="hidden md:inline">Fullscreen Mode</span>
                 </>
               )}
-            </Button>
-
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-light-teal text-deep-teal text-xs font-bold border border-deep-teal/20">
-              <Flower2 className="w-3.5 h-3.5 text-coral" />
-              <span>+{topic.xp} XP</span>
-            </div>
-
-            {isCompleted && (
-              <span className="hidden sm:inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs font-bold border border-emerald-300">
-                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
-                <span>Mastered</span>
-              </span>
-            )}
+            </button>
 
             <button
+              type="button"
               onClick={onBack}
-              className="p-1.5 rounded-full text-charcoal/60 hover:text-charcoal hover:bg-slate-100 transition-colors cursor-pointer"
+              className={`inline-flex items-center justify-center w-11 h-11 rounded-full text-charcoal hover:bg-light-teal transition-colors duration-150 cursor-pointer ${FOCUS_RING}`}
               title="Close Lesson (Esc)"
               aria-label="Close Lesson"
             >
-              <X className="w-4 h-4" />
+              <X className="w-5 h-5" aria-hidden="true" />
             </button>
           </div>
         </div>
       </header>
 
-      {/* 2. Standardized 5-Step Stepper Bar (Wide Canvas) */}
-      <nav
-        aria-label="Lesson Progress Steps"
-        className="w-full bg-white border-b border-deep-teal/10 px-4 sm:px-8 lg:px-12 py-3 shadow-2xs"
-      >
-        <div className="max-w-[1440px] w-full mx-auto">
-          <div className="flex items-center justify-between gap-1.5 sm:gap-3">
+      {/* 2. 5-step stepper */}
+      <nav aria-label="Lesson Progress Steps" className="w-full bg-white border-b border-[#E5E1DC]">
+        <div className={`${CONTAINER} py-3`}>
+          <ol className="m-0 p-0 list-none flex items-stretch gap-1 sm:gap-2">
             {stepsConfig.map((s) => {
               const isActive = currentStep === s.number;
               const isPast = currentStep > s.number || visitedSteps.has(s.number);
 
               return (
-                <button
-                  key={s.number}
-                  onClick={() => goToStep(s.number)}
-                  className={`flex-1 flex items-center justify-center gap-1.5 sm:gap-2.5 py-2.5 px-2 sm:px-4 rounded-xl sm:rounded-2xl transition-all cursor-pointer text-left ${
-                    isActive
-                      ? "bg-deep-teal text-white shadow-sm font-bold scale-[1.01]"
-                      : isPast
-                      ? "bg-light-teal/50 hover:bg-light-teal text-deep-teal font-medium"
-                      : "bg-slate-50 hover:bg-slate-100 text-charcoal/60"
-                  }`}
-                  title={`${s.title}: ${s.desc}`}
-                >
-                  <span
-                    className={`w-5 h-5 sm:w-6 sm:h-6 rounded-full flex items-center justify-center text-[10px] sm:text-xs font-bold shrink-0 ${
+                <li key={s.number} className={`min-w-0 flex ${isActive ? "flex-[1.8] sm:flex-1" : "flex-1"}`}>
+                  <button
+                    type="button"
+                    onClick={() => goToStep(s.number)}
+                    aria-current={isActive ? "step" : undefined}
+                    className={`w-full min-h-11 flex flex-col md:flex-row items-center justify-center md:justify-start gap-1 md:gap-2 py-2 px-1 md:px-2.5 xl:px-2 rounded-xl border text-center md:text-left font-sans transition-colors duration-150 cursor-pointer ${FOCUS_RING} ${
                       isActive
-                        ? "bg-white text-deep-teal"
+                        ? "bg-deep-teal text-white border-deep-teal font-semibold"
                         : isPast
-                        ? "bg-deep-teal text-white"
-                        : "bg-charcoal/20 text-charcoal"
+                        ? "bg-light-teal text-deep-teal border-light-teal hover:border-deep-teal font-semibold"
+                        : "bg-warm-cream text-charcoal-light border-[#E5E1DC] hover:border-deep-teal font-semibold"
                     }`}
+                    title={`${s.title}: ${s.desc}`}
                   >
-                    {isPast && !isActive ? <Check className="w-3 h-3" /> : s.number}
-                  </span>
-                  <div className="hidden lg:flex flex-col min-w-0">
-                    <span className="text-xs sm:text-[13px] font-bold truncate">
-                      {s.title}
+                    <span
+                      className={`w-6 h-6 rounded-full flex items-center justify-center text-sm font-semibold shrink-0 ${
+                        isActive
+                          ? "bg-white text-deep-teal"
+                          : isPast
+                          ? "bg-deep-teal text-white"
+                          : "bg-warm-cream-dark text-charcoal"
+                      }`}
+                    >
+                      {isPast && !isActive ? <Check className="w-3.5 h-3.5" aria-hidden="true" /> : s.number}
                     </span>
-                    <span className={`text-[10px] truncate ${isActive ? "text-white/80" : "text-charcoal/60"}`}>
-                      {s.desc}
+                    {/* Full title + sub-label from 1280; the short label below that; on phones only the
+                        current step shows its label (the others keep the number, the full name stays in title/sr-only). */}
+                    <span className="hidden xl:flex flex-col min-w-0">
+                      <span className="text-sm leading-tight text-balance">{s.title}</span>
+                      <span className={`text-sm font-normal leading-tight text-balance ${isActive ? "text-white" : "text-charcoal-light"}`}>
+                        {s.desc}
+                      </span>
                     </span>
-                  </div>
-                  <span className="hidden md:inline lg:hidden text-xs sm:text-[13px] truncate">
-                    {s.title}
-                  </span>
-                  <span className="inline md:hidden text-[11px] font-semibold truncate">
-                    {s.short}
-                  </span>
-                </button>
+                    <span className={`${isActive ? "inline" : "hidden sm:inline"} xl:hidden whitespace-nowrap text-sm leading-tight`}>
+                      {s.short}
+                    </span>
+                    <span className={`${isActive ? "hidden" : "sr-only sm:hidden"}`}>{s.title}</span>
+                  </button>
+                </li>
               );
             })}
-          </div>
+          </ol>
         </div>
       </nav>
 
-      {/* 3. Main Focused Lesson Content Canvas: Expansive & Immersive Layout */}
-      <main className="flex-1 max-w-[1440px] w-full mx-auto px-4 sm:px-8 lg:px-12 py-8 md:py-12">
+      {/* 3. Lesson content */}
+      <div className={`${CONTAINER} flex-1 py-8 md:py-12`}>
         {/* ============================================================ */}
         {/* STEP 1: INTRODUCTION */}
         {/* ============================================================ */}
         {currentStep === 1 && (
-          <div className="space-y-8 animate-in fade-in duration-200">
-            {/* Wide Hero Split: Left Info + Right Clinical Quote & Objectives */}
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-              {/* Left Column: Title, Description, Meta & Core Question (lg:col-span-7) */}
+          <div className="space-y-10">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
+              {/* Left column */}
               <div className="lg:col-span-7 space-y-6">
                 <div>
-                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold tracking-wider uppercase bg-light-teal text-deep-teal border border-deep-teal/20 mb-3">
-                    <Flower2 className="w-3.5 h-3.5 text-coral" />
+                  <div className={STEP_PILL}>
+                    <Flower2 className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
                     <span>Step 1 of 5 · Clinical Foundations &amp; Overview</span>
                   </div>
-                  <h1 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-bold text-deep-teal leading-tight mb-3">
-                    {topic.name}
-                  </h1>
-                  <p className="text-base sm:text-lg text-charcoal/85 leading-relaxed font-sans">
-                    {topic.desc}
-                  </p>
+                  <h1 className={STEP_TITLE}>{topic.name}</h1>
+                  <p className={STEP_LEAD}>{topic.desc}</p>
 
-                  <div className="flex flex-wrap items-center gap-2.5 pt-4 text-xs font-semibold text-charcoal/70">
-                    <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white border border-deep-teal/15 shadow-2xs">
-                      <Clock className="w-3.5 h-3.5 text-coral" />
+                  <div className="flex flex-wrap items-center gap-x-5 gap-y-2 pt-4 text-sm font-semibold text-charcoal-light">
+                    <span className="inline-flex items-center gap-1.5">
+                      <Clock className="w-4 h-4 text-deep-teal shrink-0" aria-hidden="true" />
                       <span>4–6 min immersive guide</span>
                     </span>
-                    <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white border border-deep-teal/15 shadow-2xs">
-                      <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
+                    <span className="inline-flex items-center gap-1.5">
+                      <ShieldCheck className="w-4 h-4 text-deep-teal shrink-0" aria-hidden="true" />
                       <span>ACOG &amp; AAP Clinical Standards</span>
-                    </span>
-                    <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white border border-deep-teal/15 shadow-2xs">
-                      <Trophy className="w-3.5 h-3.5 text-gold" />
-                      <span>+{topic.xp} XP upon completion</span>
                     </span>
                   </div>
                 </div>
 
-                {/* Core Question Card */}
-                <div className="p-6 sm:p-7 rounded-3xl bg-white border-2 border-deep-teal/15 shadow-card text-left">
-                  <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-raspberry mb-2.5 font-sans">
-                    <HelpCircle className="w-4 h-4 text-raspberry" />
+                {/* Core question card */}
+                <div className={`${CARD} p-5 sm:p-6 text-left`}>
+                  <div className={`${LABEL} mb-2.5`}>
+                    <HelpCircle className="w-4 h-4 shrink-0" aria-hidden="true" />
                     <span>The Core Question This Guide Answers</span>
                   </div>
-                  <h2 className="text-xl sm:text-2xl font-serif font-bold text-deep-teal mb-3 leading-snug">
+                  <h2 className={`${SECTION_TITLE} mb-3 leading-snug`}>
                     “How does this affect my daily body function, and how do I know when something is worth bringing to a doctor?”
                   </h2>
-                  <p className="text-sm sm:text-base text-charcoal/80 leading-relaxed font-sans">
+                  <p className="max-w-[65ch] text-base text-charcoal-light leading-relaxed font-sans text-pretty m-0">
                     Many adolescent and young adult bodily changes are normalized or dismissed as &ldquo;just part of growing up.&rdquo; This lesson equips you with clinical definitions, anatomical context, and objective self-advocacy language.
                   </p>
                 </div>
               </div>
 
-              {/* Right Column: Accredited Clinical Literature Quote + Mastery Highlights (lg:col-span-5) */}
+              {/* Right column */}
               <div className="lg:col-span-5 space-y-6">
-                {/* Clinical Literature Quote */}
                 {clinicalQuote ? (
-                  <div className="rounded-3xl p-6 sm:p-7 bg-light-teal/50 border-2 border-deep-teal/20 text-deep-teal space-y-4 shadow-sm">
+                  <div className="rounded-2xl bg-white border border-deep-teal p-5 sm:p-6 space-y-4">
                     <div className="flex items-center justify-between gap-2 flex-wrap">
-                      <span className="text-[11px] font-bold uppercase tracking-wider text-deep-teal bg-white/90 px-3 py-1 rounded-full border border-deep-teal/20 font-sans">
-                        ✦ Accredited Clinical Guideline · {clinicalQuote.source}
+                      <span className={LABEL}>
+                        <ShieldCheck className="w-4 h-4 shrink-0" aria-hidden="true" />
+                        <span>Accredited Clinical Guideline · {clinicalQuote.source}</span>
                       </span>
                       {clinicalQuote.year && (
-                        <span className="text-xs font-semibold text-deep-teal/70 font-sans">
+                        <span className="text-sm font-semibold text-charcoal-light font-sans">
                           {clinicalQuote.year}
                         </span>
                       )}
                     </div>
-                    <blockquote className="text-base sm:text-lg font-serif italic text-deep-teal leading-relaxed">
+                    <blockquote className="m-0 text-lg font-sans italic text-charcoal leading-relaxed">
                       &ldquo;{clinicalQuote.quote}&rdquo;
                     </blockquote>
-                    <div className="pt-3 border-t border-deep-teal/15 text-xs text-charcoal/80 font-medium">
-                      <span className="font-bold text-deep-teal">{clinicalQuote.publication}</span>
+                    <div className="pt-3 border-t border-[#E5E1DC] text-sm font-semibold text-deep-teal">
+                      {keepUnits(clinicalQuote.publication)}
                     </div>
                   </div>
                 ) : (
-                  <div className="rounded-3xl p-6 sm:p-7 bg-light-teal/40 border-2 border-deep-teal/20 text-deep-teal space-y-3 shadow-sm">
-                    <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-deep-teal font-sans">
-                      <ShieldCheck className="w-4 h-4 text-coral" />
+                  <div className="rounded-2xl bg-white border border-deep-teal p-5 sm:p-6 space-y-3">
+                    <div className={LABEL}>
+                      <ShieldCheck className="w-4 h-4 shrink-0" aria-hidden="true" />
                       <span>Evidence-Based Medical Pedagogy</span>
                     </div>
-                    <h3 className="text-lg font-serif font-bold text-deep-teal">
+                    <h3 className="text-lg font-sans font-semibold text-deep-teal m-0">
                       Grounded in Peer-Reviewed Adolescent Gynecology
                     </h3>
-                    <p className="text-sm text-charcoal/80 leading-relaxed font-sans">
+                    <p className="max-w-[65ch] text-sm sm:text-base text-charcoal-light leading-relaxed font-sans m-0">
                       All explanations and activities in ReproUs follow clinical guidelines from the American College of Obstetricians and Gynecologists (ACOG) and the American Academy of Pediatrics (AAP).
                     </p>
                   </div>
                 )}
 
-                {/* Quick Learning Path Card */}
-                <div className="rounded-3xl p-6 bg-white border border-deep-teal/15 shadow-xs space-y-3.5">
-                  <div className="text-xs font-bold uppercase tracking-wider text-deep-teal flex items-center gap-2 font-sans">
-                    <Zap className="w-4 h-4 text-gold" />
+                {/* Learning path */}
+                <div className={`${CARD} p-5 sm:p-6 space-y-3.5`}>
+                  <div className={LABEL}>
+                    <BookOpen className="w-4 h-4 shrink-0" aria-hidden="true" />
                     <span>Your Learning Journey</span>
                   </div>
-                  <ul className="space-y-2.5 text-xs sm:text-sm text-charcoal/80 font-sans">
-                    <li className="flex items-start gap-2.5">
-                      <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
-                      <span><strong>Step 1:</strong> Foundational context &amp; clinical framing</span>
-                    </li>
-                    <li className="flex items-start gap-2.5">
-                      <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
-                      <span><strong>Step 2:</strong> Deep-dive into endocrine &amp; anatomical mechanisms</span>
-                    </li>
-                    <li className="flex items-start gap-2.5">
-                      <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
-                      <span><strong>Step 3:</strong> Hands-on interactive activity / diagnostic simulation</span>
-                    </li>
-                    <li className="flex items-start gap-2.5">
-                      <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
-                      <span><strong>Step 4:</strong> Scenario-based clinical knowledge check</span>
-                    </li>
-                    <li className="flex items-start gap-2.5">
-                      <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
-                      <span><strong>Step 5:</strong> Doctor discussion script &amp; self-advocacy tools</span>
-                    </li>
+                  <ul className="m-0 p-0 list-none space-y-2.5 text-sm sm:text-base text-charcoal font-sans">
+                    {JOURNEY.map(([step, text]) => (
+                      <li key={step} className="flex items-start gap-2.5">
+                        <CheckCircle2 className="w-4 h-4 text-deep-teal shrink-0 mt-1" aria-hidden="true" />
+                        <span><strong className="font-semibold">{step}</strong> {text}</span>
+                      </li>
+                    ))}
                   </ul>
                 </div>
               </div>
             </div>
 
-            {/* 3 Core Key Takeaways Across Wide 3 Columns */}
-            <div className="space-y-4 pt-4">
-              <div className="flex items-center justify-between gap-4">
-                <h3 className="text-xl sm:text-2xl font-serif font-bold text-deep-teal">
-                  3 Core Pillars You&apos;ll Master
-                </h3>
-                <span className="text-xs font-bold text-charcoal/60 uppercase tracking-wider font-sans">
-                  Comprehensive Curriculum
-                </span>
+            {/* Three pillars */}
+            <div className="space-y-4">
+              <div className="flex items-baseline justify-between gap-x-4 gap-y-1 flex-wrap">
+                <h3 className={SECTION_TITLE}>3 Core Pillars You&apos;ll Master</h3>
+                <span className="text-sm font-semibold text-charcoal-light font-sans">Comprehensive Curriculum</span>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div className="p-6 rounded-3xl bg-white border-2 border-deep-teal/15 shadow-sm space-y-3 hover:border-deep-teal/40 transition-all">
-                  <div className="w-10 h-10 rounded-2xl bg-light-teal text-deep-teal flex items-center justify-center font-bold text-sm shadow-2xs font-sans">
-                    01
+                {PILLAR_CARDS.map(({ title, text, border, chip, Icon }) => (
+                  <div key={title} className={`p-5 sm:p-6 rounded-2xl bg-white border ${border} flex flex-col gap-3`}>
+                    <span className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 ${chip}`}>
+                      <Icon className="w-5 h-5" aria-hidden="true" />
+                    </span>
+                    <h4 className="font-sans font-semibold text-lg text-deep-teal m-0">{title}</h4>
+                    <p className="max-w-[65ch] text-sm sm:text-base text-charcoal-light leading-relaxed font-sans m-0">{text}</p>
                   </div>
-                  <h4 className="font-serif font-bold text-base sm:text-lg text-deep-teal">Biological Foundations</h4>
-                  <p className="text-xs sm:text-sm text-charcoal/75 leading-relaxed font-sans">
-                    Learn the physiological feedback loops and endocrine pathways governing your reproductive and physical health.
-                  </p>
-                </div>
-
-                <div className="p-6 rounded-3xl bg-white border-2 border-coral/30 shadow-sm space-y-3 hover:border-coral transition-all">
-                  <div className="w-10 h-10 rounded-2xl bg-[#FFE1DB] text-coral flex items-center justify-center font-bold text-sm shadow-2xs font-sans">
-                    02
-                  </div>
-                  <h4 className="font-serif font-bold text-base sm:text-lg text-coral">Symptom Recognition</h4>
-                  <p className="text-xs sm:text-sm text-charcoal/75 leading-relaxed font-sans">
-                    Differentiate between expected bodily variations and clinical red-flag signs that deserve provider evaluation.
-                  </p>
-                </div>
-
-                <div className="p-6 rounded-3xl bg-white border-2 border-raspberry/25 shadow-sm space-y-3 hover:border-raspberry transition-all">
-                  <div className="w-10 h-10 rounded-2xl bg-soft-pink text-raspberry flex items-center justify-center font-bold text-sm shadow-2xs font-sans">
-                    03
-                  </div>
-                  <h4 className="font-serif font-bold text-base sm:text-lg text-raspberry">Self-Advocacy Power</h4>
-                  <p className="text-xs sm:text-sm text-charcoal/75 leading-relaxed font-sans">
-                    Gain verbatim doctor scripts and objective symptom tracking methods to be heard and taken seriously.
-                  </p>
-                </div>
+                ))}
               </div>
             </div>
 
-            {/* Step 1 Completion / Next Button */}
-            <div className="pt-8 border-t border-deep-teal/15 flex items-center justify-end">
-              <Button
-                onClick={nextStep}
-                size="lg"
-                className="bg-deep-teal hover:bg-deep-teal/90 text-white font-bold gap-2 text-sm sm:text-base px-8 py-6 rounded-2xl shadow-md cursor-pointer hover:translate-x-0.5 transition-all"
-              >
+            <div className="pt-8 border-t border-[#E5E1DC] flex sm:justify-end">
+              <button type="button" onClick={nextStep} className={`${BTN_SECONDARY} w-full sm:w-auto`}>
                 <span>Continue to Step 2: Learn</span>
-                <ArrowRight className="w-4 h-4" />
-              </Button>
+                <ArrowRight className="w-4 h-4 shrink-0" aria-hidden="true" />
+              </button>
             </div>
           </div>
         )}
@@ -879,49 +869,45 @@ export function FullPageLessonExperience({
         {/* STEP 2: LEARN */}
         {/* ============================================================ */}
         {currentStep === 2 && (
-          <div className="space-y-8 animate-in fade-in duration-200">
+          <div className="space-y-10">
             <div>
-              <div className="flex items-center justify-between gap-3 flex-wrap mb-3">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold tracking-wider uppercase bg-light-teal text-deep-teal border border-deep-teal/20">
-                  <BookOpen className="w-3.5 h-3.5 text-coral" />
+              <div className="flex items-center justify-between gap-x-3 gap-y-2 flex-wrap mb-3">
+                <div className={`${STEP_PILL} mb-0`}>
+                  <BookOpen className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
                   <span>Step 2 of 5 · Physiology &amp; Core Concepts</span>
                 </div>
-                <div className="inline-flex items-center gap-1.5 text-xs text-amber-950 bg-amber-100/90 border border-amber-300 px-3 py-1 rounded-full font-semibold shadow-2xs">
-                  <Flower2 className="w-3 h-3 text-amber-800" />
+                <p className="m-0 inline-flex items-start gap-1.5 text-sm text-charcoal-light">
+                  <Lightbulb className="w-4 h-4 text-deep-teal shrink-0 mt-0.5" aria-hidden="true" />
                   <span>Tap yellow highlighted words to view plain-English dictionary meanings</span>
-                </div>
+                </p>
               </div>
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-bold text-deep-teal mb-3">
-                Understanding the Biology of {topic.name}
-              </h2>
-              <p className="text-base sm:text-lg text-charcoal/85 leading-relaxed font-sans max-w-4xl">
+              <h2 className={STEP_TITLE}>Understanding the Biology of {topic.name}</h2>
+              <p className={STEP_LEAD}>
                 Explore the cellular, hormonal, and anatomical mechanisms beneath the surface. Real science without condescension or medical gatekeeping.
               </p>
             </div>
 
-            {/* Category Physiology / Diagnostic Chart: Expansive Full Width */}
-            <div className="p-6 sm:p-8 rounded-3xl bg-white border-2 border-deep-teal/15 shadow-card space-y-4">
+            {/* Physiology / diagnostic chart */}
+            <div className={`${CARD} p-5 sm:p-8 space-y-4`}>
               {renderPhysiologyChart() || (
                 <div className="space-y-3">
-                  <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-deep-teal font-sans">
-                    <Lightbulb className="w-4 h-4 text-coral" />
+                  <div className={LABEL}>
+                    <Lightbulb className="w-4 h-4 shrink-0" aria-hidden="true" />
                     <span>Biological Mechanism Overview</span>
                   </div>
-                  <p className="text-sm sm:text-base text-charcoal/85 leading-relaxed font-sans">
+                  <p className="max-w-[65ch] text-base text-charcoal leading-relaxed font-sans text-pretty m-0">
                     {topic.desc}
                   </p>
                 </div>
               )}
             </div>
 
-            {/* Visual Concept Cards: Responsive Multi-Column Grid on Wide Screen */}
+            {/* Visual concept cards */}
             {topic.visualCards && topic.visualCards.length > 0 && (
-              <div className="space-y-4 pt-2">
-                <div className="flex items-center justify-between gap-4">
-                  <h3 className="text-xl sm:text-2xl font-serif font-bold text-deep-teal">
-                    Key Physiological Principles
-                  </h3>
-                  <span className="text-xs font-bold text-charcoal/60 uppercase tracking-wider font-sans">
+              <div className="space-y-4">
+                <div className="flex items-baseline justify-between gap-x-4 gap-y-1 flex-wrap">
+                  <h3 className={SECTION_TITLE}>Key Physiological Principles</h3>
+                  <span className="text-sm font-semibold text-charcoal-light font-sans">
                     {topic.visualCards.length} Clinical Principles
                   </span>
                 </div>
@@ -935,27 +921,14 @@ export function FullPageLessonExperience({
                   } gap-6`}
                 >
                   {topic.visualCards.map((card, idx) => (
-                    <div
-                      key={idx}
-                      className="p-6 rounded-3xl bg-white border-2 border-deep-teal/15 shadow-sm space-y-3 hover:border-coral/50 transition-all flex flex-col justify-between"
-                    >
-                      <div className="space-y-2.5">
-                        <div className="flex items-center gap-2">
-                          <span className="w-8 h-8 rounded-xl bg-light-teal text-deep-teal flex items-center justify-center font-bold text-xs shadow-2xs font-sans">
-                            {idx + 1}
-                          </span>
-                          <h4 className="font-serif font-bold text-sm sm:text-base text-deep-teal">
-                            {card.title}
-                          </h4>
-                        </div>
-                        <p className="text-xs sm:text-sm text-charcoal/80 leading-relaxed font-sans">
-                          {card.text}
-                        </p>
-                      </div>
+                    <div key={idx} className={`${CARD} p-5 sm:p-6 flex flex-col gap-2.5`}>
+                      <h4 className="font-sans font-semibold text-base text-deep-teal m-0">{card.title}</h4>
+                      <p className="max-w-[65ch] text-sm sm:text-base text-charcoal-light leading-relaxed font-sans m-0">{card.text}</p>
                       {card.highlight && (
-                        <div className="pt-2">
-                          <span className="inline-block text-[11px] font-bold text-coral bg-[#FFE1DB]/70 border border-coral/30 px-2.5 py-1 rounded-lg font-sans">
-                            {card.highlight}
+                        <div className="mt-auto pt-2">
+                          <span className="inline-flex items-start gap-2 text-sm font-semibold text-charcoal bg-soft-pink-light border border-soft-pink-dark px-2.5 py-1 rounded-lg font-sans">
+                            <span aria-hidden="true" className="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-coral" />
+                            <span>{card.highlight}</span>
                           </span>
                         </div>
                       )}
@@ -965,36 +938,18 @@ export function FullPageLessonExperience({
               </div>
             )}
 
-            {/* Video Card (if topic has a video) */}
+            {/* Video card */}
             {topic.video && (
-              <div className="space-y-4 pt-2">
-                <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-deep-teal font-sans">
-                  <Video className="w-4 h-4 text-raspberry" />
+              <div className="space-y-4">
+                <div className={LABEL}>
+                  <Video className="w-4 h-4 shrink-0" aria-hidden="true" />
                   <span>Educational Video Walkthrough</span>
                 </div>
                 <LessonVideoCard video={topic.video} themeColor="#175B5C" />
               </div>
             )}
 
-            {/* Navigation buttons */}
-            <div className="pt-8 border-t border-deep-teal/15 flex items-center justify-between gap-4">
-              <Button
-                variant="outline"
-                onClick={prevStep}
-                className="border-deep-teal/20 text-deep-teal hover:bg-light-teal cursor-pointer py-5 px-6 rounded-2xl"
-              >
-                <ArrowLeft className="w-4 h-4 mr-2" />
-                <span>Back to Introduction</span>
-              </Button>
-              <Button
-                onClick={nextStep}
-                size="lg"
-                className="bg-deep-teal hover:bg-deep-teal/90 text-white font-bold gap-2 text-sm sm:text-base px-8 py-6 rounded-2xl shadow-md cursor-pointer hover:translate-x-0.5 transition-all"
-              >
-                <span>Continue to Step 3: Interactive Activity</span>
-                <ArrowRight className="w-4 h-4" />
-              </Button>
-            </div>
+            {renderStepNav("Back to Introduction", "Continue to Step 3: Interactive Activity")}
           </div>
         )}
 
@@ -1002,46 +957,25 @@ export function FullPageLessonExperience({
         {/* STEP 3: INTERACTIVE ACTIVITY */}
         {/* ============================================================ */}
         {currentStep === 3 && (
-          <div className="space-y-8 animate-in fade-in duration-200">
+          <div className="space-y-10">
             <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold tracking-wider uppercase bg-light-teal text-deep-teal border border-deep-teal/20 mb-3">
-                <Gamepad2 className="w-3.5 h-3.5 text-coral" />
+              <div className={STEP_PILL}>
+                <Gamepad2 className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
                 <span>Step 3 of 5 · Hands-On Interactive Activity</span>
               </div>
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-bold text-deep-teal mb-3">
+              <h2 className={STEP_TITLE}>
                 {isAdvocateLesson ? "Clinical & Self-Advocacy Simulation" : "Put Knowledge Into Practice"}
               </h2>
-              <p className="text-base sm:text-lg text-charcoal/85 leading-relaxed font-sans max-w-4xl">
+              <p className={STEP_LEAD}>
                 {isAdvocateLesson
                   ? "Step into realistic clinical consultations. Practice presenting objective symptom data, responding to provider pushback, and citing accredited guidelines."
                   : "Learning health concepts is most effective when you can interact, test scenarios, and manipulate visual models directly."}
               </p>
             </div>
 
-            {/* Interactive component container */}
-            <div className="w-full">
-              {renderInteractiveActivity()}
-            </div>
+            <div className="w-full">{renderInteractiveActivity()}</div>
 
-            {/* Navigation buttons */}
-            <div className="pt-8 border-t border-deep-teal/15 flex items-center justify-between gap-4">
-              <Button
-                variant="outline"
-                onClick={prevStep}
-                className="border-deep-teal/20 text-deep-teal hover:bg-light-teal cursor-pointer py-5 px-6 rounded-2xl"
-              >
-                <ArrowLeft className="w-4 h-4 mr-2" />
-                <span>Back to Learn</span>
-              </Button>
-              <Button
-                onClick={nextStep}
-                size="lg"
-                className="bg-deep-teal hover:bg-deep-teal/90 text-white font-bold gap-2 text-sm sm:text-base px-8 py-6 rounded-2xl shadow-md cursor-pointer hover:translate-x-0.5 transition-all"
-              >
-                <span>Continue to Step 4: Knowledge Check</span>
-                <ArrowRight className="w-4 h-4" />
-              </Button>
-            </div>
+            {renderStepNav("Back to Learn", "Continue to Step 4: Knowledge Check")}
           </div>
         )}
 
@@ -1049,22 +983,19 @@ export function FullPageLessonExperience({
         {/* STEP 4: KNOWLEDGE CHECK */}
         {/* ============================================================ */}
         {currentStep === 4 && (
-          <div className="space-y-8 animate-in fade-in duration-200">
+          <div className="space-y-10">
             <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold tracking-wider uppercase bg-light-teal text-deep-teal border border-deep-teal/20 mb-3">
-                <Trophy className="w-3.5 h-3.5 text-coral" />
+              <div className={STEP_PILL}>
+                <HelpCircle className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
                 <span>Step 4 of 5 · Knowledge Check &amp; Scenario Quiz</span>
               </div>
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-bold text-deep-teal mb-3">
-                Confirm Your Understanding
-              </h2>
-              <p className="text-base sm:text-lg text-charcoal/85 leading-relaxed font-sans max-w-4xl">
+              <h2 className={STEP_TITLE}>Confirm Your Understanding</h2>
+              <p className={STEP_LEAD}>
                 Test your grasp of biological mechanisms and symptom recognition rules. Immediate explanations are provided for every answer.
               </p>
             </div>
 
-            {/* Interactive Scenario Quiz Game Component */}
-            <div className="rounded-3xl bg-white p-6 sm:p-10 border-2 border-deep-teal/15 shadow-card">
+            <div className={`${CARD} p-5 sm:p-8`}>
               <InteractiveQuizGame
                 questions={quizQuestions}
                 topicName={topic.name}
@@ -1073,25 +1004,7 @@ export function FullPageLessonExperience({
               />
             </div>
 
-            {/* Navigation buttons */}
-            <div className="pt-8 border-t border-deep-teal/15 flex items-center justify-between gap-4">
-              <Button
-                variant="outline"
-                onClick={prevStep}
-                className="border-deep-teal/20 text-deep-teal hover:bg-light-teal cursor-pointer py-5 px-6 rounded-2xl"
-              >
-                <ArrowLeft className="w-4 h-4 mr-2" />
-                <span>Back to Activity</span>
-              </Button>
-              <Button
-                onClick={nextStep}
-                size="lg"
-                className="bg-deep-teal hover:bg-deep-teal/90 text-white font-bold gap-2 text-sm sm:text-base px-8 py-6 rounded-2xl shadow-md cursor-pointer hover:translate-x-0.5 transition-all"
-              >
-                <span>Continue to Step 5: Resources &amp; Next Steps</span>
-                <ArrowRight className="w-4 h-4" />
-              </Button>
-            </div>
+            {renderStepNav("Back to Activity", "Continue to Step 5: Resources & Next Steps")}
           </div>
         )}
 
@@ -1099,78 +1012,74 @@ export function FullPageLessonExperience({
         {/* STEP 5: RESOURCES & NEXT STEPS */}
         {/* ============================================================ */}
         {currentStep === 5 && (
-          <div className="space-y-8 animate-in fade-in duration-200">
+          <div className="space-y-10">
             <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold tracking-wider uppercase bg-light-teal text-deep-teal border border-deep-teal/20 mb-3">
-                <ShieldCheck className="w-3.5 h-3.5 text-coral" />
+              <div className={STEP_PILL}>
+                <ShieldCheck className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
                 <span>Step 5 of 5 · Resources, Self-Advocacy &amp; Next Steps</span>
               </div>
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-bold text-deep-teal mb-3">
-                Taking Action With Confidence
-              </h2>
-              <p className="text-base sm:text-lg text-charcoal/85 leading-relaxed font-sans max-w-4xl">
+              <h2 className={STEP_TITLE}>Taking Action With Confidence</h2>
+              <p className={STEP_LEAD}>
                 Knowledge matters most when you can use it in the real world. Here is your practical communication blueprint and interactive roleplay rehearsal for clinical appointments.
               </p>
             </div>
 
-            {/* Doctor Discussion Script: Wide 2-Column Grid */}
-            <div className="rounded-3xl bg-white p-6 sm:p-8 border-2 border-deep-teal/15 shadow-card space-y-6 text-left">
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-                {/* Left: The Script & Copy Button */}
+            {/* Doctor discussion script */}
+            <div className={`${CARD} p-5 sm:p-8 text-left`}>
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
                 <div className="lg:col-span-7 space-y-4">
                   <div className="flex items-center justify-between gap-3 flex-wrap">
-                    <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-raspberry font-sans">
-                      <Stethoscope className="w-4 h-4" />
+                    <div className={LABEL}>
+                      <Stethoscope className="w-4 h-4 shrink-0" aria-hidden="true" />
                       <span>Doctor Discussion Script</span>
                     </div>
-                    <Button
+                    <button
+                      type="button"
                       onClick={() => handleCopyScript(advocacyData.doctorScript)}
-                      size="sm"
-                      variant="outline"
-                      className="rounded-full text-xs font-bold border-deep-teal/20 text-deep-teal hover:bg-light-teal gap-1.5 cursor-pointer"
+                      className={BTN_SECONDARY}
+                      aria-live="polite"
                     >
                       {copiedScript ? (
                         <>
-                          <Check className="w-3.5 h-3.5 text-emerald-600" />
-                          <span className="text-emerald-700">Copied to Clipboard!</span>
+                          <Check className="w-4 h-4 shrink-0" aria-hidden="true" />
+                          <span>Copied to Clipboard!</span>
                         </>
                       ) : (
                         <>
-                          <Copy className="w-3.5 h-3.5 text-coral" />
+                          <Copy className="w-4 h-4 shrink-0" aria-hidden="true" />
                           <span>Copy Script</span>
                         </>
                       )}
-                    </Button>
+                    </button>
                   </div>
 
-                  <div className="p-6 rounded-2xl bg-light-teal/50 border border-deep-teal/20 text-deep-teal space-y-2">
-                    <p className="text-xs font-bold uppercase tracking-wider text-deep-teal/70 font-sans">
+                  <div className="p-5 sm:p-6 rounded-xl bg-light-teal-light space-y-2">
+                    <p className="m-0 text-sm font-semibold text-deep-teal font-sans">
                       Situation: {advocacyData.situation}
                     </p>
-                    <p className="text-base sm:text-lg font-serif italic text-deep-teal leading-relaxed">
+                    <p className="max-w-[65ch] m-0 text-lg font-sans italic text-charcoal leading-relaxed">
                       {advocacyData.doctorScript}
                     </p>
                   </div>
                 </div>
 
-                {/* Right: Why It Works & What If Dismissed */}
                 <div className="lg:col-span-5 space-y-4">
-                  <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-2">
+                  <div className="p-5 rounded-xl bg-warm-cream space-y-2">
                     <div className="flex items-center gap-2">
-                      <CheckCircle className="w-4 h-4 text-emerald-600" />
-                      <h4 className="font-serif font-bold text-sm text-deep-teal">Why This Script Works</h4>
+                      <CheckCircle className="w-4 h-4 text-deep-teal shrink-0" aria-hidden="true" />
+                      <h4 className="font-sans font-semibold text-base text-deep-teal m-0">Why This Script Works</h4>
                     </div>
-                    <p className="text-xs sm:text-[13px] text-charcoal/80 leading-relaxed font-sans">
+                    <p className="max-w-[65ch] text-sm sm:text-base text-charcoal-light leading-relaxed font-sans m-0">
                       {advocacyData.whyItWorks}
                     </p>
                   </div>
 
-                  <div className="p-5 rounded-2xl bg-[#FFE1DB]/40 border border-coral/30 space-y-2">
+                  <div className="p-5 rounded-xl bg-soft-pink-light space-y-2">
                     <div className="flex items-center gap-2">
-                      <ShieldAlert className="w-4 h-4 text-coral" />
-                      <h4 className="font-serif font-bold text-sm text-coral">What If You Feel Dismissed?</h4>
+                      <span aria-hidden="true" className="h-3 w-3 shrink-0 rounded-full bg-coral ring-4 ring-soft-pink" />
+                      <h4 className="font-sans font-semibold text-base text-charcoal m-0">What If You Feel Dismissed?</h4>
                     </div>
-                    <p className="text-xs sm:text-[13px] text-charcoal/80 leading-relaxed font-sans">
+                    <p className="max-w-[65ch] text-sm sm:text-base text-charcoal-light leading-relaxed font-sans m-0">
                       {advocacyData.whatIfDismissed}
                     </p>
                   </div>
@@ -1178,19 +1087,19 @@ export function FullPageLessonExperience({
               </div>
             </div>
 
-            {/* Interactive Roleplay Practice Studio (Available for all Advocacy Lessons) */}
+            {/* Roleplay practice (advocacy lessons) */}
             {roleplayScenarios.length > 0 && isAdvocateLesson && (
-              <div className="pt-6 border-t border-deep-teal/15 space-y-6">
+              <div className="pt-6 border-t border-[#E5E1DC] space-y-6">
                 <div>
-                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold tracking-wider uppercase bg-soft-pink text-raspberry border border-raspberry/20 mb-2 font-sans">
-                    <Gamepad2 className="w-3.5 h-3.5" />
+                  <div className={`${LABEL} mb-2`}>
+                    <Gamepad2 className="w-4 h-4 shrink-0" aria-hidden="true" />
                     <span>Interactive Rehearsal Studio</span>
                   </div>
-                  <h3 className="text-2xl sm:text-3xl font-serif font-bold text-deep-teal mb-2">
+                  <h3 className={`${SECTION_TITLE} mb-2`}>
                     Practice Your Clinical &amp; Self-Advocacy Roleplays
                   </h3>
-                  <p className="text-sm sm:text-base text-charcoal/80 font-sans leading-relaxed max-w-3xl">
-                    Rehearse your responses against realistic clinical and institutional pushback. Select each scenario to test your dialogue choices, earn +30 XP bonuses, and review accredited guidelines.
+                  <p className="text-base text-charcoal-light font-sans leading-relaxed text-pretty max-w-[65ch] m-0">
+                    Rehearse your responses against realistic clinical and institutional pushback. Select each scenario to test your dialogue choices and review accredited guidelines.
                   </p>
                 </div>
 
@@ -1198,133 +1107,108 @@ export function FullPageLessonExperience({
               </div>
             )}
 
-            {/* Big Complete Lesson & Claim XP Card */}
-            <div className="rounded-3xl p-8 sm:p-10 bg-gradient-to-br from-deep-teal via-teal-900 to-deep-teal-dark text-white shadow-xl text-center space-y-4">
-              <div className="w-16 h-16 rounded-full bg-white/10 border-2 border-white/20 flex items-center justify-center mx-auto shadow-inner">
-                <Trophy className="w-8 h-8 text-gold" />
-              </div>
+            {/* Complete lesson band (the step's one dark band) */}
+            <div className="rounded-2xl p-6 sm:p-10 bg-deep-teal text-white text-center space-y-4">
+              <span className="w-14 h-14 rounded-full bg-deep-teal-dark flex items-center justify-center mx-auto">
+                <CheckCircle2 className="w-7 h-7 text-white" aria-hidden="true" />
+              </span>
               <div>
-                <h3 className="text-2xl sm:text-3xl lg:text-4xl font-serif font-bold text-white mb-2">
+                <h3 className="font-serif text-h3 font-normal text-white text-balance mb-2">
                   Ready to Complete This Lesson?
                 </h3>
-                <p className="text-sm sm:text-base text-light-teal/90 max-w-xl mx-auto font-sans">
+                <p className="text-base text-white max-w-xl mx-auto font-sans text-pretty m-0">
                   You have reviewed the biology, tested your skills, and unlocked your self-advocacy script.
                 </p>
               </div>
-
               <div className="pt-2">
-                <Button
+                <button
+                  type="button"
                   onClick={() => onComplete(topic)}
-                  size="lg"
-                  className="bg-coral hover:bg-coral/90 text-white font-bold text-base px-8 py-6 rounded-2xl shadow-lg hover:scale-105 transition-all gap-2 cursor-pointer border border-white/20"
+                  className="inline-flex items-center justify-center gap-2 min-h-11 px-6 rounded-full bg-white text-deep-teal text-sm font-semibold font-sans hover:bg-light-teal transition-colors duration-150 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-deep-teal"
                 >
-                  <CheckCircle2 className="w-5 h-5 text-white" />
-                  <span>{isCompleted ? "Review Completed ✓" : `Complete Lesson & Claim +${topic.xp} XP`}</span>
-                </Button>
+                  <CheckCircle2 className="w-5 h-5 shrink-0" aria-hidden="true" />
+                  <span>{isCompleted ? "Review Completed" : "Complete Lesson"}</span>
+                </button>
               </div>
             </div>
 
-            {/* Sibling Topic Recommendations in Wide Grid */}
+            {/* Sibling topics */}
             {siblingTopics.length > 0 && (
-              <div className="space-y-4 pt-4">
-                <div className="flex items-center justify-between gap-4">
-                  <h3 className="text-xl font-serif font-bold text-deep-teal">
-                    Continue Exploring in {categoryTitle}
-                  </h3>
-                  <span className="text-xs font-bold text-charcoal/60 uppercase tracking-wider font-sans">
-                    Recommended Next
-                  </span>
+              <div className="space-y-4">
+                <div className="flex items-baseline justify-between gap-x-4 gap-y-1 flex-wrap">
+                  <h3 className={SECTION_TITLE}>Continue Exploring in {categoryTitle}</h3>
+                  <span className="text-sm font-semibold text-charcoal-light font-sans">Recommended Next</span>
                 </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                   {siblingTopics
                     .filter((t) => t.id !== topic.id)
                     .slice(0, 4)
                     .map((sibling) => (
                       <button
                         key={sibling.id}
+                        type="button"
                         onClick={() => onNavigateToTopic?.(sibling.id)}
-                        className="p-5 rounded-2xl bg-white border border-deep-teal/15 shadow-xs hover:border-coral/40 hover:-translate-y-0.5 transition-all text-left flex flex-col justify-between cursor-pointer"
+                        title={sibling.desc}
+                        className={`${CARD} p-5 text-left flex flex-col gap-1 hover:border-deep-teal transition-colors duration-150 cursor-pointer ${FOCUS_RING}`}
                       >
-                        <div>
-                          <span className="text-[10px] font-bold uppercase tracking-wider text-raspberry font-sans">
-                            {sibling.type}
-                          </span>
-                          <h4 className="font-serif font-bold text-deep-teal text-base mt-1 mb-2">
-                            {sibling.name}
-                          </h4>
-                          <p className="text-xs text-charcoal/70 line-clamp-2 font-sans">
-                            {sibling.desc}
-                          </p>
-                        </div>
-                        <div className="pt-3 mt-3 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-coral font-sans">
-                          <span>+{sibling.xp} XP</span>
-                          <ArrowRight className="w-3.5 h-3.5" />
-                        </div>
+                        <span className="text-sm font-semibold text-charcoal-light font-sans">{sibling.type}</span>
+                        <span className="font-sans font-semibold text-deep-teal text-base text-balance">{sibling.name}</span>
+                        <span className="text-sm text-charcoal-light font-sans text-pretty">{sibling.desc}</span>
+                        <span className="mt-auto pt-3 flex justify-end text-deep-teal">
+                          <ArrowRight className="w-4 h-4" aria-hidden="true" />
+                        </span>
                       </button>
                     ))}
                 </div>
               </div>
             )}
 
-            {/* Navigation back */}
-            <div className="pt-8 border-t border-deep-teal/15 flex items-center justify-between gap-4">
-              <Button
-                variant="outline"
-                onClick={prevStep}
-                className="border-deep-teal/20 text-deep-teal hover:bg-light-teal cursor-pointer py-5 px-6 rounded-2xl"
-              >
-                <ArrowLeft className="w-4 h-4 mr-2" />
+            <div className={STEP_NAV}>
+              <button type="button" onClick={prevStep} className={`${BTN_TEXT} self-start sm:self-auto`}>
+                <ArrowLeft className="w-4 h-4 shrink-0" aria-hidden="true" />
                 <span>Back to Knowledge Check</span>
-              </Button>
-              <Button
-                variant="outline"
-                onClick={onBack}
-                className="border-deep-teal text-deep-teal hover:bg-deep-teal hover:text-white cursor-pointer py-5 px-6 rounded-2xl"
-              >
+              </button>
+              <button type="button" onClick={onBack} className={`${BTN_SECONDARY} w-full sm:w-auto`}>
                 <span>Return to {categoryTitle}</span>
-              </Button>
+              </button>
             </div>
           </div>
         )}
-      </main>
+      </div>
 
-      {/* 4. Bottom Sticky Progression Control Bar (Wide Canvas) */}
-      <footer className="sticky bottom-0 z-30 bg-white/95 backdrop-blur-md border-t border-deep-teal/15 px-4 sm:px-8 lg:px-12 py-3.5 shadow-lg">
-        <div className="max-w-[1440px] w-full mx-auto flex items-center justify-between gap-4">
-          <Button
-            variant="outline"
-            size="sm"
+      {/* 4. Sticky progression bar: holds the screen's one raspberry action */}
+      <footer className="sticky bottom-0 z-30 bg-white border-t border-[#E5E1DC]">
+        <div className={`${CONTAINER} flex items-center justify-between gap-2 sm:gap-4 py-2`}>
+          <button
+            type="button"
             onClick={prevStep}
             disabled={currentStep === 1}
-            className="rounded-full text-xs font-bold border-deep-teal/20 text-deep-teal hover:bg-light-teal disabled:opacity-40 cursor-pointer px-4"
+            aria-label="Previous Step"
+            className={`${BTN_SECONDARY.replace("px-5", "px-3 sm:px-5")} shrink-0 min-w-11 disabled:cursor-not-allowed disabled:border-[#E5E1DC] disabled:bg-warm-cream disabled:text-charcoal-light disabled:hover:bg-warm-cream`}
           >
-            <ArrowLeft className="w-3.5 h-3.5 mr-1.5" />
+            <ArrowLeft className="w-4 h-4 shrink-0" aria-hidden="true" />
             <span className="hidden sm:inline">Previous Step</span>
-            <span className="inline sm:hidden">Prev</span>
-          </Button>
+          </button>
 
-          <div className="flex items-center gap-2 text-xs font-semibold text-charcoal/75 font-sans">
-            <span className="font-bold text-deep-teal">Step {currentStep} of 5</span>
-            <span className="hidden sm:inline text-charcoal/40">•</span>
-            <span className="hidden sm:inline">{stepsConfig[currentStep - 1]?.title}</span>
+          <div
+            className="flex-1 min-w-0 flex items-center justify-center gap-2 text-sm font-semibold text-charcoal-light font-sans"
+            title={`Step ${currentStep} of 5: ${stepsConfig[currentStep - 1]?.title ?? ""}`}
+          >
+            <span className="text-deep-teal whitespace-nowrap">Step {currentStep} of 5</span>
+            <span className="hidden lg:inline" aria-hidden="true">·</span>
+            <span className="hidden lg:inline whitespace-nowrap">{stepsConfig[currentStep - 1]?.title}</span>
           </div>
 
-          <Button
-            size="sm"
-            onClick={nextStep}
-            className="rounded-full bg-deep-teal hover:bg-deep-teal/90 text-white font-bold text-xs gap-1.5 shadow-sm cursor-pointer px-5"
-          >
-            <span>{currentStep === 5 ? "Complete Lesson ✓" : "Next Step"}</span>
-            {currentStep < 5 && <ArrowRight className="w-3.5 h-3.5" />}
-          </Button>
+          <button type="button" onClick={nextStep} className={`${BTN_PRIMARY.replace("px-5", "px-4 sm:px-5")} shrink-0`}>
+            <span>{currentStep === 5 ? "Complete Lesson" : "Next Step"}</span>
+            {currentStep < 5 ? (
+              <ArrowRight className="hidden sm:block w-4 h-4 shrink-0" aria-hidden="true" />
+            ) : (
+              <Check className="hidden sm:block w-4 h-4 shrink-0" aria-hidden="true" />
+            )}
+          </button>
         </div>
       </footer>
-
-      {/* Slide-Down Scroll Progress Indicator on the Right */}
-      <ScrollProgressIndicator
-        containerRef={scrollContainerRef}
-        pageId={`lesson-${topic.id}-step-${currentStep}`}
-      />
     </div>
   );
 }

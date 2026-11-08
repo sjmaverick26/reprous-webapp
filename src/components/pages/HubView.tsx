@@ -3,6 +3,7 @@
 import React, { useState, useMemo, useEffect, useRef } from "react";
 import {
   Trophy,
+  ArrowRight,
   ArrowLeft,
   BookOpen,
   FileText,
@@ -61,6 +62,7 @@ const PILLARS: Record<
   PillarKey,
   {
     name: string;
+    short: string;
     ids: string[];
     border: string;
     rule: string;
@@ -72,6 +74,7 @@ const PILLARS: Record<
 > = {
   learn: {
     name: "Learn about your body",
+    short: "Learn",
     ids: ["body", "cycle", "play"],
     border: "border-deep-teal",
     rule: "border-deep-teal",
@@ -82,6 +85,7 @@ const PILLARS: Record<
   },
   recognize: {
     name: "Recognize and understand symptoms",
+    short: "Recognize",
     ids: ["pcos", "endo", "conditions"],
     border: "border-coral",
     rule: "border-coral",
@@ -92,6 +96,7 @@ const PILLARS: Record<
   },
   advocate: {
     name: "Advocate for your health",
+    short: "Advocate",
     ids: ["mind", "realtalk", "factors"],
     border: "border-raspberry",
     rule: "border-raspberry",
@@ -129,6 +134,17 @@ const PRACTICE_LINKS: { label: string; page: PageId; tab: string }[] = [
 
 const FOCUS_RING =
   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-deep-teal focus-visible:ring-offset-2";
+
+/** The page's one pillar marker: a coloured node and the pillar name. */
+function PillarMarker({ pillar }: { pillar: PillarKey }) {
+  const p = PILLARS[pillar];
+  return (
+    <p className="m-0 mb-4 inline-flex items-center gap-2.5 text-base font-semibold text-deep-teal">
+      <span aria-hidden="true" className={`h-3 w-3 shrink-0 rounded-full ring-4 ${p.chip} ${p.ring}`} />
+      {p.short}
+    </p>
+  );
+}
 
 export function HubView({ initialCategory, onNavigate }: HubViewProps) {
   const [activeCategoryId, setActiveCategoryId] = useState<string | null>(
@@ -270,6 +286,8 @@ export function HubView({ initialCategory, onNavigate }: HubViewProps) {
 
   // Sync if initialCategory prop changes from external nav (including direct "arcade" launch)
   useEffect(() => {
+    // A change of view from outside (nav, back/forward, a shared link) closes any open lesson.
+    setSelectedTopic(null);
     if (!initialCategory) {
       setActiveCategoryId(null);
       setSubView(null);
@@ -365,13 +383,14 @@ export function HubView({ initialCategory, onNavigate }: HubViewProps) {
         {showLanding && (
           <div className="flex flex-col gap-12">
             <header className="max-w-3xl">
+              <PillarMarker pillar="learn" />
               <h1 className="font-serif text-h1 font-normal text-deep-teal text-balance m-0 mb-4">
                 What do you want to understand?
               </h1>
               <p className="text-body text-charcoal text-pretty max-w-[65ch] m-0 mb-3">
                 Every category below is judgment-free and written in plain language.
               </p>
-              <p className="text-small text-charcoal-light m-0">
+              <p className="text-small text-charcoal-light text-pretty m-0">
                 Educational resource for health literacy — not medical advice
               </p>
               {continueModule && (
@@ -391,42 +410,55 @@ export function HubView({ initialCategory, onNavigate }: HubViewProps) {
                 const pillar = PILLARS[key];
                 return (
                   <section key={key} aria-labelledby={`pillar-${key}`}>
-                    <h2
-                      id={`pillar-${key}`}
-                      className={`font-serif text-h3 font-normal text-deep-teal text-balance m-0 mb-6 border-l-4 pl-4 ${pillar.rule}`}
-                    >
-                      {pillar.name}
-                    </h2>
+                    <div data-reveal="" className="mb-6 flex items-center gap-4">
+                      <span
+                        aria-hidden="true"
+                        className={`h-4 w-4 shrink-0 rounded-full ring-4 ${pillar.chip} ${pillar.ring}`}
+                      />
+                      <h2
+                        id={`pillar-${key}`}
+                        className="font-serif text-h3 font-normal text-deep-teal text-balance m-0"
+                      >
+                        {pillar.name}
+                      </h2>
+                      <span
+                        aria-hidden="true"
+                        className="hidden md:block h-0 min-w-8 flex-1 border-t-2 border-dashed border-light-teal-dark"
+                      />
+                    </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                      {pillar.ids.map((id) => {
+                    <div data-reveal-stagger="" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                      {pillar.ids.map((id, idx) => {
                         const cat = HUB_CATEGORIES[id];
                         if (!cat) return null;
                         const Icon = CATEGORY_ICONS[cat.id] || BookOpen;
                         const catCompleted = cat.topics.filter((t) => completedTopics.has(t.id)).length;
                         const catTotal = cat.topics.length;
                         const catPercent = Math.round((catCompleted / (catTotal || 1)) * 100);
+                        // 2-up at md: an odd last card spans both columns so no card sits alone
+                        const spanAtMd =
+                          idx === pillar.ids.length - 1 && pillar.ids.length % 2 === 1 ? "md:col-span-2 lg:col-span-1" : "";
 
                         return (
                           <button
                             key={cat.id}
                             type="button"
                             onClick={() => openModule(cat.id)}
-                            className={`group rounded-2xl p-5 md:p-6 text-left bg-white border ${pillar.border} shadow-sm hover:bg-warm-cream transition-colors duration-150 flex flex-col justify-between gap-4 cursor-pointer ${FOCUS_RING}`}
+                            className={`group rounded-2xl p-5 md:p-6 text-left bg-white border ${pillar.border} shadow-sm hover:bg-warm-cream motion-lift flex flex-col gap-3 md:grid md:grid-rows-subgrid md:row-span-3 cursor-pointer ${spanAtMd} ${FOCUS_RING}`}
                           >
                             <div>
                               <span className={`w-11 h-11 rounded-full flex items-center justify-center mb-4 ${pillar.chip}`}>
                                 <Icon className={`w-5 h-5 ${pillar.chipIcon}`} aria-hidden="true" />
                               </span>
-                              <h3 className="font-serif text-xl md:text-2xl font-normal text-deep-teal text-balance leading-snug m-0 mb-2 group-hover:underline">
+                              <h3 className="font-serif text-2xl font-normal text-deep-teal text-balance leading-snug m-0 group-hover:underline">
                                 {cat.title}
                               </h3>
-                              <p className="text-base text-charcoal-light text-pretty leading-relaxed m-0">
-                                {cat.description}
-                              </p>
                             </div>
+                            <p className="text-base text-charcoal-light text-pretty leading-relaxed max-w-[65ch] m-0">
+                              {cat.description}
+                            </p>
 
-                            <div>
+                            <div className="mt-auto pt-2">
                               {catCompleted > 0 && (
                                 <div className="mb-3">
                                   <div
@@ -506,12 +538,13 @@ export function HubView({ initialCategory, onNavigate }: HubViewProps) {
         {activeCategory && (() => {
           const pillar = PILLARS[pillarOf(activeCategory.id)];
           const remaining = categoryTotalCount - categoryCompletedCount;
-          const featureCard = "rounded-2xl p-5 md:p-6 bg-white border shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-5 text-left";
+          const featureCard = `rounded-2xl p-5 md:p-6 bg-white border ${pillar.border} shadow-sm flex flex-col md:flex-row md:items-center lg:flex-col lg:items-start justify-between gap-5 text-left`;
+          const featureCardWide = `rounded-2xl p-5 md:p-6 bg-white border ${pillar.border} shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-5 text-left`;
           const featureButton = `inline-flex items-center justify-center gap-2 min-h-[44px] px-5 rounded-full text-sm font-semibold text-deep-teal bg-white border border-deep-teal hover:bg-light-teal transition-colors duration-150 cursor-pointer ${FOCUS_RING}`;
 
           return (
             <div className="flex flex-col gap-12">
-              <div className="max-w-2xl mx-auto w-full flex flex-col gap-8">
+              <div className="flex flex-col gap-6">
                 <div className="flex items-center justify-between gap-3 flex-wrap">
                   {backLink}
 
@@ -519,14 +552,14 @@ export function HubView({ initialCategory, onNavigate }: HubViewProps) {
                     <button
                       type="button"
                       onClick={() => openSubView("words")}
-                      className={`inline-flex items-center min-h-[44px] px-3 text-small font-semibold text-deep-teal hover:underline rounded-md cursor-pointer ${FOCUS_RING}`}
+                      className={`inline-flex items-center min-h-[44px] pr-3 text-small font-semibold text-deep-teal hover:underline rounded-md cursor-pointer ${FOCUS_RING}`}
                     >
                       Health words
                     </button>
                     <button
                       type="button"
                       onClick={() => setShowResetModal(true)}
-                      className={`inline-flex items-center gap-1.5 min-h-[44px] px-3 text-small font-semibold text-charcoal-light hover:text-raspberry transition-colors duration-150 rounded-md cursor-pointer ${FOCUS_RING}`}
+                      className={`inline-flex items-center gap-1.5 min-h-[44px] px-3 text-small font-semibold text-charcoal-light hover:text-deep-teal transition-colors duration-150 rounded-md cursor-pointer ${FOCUS_RING}`}
                       title="Reset your saved progress back to zero"
                     >
                       <RotateCcw className="w-4 h-4" aria-hidden="true" />
@@ -535,14 +568,29 @@ export function HubView({ initialCategory, onNavigate }: HubViewProps) {
                   </div>
                 </div>
 
-                <div className="text-center">
+                {/* One edge: header, progress and featured card on the left; the path beside them from 1024 */}
+                <div className="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-12 items-start">
+                <div className="lg:col-span-5 flex flex-col gap-8">
+                <header>
+                  <PillarMarker pillar={pillarOf(activeCategory.id)} />
                   <h1 className="font-serif text-h2 font-normal text-deep-teal text-balance m-0 mb-3">
                     {activeCategory.title}
                   </h1>
-                  <p className="text-body text-charcoal-light text-pretty max-w-[65ch] mx-auto m-0">
+                  <p className="text-body text-charcoal-light text-pretty max-w-[65ch] m-0">
                     {activeCategory.description}
                   </p>
-                </div>
+                  {/* The one filled button above the fold: start lesson 1 */}
+                  {activeCategory.topics[0] && (
+                    <button
+                      type="button"
+                      onClick={() => openTopic(activeCategory.topics[0])}
+                      className="mt-6 inline-flex min-h-[48px] max-w-full items-center justify-center gap-2 rounded-full bg-raspberry px-7 py-3 text-left font-sans text-base font-semibold text-white shadow-sm transition-colors duration-150 hover:bg-raspberry-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-raspberry focus-visible:ring-offset-2"
+                    >
+                      <span className="text-balance">{activeCategory.topics[0].name}</span>
+                      <ArrowRight className="h-4 w-4 shrink-0" aria-hidden="true" />
+                    </button>
+                  )}
+                </header>
 
                 {/* Progress: a thin bar once she has started */}
                 <div>
@@ -575,16 +623,16 @@ export function HubView({ initialCategory, onNavigate }: HubViewProps) {
 
                 {/* Featured: Athlete Nutrition Arcade in Play Strong */}
                 {activeCategoryId === "play" && (
-                  <div className={`${featureCard} border-deep-teal`}>
+                  <div className={featureCard}>
                     <div className="space-y-2 max-w-2xl">
-                      <h2 className="font-serif text-xl md:text-2xl font-normal text-deep-teal text-balance m-0">
+                      <h2 className="font-serif text-2xl font-normal text-deep-teal text-balance m-0">
                         Fuel Up: Athlete Nutrition Arcade
                       </h2>
-                      <p className="text-base text-charcoal text-pretty leading-relaxed m-0">
+                      <p className="max-w-[65ch] text-base text-charcoal text-pretty leading-relaxed m-0">
                         Explore athletic fueling with zero walls of text! Play <strong>Visual Fuel Match</strong>, <strong>3:1 Recovery Blender</strong>, <strong>Pregame Bowl Catcher</strong>, and <strong>Timing Clock</strong>.
                       </p>
                     </div>
-                    <div className="flex flex-col items-start md:items-end gap-3 shrink-0">
+                    <div className="flex flex-col items-start md:items-end lg:items-start gap-3 shrink-0">
                       <span className="text-small text-charcoal-light">12 interactive cards &amp; simulations</span>
                       <button
                         type="button"
@@ -603,90 +651,59 @@ export function HubView({ initialCategory, onNavigate }: HubViewProps) {
                   </div>
                 )}
 
-                {/* Featured: Rotterdam criteria in PCOS (copy untouched; flagged for the safety review) */}
-                {activeCategoryId === "pcos" && (
-                  <div className={`${featureCard} border-raspberry`}>
-                    <div className="space-y-2 max-w-2xl">
-                      <h2 className="font-serif text-xl md:text-2xl font-normal text-deep-teal text-balance m-0">
-                        The Rotterdam Criteria Diagnostic Guide
-                      </h2>
-                      <p className="text-base text-charcoal text-pretty leading-relaxed m-0">
-                        Under international consensus guidelines, PCOS requires meeting at least <strong>2 of 3 specific criteria</strong>: irregular ovulation, elevated androgens (signs or labs), and polycystic ovaries on ultrasound. You do <em>not</em> need ovarian cysts to have PCOS (Phenotype B), and you can have regular cycles (Phenotype C)!
-                      </p>
-                    </div>
-                    <div className="flex flex-col items-start md:items-end gap-3 shrink-0">
-                      <span className="text-small text-charcoal-light">Interactive Criteria Checker &amp; 4 Phenotypes</span>
-                      <button
-                        type="button"
-                        onClick={() => {
-                          const pcosTopic = activeCategory.topics.find(
-                            (t) => t.id === "pcos-1" || t.id === "pcos-0"
-                          );
-                          if (pcosTopic) openTopic(pcosTopic);
-                        }}
-                        className={featureButton}
-                      >
-                        <span>Explore Rotterdam Criteria</span>
-                      </button>
-                    </div>
-                  </div>
-                )}
 
-                {/* Serpentine Track */}
-                <div className="py-4">
-                  <div className="relative flex flex-col gap-6">
-                    {categoryCompletedCount < categoryTotalCount && (
-                      <div className="absolute left-1/2 top-10 bottom-10 w-0.5 -translate-x-1/2 border-l-2 border-dashed border-light-teal-dark z-0 pointer-events-none" />
-                    )}
-                    {activeCategory.topics.map((topic, idx) => {
-                      const isLeft = idx % 2 === 0;
+                </div>
+
+                {/* Learning path: nodes on one rail; each dashed segment runs node to node, never under a label */}
+                <div className="lg:col-span-7">
+                  <ol className="m-0 p-0 list-none flex flex-col" aria-label={`${activeCategory.title} lessons`}>
+                    {activeCategory.topics.map((topic) => {
                       const isDone = completedTopics.has(topic.id);
                       const isOpen = openPanelId === topic.id;
                       const nodeBg = topic.isAdvocateCapstone ? "bg-raspberry" : pillar.chip;
                       const nodeIcon = topic.isAdvocateCapstone ? "text-white" : pillar.chipIcon;
 
                       return (
-                        <div key={topic.id} className="relative z-10 flex flex-col items-center">
-                          <div
-                            className={`w-full flex ${
-                              isLeft ? "justify-start pl-[12%] md:pl-[20%]" : "justify-end pr-[12%] md:pr-[20%]"
-                            }`}
+                        <li key={topic.id} className="relative pb-6">
+                          {/* Segment from this node down to the next one, in the node column only */}
+                          <span
+                            aria-hidden="true"
+                            className="absolute left-8 top-[4.5rem] bottom-0 w-0 -translate-x-1/2 border-l-2 border-dashed border-light-teal-dark pointer-events-none"
+                          />
+                          <button
+                            type="button"
+                            onClick={() => setOpenPanelId(isOpen ? null : topic.id)}
+                            aria-expanded={isOpen}
+                            className={`w-full flex items-center gap-4 py-1 pr-3 text-left group rounded-2xl cursor-pointer ${FOCUS_RING}`}
                           >
-                            <button
-                              type="button"
-                              onClick={() => setOpenPanelId(isOpen ? null : topic.id)}
-                              aria-expanded={isOpen}
-                              className={`flex flex-col items-center gap-2 group rounded-2xl p-2 cursor-pointer ${FOCUS_RING}`}
+                            <span
+                              className={`w-16 h-16 shrink-0 rounded-full flex items-center justify-center shadow-node group-hover:scale-105 transition-transform duration-150 ring-4 ${
+                                topic.isAdvocateCapstone ? "ring-soft-pink" : pillar.ring
+                              } ${nodeBg}`}
                             >
-                              <div
-                                className={`w-16 h-16 rounded-full flex items-center justify-center shadow-node group-hover:scale-105 transition-transform duration-150 ring-4 ${
-                                  topic.isAdvocateCapstone ? "ring-soft-pink" : pillar.ring
-                                } ${nodeBg}`}
-                              >
-                                {isDone ? (
-                                  <CheckCircle className={`w-7 h-7 ${nodeIcon}`} aria-hidden="true" />
-                                ) : topic.isAdvocateCapstone ? (
-                                  <Shield className="w-7 h-7 text-white" aria-hidden="true" />
-                                ) : (
-                                  getTopicIcon(topic.type, nodeIcon)
-                                )}
-                              </div>
-                              <div className="text-center max-w-[140px]">
-                                <div className="text-sm font-bold text-deep-teal group-hover:underline leading-snug">
-                                  {topic.name}
-                                </div>
-                                <div className="text-small capitalize text-charcoal-light mt-0.5">
-                                  {topic.isAdvocateCapstone ? "Self-advocacy action" : topic.type}
-                                  {isDone ? " · done" : ""}
-                                </div>
-                              </div>
-                            </button>
-                          </div>
+                              {isDone ? (
+                                <CheckCircle className={`w-7 h-7 ${nodeIcon}`} aria-hidden="true" />
+                              ) : topic.isAdvocateCapstone ? (
+                                <Shield className="w-7 h-7 text-white" aria-hidden="true" />
+                              ) : (
+                                getTopicIcon(topic.type, nodeIcon)
+                              )}
+                            </span>
+                            <span className="min-w-0">
+                              <span className="block text-base font-semibold text-deep-teal text-balance group-hover:underline leading-snug">
+                                {topic.name}
+                              </span>
+                              <span className="block text-small capitalize text-charcoal-light mt-0.5">
+                                {topic.isAdvocateCapstone ? "Self-advocacy action" : topic.type}
+                                {isDone ? " · done" : ""}
+                              </span>
+                            </span>
+                          </button>
 
-                          {/* Popover Panel */}
+                          {/* Lesson panel: opens beside the rail, never across it */}
                           {isOpen && (
                             <div
-                              className={`w-full max-w-sm my-3 rounded-2xl bg-white p-5 shadow-sm border ${
+                              className={`ml-20 mt-3 max-w-md rounded-2xl bg-white p-5 shadow-sm border ${
                                 topic.isAdvocateCapstone ? "border-raspberry" : pillar.border
                               } animate-in fade-in duration-150`}
                             >
@@ -696,10 +713,10 @@ export function HubView({ initialCategory, onNavigate }: HubViewProps) {
                                 </p>
                               )}
                               <p className="text-small capitalize text-charcoal-light m-0 mb-1">{topic.type}</p>
-                              <h3 className="text-lg font-serif text-deep-teal text-balance m-0 mb-2">
+                              <h3 className="text-2xl font-serif font-normal text-deep-teal text-balance m-0 mb-2">
                                 {topic.name}
                               </h3>
-                              <p className="text-base text-charcoal-light text-pretty leading-relaxed m-0 mb-4">
+                              <p className="max-w-[65ch] text-base text-charcoal-light text-pretty leading-relaxed m-0 mb-4">
                                 {topic.desc}
                               </p>
                               <button
@@ -711,18 +728,12 @@ export function HubView({ initialCategory, onNavigate }: HubViewProps) {
                               </button>
                             </div>
                           )}
-                        </div>
+                        </li>
                       );
                     })}
 
                     {/* End of Category Badge Node */}
-                    <div
-                      className={`relative z-10 w-full flex ${
-                        activeCategory.topics.length % 2 === 0
-                          ? "justify-start pl-[12%] md:pl-[20%]"
-                          : "justify-end pr-[12%] md:pr-[20%]"
-                      }`}
-                    >
+                    <li>
                       <button
                         type="button"
                         onClick={() =>
@@ -732,42 +743,72 @@ export function HubView({ initialCategory, onNavigate }: HubViewProps) {
                             category: activeCategory.title,
                           })
                         }
-                        className={`flex flex-col items-center gap-2 group rounded-2xl p-2 cursor-pointer ${FOCUS_RING}`}
+                        className={`w-full flex items-center gap-4 py-1 pr-3 text-left group rounded-2xl cursor-pointer ${FOCUS_RING}`}
                       >
-                        <div className={`w-20 h-20 rounded-full flex items-center justify-center shadow-node group-hover:scale-105 transition-transform duration-150 ${pillar.chip}`}>
-                          <Trophy className={`w-9 h-9 ${pillar.chipIcon}`} aria-hidden="true" />
-                        </div>
-                        <div className="text-center max-w-[140px]">
-                          <div className="text-sm font-bold text-deep-teal group-hover:underline">
+                        <span className={`w-16 h-16 shrink-0 rounded-full flex items-center justify-center shadow-node group-hover:scale-105 transition-transform duration-150 ring-4 ${pillar.ring} ${pillar.chip}`}>
+                          <Trophy className={`w-8 h-8 ${pillar.chipIcon}`} aria-hidden="true" />
+                        </span>
+                        <span className="min-w-0">
+                          <span className="block text-base font-semibold text-deep-teal text-balance group-hover:underline leading-snug">
                             {activeCategory.badge}
-                          </div>
-                          <div className="text-small text-charcoal-light mt-0.5">Category Badge</div>
-                        </div>
+                          </span>
+                          <span className="block text-small text-charcoal-light mt-0.5">Category Badge</span>
+                        </span>
                       </button>
-                    </div>
-                  </div>
+                    </li>
+                  </ol>
+                </div>
                 </div>
               </div>
 
               {/* Put it into practice: the tools live once, in Resources */}
-              <section aria-labelledby="practice-heading">
+              <section data-reveal="" aria-labelledby="practice-heading">
                 <h2 id="practice-heading" className="font-serif text-h3 font-normal text-deep-teal text-balance m-0 mb-5">
                   Put it into practice
                 </h2>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                   {PRACTICE_LINKS.map((link) => (
                     <button
                       key={link.label}
                       type="button"
                       onClick={() => onNavigate?.(link.page, link.tab)}
-                      className={`rounded-2xl bg-white border border-[#E5E1DC] shadow-sm p-5 min-h-[56px] flex items-center justify-between gap-3 text-left text-base font-semibold text-deep-teal hover:border-deep-teal transition-colors duration-150 cursor-pointer ${FOCUS_RING}`}
+                      className={`rounded-2xl bg-white border border-[#E5E1DC] shadow-sm p-5 min-h-[56px] flex items-center justify-between gap-3 text-left text-base font-semibold text-deep-teal hover:border-deep-teal motion-lift motion-arrow cursor-pointer ${FOCUS_RING}`}
                     >
-                      <span>{link.label}</span>
+                      <span className="text-balance">{link.label}</span>
                       <ChevronRight className="w-4 h-4 shrink-0" aria-hidden="true" />
                     </button>
                   ))}
                 </div>
               </section>
+
+              {/* Featured: Rotterdam criteria in PCOS (copy untouched; flagged for the safety review) */}
+              {activeCategoryId === "pcos" && (
+                <div className={featureCardWide}>
+                  <div className="space-y-2 max-w-2xl">
+                    <h2 className="font-serif text-2xl font-normal text-deep-teal text-balance m-0">
+                      The Rotterdam Criteria Diagnostic Guide
+                    </h2>
+                    <p className="max-w-[65ch] text-base text-charcoal text-pretty leading-relaxed m-0">
+                      Under international consensus guidelines, PCOS requires meeting at least <strong>2 of 3 specific criteria</strong>: irregular ovulation, elevated androgens (signs or labs), and polycystic ovaries on ultrasound. You do <em>not</em> need ovarian cysts to have PCOS (Phenotype B), and you can have regular cycles (Phenotype C)!
+                    </p>
+                  </div>
+                  <div className="flex flex-col items-start md:items-end gap-3 shrink-0">
+                    <span className="text-small text-charcoal-light">Interactive Criteria Checker &amp; 4 Phenotypes</span>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const pcosTopic = activeCategory.topics.find(
+                          (t) => t.id === "pcos-1" || t.id === "pcos-0"
+                        );
+                        if (pcosTopic) openTopic(pcosTopic);
+                      }}
+                      className={featureButton}
+                    >
+                      <span>Explore Rotterdam Criteria</span>
+                    </button>
+                  </div>
+                </div>
+              )}
 
               {/* Sources for this module */}
               <EducationalReferences
@@ -818,10 +859,10 @@ export function HubView({ initialCategory, onNavigate }: HubViewProps) {
         >
           <DialogContent className="max-w-md text-left bg-white rounded-2xl p-5 md:p-6">
             <DialogHeader>
-              <div className="w-12 h-12 rounded-full bg-soft-pink text-raspberry flex items-center justify-center mb-3">
+              <div className="w-12 h-12 rounded-full bg-soft-pink text-deep-teal flex items-center justify-center mb-3">
                 <RotateCcw className="w-6 h-6" aria-hidden="true" />
               </div>
-              <DialogTitle className="text-xl md:text-2xl font-serif font-normal text-deep-teal">
+              <DialogTitle className="text-2xl font-serif font-normal text-deep-teal text-balance">
                 Reset Your Learning Progress?
               </DialogTitle>
               <DialogDescription className="text-base text-charcoal-light font-sans mt-2 leading-relaxed">

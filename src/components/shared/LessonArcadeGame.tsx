@@ -596,7 +596,7 @@ function ArcadeSpeedCatcher({
                       onClick={() => setActiveAvatar(av.id)}
                       className={`px-2.5 py-0.5 rounded-full text-xs font-bold transition-all border flex items-center gap-1 cursor-pointer ${
                         isSel
-                          ? "bg-coral text-white border-coral ring-2 ring-coral/30 shadow-xs"
+                          ? "bg-coral text-charcoal border-coral ring-2 ring-coral/30 shadow-xs"
                           : "bg-slate-800/90 text-slate-300 border-slate-700 hover:border-slate-500 hover:text-white"
                       }`}
                     >
@@ -617,7 +617,7 @@ function ArcadeSpeedCatcher({
 
             <Button
               onClick={handleStart}
-              className="bg-coral text-white hover:bg-coral/90 font-bold px-8 h-12 rounded-2xl shadow-md text-base cursor-pointer"
+              className="bg-coral text-charcoal hover:bg-coral/90 font-bold px-8 h-12 rounded-2xl shadow-md text-base cursor-pointer"
             >
               {isGameOver ? "Play Again" : "Start Arcade Game"}
             </Button>

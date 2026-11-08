@@ -149,13 +149,13 @@ export function LanguageBar({ currentLang, onSelectLang }: LanguageBarProps) {
 
         {/* Accessibility Tools (Text Size & Contrast) */}
         <div className="flex items-center gap-1.5">
-          <span className="text-[12.5px] font-semibold font-sans uppercase tracking-wider text-plum/70 mr-1">
+          <span className="text-sm font-semibold font-sans uppercase tracking-wider text-plum/70 mr-1">
             Text:
           </span>
           <button
             onClick={() => handleTextSize("")}
             className={cn(
-              "px-2 py-0.5 rounded text-[13px] font-semibold font-sans transition-colors",
+              "px-2 py-0.5 rounded text-sm font-semibold font-sans transition-colors",
               textSize === ""
                 ? "bg-deep-teal text-white font-bold hover:bg-deep-teal hover:text-white active:text-white focus:text-white"
                 : "text-deep-teal/80 hover:bg-soft-pink hover:text-deep-teal active:text-deep-teal"
@@ -167,7 +167,7 @@ export function LanguageBar({ currentLang, onSelectLang }: LanguageBarProps) {
           <button
             onClick={() => handleTextSize("text-lg")}
             className={cn(
-              "px-2 py-0.5 rounded text-[13px] font-semibold font-sans transition-colors",
+              "px-2 py-0.5 rounded text-sm font-semibold font-sans transition-colors",
               textSize === "text-lg"
                 ? "bg-deep-teal text-white font-bold hover:bg-deep-teal hover:text-white active:text-white focus:text-white"
                 : "text-deep-teal/80 hover:bg-soft-pink hover:text-deep-teal active:text-deep-teal"
@@ -179,7 +179,7 @@ export function LanguageBar({ currentLang, onSelectLang }: LanguageBarProps) {
           <button
             onClick={() => handleTextSize("text-xl")}
             className={cn(
-              "px-2 py-0.5 rounded text-[13px] font-semibold font-sans transition-colors",
+              "px-2 py-0.5 rounded text-sm font-semibold font-sans transition-colors",
               textSize === "text-xl"
                 ? "bg-deep-teal text-white font-bold hover:bg-deep-teal hover:text-white active:text-white focus:text-white"
                 : "text-deep-teal/80 hover:bg-soft-pink hover:text-deep-teal active:text-deep-teal"
@@ -196,7 +196,7 @@ export function LanguageBar({ currentLang, onSelectLang }: LanguageBarProps) {
               handleToggleContrast();
             }}
             className={cn(
-              "ml-1.5 px-3 py-1 rounded-md text-[12.5px] font-bold font-sans transition-all border",
+              "ml-1.5 px-3 py-1 rounded-md text-sm font-bold font-sans transition-colors border",
               isHighContrast
                 ? "bg-black border-2 border-black text-white ring-2 ring-[#FFE600] shadow-md hover:bg-black hover:text-white"
                 : "border-deep-teal/20 text-deep-teal hover:bg-soft-pink hover:text-deep-teal active:text-deep-teal"
@@ -212,7 +212,7 @@ export function LanguageBar({ currentLang, onSelectLang }: LanguageBarProps) {
       {/* Multilingual Notice Banner when non-English is active */}
       {activeLang && activeLang.code !== "en" && (
         <div
-          className="w-full bg-soft-pink/60 border-t border-deep-teal/10 py-2.5 px-4 text-center font-sans text-[13.5px] text-deep-teal shadow-xs animate-in fade-in duration-200"
+          className="w-full bg-soft-pink/60 border-t border-deep-teal/10 py-2.5 px-4 text-center font-sans text-sm text-deep-teal shadow-xs animate-in fade-in duration-200"
           dir={activeLang.dir || "ltr"}
         >
           <div className="max-w-[1140px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
@@ -229,7 +229,7 @@ export function LanguageBar({ currentLang, onSelectLang }: LanguageBarProps) {
               <span className="font-medium text-charcoal/90">
                 &ldquo;{activeLang.greeting}&rdquo;
               </span>
-              <span className="hidden md:inline px-2 py-0.5 rounded-full bg-white/80 text-[11.5px] font-bold text-coral border border-coral/30">
+              <span className="hidden md:inline px-2 py-0.5 rounded-full bg-white/80 text-sm font-bold text-coral border border-coral/30">
                 {activeLang.motto}
               </span>
             </div>

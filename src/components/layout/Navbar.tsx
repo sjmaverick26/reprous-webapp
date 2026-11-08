@@ -82,10 +82,11 @@ export function Navbar({ activePage, onNavigate }: NavbarProps) {
                   aria-current={active ? "page" : undefined}
                   className={cn(
                     "relative min-h-11 px-1 text-base font-sans whitespace-nowrap rounded transition-colors duration-150",
+                    "after:absolute after:left-0 after:right-0 after:bottom-1.5 after:h-0.5 after:origin-left after:rounded-full after:bg-raspberry after:transition-transform after:duration-200 after:ease-out",
                     FOCUS_RING,
                     active
-                      ? "text-deep-teal font-bold after:absolute after:left-0 after:right-0 after:bottom-1.5 after:h-0.5 after:bg-raspberry"
-                      : "text-charcoal-light font-medium hover:text-raspberry"
+                      ? "text-deep-teal font-semibold after:scale-x-100"
+                      : "text-charcoal-light font-semibold hover:text-raspberry after:scale-x-0 hover:after:scale-x-100"
                   )}
                 >
                   {item.label}
@@ -113,7 +114,7 @@ export function Navbar({ activePage, onNavigate }: NavbarProps) {
       </nav>
 
       {menuOpen && (
-        <div id="mobile-menu" className="md:hidden bg-white border-t border-deep-teal/15 px-4 py-3">
+        <div id="mobile-menu" className="motion-menu md:hidden bg-white border-t border-deep-teal/15 px-4 py-3">
           <ul className="flex flex-col list-none m-0 p-0">
             {NAV_ITEMS.map((item) => {
               const active = activePage === item.id;
@@ -127,8 +128,8 @@ export function Navbar({ activePage, onNavigate }: NavbarProps) {
                       "w-full text-left min-h-12 px-3 rounded-lg text-lg font-sans transition-colors duration-150",
                       FOCUS_RING,
                       active
-                        ? "text-deep-teal font-bold bg-light-teal"
-                        : "text-charcoal-light font-medium hover:bg-soft-pink"
+                        ? "text-deep-teal font-semibold bg-light-teal"
+                        : "text-charcoal-light font-semibold hover:bg-soft-pink"
                     )}
                   >
                     {item.label}

@@ -3,6 +3,7 @@
 import React from "react";
 import { ExternalLink, BookOpen, FileCheck, HeartHandshake, Bookmark } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { keepUnits } from "./keepUnits";
 
 export interface ReferenceItem {
   number: string;
@@ -447,14 +448,14 @@ export function EducationalReferences({
             {getTypeIcon(item.type)}
             <span>{item.type}</span>
           </span>
-          <h4 className="font-sans font-bold text-base text-deep-teal leading-snug mb-2 group-hover:underline">
-            {item.title}
+          <h4 className="font-sans font-semibold text-base text-deep-teal leading-snug text-balance mb-2 group-hover:underline">
+            {keepUnits(item.title)}
           </h4>
-          <p className="text-small text-charcoal-light leading-relaxed m-0">{item.source}</p>
+          <p className="text-small text-charcoal-light leading-relaxed text-pretty m-0">{keepUnits(item.source)}</p>
         </div>
         {item.url && (
           <div className="mt-4 pt-3 border-t border-[#E5E1DC] flex items-center justify-between text-small font-semibold text-deep-teal">
-            <span>{item.linkText || "Clinical Evidence"}</span>
+            <span className="text-balance">{item.linkText || "Clinical Evidence"}</span>
             <ExternalLink className="w-4 h-4" aria-hidden="true" />
           </div>
         )}
@@ -480,8 +481,8 @@ export function EducationalReferences({
   if (compact) {
     return (
       <div className={cn("mt-6 pt-5 border-t border-[#E5E1DC] font-sans", className)}>
-        <h4 className="font-serif text-lg text-deep-teal mb-3">Clinical &amp; Educational References</h4>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">{items.map(renderCard)}</div>
+        <h4 className="font-sans text-lg font-semibold text-deep-teal text-balance mb-3">Clinical &amp; Educational References</h4>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">{items.map(renderCard)}</div>
       </div>
     );
   }
@@ -489,7 +490,7 @@ export function EducationalReferences({
   return (
     <section className={cn("w-full mt-12 pt-8 border-t border-[#E5E1DC] font-sans", className)}>
       <div className="mb-6">
-        <h3 className="text-2xl md:text-3xl font-normal font-serif text-deep-teal leading-tight text-balance">
+        <h3 className="font-serif text-h3 font-normal text-deep-teal text-balance">
           {customTitle || "Evidence & Educational References"}
         </h3>
         <p className="text-base text-charcoal-light font-sans mt-2 mb-0 max-w-[65ch] text-pretty">
@@ -497,9 +498,9 @@ export function EducationalReferences({
         </p>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">{items.map(renderCard)}</div>
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">{items.map(renderCard)}</div>
 
-      <p className="mt-6 text-small text-charcoal-light font-sans text-pretty">
+      <p className="mt-6 max-w-[65ch] text-small text-charcoal-light font-sans text-pretty">
         <strong>Educational Notice:</strong> All references and materials are provided for health literacy and self-advocacy education, not personalized medical advice or treatment.
       </p>
     </section>

@@ -12,8 +12,8 @@ interface FounderNoteProps {
 
 export function FounderNote({ photoSrc = FOUNDER_PHOTO, className = "" }: FounderNoteProps) {
   return (
-    <figure className={`m-0 flex w-full max-w-[240px] min-w-0 flex-col gap-3 ${className}`}>
-      <div className="relative aspect-[4/5] w-full overflow-hidden rounded-2xl border border-[#E5E1DC] bg-light-teal">
+    <figure className={`m-0 flex w-full max-w-[160px] min-w-0 lg:max-w-[240px] flex-col gap-3 ${className}`}>
+      <div className="relative aspect-[4/5] w-full overflow-hidden rounded-2xl border border-[#E5E1DC] bg-warm-cream">
         {photoSrc ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
@@ -29,7 +29,7 @@ export function FounderNote({ photoSrc = FOUNDER_PHOTO, className = "" }: Founde
         )}
       </div>
       {!photoSrc && (
-        <figcaption className="font-sans text-small text-charcoal-light">
+        <figcaption className="font-sans text-small text-pretty text-charcoal-light">
           Founder photo coming soon
         </figcaption>
       )}

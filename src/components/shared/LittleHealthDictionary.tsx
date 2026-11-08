@@ -203,7 +203,8 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
     moduleId: "jargon",
     moduleTitle: "Doctor Examples",
     categoryColor: "bg-white text-charcoal border-charcoal-muted",
-    chartJargon: "Chart note: “Initiating spironolactone 50mg daily off-label for hormonal cystic acne.”",
+    // Dose hidden until KP rules (Herdy, 8 Nov 2026). Original: "Chart note: “Initiating spironolactone 50mg daily off-label for hormonal cystic acne.”"
+    chartJargon: "Chart note: “Initiating spironolactone off-label for hormonal cystic acne.”",
     plainEnglish: "When a doctor prescribes an FDA-approved medication for a symptom other than what the FDA originally approved it for. It is very common, safe, and legal in reproductive health (such as using spironolactone, a blood pressure medication, to block acne-causing testosterone).",
     doctorDefinition: "The clinical use of a pharmaceutical agent for an unapproved indication, age group, dose, or route of administration supported by evidence-based clinical practice guidelines.",
     howToSayIt: "“Are you prescribing this medication off-label for my hormonal symptoms, and what clinical evidence supports its use for this condition?”",
@@ -1206,6 +1207,20 @@ export const DICTIONARY_ENTRIES: DictionaryEntry[] = [
   },
 ];
 
+// Module pill follows the pillar colour roles: Learn = teal, Recognize = coral, Advocate = raspberry.
+const PILLAR_PILL: Record<string, string> = {
+  body: "bg-light-teal text-deep-teal border-deep-teal",
+  cycle: "bg-light-teal text-deep-teal border-deep-teal",
+  play: "bg-light-teal text-deep-teal border-deep-teal",
+  pcos: "bg-white text-charcoal border-coral",
+  endo: "bg-white text-charcoal border-coral",
+  conditions: "bg-white text-charcoal border-coral",
+  mind: "bg-white text-charcoal border-raspberry",
+  realtalk: "bg-white text-charcoal border-raspberry",
+  factors: "bg-white text-charcoal border-raspberry",
+};
+const pillarPill = (moduleId: string, fallback: string): string => PILLAR_PILL[moduleId] ?? fallback;
+
 export function LittleHealthDictionary({
   initialModuleId,
 }: {
@@ -1261,23 +1276,24 @@ export function LittleHealthDictionary({
         <h1 className="font-serif text-h2 text-deep-teal text-balance m-0">
           Little Health Dictionary &amp; Clinical Terms Guide
         </h1>
-        <p className="text-body text-charcoal-light text-pretty mt-3 mb-0">
+        <p className="max-w-[65ch] text-body text-charcoal-light text-pretty mt-3 mb-0">
           Doctor chart examples, clinical phrases, and tricky medical terms translated into clear, empowering language. <span className="font-semibold text-deep-teal">(This is education, not medical advice.)</span>
         </p>
       </header>
 
       {/* Search */}
-      <div className="relative">
-        <label htmlFor="health-words-search" className="sr-only">
-          Search the Little Health Dictionary
+      <div>
+        <label htmlFor="health-words-search" className="block mb-2 text-sm font-semibold text-deep-teal text-pretty">
+          {`Search ${activeTab === "all" ? "all words & doctor examples" : `${activeModuleMeta.shortLabel} terms`}`}
         </label>
+        <div className="relative">
         <Search className="w-5 h-5 text-charcoal-muted absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none" aria-hidden="true" />
         <input
           id="health-words-search"
           type="text"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          placeholder={`Search ${activeTab === "all" ? "all words & doctor examples" : `${activeModuleMeta.shortLabel} terms`}`}
+          placeholder="Search"
           className="w-full h-12 pl-12 pr-12 rounded-full bg-white border border-[#E5E1DC] text-base text-charcoal placeholder:text-charcoal-muted focus:outline-none focus-visible:ring-2 focus-visible:ring-deep-teal font-sans"
         />
         {searchQuery && (
@@ -1290,6 +1306,7 @@ export function LittleHealthDictionary({
             <X className="w-5 h-5" aria-hidden="true" />
           </button>
         )}
+        </div>
       </div>
 
       {/* Topic filters: one row, scrolls sideways inside itself on phones */}
@@ -1343,7 +1360,7 @@ export function LittleHealthDictionary({
               setSearchQuery("");
               setActiveTab("all");
             }}
-            className="min-h-[44px] px-4 text-small font-semibold text-deep-teal underline hover:text-raspberry transition-colors duration-150"
+            className="min-h-[44px] px-4 text-small font-semibold text-deep-teal underline hover:text-deep-teal-dark transition-colors duration-150"
           >
             Clear search &amp; view all words
           </button>
@@ -1364,7 +1381,7 @@ export function LittleHealthDictionary({
                   className="w-full min-h-[56px] px-4 md:px-6 py-3 flex items-center justify-between gap-4 text-left hover:bg-warm-cream transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-deep-teal"
                 >
                   <span className="min-w-0">
-                    <span className="block font-serif text-lg text-deep-teal leading-snug">{entry.term}</span>
+                    <span className="block font-sans text-lg font-semibold text-deep-teal leading-snug">{entry.term}</span>
                     <span className="block text-small text-charcoal-light">&ldquo;{entry.pronunciation}&rdquo;</span>
                   </span>
                   <ChevronDown
@@ -1374,31 +1391,31 @@ export function LittleHealthDictionary({
                 </button>
 
                 {isExpanded && (
-                  <div id={panelId} className="px-4 md:px-6 pb-6 pt-1 space-y-5">
-                    <span className={`inline-flex items-center px-3 py-1 rounded-full border text-small font-semibold ${entry.categoryColor}`}>
+                  <div id={panelId} className="motion-panel px-4 md:px-6 pb-6 pt-1 space-y-5">
+                    <span className={`inline-flex items-center px-3 py-1 rounded-full border text-small font-semibold ${pillarPill(entry.moduleId, entry.categoryColor)}`}>
                       {entry.moduleTitle}
                     </span>
 
                     <div className="max-w-[65ch]">
-                      <p className="text-base font-bold text-deep-teal m-0 mb-1">Plain English Meaning</p>
-                      <p className="text-base text-charcoal text-pretty leading-relaxed m-0">{entry.plainEnglish}</p>
+                      <p className="text-base font-semibold text-deep-teal m-0 mb-1">Plain English Meaning</p>
+                      <p className="max-w-[65ch] text-base text-charcoal text-pretty leading-relaxed m-0">{entry.plainEnglish}</p>
                     </div>
 
                     {entry.chartJargon && (
-                      <div className="max-w-[65ch] border-l-4 border-deep-teal pl-4">
-                        <p className="text-base font-bold text-deep-teal m-0 mb-1">Real Clinic / Chart Example</p>
+                      <div className="max-w-[65ch] rounded-2xl bg-light-teal-light p-4">
+                        <p className="text-base font-semibold text-deep-teal m-0 mb-1">Real Clinic / Chart Example</p>
                         <p className="font-mono text-small text-charcoal leading-relaxed m-0">{entry.chartJargon}</p>
                       </div>
                     )}
 
-                    <div className="max-w-[65ch] border-l-4 border-coral pl-4">
-                      <p className="text-base font-bold text-deep-teal m-0 mb-1">Clinical Pathology Definition</p>
-                      <p className="text-base text-charcoal text-pretty leading-relaxed m-0">{entry.doctorDefinition}</p>
+                    <div className="max-w-[65ch] rounded-2xl bg-warm-cream p-4">
+                      <p className="text-base font-semibold text-deep-teal m-0 mb-1">Clinical Pathology Definition</p>
+                      <p className="max-w-[65ch] text-base text-charcoal text-pretty leading-relaxed m-0">{entry.doctorDefinition}</p>
                     </div>
 
-                    <div className="max-w-[65ch] border-l-4 border-raspberry pl-4">
-                      <p className="text-base font-bold text-deep-teal m-0 mb-1">What to say in your appointment</p>
-                      <p className="text-base text-charcoal text-pretty leading-relaxed m-0">{entry.howToSayIt}</p>
+                    <div className="max-w-[65ch] rounded-2xl bg-soft-pink-light p-4">
+                      <p className="text-base font-semibold text-deep-teal m-0 mb-1">What to say in your appointment</p>
+                      <p className="max-w-[65ch] text-base text-charcoal text-pretty leading-relaxed m-0">{entry.howToSayIt}</p>
                     </div>
                   </div>
                 )}

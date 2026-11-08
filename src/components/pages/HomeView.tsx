@@ -1,8 +1,9 @@
 "use client";
 
 import React from "react";
-import { ArrowRight, BookOpen, Search, ShieldCheck } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { PageId } from "@/components/layout/Navbar";
+import { PillarPath } from "@/components/shared/PillarPath";
 
 interface HomeViewProps {
   onNavigate: (page: PageId, categoryId?: string) => void;
@@ -13,42 +14,6 @@ const linkClass =
   "inline-flex min-h-[44px] items-center gap-2 text-base font-semibold underline-offset-4 hover:underline focus-visible:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 rounded-sm transition-colors duration-150";
 
 export function HomeView({ onNavigate }: HomeViewProps) {
-  const actions = [
-    {
-      id: "learn",
-      title: "Learn about your body",
-      body: "Grasp how your hormones, cycles, and anatomy function in clear, plain language without shame or medical jargon.",
-      icon: <BookOpen className="h-6 w-6 text-deep-teal" aria-hidden="true" />,
-      chip: "bg-light-teal",
-      border: "border-light-teal",
-      delay: "0s",
-      links: [{ label: "Start learning", go: () => onNavigate("hub") }],
-    },
-    {
-      id: "recognize",
-      title: "Recognize and understand symptoms",
-      body: "Identify symptoms that are often dismissed or normalized—like severe period pain, missing cycles, and chronic fatigue.",
-      icon: <Search className="h-6 w-6 text-deep-teal-dark" aria-hidden="true" />,
-      chip: "bg-coral",
-      border: "border-coral",
-      delay: "1.2s",
-      links: [{ label: "Symptom tracker", go: () => onNavigate("resources", "tracker") }],
-    },
-    {
-      id: "advocate",
-      title: "Advocate for your health",
-      body: "Build the vocabulary, questions, and symptom logs to be taken seriously by clinicians, parents, and coaches.",
-      icon: <ShieldCheck className="h-6 w-6 text-white" aria-hidden="true" />,
-      chip: "bg-raspberry",
-      border: "border-raspberry-light",
-      delay: "2.4s",
-      links: [
-        { label: "Self-advocacy tools", go: () => onNavigate("resources", "toolkit") },
-        { label: "Ask a question anonymously", go: () => onNavigate("voices", "ask") },
-      ],
-    },
-  ];
-
   return (
     <div className="flex w-full min-w-0 flex-col text-charcoal">
       {/* 1. Hero: her line, one primary action, one text link */}
@@ -74,11 +39,11 @@ export function HomeView({ onNavigate }: HomeViewProps) {
             Clear, accessible health education for girls — understanding your biology, recognizing symptoms, and advocating for your care.
           </p>
 
-          <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
+          <div className="flex flex-col items-center justify-center gap-x-6 gap-y-2 sm:flex-row sm:flex-wrap">
             <button
               type="button"
               onClick={() => onNavigate("story")}
-              className="inline-flex min-h-[48px] items-center justify-center gap-2 rounded-full bg-raspberry px-7 py-3 font-sans text-btn text-white shadow-sm transition-colors duration-150 hover:bg-raspberry-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-raspberry focus-visible:ring-offset-2 active:bg-raspberry-dark"
+              className="inline-flex min-h-[48px] items-center justify-center gap-2 rounded-full bg-raspberry px-7 py-3 font-sans text-base font-semibold text-white shadow-sm transition-colors duration-150 hover:bg-raspberry-dark motion-press motion-arrow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-raspberry focus-visible:ring-offset-2 active:bg-raspberry-dark"
             >
               <span>Why ReproUs exists</span>
               <ArrowRight className="h-4 w-4" aria-hidden="true" />
@@ -100,70 +65,49 @@ export function HomeView({ onNavigate }: HomeViewProps) {
         className="w-full bg-deep-teal py-16 text-white scroll-mt-20 md:py-24 md:scroll-mt-24"
       >
         <div className="mx-auto w-full max-w-6xl min-w-0 px-4 md:px-6">
-          <div className="mx-auto mb-10 flex max-w-3xl flex-col items-center text-center md:mb-12">
-            <h2 className="mb-4 font-serif text-h3 font-normal text-balance text-white">
+          <div data-reveal="" className="mx-auto mb-12 flex max-w-3xl flex-col items-center text-center md:mb-16">
+            <h2 className="mb-4 font-serif text-h2 font-normal text-balance text-white">
               You shouldn&apos;t need to become an expert to be taken seriously.
             </h2>
-            <p className="font-sans text-body text-pretty text-light-teal">
+            <p className="max-w-[65ch] font-sans text-body text-pretty text-light-teal">
               ReproUs helps girls understand their bodies, recognize symptoms, and build the confidence to ask informed questions about their health.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-            {actions.map((a) => (
-              <div
-                key={a.id}
-                className={`flex min-w-0 flex-col rounded-2xl border bg-deep-teal-dark p-5 md:p-6 ${a.border}`}
-              >
-                <span
-                  className={`animate-pillar-float mb-4 inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl ${a.chip}`}
-                  style={{ animationDelay: a.delay }}
-                >
-                  {a.icon}
-                </span>
-                <h3 className="mb-2 font-serif text-xl font-normal text-balance text-white md:text-2xl">
-                  {a.title}
-                </h3>
-                <p className="mb-4 font-sans text-base text-pretty text-white">{a.body}</p>
-                <div className="mt-auto flex flex-col items-start">
-                  {a.links.map((l) => (
-                    <button
-                      key={l.label}
-                      type="button"
-                      onClick={l.go}
-                      className={`${linkClass} text-left text-white focus-visible:ring-white focus-visible:ring-offset-deep-teal-dark`}
-                    >
-                      <span>{l.label}</span>
-                      <ArrowRight className="h-4 w-4 shrink-0" aria-hidden="true" />
-                    </button>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
+          <PillarPath onNavigate={onNavigate} className="mx-auto max-w-xl lg:max-w-none" />
         </div>
       </section>
 
-      {/* 3. Youth Voices */}
+      {/* 3. Closing: her sentence names Learn and Youth Voices, so the band offers exactly those two */}
       <section
         id="voices-band"
         className="w-full bg-warm-cream py-16 scroll-mt-20 md:py-24 md:scroll-mt-24"
       >
-        <div className="mx-auto flex w-full max-w-6xl min-w-0 flex-col items-center px-4 text-center md:px-6">
-          <h2 className="mb-4 max-w-3xl font-serif text-h2 font-normal text-balance text-deep-teal">
+        <div data-reveal="" className="mx-auto flex w-full max-w-6xl min-w-0 flex-col items-center px-4 text-center md:px-6">
+          <h2 className="mb-4 max-w-3xl font-serif text-h3 font-normal text-balance text-deep-teal">
             You&apos;re not alone in figuring this out.
           </h2>
           <p className="mb-8 max-w-[65ch] font-sans text-body text-pretty text-charcoal-light">
             Browse Learn topics, or hear directly from other young people in Youth Voices.
           </p>
-          <button
-            type="button"
-            onClick={() => onNavigate("voices")}
-            className="inline-flex min-h-[48px] items-center justify-center gap-2 rounded-full border-[1.5px] border-deep-teal bg-transparent px-7 py-3 font-sans text-btn text-deep-teal transition-colors duration-150 hover:bg-light-teal focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-deep-teal focus-visible:ring-offset-2"
-          >
-            <span>Read Youth Voices</span>
-            <ArrowRight className="h-4 w-4" aria-hidden="true" />
-          </button>
+          <div className="flex flex-col items-center justify-center gap-x-6 gap-y-2 sm:flex-row sm:flex-wrap">
+            <button
+              type="button"
+              onClick={() => onNavigate("hub")}
+              className="inline-flex min-h-[48px] items-center justify-center gap-2 rounded-full bg-raspberry px-7 py-3 font-sans text-base font-semibold text-white shadow-sm transition-colors duration-150 hover:bg-raspberry-dark motion-press motion-arrow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-raspberry focus-visible:ring-offset-2 active:bg-raspberry-dark"
+            >
+              <span>Start learning</span>
+              <ArrowRight className="h-4 w-4" aria-hidden="true" />
+            </button>
+            <button
+              type="button"
+              onClick={() => onNavigate("voices")}
+              className={`${linkClass} text-deep-teal focus-visible:ring-deep-teal`}
+            >
+              <span>Read Youth Voices</span>
+              <ArrowRight className="h-4 w-4" aria-hidden="true" />
+            </button>
+          </div>
         </div>
       </section>
     </div>

@@ -292,7 +292,7 @@ function CycleWheelDiagram({ diagram }: { diagram: LessonDiagram; themeColor: st
       name: "Luteal Phase",
       days: "Days 17–28",
       color: "#D97706",
-      bgClass: "bg-amber-50 border-amber-300 text-amber-900",
+      bgClass: "bg-soft-pink-light border-coral-light text-charcoal",
       hormones: { estrogen: "Secondary Wave", progesterone: "High / Peak", lh: "Low", fsh: "Low" },
       bodyChanges: "The corpus luteum secretes progesterone to maintain a plush, nutrient-rich lining. Basal body temp rises ~0.5°F.",
       workoutTip: "Metabolic rate increases slightly. Prioritize complex carbs, magnesium, steady endurance, and consistent sleep hygiene.",
@@ -338,8 +338,8 @@ function CycleWheelDiagram({ diagram }: { diagram: LessonDiagram; themeColor: st
       </div>
 
       {/* Visual SVG Wave Chart */}
-      <div className="rounded-xl bg-slate-900 text-white p-3 md:p-4 overflow-hidden relative">
-        <div className="flex items-center justify-between text-xs text-slate-400 mb-2">
+      <div className="rounded-xl bg-charcoal text-white p-3 md:p-4 overflow-hidden relative">
+        <div className="flex items-center justify-between text-xs text-warm-cream-dark mb-2">
           <span>Hormone Concentration Curve (Days 1–28)</span>
           <div className="flex items-center gap-3 text-[10px]">
             <span className="inline-flex items-center gap-1 text-teal-400">
@@ -348,8 +348,8 @@ function CycleWheelDiagram({ diagram }: { diagram: LessonDiagram; themeColor: st
             <span className="inline-flex items-center gap-1 text-pink-400">
               <span className="w-2.5 h-0.5 bg-pink-400 inline-block rounded-full"></span> Progesterone
             </span>
-            <span className="inline-flex items-center gap-1 text-amber-300">
-              <span className="w-2.5 h-0.5 bg-amber-300 inline-block rounded-full"></span> LH Surge
+            <span className="inline-flex items-center gap-1 text-coral-light">
+              <span className="w-2.5 h-0.5 bg-coral-light inline-block rounded-full"></span> LH Surge
             </span>
           </div>
         </div>
@@ -401,16 +401,16 @@ function CycleWheelDiagram({ diagram }: { diagram: LessonDiagram; themeColor: st
           />
 
           {/* Active Phase Focus Indicator */}
-          {activePhase === 0 && <circle cx="55" cy="130" r="5" fill="#F47A6A" className="animate-ping" />}
-          {activePhase === 1 && <circle cx="200" cy="65" r="5" fill="#2dd4bf" className="animate-ping" />}
-          {activePhase === 2 && <circle cx="295" cy="15" r="5" fill="#fcd34d" className="animate-ping" />}
-          {activePhase === 3 && <circle cx="440" cy="35" r="5" fill="#f472b6" className="animate-ping" />}
+          {activePhase === 0 && <circle cx="55" cy="130" r="5" fill="#F47A6A" />}
+          {activePhase === 1 && <circle cx="200" cy="65" r="5" fill="#2dd4bf" />}
+          {activePhase === 2 && <circle cx="295" cy="15" r="5" fill="#fcd34d" />}
+          {activePhase === 3 && <circle cx="440" cy="35" r="5" fill="#f472b6" />}
         </svg>
 
         {/* Endometrial Lining Visual Bar */}
-        <div className="mt-2 pt-2 border-t border-slate-800 flex items-center justify-between text-xs">
-          <span className="text-slate-400">Endometrial Lining Depth:</span>
-          <div className="w-44 bg-slate-800 rounded-full h-2.5 overflow-hidden flex">
+        <div className="mt-2 pt-2 border-t border-charcoal-light flex items-center justify-between text-xs">
+          <span className="text-warm-cream-dark">Endometrial Lining Depth:</span>
+          <div className="w-44 bg-charcoal-light rounded-full h-2.5 overflow-hidden flex">
             <div
               className="bg-gradient-to-r from-coral to-raspberry h-full rounded-full transition-all duration-500"
               style={{ width: `${current.liningHeight}%` }}
@@ -474,9 +474,9 @@ function EnergyBalanceDiagram({ diagram }: { diagram: LessonDiagram; themeColor:
     } else if (kcal < 45) {
       return {
         label: "Subclinical / Moderate Fueling Zone",
-        color: "text-amber-800 bg-amber-50 border-amber-300",
+        color: "text-raspberry-dark bg-soft-pink-light border-coral-light",
         alertIcon: Info,
-        iconColor: "text-amber-600",
+        iconColor: "text-raspberry-dark",
         boneHealth: "Suboptimal bone turnover; vulnerable during peak growth spurts",
         menstrualHealth: "Irregular cycles, lengthened follicular phase, or anovulatory cycles",
         performance: "Sluggish muscle protein synthesis, afternoon brain fog, recurring soreness",
@@ -517,7 +517,7 @@ function EnergyBalanceDiagram({ diagram }: { diagram: LessonDiagram; themeColor:
       </div>
 
       {/* Fueling Slider & Balance Beam */}
-      <div className="p-4 rounded-xl bg-slate-50 border border-slate-200">
+      <div className="p-4 rounded-xl bg-warm-cream-light border border-light-teal-dark">
         <div className="flex items-center justify-between text-xs font-bold mb-1">
           <span className="text-charcoal/80">Energy Availability (kcal / kg Fat-Free Mass / day):</span>
           <span className="text-base font-extrabold text-deep-teal">{energyLevel} kcal/kg/day</span>
@@ -530,23 +530,23 @@ function EnergyBalanceDiagram({ diagram }: { diagram: LessonDiagram; themeColor:
           step="1"
           value={energyLevel}
           onChange={(e) => setEnergyLevel(Number(e.target.value))}
-          className="w-full accent-deep-teal cursor-pointer h-2.5 bg-slate-200 rounded-lg"
+          className="w-full accent-deep-teal cursor-pointer h-2.5 bg-warm-cream-dark rounded-lg"
         />
 
-        <div className="flex justify-between text-[11px] text-slate-700 font-semibold mt-1">
+        <div className="flex justify-between text-[11px] text-charcoal-light font-semibold mt-1">
           <span className="text-red-800 font-bold">&lt;30 RED-S Hazard</span>
-          <span className="text-amber-800 font-bold">30–44 Subclinical</span>
+          <span className="text-raspberry-dark font-bold">30–44 Subclinical</span>
           <span className="text-emerald-800 font-bold">&gt;45 Optimal Performance</span>
         </div>
 
         {/* Visual Balance Gauge */}
-        <div className="mt-4 pt-3 border-t border-slate-200 flex flex-col items-center">
-          <div className="w-full h-4 rounded-full bg-slate-200 overflow-hidden flex">
+        <div className="mt-4 pt-3 border-t border-light-teal-dark flex flex-col items-center">
+          <div className="w-full h-4 rounded-full bg-warm-cream-dark overflow-hidden flex">
             <div className="w-[30%] bg-red-500/80 h-full" title="Severe Low Energy" />
-            <div className="w-[30%] bg-amber-400/80 h-full" title="Subclinical" />
+            <div className="w-[30%] bg-coral/80 h-full" title="Subclinical" />
             <div className="w-[40%] bg-emerald-500/80 h-full" title="Optimal Fueling" />
           </div>
-          <div className="w-full flex justify-between text-[10px] font-mono text-slate-700 font-bold mt-1">
+          <div className="w-full flex justify-between text-[10px] font-mono text-charcoal-light font-bold mt-1">
             <span>Low Energy</span>
             <span>Balanced</span>
             <span>Fully Fueled</span>
@@ -661,25 +661,25 @@ function PelvicMapDiagram({ diagram }: { diagram: LessonDiagram; themeColor: str
             {/* Hotspot Pins */}
             {/* Ovary Pin */}
             <g onClick={() => setSelectedSite("ovary")} className="cursor-pointer group">
-              <circle cx="45" cy="95" r={selectedSite === "ovary" ? "12" : "8"} fill="#E11D48" className={selectedSite === "ovary" ? "animate-pulse" : ""} />
+              <circle cx="45" cy="95" r={selectedSite === "ovary" ? "12" : "8"} fill="#E11D48" />
               <text x="45" y="99" textAnchor="middle" fill="#fff" fontSize="10" fontWeight="bold">1</text>
             </g>
 
             {/* Uterosacral Ligament Pin */}
             <g onClick={() => setSelectedSite("uterosacral")} className="cursor-pointer group">
-              <circle cx="120" cy="130" r={selectedSite === "uterosacral" ? "12" : "8"} fill="#E11D48" className={selectedSite === "uterosacral" ? "animate-pulse" : ""} />
+              <circle cx="120" cy="130" r={selectedSite === "uterosacral" ? "12" : "8"} fill="#E11D48" />
               <text x="120" y="134" textAnchor="middle" fill="#fff" fontSize="10" fontWeight="bold">2</text>
             </g>
 
             {/* Pouch of Douglas Pin */}
             <g onClick={() => setSelectedSite("douglas")} className="cursor-pointer group">
-              <circle cx="150" cy="165" r={selectedSite === "douglas" ? "12" : "8"} fill="#E11D48" className={selectedSite === "douglas" ? "animate-pulse" : ""} />
+              <circle cx="150" cy="165" r={selectedSite === "douglas" ? "12" : "8"} fill="#E11D48" />
               <text x="150" y="169" textAnchor="middle" fill="#fff" fontSize="10" fontWeight="bold">3</text>
             </g>
 
             {/* Bladder Pin */}
             <g onClick={() => setSelectedSite("bladder")} className="cursor-pointer group">
-              <circle cx="150" cy="50" r={selectedSite === "bladder" ? "12" : "8"} fill="#E11D48" className={selectedSite === "bladder" ? "animate-pulse" : ""} />
+              <circle cx="150" cy="50" r={selectedSite === "bladder" ? "12" : "8"} fill="#E11D48" />
               <text x="150" y="54" textAnchor="middle" fill="#fff" fontSize="10" fontWeight="bold">4</text>
             </g>
           </svg>
@@ -693,7 +693,7 @@ function PelvicMapDiagram({ diagram }: { diagram: LessonDiagram; themeColor: str
               onClick={() => setSelectedSite(key)}
               className={`px-3 py-1 rounded-full text-xs font-bold transition-all ${
                 selectedSite === key
-                  ? "bg-coral text-white shadow-sm ring-2 ring-coral/30"
+                  ? "bg-coral text-charcoal shadow-sm ring-2 ring-coral/30"
                   : "bg-white text-charcoal/80 border border-coral/30 hover:bg-rose-50"
               }`}
             >
@@ -755,7 +755,7 @@ function PcosLoopDiagram({ diagram }: { diagram: LessonDiagram; themeColor: stri
         </span>
       ),
       icon: Flame,
-      color: "border-amber-300 bg-amber-50 text-amber-900",
+      color: "border-coral-light bg-soft-pink-light text-charcoal",
     },
     {
       id: 2,
@@ -971,14 +971,14 @@ function PcosLoopDiagram({ diagram }: { diagram: LessonDiagram; themeColor: stri
             className={`p-4 rounded-2xl border transition-all ${
               meetsRotterdam
                 ? "bg-light-teal/50 border-deep-teal/30 text-deep-teal"
-                : "bg-amber-50 border-amber-300 text-amber-950"
+                : "bg-soft-pink-light border-coral-light text-charcoal"
             }`}
           >
             <div className="flex items-start gap-3">
               {meetsRotterdam ? (
                 <CheckCircle2 className="w-5 h-5 text-deep-teal shrink-0 mt-0.5" />
               ) : (
-                <AlertTriangle className="w-5 h-5 text-amber-700 shrink-0 mt-0.5" />
+                <AlertTriangle className="w-5 h-5 text-raspberry-dark shrink-0 mt-0.5" />
               )}
               <div className="space-y-1">
                 <div className="flex items-center gap-2 flex-wrap">
@@ -1160,15 +1160,15 @@ function PubertyTimelineDiagram({ diagram }: { diagram: LessonDiagram; themeColo
       </div>
 
       {/* Stage Detail Card */}
-      <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2 text-xs md:text-sm">
+      <div className="p-4 rounded-xl bg-warm-cream-light border border-light-teal-dark space-y-2 text-xs md:text-sm">
         <div className="flex items-center justify-between">
           <h5 className="font-bold text-base text-deep-teal">{current.title}</h5>
-          <span className="text-xs font-bold bg-white px-2.5 py-1 rounded-full border border-slate-300 text-charcoal">
+          <span className="text-xs font-bold bg-white px-2.5 py-1 rounded-full border border-deep-teal/30 text-charcoal">
             {current.ageRange}
           </span>
         </div>
         <p className="text-charcoal/85 leading-relaxed">{current.details}</p>
-        <div className="p-2.5 rounded-lg bg-white border border-slate-200 text-xs text-charcoal/90">
+        <div className="p-2.5 rounded-lg bg-white border border-light-teal-dark text-xs text-charcoal/90">
           <strong className="text-deep-teal">Medical Reassurance: </strong>
           {current.reassurance}
         </div>
@@ -1294,8 +1294,8 @@ function AnatomyCalloutDiagram({ diagram }: { diagram: LessonDiagram; themeColor
       name: "The Cervix",
       plainNickname: "The Intelligent Doorway",
       color: "#D97706",
-      bgClass: "bg-amber-100",
-      borderClass: "border-amber-400",
+      bgClass: "bg-soft-pink",
+      borderClass: "border-coral",
       whatItDoes: (
         <span>
           The lower neck of the uterus that connects to the vagina. It makes natural, healthy fluids that change texture across your cycle (from lotiony to stretchy egg-white).
@@ -1434,7 +1434,7 @@ function AnatomyCalloutDiagram({ diagram }: { diagram: LessonDiagram; themeColor
               className={`px-3 py-1.5 rounded-full text-xs font-bold transition-all ${
                 selectedPart === key
                   ? `${item.bgClass} text-charcoal border-2 ${item.borderClass} shadow-xs scale-105`
-                  : "bg-white text-charcoal/70 border border-slate-200 hover:bg-slate-50"
+                  : "bg-white text-charcoal/70 border border-light-teal-dark hover:bg-warm-cream-light"
               }`}
             >
               {item.name.split(" ")[1] || item.name}
@@ -1463,9 +1463,9 @@ function AnatomyCalloutDiagram({ diagram }: { diagram: LessonDiagram; themeColor
             <strong className="text-raspberry">Why It Matters For You: </strong>
             {current.whyItMatters}
           </p>
-          <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-200/80 text-[11.5px] text-charcoal/80">
-            <strong className="inline-flex items-center gap-1 text-slate-800 font-bold mb-0.5">
-              <Stethoscope className="w-3.5 h-3.5 text-slate-600 inline shrink-0" />
+          <div className="p-2.5 rounded-xl bg-warm-cream-light border border-light-teal-dark/80 text-[11.5px] text-charcoal/80">
+            <strong className="inline-flex items-center gap-1 text-charcoal font-bold mb-0.5">
+              <Stethoscope className="w-3.5 h-3.5 text-charcoal-muted inline shrink-0" />
               <span>What a Doctor Checks:</span>
             </strong>
             <p className="m-0 mt-0.5">{current.doctorSays}</p>
@@ -1639,7 +1639,7 @@ const ATHLETE_BOWL_FOODS: BowlFoodItem[] = [
     name: "Roasted Sweet Potato",
     category: "carbs",
     categoryLabel: "Complex Power Carb",
-    badgeClass: "bg-amber-100 text-amber-900 border-amber-300",
+    badgeClass: "bg-soft-pink text-charcoal border-coral-light",
     nutrients: "Beta-Carotene · Slow-Burn Starches · Potassium · Vitamin B6",
     athleticBenefit: "Provides sustained muscular glycogen replenishment and steady blood glucose without post-meal fatigue or stomach cramps.",
     femaleBodyBenefit: "Carbohydrate availability keeps kisspeptin neurons firing in the brain. If female athletes restrict carbs, kisspeptin goes dormant, shutting off GnRH and halting menstrual cycles.",
@@ -1650,7 +1650,7 @@ const ATHLETE_BOWL_FOODS: BowlFoodItem[] = [
     name: "Quinoa & Brown Rice Blend",
     category: "carbs",
     categoryLabel: "Glycogen & Mineral Carb",
-    badgeClass: "bg-amber-100 text-amber-900 border-amber-300",
+    badgeClass: "bg-soft-pink text-charcoal border-coral-light",
     nutrients: "All 9 Essential Amino Acids · Magnesium · Iron · Fiber",
     athleticBenefit: "Refills liver and muscle glycogen post-workout to turn off exercise-induced cortisol spikes.",
     femaleBodyBenefit: "Magnesium relaxes uterine smooth muscle, reducing the intensity of premenstrual cramps and soothing anxiety during the luteal phase.",
@@ -1661,7 +1661,7 @@ const ATHLETE_BOWL_FOODS: BowlFoodItem[] = [
     name: "Steel-Cut Rolled Oats",
     category: "carbs",
     categoryLabel: "Slow-Burn Energy",
-    badgeClass: "bg-amber-100 text-amber-900 border-amber-300",
+    badgeClass: "bg-soft-pink text-charcoal border-coral-light",
     nutrients: "Beta-Glucan Soluble Fiber · B-Complex · Zinc · Iron",
     athleticBenefit: "Stabilizes pre-competition stamina and prevents mid-workout hypoglycemic crashes.",
     femaleBodyBenefit: "Soluble fiber binds un-metabolized estrogen in the gut, ensuring healthy hormonal clearance and preventing estrogen dominance symptoms.",
@@ -1903,7 +1903,7 @@ function AthletePlateDiagram({ diagram }: { diagram: LessonDiagram; themeColor: 
     <div
       className={
         isFullscreen
-          ? "fixed inset-0 z-50 overflow-y-auto bg-slate-950/90 backdrop-blur-md p-3 sm:p-6 md:p-8 flex flex-col items-center justify-start animate-in fade-in duration-200"
+          ? "fixed inset-0 z-50 overflow-y-auto bg-charcoal/90 backdrop-blur-md p-3 sm:p-6 md:p-8 flex flex-col items-center justify-start animate-in fade-in duration-200"
           : "rounded-2xl border-2 border-coral/30 bg-white p-4 md:p-5 shadow-sm space-y-4"
       }
     >
@@ -1924,13 +1924,13 @@ function AthletePlateDiagram({ diagram }: { diagram: LessonDiagram; themeColor: 
 
           {/* View Mode Switcher & Fullscreen Game Toggle */}
           <div className="flex items-center gap-2 flex-wrap">
-            <div className="flex items-center gap-1.5 rounded-xl bg-slate-100 p-1 border border-slate-200">
+            <div className="flex items-center gap-1.5 rounded-xl bg-warm-cream p-1 border border-light-teal-dark">
               <button
                 type="button"
                 onClick={() => setViewMode("bowl")}
                 className={`px-3 py-1.5 rounded-lg font-bold text-xs transition-all flex items-center gap-1.5 font-sans ${
                   viewMode === "bowl"
-                    ? "bg-coral text-white shadow-xs"
+                    ? "bg-coral text-charcoal shadow-xs"
                     : "text-charcoal/70 hover:text-charcoal"
                 }`}
               >
@@ -1953,17 +1953,17 @@ function AthletePlateDiagram({ diagram }: { diagram: LessonDiagram; themeColor: 
               <button
                 type="button"
                 onClick={() => setIsFullscreen(!isFullscreen)}
-                className="px-3 py-1.5 rounded-xl bg-amber-100 hover:bg-amber-200 text-amber-950 font-bold text-xs transition-all flex items-center gap-1.5 font-sans border border-amber-300 shadow-2xs"
+                className="px-3 py-1.5 rounded-xl bg-soft-pink hover:bg-soft-pink-dark text-charcoal font-bold text-xs transition-all flex items-center gap-1.5 font-sans border border-coral-light shadow-2xs"
                 title={isFullscreen ? "Exit Fullscreen View" : "Expand to Fullscreen View"}
               >
                 {isFullscreen ? (
                   <>
-                    <Minimize2 className="w-3.5 h-3.5 text-amber-900" />
+                    <Minimize2 className="w-3.5 h-3.5 text-charcoal" />
                     <span>Exit Fullscreen</span>
                   </>
                 ) : (
                   <>
-                    <Maximize2 className="w-3.5 h-3.5 text-amber-900" />
+                    <Maximize2 className="w-3.5 h-3.5 text-charcoal" />
                     <span>Fullscreen View</span>
                   </>
                 )}
@@ -1978,9 +1978,9 @@ function AthletePlateDiagram({ diagram }: { diagram: LessonDiagram; themeColor: 
         {viewMode === "bowl" && (
           <div className="space-y-4 sm:space-y-5">
             {/* Top Explainer with Clear Instruction Label */}
-            <div className="rounded-2xl border-2 border-coral/30 bg-gradient-to-r from-coral/15 via-amber-50/70 to-teal-50/50 p-4 sm:p-5 shadow-xs space-y-2">
+            <div className="rounded-2xl border-2 border-coral/30 bg-gradient-to-r from-coral/15 via-soft-pink-light/70 to-teal-50/50 p-4 sm:p-5 shadow-xs space-y-2">
               <div className="flex items-center gap-2 flex-wrap">
-                <span className="inline-flex items-center px-3 py-1 rounded-full bg-coral text-white text-xs font-extrabold uppercase tracking-wider font-sans shadow-xs">
+                <span className="inline-flex items-center px-3 py-1 rounded-full bg-coral text-charcoal text-xs font-extrabold uppercase tracking-wider font-sans shadow-xs">
                   Instructions:
                 </span>
                 <h5 className="font-serif font-bold text-base sm:text-lg text-deep-teal m-0">
@@ -1996,13 +1996,13 @@ function AthletePlateDiagram({ diagram }: { diagram: LessonDiagram; themeColor: 
             </div>
 
             {/* Presets & Prominent BIG Reset Bowl Button */}
-            <div className="flex flex-wrap items-center justify-between gap-3 p-3.5 rounded-2xl bg-slate-50 border border-slate-200">
+            <div className="flex flex-wrap items-center justify-between gap-3 p-3.5 rounded-2xl bg-warm-cream-light border border-light-teal-dark">
               <div className="flex items-center gap-2 flex-wrap">
                 <span className="font-bold text-charcoal/80 text-xs sm:text-sm font-sans">Sample Bowls:</span>
                 <button
                   type="button"
                   onClick={() => loadPreset("pregame")}
-                  className="px-3.5 py-1.5 rounded-xl bg-white hover:bg-amber-50 text-amber-950 border border-amber-300 text-xs font-bold transition-all shadow-xs"
+                  className="px-3.5 py-1.5 rounded-xl bg-white hover:bg-soft-pink-light text-charcoal border border-coral-light text-xs font-bold transition-all shadow-xs"
                 >
                   Pre-Game
                 </button>
@@ -2033,7 +2033,7 @@ function AthletePlateDiagram({ diagram }: { diagram: LessonDiagram; themeColor: 
                 className={`px-5 py-2.5 rounded-xl font-bold text-sm sm:text-base transition-all flex items-center gap-2 font-sans shadow-sm ${
                   bowlItems.length > 0
                     ? "bg-rose-600 hover:bg-rose-700 text-white cursor-pointer hover:scale-105 active:scale-95 shadow-md ring-2 ring-rose-300"
-                    : "bg-slate-200 text-slate-400 border border-slate-300 cursor-not-allowed"
+                    : "bg-warm-cream-dark text-charcoal-muted border border-deep-teal/30 cursor-not-allowed"
                 }`}
               >
                 <RotateCcw className="w-5 h-5" />
@@ -2057,7 +2057,7 @@ function AthletePlateDiagram({ diagram }: { diagram: LessonDiagram; themeColor: 
               className={`relative rounded-3xl p-6 sm:p-8 transition-all border-3 text-center flex flex-col items-center justify-center min-h-[360px] sm:min-h-[420px] shadow-sm ${
                 isDraggingOver
                   ? "border-emerald-500 bg-emerald-50/90 ring-8 ring-emerald-400/30 scale-[1.01]"
-                  : "border-deep-teal/25 bg-gradient-to-b from-[#F5FAF8] via-white to-amber-50/40"
+                  : "border-deep-teal/25 bg-gradient-to-b from-[#F5FAF8] via-white to-soft-pink-light/40"
               }`}
             >
               {/* Secondary Reset Button in Top-Right when foods are in the bowl */}
@@ -2132,7 +2132,7 @@ function AthletePlateDiagram({ diagram }: { diagram: LessonDiagram; themeColor: 
                   <div className="absolute inset-0 pt-7 sm:pt-9 px-6 sm:px-10 pb-4 flex flex-wrap items-center justify-center gap-2 overflow-y-auto z-10 custom-scrollbar max-h-48 sm:max-h-60">
                     {bowlItems.length === 0 ? (
                       <div className="text-center space-y-2 py-3 animate-in fade-in duration-300">
-                        <div className="w-12 h-12 mx-auto rounded-full bg-slate-100 border border-slate-300 flex items-center justify-center text-slate-500 shadow-inner">
+                        <div className="w-12 h-12 mx-auto rounded-full bg-warm-cream border border-deep-teal/30 flex items-center justify-center text-charcoal-muted shadow-inner">
                           <RotateCcw className="w-5 h-5 text-deep-teal/60" />
                         </div>
                         <div className="space-y-0.5">
@@ -2158,7 +2158,7 @@ function AthletePlateDiagram({ diagram }: { diagram: LessonDiagram; themeColor: 
                             className={`group relative inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-2xl text-xs sm:text-sm font-bold transition-all shadow-md animate-in zoom-in-75 font-sans ${
                               isSelected
                                 ? "bg-deep-teal text-white ring-4 ring-coral scale-105 shadow-lg"
-                                : "bg-white text-charcoal hover:bg-slate-50 hover:scale-105 border-2 border-slate-300"
+                                : "bg-white text-charcoal hover:bg-warm-cream-light hover:scale-105 border-2 border-deep-teal/30"
                             }`}
                           >
                             <div className="w-6 h-6 sm:w-7 sm:h-7 flex-shrink-0">
@@ -2202,7 +2202,7 @@ function AthletePlateDiagram({ diagram }: { diagram: LessonDiagram; themeColor: 
                   className={`text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full font-sans ${
                     isFullyBalanced
                       ? "bg-emerald-100 text-emerald-900 border border-emerald-300"
-                      : "bg-slate-100 text-charcoal/70"
+                      : "bg-warm-cream text-charcoal/70"
                   }`}
                 >
                   {isFullyBalanced ? "Fully Balanced" : `${(carbsCount > 0 ? 1 : 0) + (proteinCount > 0 ? 1 : 0) + (fatsCount > 0 ? 1 : 0) + (colorsCount > 0 ? 1 : 0)} / 4 Pillars Added`}
@@ -2212,7 +2212,7 @@ function AthletePlateDiagram({ diagram }: { diagram: LessonDiagram; themeColor: 
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs font-sans">
                 <div
                   className={`p-2 rounded-xl border flex items-center justify-between ${
-                    carbsCount > 0 ? "bg-amber-50 border-amber-300 text-amber-950 font-bold" : "bg-slate-50 border-slate-200 text-charcoal/60"
+                    carbsCount > 0 ? "bg-soft-pink-light border-coral-light text-charcoal font-bold" : "bg-warm-cream-light border-light-teal-dark text-charcoal/60"
                   }`}
                 >
                   <span>Carbs ({carbsCount})</span>
@@ -2220,7 +2220,7 @@ function AthletePlateDiagram({ diagram }: { diagram: LessonDiagram; themeColor: 
                 </div>
                 <div
                   className={`p-2 rounded-xl border flex items-center justify-between ${
-                    proteinCount > 0 ? "bg-rose-50 border-rose-300 text-rose-950 font-bold" : "bg-slate-50 border-slate-200 text-charcoal/60"
+                    proteinCount > 0 ? "bg-rose-50 border-rose-300 text-rose-950 font-bold" : "bg-warm-cream-light border-light-teal-dark text-charcoal/60"
                   }`}
                 >
                   <span>Protein ({proteinCount})</span>
@@ -2228,7 +2228,7 @@ function AthletePlateDiagram({ diagram }: { diagram: LessonDiagram; themeColor: 
                 </div>
                 <div
                   className={`p-2 rounded-xl border flex items-center justify-between ${
-                    fatsCount > 0 ? "bg-lime-50 border-lime-300 text-lime-950 font-bold" : "bg-slate-50 border-slate-200 text-charcoal/60"
+                    fatsCount > 0 ? "bg-lime-50 border-lime-300 text-lime-950 font-bold" : "bg-warm-cream-light border-light-teal-dark text-charcoal/60"
                   }`}
                 >
                   <span>Healthy Fats ({fatsCount})</span>
@@ -2236,7 +2236,7 @@ function AthletePlateDiagram({ diagram }: { diagram: LessonDiagram; themeColor: 
                 </div>
                 <div
                   className={`p-2 rounded-xl border flex items-center justify-between ${
-                    colorsCount > 0 ? "bg-emerald-50 border-emerald-300 text-emerald-950 font-bold" : "bg-slate-50 border-slate-200 text-charcoal/60"
+                    colorsCount > 0 ? "bg-emerald-50 border-emerald-300 text-emerald-950 font-bold" : "bg-warm-cream-light border-light-teal-dark text-charcoal/60"
                   }`}
                 >
                   <span>Produce ({colorsCount})</span>
@@ -2254,10 +2254,10 @@ function AthletePlateDiagram({ diagram }: { diagram: LessonDiagram; themeColor: 
 
             {/* Selected Food Benefits Breakdown */}
             {selectedFood && (
-              <div className="rounded-2xl border-2 border-coral/30 bg-gradient-to-br from-rose-50/50 via-white to-amber-50/30 p-4 sm:p-5 space-y-3 shadow-xs animate-in fade-in">
+              <div className="rounded-2xl border-2 border-coral/30 bg-gradient-to-br from-rose-50/50 via-white to-soft-pink-light/30 p-4 sm:p-5 space-y-3 shadow-xs animate-in fade-in">
                 <div className="flex flex-wrap items-start justify-between gap-2 border-b border-coral/15 pb-2.5">
                   <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 rounded-2xl bg-amber-50 border border-amber-200 p-1.5 flex-shrink-0 shadow-xs">
+                    <div className="w-12 h-12 rounded-2xl bg-soft-pink-light border border-soft-pink-dark p-1.5 flex-shrink-0 shadow-xs">
                       <FoodIllustration foodId={selectedFood.id} />
                     </div>
                     <div>
@@ -2286,7 +2286,7 @@ function AthletePlateDiagram({ diagram }: { diagram: LessonDiagram; themeColor: 
                       <button
                         type="button"
                         onClick={() => addFoodToBowl(selectedFood.id)}
-                        className="text-xs font-bold text-white bg-coral hover:bg-coral/90 px-3.5 py-1 rounded-full shadow-2xs font-sans"
+                        className="text-xs font-bold text-charcoal bg-coral hover:bg-coral/90 px-3.5 py-1 rounded-full shadow-2xs font-sans"
                       >
                         + Add to Bowl
                       </button>
@@ -2297,9 +2297,9 @@ function AthletePlateDiagram({ diagram }: { diagram: LessonDiagram; themeColor: 
                 {/* 2-Column Benefits Breakdown */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs sm:text-sm font-sans">
                   {/* Athletic Performance */}
-                  <div className="rounded-xl border border-amber-200 bg-amber-50/70 p-3 space-y-1">
-                    <span className="font-bold text-amber-950 flex items-center gap-1.5 text-xs uppercase tracking-wider">
-                      <Zap className="w-3.5 h-3.5 text-amber-600" />
+                  <div className="rounded-xl border border-soft-pink-dark bg-soft-pink-light/70 p-3 space-y-1">
+                    <span className="font-bold text-charcoal flex items-center gap-1.5 text-xs uppercase tracking-wider">
+                      <Zap className="w-3.5 h-3.5 text-raspberry-dark" />
                       Athletic Performance Benefit:
                     </span>
                     <p className="text-charcoal/85 leading-relaxed m-0 text-xs sm:text-sm">
@@ -2331,7 +2331,7 @@ function AthletePlateDiagram({ diagram }: { diagram: LessonDiagram; themeColor: 
 
             {/* Food Pantry Shelf */}
             <div className="space-y-3 pt-2">
-              <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-200/80 pb-2">
+              <div className="flex flex-wrap items-center justify-between gap-2 border-b border-light-teal-dark/80 pb-2">
                 <div>
                   <span className="text-sm sm:text-base font-bold text-charcoal font-sans">
                     Food Pantry
@@ -2353,7 +2353,7 @@ function AthletePlateDiagram({ diagram }: { diagram: LessonDiagram; themeColor: 
                       className={`px-3 py-1 rounded-xl font-bold transition-all ${
                         pantryFilter === f.id
                           ? "bg-deep-teal text-white shadow-xs scale-105"
-                          : "bg-slate-100 text-charcoal/75 hover:bg-slate-200"
+                          : "bg-warm-cream text-charcoal/75 hover:bg-warm-cream-dark"
                       }`}
                     >
                       {f.label}
@@ -2381,10 +2381,10 @@ function AthletePlateDiagram({ diagram }: { diagram: LessonDiagram; themeColor: 
                       }}
                       className={`group relative rounded-3xl border-2 p-3 sm:p-4 text-center transition-all cursor-grab active:cursor-grabbing select-none shadow-sm flex flex-col justify-between items-center hover:-translate-y-1.5 hover:shadow-xl ${
                         isSelected
-                          ? "border-coral bg-gradient-to-b from-rose-50/90 to-amber-50/70 ring-4 ring-coral/30 shadow-lg"
+                          ? "border-coral bg-gradient-to-b from-rose-50/90 to-soft-pink-light/70 ring-4 ring-coral/30 shadow-lg"
                           : inBowl
                           ? "border-emerald-400 bg-emerald-50/60"
-                          : "border-slate-200 bg-white hover:border-deep-teal/50 hover:bg-slate-50/80"
+                          : "border-light-teal-dark bg-white hover:border-deep-teal/50 hover:bg-warm-cream-light/80"
                       }`}
                     >
                       {/* Top category indicator */}
@@ -2395,7 +2395,7 @@ function AthletePlateDiagram({ diagram }: { diagram: LessonDiagram; themeColor: 
                       </div>
 
                       {/* BIG Vector Food Illustration */}
-                      <div className="w-20 h-20 sm:w-24 sm:h-24 my-1 rounded-3xl bg-gradient-to-br from-amber-50/60 via-white to-orange-50/50 border-2 border-amber-200/80 p-3.5 flex items-center justify-center shadow-inner group-hover:scale-110 transition-all duration-300">
+                      <div className="w-20 h-20 sm:w-24 sm:h-24 my-1 rounded-3xl bg-gradient-to-br from-soft-pink-light/60 via-white to-orange-50/50 border-2 border-soft-pink-dark/80 p-3.5 flex items-center justify-center shadow-inner group-hover:scale-110 transition-all duration-300">
                         <FoodIllustration foodId={food.id} />
                       </div>
 
@@ -2423,7 +2423,7 @@ function AthletePlateDiagram({ diagram }: { diagram: LessonDiagram; themeColor: 
                         className={`w-full text-xs font-bold py-1.5 px-2 rounded-xl transition-all font-sans flex items-center justify-center gap-1 shadow-2xs ${
                           inBowl
                             ? "bg-emerald-600 text-white hover:bg-emerald-700 hover:shadow-xs"
-                            : "bg-coral text-white hover:bg-coral/90 hover:scale-[1.02]"
+                            : "bg-coral text-charcoal hover:bg-coral/90 hover:scale-[1.02]"
                         }`}
                       >
                         {inBowl ? (
@@ -2468,8 +2468,8 @@ function AthletePlateDiagram({ diagram }: { diagram: LessonDiagram; themeColor: 
                   onClick={() => setDayType(tab.id as typeof dayType)}
                   className={`p-2 sm:p-2.5 rounded-xl text-center border font-bold text-xs transition-all flex items-center justify-center gap-1.5 font-sans ${
                     active
-                      ? "bg-coral text-white border-coral shadow-xs ring-2 ring-coral/20 scale-105"
-                      : "bg-white text-charcoal/75 border-slate-200 hover:bg-rose-50"
+                      ? "bg-coral text-charcoal border-coral shadow-xs ring-2 ring-coral/20 scale-105"
+                      : "bg-white text-charcoal/75 border-light-teal-dark hover:bg-rose-50"
                   }`}
                 >
                   <Icon className={`w-3.5 h-3.5 ${active ? "text-white" : "text-coral"}`} />
@@ -2486,7 +2486,7 @@ function AthletePlateDiagram({ diagram }: { diagram: LessonDiagram; themeColor: 
           </div>
 
           {/* Interactive Visual Plate */}
-          <div className="rounded-2xl bg-gradient-to-br from-amber-50/50 via-white to-emerald-50/40 p-4 border border-coral/20 flex flex-col sm:flex-row items-center justify-around gap-4">
+          <div className="rounded-2xl bg-gradient-to-br from-soft-pink-light/50 via-white to-emerald-50/40 p-4 border border-coral/20 flex flex-col sm:flex-row items-center justify-around gap-4">
             {/* SVG Plate Representation */}
             <div className="relative w-44 h-44 sm:w-48 sm:h-48 shrink-0 flex items-center justify-center">
               <svg viewBox="0 0 200 200" className="w-full h-full drop-shadow-md">
@@ -2566,9 +2566,9 @@ function AthletePlateDiagram({ diagram }: { diagram: LessonDiagram; themeColor: 
             {/* Legend & Proportions */}
             <div className="flex-1 space-y-2.5 text-xs font-sans">
               <div className="flex items-start gap-2">
-                <span className="w-3.5 h-3.5 rounded-md bg-amber-400 shrink-0 mt-0.5"></span>
+                <span className="w-3.5 h-3.5 rounded-md bg-coral shrink-0 mt-0.5"></span>
                 <div>
-                  <strong className="text-amber-900 block">{config.carbs}</strong>
+                  <strong className="text-charcoal block">{config.carbs}</strong>
                   <span className="text-charcoal/75 text-[11px] leading-tight block">{config.carbDetail}</span>
                 </div>
               </div>
@@ -2600,11 +2600,11 @@ function AthletePlateDiagram({ diagram }: { diagram: LessonDiagram; themeColor: 
           </div>
 
           {/* Practical Action Tip */}
-          <div className="p-3 rounded-xl bg-amber-50/70 border border-amber-200 text-xs text-charcoal/90 flex items-start gap-2 font-sans">
-            <Flower2 className="w-4 h-4 text-amber-700 shrink-0 mt-0.5" />
+          <div className="p-3 rounded-xl bg-soft-pink-light/70 border border-soft-pink-dark text-xs text-charcoal/90 flex items-start gap-2 font-sans">
+            <Flower2 className="w-4 h-4 text-raspberry-dark shrink-0 mt-0.5" />
             <div>
-              <strong className="text-amber-900 block text-[11.5px]">Coach &amp; Athlete Pro Tip:</strong>
-              <p className="text-[11px] text-amber-950/80 m-0 leading-relaxed">{config.actionTip}</p>
+              <strong className="text-charcoal block text-[11.5px]">Coach &amp; Athlete Pro Tip:</strong>
+              <p className="text-[11px] text-charcoal/80 m-0 leading-relaxed">{config.actionTip}</p>
             </div>
           </div>
 
@@ -2690,7 +2690,7 @@ function HormoneScaleDiagram({ diagram }: { diagram: LessonDiagram; themeColor: 
             className={`p-2.5 rounded-xl text-center border font-bold text-xs transition-all ${
               balanceMode === mode
                 ? "bg-raspberry text-white border-raspberry shadow-xs scale-105"
-                : "bg-white text-charcoal/70 border-slate-200 hover:bg-soft-pink/40"
+                : "bg-white text-charcoal/70 border-light-teal-dark hover:bg-soft-pink/40"
             }`}
           >
             {mode === "balanced" && "Balanced"}
@@ -2738,7 +2738,7 @@ function HormoneScaleDiagram({ diagram }: { diagram: LessonDiagram; themeColor: 
           </span>
         </div>
 
-        <div className="grid grid-cols-3 gap-2 p-2.5 rounded-lg bg-slate-50 border border-slate-200 text-[11px]">
+        <div className="grid grid-cols-3 gap-2 p-2.5 rounded-lg bg-warm-cream-light border border-light-teal-dark text-[11px]">
           <div><strong>Estrogen:</strong> <br />{current.estrogen}</div>
           <div><strong>Progesterone:</strong> <br />{current.progesterone}</div>
           <div><strong>Androgens:</strong> <br />{current.androgens}</div>
@@ -2819,8 +2819,8 @@ function HydrationWaterGlassDiagram({ diagram }: { diagram: LessonDiagram; theme
     if (glasses < currentTarget.goal) {
       return {
         status: "Under-Hydrated for Phase",
-        color: "text-amber-600",
-        bg: "bg-amber-50 border-amber-200",
+        color: "text-raspberry-dark",
+        bg: "bg-soft-pink-light border-soft-pink-dark",
         advice: `You need ${currentTarget.ozGoal - currentOz} oz more to reach your ${currentTarget.name} target and prevent muscle cramping.`,
       };
     }
@@ -2897,13 +2897,13 @@ function HydrationWaterGlassDiagram({ diagram }: { diagram: LessonDiagram; theme
             onClick={() => setPhase("game_day")}
             className={`p-2.5 rounded-xl text-left border transition-all ${
               phase === "game_day"
-                ? "bg-amber-50 border-amber-400 text-amber-900 font-bold shadow-xs scale-[1.01]"
+                ? "bg-soft-pink-light border-coral text-charcoal font-bold shadow-xs scale-[1.01]"
                 : "bg-gray-50 border-gray-200 text-charcoal/70 hover:bg-white"
             }`}
           >
             <div className="text-[10.5px] uppercase tracking-wider opacity-75">Heavy Exertion</div>
             <div className="text-xs font-bold mt-0.5">Game / Match Day</div>
-            <div className="text-[11px] text-amber-800 mt-1">Target: 96 oz (12 glasses)</div>
+            <div className="text-[11px] text-raspberry-dark mt-1">Target: 96 oz (12 glasses)</div>
           </button>
         </div>
       </div>
@@ -2961,8 +2961,8 @@ function HydrationWaterGlassDiagram({ diagram }: { diagram: LessonDiagram; theme
                 {/* Bubble Particles */}
                 {glasses > 2 && (
                   <>
-                    <circle cx="65" cy={180 - (fillPercentage * 0.8)} r="3" fill="#ffffff" opacity="0.6" className="animate-pulse" />
-                    <circle cx="95" cy={195 - (fillPercentage * 1.1)} r="2" fill="#ffffff" opacity="0.7" className="animate-bounce" />
+                    <circle cx="65" cy={180 - (fillPercentage * 0.8)} r="3" fill="#ffffff" opacity="0.6" />
+                    <circle cx="95" cy={195 - (fillPercentage * 1.1)} r="2" fill="#ffffff" opacity="0.7" />
                     <circle cx="75" cy={160 - (fillPercentage * 0.5)} r="2.5" fill="#ffffff" opacity="0.5" />
                   </>
                 )}
@@ -2990,10 +2990,10 @@ function HydrationWaterGlassDiagram({ diagram }: { diagram: LessonDiagram; theme
 
             {/* Float Label in Center of Glass */}
             <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none mt-6">
-              <span className="text-2xl md:text-3xl font-serif font-bold text-slate-900 drop-shadow-xs bg-white/80 px-3 py-1 rounded-full border border-white/60 backdrop-blur-xs">
-                {currentOz} <span className="text-xs font-sans font-semibold text-slate-600">oz</span>
+              <span className="text-2xl md:text-3xl font-serif font-bold text-charcoal drop-shadow-xs bg-white/80 px-3 py-1 rounded-full border border-white/60 backdrop-blur-xs">
+                {currentOz} <span className="text-xs font-sans font-semibold text-charcoal-muted">oz</span>
               </span>
-              <span className="text-[11px] font-bold text-slate-700 mt-1 bg-white/85 px-2 py-0.5 rounded-full">
+              <span className="text-[11px] font-bold text-charcoal-light mt-1 bg-white/85 px-2 py-0.5 rounded-full">
                 {glasses} {glasses === 1 ? "Glass" : "Glasses"} · {currentMl} ml
               </span>
             </div>
@@ -3042,10 +3042,10 @@ function HydrationWaterGlassDiagram({ diagram }: { diagram: LessonDiagram; theme
               <span className="font-bold text-deep-teal">Progress to {currentTarget.name}:</span>
               <span className="font-bold text-blue-700">{goalPercentage}% of Target</span>
             </div>
-            <div className="w-full bg-slate-100 rounded-full h-3 overflow-hidden">
+            <div className="w-full bg-warm-cream rounded-full h-3 overflow-hidden">
               <div
                 className={`h-full transition-all duration-500 rounded-full ${
-                  goalPercentage >= 100 ? "bg-emerald-500" : goalPercentage >= 75 ? "bg-blue-500" : "bg-amber-400"
+                  goalPercentage >= 100 ? "bg-emerald-500" : goalPercentage >= 75 ? "bg-blue-500" : "bg-coral"
                 }`}
                 style={{ width: `${Math.min(100, goalPercentage)}%` }}
               />
@@ -3118,7 +3118,7 @@ function SleepRecoveryDiagram({ diagram }: { diagram: LessonDiagram; themeColor:
       name: "Stage 1 NREM (Light Sleep)",
       duration: "5% of Night (1–7 mins)",
       badge: "Transition Window",
-      color: "border-slate-300 bg-slate-50 text-slate-800",
+      color: "border-deep-teal/30 bg-warm-cream-light text-charcoal",
       description: "Heart rate slows, muscle tone softens, and breathing stabilizes. Easily disrupted by noise or light.",
       athleticRole: "Prepares central nervous system to enter restorative deeper stages.",
     },
@@ -3193,53 +3193,52 @@ function SleepRecoveryDiagram({ diagram }: { diagram: LessonDiagram; themeColor:
       </div>
 
       {/* Visual Sleep Cycle Architecture Graph */}
-      <div className="rounded-xl bg-slate-950 text-white p-4 space-y-2 relative overflow-hidden">
-        <div className="flex items-center justify-between text-xs text-slate-400">
+      <div className="rounded-xl bg-charcoal text-white p-4 space-y-2 relative overflow-hidden">
+        <div className="flex items-center justify-between text-xs text-warm-cream-dark">
           <span>90-Minute Sleep Architecture Wave (Repeats 4–5x per Night)</span>
           <span className="text-soft-pink font-bold text-[11px]">Slow-Wave = Muscle Repair</span>
         </div>
 
         <svg viewBox="0 0 600 130" className="w-full h-28 overflow-visible">
           {/* Shading for Slow-Wave N3 */}
-          <rect x="180" y="20" width="160" height="90" fill="#4f46e5" opacity={activeStage === "slow_wave" ? "0.35" : "0.12"} rx="6" />
+          <rect x="180" y="20" width="160" height="90" fill="#207274" opacity={activeStage === "slow_wave" ? "0.35" : "0.12"} rx="6" />
           {/* Shading for REM */}
-          <rect x="420" y="20" width="140" height="90" fill="#9333ea" opacity={activeStage === "rem" ? "0.35" : "0.12"} rx="6" />
+          <rect x="420" y="20" width="140" height="90" fill="#BBE4E1" opacity={activeStage === "rem" ? "0.35" : "0.12"} rx="6" />
 
           {/* Depth Axis Lines */}
-          <line x1="40" y1="30" x2="580" y2="30" stroke="#334155" strokeWidth="1" strokeDasharray="2,2" />
-          <text x="5" y="33" fill="#64748b" fontSize="9">Awake</text>
+          <line x1="48" y1="30" x2="580" y2="30" stroke="#434045" strokeWidth="1" strokeDasharray="2,2" />
+          <text x="5" y="34" fill="#BBE4E1" fontSize="12">Awake</text>
 
-          <line x1="40" y1="60" x2="580" y2="60" stroke="#334155" strokeWidth="1" strokeDasharray="2,2" />
-          <text x="5" y="63" fill="#64748b" fontSize="9">Stage 2</text>
+          <line x1="64" y1="60" x2="580" y2="60" stroke="#434045" strokeWidth="1" strokeDasharray="2,2" />
+          <text x="5" y="64" fill="#BBE4E1" fontSize="12">Stage 2</text>
 
-          <line x1="40" y1="100" x2="580" y2="100" stroke="#334155" strokeWidth="1" strokeDasharray="2,2" />
-          <text x="5" y="103" fill="#818cf8" fontSize="9" fontWeight="bold">Slow-Wave</text>
+          <line x1="76" y1="100" x2="580" y2="100" stroke="#434045" strokeWidth="1" strokeDasharray="2,2" />
+          <text x="5" y="104" fill="#BBE4E1" fontSize="12" fontWeight="bold">Slow-Wave</text>
 
           {/* 90-min Cycle Curve */}
           <path
             d="M 40 30 C 70 30, 90 55, 120 60 C 150 65, 180 100, 260 100 C 330 100, 360 40, 420 40 C 470 40, 500 45, 560 30"
             fill="none"
-            stroke="#818cf8"
+            stroke="#BBE4E1"
             strokeWidth="3"
             strokeLinecap="round"
           />
 
-          {/* HGH Hormone Pulse Icon in Deep Sleep */}
+          {/* HGH Hormone Pulse Icon in Deep Sleep (static dot) */}
           <g transform="translate(250, 75)">
-            <circle cx="10" cy="10" r="14" fill="#4f46e5" className="animate-ping" opacity="0.3" />
-            <circle cx="10" cy="10" r="10" fill="#6366f1" />
-            <text x="10" y="13" fill="#ffffff" fontSize="9" fontWeight="bold" textAnchor="middle">HGH</text>
+            <circle cx="10" cy="10" r="15" fill="#207274" stroke="#BBE4E1" strokeWidth="1.5" />
+            <text x="10" y="14" fill="#ffffff" fontSize="12" fontWeight="bold" textAnchor="middle">HGH</text>
           </g>
 
-          <text x="260" y="120" fill="#a5b4fc" fontSize="9" textAnchor="middle" fontWeight="bold">Stage 3 Deep Sleep (95% Growth Hormone Pulse)</text>
-          <text x="490" y="25" fill="#d8b4fe" fontSize="9" textAnchor="middle" fontWeight="bold">REM (Motor Memory)</text>
+          <text x="260" y="121" fill="#BBE4E1" fontSize="12" textAnchor="middle" fontWeight="bold">Stage 3 Deep Sleep (95% Growth Hormone Pulse)</text>
+          <text x="490" y="14" fill="#F5D9DE" fontSize="12" textAnchor="middle" fontWeight="bold">REM (Motor Memory)</text>
         </svg>
 
         {/* Selected Stage Detail Banner */}
-        <div className="pt-2 border-t border-slate-800 text-xs flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+        <div className="pt-2 border-t border-charcoal-light text-xs flex flex-col sm:flex-row sm:items-center justify-between gap-1">
           <div>
             <strong className="text-soft-pink font-bold">{currentStage.name}: </strong>
-            <span className="text-slate-300">{currentStage.description}</span>
+            <span className="text-warm-cream-dark">{currentStage.description}</span>
           </div>
           <span className="text-emerald-400 font-bold shrink-0">{currentStage.athleticRole}</span>
         </div>
@@ -3265,7 +3264,7 @@ function SleepRecoveryDiagram({ diagram }: { diagram: LessonDiagram; themeColor:
 
         <p className="text-xs text-charcoal/85 m-0 leading-relaxed">
           {isLuteal
-            ? "⚠️ Luteal Alert: Progesterone elevates resting core body temperature by ~0.5°C (1°F). Because your brain MUST cool down by 1–2°F to trigger deep Slow-Wave sleep, athletes often experience lighter, fragmented sleep and night sweats during this phase. Remedy: Keep your bedroom at 65–68°F, use breathable bedding, and consider 200–300mg magnesium glycinate."
+            ? "⚠️ Luteal Alert: Progesterone elevates resting core body temperature by ~0.5°C (1°F). Because your brain MUST cool down by 1–2°F to trigger deep Slow-Wave sleep, athletes often experience lighter, fragmented sleep and night sweats during this phase. Remedy: Keep your bedroom at 65–68°F, and use breathable bedding." /* Dose hidden until KP rules (Herdy, 8 Nov 2026). Original ended: "use breathable bedding, and consider 200–300mg magnesium glycinate." */
             : "Follicular Baseline: Estrogen keeps core body temperature lower, allowing your body to cool quickly at night and easily reach restorative Stage 3 Slow-Wave Sleep."}
         </p>
       </div>
@@ -3353,14 +3352,14 @@ function IronFerritinDiagram({ diagram }: { diagram: LessonDiagram; themeColor: 
       <div className="flex items-start justify-between gap-2 border-b border-deep-teal/10 pb-3">
         <div>
           <div className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-deep-teal">
-            <ShieldAlert className="w-3.5 h-3.5 text-amber-600" />
+            <ShieldAlert className="w-3.5 h-3.5 text-raspberry-dark" />
             Interactive Iron & Ferritin Energy Lab
           </div>
           <h4 className="text-base md:text-lg font-serif font-bold text-deep-teal mt-0.5">
             {diagram.title}
           </h4>
         </div>
-        <span className="text-[11px] font-semibold bg-amber-50 px-2.5 py-1 rounded-full text-amber-800 border border-amber-200">
+        <span className="text-[11px] font-semibold bg-soft-pink-light px-2.5 py-1 rounded-full text-raspberry-dark border border-soft-pink-dark">
           Compare Ferritin vs Hemoglobin
         </span>
       </div>
@@ -3404,7 +3403,7 @@ function IronFerritinDiagram({ diagram }: { diagram: LessonDiagram; themeColor: 
             <div className="p-3.5 rounded-xl border-2 border-red-200 bg-red-50/40 space-y-2">
               <div className="flex items-center justify-between">
                 <span className="text-[10px] font-bold uppercase tracking-wider text-red-700 bg-red-100 px-2 py-0.5 rounded-full">Level 1: Circulation</span>
-                <span className="text-xs font-bold text-slate-700">Checked by standard CBC</span>
+                <span className="text-xs font-bold text-charcoal-light">Checked by standard CBC</span>
               </div>
               <h5 className="font-serif font-bold text-base text-red-950 m-0">Hemoglobin (The Delivery Trucks)</h5>
               <p className="text-xs text-charcoal/85 m-0 leading-relaxed">
@@ -3416,16 +3415,16 @@ function IronFerritinDiagram({ diagram }: { diagram: LessonDiagram; themeColor: 
             </div>
 
             {/* Level 2: Serum Ferritin */}
-            <div className="p-3.5 rounded-xl border-2 border-amber-300 bg-amber-50/50 space-y-2">
+            <div className="p-3.5 rounded-xl border-2 border-coral-light bg-soft-pink-light/50 space-y-2">
               <div className="flex items-center justify-between">
-                <span className="text-[10px] font-bold uppercase tracking-wider text-amber-800 bg-amber-200/80 px-2 py-0.5 rounded-full">Level 2: Deep Storage Vault</span>
-                <span className="text-xs font-bold text-amber-900 font-sans">Must request separately</span>
+                <span className="text-[10px] font-bold uppercase tracking-wider text-raspberry-dark bg-soft-pink-dark/80 px-2 py-0.5 rounded-full">Level 2: Deep Storage Vault</span>
+                <span className="text-xs font-bold text-charcoal font-sans">Must request separately</span>
               </div>
-              <h5 className="font-serif font-bold text-base text-amber-950 m-0">Serum Ferritin (The Storage Bank)</h5>
+              <h5 className="font-serif font-bold text-base text-charcoal m-0">Serum Ferritin (The Storage Bank)</h5>
               <p className="text-xs text-charcoal/85 m-0 leading-relaxed">
                 Iron reserves stored in your liver and bone marrow. Powers mitochondrial ATP energy in muscle cells.
               </p>
-              <div className="p-2 rounded-lg bg-white border border-amber-300 text-[11px] text-amber-950">
+              <div className="p-2 rounded-lg bg-white border border-coral-light text-[11px] text-charcoal">
                 <strong>Athletic Target:</strong> Athletes need ferritin <strong>&gt;30–50 ng/mL</strong>. Under 30 ng/mL causes "cement legs," shortness of breath, and brain fog (IDNA).
               </div>
             </div>
@@ -3682,7 +3681,7 @@ function CycleTrainingMatrixDiagram({ diagram }: { diagram: LessonDiagram; theme
 
         {/* Fueling Strategy for this phase */}
         <div className="p-2.5 rounded-xl bg-white border border-gray-200 text-xs flex items-center gap-2">
-          <Lightbulb className="w-4 h-4 text-amber-600 shrink-0" />
+          <Lightbulb className="w-4 h-4 text-raspberry-dark shrink-0" />
           <div className="text-[11.5px] text-charcoal/85">
             <strong>Nutrition & Hydration Strategy: </strong>
             <span>{current.fueling}</span>
@@ -3791,14 +3790,14 @@ function CycleFuelingPlateDiagram({ diagram }: { diagram: LessonDiagram; themeCo
       <div className="flex items-start justify-between gap-2 border-b border-deep-teal/10 pb-3">
         <div>
           <div className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-deep-teal">
-            <Zap className="w-3.5 h-3.5 text-amber-500" />
+            <Zap className="w-3.5 h-3.5 text-raspberry" />
             Interactive Cycle Nutrition & Fueling Plate
           </div>
           <h4 className="text-base md:text-lg font-serif font-bold text-deep-teal mt-0.5">
             {diagram.title}
           </h4>
         </div>
-        <span className="text-[11px] font-semibold bg-amber-50 px-2.5 py-1 rounded-full text-amber-800 border border-amber-200">
+        <span className="text-[11px] font-semibold bg-soft-pink-light px-2.5 py-1 rounded-full text-raspberry-dark border border-soft-pink-dark">
           Explore changing metabolic needs
         </span>
       </div>
@@ -3812,28 +3811,28 @@ function CycleFuelingPlateDiagram({ diagram }: { diagram: LessonDiagram; themeCo
             onClick={() => setActivePhase(p.id)}
             className={`p-2.5 rounded-xl text-left border transition-all ${
               activePhase === p.id
-                ? "bg-amber-50 border-amber-400 text-amber-950 font-bold shadow-xs scale-[1.01] ring-2 ring-amber-400/20"
+                ? "bg-soft-pink-light border-coral text-charcoal font-bold shadow-xs scale-[1.01] ring-2 ring-coral/20"
                 : "bg-gray-50 border-gray-200 text-charcoal/70 hover:bg-white"
             }`}
           >
             <div className="text-[10px] uppercase tracking-wider opacity-75">{p.days}</div>
             <div className="text-xs font-bold mt-0.5 leading-tight">{p.name.split(". ")[1]}</div>
-            <div className="text-[9.5px] mt-1 font-semibold text-amber-700">{p.metabolism}</div>
+            <div className="text-[9.5px] mt-1 font-semibold text-raspberry-dark">{p.metabolism}</div>
           </button>
         ))}
       </div>
 
       {/* Phase Nutrition Banner */}
-      <div className="p-4 rounded-2xl bg-gradient-to-r from-amber-50 via-orange-50 to-teal-50 border border-amber-200 space-y-2">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-amber-200/60 pb-2">
+      <div className="p-4 rounded-2xl bg-gradient-to-r from-soft-pink-light via-orange-50 to-teal-50 border border-soft-pink-dark space-y-2">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-soft-pink-dark/60 pb-2">
           <div>
-            <span className="text-[10px] font-bold uppercase tracking-wider text-amber-800 bg-white px-2 py-0.5 rounded-full border border-amber-200">
+            <span className="text-[10px] font-bold uppercase tracking-wider text-raspberry-dark bg-white px-2 py-0.5 rounded-full border border-soft-pink-dark">
               {current.badge}
             </span>
             <h5 className="font-serif font-bold text-lg text-deep-teal mt-1 mb-0">{current.tagline}</h5>
           </div>
           <div className="text-right sm:shrink-0">
-            <span className="text-xs font-bold text-amber-900 bg-amber-200/70 px-2.5 py-1 rounded-full block">
+            <span className="text-xs font-bold text-charcoal bg-soft-pink-dark/70 px-2.5 py-1 rounded-full block">
               Metabolic Burn: {current.metabolism}
             </span>
             <span className="text-[10.5px] text-charcoal/70 mt-1 block">Hunger Cue: {current.hungerLevel}</span>
@@ -3900,10 +3899,10 @@ function CycleFuelingPlateDiagram({ diagram }: { diagram: LessonDiagram; themeCo
         {/* Plate Proportions Legend */}
         <div className="md:col-span-7 space-y-2 text-xs">
           <div className="grid grid-cols-2 gap-2">
-            <div className="p-2.5 rounded-xl border border-amber-200 bg-amber-50/60">
-              <div className="flex items-center justify-between font-bold text-amber-900 text-xs">
+            <div className="p-2.5 rounded-xl border border-soft-pink-dark bg-soft-pink-light/60">
+              <div className="flex items-center justify-between font-bold text-charcoal text-xs">
                 <span className="flex items-center gap-1">
-                  <span className="w-2.5 h-2.5 rounded-full bg-amber-500 inline-block"></span>
+                  <span className="w-2.5 h-2.5 rounded-full bg-coral-dark inline-block"></span>
                   Complex Carbs
                 </span>
                 <span>{current.plateRatios.carbs}%</span>
@@ -3947,7 +3946,7 @@ function CycleFuelingPlateDiagram({ diagram }: { diagram: LessonDiagram; themeCo
 
           {/* Luteal Metabolic Truth Card */}
           {activePhase === 3 && (
-            <div className="p-2.5 rounded-xl bg-amber-100/70 border border-amber-300 text-amber-950 text-[11.5px] space-y-1">
+            <div className="p-2.5 rounded-xl bg-soft-pink/70 border border-coral-light text-charcoal text-[11.5px] space-y-1">
               <strong>✦ Why You Feel Hungrier Before Your Period:</strong>
               <p className="m-0 leading-relaxed text-[11px]">
                 Progesterone increases body heat, elevating your basal metabolism by <strong>100 to 300 kcal/day</strong>. Feeling hungry is NOT a failure of willpower — it is biological fact. Restricting food now triggers RED-S, crashes your thyroid, and makes PMS far worse. Add a nourishing snack with protein and complex carbs!
@@ -3985,7 +3984,7 @@ function CycleFuelingPlateDiagram({ diagram }: { diagram: LessonDiagram; themeCo
               <div className="flex items-center justify-between">
                 <strong className="font-bold text-deep-teal text-[12px]">{food.name}</strong>
                 <span className={`text-[9px] font-bold px-1.5 py-0.5 rounded-full uppercase ${
-                  food.type === "carbs" ? "bg-amber-100 text-amber-800" : food.type === "proteins" ? "bg-rose-100 text-rose-800" : "bg-teal-100 text-teal-800"
+                  food.type === "carbs" ? "bg-soft-pink text-raspberry-dark" : food.type === "proteins" ? "bg-rose-100 text-rose-800" : "bg-teal-100 text-teal-800"
                 }`}>
                   {food.type}
                 </span>
@@ -4067,7 +4066,7 @@ function PubertyBrainDiagram({ diagram }: { diagram: LessonDiagram; themeColor: 
       subtitle: "The Neuroendocrine Command Highway",
       badge: "Hormone Dispatch Center",
       color: "#D97706",
-      borderClass: "border-amber-300 bg-amber-50/70",
+      borderClass: "border-coral-light bg-soft-pink-light/70",
       role: "Releases GnRH to trigger puberty and controls cortisol release when you feel overwhelmed, cold, tired, or socially threatened.",
       adolescentFact: "The adolescent stress axis is hyper-reactive. Elevated chronic cortisol directly feeds back to the hypothalamus to suppress GnRH, which is why academic or emotional burnout can delay or skip periods.",
       tip: "Balanced by: Regular carbohydrate-rich meals, daily outdoor daylight, and reducing perfectionist academic pressure.",
@@ -4244,13 +4243,13 @@ function PubertyBrainDiagram({ diagram }: { diagram: LessonDiagram; themeColor: 
       {activeTab === "simulator" && (
         <div className="space-y-5">
           {/* Maturation Stage Selector Bar */}
-          <div className="bg-slate-50 p-3 rounded-2xl border border-slate-200">
+          <div className="bg-warm-cream-light p-3 rounded-2xl border border-light-teal-dark">
             <div className="flex items-center justify-between mb-2">
               <span className="text-xs font-bold text-deep-teal uppercase tracking-wider flex items-center gap-1.5">
                 <Flower2 className="w-3.5 h-3.5 text-coral" />
                 Select Puberty Stage to Simulate:
               </span>
-              <span className="text-[11px] font-bold text-charcoal/70 bg-white px-2 py-0.5 rounded-lg border border-slate-200">
+              <span className="text-[11px] font-bold text-charcoal/70 bg-white px-2 py-0.5 rounded-lg border border-light-teal-dark">
                 {currentStage.sub}
               </span>
             </div>
@@ -4263,7 +4262,7 @@ function PubertyBrainDiagram({ diagram }: { diagram: LessonDiagram; themeColor: 
                   className={`p-2.5 rounded-xl text-left border text-xs transition-all ${
                     activeStage === st
                       ? "bg-white border-deep-teal text-deep-teal ring-2 ring-deep-teal/20 shadow-xs font-bold"
-                      : "bg-white/60 border-slate-200 text-charcoal/80 hover:bg-white"
+                      : "bg-white/60 border-light-teal-dark text-charcoal/80 hover:bg-white"
                   }`}
                 >
                   <div className="font-bold text-[12px]">{stageData[st].name.split("·")[0]}</div>
@@ -4279,7 +4278,7 @@ function PubertyBrainDiagram({ diagram }: { diagram: LessonDiagram; themeColor: 
             <div className="p-4 rounded-2xl border-2 border-coral/30 bg-coral/5 space-y-2">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <span className="w-3 h-3 rounded-full bg-[#F47A6A] animate-pulse inline-block" />
+                  <span className="w-3 h-3 rounded-full bg-[#F47A6A] inline-block" />
                   <span className="font-serif font-bold text-sm text-[#991B4B]">
                     Amygdala Alarm & Emotional Engine
                   </span>
@@ -4414,24 +4413,24 @@ function PubertyBrainDiagram({ diagram }: { diagram: LessonDiagram; themeColor: 
           </div>
 
           {/* Live Physiological Breakdown Readout */}
-          <div className="bg-slate-50 rounded-2xl p-4 border border-slate-200 space-y-3">
-            <div className="flex items-center justify-between border-b border-slate-200 pb-2 flex-wrap gap-2">
+          <div className="bg-warm-cream-light rounded-2xl p-4 border border-light-teal-dark space-y-3">
+            <div className="flex items-center justify-between border-b border-light-teal-dark pb-2 flex-wrap gap-2">
               <span className="font-serif font-bold text-deep-teal text-sm flex items-center gap-1.5">
                 <Info className="w-4 h-4 text-deep-teal" />
                 Live Neurochemical & Somatic Status:
               </span>
               <div className="flex items-center gap-2 text-[10.5px]">
-                <span className="px-2 py-0.5 rounded-md bg-white border border-slate-200 font-bold text-charcoal">
+                <span className="px-2 py-0.5 rounded-md bg-white border border-light-teal-dark font-bold text-charcoal">
                   Serotonin: <strong className="text-deep-teal">{currentTrigger.serotonin}</strong>
                 </span>
-                <span className="px-2 py-0.5 rounded-md bg-white border border-slate-200 font-bold text-charcoal">
+                <span className="px-2 py-0.5 rounded-md bg-white border border-light-teal-dark font-bold text-charcoal">
                   Cortisol: <strong className="text-coral">{currentTrigger.cortisol}</strong>
                 </span>
               </div>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
-              <div className="p-3 bg-white rounded-xl border border-slate-200 space-y-1">
+              <div className="p-3 bg-white rounded-xl border border-light-teal-dark space-y-1">
                 <strong className="text-rose-800 font-bold block text-[11.5px]">
                   ⚡ Body Sensations in This State:
                 </strong>
@@ -4440,7 +4439,7 @@ function PubertyBrainDiagram({ diagram }: { diagram: LessonDiagram; themeColor: 
                 </p>
               </div>
 
-              <div className="p-3 bg-white rounded-xl border border-slate-200 space-y-1">
+              <div className="p-3 bg-white rounded-xl border border-light-teal-dark space-y-1">
                 <strong className="text-deep-teal font-bold block text-[11.5px]">
                   How the Selected Reset Calms Your Biology:
                 </strong>
@@ -4467,8 +4466,8 @@ function PubertyBrainDiagram({ diagram }: { diagram: LessonDiagram; themeColor: 
         <div className="space-y-4">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-center">
             {/* Interactive Vector Brain SVG */}
-            <div className="lg:col-span-6 bg-slate-900 rounded-2xl p-4 sm:p-6 flex flex-col items-center justify-center border border-slate-800 shadow-inner text-white">
-              <div className="text-[11px] font-bold text-slate-400 mb-2 uppercase tracking-wider flex items-center gap-1.5">
+            <div className="lg:col-span-6 bg-charcoal rounded-2xl p-4 sm:p-6 flex flex-col items-center justify-center border border-charcoal-light shadow-inner text-white">
+              <div className="text-[11px] font-bold text-warm-cream-dark mb-2 uppercase tracking-wider flex items-center gap-1.5">
                 <Brain className="w-3.5 h-3.5 text-coral" />
                 Click Any Brain Structure to Explore
               </div>
@@ -4597,8 +4596,8 @@ function PubertyBrainDiagram({ diagram }: { diagram: LessonDiagram; themeColor: 
                     onClick={() => setSelectedRegion(reg)}
                     className={`px-3 py-1 rounded-lg text-xs font-bold transition-all ${
                       selectedRegion === reg
-                        ? "bg-white text-slate-900 shadow-xs"
-                        : "bg-slate-800 text-slate-300 hover:bg-slate-700"
+                        ? "bg-white text-charcoal shadow-xs"
+                        : "bg-charcoal-light text-warm-cream-dark hover:bg-charcoal-muted"
                     }`}
                   >
                     {reg === "pfc" ? "Prefrontal Cortex" : reg === "amygdala" ? "Amygdala" : "HPA Axis"}
@@ -4655,7 +4654,7 @@ function PubertyBrainDiagram({ diagram }: { diagram: LessonDiagram; themeColor: 
                 className={`p-4 rounded-2xl border-2 cursor-pointer transition-all ${
                   activeStage === st
                     ? "bg-white border-deep-teal shadow-md ring-2 ring-deep-teal/20"
-                    : "bg-slate-50/70 border-slate-200 hover:bg-white"
+                    : "bg-warm-cream-light/70 border-light-teal-dark hover:bg-white"
                 }`}
               >
                 <div className="flex items-center justify-between mb-1.5">
@@ -4681,10 +4680,10 @@ function PubertyBrainDiagram({ diagram }: { diagram: LessonDiagram; themeColor: 
                     <span className="text-teal-700">PFC Brake: {stageData[st].pfcMaturation}%</span>
                   </div>
 
-                  <div className="p-2 rounded-lg bg-white border border-slate-200 text-[10.5px] leading-tight text-charcoal/85">
+                  <div className="p-2 rounded-lg bg-white border border-light-teal-dark text-[10.5px] leading-tight text-charcoal/85">
                     <strong>Hormones:</strong> {stageData[st].hormoneProfile}
                   </div>
-                  <div className="p-2 rounded-lg bg-white border border-slate-200 text-[10.5px] leading-tight text-charcoal/85">
+                  <div className="p-2 rounded-lg bg-white border border-light-teal-dark text-[10.5px] leading-tight text-charcoal/85">
                     <strong>Emotions:</strong> {stageData[st].emotions}
                   </div>
                 </div>
@@ -4692,7 +4691,7 @@ function PubertyBrainDiagram({ diagram }: { diagram: LessonDiagram; themeColor: 
             ))}
           </div>
 
-          <div className="p-4 rounded-2xl bg-amber-50/80 border border-amber-300 text-amber-950 text-xs leading-relaxed space-y-1">
+          <div className="p-4 rounded-2xl bg-soft-pink-light/80 border border-coral-light text-charcoal text-xs leading-relaxed space-y-1">
             <strong>✦ Why the "Mismatch" Is an Evolutionary Strength:</strong>
             <p className="m-0 text-[11.5px]">
               Why would biology design a brain with an emotional engine that matures before its braking system? Anthropological neuroscience shows that high emotional sensitivity and novelty-seeking pushed human adolescents to form bonds outside their immediate family, master complex cultural skills, and step into independent adulthood. It is not a flaw—it is human biology doing its job!
@@ -5018,7 +5017,7 @@ function MaternalWarningSignsDiagram({ diagram, themeColor }: { diagram: LessonD
             onClick={() => setActiveTab("anatomy")}
             className={`px-3 py-1.5 rounded-xl text-xs font-medium transition-all ${
               activeTab === "anatomy"
-                ? "bg-coral text-white shadow-xs font-bold"
+                ? "bg-coral text-charcoal shadow-xs font-bold"
                 : "text-charcoal/75 hover:text-charcoal hover:bg-sand/80"
             }`}
           >
@@ -5029,7 +5028,7 @@ function MaternalWarningSignsDiagram({ diagram, themeColor }: { diagram: LessonD
             onClick={() => setActiveTab("warning-signs")}
             className={`px-3 py-1.5 rounded-xl text-xs font-medium transition-all ${
               activeTab === "warning-signs"
-                ? "bg-coral text-white shadow-xs font-bold"
+                ? "bg-coral text-charcoal shadow-xs font-bold"
                 : "text-charcoal/75 hover:text-charcoal hover:bg-sand/80"
             }`}
           >
@@ -5040,7 +5039,7 @@ function MaternalWarningSignsDiagram({ diagram, themeColor }: { diagram: LessonD
             onClick={() => setActiveTab("challenge")}
             className={`px-3 py-1.5 rounded-xl text-xs font-medium transition-all ${
               activeTab === "challenge"
-                ? "bg-coral text-white shadow-xs font-bold"
+                ? "bg-coral text-charcoal shadow-xs font-bold"
                 : "text-charcoal/75 hover:text-charcoal hover:bg-sand/80"
             }`}
           >
@@ -5051,7 +5050,7 @@ function MaternalWarningSignsDiagram({ diagram, themeColor }: { diagram: LessonD
             onClick={() => setActiveTab("cases")}
             className={`px-3 py-1.5 rounded-xl text-xs font-medium transition-all ${
               activeTab === "cases"
-                ? "bg-coral text-white shadow-xs font-bold"
+                ? "bg-coral text-charcoal shadow-xs font-bold"
                 : "text-charcoal/75 hover:text-charcoal hover:bg-sand/80"
             }`}
           >
@@ -5062,7 +5061,7 @@ function MaternalWarningSignsDiagram({ diagram, themeColor }: { diagram: LessonD
             onClick={() => setActiveTab("advocacy")}
             className={`px-3 py-1.5 rounded-xl text-xs font-medium transition-all ${
               activeTab === "advocacy"
-                ? "bg-coral text-white shadow-xs font-bold"
+                ? "bg-coral text-charcoal shadow-xs font-bold"
                 : "text-charcoal/75 hover:text-charcoal hover:bg-sand/80"
             }`}
           >
@@ -5400,7 +5399,7 @@ function MaternalWarningSignsDiagram({ diagram, themeColor }: { diagram: LessonD
                   onClick={() => setSelectedSymptomIdx(idx)}
                   className={`flex items-center gap-2 px-3 py-2 rounded-2xl text-xs font-medium shrink-0 border transition-all ${
                     isSelected
-                      ? "bg-coral text-white border-coral shadow-xs font-bold"
+                      ? "bg-coral text-charcoal border-coral shadow-xs font-bold"
                       : "bg-sand/40 text-charcoal/80 border-charcoal/10 hover:bg-sand/70"
                   }`}
                 >
@@ -5520,7 +5519,7 @@ function MaternalWarningSignsDiagram({ diagram, themeColor }: { diagram: LessonD
                 <div className="p-3 rounded-xl bg-rose-50/70 border border-rose-200 text-xs sm:text-sm text-rose-950 font-medium">
                   <strong>Reported Symptoms:</strong> {currentChallenge.symptom}
                 </div>
-                <div className="p-3 rounded-xl bg-amber-50/70 border border-amber-200 text-xs sm:text-sm text-amber-950 italic">
+                <div className="p-3 rounded-xl bg-soft-pink-light/70 border border-soft-pink-dark text-xs sm:text-sm text-charcoal italic">
                   <strong>Clinical Dismissal Encounter:</strong> {currentChallenge.clinicianSays}
                 </div>
               </div>
@@ -5588,7 +5587,7 @@ function MaternalWarningSignsDiagram({ diagram, themeColor }: { diagram: LessonD
                         setChallengeCompleted(true);
                       }
                     }}
-                    className="px-5 py-2.5 rounded-2xl bg-coral text-white font-bold text-xs sm:text-sm hover:opacity-90 shadow-sm flex items-center gap-2"
+                    className="px-5 py-2.5 rounded-2xl bg-coral text-charcoal font-bold text-xs sm:text-sm hover:opacity-90 shadow-sm flex items-center gap-2"
                   >
                     <span>{challengeStep + 1 < challengeCases.length ? "Next Clinical Case →" : "Finish Triage Challenge"}</span>
                   </button>
@@ -5821,7 +5820,7 @@ function BodyNeutralityGrowthDiagram({ diagram, themeColor }: { diagram: LessonD
     {
       title: "Skin & Sweat Gland Awakening",
       badge: "Temporary Shift",
-      badgeClass: "bg-amber-100 text-amber-900 border-amber-300",
+      badgeClass: "bg-soft-pink text-charcoal border-coral-light",
       iconName: "Flower2",
       explanation:
         "Rising pubertal hormones temporarily stimulate oil glands and sweat production. This natural phase gradually levels out as your endocrine system matures.",
@@ -5872,7 +5871,7 @@ function BodyNeutralityGrowthDiagram({ diagram, themeColor }: { diagram: LessonD
       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-deep-teal/10 pb-4">
         <div>
           <div className="flex items-center gap-2">
-            <span className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-xs font-bold uppercase tracking-wider bg-coral text-white shadow-2xs">
+            <span className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-xs font-bold uppercase tracking-wider bg-coral text-charcoal shadow-2xs">
               <Flower2 className="w-3.5 h-3.5" />
               <span>Puberty Growth &amp; Body Neutrality Compass</span>
             </span>
@@ -5883,7 +5882,7 @@ function BodyNeutralityGrowthDiagram({ diagram, themeColor }: { diagram: LessonD
         </div>
 
         {/* Tab switcher */}
-        <div className="flex items-center gap-1.5 p-1 rounded-2xl bg-slate-100 border border-slate-200">
+        <div className="flex items-center gap-1.5 p-1 rounded-2xl bg-warm-cream border border-light-teal-dark">
           <button
             type="button"
             onClick={() => setActiveTab("biology")}
@@ -5931,7 +5930,7 @@ function BodyNeutralityGrowthDiagram({ diagram, themeColor }: { diagram: LessonD
             {BIOLOGY_FACTS.map((item, idx) => (
               <div
                 key={idx}
-                className="p-5 rounded-3xl bg-slate-50 border-2 border-slate-200/80 hover:border-deep-teal/30 hover:bg-white transition-all space-y-3 shadow-2xs flex flex-col justify-between"
+                className="p-5 rounded-3xl bg-warm-cream-light border-2 border-light-teal-dark/80 hover:border-deep-teal/30 hover:bg-white transition-all space-y-3 shadow-2xs flex flex-col justify-between"
               >
                 <div className="space-y-2">
                   <span className={`inline-block text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full border ${item.badgeClass}`}>
@@ -5945,7 +5944,7 @@ function BodyNeutralityGrowthDiagram({ diagram, themeColor }: { diagram: LessonD
                   </div>
                 </div>
 
-                <div className="p-3 rounded-2xl bg-white border border-slate-200 text-xs text-deep-teal font-medium mt-2">
+                <div className="p-3 rounded-2xl bg-white border border-light-teal-dark text-xs text-deep-teal font-medium mt-2">
                   <strong className="text-coral">Medical Reassurance: </strong>
                   {item.reassurance}
                 </div>

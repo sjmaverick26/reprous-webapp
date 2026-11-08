@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import { ReproUsMark } from "@/components/shared/ReproUsMark";
 import { PageId } from "@/components/layout/Navbar";
@@ -7,26 +9,46 @@ interface FooterProps {
   onNavigate?: (page: PageId, categoryOrTab?: string) => void;
 }
 
-const MAIN_LINKS: { id: PageId; label: string }[] = [
-  { id: "story", label: "About" },
-  { id: "hub", label: "Learn" },
-  { id: "resources", label: "Resources" },
-  { id: "voices", label: "Youth Voices" },
+type FooterLink = { id: PageId; label: string; href: string };
+
+const MAIN_LINKS: FooterLink[] = [
+  { id: "story", label: "About", href: "/#/about" },
+  { id: "hub", label: "Learn", href: "/#/learn" },
+  { id: "resources", label: "Resources", href: "/#/resources" },
+  { id: "voices", label: "Youth Voices", href: "/#/voices" },
 ];
 
-const MORE_LINKS: { id: PageId; label: string }[] = [
-  { id: "contact", label: "Contact" },
-  { id: "workshops", label: "Workshops" },
+const MORE_LINKS: FooterLink[] = [
+  { id: "contact", label: "Contact", href: "/#/contact" },
+  { id: "workshops", label: "Workshops", href: "/#/workshops" },
 ];
 
 const LINK_CLASS =
   "inline-flex items-center min-h-11 rounded transition-colors duration-150 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-soft-pink focus-visible:ring-offset-2 focus-visible:ring-offset-deep-teal";
 
 export function Footer({ onNavigate }: FooterProps) {
+  // Real links (work on the 404 page too); inside the app they route through the view switcher.
+  const renderLink = (link: FooterLink) => (
+    <li key={link.id}>
+      <a
+        href={link.href}
+        onClick={(e) => {
+          if (!onNavigate) return;
+          e.preventDefault();
+          onNavigate(link.id);
+        }}
+        className={cn(LINK_CLASS)}
+      >
+        {link.label}
+      </a>
+    </li>
+  );
+
   return (
+    // A clean edge: every page ends on a light band, so the deep-teal footer needs no seam.
     <footer className="mt-auto bg-deep-teal text-white font-sans" dir="ltr">
       <div className="max-w-6xl mx-auto px-4 md:px-6 py-12 flex flex-col gap-8">
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+        <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
           <div className="flex items-center gap-3">
             <ReproUsMark size={32} variant="light" />
             <div>
@@ -35,34 +57,20 @@ export function Footer({ onNavigate }: FooterProps) {
                 <span className="w-2 h-2 rounded-full bg-coral mx-1 inline-block" aria-hidden="true" />
                 <span>Us</span>
               </span>
-              <p className="text-sm text-soft-pink m-0">
+              <p className="text-sm text-soft-pink m-0 text-pretty">
                 Evidence-based education and self-advocacy tools for girls &amp; youth.
               </p>
             </div>
           </div>
 
-          {onNavigate && (
-            <nav aria-label="Footer" className="flex flex-col gap-1">
-              <ul className="flex flex-wrap gap-x-6 list-none m-0 p-0 text-base font-semibold">
-                {MAIN_LINKS.map((link) => (
-                  <li key={link.id}>
-                    <button type="button" onClick={() => onNavigate(link.id)} className={cn(LINK_CLASS)}>
-                      {link.label}
-                    </button>
-                  </li>
-                ))}
-              </ul>
-              <ul className="flex flex-wrap gap-x-6 list-none m-0 p-0 text-sm text-soft-pink">
-                {MORE_LINKS.map((link) => (
-                  <li key={link.id}>
-                    <button type="button" onClick={() => onNavigate(link.id)} className={cn(LINK_CLASS)}>
-                      {link.label}
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            </nav>
-          )}
+          <nav aria-label="Footer" className="flex flex-col gap-1">
+            <ul className="grid grid-cols-2 gap-x-6 list-none m-0 p-0 text-base font-semibold sm:flex sm:flex-wrap">
+              {MAIN_LINKS.map(renderLink)}
+            </ul>
+            <ul className="grid grid-cols-2 gap-x-6 list-none m-0 p-0 text-sm text-soft-pink sm:flex sm:flex-wrap">
+              {MORE_LINKS.map(renderLink)}
+            </ul>
+          </nav>
         </div>
 
         <div className="p-4 md:p-5 rounded-2xl bg-deep-teal-dark border border-deep-teal-light text-sm text-white leading-relaxed">

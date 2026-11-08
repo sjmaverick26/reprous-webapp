@@ -93,10 +93,12 @@ html {
     line-height: 1.2;
   }
 
+  /* DM Serif Display ships at 400 only: anything under 24px (h4 rows, card titles)
+     is DM Sans 600, so no synthetic bold. */
   h4, .text-h4 {
-    font-family: var(--font-dm-serif), 'DM Serif Display', Georgia, serif;
+    font-family: var(--font-dm-sans), 'DM Sans', sans-serif;
     color: var(--deep-teal);
-    font-weight: 400;
+    font-weight: 600;
   }
 }
 
@@ -344,12 +346,121 @@ html.contrast *:focus-visible {
   }
 }
 
+/* ---------------------------------------------------------------------------
+   Quiet motion (Herdy, 5 Nov): short, soft, and only to explain a change.
+   Page and panel fades use opacity only, so fixed/sticky children are unaffected.
+   Scroll reveals are added by useReveal() only when JS runs and motion is allowed,
+   so content is never hidden with JS off or under reduced motion.
+   --------------------------------------------------------------------------- */
+:root {
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes motion-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes motion-drop-in {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* View change (not on first load: LCP stays untouched) */
+.motion-view {
+  animation: motion-fade-in 260ms var(--ease-out-soft) backwards;
+}
+
+/* Tab panels, accordion bodies, filtered lists */
+.motion-panel {
+  animation: motion-fade-in 220ms var(--ease-out-soft) backwards;
+}
+
+details[open] > :not(summary) {
+  animation: motion-drop-in 220ms var(--ease-out-soft) backwards;
+}
+
+/* Phone menu */
+.motion-menu {
+  animation: motion-drop-in 200ms var(--ease-out-soft) backwards;
+}
+
+/* Scroll reveal (states set by useReveal) */
+[data-reveal="pending"] {
+  opacity: 0;
+  transform: translateY(14px);
+}
+
+[data-reveal="in"] {
+  opacity: 1;
+  transform: none;
+  transition: opacity 520ms var(--ease-out-soft), transform 520ms var(--ease-out-soft);
+}
+
+/* Clickable cards: a small lift on hover, a press on click */
+.motion-lift {
+  transition: transform 200ms var(--ease-out-soft), box-shadow 200ms var(--ease-out-soft),
+    background-color 150ms ease, border-color 150ms ease;
+}
+
+@media (hover: hover) {
+  .motion-lift:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 24px -12px rgba(23, 91, 92, 0.35);
+  }
+}
+
+.motion-lift:active {
+  transform: translateY(0) scale(0.99);
+}
+
+/* Buttons and pill links: press feedback */
+.motion-press {
+  transition-property: color, background-color, border-color, box-shadow, transform;
+  transition-duration: 150ms;
+  transition-timing-function: ease;
+}
+
+.motion-press:active {
+  transform: scale(0.97);
+}
+
+/* Arrow icons nudge forward on hover */
+.motion-arrow svg {
+  transition: transform 200ms var(--ease-out-soft);
+}
+
+@media (hover: hover) {
+  .motion-arrow:hover svg {
+    transform: translateX(3px);
+  }
+}
+
+@media print {
+  [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   * {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+
+  [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .motion-lift:hover,
+  .motion-lift:active,
+  .motion-press:active,
+  .motion-arrow:hover svg {
+    transform: none !important;
   }
 }
 

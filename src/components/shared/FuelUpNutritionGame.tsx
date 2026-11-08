@@ -763,7 +763,7 @@ const MIXER_PANTRY_ITEMS: MixerFoodItem[] = [
     typeLabel: "+1 Carb",
     carbPoints: 1,
     proteinPoints: 0,
-    color: "#8B5CF6",
+    color: "#B83F68",
   },
   {
     id: "m-eggs",
@@ -1366,15 +1366,15 @@ export function FuelUpNutritionGame({
     <div
       className={
         isFullScreen
-          ? "w-full h-full min-h-0 overflow-y-auto p-2 sm:p-4 md:p-6 flex flex-col items-center justify-start bg-slate-950/85 backdrop-blur-md animate-in fade-in duration-200"
-          : "w-full h-full min-h-0 flex flex-col justify-between overflow-y-auto p-2 sm:p-4 bg-slate-50"
+          ? "w-full h-full min-h-0 overflow-y-auto p-2 sm:p-4 md:p-6 flex flex-col items-center justify-start bg-charcoal/85 backdrop-blur-md animate-in fade-in duration-200"
+          : "w-full h-full min-h-0 flex flex-col justify-between overflow-y-auto p-2 sm:p-4 bg-warm-cream-light"
       }
     >
       <div
         className={
           isFullScreen
             ? "max-w-5xl w-full bg-white rounded-3xl p-4 sm:p-6 md:p-8 shadow-2xl border-4 border-coral/30 space-y-4 my-auto"
-            : "max-w-4xl w-full bg-white rounded-2xl p-4 sm:p-6 shadow-md border border-slate-200 space-y-4 mx-auto"
+            : "max-w-4xl w-full bg-white rounded-2xl p-4 sm:p-6 shadow-md border border-light-teal-dark space-y-4 mx-auto"
         }
       >
         {/* ================================================================= */}
@@ -1393,13 +1393,13 @@ export function FuelUpNutritionGame({
 
           <div className="flex items-center gap-2 sm:gap-3">
             {/* Score & Badges HUD */}
-            <div className="flex items-center gap-2 bg-slate-100 px-3 py-1.5 rounded-xl border border-slate-200 text-xs font-bold font-sans">
+            <div className="flex items-center gap-2 bg-warm-cream px-3 py-1.5 rounded-xl border border-light-teal-dark text-xs font-bold font-sans">
               <span className="text-deep-teal flex items-center gap-1">
-                <Trophy className="w-3.5 h-3.5 text-amber-500" />
+                <Trophy className="w-3.5 h-3.5 text-raspberry" />
                 Score: {globalScore}
               </span>
-              <span className="text-emerald-700 flex items-center gap-1 pl-2 border-l border-slate-300">
-                <Star className="w-3.5 h-3.5 text-amber-500 fill-amber-500" />
+              <span className="text-emerald-700 flex items-center gap-1 pl-2 border-l border-deep-teal/30">
+                <Star className="w-3.5 h-3.5 text-raspberry fill-raspberry" />
                 {completedGames.size}/4 Games Done
               </span>
             </div>
@@ -1411,11 +1411,11 @@ export function FuelUpNutritionGame({
               className={`px-3 py-1.5 rounded-xl text-xs font-bold font-sans transition-all flex items-center gap-1.5 border cursor-pointer ${
                 isMusicPlaying
                   ? "bg-emerald-50 border-emerald-300 text-emerald-800 shadow-2xs ring-2 ring-emerald-400/20"
-                  : "bg-slate-100 hover:bg-slate-200 border-slate-200 text-charcoal/70"
+                  : "bg-warm-cream hover:bg-warm-cream-dark border-light-teal-dark text-charcoal/70"
               }`}
               title={isMusicPlaying ? "Pause Soft Ambient Music" : "Play Soft Ambient Music"}
             >
-              <Music className={`w-3.5 h-3.5 ${isMusicPlaying ? "text-emerald-600 animate-pulse" : "text-slate-400"}`} />
+              <Music className={`w-3.5 h-3.5 ${isMusicPlaying ? "text-emerald-600" : "text-charcoal-muted"}`} />
               <span className="hidden sm:inline">Soft Music:</span>
               <span>{isMusicPlaying ? "ON" : "OFF"}</span>
             </button>
@@ -1424,7 +1424,7 @@ export function FuelUpNutritionGame({
               <button
                 type="button"
                 onClick={onToggleFullScreen}
-                className="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-charcoal/80 transition-all cursor-pointer border border-slate-200"
+                className="p-2 rounded-xl bg-warm-cream hover:bg-warm-cream-dark text-charcoal/80 transition-all cursor-pointer border border-light-teal-dark"
                 title={isFullScreen ? "Exit Fullscreen" : "Fullscreen View"}
               >
                 {isFullScreen ? <Minimize2 className="w-4 h-4" /> : <Maximize2 className="w-4 h-4" />}
@@ -1435,7 +1435,7 @@ export function FuelUpNutritionGame({
               <button
                 type="button"
                 onClick={onClose}
-                className="p-2 rounded-xl bg-slate-100 hover:bg-rose-100 hover:text-rose-700 text-charcoal/80 transition-all cursor-pointer border border-slate-200"
+                className="p-2 rounded-xl bg-warm-cream hover:bg-rose-100 hover:text-rose-700 text-charcoal/80 transition-all cursor-pointer border border-light-teal-dark"
                 title="Exit Game"
               >
                 <X className="w-4 h-4" />
@@ -1447,13 +1447,13 @@ export function FuelUpNutritionGame({
         {/* ================================================================= */}
         {/* GAME SELECTION TABS (4 VISUAL GAMES)                              */}
         {/* ================================================================= */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 p-1.5 rounded-2xl bg-slate-100 border border-slate-200 font-sans">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 p-1.5 rounded-2xl bg-warm-cream border border-light-teal-dark font-sans">
           <button
             type="button"
             onClick={() => setActiveTab("match")}
             className={`py-2 px-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
               activeTab === "match"
-                ? "bg-white text-deep-teal shadow-sm border border-slate-200"
+                ? "bg-white text-deep-teal shadow-sm border border-light-teal-dark"
                 : "text-charcoal/70 hover:text-charcoal"
             }`}
           >
@@ -1469,7 +1469,7 @@ export function FuelUpNutritionGame({
             onClick={() => setActiveTab("mixer")}
             className={`py-2 px-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
               activeTab === "mixer"
-                ? "bg-white text-deep-teal shadow-sm border border-slate-200"
+                ? "bg-white text-deep-teal shadow-sm border border-light-teal-dark"
                 : "text-charcoal/70 hover:text-charcoal"
             }`}
           >
@@ -1485,7 +1485,7 @@ export function FuelUpNutritionGame({
             onClick={() => setActiveTab("sorter")}
             className={`py-2 px-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
               activeTab === "sorter"
-                ? "bg-white text-deep-teal shadow-sm border border-slate-200"
+                ? "bg-white text-deep-teal shadow-sm border border-light-teal-dark"
                 : "text-charcoal/70 hover:text-charcoal"
             }`}
           >
@@ -1501,11 +1501,11 @@ export function FuelUpNutritionGame({
             onClick={() => setActiveTab("clock")}
             className={`py-2 px-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
               activeTab === "clock"
-                ? "bg-white text-deep-teal shadow-sm border border-slate-200"
+                ? "bg-white text-deep-teal shadow-sm border border-light-teal-dark"
                 : "text-charcoal/70 hover:text-charcoal"
             }`}
           >
-            <Clock className="w-4 h-4 text-amber-500 shrink-0" />
+            <Clock className="w-4 h-4 text-raspberry shrink-0" />
             <span>4. Game Clock</span>
             {completedGames.has("clock") && <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />}
           </button>
@@ -1524,7 +1524,7 @@ export function FuelUpNutritionGame({
                 variant="outline"
                 size="sm"
                 onClick={handleResetMatch}
-                className="text-xs h-7 rounded-xl border-slate-300"
+                className="text-xs h-7 rounded-xl border-deep-teal/30"
               >
                 <RotateCcw className="w-3 h-3 mr-1" /> Reset
               </Button>
@@ -1561,10 +1561,10 @@ export function FuelUpNutritionGame({
                           isMatched
                             ? "bg-emerald-50 border-emerald-400 opacity-60 scale-95"
                             : isSelected
-                            ? "bg-amber-50 border-amber-500 ring-4 ring-amber-300 scale-105 shadow-md"
+                            ? "bg-soft-pink-light border-coral-dark ring-4 ring-coral-light scale-105 shadow-md"
                             : isShaking
                             ? "bg-rose-50 border-rose-400 animate-wiggle"
-                            : "bg-white hover:bg-slate-50 border-slate-200 hover:border-deep-teal/40 shadow-xs hover:scale-102"
+                            : "bg-white hover:bg-warm-cream-light border-light-teal-dark hover:border-deep-teal/40 shadow-xs hover:scale-102"
                         }`}
                       >
                         <div className="w-16 h-16 sm:w-20 sm:h-20 mb-1.5 transition-transform group-hover:scale-110">
@@ -1609,10 +1609,10 @@ export function FuelUpNutritionGame({
                           isMatched
                             ? "bg-emerald-50 border-emerald-400 opacity-60 scale-95"
                             : isSelected
-                            ? "bg-amber-50 border-amber-500 ring-4 ring-amber-300 scale-105 shadow-md"
+                            ? "bg-soft-pink-light border-coral-dark ring-4 ring-coral-light scale-105 shadow-md"
                             : isShaking
                             ? "bg-rose-50 border-rose-400 animate-wiggle"
-                            : "bg-white hover:bg-slate-50 border-slate-200 hover:border-deep-teal/40 shadow-xs hover:scale-102"
+                            : "bg-white hover:bg-warm-cream-light border-light-teal-dark hover:border-deep-teal/40 shadow-xs hover:scale-102"
                         }`}
                       >
                         <div className="w-16 h-16 sm:w-20 sm:h-20 mb-1.5 transition-transform group-hover:scale-110">
@@ -1642,7 +1642,7 @@ export function FuelUpNutritionGame({
               <div className="p-3.5 rounded-2xl bg-gradient-to-r from-emerald-50 to-teal-50 border-2 border-emerald-300 flex flex-wrap items-center justify-between gap-3 animate-in zoom-in-95">
                 <div className="flex items-center gap-2.5">
                   <div className="w-9 h-9 rounded-full bg-emerald-600 text-white flex items-center justify-center shrink-0">
-                    <Trophy className="w-5 h-5 text-amber-300" />
+                    <Trophy className="w-5 h-5 text-coral-light" />
                   </div>
                   <div>
                     <h4 className="font-serif font-bold text-sm sm:text-base text-deep-teal m-0">
@@ -1679,14 +1679,14 @@ export function FuelUpNutritionGame({
                 variant="outline"
                 size="sm"
                 onClick={handleResetBlender}
-                className="text-xs h-7 rounded-xl border-slate-300"
+                className="text-xs h-7 rounded-xl border-deep-teal/30"
               >
                 <RotateCcw className="w-3 h-3 mr-1" /> Empty
               </Button>
             </div>
 
             {/* Center Visual Blender & Gauges */}
-            <div className="p-4 sm:p-6 rounded-3xl bg-gradient-to-b from-slate-50 to-slate-100 border-2 border-slate-200 flex flex-col md:flex-row items-center justify-around gap-6 shadow-inner">
+            <div className="p-4 sm:p-6 rounded-3xl bg-gradient-to-b from-warm-cream-light to-warm-cream border-2 border-light-teal-dark flex flex-col md:flex-row items-center justify-around gap-6 shadow-inner">
               {/* Illustrated Animated SVG Blender Pitcher */}
               <div
                 className={`relative w-40 h-52 sm:w-48 sm:h-60 transition-transform ${
@@ -1719,7 +1719,7 @@ export function FuelUpNutritionGame({
                       },${Math.max(30, 105 - (totalCarbs + totalProtein) * 12)}`}
                       fill={
                         blenderItems.includes("m-berries")
-                          ? "#A855F7"
+                          ? "#B83F68"
                           : blenderItems.includes("m-chocmilk")
                           ? "#78350F"
                           : totalProtein > 0
@@ -1754,11 +1754,11 @@ export function FuelUpNutritionGame({
                       Blended!
                     </span>
                   ) : isGoldRatio ? (
-                    <span className="px-2 py-0.5 rounded-full bg-amber-500 text-white font-bold text-[9px] uppercase tracking-wide animate-pulse">
+                    <span className="px-2 py-0.5 rounded-full bg-raspberry text-white font-bold text-[9px] uppercase tracking-wide">
                       Ready to Blend
                     </span>
                   ) : (
-                    <span className="px-2 py-0.5 rounded-full bg-slate-400 text-white font-bold text-[9px] uppercase tracking-wide">
+                    <span className="px-2 py-0.5 rounded-full bg-charcoal-muted text-white font-bold text-[9px] uppercase tracking-wide">
                       Adding Foods
                     </span>
                   )}
@@ -1769,8 +1769,8 @@ export function FuelUpNutritionGame({
               <div className="flex-1 max-w-sm space-y-3 text-center sm:text-left">
                 <div className="space-y-2">
                   <div className="flex items-center justify-between text-xs font-bold font-sans">
-                    <span className="text-amber-700 flex items-center gap-1">
-                      <Zap className="w-3.5 h-3.5 text-amber-500" />
+                    <span className="text-raspberry-dark flex items-center gap-1">
+                      <Zap className="w-3.5 h-3.5 text-raspberry" />
                       Carbs: {totalCarbs} pts (Target: 3+)
                     </span>
                     <span className="text-deep-teal flex items-center gap-1">
@@ -1780,9 +1780,9 @@ export function FuelUpNutritionGame({
                   </div>
 
                   {/* Dual Barometer */}
-                  <div className="h-5 w-full rounded-full bg-slate-200 overflow-hidden flex border border-slate-300 shadow-inner">
+                  <div className="h-5 w-full rounded-full bg-warm-cream-dark overflow-hidden flex border border-deep-teal/30 shadow-inner">
                     <div
-                      className="bg-amber-400 transition-all duration-300 flex items-center justify-center text-[10px] font-black text-amber-950"
+                      className="bg-coral transition-all duration-300 flex items-center justify-center text-[10px] font-black text-charcoal"
                       style={{ width: `${Math.min(75, totalCarbs * 18)}%` }}
                     >
                       {totalCarbs > 0 ? "CARB" : ""}
@@ -1815,8 +1815,8 @@ export function FuelUpNutritionGame({
                     isBlended
                       ? "bg-emerald-600 text-white"
                       : isGoldRatio
-                      ? "bg-amber-500 hover:bg-amber-400 text-slate-950 shadow-md animate-bounce"
-                      : "bg-slate-200 text-slate-400 cursor-not-allowed"
+                      ? "bg-coral-dark hover:bg-coral text-charcoal shadow-md"
+                      : "bg-warm-cream-dark text-charcoal-muted cursor-not-allowed"
                   }`}
                 >
                   <Flower2 className="w-4 h-4" />
@@ -1845,7 +1845,7 @@ export function FuelUpNutritionGame({
                           ? "bg-rose-50 border-rose-200 hover:border-rose-400 hover:scale-105"
                           : isAdded
                           ? "bg-emerald-50 border-emerald-400 ring-2 ring-emerald-300"
-                          : "bg-white hover:bg-slate-50 border-slate-200 hover:border-deep-teal/40 hover:scale-105 shadow-xs"
+                          : "bg-white hover:bg-warm-cream-light border-light-teal-dark hover:border-deep-teal/40 hover:scale-105 shadow-xs"
                       }`}
                     >
                       <div className="w-11 h-11 mb-1 transition-transform group-hover:scale-110">
@@ -1869,10 +1869,10 @@ export function FuelUpNutritionGame({
 
             {/* Blender Complete Banner */}
             {isBlended && (
-              <div className="p-3.5 rounded-2xl bg-gradient-to-r from-emerald-50 to-amber-50 border-2 border-emerald-300 flex flex-wrap items-center justify-between gap-3 animate-in zoom-in-95">
+              <div className="p-3.5 rounded-2xl bg-gradient-to-r from-emerald-50 to-soft-pink-light border-2 border-emerald-300 flex flex-wrap items-center justify-between gap-3 animate-in zoom-in-95">
                 <div className="flex items-center gap-2.5">
                   <div className="w-9 h-9 rounded-full bg-emerald-600 text-white flex items-center justify-center shrink-0">
-                    <Trophy className="w-5 h-5 text-amber-300" />
+                    <Trophy className="w-5 h-5 text-coral-light" />
                   </div>
                   <div>
                     <h4 className="font-serif font-bold text-sm sm:text-base text-deep-teal m-0">
@@ -1902,7 +1902,7 @@ export function FuelUpNutritionGame({
         {activeTab === "sorter" && (
           <div className="space-y-3 sm:space-y-4 animate-in fade-in duration-200">
             {/* Status Header: Lives, Goal Counter, Restart */}
-            <div className="flex flex-wrap items-center justify-between gap-2 bg-slate-50 p-2.5 sm:p-3 rounded-2xl border border-slate-200">
+            <div className="flex flex-wrap items-center justify-between gap-2 bg-warm-cream-light p-2.5 sm:p-3 rounded-2xl border border-light-teal-dark">
               <div className="flex items-center gap-3 flex-wrap">
                 {/* 3 Hearts Lives */}
                 <div className="flex items-center gap-1.5 bg-white border border-rose-200 px-3 py-1 rounded-full shadow-2xs">
@@ -1913,18 +1913,18 @@ export function FuelUpNutritionGame({
                       className={`w-4 h-4 transition-all duration-200 ${
                         heartIndex <= catcherHearts
                           ? "text-rose-600 fill-rose-600 scale-105 drop-shadow-xs"
-                          : "text-slate-300 fill-slate-200 scale-90"
+                          : "text-warm-cream-dark fill-warm-cream scale-90"
                       }`}
                     />
                   ))}
                 </div>
 
                 {/* 10 Good Foods Goal Progress */}
-                <div className="flex items-center gap-2 bg-white border border-amber-200 px-3 py-1 rounded-full shadow-2xs">
-                  <span className="text-xs font-bold font-sans text-amber-950">
+                <div className="flex items-center gap-2 bg-white border border-soft-pink-dark px-3 py-1 rounded-full shadow-2xs">
+                  <span className="text-xs font-bold font-sans text-charcoal">
                     Fuel Goal: <strong className="text-deep-teal font-extrabold">{goodFoodsCaught} / 10</strong> Good Foods
                   </span>
-                  <div className="w-16 sm:w-24 h-2.5 bg-amber-100 rounded-full overflow-hidden border border-amber-200">
+                  <div className="w-16 sm:w-24 h-2.5 bg-soft-pink rounded-full overflow-hidden border border-soft-pink-dark">
                     <div
                       className="h-full bg-emerald-600 transition-all duration-300 rounded-full"
                       style={{ width: `${Math.min(100, (goodFoodsCaught / 10) * 100)}%` }}
@@ -1937,7 +1937,7 @@ export function FuelUpNutritionGame({
                 variant="outline"
                 size="sm"
                 onClick={handleResetCatcher}
-                className="text-xs h-7 rounded-xl border-slate-300 hover:bg-slate-100 cursor-pointer"
+                className="text-xs h-7 rounded-xl border-deep-teal/30 hover:bg-warm-cream cursor-pointer"
               >
                 <RotateCcw className="w-3 h-3 mr-1" /> Restart
               </Button>
@@ -1958,7 +1958,7 @@ export function FuelUpNutritionGame({
                       ? "bg-rose-100/90 border-rose-500 ring-4 ring-rose-200"
                       : isCatchingImpact
                       ? "bg-emerald-50/90 border-emerald-400 ring-4 ring-emerald-200"
-                      : "bg-gradient-to-b from-sky-50 via-teal-50/30 to-amber-50/50 border-teal-300 shadow-inner"
+                      : "bg-gradient-to-b from-sky-50 via-teal-50/30 to-soft-pink-light/50 border-teal-300 shadow-inner"
                   }`}
                 >
                   {/* Subtle Athletic Field / Pitch Markings */}
@@ -1990,12 +1990,12 @@ export function FuelUpNutritionGame({
                       className="absolute pointer-events-none transition-transform duration-75 flex flex-col items-center z-10"
                     >
                       <div
-                        className="w-12 h-12 sm:w-14 sm:h-14 p-1.5 rounded-2xl bg-white/95 border-2 border-slate-300 shadow-md flex items-center justify-center transition-transform"
+                        className="w-12 h-12 sm:w-14 sm:h-14 p-1.5 rounded-2xl bg-white/95 border-2 border-deep-teal/30 shadow-md flex items-center justify-center transition-transform"
                       >
                         <FoodDrawing id={item.food.drawingId} className="w-full h-full" />
                       </div>
                       <span
-                        className="text-[9.5px] font-bold px-2 py-0.5 rounded-md mt-0.5 whitespace-nowrap shadow-2xs font-sans bg-slate-800 text-white"
+                        className="text-[9.5px] font-bold px-2 py-0.5 rounded-md mt-0.5 whitespace-nowrap shadow-2xs font-sans bg-charcoal-light text-white"
                       >
                         {item.food.name}
                       </span>
@@ -2013,10 +2013,10 @@ export function FuelUpNutritionGame({
                   >
                     {/* Splash / Flash Impact effect */}
                     {isCatchingImpact && (
-                      <div className="absolute -top-4 w-24 h-10 rounded-full bg-emerald-300/70 blur-md animate-ping" />
+                      <div className="absolute -top-4 w-24 h-10 rounded-full bg-emerald-300/70 blur-md" />
                     )}
                     {isDamageShake && (
-                      <div className="absolute -top-4 w-24 h-10 rounded-full bg-rose-400/80 blur-md animate-ping" />
+                      <div className="absolute -top-4 w-24 h-10 rounded-full bg-rose-400/80 blur-md" />
                     )}
 
                     <div
@@ -2040,7 +2040,7 @@ export function FuelUpNutritionGame({
                       {catcherToast.isGood ? (
                         <CheckCircle2 className="w-4 h-4 text-white shrink-0" />
                       ) : (
-                        <AlertTriangle className="w-4 h-4 text-amber-200 shrink-0" />
+                        <AlertTriangle className="w-4 h-4 text-soft-pink shrink-0" />
                       )}
                       <span className="flex-1 truncate">{catcherToast.text}</span>
                     </div>
@@ -2048,7 +2048,7 @@ export function FuelUpNutritionGame({
                 </div>
 
                 {/* Tactile Slider & Controls */}
-                <div className="p-3 sm:p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
+                <div className="p-3 sm:p-4 rounded-2xl bg-warm-cream-light border border-light-teal-dark space-y-2">
                   <div className="flex items-center justify-between text-xs font-bold font-sans text-charcoal/80">
                     <span className="flex items-center gap-1.5">
                       <Gamepad2 className="w-4 h-4 text-deep-teal" />
@@ -2063,7 +2063,7 @@ export function FuelUpNutritionGame({
                     <button
                       type="button"
                       onClick={() => setCatcherX((x) => Math.max(12, x - 8))}
-                      className="p-2 sm:px-3 rounded-xl bg-white hover:bg-slate-100 border border-slate-300 text-charcoal shadow-2xs cursor-pointer active:scale-95 transition-all text-xs font-bold flex items-center gap-1 shrink-0"
+                      className="p-2 sm:px-3 rounded-xl bg-white hover:bg-warm-cream border border-deep-teal/30 text-charcoal shadow-2xs cursor-pointer active:scale-95 transition-all text-xs font-bold flex items-center gap-1 shrink-0"
                       title="Nudge Left"
                     >
                       <ArrowLeft className="w-4 h-4 text-deep-teal" />
@@ -2076,14 +2076,14 @@ export function FuelUpNutritionGame({
                       max="88"
                       value={catcherX}
                       onChange={(e) => setCatcherX(Number(e.target.value))}
-                      className="w-full h-4 bg-slate-200 rounded-lg appearance-none cursor-ew-resize accent-teal-600 focus:outline-hidden"
+                      className="w-full h-4 bg-warm-cream-dark rounded-lg appearance-none cursor-ew-resize accent-teal-600 focus:outline-hidden"
                       aria-label="Pregame bowl position slider"
                     />
 
                     <button
                       type="button"
                       onClick={() => setCatcherX((x) => Math.min(88, x + 8))}
-                      className="p-2 sm:px-3 rounded-xl bg-white hover:bg-slate-100 border border-slate-300 text-charcoal shadow-2xs cursor-pointer active:scale-95 transition-all text-xs font-bold flex items-center gap-1 shrink-0"
+                      className="p-2 sm:px-3 rounded-xl bg-white hover:bg-warm-cream border border-deep-teal/30 text-charcoal shadow-2xs cursor-pointer active:scale-95 transition-all text-xs font-bold flex items-center gap-1 shrink-0"
                       title="Nudge Right"
                     >
                       <span className="hidden sm:inline">Right</span>
@@ -2142,7 +2142,7 @@ export function FuelUpNutritionGame({
             {catcherStatus === "victory" && (
               <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-emerald-50 via-teal-50 to-emerald-50 border-2 border-emerald-300 text-center space-y-4 animate-in zoom-in-95 max-w-lg mx-auto shadow-md">
                 <div className="w-16 h-16 rounded-full bg-emerald-600 text-white flex items-center justify-center mx-auto shadow-md">
-                  <Trophy className="w-10 h-10 text-amber-300" />
+                  <Trophy className="w-10 h-10 text-coral-light" />
                 </div>
 
                 <div className="space-y-1">
@@ -2162,7 +2162,7 @@ export function FuelUpNutritionGame({
                   <Button
                     variant="outline"
                     onClick={handleResetCatcher}
-                    className="text-xs font-bold rounded-xl border-slate-300 px-4 py-2 cursor-pointer hover:bg-slate-100"
+                    className="text-xs font-bold rounded-xl border-deep-teal/30 px-4 py-2 cursor-pointer hover:bg-warm-cream"
                   >
                     <RotateCcw className="w-3.5 h-3.5 mr-1" />
                     <span>Play Again</span>
@@ -2194,7 +2194,7 @@ export function FuelUpNutritionGame({
                 variant="outline"
                 size="sm"
                 onClick={handleResetClock}
-                className="text-xs h-7 rounded-xl border-slate-300"
+                className="text-xs h-7 rounded-xl border-deep-teal/30"
               >
                 <RotateCcw className="w-3 h-3 mr-1" /> Reset
               </Button>
@@ -2224,14 +2224,14 @@ export function FuelUpNutritionGame({
                       placedMeal
                         ? "bg-emerald-50/80 border-emerald-400"
                         : selectedMealId
-                        ? "bg-amber-50/40 border-amber-400 hover:bg-amber-50 hover:scale-102 border-dashed"
-                        : "bg-white border-slate-200 border-dashed"
+                        ? "bg-soft-pink-light/40 border-coral hover:bg-soft-pink-light hover:scale-102 border-dashed"
+                        : "bg-white border-light-teal-dark border-dashed"
                     } ${isShaking ? "animate-wiggle border-rose-400" : ""}`}
                   >
                     {/* Time Header */}
-                    <div className="w-full pb-1 border-b border-slate-200/60 flex items-center justify-between text-[11px] font-bold text-deep-teal font-sans">
+                    <div className="w-full pb-1 border-b border-light-teal-dark/60 flex items-center justify-between text-[11px] font-bold text-deep-teal font-sans">
                       <span className="flex items-center gap-1">
-                        <Clock className="w-3 h-3 text-amber-500" />
+                        <Clock className="w-3 h-3 text-raspberry" />
                         Stage {idx + 1}
                       </span>
                       <span className="text-coral text-[10px]">{slot.timeLabel}</span>
@@ -2252,11 +2252,11 @@ export function FuelUpNutritionGame({
                           </span>
                         </div>
                       ) : (
-                        <div className="flex flex-col items-center justify-center p-3 text-slate-400 space-y-1">
-                          <div className="w-12 h-12 rounded-full border-2 border-dashed border-slate-300 flex items-center justify-center">
-                            <Flower2 className="w-5 h-5 text-slate-300" />
+                        <div className="flex flex-col items-center justify-center p-3 text-charcoal-muted space-y-1">
+                          <div className="w-12 h-12 rounded-full border-2 border-dashed border-deep-teal/30 flex items-center justify-center">
+                            <Flower2 className="w-5 h-5 text-warm-cream-dark" />
                           </div>
-                          <span className="text-[10px] font-semibold text-slate-400">
+                          <span className="text-[10px] font-semibold text-charcoal-muted">
                             {selectedMealId ? "Tap to Place" : slot.ruleTitle}
                           </span>
                         </div>
@@ -2264,7 +2264,7 @@ export function FuelUpNutritionGame({
                     </div>
 
                     {/* Target Pill */}
-                    <div className="w-full pt-1 border-t border-slate-200/60 text-[9.5px] font-bold text-charcoal/50 uppercase tracking-wider">
+                    <div className="w-full pt-1 border-t border-light-teal-dark/60 text-[9.5px] font-bold text-charcoal/50 uppercase tracking-wider">
                       {slot.targetCategory}
                     </div>
 
@@ -2296,10 +2296,10 @@ export function FuelUpNutritionGame({
                       disabled={isPlaced}
                       className={`p-2.5 rounded-2xl border-2 transition-all flex flex-col items-center text-center cursor-pointer relative group ${
                         isPlaced
-                          ? "bg-slate-100 border-slate-200 opacity-40 cursor-default scale-95"
+                          ? "bg-warm-cream border-light-teal-dark opacity-40 cursor-default scale-95"
                           : isSelected
-                          ? "bg-amber-50 border-amber-500 ring-4 ring-amber-300 scale-105 shadow-md"
-                          : "bg-white hover:bg-slate-50 border-slate-200 hover:border-deep-teal/40 shadow-xs hover:scale-102"
+                          ? "bg-soft-pink-light border-coral-dark ring-4 ring-coral-light scale-105 shadow-md"
+                          : "bg-white hover:bg-warm-cream-light border-light-teal-dark hover:border-deep-teal/40 shadow-xs hover:scale-102"
                       }`}
                     >
                       <div className="w-14 h-14 mb-1 transition-transform group-hover:scale-110">
@@ -2322,7 +2322,7 @@ export function FuelUpNutritionGame({
               <div className="p-3.5 rounded-2xl bg-gradient-to-r from-emerald-50 to-teal-50 border-2 border-emerald-300 flex flex-wrap items-center justify-between gap-3 animate-in zoom-in-95">
                 <div className="flex items-center gap-2.5">
                   <div className="w-9 h-9 rounded-full bg-emerald-600 text-white flex items-center justify-center shrink-0">
-                    <Trophy className="w-5 h-5 text-amber-300" />
+                    <Trophy className="w-5 h-5 text-coral-light" />
                   </div>
                   <div>
                     <h4 className="font-serif font-bold text-sm sm:text-base text-deep-teal m-0">
@@ -2336,7 +2336,7 @@ export function FuelUpNutritionGame({
 
                 <Button
                   onClick={onComplete}
-                  className="bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold text-xs rounded-xl px-4 py-2 shadow-sm"
+                  className="bg-coral hover:bg-coral-light text-charcoal font-bold text-xs rounded-xl px-4 py-2 shadow-sm"
                 >
                   <Award className="w-4 h-4 mr-1 text-deep-teal" />
                   <span>Claim +{topic?.xp || 75} XP & Complete</span>
@@ -2350,9 +2350,9 @@ export function FuelUpNutritionGame({
         {/* REWARD BANNER WHEN 2 OR MORE GAMES ARE COMPLETED                  */}
         {/* ================================================================= */}
         {isMasterComplete && (
-          <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-teal-900 to-deep-teal text-white flex flex-wrap items-center justify-between gap-3 shadow-lg border border-amber-300/30 animate-in zoom-in-95">
+          <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-teal-900 to-deep-teal text-white flex flex-wrap items-center justify-between gap-3 shadow-lg border border-coral-light/30 animate-in zoom-in-95">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-amber-400 text-slate-950 flex items-center justify-center shrink-0 shadow-md">
+              <div className="w-10 h-10 rounded-full bg-coral text-charcoal flex items-center justify-center shrink-0 shadow-md">
                 <Award className="w-6 h-6 text-deep-teal" />
               </div>
               <div>
@@ -2367,7 +2367,7 @@ export function FuelUpNutritionGame({
 
             <Button
               onClick={onComplete}
-              className="px-6 py-2.5 rounded-xl font-bold text-xs bg-amber-400 hover:bg-amber-300 text-slate-950 shadow-md cursor-pointer hover:scale-105 transition-all"
+              className="px-6 py-2.5 rounded-xl font-bold text-xs bg-coral hover:bg-coral-light text-charcoal shadow-md cursor-pointer hover:scale-105 transition-all"
             >
               <span>Finish & Claim Victory</span>
               <ChevronRight className="w-4 h-4 ml-1" />
@@ -2378,7 +2378,7 @@ export function FuelUpNutritionGame({
         {/* ================================================================= */}
         {/* CLINICAL SOURCES & MEDICAL REVIEW (COLLAPSIBLE DISCREET DRAWER)   */}
         {/* ================================================================= */}
-        <div className="border-t border-slate-200 pt-2 text-xs font-sans">
+        <div className="border-t border-light-teal-dark pt-2 text-xs font-sans">
           <button
             type="button"
             onClick={() => setShowSources(!showSources)}
@@ -2392,7 +2392,7 @@ export function FuelUpNutritionGame({
           </button>
 
           {showSources && (
-            <div className="mt-2 p-3 rounded-xl bg-slate-50 border border-slate-200 space-y-1.5 text-[10.5px] text-charcoal/80 animate-in fade-in duration-150">
+            <div className="mt-2 p-3 rounded-xl bg-warm-cream-light border border-light-teal-dark space-y-1.5 text-[10.5px] text-charcoal/80 animate-in fade-in duration-150">
               <p className="m-0">
                 • <strong>International Society of Sports Nutrition (ISSN)</strong>: Position Stand on Nutrient Timing. 3:1 to 4:1 Carbohydrate-to-Protein ratio within 45 minutes optimizes glycogen reloading and halts post-exercise catabolism.
               </p>

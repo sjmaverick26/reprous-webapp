@@ -99,8 +99,8 @@ const CYCLE_PHASES_DATA: Record<number, HormonePhaseData> = {
     name: "Luteal Phase",
     days: "Days 17–28",
     color: "#D97706",
-    bgClass: "bg-amber-100 text-amber-900",
-    borderClass: "border-amber-400",
+    bgClass: "bg-soft-pink text-charcoal",
+    borderClass: "border-coral",
     estrogenLevel: "Secondary Sustained Wave (~100–200 pg/mL)",
     progesteroneLevel: "Peak Dominance (~10–25 ng/mL)",
     lhLevel: "Suppressed by negative feedback",
@@ -169,7 +169,7 @@ export function HormoneWaveChart() {
       </div>
 
       {/* SVG Wave Chart */}
-      <div className="relative rounded-2xl bg-gradient-to-b from-slate-50 to-white p-2 sm:p-4 border border-slate-200 overflow-hidden shadow-inner">
+      <div className="relative rounded-2xl bg-gradient-to-b from-warm-cream-light to-white p-2 sm:p-4 border border-light-teal-dark overflow-hidden shadow-inner">
         {/* Phase Zone Bands Background */}
         <svg viewBox="0 0 600 220" className="w-full h-auto select-none">
           {/* Phase 0: Menstrual (Days 1–5: x 40 to 117) */}
@@ -239,9 +239,9 @@ export function HormoneWaveChart() {
             <span className="w-3.5 h-1.5 rounded-full bg-[#F47A6A]" />
             <span className="font-bold text-charcoal">Estrogen (E2)</span>
           </div>
-          <div className="flex items-center gap-2 p-2 rounded-xl bg-amber-50 border border-amber-300">
+          <div className="flex items-center gap-2 p-2 rounded-xl bg-soft-pink-light border border-coral-light">
             <span className="w-3.5 h-1.5 rounded-full bg-[#D97706]" />
-            <span className="font-bold text-amber-950">Progesterone (P4)</span>
+            <span className="font-bold text-charcoal">Progesterone (P4)</span>
           </div>
           <div className="flex items-center gap-2 p-2 rounded-xl bg-soft-pink border border-raspberry/30">
             <span className="w-3.5 h-1.5 rounded-full bg-[#991B4B]" />
@@ -254,13 +254,13 @@ export function HormoneWaveChart() {
         </div>
 
         {/* Interactive Scrubber Slider */}
-        <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
+        <div className="p-4 rounded-2xl bg-warm-cream-light border border-light-teal-dark space-y-2">
           <div className="flex items-center justify-between text-xs font-bold text-charcoal font-sans">
             <span className="flex items-center gap-1.5">
               <Clock className="w-4 h-4 text-deep-teal" />
               <span>Drag to scrub through cycle days:</span>
             </span>
-            <span className="text-sm font-bold text-deep-teal bg-white px-3 py-0.5 rounded-full border border-slate-200">
+            <span className="text-sm font-bold text-deep-teal bg-white px-3 py-0.5 rounded-full border border-light-teal-dark">
               Selected: Day {selectedDay} of 28
             </span>
           </div>
@@ -270,7 +270,7 @@ export function HormoneWaveChart() {
             max="28"
             value={selectedDay}
             onChange={(e) => setSelectedDay(parseInt(e.target.value, 10))}
-            className="w-full accent-deep-teal cursor-pointer h-2 bg-slate-200 rounded-lg appearance-none"
+            className="w-full accent-deep-teal cursor-pointer h-2 bg-warm-cream-dark rounded-lg appearance-none"
           />
           <div className="flex justify-between text-[11px] text-charcoal/60 font-sans font-medium px-1">
             <span>Day 1 (Menses)</span>
@@ -285,24 +285,24 @@ export function HormoneWaveChart() {
       {/* Synchronized Anatomy & Biomarker Cards (Less Text, More Visual!) */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 font-sans">
         {/* Endometrial Lining Visual Cross-Section */}
-        <div className="p-4 sm:p-5 rounded-2xl bg-white border-2 border-slate-200 shadow-2xs space-y-3">
+        <div className="p-4 sm:p-5 rounded-2xl bg-white border-2 border-light-teal-dark shadow-2xs space-y-3">
           <div className="flex items-center justify-between">
             <span className="text-xs font-bold uppercase tracking-wider text-deep-teal flex items-center gap-1.5">
               <Layers className="w-4 h-4 text-coral" />
               <span>Endometrial Lining Thickness</span>
             </span>
-            <span className="text-xs font-bold px-2.5 py-0.5 rounded-full bg-slate-100 text-charcoal border border-slate-200">
+            <span className="text-xs font-bold px-2.5 py-0.5 rounded-full bg-warm-cream text-charcoal border border-light-teal-dark">
               ~{currentPhase.liningMm} mm thick
             </span>
           </div>
 
           {/* SVG Cross-Section Bar Graphic */}
-          <div className="relative h-12 w-full rounded-xl bg-slate-100 overflow-hidden border border-slate-200 flex items-end">
+          <div className="relative h-12 w-full rounded-xl bg-warm-cream overflow-hidden border border-light-teal-dark flex items-end">
             <div
               className="w-full bg-gradient-to-t from-rose-600 via-rose-400 to-rose-300 transition-all duration-300 rounded-t-sm"
               style={{ height: `${(currentPhase.liningMm / 16) * 100}%` }}
             />
-            <span className="absolute inset-0 flex items-center justify-center text-xs font-bold text-slate-800 drop-shadow-xs">
+            <span className="absolute inset-0 flex items-center justify-center text-xs font-bold text-charcoal drop-shadow-xs">
               {currentPhase.liningState}
             </span>
           </div>
@@ -313,18 +313,18 @@ export function HormoneWaveChart() {
         </div>
 
         {/* Ovarian & Metabolic Status Card */}
-        <div className="p-4 sm:p-5 rounded-2xl bg-white border-2 border-slate-200 shadow-2xs space-y-3">
+        <div className="p-4 sm:p-5 rounded-2xl bg-white border-2 border-light-teal-dark shadow-2xs space-y-3">
           <div className="flex items-center justify-between">
             <span className="text-xs font-bold uppercase tracking-wider text-deep-teal flex items-center gap-1.5">
-              <Zap className="w-4 h-4 text-amber-600" />
+              <Zap className="w-4 h-4 text-raspberry-dark" />
               <span>Ovary & Metabolic State</span>
             </span>
-            <span className="text-xs font-bold px-2.5 py-0.5 rounded-full bg-amber-50 text-amber-900 border border-amber-200">
+            <span className="text-xs font-bold px-2.5 py-0.5 rounded-full bg-soft-pink-light text-charcoal border border-soft-pink-dark">
               Active Bio-Response
             </span>
           </div>
 
-          <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs sm:text-sm text-charcoal/90">
+          <div className="p-2.5 rounded-xl bg-warm-cream-light border border-light-teal-dark text-xs sm:text-sm text-charcoal/90">
             <strong className="block text-deep-teal font-bold mb-0.5">Ovarian Follicle:</strong>
             {currentPhase.ovaryState}
           </div>
@@ -378,7 +378,7 @@ export function CycleVitalSignsDashboard() {
       {/* 3 Circular Arc Gauge Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 font-sans">
         {/* Gauge 1: Cycle Length */}
-        <div className="p-5 rounded-3xl bg-slate-50 border-2 border-slate-200 flex flex-col justify-between space-y-3">
+        <div className="p-5 rounded-3xl bg-warm-cream-light border-2 border-light-teal-dark flex flex-col justify-between space-y-3">
           <div className="flex items-center justify-between">
             <span className="text-xs font-bold uppercase tracking-wider text-charcoal/80">
               1. Cycle Length
@@ -387,7 +387,7 @@ export function CycleVitalSignsDashboard() {
               className={`text-xs font-bold px-2.5 py-0.5 rounded-full border ${
                 isLengthNormal
                   ? "bg-emerald-100 text-emerald-800 border-emerald-300"
-                  : "bg-amber-100 text-amber-900 border-amber-300"
+                  : "bg-soft-pink text-charcoal border-coral-light"
               }`}
             >
               {isLengthNormal ? "Normal Range" : "Clinical Warning"}
@@ -422,7 +422,7 @@ export function CycleVitalSignsDashboard() {
         </div>
 
         {/* Gauge 2: Flow Duration */}
-        <div className="p-5 rounded-3xl bg-slate-50 border-2 border-slate-200 flex flex-col justify-between space-y-3">
+        <div className="p-5 rounded-3xl bg-warm-cream-light border-2 border-light-teal-dark flex flex-col justify-between space-y-3">
           <div className="flex items-center justify-between">
             <span className="text-xs font-bold uppercase tracking-wider text-charcoal/80">
               2. Flow Duration
@@ -431,7 +431,7 @@ export function CycleVitalSignsDashboard() {
               className={`text-xs font-bold px-2.5 py-0.5 rounded-full border ${
                 isFlowNormal
                   ? "bg-emerald-100 text-emerald-800 border-emerald-300"
-                  : "bg-amber-100 text-amber-900 border-amber-300"
+                  : "bg-soft-pink text-charcoal border-coral-light"
               }`}
             >
               {isFlowNormal ? "Normal Range" : "Clinical Warning"}
@@ -466,7 +466,7 @@ export function CycleVitalSignsDashboard() {
         </div>
 
         {/* Gauge 3: Pain Severity */}
-        <div className="p-5 rounded-3xl bg-slate-50 border-2 border-slate-200 flex flex-col justify-between space-y-3">
+        <div className="p-5 rounded-3xl bg-warm-cream-light border-2 border-light-teal-dark flex flex-col justify-between space-y-3">
           <div className="flex items-center justify-between">
             <span className="text-xs font-bold uppercase tracking-wider text-charcoal/80">
               3. Pain Scale (NRS)
@@ -476,7 +476,7 @@ export function CycleVitalSignsDashboard() {
                 isPainNormal
                   ? "bg-emerald-100 text-emerald-800 border-emerald-300"
                   : painLevel <= 6
-                  ? "bg-amber-100 text-amber-900 border-amber-300"
+                  ? "bg-soft-pink text-charcoal border-coral-light"
                   : "bg-red-100 text-red-900 border-red-300"
               }`}
             >
@@ -674,8 +674,8 @@ export function TannerProgressionChart() {
       name: "The Cervix",
       nickname: "The Smart Doorway",
       color: "#D97706",
-      bgClass: "bg-amber-100",
-      borderClass: "border-amber-400",
+      bgClass: "bg-soft-pink",
+      borderClass: "border-coral",
       whatItDoes: (
         <span>
           The strong doorway connecting the bottom of your uterus to the vagina canal. It makes healthy, natural fluids that change texture across your cycle.
@@ -724,7 +724,7 @@ export function TannerProgressionChart() {
       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-deep-teal/10 pb-4">
         <div>
           <div className="flex items-center gap-2">
-            <span className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-xs font-bold uppercase tracking-wider bg-coral text-white shadow-2xs">
+            <span className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-xs font-bold uppercase tracking-wider bg-coral text-charcoal shadow-2xs">
               <Flower2 className="w-3.5 h-3.5" />
               <span>Body Basics Interactive Visual Lab</span>
             </span>
@@ -738,7 +738,7 @@ export function TannerProgressionChart() {
         </div>
 
         {/* 3 View Tabs */}
-        <div className="flex items-center gap-1.5 p-1 rounded-2xl bg-slate-100 border border-slate-200">
+        <div className="flex items-center gap-1.5 p-1 rounded-2xl bg-warm-cream border border-light-teal-dark">
           <button
             type="button"
             onClick={() => setActiveTab("milestones")}
@@ -795,7 +795,7 @@ export function TannerProgressionChart() {
                   className={`p-3 rounded-2xl border text-center transition-all cursor-pointer ${
                     isActive
                       ? "bg-deep-teal text-white border-deep-teal shadow-md scale-102 font-bold"
-                      : "bg-slate-50 text-charcoal/80 border-slate-200 hover:border-deep-teal/40 hover:bg-white font-medium"
+                      : "bg-warm-cream-light text-charcoal/80 border-light-teal-dark hover:border-deep-teal/40 hover:bg-white font-medium"
                   }`}
                 >
                   <span className="block text-xs uppercase tracking-wider opacity-80">Stage {s.stage}</span>
@@ -809,7 +809,7 @@ export function TannerProgressionChart() {
           </div>
 
           {/* Stage Detail Card */}
-          <div className="p-5 sm:p-6 rounded-3xl bg-gradient-to-br from-light-teal/40 via-white to-amber-50/40 border-2 border-deep-teal/20 space-y-4 shadow-2xs">
+          <div className="p-5 sm:p-6 rounded-3xl bg-gradient-to-br from-light-teal/40 via-white to-soft-pink-light/40 border-2 border-deep-teal/20 space-y-4 shadow-2xs">
             <div className="flex items-center justify-between flex-wrap gap-2">
               <div>
                 <h5 className="text-xl sm:text-2xl font-serif font-bold text-deep-teal m-0">
@@ -825,7 +825,7 @@ export function TannerProgressionChart() {
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs sm:text-sm">
-              <div className="p-3.5 rounded-2xl bg-white border border-slate-200 space-y-1">
+              <div className="p-3.5 rounded-2xl bg-white border border-light-teal-dark space-y-1">
                 <strong className="block text-deep-teal font-bold uppercase tracking-wider text-[11px]">
                   Brain &amp; Hormone Signal:
                 </strong>
@@ -834,7 +834,7 @@ export function TannerProgressionChart() {
                 </p>
               </div>
 
-              <div className="p-3.5 rounded-2xl bg-white border border-slate-200 space-y-1">
+              <div className="p-3.5 rounded-2xl bg-white border border-light-teal-dark space-y-1">
                 <strong className="block text-coral font-bold uppercase tracking-wider text-[11px]">
                   Breast Budding (Thelarche):
                 </strong>
@@ -849,14 +849,14 @@ export function TannerProgressionChart() {
                 </p>
               </div>
 
-              <div className="p-3.5 rounded-2xl bg-white border border-slate-200 space-y-1">
-                <strong className="block text-amber-800 font-bold uppercase tracking-wider text-[11px]">
+              <div className="p-3.5 rounded-2xl bg-white border border-light-teal-dark space-y-1">
+                <strong className="block text-raspberry-dark font-bold uppercase tracking-wider text-[11px]">
                   Body Hair &amp; Skin Changes:
                 </strong>
                 <p className="text-charcoal/90 m-0 leading-relaxed">{current.hairAndSkin}</p>
               </div>
 
-              <div className="p-3.5 rounded-2xl bg-white border border-slate-200 space-y-1">
+              <div className="p-3.5 rounded-2xl bg-white border border-light-teal-dark space-y-1">
                 <strong className="block text-raspberry font-bold uppercase tracking-wider text-[11px]">
                   Height Spurt &amp; Menarche:
                 </strong>
@@ -991,7 +991,7 @@ export function TannerProgressionChart() {
                     className={`px-3 py-1 rounded-full text-xs font-bold transition-all cursor-pointer ${
                       selectedOrgan === key
                         ? `${organ.bgClass} text-charcoal border-2 ${organ.borderClass} shadow-xs scale-105`
-                        : "bg-white text-charcoal/70 border border-slate-200 hover:bg-slate-50"
+                        : "bg-white text-charcoal/70 border border-light-teal-dark hover:bg-warm-cream-light"
                     }`}
                   >
                     {organ.name.split(" ")[1] || organ.name}
@@ -1017,7 +1017,7 @@ export function TannerProgressionChart() {
               </div>
 
               <div className="space-y-3 text-xs sm:text-sm">
-                <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 space-y-1">
+                <div className="p-3.5 rounded-2xl bg-warm-cream-light border border-light-teal-dark space-y-1">
                   <strong className="block text-deep-teal font-bold uppercase tracking-wider text-[11px]">
                     What It Does:
                   </strong>
@@ -1026,8 +1026,8 @@ export function TannerProgressionChart() {
                   </p>
                 </div>
 
-                <div className="p-3.5 rounded-2xl bg-amber-50/70 border border-amber-200 space-y-1">
-                  <strong className="block text-amber-950 font-bold uppercase tracking-wider text-[11px]">
+                <div className="p-3.5 rounded-2xl bg-soft-pink-light/70 border border-soft-pink-dark space-y-1">
+                  <strong className="block text-charcoal font-bold uppercase tracking-wider text-[11px]">
                     Why It Matters for Your Health:
                   </strong>
                   <p className="text-charcoal/90 m-0 leading-relaxed">
@@ -1096,10 +1096,10 @@ export function TannerProgressionChart() {
             </div>
 
             {/* Androgens */}
-            <div className="p-5 rounded-3xl bg-amber-50/70 border-2 border-amber-200 space-y-3 flex flex-col justify-between">
+            <div className="p-5 rounded-3xl bg-soft-pink-light/70 border-2 border-soft-pink-dark space-y-3 flex flex-col justify-between">
               <div className="space-y-2">
-                <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-xs font-bold uppercase tracking-wider bg-amber-200 text-amber-950 border border-amber-300">
-                  <Zap className="w-3.5 h-3.5 text-amber-800" />
+                <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-xs font-bold uppercase tracking-wider bg-soft-pink-dark text-charcoal border border-coral-light">
+                  <Zap className="w-3.5 h-3.5 text-raspberry-dark" />
                   <span>Strength &amp; Skin</span>
                 </div>
                 <h5 className="font-serif font-bold text-xl text-deep-teal m-0">
@@ -1109,7 +1109,7 @@ export function TannerProgressionChart() {
                   Provide muscle tone, stamina, and drive. During puberty, waking androgens can temporarily cause oily skin or breakouts before stabilizing.
                 </p>
               </div>
-              <div className="p-2.5 rounded-xl bg-white border border-amber-200 text-[11px] text-amber-950 font-medium">
+              <div className="p-2.5 rounded-xl bg-white border border-soft-pink-dark text-[11px] text-charcoal font-medium">
                 ✦ Evaluated if severe acne or cycle delays occur
               </div>
             </div>
@@ -1157,7 +1157,7 @@ export function RotterdamCriteriaRadar() {
         </span>
       ),
       icon: Flame,
-      color: "text-amber-800 border-amber-300 bg-amber-50",
+      color: "text-raspberry-dark border-coral-light bg-soft-pink-light",
       keySign: "Androgen Signs or High Labs",
     },
     {
@@ -1196,7 +1196,7 @@ export function RotterdamCriteriaRadar() {
       name: "Phenotype C (Ovulatory PCOS)",
       criteria: "Criteria 2 + 3 (Regular Periods!)",
       badge: "Regular Cycles",
-      badgeClass: "bg-amber-600 text-white border-amber-600",
+      badgeClass: "bg-raspberry text-white border-raspberry",
       desc: "Hyperandrogenism + polycystic ovaries on ultrasound, but with regular monthly periods. Busts another myth: you can have PCOS even if your period arrives every month.",
     },
     {
@@ -1252,7 +1252,7 @@ export function RotterdamCriteriaRadar() {
         </div>
 
         {/* View Switcher Tabs */}
-        <div className="flex items-center gap-1.5 p-1 rounded-2xl bg-slate-100 border border-slate-200">
+        <div className="flex items-center gap-1.5 p-1 rounded-2xl bg-warm-cream border border-light-teal-dark">
           <button
             type="button"
             onClick={() => setActiveTab("checker")}
@@ -1315,7 +1315,7 @@ export function RotterdamCriteriaRadar() {
                   className={`p-5 rounded-3xl border-2 text-left transition-all cursor-pointer flex flex-col justify-between space-y-3 ${
                     isSelected
                       ? "bg-white border-deep-teal ring-2 ring-deep-teal/20 shadow-md"
-                      : "bg-slate-50 border-slate-200 opacity-60 hover:opacity-100 hover:border-slate-300"
+                      : "bg-warm-cream-light border-light-teal-dark opacity-60 hover:opacity-100 hover:border-deep-teal/30"
                   }`}
                 >
                   <div>
@@ -1327,7 +1327,7 @@ export function RotterdamCriteriaRadar() {
                         className={`text-[11px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full border ${
                           isSelected
                             ? "bg-emerald-100 text-emerald-800 border-emerald-300"
-                            : "bg-slate-200 text-charcoal/60 border-slate-300"
+                            : "bg-warm-cream-dark text-charcoal/60 border-deep-teal/30"
                         }`}
                       >
                         {isSelected ? "Selected (✓)" : "Tap to Select"}
@@ -1343,7 +1343,7 @@ export function RotterdamCriteriaRadar() {
                       {crit.subtitle}
                     </span>
                   </div>
-                  <div className="text-xs text-charcoal/90 leading-relaxed m-0 border-t border-slate-100 pt-2 font-sans">
+                  <div className="text-xs text-charcoal/90 leading-relaxed m-0 border-t border-warm-cream-dark pt-2 font-sans">
                     {crit.clinicalFact}
                   </div>
                 </button>
@@ -1356,13 +1356,13 @@ export function RotterdamCriteriaRadar() {
             className={`p-5 sm:p-6 rounded-3xl border-2 flex flex-col sm:flex-row sm:items-center justify-between gap-4 transition-all shadow-2xs ${
               meetsRotterdam
                 ? "bg-emerald-50 border-emerald-500 text-emerald-950"
-                : "bg-amber-50 border-amber-400 text-amber-950"
+                : "bg-soft-pink-light border-coral text-charcoal"
             }`}
           >
             <div className="flex items-start gap-3">
               <div
                 className={`w-10 h-10 rounded-2xl flex items-center justify-center shrink-0 shadow-xs ${
-                  meetsRotterdam ? "bg-emerald-600 text-white" : "bg-amber-500 text-white"
+                  meetsRotterdam ? "bg-emerald-600 text-white" : "bg-raspberry text-white"
                 }`}
               >
                 {meetsRotterdam ? <CheckCircle2 className="w-6 h-6" /> : <Info className="w-6 h-6" />}
@@ -1407,7 +1407,7 @@ export function RotterdamCriteriaRadar() {
             {PHENOTYPES.map((p, idx) => (
               <div
                 key={idx}
-                className="p-5 rounded-3xl bg-slate-50 border-2 border-slate-200/90 hover:border-deep-teal/40 hover:bg-white transition-all space-y-2.5 flex flex-col justify-between shadow-2xs"
+                className="p-5 rounded-3xl bg-warm-cream-light border-2 border-light-teal-dark/90 hover:border-deep-teal/40 hover:bg-white transition-all space-y-2.5 flex flex-col justify-between shadow-2xs"
               >
                 <div className="space-y-1.5">
                   <div className="flex items-center justify-between gap-2 flex-wrap">
@@ -1429,8 +1429,8 @@ export function RotterdamCriteriaRadar() {
             ))}
           </div>
 
-          <div className="p-4 rounded-2xl bg-amber-50/80 border border-amber-300 text-xs sm:text-sm text-amber-950 flex items-start gap-2.5">
-            <Flower2 className="w-4 h-4 text-amber-800 shrink-0 mt-0.5" />
+          <div className="p-4 rounded-2xl bg-soft-pink-light/80 border border-coral-light text-xs sm:text-sm text-charcoal flex items-start gap-2.5">
+            <Flower2 className="w-4 h-4 text-raspberry-dark shrink-0 mt-0.5" />
             <span>
               <strong>Crucial Patient Takeaway:</strong> If a doctor ever tells you &ldquo;Your ultrasound looked clear, so you don&apos;t have PCOS,&rdquo; remind them of <strong>Phenotype B</strong>! Under Rotterdam guidelines, irregular cycles plus signs of high androgens fulfill the diagnostic criteria with zero cysts required.
             </span>
@@ -1470,10 +1470,10 @@ export function RotterdamCriteriaRadar() {
               </p>
             </div>
 
-            <div className="p-4 rounded-2xl bg-amber-50 border border-amber-300 space-y-1.5">
+            <div className="p-4 rounded-2xl bg-soft-pink-light border border-coral-light space-y-1.5">
               <div className="flex items-center gap-2">
-                <span className="w-6 h-6 rounded-full bg-amber-700 text-white flex items-center justify-center font-bold text-xs">3</span>
-                <h6 className="font-serif font-bold text-sm sm:text-base text-amber-950 m-0">
+                <span className="w-6 h-6 rounded-full bg-raspberry-dark text-white flex items-center justify-center font-bold text-xs">3</span>
+                <h6 className="font-serif font-bold text-sm sm:text-base text-charcoal m-0">
                   &ldquo;At-Risk&rdquo; Labeling Instead of Stigmatizing Labels
                 </h6>
               </div>
@@ -1516,9 +1516,9 @@ export function ContraceptionEfficacyPyramid() {
       name: "Tier 2: Very Effective",
       failureRate: "4%–7% typical failure rate",
       badge: "User Action Needed",
-      color: "bg-amber-600 text-white",
-      borderClass: "border-amber-400",
-      bgLight: "bg-amber-50",
+      color: "bg-raspberry text-white",
+      borderClass: "border-coral",
+      bgLight: "bg-soft-pink-light",
       methods: [
         { name: "Depo-Provera Injection", rate: "4% typical", duration: "Every 12 weeks", hormonal: true, sti: false },
         { name: "Oral Contraceptive Pills", rate: "7% typical", duration: "Daily at same time", hormonal: true, sti: false },
@@ -1532,7 +1532,7 @@ export function ContraceptionEfficacyPyramid() {
       name: "Tier 3: Moderately Effective",
       failureRate: "13%–21% typical failure rate",
       badge: "Dual Protection Essential",
-      color: "bg-coral text-white",
+      color: "bg-coral text-charcoal",
       borderClass: "border-coral/50",
       bgLight: "bg-[#FFE1DB]/50",
       methods: [
@@ -1596,8 +1596,8 @@ export function ContraceptionEfficacyPyramid() {
           onClick={() => setSelectedTier(2)}
           className={`w-full py-3.5 px-4 rounded-2xl border-2 transition-all cursor-pointer flex items-center justify-between mx-auto max-w-xl ${
             selectedTier === 2
-              ? "bg-amber-600 text-white border-amber-600 shadow-md scale-102 font-bold"
-              : "bg-amber-50 text-amber-950 border-amber-200 hover:border-amber-400 font-semibold"
+              ? "bg-raspberry text-white border-raspberry shadow-md scale-102 font-bold"
+              : "bg-soft-pink-light text-charcoal border-soft-pink-dark hover:border-coral font-semibold"
           }`}
         >
           <div className="flex items-center gap-2">
@@ -1615,7 +1615,7 @@ export function ContraceptionEfficacyPyramid() {
           onClick={() => setSelectedTier(3)}
           className={`w-full py-3.5 px-4 rounded-2xl border-2 transition-all cursor-pointer flex items-center justify-between mx-auto max-w-2xl ${
             selectedTier === 3
-              ? "bg-coral text-white border-coral shadow-md scale-102 font-bold"
+              ? "bg-coral text-charcoal border-coral shadow-md scale-102 font-bold"
               : "bg-[#FFE1DB]/50 text-[#B83F68] border-coral/30 hover:border-coral/60 font-semibold"
           }`}
         >
@@ -1640,7 +1640,7 @@ export function ContraceptionEfficacyPyramid() {
               {current.name}
             </h5>
           </div>
-          <span className="text-xs sm:text-sm font-bold px-3 py-1 rounded-full bg-white border border-slate-300 text-deep-teal">
+          <span className="text-xs sm:text-sm font-bold px-3 py-1 rounded-full bg-white border border-deep-teal/30 text-deep-teal">
             {current.failureRate}
           </span>
         </div>
@@ -1648,12 +1648,12 @@ export function ContraceptionEfficacyPyramid() {
         {/* Method Subcards Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
           {current.methods.map((m, idx) => (
-            <div key={idx} className="p-3.5 rounded-2xl bg-white border border-slate-200 shadow-2xs space-y-2">
+            <div key={idx} className="p-3.5 rounded-2xl bg-white border border-light-teal-dark shadow-2xs space-y-2">
               <div className="flex items-start justify-between gap-1">
                 <strong className="text-sm font-bold text-deep-teal block leading-tight">{m.name}</strong>
               </div>
               <div className="flex flex-wrap gap-1 text-[10px] font-bold">
-                <span className="px-2 py-0.5 rounded-md bg-slate-100 text-charcoal border border-slate-200">
+                <span className="px-2 py-0.5 rounded-md bg-warm-cream text-charcoal border border-light-teal-dark">
                   {m.rate}
                 </span>
                 <span className={`px-2 py-0.5 rounded-md ${m.hormonal ? "bg-soft-pink-light text-raspberry-dark border border-soft-pink-dark" : "bg-emerald-100 text-emerald-900 border border-emerald-200"}`}>
@@ -1671,7 +1671,7 @@ export function ContraceptionEfficacyPyramid() {
           ))}
         </div>
 
-        <div className="p-3.5 rounded-2xl bg-white/90 border border-slate-200 text-xs sm:text-sm text-charcoal/90 flex items-start gap-2.5">
+        <div className="p-3.5 rounded-2xl bg-white/90 border border-light-teal-dark text-xs sm:text-sm text-charcoal/90 flex items-start gap-2.5">
           <Info className="w-5 h-5 text-deep-teal shrink-0 mt-0.5" />
           <span>{current.clinicalTip}</span>
         </div>
