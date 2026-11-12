@@ -53,7 +53,11 @@ interface HubViewProps {
 
 export function HubView({ initialCategory, onNavigate }: HubViewProps) {
   const [activeCategoryId, setActiveCategoryId] = useState<string | null>(
-    initialCategory === "arcade" || initialCategory === "play-1" ? "play" : initialCategory || null
+    initialCategory === "arcade" || initialCategory === "play-1"
+      ? "play"
+      : initialCategory === "dictionary"
+      ? null
+      : initialCategory || null
   );
   const [openPanelId, setOpenPanelId] = useState<string | null>(null);
   const [selectedTopic, setSelectedTopic] = useState<HubTopic | null>(() => {
@@ -172,6 +176,15 @@ export function HubView({ initialCategory, onNavigate }: HubViewProps) {
         if (arcadeTopic) {
           setSelectedTopic(arcadeTopic);
         }
+      } else if (initialCategory === "dictionary") {
+        setActiveCategoryId(null);
+        setSelectedTopic(null);
+        setTimeout(() => {
+          const dictElem = document.getElementById("health-dictionary");
+          if (dictElem) {
+            dictElem.scrollIntoView({ behavior: "smooth", block: "start" });
+          }
+        }, 80);
       } else if (HUB_CATEGORIES[initialCategory]) {
         setActiveCategoryId(initialCategory);
       }

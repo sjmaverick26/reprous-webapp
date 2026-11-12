@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Menu, X, ChevronDown, Globe2, Sparkles, Gamepad2 } from "lucide-react";
+import { Menu, X, ChevronDown, Globe2, Sparkles, Gamepad2, BookOpen } from "lucide-react";
 import { ReproUsMark } from "@/components/shared/ReproUsMark";
 import { cn } from "@/lib/utils";
 import { SUPPORTED_LANGUAGES } from "@/components/layout/LanguageBar";
@@ -254,6 +254,16 @@ export function Navbar({ activePage, onNavigate, currentLang = "en", onSelectLan
                             </button>
                           ))}
                           <div className="pt-1 border-t border-plum/10 mt-1 flex flex-col gap-1">
+                            <button
+                              onClick={() => {
+                                onNavigate("hub", "dictionary");
+                                setLearnDropdownOpen(false);
+                              }}
+                              className="w-full text-left px-3 py-1.5 text-[13.5px] font-bold font-sans text-amber-900 hover:bg-amber-50 rounded-lg transition-colors flex items-center gap-1.5"
+                            >
+                              <BookOpen className="w-3.5 h-3.5 text-amber-700 shrink-0" />
+                              <span>Health Dictionary &amp; Medical Terms</span>
+                            </button>
                             <button
                               onClick={() => {
                                 onNavigate("hub", "arcade");
@@ -586,6 +596,17 @@ export function Navbar({ activePage, onNavigate, currentLang = "en", onSelectLan
                           ↳ {cat.label}
                         </button>
                       ))}
+                      <button
+                        onClick={() => {
+                          onNavigate("hub", "dictionary");
+                          setMobileMenuOpen(false);
+                        }}
+                        className="w-full text-left px-3 py-1.5 text-[14px] font-bold text-amber-900 bg-amber-50/70 rounded-lg flex items-center gap-1.5"
+                      >
+                        <span className="text-charcoal/40">↳</span>
+                        <BookOpen className="w-3.5 h-3.5 text-amber-700 shrink-0" />
+                        <span>Health Dictionary &amp; Medical Terms</span>
+                      </button>
                       <button
                         onClick={() => {
                           onNavigate("hub", "arcade");

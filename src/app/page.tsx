@@ -68,6 +68,15 @@ export default function App() {
             el.scrollIntoView({ behavior: "smooth", block: "start" });
           }
         }, 60);
+      } else if (page === "hub" && categoryOrTab === "dictionary") {
+        setTimeout(() => {
+          const el = document.getElementById("health-dictionary");
+          if (el) {
+            el.scrollIntoView({ behavior: "smooth", block: "start" });
+          } else {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          }
+        }, 80);
       } else if (page === "resources" && categoryOrTab && categoryOrTab !== "all") {
         setTimeout(() => {
           const targetId =
