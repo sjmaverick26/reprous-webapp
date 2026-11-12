@@ -66,6 +66,13 @@ export default function App() {
           const el = document.getElementById(categoryOrTab);
           if (el) {
             el.scrollIntoView({ behavior: "smooth", block: "start" });
+          } else {
+            setTimeout(() => {
+              const retryEl = document.getElementById(categoryOrTab);
+              if (retryEl) {
+                retryEl.scrollIntoView({ behavior: "smooth", block: "start" });
+              }
+            }, 100);
           }
         }, 60);
       } else if (page === "hub" && categoryOrTab === "dictionary") {

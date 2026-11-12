@@ -175,7 +175,7 @@ export function HomeView({ onNavigate, onSelectLang }: HomeViewProps) {
         <div className="max-w-[1100px] mx-auto px-6 flex flex-col gap-20">
           
           {/* Section A: COULD THIS BE YOU? (Organized like Our Story) */}
-          <div className="text-center max-w-3xl mx-auto flex flex-col items-center">
+          <div id="symptom-explorer" className="text-center max-w-3xl mx-auto flex flex-col items-center scroll-mt-20 md:scroll-mt-24">
             <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-xs font-extrabold font-sans uppercase tracking-wider bg-light-teal/50 text-deep-teal border border-deep-teal/25 mb-3.5 shadow-2xs">
               <span>✦ COULD THIS BE YOU?</span>
             </div>
@@ -201,7 +201,7 @@ export function HomeView({ onNavigate, onSelectLang }: HomeViewProps) {
           </div>
 
           {/* Section B: INTERACTIVE MEDICAL MYTH-BUSTER (Organized like Our Mission) */}
-          <div className="text-center max-w-4xl mx-auto w-full flex flex-col items-center pt-12 border-t border-deep-teal/10">
+          <div id="myth-buster" className="text-center max-w-4xl mx-auto w-full flex flex-col items-center pt-12 border-t border-deep-teal/10 scroll-mt-20 md:scroll-mt-24">
             <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-xs font-extrabold font-sans uppercase tracking-wider bg-[#FFE1DB] text-[#B83F68] border border-coral/30 mb-3.5 shadow-2xs">
               <span>✦ INTERACTIVE MEDICAL MYTH-BUSTER</span>
             </div>
@@ -342,7 +342,7 @@ export function HomeView({ onNavigate, onSelectLang }: HomeViewProps) {
           </div>
 
           {/* Card 2: Prominent "Ask a Question" Card */}
-          <div className="rounded-3xl bg-white border-2 border-coral p-8 md:p-12 shadow-card flex flex-col md:flex-row items-center justify-between gap-8">
+          <div id="ask-question" className="rounded-3xl bg-white border-2 border-coral p-8 md:p-12 shadow-card flex flex-col md:flex-row items-center justify-between gap-8 scroll-mt-20 md:scroll-mt-24">
             <div className="max-w-2xl text-center md:text-left">
               <div className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-raspberry mb-2.5 font-sans">
                 <Sparkles className="w-3.5 h-3.5 text-coral" />

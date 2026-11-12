@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Menu, X, ChevronDown, Globe2, Sparkles, Gamepad2, BookOpen } from "lucide-react";
+import { Menu, X, ChevronDown, Globe2, Sparkles, Gamepad2, BookOpen, Activity } from "lucide-react";
 import { ReproUsMark } from "@/components/shared/ReproUsMark";
 import { cn } from "@/lib/utils";
 import { SUPPORTED_LANGUAGES } from "@/components/layout/LanguageBar";
@@ -200,6 +200,28 @@ export function Navbar({ activePage, onNavigate, currentLang = "en", onSelectLan
                               </div>
                             </button>
                           ))}
+                          <div className="pt-1 border-t border-plum/10 mt-1 flex flex-col gap-1">
+                            <button
+                              onClick={() => {
+                                onNavigate("resources", "tracker");
+                                setHomeDropdownOpen(false);
+                              }}
+                              className="w-full text-left px-3 py-1.5 text-[13px] font-bold font-sans text-deep-teal hover:bg-deep-teal/10 rounded-lg transition-colors flex items-center gap-1.5"
+                            >
+                              <Activity className="w-3.5 h-3.5 text-deep-teal shrink-0" />
+                              <span>Interactive Symptom Tracker Tool →</span>
+                            </button>
+                            <button
+                              onClick={() => {
+                                onNavigate("myths");
+                                setHomeDropdownOpen(false);
+                              }}
+                              className="w-full text-left px-3 py-1.5 text-[13px] font-bold font-sans text-raspberry hover:bg-raspberry/10 rounded-lg transition-colors flex items-center gap-1.5"
+                            >
+                              <Sparkles className="w-3.5 h-3.5 text-raspberry shrink-0" />
+                              <span>Medical Myth-Buster Cards →</span>
+                            </button>
+                          </div>
                         </div>
                       </div>
                     )}
@@ -546,6 +568,30 @@ export function Navbar({ activePage, onNavigate, currentLang = "en", onSelectLan
                           <span>{sec.label}</span>
                         </button>
                       ))}
+                      <div className="pt-1 border-t border-plum/10 mt-1 flex flex-col gap-1">
+                        <button
+                          onClick={() => {
+                            onNavigate("resources", "tracker");
+                            setMobileMenuOpen(false);
+                          }}
+                          className="w-full text-left px-3 py-1.5 text-[13px] font-bold text-deep-teal rounded-lg flex items-center gap-1.5"
+                        >
+                          <span className="text-charcoal/40">↳</span>
+                          <Activity className="w-3.5 h-3.5 text-deep-teal shrink-0" />
+                          <span>Interactive Symptom Tracker Tool</span>
+                        </button>
+                        <button
+                          onClick={() => {
+                            onNavigate("myths");
+                            setMobileMenuOpen(false);
+                          }}
+                          className="w-full text-left px-3 py-1.5 text-[13px] font-bold text-berry rounded-lg flex items-center gap-1.5"
+                        >
+                          <span className="text-charcoal/40">↳</span>
+                          <Sparkles className="w-3.5 h-3.5 text-berry shrink-0" />
+                          <span>Medical Myth-Buster Cards</span>
+                        </button>
+                      </div>
                     </div>
                   )}
                 </div>
