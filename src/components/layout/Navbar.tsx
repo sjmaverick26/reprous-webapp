@@ -33,8 +33,8 @@ export function Navbar({ activePage, onNavigate, currentLang = "en", onSelectLan
   const [langDropdownOpen, setLangDropdownOpen] = useState(false);
   const [mobileHomeExpanded, setMobileHomeExpanded] = useState(false);
   const [mobileLearnExpanded, setMobileLearnExpanded] = useState(false);
-  const [activeLearnGroup, setActiveLearnGroup] = useState<string | null>("athlete");
-  const [mobileLearnSubgroup, setMobileLearnSubgroup] = useState<string | null>("athlete");
+  const [activeLearnGroup, setActiveLearnGroup] = useState<string | null>(null);
+  const [mobileLearnSubgroup, setMobileLearnSubgroup] = useState<string | null>(null);
   const [mobileAboutExpanded, setMobileAboutExpanded] = useState(false);
   const [mobileResourcesExpanded, setMobileResourcesExpanded] = useState(false);
 
@@ -255,7 +255,10 @@ export function Navbar({ activePage, onNavigate, currentLang = "en", onSelectLan
                     key={item.id}
                     className="relative"
                     onMouseEnter={() => setLearnDropdownOpen(true)}
-                    onMouseLeave={() => setLearnDropdownOpen(false)}
+                    onMouseLeave={() => {
+                      setLearnDropdownOpen(false);
+                      setActiveLearnGroup(null);
+                    }}
                   >
                     <button
                       onClick={() => onNavigate("hub")}
@@ -290,12 +293,11 @@ export function Navbar({ activePage, onNavigate, currentLang = "en", onSelectLan
                                 <button
                                   type="button"
                                   onClick={() => setActiveLearnGroup(isOpen ? null : group.id)}
-                                  onMouseEnter={() => setActiveLearnGroup(group.id)}
                                   className={cn(
-                                    "w-full text-left px-3 py-1.5 text-[13.5px] font-semibold font-sans rounded-lg transition-all flex items-center justify-between",
+                                    "w-full text-left px-3 py-2 text-[13.5px] font-semibold font-sans rounded-lg transition-all flex items-center justify-between cursor-pointer",
                                     isOpen
-                                      ? "bg-ivory-darker text-plum font-bold shadow-xs"
-                                      : "text-plum/80 hover:text-plum hover:bg-ivory-darker/60"
+                                      ? "bg-ivory-darker text-plum font-bold shadow-xs border border-plum/10"
+                                      : "text-plum/85 hover:text-plum hover:bg-ivory-darker/70"
                                   )}
                                 >
                                   <span className="flex items-center gap-2">
