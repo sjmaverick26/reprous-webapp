@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Menu, X, ChevronDown, Globe2, Sparkles, Gamepad2, BookOpen, Activity } from "lucide-react";
+import { Menu, X, ChevronDown, ChevronRight, Globe2, Sparkles, Gamepad2, BookOpen, Activity } from "lucide-react";
 import { ReproUsMark } from "@/components/shared/ReproUsMark";
 import { cn } from "@/lib/utils";
 import { SUPPORTED_LANGUAGES } from "@/components/layout/LanguageBar";
@@ -33,6 +33,8 @@ export function Navbar({ activePage, onNavigate, currentLang = "en", onSelectLan
   const [langDropdownOpen, setLangDropdownOpen] = useState(false);
   const [mobileHomeExpanded, setMobileHomeExpanded] = useState(false);
   const [mobileLearnExpanded, setMobileLearnExpanded] = useState(false);
+  const [activeLearnGroup, setActiveLearnGroup] = useState<string | null>("athlete");
+  const [mobileLearnSubgroup, setMobileLearnSubgroup] = useState<string | null>("athlete");
   const [mobileAboutExpanded, setMobileAboutExpanded] = useState(false);
   const [mobileResourcesExpanded, setMobileResourcesExpanded] = useState(false);
 
@@ -57,19 +59,37 @@ export function Navbar({ activePage, onNavigate, currentLang = "en", onSelectLan
     { id: "ask-question", number: "05", label: "Ask a Question", description: "Confidential youth reproductive Q&A" },
   ];
 
-  const learnCategories = [
-    // Female athlete health & Accessibility
-    { id: "play", label: "Female Athlete Health" },
-    { id: "mind", label: "Mind & Self-Advocacy" },
-    { id: "factors", label: "The Bigger Picture" },
-    // Hormonal Health
-    { id: "pcos", label: "PCOS & Hormonal Health" },
-    { id: "cycle", label: "Cycle Sense & Menstruation" },
-    { id: "realtalk", label: "Real Talk & STIs" },
-    // Reproductive Health
-    { id: "endo", label: "Endometriosis & Reproductive Pain" },
-    { id: "body", label: "Body Basics & Hormones" },
-    { id: "conditions", label: "Pregnancy & Reproductive Care" },
+  const learnGroups = [
+    {
+      id: "athlete",
+      label: "Female athlete health & Accessibility",
+      accentDot: "bg-amber-500",
+      categories: [
+        { id: "play", label: "Female Athlete Health" },
+        { id: "mind", label: "Mind & Self-Advocacy" },
+        { id: "factors", label: "The Bigger Picture" },
+      ],
+    },
+    {
+      id: "hormonal",
+      label: "Hormonal Health",
+      accentDot: "bg-rose-500",
+      categories: [
+        { id: "pcos", label: "PCOS & Hormonal Health" },
+        { id: "cycle", label: "Cycle Sense & Menstruation" },
+        { id: "realtalk", label: "Real Talk & STIs" },
+      ],
+    },
+    {
+      id: "reproductive",
+      label: "Reproductive Health",
+      accentDot: "bg-teal-500",
+      categories: [
+        { id: "endo", label: "Endometriosis & Reproductive Pain" },
+        { id: "body", label: "Body Basics & Hormones" },
+        { id: "conditions", label: "Pregnancy & Reproductive Care" },
+      ],
+    },
   ];
 
   const aboutItems = [
@@ -252,29 +272,67 @@ export function Navbar({ activePage, onNavigate, currentLang = "en", onSelectLan
 
                     {/* Learn Dropdown */}
                     {learnDropdownOpen && (
-                      <div className="absolute left-0 top-full pt-2 w-72 z-50 animate-in fade-in zoom-in-95 duration-150">
+                      <div className="absolute left-0 top-full pt-2 w-80 z-50 animate-in fade-in zoom-in-95 duration-150">
                         <div className="rounded-xl bg-white p-2 shadow-xl border border-plum/15 flex flex-col gap-1">
                           <button
                             onClick={() => {
                               onNavigate("hub");
                               setLearnDropdownOpen(false);
                             }}
-                            className="w-full text-left px-3 py-2 text-[14px] font-bold font-sans text-plum rounded-lg hover:bg-ivory-darker transition-colors border-b border-plum/10 pb-2 mb-1"
+                            className="w-full text-left px-3 py-2 text-[14px] font-bold font-sans text-plum rounded-lg hover:bg-ivory-darker transition-colors border-b border-plum/10 pb-2 mb-0.5"
                           >
                             Explore All Topics →
                           </button>
-                          {learnCategories.map((cat) => (
-                            <button
-                              key={cat.id}
-                              onClick={() => {
-                                onNavigate("hub", cat.id);
-                                setLearnDropdownOpen(false);
-                              }}
-                              className="w-full text-left px-3 py-1.5 text-[13.5px] font-medium font-sans text-plum hover:text-berry hover:bg-ivory-darker rounded-lg transition-colors flex items-center justify-between"
-                            >
-                              <span>{cat.label}</span>
-                            </button>
-                          ))}
+                          {learnGroups.map((group) => {
+                            const isOpen = activeLearnGroup === group.id;
+                            return (
+                              <div key={group.id} className="rounded-lg overflow-hidden transition-colors">
+                                <button
+                                  type="button"
+                                  onClick={() => setActiveLearnGroup(isOpen ? null : group.id)}
+                                  onMouseEnter={() => setActiveLearnGroup(group.id)}
+                                  className={cn(
+                                    "w-full text-left px-3 py-1.5 text-[13.5px] font-semibold font-sans rounded-lg transition-all flex items-center justify-between",
+                                    isOpen
+                                      ? "bg-ivory-darker text-plum font-bold shadow-xs"
+                                      : "text-plum/80 hover:text-plum hover:bg-ivory-darker/60"
+                                  )}
+                                >
+                                  <span className="flex items-center gap-2">
+                                    <span className={cn("w-2 h-2 rounded-full shrink-0", group.accentDot)} />
+                                    <span className="leading-snug">{group.label}</span>
+                                  </span>
+                                  <ChevronDown
+                                    className={cn(
+                                      "w-3.5 h-3.5 text-plum/50 shrink-0 transition-transform duration-200 ml-1.5",
+                                      isOpen && "rotate-180 text-berry"
+                                    )}
+                                  />
+                                </button>
+
+                                {isOpen && (
+                                  <div className="pl-3 pr-1 py-1 flex flex-col gap-0.5 animate-in fade-in slide-in-from-top-1 duration-150">
+                                    {group.categories.map((cat) => (
+                                      <button
+                                        key={cat.id}
+                                        onClick={() => {
+                                          onNavigate("hub", cat.id);
+                                          setLearnDropdownOpen(false);
+                                        }}
+                                        className="w-full text-left px-2.5 py-1.5 text-[13px] font-medium font-sans text-plum/85 hover:text-berry hover:bg-berry/5 rounded-md transition-colors flex items-center justify-between group"
+                                      >
+                                        <span className="flex items-center gap-1.5">
+                                          <span className="text-charcoal/30 group-hover:text-berry text-[11px]">↳</span>
+                                          <span>{cat.label}</span>
+                                        </span>
+                                        <ChevronRight className="w-3 h-3 text-plum/20 group-hover:text-berry transition-colors shrink-0" />
+                                      </button>
+                                    ))}
+                                  </div>
+                                )}
+                              </div>
+                            );
+                          })}
                           <div className="pt-1 border-t border-plum/10 mt-1 flex flex-col gap-1">
                             <button
                               onClick={() => {
@@ -629,19 +687,57 @@ export function Navbar({ activePage, onNavigate, currentLang = "en", onSelectLan
                   </div>
 
                   {mobileLearnExpanded && (
-                    <div className="pl-4 pr-2 py-1.5 flex flex-col gap-1">
-                      {learnCategories.map((cat) => (
-                        <button
-                          key={cat.id}
-                          onClick={() => {
-                            onNavigate("hub", cat.id);
-                            setMobileMenuOpen(false);
-                          }}
-                          className="w-full text-left px-3 py-1.5 text-[14px] font-medium text-plum/85 hover:text-berry rounded-lg"
-                        >
-                          ↳ {cat.label}
-                        </button>
-                      ))}
+                    <div className="pl-3 pr-2 py-1.5 flex flex-col gap-1.5">
+                      <button
+                        onClick={() => {
+                          onNavigate("hub");
+                          setMobileMenuOpen(false);
+                        }}
+                        className="w-full text-left px-3 py-1.5 text-[13.5px] font-bold font-sans text-plum rounded-lg hover:bg-ivory-darker transition-colors border-b border-plum/10 pb-2 mb-0.5"
+                      >
+                        Explore All Topics →
+                      </button>
+                      {learnGroups.map((group) => {
+                        const isSubOpen = mobileLearnSubgroup === group.id;
+                        return (
+                          <div key={group.id} className="rounded-lg bg-ivory-darker/40 border border-plum/5 overflow-hidden">
+                            <button
+                              type="button"
+                              onClick={() => setMobileLearnSubgroup(isSubOpen ? null : group.id)}
+                              className="w-full text-left px-3 py-2 text-[13.5px] font-bold text-plum hover:text-berry flex items-center justify-between"
+                            >
+                              <span className="flex items-center gap-2">
+                                <span className={cn("w-2 h-2 rounded-full shrink-0", group.accentDot)} />
+                                <span>{group.label}</span>
+                              </span>
+                              <ChevronDown
+                                className={cn(
+                                  "w-3.5 h-3.5 text-plum/50 shrink-0 transition-transform duration-200",
+                                  isSubOpen && "rotate-180 text-berry"
+                                )}
+                              />
+                            </button>
+                            {isSubOpen && (
+                              <div className="pl-4 pr-2 pb-1.5 flex flex-col gap-1 border-t border-plum/5 pt-1">
+                                {group.categories.map((cat) => (
+                                  <button
+                                    key={cat.id}
+                                    onClick={() => {
+                                      onNavigate("hub", cat.id);
+                                      setMobileMenuOpen(false);
+                                    }}
+                                    className="w-full text-left px-2.5 py-1.5 text-[13px] font-medium text-plum/85 hover:text-berry rounded-md flex items-center gap-1.5"
+                                  >
+                                    <span className="text-charcoal/40 text-[11px]">↳</span>
+                                    <span>{cat.label}</span>
+                                  </button>
+                                ))}
+                              </div>
+                            )}
+                          </div>
+                        );
+                      })}
+                      <div className="pt-1.5 border-t border-plum/10 mt-1 flex flex-col gap-1">
                       <button
                         onClick={() => {
                           onNavigate("hub", "dictionary");
@@ -675,6 +771,7 @@ export function Navbar({ activePage, onNavigate, currentLang = "en", onSelectLan
                         <Sparkles className="w-3.5 h-3.5 text-berry shrink-0" />
                         <span>Myths &amp; Facts Interactive Cards</span>
                       </button>
+                    </div>
                     </div>
                   )}
                 </div>
