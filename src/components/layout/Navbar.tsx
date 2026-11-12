@@ -63,31 +63,43 @@ export function Navbar({ activePage, onNavigate, currentLang = "en", onSelectLan
     {
       id: "athlete",
       label: "Female athlete health & Accessibility",
-      accentDot: "bg-amber-500",
+      accentDot: "bg-deep-teal",
+      activeText: "text-deep-teal",
+      activeBg: "bg-light-teal/50 text-deep-teal border-deep-teal/20",
+      subHover: "hover:bg-light-teal/40 hover:text-deep-teal",
+      chevronColor: "text-deep-teal",
       categories: [
-        { id: "play", label: "Female Athlete Health" },
-        { id: "mind", label: "Mind & Self-Advocacy" },
-        { id: "factors", label: "The Bigger Picture" },
+        { id: "play", label: "Female Athlete Health", dotColor: "bg-deep-teal" },
+        { id: "mind", label: "Mind & Self-Advocacy", dotColor: "bg-deep-teal" },
+        { id: "factors", label: "The Bigger Picture", dotColor: "bg-deep-teal" },
       ],
     },
     {
       id: "hormonal",
       label: "Hormonal Health",
-      accentDot: "bg-rose-500",
+      accentDot: "bg-raspberry",
+      activeText: "text-raspberry",
+      activeBg: "bg-soft-pink/50 text-raspberry border-raspberry/20",
+      subHover: "hover:bg-soft-pink/40 hover:text-raspberry",
+      chevronColor: "text-raspberry",
       categories: [
-        { id: "pcos", label: "PCOS & Hormonal Health" },
-        { id: "cycle", label: "Cycle Sense & Menstruation" },
-        { id: "realtalk", label: "Real Talk & STIs" },
+        { id: "pcos", label: "PCOS & Hormonal Health", dotColor: "bg-raspberry" },
+        { id: "cycle", label: "Cycle Sense & Menstruation", dotColor: "bg-raspberry" },
+        { id: "realtalk", label: "Real Talk & STIs", dotColor: "bg-raspberry" },
       ],
     },
     {
       id: "reproductive",
       label: "Reproductive Health",
-      accentDot: "bg-teal-500",
+      accentDot: "bg-coral",
+      activeText: "text-[#D35443]",
+      activeBg: "bg-[#FFE1DB]/60 text-[#C84F3F] border-coral/30",
+      subHover: "hover:bg-[#FFE1DB]/50 hover:text-[#C84F3F]",
+      chevronColor: "text-coral",
       categories: [
-        { id: "endo", label: "Endometriosis & Reproductive Pain" },
-        { id: "body", label: "Body Basics & Hormones" },
-        { id: "conditions", label: "Pregnancy & Reproductive Care" },
+        { id: "endo", label: "Endometriosis & Reproductive Pain", dotColor: "bg-coral" },
+        { id: "body", label: "Body Basics & Hormones", dotColor: "bg-coral" },
+        { id: "conditions", label: "Pregnancy & Reproductive Care", dotColor: "bg-coral" },
       ],
     },
   ];
@@ -296,18 +308,18 @@ export function Navbar({ activePage, onNavigate, currentLang = "en", onSelectLan
                                   className={cn(
                                     "w-full text-left px-3 py-2 text-[13.5px] font-semibold font-sans rounded-lg transition-all flex items-center justify-between cursor-pointer",
                                     isOpen
-                                      ? "bg-ivory-darker text-plum font-bold shadow-xs border border-plum/10"
+                                      ? cn("shadow-xs border font-bold", group.activeBg)
                                       : "text-plum/85 hover:text-plum hover:bg-ivory-darker/70"
                                   )}
                                 >
                                   <span className="flex items-center gap-2">
-                                    <span className={cn("w-2 h-2 rounded-full shrink-0", group.accentDot)} />
+                                    <span className={cn("w-2.5 h-2.5 rounded-full shrink-0 shadow-2xs", group.accentDot)} />
                                     <span className="leading-snug">{group.label}</span>
                                   </span>
                                   <ChevronDown
                                     className={cn(
-                                      "w-3.5 h-3.5 text-plum/50 shrink-0 transition-transform duration-200 ml-1.5",
-                                      isOpen && "rotate-180 text-berry"
+                                      "w-3.5 h-3.5 transition-transform duration-200 ml-1.5",
+                                      isOpen ? cn("rotate-180", group.chevronColor) : "text-plum/50"
                                     )}
                                   />
                                 </button>
@@ -321,13 +333,16 @@ export function Navbar({ activePage, onNavigate, currentLang = "en", onSelectLan
                                           onNavigate("hub", cat.id);
                                           setLearnDropdownOpen(false);
                                         }}
-                                        className="w-full text-left px-2.5 py-1.5 text-[13px] font-medium font-sans text-plum/85 hover:text-berry hover:bg-berry/5 rounded-md transition-colors flex items-center justify-between group"
+                                        className={cn(
+                                          "w-full text-left px-2.5 py-1.5 text-[13px] font-medium font-sans text-plum/85 rounded-md transition-colors flex items-center justify-between group cursor-pointer",
+                                          group.subHover
+                                        )}
                                       >
-                                        <span className="flex items-center gap-1.5">
-                                          <span className="text-charcoal/30 group-hover:text-berry text-[11px]">↳</span>
+                                        <span className="flex items-center gap-2">
+                                          <span className={cn("w-1.5 h-1.5 rounded-full shrink-0 opacity-70 group-hover:opacity-100 transition-opacity", cat.dotColor)} />
                                           <span>{cat.label}</span>
                                         </span>
-                                        <ChevronRight className="w-3 h-3 text-plum/20 group-hover:text-berry transition-colors shrink-0" />
+                                        <ChevronRight className={cn("w-3 h-3 transition-colors shrink-0 opacity-20 group-hover:opacity-100", group.chevronColor)} />
                                       </button>
                                     ))}
                                   </div>
@@ -706,16 +721,19 @@ export function Navbar({ activePage, onNavigate, currentLang = "en", onSelectLan
                             <button
                               type="button"
                               onClick={() => setMobileLearnSubgroup(isSubOpen ? null : group.id)}
-                              className="w-full text-left px-3 py-2 text-[13.5px] font-bold text-plum hover:text-berry flex items-center justify-between"
+                              className={cn(
+                                "w-full text-left px-3 py-2 text-[13.5px] font-bold flex items-center justify-between transition-colors",
+                                isSubOpen ? group.activeText : "text-plum hover:text-berry"
+                              )}
                             >
                               <span className="flex items-center gap-2">
-                                <span className={cn("w-2 h-2 rounded-full shrink-0", group.accentDot)} />
+                                <span className={cn("w-2.5 h-2.5 rounded-full shrink-0 shadow-2xs", group.accentDot)} />
                                 <span>{group.label}</span>
                               </span>
                               <ChevronDown
                                 className={cn(
-                                  "w-3.5 h-3.5 text-plum/50 shrink-0 transition-transform duration-200",
-                                  isSubOpen && "rotate-180 text-berry"
+                                  "w-3.5 h-3.5 transition-transform duration-200",
+                                  isSubOpen ? cn("rotate-180", group.chevronColor) : "text-plum/50"
                                 )}
                               />
                             </button>
@@ -728,9 +746,12 @@ export function Navbar({ activePage, onNavigate, currentLang = "en", onSelectLan
                                       onNavigate("hub", cat.id);
                                       setMobileMenuOpen(false);
                                     }}
-                                    className="w-full text-left px-2.5 py-1.5 text-[13px] font-medium text-plum/85 hover:text-berry rounded-md flex items-center gap-1.5"
+                                    className={cn(
+                                      "w-full text-left px-2.5 py-1.5 text-[13px] font-medium text-plum/85 rounded-md flex items-center gap-2 transition-colors",
+                                      group.subHover
+                                    )}
                                   >
-                                    <span className="text-charcoal/40 text-[11px]">↳</span>
+                                    <span className={cn("w-1.5 h-1.5 rounded-full shrink-0 opacity-70", cat.dotColor)} />
                                     <span>{cat.label}</span>
                                   </button>
                                 ))}
