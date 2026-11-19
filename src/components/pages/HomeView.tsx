@@ -36,7 +36,7 @@ export function HomeView({ onNavigate }: HomeViewProps) {
           </h1>
 
           <p className="mb-8 max-w-[36rem] font-sans text-body text-pretty text-charcoal-light">
-            Clear, accessible health education for girls — understanding your biology, recognizing symptoms, and advocating for your care.
+            Clear, accessible health education for girls&nbsp;— understanding your biology, recognizing symptoms, and advocating for your care.
           </p>
 
           <div className="flex flex-col items-center justify-center gap-x-6 gap-y-2 sm:flex-row sm:flex-wrap">

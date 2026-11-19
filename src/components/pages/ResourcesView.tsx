@@ -16,6 +16,7 @@ import { PETITIONS_DATA, REAL_WORLD_ADVOCACY_LINKS } from "@/data/petitionsData"
 import { SYMPTOMS_DATA, SYMPTOM_LOG_TEMPLATE } from "@/data/symptomsData";
 import { PageId } from "@/components/layout/Navbar";
 import { cn, scrollMotion } from "@/lib/utils";
+import { titleText } from "@/components/shared/keepUnits";
 import { TabStrip } from "@/components/shared/TabStrip";
 
 interface ResourcesViewProps {
@@ -487,7 +488,7 @@ export function ResourcesView({ onNavigate, initialCategory = "all" }: Resources
 
             <p className="mt-6">
               <button type="button" onClick={() => onNavigate("hub", "words")} className={textLink}>
-                Looking up a clinical term? See Health words
+                Looking up a clinical term? See Health Dictionary &amp; Medical Terms
               </button>
             </p>
           </div>
@@ -540,19 +541,31 @@ export function ResourcesView({ onNavigate, initialCategory = "all" }: Resources
                     {hotline.sms && (
                       <p className="mt-3 flex items-start gap-2 text-sm font-semibold text-charcoal">
                         <MessageSquare className="mt-0.5 h-4 w-4 shrink-0 text-deep-teal" aria-hidden="true" />
-                        <span>{hotline.sms}</span>
+                        {/* Display only: phone numbers ("1-833-TLC-MAMA") never split at a hyphen */}
+                        <span>
+                          {hotline.sms.split(/(\(?[0-9A-Z]+(?:-[0-9A-Z]+)+\)?)/g).map((part, i) =>
+                            /-/.test(part) && /[0-9]/.test(part) ? (
+                              <span key={i} className="whitespace-nowrap">
+                                {part}
+                              </span>
+                            ) : (
+                              part
+                            )
+                          )}
+                        </span>
                       </p>
                     )}
                   </div>
                   <div className="xl:col-span-3 xl:justify-self-end">
-                    {hotline.number.replace(/[^0-9]/g, "").length > 6 ? (
+                    {/* 5-6 digit short codes (741741) are text lines; 988 and full numbers are calls */}
+                    {!/^\d{5,6}$/.test(hotline.number.replace(/[^0-9]/g, "")) ? (
                       <a href={`tel:${hotline.number.replace(/[^0-9]/g, "")}`} className={btnSecondary}>
                         <Phone className="h-4 w-4" aria-hidden="true" />
                         <span>Call <span className="whitespace-nowrap">{hotline.number}</span></span>
                       </a>
                     ) : (
                       <a href={`sms:${hotline.number.replace(/[^0-9]/g, "")}`} className={btnSecondary}>
-                        <Phone className="h-4 w-4" aria-hidden="true" />
+                        <MessageSquare className="h-4 w-4" aria-hidden="true" />
                         <span>Text <span className="whitespace-nowrap">{hotline.number}</span></span>
                       </a>
                     )}
@@ -623,7 +636,7 @@ export function ResourcesView({ onNavigate, initialCategory = "all" }: Resources
                   <p className="text-sm font-semibold text-deep-teal">
                     {petition.location} • {petition.organizer}
                   </p>
-                  <h2 className={cn(cardTitle, "mt-1")}>{petition.title}</h2>
+                  <h2 className={cn(cardTitle, "mt-1")}>{titleText(petition.title)}</h2>
                   <p className="mt-1 text-sm font-semibold text-charcoal-light">Target: {petition.target}</p>
                   <div className="mt-3">
                     <a

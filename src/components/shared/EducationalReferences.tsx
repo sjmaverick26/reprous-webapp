@@ -430,11 +430,11 @@ export function EducationalReferences({
   const getTypeIcon = (type: ReferenceItem["type"]) => {
     switch (type) {
       case "Research article":
-        return <BookOpen className="w-4 h-4 text-raspberry" aria-hidden="true" />;
+        return <BookOpen className="w-4 h-4 text-deep-teal" aria-hidden="true" />;
       case "Clinical guideline":
         return <FileCheck className="w-4 h-4 text-deep-teal" aria-hidden="true" />;
       case "Patient education resource":
-        return <HeartHandshake className="w-4 h-4 text-raspberry" aria-hidden="true" />;
+        return <HeartHandshake className="w-4 h-4 text-deep-teal" aria-hidden="true" />;
       case "Additional reading":
         return <Bookmark className="w-4 h-4 text-deep-teal" aria-hidden="true" />;
     }
@@ -491,7 +491,13 @@ export function EducationalReferences({
     <section className={cn("w-full mt-12 pt-8 border-t border-[#E5E1DC] font-sans", className)}>
       <div className="mb-6">
         <h3 className="font-serif text-h3 font-normal text-deep-teal text-balance">
-          {customTitle || "Evidence & Educational References"}
+          {/* Display only: a hyphenated word ("Myth-Busting") never splits at its hyphen */}
+          {(customTitle || "Evidence & Educational References").split(" ").map((word, i, all) => (
+            <React.Fragment key={i}>
+              {word.includes("-") ? <span className="whitespace-nowrap">{word}</span> : word}
+              {i < all.length - 1 ? " " : ""}
+            </React.Fragment>
+          ))}
         </h3>
         <p className="text-base text-charcoal-light font-sans mt-2 mb-0 max-w-[36rem] text-pretty">
           ReproUs educational materials are grounded in evidence-based research and clinical guidelines from the American College of Obstetricians and Gynecologists (ACOG), The Global Library of Women&apos;s Medicine (GLOWM / FIGO), the American Academy of Pediatrics (AAP), and the International Olympic Committee (IOC). <em>This is health education, not medical advice.</em>

@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useMemo, useEffect, useRef } from "react";
+import { titleText } from "@/components/shared/keepUnits";
 import { Search, X, ChevronDown } from "lucide-react";
 
 export interface DictionaryEntry {
@@ -1331,9 +1332,9 @@ export function LittleHealthDictionary({
                 setActiveTab(tab.id);
                 setExpandedId(null);
               }}
-              className={`shrink-0 min-h-[44px] px-4 rounded-full text-sm font-semibold whitespace-nowrap border transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-deep-teal focus-visible:ring-offset-2 ${
+              className={`shrink-0 min-h-[44px] px-4 rounded-full text-sm font-semibold whitespace-nowrap border-2 transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-deep-teal focus-visible:ring-offset-2 ${
                 isSelected
-                  ? "bg-deep-teal text-white border-deep-teal"
+                  ? "bg-light-teal text-deep-teal border-deep-teal"
                   : "bg-white text-deep-teal border-[#E5E1DC] hover:border-deep-teal"
               }`}
             >
@@ -1373,12 +1374,21 @@ export function LittleHealthDictionary({
         </div>
       ) : (
         <ul className="list-none m-0 p-0 bg-white rounded-2xl border border-[#E5E1DC] shadow-sm divide-y divide-[#E5E1DC] overflow-hidden">
-          {filteredEntries.map((entry) => {
+          {filteredEntries.map((entry, index) => {
             const isExpanded = expandedId === entry.id;
             const panelId = `word-panel-${entry.id}`;
+            // In "All words", her module names head each group (the entries are stored in module order).
+            const startsGroup =
+              activeTab === "all" && (index === 0 || filteredEntries[index - 1].moduleId !== entry.moduleId);
 
             return (
-              <li key={entry.id}>
+              <React.Fragment key={entry.id}>
+              {startsGroup && (
+                <li className="bg-warm-cream px-4 py-2 md:px-6">
+                  <h2 className="m-0 font-sans text-sm font-semibold text-deep-teal">{entry.moduleTitle}</h2>
+                </li>
+              )}
+              <li>
                 <button
                   type="button"
                   aria-expanded={isExpanded}
@@ -1387,7 +1397,7 @@ export function LittleHealthDictionary({
                   className="w-full min-h-[56px] px-4 md:px-6 py-3 flex items-center justify-between gap-4 text-left hover:bg-warm-cream transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-deep-teal"
                 >
                   <span className="min-w-0">
-                    <span className="block font-sans text-lg font-semibold text-deep-teal leading-snug">{entry.term}</span>
+                    <span className="block font-sans text-lg font-semibold text-deep-teal leading-snug">{titleText(entry.term)}</span>
                     <span className="block text-small text-charcoal-light">&ldquo;{entry.pronunciation}&rdquo;</span>
                   </span>
                   <ChevronDown
@@ -1426,6 +1436,7 @@ export function LittleHealthDictionary({
                   </div>
                 )}
               </li>
+              </React.Fragment>
             );
           })}
         </ul>

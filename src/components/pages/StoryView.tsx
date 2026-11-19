@@ -10,9 +10,6 @@ interface StoryViewProps {
   onNavigate?: (page: PageId, categoryId?: string) => void;
 }
 
-const sourceLink =
-  "inline-flex min-h-[44px] items-center gap-2 font-sans text-base font-semibold underline-offset-4 hover:underline focus-visible:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 rounded-sm transition-colors duration-150";
-
 // Source line in the evidence cards: first lines align whether a source name takes one line or two.
 const evidenceLink =
   "inline-flex min-h-[44px] items-start gap-2 py-2.5 font-sans text-base font-semibold underline-offset-4 hover:underline focus-visible:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 rounded-sm transition-colors duration-150";
@@ -85,7 +82,7 @@ export function StoryView({ onNavigate }: StoryViewProps = {}) {
 
   // About ends on Learn (one filled button); the ambassador link stays quiet, at the very end.
   const closing = onNavigate ? (
-    <div className="mt-12 flex flex-col items-start gap-10">
+    <div className="mt-12 flex flex-wrap items-center gap-4">
       <button
         type="button"
         onClick={() => onNavigate("hub")}
@@ -94,15 +91,13 @@ export function StoryView({ onNavigate }: StoryViewProps = {}) {
         <span>Start learning</span>
         <ArrowRight className="h-4 w-4" aria-hidden="true" />
       </button>
-      <div className="w-full border-t border-[#E5E1DC] pt-4">
-        <button
-          type="button"
-          onClick={() => onNavigate("contact", "ambassador")}
-          className={`${sourceLink} text-deep-teal focus-visible:ring-deep-teal`}
-        >
-          Become a Youth Ambassador
-        </button>
-      </div>
+      <button
+        type="button"
+        onClick={() => onNavigate("contact", "ambassador")}
+        className="inline-flex min-h-[48px] items-center justify-center gap-2 rounded-full border-2 border-deep-teal bg-white px-7 py-3 font-sans text-base font-semibold text-deep-teal transition-colors duration-150 hover:bg-light-teal motion-press focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-deep-teal focus-visible:ring-offset-2"
+      >
+        Become a Youth Ambassador
+      </button>
     </div>
   ) : null;
 
@@ -116,7 +111,7 @@ export function StoryView({ onNavigate }: StoryViewProps = {}) {
               Why ReproUs Exists
             </h1>
             <p className="mb-4 max-w-[36rem] font-sans text-body text-pretty text-deep-teal">
-              Too many girls grow up knowing what a &ldquo;normal&rdquo; period is supposed to look like &mdash; but not what to do when something feels wrong.
+              Too many girls grow up knowing what a &ldquo;normal&rdquo; period is supposed to look like&nbsp;&mdash; but not what to do when something feels wrong.
             </p>
             <p className="max-w-[36rem] font-sans text-body text-pretty text-charcoal-light">
               For generations, gaps in health research and education have left important questions about girls&apos; and women&apos;s health unanswered, misunderstood, or overlooked. Conditions like PCOS, endometriosis, and the Female Athlete Triad can be difficult to recognize, especially when young people aren&apos;t taught what signs to look for or what questions to ask. We believe understanding your body is the first step toward advocating for your health.

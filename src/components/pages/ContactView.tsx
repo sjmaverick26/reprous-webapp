@@ -37,7 +37,7 @@ export function ContactView({ onNavigate }: ContactViewProps) {
         <header className="max-w-3xl">
           <h1 className="font-serif text-h1 font-normal text-deep-teal text-balance">Contact Us</h1>
           <p className="mt-5 max-w-2xl text-body text-charcoal text-pretty">
-            Whether you want to bring a free workshop to your school, partner with our clinical advisory network, or ask a question — we&apos;re here for you.
+            Whether you want to bring a free workshop to your school, partner with our clinical advisory network, or ask a question&nbsp;— we&apos;re here for you.
           </p>
         </header>
 

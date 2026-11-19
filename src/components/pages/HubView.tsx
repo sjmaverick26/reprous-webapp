@@ -439,12 +439,20 @@ export function HubView({ initialCategory, onNavigate }: HubViewProps) {
                             onClick={() => openModule(cat.id)}
                             className={`group rounded-2xl p-5 md:p-6 text-left bg-white border ${pillar.border} shadow-sm hover:bg-warm-cream motion-lift flex flex-col gap-3 md:grid md:grid-rows-subgrid md:row-span-3 cursor-pointer ${spanAtMd} ${FOCUS_RING}`}
                           >
-                            <div>
-                              <span className={`w-11 h-11 rounded-full flex items-center justify-center mb-4 ${pillar.chip}`}>
+                            <div className="flex items-center gap-3 md:block">
+                              <span className={`w-11 h-11 shrink-0 rounded-full flex items-center justify-center md:mb-4 ${pillar.chip}`}>
                                 <Icon className={`w-5 h-5 ${pillar.chipIcon}`} aria-hidden="true" />
                               </span>
                               <h3 className="font-serif text-2xl font-normal text-deep-teal text-balance leading-snug m-0 group-hover:underline">
-                                {cat.title}
+                                {cat.title.includes(" · ") ? (
+                                  <>
+                                    <span className="block">{cat.title.split(" · ")[0]}</span>
+                                    <span className="sr-only"> · </span>
+                                    <span className="block">{cat.title.split(" · ").slice(1).join(" · ")}</span>
+                                  </>
+                                ) : (
+                                  cat.title
+                                )}
                               </h3>
                             </div>
                             <p className="text-base text-charcoal-light text-pretty leading-relaxed max-w-[36rem] m-0">
@@ -489,8 +497,8 @@ export function HubView({ initialCategory, onNavigate }: HubViewProps) {
             <nav aria-label="More in Learn" className="border-t border-[#E5E1DC] pt-4 flex flex-wrap gap-x-8 gap-y-1">
               {(
                 [
-                  ["Health words", "words"],
-                  ["Myths vs facts", "myths"],
+                  ["Health Dictionary & Medical Terms", "words"],
+                  ["Medical Myth-Buster Cards", "myths"],
                   ["Sources", "sources"],
                 ] as [string, SubView][]
               ).map(([label, view]) => (
@@ -541,34 +549,38 @@ export function HubView({ initialCategory, onNavigate }: HubViewProps) {
                 <div className="flex items-center justify-between gap-3 flex-wrap">
                   {backLink}
 
-                  <div className="flex items-center gap-1 flex-wrap">
-                    <button
-                      type="button"
-                      onClick={() => openSubView("words")}
-                      className={`inline-flex items-center min-h-[44px] pr-3 text-small font-semibold text-deep-teal hover:underline rounded-md cursor-pointer ${FOCUS_RING}`}
-                    >
-                      Health words
-                    </button>
+                  <div className="flex items-center">
+                    {completedTopics.size > 0 && (
                     <button
                       type="button"
                       onClick={() => setShowResetModal(true)}
-                      className={`inline-flex items-center gap-1.5 min-h-[44px] px-3 text-small font-semibold text-charcoal-light hover:text-deep-teal transition-colors duration-150 rounded-md cursor-pointer ${FOCUS_RING}`}
+                      className={`inline-flex items-center gap-1.5 min-h-[44px] pl-3 text-small font-semibold text-charcoal-light hover:text-deep-teal transition-colors duration-150 rounded-md cursor-pointer ${FOCUS_RING}`}
                       title="Reset your saved progress back to zero"
                     >
                       <RotateCcw className="w-4 h-4" aria-hidden="true" />
                       <span>Reset my progress</span>
                     </button>
+                    )}
                   </div>
                 </div>
 
                 {/* One edge: header, progress and featured card on the left; the path beside them from 1024 */}
                 <div className="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-12 items-start">
-                <div className="lg:col-span-6 flex flex-col gap-8">
+                <div className="module-aside lg:col-span-6 flex flex-col gap-8">
                 <header>
                   <PillarMarker pillar={pillarOf(activeCategory.id)} />
                   <h1 className="font-serif text-h2 font-normal text-deep-teal text-balance m-0 mb-3">
-                    {/* Display only: her title unchanged; "·" stays with the word before it */}
-                    {titleText(activeCategory.title.replace(" · ", "\u00a0· "))}
+                    {/* Display only, her title unchanged: a two-part title sets each part on its own line,
+                        and the "·" between them is kept for screen readers */}
+                    {activeCategory.title.includes(" · ") ? (
+                      <>
+                        <span className="block">{titleText(activeCategory.title.split(" · ")[0])}</span>
+                        <span className="sr-only"> · </span>
+                        <span className="block">{titleText(activeCategory.title.split(" · ").slice(1).join(" · "))}</span>
+                      </>
+                    ) : (
+                      titleText(activeCategory.title)
+                    )}
                   </h1>
                   <p className="text-body text-charcoal-light text-pretty max-w-[36rem] m-0">
                     {activeCategory.description}
@@ -578,7 +590,7 @@ export function HubView({ initialCategory, onNavigate }: HubViewProps) {
                     <button
                       type="button"
                       onClick={() => openTopic(activeCategory.topics[0])}
-                      className="mt-6 inline-flex min-h-[48px] max-w-full items-center justify-center gap-2 rounded-full bg-raspberry px-7 py-3 text-left font-sans text-base font-semibold text-white shadow-sm transition-colors duration-150 hover:bg-raspberry-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-raspberry focus-visible:ring-offset-2"
+                      className="mt-6 flex w-full min-h-[48px] max-w-full items-center justify-center gap-2 rounded-2xl bg-raspberry px-7 py-3 text-center sm:inline-flex sm:w-auto sm:rounded-full sm:text-left font-sans text-base font-semibold text-white shadow-sm transition-colors duration-150 hover:bg-raspberry-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-raspberry focus-visible:ring-offset-2"
                     >
                       <span className="text-balance">{activeCategory.topics[0].name}</span>
                       <ArrowRight className="h-4 w-4 shrink-0" aria-hidden="true" />
@@ -645,7 +657,15 @@ export function HubView({ initialCategory, onNavigate }: HubViewProps) {
                   </div>
                 )}
 
-
+                {/* Her dictionary, one quiet link under the module intro */}
+                <button
+                  type="button"
+                  onClick={() => openSubView("words")}
+                  className={`self-start inline-flex items-center gap-1 min-h-[44px] text-base font-semibold text-deep-teal hover:underline rounded-md cursor-pointer ${FOCUS_RING}`}
+                >
+                  Health Dictionary &amp; Medical Terms
+                  <ChevronRight className="w-4 h-4" aria-hidden="true" />
+                </button>
                 </div>
 
                 {/* Learning path: nodes on one rail; each dashed segment runs node to node, never under a label */}

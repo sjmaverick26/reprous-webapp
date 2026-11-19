@@ -436,6 +436,15 @@ details[open] > :not(summary) {
   }
 }
 
+/* Module pages: the intro column stays beside a long lesson path, only on screens tall enough to show
+   all of it (a taller column would hide its own end while stuck). */
+@media (min-width: 1024px) and (min-height: 860px) {
+  .module-aside {
+    position: sticky;
+    top: 6rem;
+  }
+}
+
 @media print {
   [data-reveal] {
     opacity: 1 !important;

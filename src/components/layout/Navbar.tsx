@@ -136,6 +136,12 @@ export function Navbar({ activePage, onNavigate }: NavbarProps) {
   // True while the menu is open because a mouse is resting on Learn: the first chevron click then keeps it open
   // instead of closing it. Touch and pen never hover-open, so their first tap opens the menu.
   const hoverOpenedRef = useRef(false);
+  // The menu's open state as of this instant: a fast "move onto the arrow and click" fires the click
+  // before React re-renders, so the click handler reads this instead of the render's learnOpen.
+  const learnOpenRef = useRef(false);
+  useEffect(() => {
+    learnOpenRef.current = learnOpen;
+  }, [learnOpen]);
 
   // Browser Back/Forward (or any hash change) closes every menu; in-app links close them in go().
   useEffect(() => {
@@ -224,6 +230,7 @@ export function Navbar({ activePage, onNavigate }: NavbarProps) {
                     ? (e) => {
                         if (e.pointerType !== "mouse") return;
                         hoverOpenedRef.current = true;
+                        learnOpenRef.current = true;
                         setLearnOpen(true);
                       }
                     : undefined
@@ -233,6 +240,7 @@ export function Navbar({ activePage, onNavigate }: NavbarProps) {
                     ? (e) => {
                         if (e.pointerType !== "mouse") return;
                         hoverOpenedRef.current = false;
+                        learnOpenRef.current = false;
                         setLearnOpen(false);
                       }
                     : undefined
@@ -266,11 +274,13 @@ export function Navbar({ activePage, onNavigate }: NavbarProps) {
                       ref={learnToggleRef}
                       type="button"
                       onClick={() => {
-                        if (hoverOpenedRef.current && learnOpen) {
+                        if (hoverOpenedRef.current && learnOpenRef.current) {
                           hoverOpenedRef.current = false; // opened by hover: this click keeps it open
                           return;
                         }
-                        setLearnOpen((o) => !o);
+                        const next = !learnOpenRef.current;
+                        learnOpenRef.current = next;
+                        setLearnOpen(next);
                       }}
                       aria-expanded={learnOpen}
                       aria-controls="learn-menu"

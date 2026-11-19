@@ -44,38 +44,35 @@ export function WorkshopsView() {
         </div>
       </section>
 
-      {/* Upcoming workshops: none yet */}
-      <section className="bg-white">
-        <div className="mx-auto max-w-6xl px-4 py-16 md:px-6 md:py-24">
-          <h2 className={h2Class}>Join an upcoming free workshop</h2>
-          <div className={cn(card, "mt-8 flex max-w-xl items-center gap-4 md:p-6")}>
-            <Calendar className="h-6 w-6 shrink-0 text-deep-teal" aria-hidden="true" />
-            <p className="text-lg font-semibold text-deep-teal">No upcoming workshops yet</p>
-          </div>
-        </div>
-      </section>
-
-      {/* Bring ReproUs to your school or group: a light band, so a light ground always meets the deep-teal footer */}
+      {/* Upcoming workshops (none yet) and how to get one: one light band, so a light ground always meets the
+          deep-teal footer and the empty state sits next to its way forward */}
       <section className="bg-light-teal">
-        <div className="mx-auto flex max-w-6xl flex-col items-start justify-between gap-8 px-4 py-16 md:flex-row md:items-center md:px-6 md:py-24">
-          <div className="max-w-xl">
-            <h2 className="font-serif text-h2 font-normal text-deep-teal text-balance">
+        <div className="mx-auto grid max-w-6xl grid-cols-1 gap-12 px-4 py-16 md:px-6 md:py-24 lg:grid-cols-2 lg:gap-16">
+          <div>
+            <h2 className="font-serif text-h3 font-normal text-deep-teal text-balance">Join an upcoming free workshop</h2>
+            <p className="mt-4 flex items-center gap-3 text-lg font-semibold text-deep-teal">
+              <Calendar className="h-6 w-6 shrink-0" aria-hidden="true" />
+              <span>No upcoming workshops yet</span>
+            </p>
+          </div>
+          <div className="flex flex-col items-start">
+            <h2 className="font-serif text-h3 font-normal text-deep-teal text-balance">
               Bring ReproUs to your school or group
             </h2>
             <p className="max-w-[36rem] mt-4 text-body text-charcoal text-pretty">
               We will travel to you or host a dedicated virtual session for your class, youth organization, or community center.
             </p>
-          </div>
           <a
             href={requestMailto}
             className={cn(
-              "inline-flex min-h-11 shrink-0 items-center justify-center gap-2 rounded-full bg-raspberry px-6 py-2.5 text-center text-base font-semibold text-white transition-colors duration-200 hover:bg-raspberry-dark motion-press",
+              "mt-6 inline-flex min-h-11 shrink-0 items-center justify-center gap-2 rounded-full bg-raspberry px-6 py-2.5 text-center text-base font-semibold text-white transition-colors duration-200 hover:bg-raspberry-dark motion-press",
               focusRing
             )}
           >
             <Mail className="h-4 w-4" aria-hidden="true" />
             <span>Request a workshop</span>
           </a>
+          </div>
         </div>
       </section>
     </div>

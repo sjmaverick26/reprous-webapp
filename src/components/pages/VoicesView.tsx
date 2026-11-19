@@ -8,6 +8,7 @@ import { siteLinks } from "@/data/siteLinks";
 import { EducationalReferences } from "@/components/shared/EducationalReferences";
 import { PageId } from "@/components/layout/Navbar";
 import { cn, scrollMotion } from "@/lib/utils";
+import { titleText } from "@/components/shared/keepUnits";
 import { TabStrip } from "@/components/shared/TabStrip";
 
 /** "toolkit" now lives in Resources; "ask" and "qa" both mean the anonymous Q&A section. */
@@ -174,7 +175,7 @@ export function VoicesView({
   return (
     <div className="font-sans text-charcoal">
       {/* Header */}
-      <header className="bg-soft-pink-light">
+      <header className="bg-light-teal">
         <div className="mx-auto max-w-6xl px-4 pb-10 pt-16 md:px-6 md:pb-14 md:pt-20">
         <h1 className="max-w-4xl font-serif text-h1 font-normal text-deep-teal text-balance">
           Youth Voices
@@ -217,7 +218,7 @@ export function VoicesView({
 
           {/* Type filter */}
           <div className="-mx-4 mt-8 flex gap-2 overflow-x-auto px-4 pb-1 md:mx-0 md:flex-wrap md:overflow-visible md:px-0" role="group" aria-label="Filter by type">
-            {(["all", ...STORY_TYPES] as const).map((t) => {
+            {(["all", ...STORY_TYPES.filter((type) => INITIAL_VOICES.some((v) => storyTypeOf(v) === type))] as const).map((t) => {
               const selected = typeFilter === t;
               return (
                 <button
@@ -275,7 +276,12 @@ export function VoicesView({
                     <span className="flex h-8 w-8 items-center justify-center rounded-full bg-light-teal" aria-hidden="true">
                       <Quote className="h-4 w-4 text-deep-teal" />
                     </span>
-                    <blockquote className="mt-3 max-w-[36rem] text-lg text-deep-teal text-pretty">
+                    <blockquote
+                      className={cn(
+                        "mt-3 max-w-[36rem] text-lg text-deep-teal text-pretty",
+                        lgSpan === "lg:col-span-2" && "lg:font-serif lg:text-2xl lg:leading-snug"
+                      )}
+                    >
                       &ldquo;{voice.quote}&rdquo;
                     </blockquote>
                   </div>
@@ -327,7 +333,7 @@ export function VoicesView({
                     focusRing
                   )}
                 >
-                  <span className="text-pretty">{faq.question}</span>
+                  <span className="text-pretty">{titleText(faq.question)}</span>
                   <Plus
                     aria-hidden="true"
                     className="h-5 w-5 shrink-0 text-deep-teal transition-transform duration-200 group-open:rotate-45"

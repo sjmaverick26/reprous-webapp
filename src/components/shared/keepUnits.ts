@@ -4,7 +4,12 @@
  * The underlying copy is unchanged.
  */
 export function keepUnits(text: string): string {
-  return text.replace(/\b(No\.|H\.R\.|S\.|Opinion|Day) (\d)/g, "$1\u00a0$2");
+  return (
+    text
+      .replace(/\b(No\.|H\.R\.|S\.|Opinion|Day) (\d)/g, "$1\u00a0$2")
+      // a number joined to a word by a hyphen ("365-Day") never splits at the hyphen (U+2060 word joiner)
+      .replace(/(\d)-(?=[A-Za-z])/g, "$1-\u2060")
+  );
 }
 
 const NBSP = String.fromCharCode(0xa0); // no-break space

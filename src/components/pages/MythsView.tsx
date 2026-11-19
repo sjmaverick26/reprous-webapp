@@ -83,6 +83,30 @@ export function MythsView({ onNavigate, embedded = false }: MythsViewProps) {
 
   // Reveal All / Reset act on the cards in view, so the label is right after any filter or search.
   const allFilteredRevealed = filteredMyths.length > 0 && filteredMyths.every((m) => revealedIds.has(m.id));
+
+  // Columns each card spans from 1024: wide cards fill the last row, so rows are never half empty.
+  const spanOf = (idx: number) => {
+    const count = filteredMyths.length;
+    const rest = count % 3;
+    if (count === 1) return 3;
+    return (rest === 2 && idx === 0) || (rest === 1 && (idx === 0 || idx === count - 1)) ? 2 : 1;
+  };
+  // Which row each card sits in from 1024, and the rows that hold a revealed card.
+  const rowOf: number[] = [];
+  {
+    let row = 0;
+    let col = 0;
+    filteredMyths.forEach((_, idx) => {
+      const cols = spanOf(idx);
+      if (col + cols > 3) {
+        row += 1;
+        col = 0;
+      }
+      rowOf.push(row);
+      col += cols;
+    });
+  }
+  const revealedRows = new Set(filteredMyths.flatMap((m, idx) => (revealedIds.has(m.id) ? [rowOf[idx]] : [])));
   const revealAll = () => {
     setRevealedIds((prev) => {
       const next = new Set(prev);
@@ -181,9 +205,9 @@ export function MythsView({ onNavigate, embedded = false }: MythsViewProps) {
               type="button"
               aria-pressed={isActive}
               onClick={() => setSelectedCategory(c.id)}
-              className={`shrink-0 min-h-[44px] px-4 rounded-full text-sm font-semibold font-sans whitespace-nowrap border transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-deep-teal focus-visible:ring-offset-2 ${
+              className={`shrink-0 min-h-[44px] px-4 rounded-full text-sm font-semibold font-sans whitespace-nowrap border-2 transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-deep-teal focus-visible:ring-offset-2 ${
                 isActive
-                  ? "bg-deep-teal border-deep-teal text-white"
+                  ? "bg-light-teal border-deep-teal text-deep-teal"
                   : "bg-white border-[#E5E1DC] text-deep-teal hover:border-deep-teal"
               }`}
             >
@@ -226,19 +250,16 @@ export function MythsView({ onNavigate, embedded = false }: MythsViewProps) {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {filteredMyths.map((item, idx) => {
           const isRevealed = revealedIds.has(item.id);
-          const count = filteredMyths.length;
-          const rest = count % 3;
-          const span =
-            count === 1
-              ? "lg:col-span-3"
-              : (rest === 2 && idx === 0) || (rest === 1 && (idx === 0 || idx === count - 1))
-              ? "lg:col-span-2"
-              : "";
+          const cols = spanOf(idx);
+          const span = cols === 3 ? "lg:col-span-3" : cols === 2 ? "lg:col-span-2" : "";
+          // From 1024 the cards of a row share their row lines (button and sources on one line) unless a card in
+          // that row is revealed; then each card keeps its own flow, so no button drops far below its quote.
+          const aligned = !revealedRows.has(rowOf[idx]);
 
           return (
             <div
               key={item.id}
-              className={`rounded-2xl flex flex-col justify-between lg:grid lg:grid-rows-subgrid lg:row-span-2 lg:gap-0 bg-white border border-[#E5E1DC] shadow-sm ${span}`}
+              className={`rounded-2xl flex flex-col justify-between lg:row-span-2 ${aligned ? "lg:grid lg:grid-cols-1 lg:grid-rows-subgrid lg:gap-0" : "lg:self-start"} bg-white border border-[#E5E1DC] shadow-sm ${span}`}
             >
               {/* Card Main Body */}
               <div className="p-5 md:p-6 flex flex-1 flex-col gap-4">
@@ -263,7 +284,7 @@ export function MythsView({ onNavigate, embedded = false }: MythsViewProps) {
                     <blockquote className="text-2xl font-normal font-serif text-deep-teal leading-snug text-balance rounded-2xl bg-soft-pink-light p-4 m-0">
                       &ldquo;{item.myth}&rdquo;
                     </blockquote>
-                    <div className="mt-auto">
+                    <div className={aligned ? "mt-auto" : ""}>
                       <button type="button" onClick={() => toggleReveal(item.id)} className={outlineBtn}>
                         <span>Reveal the facts</span>
                         <ArrowRight className="w-4 h-4" aria-hidden="true" />
