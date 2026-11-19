@@ -4981,12 +4981,15 @@ function MaternalWarningSignsDiagram({ diagram, themeColor }: { diagram: LessonD
     }
   ];
 
-  const handleCopyScript = (text: string, idx: number) => {
-    if (typeof navigator !== "undefined" && navigator.clipboard) {
-      navigator.clipboard.writeText(text);
-      setCopiedIdx(idx);
-      setTimeout(() => setCopiedIdx(null), 2500);
+  const handleCopyScript = async (text: string, idx: number) => {
+    if (typeof navigator === "undefined" || !navigator.clipboard) return;
+    try {
+      await navigator.clipboard.writeText(text);
+    } catch {
+      return; // the browser blocked copying: don't claim it worked
     }
+    setCopiedIdx(idx);
+    setTimeout(() => setCopiedIdx(null), 2500);
   };
 
   const activeSymptom = symptomPairs[selectedSymptomIdx];
@@ -5882,7 +5885,7 @@ function BodyNeutralityGrowthDiagram({ diagram, themeColor }: { diagram: LessonD
         </div>
 
         {/* Tab switcher */}
-        <div className="flex items-center gap-1.5 p-1 rounded-2xl bg-warm-cream border border-light-teal-dark">
+        <div className="flex flex-wrap items-center gap-1.5 p-1 rounded-2xl bg-warm-cream border border-light-teal-dark">
           <button
             type="button"
             onClick={() => setActiveTab("biology")}

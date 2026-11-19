@@ -302,7 +302,7 @@ export function InteractiveQuizGame({
                   : "border-deep-teal/15 bg-white text-charcoal hover:border-deep-teal hover:bg-light-teal/25 hover:-translate-y-0.5 active:translate-y-0"
               }`}
             >
-              <div className="flex items-center gap-3">
+              <div className="flex min-w-0 items-center gap-3">
                 <span
                   className={`flex h-8 w-8 items-center justify-center rounded-xl border text-xs font-bold font-sans shrink-0 ${
                     letterColors[optIdx % letterColors.length]
@@ -310,7 +310,7 @@ export function InteractiveQuizGame({
                 >
                   {optionLetters[optIdx]}
                 </span>
-                <span className="leading-snug">{opt}</span>
+                <span className="min-w-0 break-words leading-snug">{opt}</span>
               </div>
 
               {isAnswered && (
@@ -362,7 +362,7 @@ export function InteractiveQuizGame({
           {currentStep < questions.length - 1 ? (
             <Button
               onClick={handleNext}
-              className="bg-deep-teal text-white hover:bg-deep-teal/90 text-sm sm:text-base h-12 px-6 rounded-2xl font-bold cursor-pointer gap-2 shadow-sm"
+              className="bg-deep-teal text-white hover:bg-deep-teal/90 text-sm sm:text-base h-auto min-h-12 max-w-full whitespace-normal text-center py-3 px-6 rounded-2xl font-bold cursor-pointer gap-2 shadow-sm"
             >
               <span>Next Question</span>
               <ArrowRight className="w-4 h-4" />
@@ -370,7 +370,7 @@ export function InteractiveQuizGame({
           ) : (
             <Button
               onClick={handleNext}
-              className="bg-emerald-600 text-white hover:bg-emerald-700 text-sm sm:text-base h-12 px-6 rounded-2xl font-bold cursor-pointer gap-2 shadow-sm"
+              className="bg-emerald-600 text-white hover:bg-emerald-700 text-sm sm:text-base h-auto min-h-12 max-w-full whitespace-normal text-center py-3 px-6 rounded-2xl font-bold cursor-pointer gap-2 shadow-sm"
             >
               <span>View Quiz Results & Victory Screen</span>
               <Trophy className="w-4 h-4" />

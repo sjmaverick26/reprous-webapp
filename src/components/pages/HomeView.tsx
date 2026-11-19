@@ -35,7 +35,7 @@ export function HomeView({ onNavigate }: HomeViewProps) {
             </span>
           </h1>
 
-          <p className="mb-8 max-w-[65ch] font-sans text-body text-pretty text-charcoal-light">
+          <p className="mb-8 max-w-[36rem] font-sans text-body text-pretty text-charcoal-light">
             Clear, accessible health education for girls — understanding your biology, recognizing symptoms, and advocating for your care.
           </p>
 
@@ -66,11 +66,11 @@ export function HomeView({ onNavigate }: HomeViewProps) {
         className="w-full bg-deep-teal py-16 text-white scroll-mt-20 md:py-24 md:scroll-mt-24"
       >
         <div className="mx-auto w-full max-w-6xl min-w-0 px-4 md:px-6">
-          <div data-reveal="" className="mx-auto mb-12 flex max-w-3xl flex-col items-center text-center md:mb-16">
+          <div data-reveal="" className="mx-auto mb-12 flex max-w-3xl flex-col items-start text-left md:mb-16 md:items-center md:text-center">
             <h2 className="mb-4 font-serif text-h2 font-normal text-balance text-white">
               You shouldn&apos;t need to become an expert to be taken seriously.
             </h2>
-            <p className="max-w-[65ch] font-sans text-body text-pretty text-light-teal">
+            <p className="max-w-[36rem] font-sans text-body text-pretty text-light-teal">
               ReproUs helps girls understand their bodies, recognize symptoms, and build the confidence to ask informed questions about their health.
             </p>
           </div>
@@ -88,24 +88,24 @@ export function HomeView({ onNavigate }: HomeViewProps) {
           <h2 className="mb-4 max-w-3xl font-serif text-h3 font-normal text-balance text-deep-teal">
             You&apos;re not alone in figuring this out.
           </h2>
-          <p className="mb-8 max-w-[65ch] font-sans text-body text-pretty text-charcoal-light">
+          <p className="mb-8 max-w-[36rem] font-sans text-body text-pretty text-charcoal-light">
             Browse Learn topics, or hear directly from other young people in Youth Voices.
           </p>
           <div className="flex flex-col items-center justify-center gap-x-6 gap-y-2 sm:flex-row sm:flex-wrap">
             <button
               type="button"
-              onClick={() => onNavigate("hub")}
+              onClick={() => onNavigate("voices")}
               className="inline-flex min-h-[48px] items-center justify-center gap-2 rounded-full bg-raspberry px-7 py-3 font-sans text-base font-semibold text-white shadow-sm transition-colors duration-150 hover:bg-raspberry-dark motion-press motion-arrow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-raspberry focus-visible:ring-offset-2 active:bg-raspberry-dark"
             >
-              <span>Start learning</span>
+              <span>Read Youth Voices</span>
               <ArrowRight className="h-4 w-4" aria-hidden="true" />
             </button>
             <button
               type="button"
-              onClick={() => onNavigate("voices")}
+              onClick={() => onNavigate("hub")}
               className={`${linkClass} text-deep-teal focus-visible:ring-deep-teal`}
             >
-              <span>Read Youth Voices</span>
+              <span>Start learning</span>
               <ArrowRight className="h-4 w-4" aria-hidden="true" />
             </button>
           </div>

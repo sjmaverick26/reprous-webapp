@@ -493,7 +493,7 @@ export function EducationalReferences({
         <h3 className="font-serif text-h3 font-normal text-deep-teal text-balance">
           {customTitle || "Evidence & Educational References"}
         </h3>
-        <p className="text-base text-charcoal-light font-sans mt-2 mb-0 max-w-[65ch] text-pretty">
+        <p className="text-base text-charcoal-light font-sans mt-2 mb-0 max-w-[36rem] text-pretty">
           ReproUs educational materials are grounded in evidence-based research and clinical guidelines from the American College of Obstetricians and Gynecologists (ACOG), The Global Library of Women&apos;s Medicine (GLOWM / FIGO), the American Academy of Pediatrics (AAP), and the International Olympic Committee (IOC). <em>This is health education, not medical advice.</em>
         </p>
       </div>

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useMemo, useEffect, useRef } from "react";
 import { Search, X, ChevronDown } from "lucide-react";
 
 export interface DictionaryEntry {
@@ -1228,6 +1228,7 @@ export function LittleHealthDictionary({
   initialModuleId?: string;
 }) {
   const [searchQuery, setSearchQuery] = useState("");
+  const searchInputRef = useRef<HTMLInputElement>(null);
   const [activeTab, setActiveTab] = useState<string>(initialModuleId || "all");
   const [expandedId, setExpandedId] = useState<string | null>(null);
 
@@ -1272,11 +1273,11 @@ export function LittleHealthDictionary({
   return (
     <div id="health-dictionary" className="w-full space-y-6 font-sans">
       {/* Title */}
-      <header className="max-w-[65ch]">
+      <header className="max-w-[36rem]">
         <h1 className="font-serif text-h2 text-deep-teal text-balance m-0">
           Little Health Dictionary &amp; Clinical Terms Guide
         </h1>
-        <p className="max-w-[65ch] text-body text-charcoal-light text-pretty mt-3 mb-0">
+        <p className="max-w-[36rem] text-body text-charcoal-light text-pretty mt-3 mb-0">
           Doctor chart examples, clinical phrases, and tricky medical terms translated into clear, empowering language. <span className="font-semibold text-deep-teal">(This is education, not medical advice.)</span>
         </p>
       </header>
@@ -1289,6 +1290,7 @@ export function LittleHealthDictionary({
         <div className="relative">
         <Search className="w-5 h-5 text-charcoal-muted absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none" aria-hidden="true" />
         <input
+          ref={searchInputRef}
           id="health-words-search"
           type="text"
           value={searchQuery}
@@ -1299,7 +1301,10 @@ export function LittleHealthDictionary({
         {searchQuery && (
           <button
             type="button"
-            onClick={() => setSearchQuery("")}
+            onClick={() => {
+              setSearchQuery("");
+              searchInputRef.current?.focus(); // keep the keyboard in the search box
+            }}
             className="absolute right-0 top-1/2 -translate-y-1/2 w-12 h-12 flex items-center justify-center text-charcoal-light hover:text-charcoal rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-deep-teal"
             aria-label="Clear search"
           >
@@ -1351,7 +1356,7 @@ export function LittleHealthDictionary({
       {/* Word list */}
       {filteredEntries.length === 0 ? (
         <div className="p-8 text-center bg-white rounded-2xl border border-[#E5E1DC] text-charcoal-light space-y-2">
-          <p className="font-semibold text-charcoal m-0">
+          <p className="font-semibold text-charcoal m-0 [overflow-wrap:anywhere]">
             No terms found matching &ldquo;{searchQuery}&rdquo; in {activeModuleMeta.label}.
           </p>
           <button
@@ -1359,6 +1364,7 @@ export function LittleHealthDictionary({
             onClick={() => {
               setSearchQuery("");
               setActiveTab("all");
+              searchInputRef.current?.focus();
             }}
             className="min-h-[44px] px-4 text-small font-semibold text-deep-teal underline hover:text-deep-teal-dark transition-colors duration-150"
           >
@@ -1396,26 +1402,26 @@ export function LittleHealthDictionary({
                       {entry.moduleTitle}
                     </span>
 
-                    <div className="max-w-[65ch]">
+                    <div className="max-w-[36rem]">
                       <p className="text-base font-semibold text-deep-teal m-0 mb-1">Plain English Meaning</p>
-                      <p className="max-w-[65ch] text-base text-charcoal text-pretty leading-relaxed m-0">{entry.plainEnglish}</p>
+                      <p className="max-w-[36rem] text-base text-charcoal text-pretty leading-relaxed m-0">{entry.plainEnglish}</p>
                     </div>
 
                     {entry.chartJargon && (
-                      <div className="max-w-[65ch] rounded-2xl bg-light-teal-light p-4">
+                      <div className="max-w-[36rem] rounded-2xl bg-light-teal-light p-4">
                         <p className="text-base font-semibold text-deep-teal m-0 mb-1">Real Clinic / Chart Example</p>
                         <p className="font-mono text-small text-charcoal leading-relaxed m-0">{entry.chartJargon}</p>
                       </div>
                     )}
 
-                    <div className="max-w-[65ch] rounded-2xl bg-warm-cream p-4">
+                    <div className="max-w-[36rem] rounded-2xl bg-warm-cream p-4">
                       <p className="text-base font-semibold text-deep-teal m-0 mb-1">Clinical Pathology Definition</p>
-                      <p className="max-w-[65ch] text-base text-charcoal text-pretty leading-relaxed m-0">{entry.doctorDefinition}</p>
+                      <p className="max-w-[36rem] text-base text-charcoal text-pretty leading-relaxed m-0">{entry.doctorDefinition}</p>
                     </div>
 
-                    <div className="max-w-[65ch] rounded-2xl bg-soft-pink-light p-4">
+                    <div className="max-w-[36rem] rounded-2xl bg-soft-pink-light p-4">
                       <p className="text-base font-semibold text-deep-teal m-0 mb-1">What to say in your appointment</p>
-                      <p className="max-w-[65ch] text-base text-charcoal text-pretty leading-relaxed m-0">{entry.howToSayIt}</p>
+                      <p className="max-w-[36rem] text-base text-charcoal text-pretty leading-relaxed m-0">{entry.howToSayIt}</p>
                     </div>
                   </div>
                 )}

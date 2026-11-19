@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useRef } from "react";
+import { useDialogFocus } from "@/components/shared/useDialogFocus";
 import {
   RefreshCw,
   CheckCircle2,
@@ -33,6 +34,10 @@ export function MythsView({ onNavigate, embedded = false }: MythsViewProps) {
     myth: MythItem;
     source: MythSource;
   } | null>(null);
+  // The sources pop-up takes keyboard focus while open and gives it back to its "Sources" button.
+  const sourceDialogRef = useRef<HTMLDivElement>(null);
+  const sourceOpenerRef = useRef<HTMLElement | null>(null);
+  useDialogFocus(activeSourceModal !== null, sourceDialogRef, () => sourceOpenerRef.current);
 
   const categories = [
     { id: "all", label: "All Myths & Facts" },
@@ -76,16 +81,19 @@ export function MythsView({ onNavigate, embedded = false }: MythsViewProps) {
     });
   };
 
+  // Reveal All / Reset act on the cards in view, so the label is right after any filter or search.
+  const allFilteredRevealed = filteredMyths.length > 0 && filteredMyths.every((m) => revealedIds.has(m.id));
   const revealAll = () => {
-    if (revealedIds.size === filteredMyths.length) {
-      setRevealedIds(new Set());
-    } else {
-      setRevealedIds(new Set(filteredMyths.map((m) => m.id)));
-    }
+    setRevealedIds((prev) => {
+      const next = new Set(prev);
+      filteredMyths.forEach((m) => (allFilteredRevealed ? next.delete(m.id) : next.add(m.id)));
+      return next;
+    });
   };
 
   const openSourceModal = (e: React.MouseEvent, item: MythItem) => {
     e.stopPropagation();
+    sourceOpenerRef.current = e.currentTarget as HTMLElement;
     setActiveSourceModal({ myth: item, source: item.source });
   };
 
@@ -113,8 +121,8 @@ export function MythsView({ onNavigate, embedded = false }: MythsViewProps) {
         <h1 className="text-h2 font-normal font-serif text-deep-teal text-balance m-0 mb-4">
           Separating Myths from Medical Reality
         </h1>
-        <p className="text-body text-charcoal-light text-pretty max-w-[65ch] m-0">
-          From pain and cycle regularity to athlete health and fertility, misinformation can harm your health. Tap <strong className="text-deep-teal font-semibold">&ldquo;Reveal the facts →&rdquo;</strong> to unpack clinical explanations and verified sources. <span className="block mt-2 text-small">(This content is for health education, not medical advice.)</span>
+        <p className="text-body text-charcoal-light text-pretty max-w-[36rem] m-0">
+          From pain and cycle regularity to athlete health and fertility, misinformation can harm your health. Tap <strong className="text-deep-teal font-semibold">&ldquo;Reveal the facts&nbsp;→&rdquo;</strong> to unpack clinical explanations and verified sources. <span className="block mt-2 text-small">(This content is for health education, not medical advice.)</span>
         </p>
 
         {/* Global Controls: Search + Reveal All */}
@@ -147,7 +155,7 @@ export function MythsView({ onNavigate, embedded = false }: MythsViewProps) {
           </div>
 
           <button type="button" onClick={revealAll} className={`${outlineBtn} h-12 whitespace-nowrap`}>
-            {revealedIds.size === filteredMyths.length && filteredMyths.length > 0 ? (
+            {allFilteredRevealed ? (
               <>
                 <RotateCcw className="w-4 h-4" aria-hidden="true" />
                 Reset All to Myths
@@ -186,7 +194,7 @@ export function MythsView({ onNavigate, embedded = false }: MythsViewProps) {
       </div>
 
       {/* Result Count Indicator */}
-      <p className="text-small text-charcoal-light border-b border-[#E5E1DC] pb-2 m-0" aria-live="polite">
+      <p className="text-small text-charcoal-light border-b border-[#E5E1DC] pb-2 m-0 [overflow-wrap:anywhere]" aria-live="polite">
         Showing <strong>{filteredMyths.length}</strong> {filteredMyths.length === 1 ? "card" : "cards"}
         {selectedCategory !== "all" && ` in ${categories.find((c) => c.id === selectedCategory)?.label}`}
         {searchQuery && ` matching "${searchQuery}"`}
@@ -197,7 +205,7 @@ export function MythsView({ onNavigate, embedded = false }: MythsViewProps) {
         <div className="text-center py-12 px-4 bg-white rounded-2xl border border-[#E5E1DC] shadow-sm">
           <HelpCircle className="w-10 h-10 text-deep-teal mx-auto mb-3" aria-hidden="true" />
           <h3 className="text-2xl font-serif font-normal text-deep-teal text-balance mb-2">No matching myths found</h3>
-          <p className="mx-auto max-w-[65ch] text-base text-charcoal-light mb-4">
+          <p className="mx-auto max-w-[36rem] text-base text-charcoal-light mb-4">
             Try adjusting your search terms or clearing the category filter.
           </p>
           <button
@@ -230,10 +238,10 @@ export function MythsView({ onNavigate, embedded = false }: MythsViewProps) {
           return (
             <div
               key={item.id}
-              className={`rounded-2xl flex flex-col justify-between bg-white border border-[#E5E1DC] shadow-sm ${span}`}
+              className={`rounded-2xl flex flex-col justify-between lg:grid lg:grid-rows-subgrid lg:row-span-2 lg:gap-0 bg-white border border-[#E5E1DC] shadow-sm ${span}`}
             >
               {/* Card Main Body */}
-              <div className="p-5 md:p-6 flex flex-col gap-4">
+              <div className="p-5 md:p-6 flex flex-1 flex-col gap-4">
                 {/* Status + topic */}
                 <div className="flex items-center gap-3 flex-wrap">
                   {isRevealed ? (
@@ -251,11 +259,11 @@ export function MythsView({ onNavigate, embedded = false }: MythsViewProps) {
                 </div>
 
                 {!isRevealed ? (
-                  <div className="flex flex-col gap-5">
+                  <div className="flex flex-1 flex-col gap-5">
                     <blockquote className="text-2xl font-normal font-serif text-deep-teal leading-snug text-balance rounded-2xl bg-soft-pink-light p-4 m-0">
                       &ldquo;{item.myth}&rdquo;
                     </blockquote>
-                    <div>
+                    <div className="mt-auto">
                       <button type="button" onClick={() => toggleReveal(item.id)} className={outlineBtn}>
                         <span>Reveal the facts</span>
                         <ArrowRight className="w-4 h-4" aria-hidden="true" />
@@ -266,7 +274,7 @@ export function MythsView({ onNavigate, embedded = false }: MythsViewProps) {
                   <div className="flex flex-col gap-4">
                     {/* The original myth, kept as a quiet line */}
                     <div className="flex items-start justify-between gap-3 rounded-2xl bg-soft-pink-light px-4 py-3">
-                      <p className="max-w-[65ch] text-base italic text-charcoal-light text-pretty m-0">
+                      <p className="max-w-[36rem] text-base italic text-charcoal-light text-pretty m-0">
                         &ldquo;{item.myth}&rdquo;
                       </p>
                       <button
@@ -282,7 +290,7 @@ export function MythsView({ onNavigate, embedded = false }: MythsViewProps) {
                       {item.quickFact}
                     </h3>
 
-                    <p className="max-w-[65ch] text-base text-charcoal text-pretty leading-relaxed m-0 whitespace-pre-line">{item.explanation}</p>
+                    <p className="max-w-[36rem] text-base text-charcoal text-pretty leading-relaxed m-0 whitespace-pre-line">{item.explanation}</p>
 
                     {item.takeaways && item.takeaways.length > 0 && (
                       <div>
@@ -333,7 +341,9 @@ export function MythsView({ onNavigate, embedded = false }: MythsViewProps) {
       {/* Active Source Citation Modal */}
       {activeSourceModal && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50"
+          ref={sourceDialogRef}
+          tabIndex={-1}
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 outline-none"
           onClick={() => setActiveSourceModal(null)}
           role="dialog"
           aria-modal="true"
@@ -374,13 +384,13 @@ export function MythsView({ onNavigate, embedded = false }: MythsViewProps) {
                 {activeSourceModal.source.guidelineNumber && (
                   <div>
                     <p className="text-small font-semibold text-charcoal-light m-0">Guideline ID</p>
-                    <p className="max-w-[65ch] text-base text-charcoal m-0">{keepUnits(activeSourceModal.source.guidelineNumber)}</p>
+                    <p className="max-w-[36rem] text-base text-charcoal m-0">{keepUnits(activeSourceModal.source.guidelineNumber)}</p>
                   </div>
                 )}
                 {activeSourceModal.source.citationYear && (
                   <div>
                     <p className="text-small font-semibold text-charcoal-light m-0">Published / Status</p>
-                    <p className="max-w-[65ch] text-base text-charcoal m-0">{activeSourceModal.source.citationYear}</p>
+                    <p className="max-w-[36rem] text-base text-charcoal m-0">{activeSourceModal.source.citationYear}</p>
                   </div>
                 )}
               </div>
@@ -388,7 +398,7 @@ export function MythsView({ onNavigate, embedded = false }: MythsViewProps) {
               {activeSourceModal.source.keyFinding && (
                 <div className="rounded-2xl bg-light-teal-light p-4">
                   <p className="text-base font-semibold text-deep-teal m-0 mb-1">Clinical Consensus Finding</p>
-                  <p className="max-w-[65ch] text-base text-charcoal text-pretty leading-relaxed m-0">
+                  <p className="max-w-[36rem] text-base text-charcoal text-pretty leading-relaxed m-0">
                     {activeSourceModal.source.keyFinding}
                   </p>
                 </div>

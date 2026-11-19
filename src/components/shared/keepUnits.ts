@@ -20,7 +20,7 @@ const MAX_RUN = 26;
  * A glue that would make a run longer than MAX_RUN characters is skipped. Titles that fit stay on one line.
  * Also applies keepUnits.
  */
-export function titleText(text: string): string {
+export function titleText(text: string, maxRun: number = MAX_RUN): string {
   const words = keepUnits(text).split(" ").filter(Boolean);
   const n = words.length;
   if (n < 3) return words.join(" ");
@@ -33,7 +33,7 @@ export function titleText(text: string): string {
     return words.slice(a, b + 1).join(" ").length;
   };
   const tryGlue = (i: number) => {
-    if (i >= 0 && i < n - 1 && !glue[i] && runLen(i) <= MAX_RUN) glue[i] = true;
+    if (i >= 0 && i < n - 1 && !glue[i] && runLen(i) <= maxRun) glue[i] = true;
   };
   words.forEach((w, i) => {
     if (w === "&") {

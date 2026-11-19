@@ -11,6 +11,7 @@ import { ResourcesView } from "@/components/pages/ResourcesView";
 import { VoicesView } from "@/components/pages/VoicesView";
 import { ContactView } from "@/components/pages/ContactView";
 import { useReveal } from "@/components/shared/useReveal";
+import { scrollMotion } from "@/lib/utils";
 
 type Route = { page: PageId; tab?: string };
 type ResourcesCategory = React.ComponentProps<typeof ResourcesView>["initialCategory"];
@@ -123,9 +124,9 @@ export default function App() {
       setTimeout(() => {
         const el = id ? document.getElementById(id) : null;
         if (el) {
-          el.scrollIntoView({ behavior: "smooth", block: "start" });
+          el.scrollIntoView({ behavior: scrollMotion(), block: "start" });
         } else {
-          window.scrollTo({ top: 0, behavior: "smooth" });
+          window.scrollTo({ top: 0, behavior: scrollMotion() });
         }
       }, 60);
     };
@@ -133,7 +134,7 @@ export default function App() {
     if (page === "home" && tab) scrollToId(tab);
     else if (page === "resources" && tab) scrollToId(RESOURCE_SCROLL_TARGETS[tab]);
     else if (page === "contact" && tab === "ambassador") scrollToId("ambassador-section");
-    else window.scrollTo({ top: 0, behavior: "smooth" });
+    else window.scrollTo({ top: 0, behavior: scrollMotion() });
   }, []);
 
   const handleNavigate = (page: PageId, categoryOrTab?: string) => {

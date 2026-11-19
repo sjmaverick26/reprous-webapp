@@ -37,6 +37,7 @@ import {
 import { EducationalReferences } from "@/components/shared/EducationalReferences";
 import { LittleHealthDictionary } from "@/components/shared/LittleHealthDictionary";
 import { LEARN_GROUPS, type LearnGroupId } from "@/data/learnGroups";
+import { titleText } from "@/components/shared/keepUnits";
 import { FullPageLessonExperience } from "@/components/shared/FullPageLessonExperience";
 import { MythsView } from "@/components/pages/MythsView";
 import {
@@ -376,14 +377,10 @@ export function HubView({ initialCategory, onNavigate }: HubViewProps) {
         {showLanding && (
           <div className="flex flex-col gap-12">
             <header className="max-w-3xl">
-              <p className="m-0 mb-4 inline-flex items-center gap-2.5 text-base font-semibold text-deep-teal">
-                <span aria-hidden="true" className="h-3 w-3 shrink-0 rounded-full ring-4 bg-deep-teal ring-light-teal" />
-                Learn
-              </p>
               <h1 className="font-serif text-h1 font-normal text-deep-teal text-balance m-0 mb-4">
                 What do you want to understand?
               </h1>
-              <p className="text-body text-charcoal text-pretty max-w-[65ch] m-0 mb-3">
+              <p className="text-body text-charcoal text-pretty max-w-[36rem] m-0 mb-3">
                 Every category below is judgment-free and written in plain language.
               </p>
               <p className="text-small text-charcoal-light text-pretty m-0">
@@ -450,7 +447,7 @@ export function HubView({ initialCategory, onNavigate }: HubViewProps) {
                                 {cat.title}
                               </h3>
                             </div>
-                            <p className="text-base text-charcoal-light text-pretty leading-relaxed max-w-[65ch] m-0">
+                            <p className="text-base text-charcoal-light text-pretty leading-relaxed max-w-[36rem] m-0">
                               {cat.description}
                             </p>
 
@@ -566,13 +563,14 @@ export function HubView({ initialCategory, onNavigate }: HubViewProps) {
 
                 {/* One edge: header, progress and featured card on the left; the path beside them from 1024 */}
                 <div className="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-12 items-start">
-                <div className="lg:col-span-5 flex flex-col gap-8">
+                <div className="lg:col-span-6 flex flex-col gap-8">
                 <header>
                   <PillarMarker pillar={pillarOf(activeCategory.id)} />
                   <h1 className="font-serif text-h2 font-normal text-deep-teal text-balance m-0 mb-3">
-                    {activeCategory.title}
+                    {/* Display only: her title unchanged; "·" stays with the word before it */}
+                    {titleText(activeCategory.title.replace(" · ", "\u00a0· "))}
                   </h1>
-                  <p className="text-body text-charcoal-light text-pretty max-w-[65ch] m-0">
+                  <p className="text-body text-charcoal-light text-pretty max-w-[36rem] m-0">
                     {activeCategory.description}
                   </p>
                   {/* The one filled button above the fold: start lesson 1 */}
@@ -624,7 +622,7 @@ export function HubView({ initialCategory, onNavigate }: HubViewProps) {
                       <h2 className="font-serif text-2xl font-normal text-deep-teal text-balance m-0">
                         Fuel Up: Athlete Nutrition Arcade
                       </h2>
-                      <p className="max-w-[65ch] text-base text-charcoal text-pretty leading-relaxed m-0">
+                      <p className="max-w-[36rem] text-base text-charcoal text-pretty leading-relaxed m-0">
                         Explore athletic fueling with zero walls of text! Play <strong>Visual Fuel Match</strong>, <strong>3:1 Recovery Blender</strong>, <strong>Pregame Bowl Catcher</strong>, and <strong>Timing Clock</strong>.
                       </p>
                     </div>
@@ -651,13 +649,14 @@ export function HubView({ initialCategory, onNavigate }: HubViewProps) {
                 </div>
 
                 {/* Learning path: nodes on one rail; each dashed segment runs node to node, never under a label */}
-                <div className="lg:col-span-7">
+                <div className="lg:col-span-6">
                   <ol className="m-0 p-0 list-none flex flex-col" aria-label={`${activeCategory.title} lessons`}>
                     {activeCategory.topics.map((topic) => {
                       const isDone = completedTopics.has(topic.id);
                       const isOpen = openPanelId === topic.id;
-                      const nodeBg = topic.isAdvocateCapstone ? "bg-raspberry" : pillar.chip;
-                      const nodeIcon = topic.isAdvocateCapstone ? "text-white" : pillar.chipIcon;
+                      // Every node in the group's colour (her Learn groups); the shield icon marks the Advocate step.
+                      const nodeBg = pillar.chip;
+                      const nodeIcon = pillar.chipIcon;
 
                       return (
                         <li key={topic.id} className="relative pb-6">
@@ -670,17 +669,18 @@ export function HubView({ initialCategory, onNavigate }: HubViewProps) {
                             type="button"
                             onClick={() => setOpenPanelId(isOpen ? null : topic.id)}
                             aria-expanded={isOpen}
+                            data-lesson-row={topic.id}
                             className={`w-full flex items-center gap-4 py-1 pr-3 text-left group rounded-2xl cursor-pointer ${FOCUS_RING}`}
                           >
                             <span
                               className={`w-16 h-16 shrink-0 rounded-full flex items-center justify-center shadow-node group-hover:scale-105 transition-transform duration-150 ring-4 ${
-                                topic.isAdvocateCapstone ? "ring-soft-pink" : pillar.ring
+                                pillar.ring
                               } ${nodeBg}`}
                             >
                               {isDone ? (
                                 <CheckCircle className={`w-7 h-7 ${nodeIcon}`} aria-hidden="true" />
                               ) : topic.isAdvocateCapstone ? (
-                                <Shield className="w-7 h-7 text-white" aria-hidden="true" />
+                                <Shield className={`w-7 h-7 ${nodeIcon}`} aria-hidden="true" />
                               ) : (
                                 getTopicIcon(topic.type, nodeIcon)
                               )}
@@ -700,7 +700,7 @@ export function HubView({ initialCategory, onNavigate }: HubViewProps) {
                           {isOpen && (
                             <div
                               className={`ml-20 mt-3 max-w-md rounded-2xl bg-white p-5 shadow-sm border ${
-                                topic.isAdvocateCapstone ? "border-raspberry" : pillar.border
+                                pillar.border
                               } animate-in fade-in duration-150`}
                             >
                               {topic.isAdvocateCapstone && (
@@ -712,7 +712,7 @@ export function HubView({ initialCategory, onNavigate }: HubViewProps) {
                               <h3 className="text-2xl font-serif font-normal text-deep-teal text-balance m-0 mb-2">
                                 {topic.name}
                               </h3>
-                              <p className="max-w-[65ch] text-base text-charcoal-light text-pretty leading-relaxed m-0 mb-4">
+                              <p className="max-w-[36rem] text-base text-charcoal-light text-pretty leading-relaxed m-0 mb-4">
                                 {topic.desc}
                               </p>
                               <button
@@ -784,7 +784,7 @@ export function HubView({ initialCategory, onNavigate }: HubViewProps) {
                     <h2 className="font-serif text-2xl font-normal text-deep-teal text-balance m-0">
                       The Rotterdam Criteria Diagnostic Guide
                     </h2>
-                    <p className="max-w-[65ch] text-base text-charcoal text-pretty leading-relaxed m-0">
+                    <p className="max-w-[36rem] text-base text-charcoal text-pretty leading-relaxed m-0">
                       Under international consensus guidelines, PCOS requires meeting at least <strong>2 of 3 specific criteria</strong>: irregular ovulation, elevated androgens (signs or labs), and polycystic ovaries on ultrasound. You do <em>not</em> need ovarian cysts to have PCOS (Phenotype B), and you can have regular cycles (Phenotype C)!
                     </p>
                   </div>

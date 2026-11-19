@@ -142,7 +142,7 @@ export function PillarPath({ compact = false, active, tone = "dark", onNavigate,
 
               {!compact && (
                 <>
-                  <p className={`m-0 mb-3 max-w-[65ch] font-sans text-base text-pretty ${bodyColor}`}>{s.body}</p>
+                  <p className={`m-0 mb-3 max-w-[36rem] font-sans text-base text-pretty ${bodyColor}`}>{s.body}</p>
                   <div className="flex flex-col items-start">
                     {s.links.map((l) => (
                       <a key={l.label} href={l.href} onClick={go(l)} className={`${linkClass} text-left`}>

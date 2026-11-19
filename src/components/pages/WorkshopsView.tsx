@@ -37,7 +37,7 @@ export function WorkshopsView() {
               <li key={step.step} className={cn(card, "grid gap-2 lg:row-span-2 lg:grid-rows-subgrid")}>
                 {/* Titles stay on one line where they fit ("Open & Anonymous Q&A"): 16 px in the row of four */}
                 <h3 className="font-sans text-lg font-semibold text-deep-teal text-balance xl:text-base">{titleText(step.title)}</h3>
-                <p className="max-w-[65ch] text-base text-charcoal text-pretty">{step.desc}</p>
+                <p className="max-w-[36rem] text-base text-charcoal text-pretty">{step.desc}</p>
               </li>
             ))}
           </ul>
@@ -48,8 +48,8 @@ export function WorkshopsView() {
       <section className="bg-white">
         <div className="mx-auto max-w-6xl px-4 py-16 md:px-6 md:py-24">
           <h2 className={h2Class}>Join an upcoming free workshop</h2>
-          <div className={cn(card, "mt-8 flex items-start gap-4 md:p-8")}>
-            <Calendar className="mt-1 h-6 w-6 shrink-0 text-deep-teal" aria-hidden="true" />
+          <div className={cn(card, "mt-8 flex max-w-xl items-center gap-4 md:p-6")}>
+            <Calendar className="h-6 w-6 shrink-0 text-deep-teal" aria-hidden="true" />
             <p className="text-lg font-semibold text-deep-teal">No upcoming workshops yet</p>
           </div>
         </div>
@@ -62,14 +62,14 @@ export function WorkshopsView() {
             <h2 className="font-serif text-h2 font-normal text-deep-teal text-balance">
               Bring ReproUs to your school or group
             </h2>
-            <p className="max-w-[65ch] mt-4 text-body text-charcoal text-pretty">
+            <p className="max-w-[36rem] mt-4 text-body text-charcoal text-pretty">
               We will travel to you or host a dedicated virtual session for your class, youth organization, or community center.
             </p>
           </div>
           <a
             href={requestMailto}
             className={cn(
-              "inline-flex min-h-11 shrink-0 items-center justify-center gap-2 rounded-full bg-raspberry px-6 py-2.5 text-center text-base font-semibold text-white transition-colors duration-200 hover:bg-raspberry-dark",
+              "inline-flex min-h-11 shrink-0 items-center justify-center gap-2 rounded-full bg-raspberry px-6 py-2.5 text-center text-base font-semibold text-white transition-colors duration-200 hover:bg-raspberry-dark motion-press",
               focusRing
             )}
           >

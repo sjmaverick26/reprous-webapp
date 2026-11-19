@@ -439,7 +439,7 @@ export function OvertrainingBodyInspectionDiagram({ diagram, themeColor }: Props
       {/* 2. MODE NAVIGATION TABS                                            */}
       {/* ------------------------------------------------------------------ */}
       <div className="flex flex-wrap items-center justify-between gap-2 border-b border-light-teal-dark pb-3">
-        <div className="flex items-center gap-1 bg-warm-cream p-1 rounded-xl border border-light-teal-dark">
+        <div className="flex flex-wrap items-center gap-1 bg-warm-cream p-1 rounded-xl border border-light-teal-dark">
           <button
             onClick={() => setActiveTab("magnifier")}
             className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all ${

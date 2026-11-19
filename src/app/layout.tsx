@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import { SkipLink } from "@/components/layout/SkipLink";
 import { DM_Serif_Display, DM_Sans } from "next/font/google";
 import "./globals.css";
 
@@ -54,12 +55,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${dmSerifDisplay.variable} ${dmSans.variable}`}>
       <body className="min-h-screen flex flex-col font-sans selection:bg-yellow-deep/40">
-        <a
-          href="#main"
-          className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[100] focus:rounded-full focus:bg-raspberry focus:px-5 focus:py-3 focus:text-base focus:font-semibold focus:text-white focus:outline-none focus:ring-2 focus:ring-deep-teal focus:ring-offset-2"
-        >
-          Skip to content
-        </a>
+        <SkipLink />
         {children}
       </body>
     </html>

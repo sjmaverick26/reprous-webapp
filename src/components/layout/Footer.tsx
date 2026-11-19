@@ -73,7 +73,7 @@ export function Footer({ onNavigate }: FooterProps) {
           </nav>
         </div>
 
-        <div className="p-4 md:p-5 rounded-2xl bg-deep-teal-dark border border-deep-teal-light text-sm text-white leading-relaxed">
+        <div className="p-4 md:p-5 rounded-2xl bg-deep-teal-dark border border-deep-teal-light text-sm text-white leading-relaxed text-pretty">
           <strong className="text-light-teal">Educational Notice:</strong> ReproUs is an educational platform designed for health literacy and self-advocacy preparation. This is health education, not medical advice, diagnosis, or treatment. Always consult a qualified healthcare provider for personalized medical care or questions about your body.
         </div>
 

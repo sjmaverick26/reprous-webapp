@@ -46,7 +46,7 @@ export function ContactView({ onNavigate }: ContactViewProps) {
           <div className={cn(card, "flex flex-col justify-between gap-8")}>
             <div>
               <h2 className={h2Class}>General Inquiries</h2>
-              <p className="max-w-[65ch] mt-3 text-body text-charcoal text-pretty">
+              <p className="max-w-[36rem] mt-3 text-body text-charcoal text-pretty">
                 Have a question about our organization, media inquiries, or partnering with your youth center or health clinic?
               </p>
             </div>
@@ -61,7 +61,7 @@ export function ContactView({ onNavigate }: ContactViewProps) {
           <div className={cn(card, "flex flex-col justify-between gap-8")}>
             <div>
               <h2 className={h2Class}>Become a ReproUs Youth Ambassador</h2>
-              <p className="max-w-[65ch] mt-3 text-body text-charcoal text-pretty">
+              <p className="max-w-[36rem] mt-3 text-body text-charcoal text-pretty">
                 Youth Ambassadors are the heart of ReproUs. You will lead peer discussions, host interactive resource tables at school, help organize workshops, and advocate for reproductive health equity in your community.
               </p>
             </div>
@@ -75,8 +75,8 @@ export function ContactView({ onNavigate }: ContactViewProps) {
         </div>
 
         {/* Hotline note */}
-        <div className="mt-12 max-w-3xl rounded-2xl bg-warm-cream p-5 md:p-6">
-          <p className="max-w-[65ch] text-body text-charcoal text-pretty">
+        <div className="mt-12 rounded-2xl bg-warm-cream p-5 md:p-6">
+          <p className="max-w-[36rem] text-body text-charcoal text-pretty">
             <strong>In need of immediate support or medical advice?</strong> Please refer to our 24/7 confidential hotlines on the{" "}
             {onNavigate ? (
               <button

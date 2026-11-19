@@ -133,6 +133,24 @@ export function Navbar({ activePage, onNavigate }: NavbarProps) {
   const [mobileLearnOpen, setMobileLearnOpen] = useState(false);
   const learnRef = useRef<HTMLLIElement>(null);
   const learnToggleRef = useRef<HTMLButtonElement>(null);
+  // True while the menu is open because a mouse is resting on Learn: the first chevron click then keeps it open
+  // instead of closing it. Touch and pen never hover-open, so their first tap opens the menu.
+  const hoverOpenedRef = useRef(false);
+
+  // Browser Back/Forward (or any hash change) closes every menu; in-app links close them in go().
+  useEffect(() => {
+    const closeAll = () => {
+      setMenuOpen(false);
+      setLearnOpen(false);
+      setMobileLearnOpen(false);
+    };
+    window.addEventListener("popstate", closeAll);
+    window.addEventListener("hashchange", closeAll);
+    return () => {
+      window.removeEventListener("popstate", closeAll);
+      window.removeEventListener("hashchange", closeAll);
+    };
+  }, []);
 
   // Learn menu: Escape closes it (focus back on its toggle); a click outside closes it.
   useEffect(() => {
@@ -201,8 +219,24 @@ export function Navbar({ activePage, onNavigate }: NavbarProps) {
                 key={item.id}
                 ref={isLearn ? learnRef : undefined}
                 className={isLearn ? "relative flex items-center" : undefined}
-                onMouseEnter={isLearn ? () => setLearnOpen(true) : undefined}
-                onMouseLeave={isLearn ? () => setLearnOpen(false) : undefined}
+                onPointerEnter={
+                  isLearn
+                    ? (e) => {
+                        if (e.pointerType !== "mouse") return;
+                        hoverOpenedRef.current = true;
+                        setLearnOpen(true);
+                      }
+                    : undefined
+                }
+                onPointerLeave={
+                  isLearn
+                    ? (e) => {
+                        if (e.pointerType !== "mouse") return;
+                        hoverOpenedRef.current = false;
+                        setLearnOpen(false);
+                      }
+                    : undefined
+                }
                 onBlur={
                   isLearn
                     ? (e) => {
@@ -231,12 +265,18 @@ export function Navbar({ activePage, onNavigate }: NavbarProps) {
                     <button
                       ref={learnToggleRef}
                       type="button"
-                      onClick={() => setLearnOpen((o) => !o)}
+                      onClick={() => {
+                        if (hoverOpenedRef.current && learnOpen) {
+                          hoverOpenedRef.current = false; // opened by hover: this click keeps it open
+                          return;
+                        }
+                        setLearnOpen((o) => !o);
+                      }}
                       aria-expanded={learnOpen}
                       aria-controls="learn-menu"
                       aria-label="Learn topics"
                       className={cn(
-                        "inline-flex min-h-11 min-w-8 items-center justify-center rounded text-charcoal-light transition-colors duration-150 hover:text-raspberry",
+                        "inline-flex min-h-11 min-w-7 items-center justify-center rounded text-charcoal-light transition-colors duration-150 hover:text-raspberry",
                         FOCUS_RING
                       )}
                     >
@@ -246,7 +286,7 @@ export function Navbar({ activePage, onNavigate }: NavbarProps) {
                       />
                     </button>
                     {learnOpen && (
-                      <div id="learn-menu" className="absolute left-0 top-full z-50 w-80 pt-2">
+                      <div id="learn-menu" className="absolute left-1/2 top-full z-50 w-[23rem] -translate-x-1/2 pt-2">
                         <div className="motion-menu rounded-2xl border border-[#E5E1DC] bg-white p-2 shadow-lg">
                           <LearnMenuContent idPrefix="learn-desktop" onPick={go} />
                         </div>
@@ -277,7 +317,7 @@ export function Navbar({ activePage, onNavigate }: NavbarProps) {
       </nav>
 
       {menuOpen && (
-        <div id="mobile-menu" className="motion-menu md:hidden bg-white border-t border-deep-teal/15 px-4 py-3">
+        <div id="mobile-menu" className="motion-menu md:hidden max-h-[calc(100dvh-4rem)] overflow-y-auto overscroll-contain bg-white border-t border-deep-teal/15 px-4 py-3">
           <ul className="flex flex-col list-none m-0 p-0">
             {NAV_ITEMS.map((item) => {
               const active = activePage === item.id;

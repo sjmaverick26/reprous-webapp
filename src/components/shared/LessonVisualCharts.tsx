@@ -272,7 +272,7 @@ export function HormoneWaveChart() {
             onChange={(e) => setSelectedDay(parseInt(e.target.value, 10))}
             className="w-full accent-deep-teal cursor-pointer h-2 bg-warm-cream-dark rounded-lg appearance-none"
           />
-          <div className="flex justify-between text-[11px] text-charcoal/60 font-sans font-medium px-1">
+          <div className="flex flex-wrap justify-between gap-x-3 gap-y-0.5 text-[11px] text-charcoal/60 font-sans font-medium px-1">
             <span>Day 1 (Menses)</span>
             <span>Day 7 (Mid-Follicular)</span>
             <span>Day 14 (Ovulation)</span>
@@ -738,7 +738,7 @@ export function TannerProgressionChart() {
         </div>
 
         {/* 3 View Tabs */}
-        <div className="flex items-center gap-1.5 p-1 rounded-2xl bg-warm-cream border border-light-teal-dark">
+        <div className="flex flex-wrap items-center gap-1.5 p-1 rounded-2xl bg-warm-cream border border-light-teal-dark">
           <button
             type="button"
             onClick={() => setActiveTab("milestones")}
@@ -1252,7 +1252,7 @@ export function RotterdamCriteriaRadar() {
         </div>
 
         {/* View Switcher Tabs */}
-        <div className="flex items-center gap-1.5 p-1 rounded-2xl bg-warm-cream border border-light-teal-dark">
+        <div className="flex flex-wrap items-center gap-1.5 p-1 rounded-2xl bg-warm-cream border border-light-teal-dark">
           <button
             type="button"
             onClick={() => setActiveTab("checker")}

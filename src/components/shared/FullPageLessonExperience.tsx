@@ -1,6 +1,8 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
+import { useDialogFocus } from "@/components/shared/useDialogFocus";
+import { scrollMotion } from "@/lib/utils";
 import {
   ArrowLeft,
   ArrowRight,
@@ -69,7 +71,7 @@ const LABEL = "flex items-center gap-2 text-sm font-semibold text-deep-teal font
 const STEP_PILL =
   "inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm font-semibold font-sans bg-light-teal text-deep-teal mb-3";
 const STEP_TITLE = "font-serif text-h2 font-normal text-deep-teal text-balance mb-3";
-const STEP_LEAD = "text-base sm:text-lg text-charcoal leading-relaxed font-sans text-pretty max-w-[65ch]";
+const STEP_LEAD = "text-base sm:text-lg text-charcoal leading-relaxed font-sans text-pretty max-w-[36rem]";
 const SECTION_TITLE = "font-serif text-2xl font-normal text-deep-teal text-balance";
 const NOTICE_TEAL =
   "p-4 sm:p-5 rounded-2xl bg-light-teal-light border border-light-teal-dark text-charcoal text-sm sm:text-base font-sans flex items-start gap-2.5";
@@ -96,6 +98,12 @@ export function FullPageLessonExperience({
   const [isBrowserFullScreen, setIsBrowserFullScreen] = useState<boolean>(false);
 
   const scrollContainerRef = useRef<HTMLDivElement>(null);
+  // Keyboard focus lives in the lesson while it is open, and goes back to the lesson's row on close.
+  const topicIdRef = useRef(topic.id);
+  topicIdRef.current = topic.id;
+  useDialogFocus(true, scrollContainerRef, () =>
+    document.querySelector<HTMLElement>(`[data-lesson-row="${topicIdRef.current}"]`)
+  );
 
   // Roleplay Simulation State (if applicable)
   const [activeSimulationIdx, setActiveSimulationIdx] = useState<number>(0);
@@ -156,7 +164,7 @@ export function FullPageLessonExperience({
   // 4. Smoothly reset scroll position on step or topic change
   useEffect(() => {
     if (scrollContainerRef.current) {
-      scrollContainerRef.current.scrollTo({ top: 0, behavior: "smooth" });
+      scrollContainerRef.current.scrollTo({ top: 0, behavior: scrollMotion() });
     }
   }, [currentStep, topic.id]);
 
@@ -179,12 +187,15 @@ export function FullPageLessonExperience({
     }
   };
 
-  const handleCopyScript = (text: string) => {
-    if (typeof navigator !== "undefined" && navigator.clipboard) {
-      navigator.clipboard.writeText(text);
-      setCopiedScript(true);
-      setTimeout(() => setCopiedScript(false), 2500);
+  const handleCopyScript = async (text: string) => {
+    if (typeof navigator === "undefined" || !navigator.clipboard) return;
+    try {
+      await navigator.clipboard.writeText(text);
+    } catch {
+      return; // the browser blocked copying: don't claim it worked
     }
+    setCopiedScript(true);
+    setTimeout(() => setCopiedScript(false), 2500);
   };
 
   const clinicalQuote = getTopicClinicalQuote(topic, categoryId);
@@ -465,7 +476,7 @@ export function FullPageLessonExperience({
             <h3 className={`${SECTION_TITLE} mb-2`}>
               Athlete Nutrition &amp; Fueling Simulation
             </h3>
-            <p className="text-base text-charcoal-light leading-relaxed font-sans text-pretty max-w-[65ch] m-0">
+            <p className="text-base text-charcoal-light leading-relaxed font-sans text-pretty max-w-[36rem] m-0">
               Explore how carbohydrates, protein, and hydration support peak athletic endurance and hormone stability.
             </p>
           </div>
@@ -553,7 +564,7 @@ export function FullPageLessonExperience({
           <h3 className={`${SECTION_TITLE} mb-2`}>
             Evaluating What Your Body Is Telling You
           </h3>
-          <p className="text-base text-charcoal-light leading-relaxed font-sans text-pretty max-w-[65ch] m-0">
+          <p className="text-base text-charcoal-light leading-relaxed font-sans text-pretty max-w-[36rem] m-0">
             Review common observations and clinical indicators associated with {topic.name.toLowerCase()}. Notice which signals warrant a discussion with a healthcare provider.
           </p>
         </div>
@@ -618,7 +629,11 @@ export function FullPageLessonExperience({
   return (
     <div
       ref={scrollContainerRef}
-      className="motion-panel fixed inset-0 z-[100] overflow-y-auto overflow-x-hidden bg-warm-cream text-charcoal flex flex-col font-sans selection:bg-soft-pink"
+      role="dialog"
+      aria-modal="true"
+      aria-label={topic.name}
+      tabIndex={-1}
+      className="motion-panel fixed inset-0 z-[100] overflow-y-auto overflow-x-hidden bg-warm-cream text-charcoal flex flex-col font-sans outline-none selection:bg-soft-pink"
     >
       {/* 1. Sticky top header */}
       <header className="sticky top-0 z-40 bg-white border-b border-[#E5E1DC]">
@@ -738,7 +753,7 @@ export function FullPageLessonExperience({
       </nav>
 
       {/* 3. Lesson content */}
-      <div className={`${CONTAINER} flex-1 py-8 md:py-12`}>
+      <div className={`${CONTAINER} flex-1 overflow-x-clip py-8 md:py-12`}>
         {/* ============================================================ */}
         {/* STEP 1: INTRODUCTION */}
         {/* ============================================================ */}
@@ -776,7 +791,7 @@ export function FullPageLessonExperience({
                   <h2 className={`${SECTION_TITLE} mb-3 leading-snug`}>
                     “How does this affect my daily body function, and how do I know when something is worth bringing to a doctor?”
                   </h2>
-                  <p className="max-w-[65ch] text-base text-charcoal-light leading-relaxed font-sans text-pretty m-0">
+                  <p className="max-w-[36rem] text-base text-charcoal-light leading-relaxed font-sans text-pretty m-0">
                     Many adolescent and young adult bodily changes are normalized or dismissed as &ldquo;just part of growing up.&rdquo; This lesson equips you with clinical definitions, anatomical context, and objective self-advocacy language.
                   </p>
                 </div>
@@ -895,7 +910,7 @@ export function FullPageLessonExperience({
                     <Lightbulb className="w-4 h-4 shrink-0" aria-hidden="true" />
                     <span>Biological Mechanism Overview</span>
                   </div>
-                  <p className="max-w-[65ch] text-base text-charcoal leading-relaxed font-sans text-pretty m-0">
+                  <p className="max-w-[36rem] text-base text-charcoal leading-relaxed font-sans text-pretty m-0">
                     {topic.desc}
                   </p>
                 </div>
@@ -1057,7 +1072,7 @@ export function FullPageLessonExperience({
                     <p className="m-0 text-sm font-semibold text-deep-teal font-sans">
                       Situation: {advocacyData.situation}
                     </p>
-                    <p className="max-w-[65ch] m-0 text-lg font-sans italic text-charcoal leading-relaxed">
+                    <p className="max-w-[36rem] m-0 text-lg font-sans italic text-charcoal leading-relaxed">
                       {advocacyData.doctorScript}
                     </p>
                   </div>
@@ -1098,7 +1113,7 @@ export function FullPageLessonExperience({
                   <h3 className={`${SECTION_TITLE} mb-2`}>
                     Practice Your Clinical &amp; Self-Advocacy Roleplays
                   </h3>
-                  <p className="text-base text-charcoal-light font-sans leading-relaxed text-pretty max-w-[65ch] m-0">
+                  <p className="text-base text-charcoal-light font-sans leading-relaxed text-pretty max-w-[36rem] m-0">
                     Rehearse your responses against realistic clinical and institutional pushback. Select each scenario to test your dialogue choices and review accredited guidelines.
                   </p>
                 </div>

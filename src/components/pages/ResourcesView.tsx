@@ -15,7 +15,7 @@ import { HOTLINES_DATA, Hotline } from "@/data/clinicsData";
 import { PETITIONS_DATA, REAL_WORLD_ADVOCACY_LINKS } from "@/data/petitionsData";
 import { SYMPTOMS_DATA, SYMPTOM_LOG_TEMPLATE } from "@/data/symptomsData";
 import { PageId } from "@/components/layout/Navbar";
-import { cn } from "@/lib/utils";
+import { cn, scrollMotion } from "@/lib/utils";
 import { TabStrip } from "@/components/shared/TabStrip";
 
 interface ResourcesViewProps {
@@ -47,7 +47,7 @@ const cardTitle = "font-sans text-lg font-semibold text-deep-teal text-balance";
 // Callouts: a tinted ground, no side bar.
 const tintTeal = "rounded-2xl bg-light-teal-light p-5";
 const tintPink = "rounded-2xl bg-soft-pink-light p-5";
-const bodyText = "text-body text-charcoal text-pretty max-w-[65ch]";
+const bodyText = "text-body text-charcoal text-pretty max-w-[36rem]";
 
 const ADVOCACY_LETTER_TEMPLATES = [
   {
@@ -270,7 +270,7 @@ export function ResourcesView({ onNavigate, initialCategory = "all" }: Resources
 
   const scrollToId = (id: string) => {
     if (typeof document === "undefined") return;
-    document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+    document.getElementById(id)?.scrollIntoView({ behavior: scrollMotion(), block: "start" });
   };
 
   // Open the requested tab (and scroll to its target) when the view opens or the category changes.
@@ -282,8 +282,14 @@ export function ResourcesView({ onNavigate, initialCategory = "all" }: Resources
     return () => clearTimeout(t);
   }, [initialCategory]);
 
+  // The tab is part of the address (#/resources/help), so reload and Back return to it.
+  const rememberTab = (id: GroupId) => {
+    if (typeof window !== "undefined") window.history.replaceState(window.history.state, "", `#/resources/${id}`);
+  };
+
   const selectTab = (id: GroupId) => {
     setTab(id);
+    rememberTab(id);
     // If the page was scrolled past the top of the panel, bring the new panel into view.
     setTimeout(() => {
       const el = document.getElementById(id);
@@ -291,12 +297,15 @@ export function ResourcesView({ onNavigate, initialCategory = "all" }: Resources
     }, 0);
   };
 
-  const copyText = (key: string, text: string) => {
-    if (typeof navigator !== "undefined" && navigator.clipboard) {
-      navigator.clipboard.writeText(text);
-      setCopiedKey(key);
-      setTimeout(() => setCopiedKey((k) => (k === key ? null : k)), 2500);
+  const copyText = async (key: string, text: string) => {
+    if (typeof navigator === "undefined" || !navigator.clipboard) return;
+    try {
+      await navigator.clipboard.writeText(text);
+    } catch {
+      return; // the browser blocked copying: don't claim it worked
     }
+    setCopiedKey(key);
+    setTimeout(() => setCopiedKey((k) => (k === key ? null : k)), 2500);
   };
 
   const handleDownloadLogTemplate = () => {
@@ -313,21 +322,10 @@ export function ResourcesView({ onNavigate, initialCategory = "all" }: Resources
     <div className="font-sans text-charcoal">
       {/* Header */}
       <header className="mx-auto max-w-6xl px-4 pb-10 pt-16 md:px-6 md:pb-14 md:pt-20">
-        {/* Pillar marker: her two tool groups, Recognize and Advocate */}
-        <p className="m-0 mb-4 flex flex-wrap items-center gap-x-5 gap-y-1 text-base font-semibold text-deep-teal">
-          <span className="inline-flex items-center gap-2.5">
-            <span aria-hidden="true" className="h-3 w-3 shrink-0 rounded-full bg-coral ring-4 ring-soft-pink" />
-            Recognize
-          </span>
-          <span className="inline-flex items-center gap-2.5">
-            <span aria-hidden="true" className="h-3 w-3 shrink-0 rounded-full bg-raspberry ring-4 ring-soft-pink" />
-            Advocate
-          </span>
-        </p>
         <h1 className="max-w-4xl font-serif text-h1 font-normal text-deep-teal text-balance">
           How to get help &amp; take action
         </h1>
-        <p className="mt-5 max-w-[65ch] text-body text-charcoal text-pretty">
+        <p className="mt-5 max-w-[36rem] text-body text-charcoal text-pretty">
           When it&apos;s time for more than education — here is where to turn. Connect with 24/7 confidential hotlines, youth rights guides, and join real-world legislative petitions.
         </p>
       </header>
@@ -339,7 +337,10 @@ export function ResourcesView({ onNavigate, initialCategory = "all" }: Resources
           tabs={GROUP_TABS}
           selected={tab}
           onSelect={selectTab}
-          onKeySelect={setTab}
+          onKeySelect={(id) => {
+            setTab(id);
+            rememberTab(id);
+          }}
           label="Resources sections"
           // Every label ends on two or more words: 375+ one row ("Get help now" and "Take action" on one line);
           // under 375 the toolkit takes its own row and the other two sit side by side, all on one line.
@@ -420,7 +421,7 @@ export function ResourcesView({ onNavigate, initialCategory = "all" }: Resources
                         {symptom.whenToSeekCare && (
                           <div className={tintPink}>
                             <h4 className="text-base font-semibold text-deep-teal">When to seek medical care:</h4>
-                            <p className="mt-1 max-w-[65ch] text-base text-charcoal text-pretty">{symptom.whenToSeekCare}</p>
+                            <p className="mt-1 max-w-[36rem] text-base text-charcoal text-pretty">{symptom.whenToSeekCare}</p>
                           </div>
                         )}
                       </div>
@@ -442,7 +443,7 @@ export function ResourcesView({ onNavigate, initialCategory = "all" }: Resources
 
             <div className={cn(accordionBox, "mt-12")}>
               <Collapsible title="How to Build an Objective Symptom Log">
-                <p className="max-w-[65ch] text-base text-charcoal text-pretty">
+                <p className="max-w-[36rem] text-base text-charcoal text-pretty">
                   Clinicians respond to concrete numbers and timelines rather than vague recollections. Log these 4 parameters:
                 </p>
                 <dl className="mt-4 grid grid-cols-1 gap-5 lg:grid-cols-2">
@@ -459,7 +460,7 @@ export function ResourcesView({ onNavigate, initialCategory = "all" }: Resources
                   {APPOINTMENT_RULES.map((rule) => (
                     <li key={rule.title} className={tintTeal}>
                       <h4 className="font-sans text-base font-semibold text-deep-teal">{rule.title}</h4>
-                      <p className="mt-1 max-w-[65ch] text-base text-charcoal text-pretty">{rule.text}</p>
+                      <p className="mt-1 max-w-[36rem] text-base text-charcoal text-pretty">{rule.text}</p>
                     </li>
                   ))}
                 </ul>
@@ -470,7 +471,7 @@ export function ResourcesView({ onNavigate, initialCategory = "all" }: Resources
                     <li key={script.id} className={cn(tintTeal, "flex flex-col items-start gap-4")}>
                       <div>
                         <h4 className="font-sans text-base font-semibold text-deep-teal">{script.title}</h4>
-                        <p className="mt-1 max-w-[65ch] text-lg text-charcoal text-pretty">{script.text}</p>
+                        <p className="mt-1 max-w-[36rem] text-lg text-charcoal text-pretty">{script.text}</p>
                       </div>
                       <CopyButton
                         text={script.text}
@@ -513,14 +514,14 @@ export function ResourcesView({ onNavigate, initialCategory = "all" }: Resources
                 <h2 className="font-sans text-lg font-semibold text-deep-teal">
                   Emergency &amp; Life-Threatening Situations
                 </h2>
-                <p className="mt-1 max-w-[65ch] text-base text-charcoal text-pretty">
+                <p className="mt-1 max-w-[36rem] text-base text-charcoal text-pretty">
                   If you or someone you know is experiencing acute severe bleeding, sudden chest pain, difficulty breathing, suicidal thoughts, or immediate domestic danger: <strong>call 911</strong> or proceed directly to the nearest emergency department immediately. You do not need insurance to receive emergency stabilization.
                 </p>
               </div>
             </div>
 
             <h2 className={cn(h3Class, "mt-12")}>24/7 Confidential Hotlines &amp; Text Lines</h2>
-            <p className="mt-2 max-w-[65ch] text-base text-charcoal-light text-pretty">
+            <p className="mt-2 max-w-[36rem] text-base text-charcoal-light text-pretty">
               Always free, confidential, and staffed by trained educators &amp; crisis clinicians.
             </p>
             {/* One directory of rows: no half-empty card rows at any width */}
@@ -535,7 +536,7 @@ export function ResourcesView({ onNavigate, initialCategory = "all" }: Resources
                     <p className="mt-1 text-sm font-semibold text-deep-teal">{hotline.hours}</p>
                   </div>
                   <div className="xl:col-span-5">
-                    <p className="max-w-[65ch] text-base text-charcoal text-pretty">{hotline.desc}</p>
+                    <p className="max-w-[36rem] text-base text-charcoal text-pretty">{hotline.desc}</p>
                     {hotline.sms && (
                       <p className="mt-3 flex items-start gap-2 text-sm font-semibold text-charcoal">
                         <MessageSquare className="mt-0.5 h-4 w-4 shrink-0 text-deep-teal" aria-hidden="true" />
@@ -565,19 +566,19 @@ export function ResourcesView({ onNavigate, initialCategory = "all" }: Resources
                 <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
                   <div>
                     <h4 className="font-sans text-base font-semibold text-deep-teal">Title X Federal Protection</h4>
-                    <p className="mt-2 max-w-[65ch] text-base text-charcoal text-pretty">
+                    <p className="mt-2 max-w-[36rem] text-base text-charcoal text-pretty">
                       Under federal Title X guidelines, youth and minors have the absolute legal right to receive confidential contraceptive counseling, STI testing, and pregnancy checks at any Title X clinic without parental consent or notification.
                     </p>
                   </div>
                   <div>
                     <h4 className="font-sans text-base font-semibold text-deep-teal">Preventing Insurance EOB Letters</h4>
-                    <p className="mt-2 max-w-[65ch] text-base text-charcoal text-pretty">
+                    <p className="mt-2 max-w-[36rem] text-base text-charcoal text-pretty">
                       If you use your parent&apos;s insurance, an &quot;Explanation of Benefits&quot; (EOB) mailer could be sent home. Tell clinic staff: <em>&quot;I need this visit confidential. Please suppress the EOB or charge on your sliding fee scale.&quot;</em>
                     </p>
                   </div>
                   <div>
                     <h4 className="font-sans text-base font-semibold text-deep-teal">Front Desk Check-in Script</h4>
-                    <p className="mt-2 max-w-[65ch] text-base text-charcoal text-pretty">
+                    <p className="mt-2 max-w-[36rem] text-base text-charcoal text-pretty">
                       Say to reception: <em>&quot;Hi, I am here for confidential reproductive services. I would like to be seen under your sliding scale program and ensure no mail or texts are sent to my family home.&quot;</em>
                     </p>
                   </div>
@@ -587,7 +588,7 @@ export function ResourcesView({ onNavigate, initialCategory = "all" }: Resources
                   warning-sign row carries symptom thresholds ("Fever of 100.4°F or higher", "before 37 weeks"), so the
                   whole collapsible is off. Original row (signs list: MATERNAL_WARNING_SIGNS, commented out above):
               <Collapsible title="Urgent Maternal Warning Signs (CDC Hear Her Protocol)">
-                <p className="max-w-[65ch] text-base text-charcoal text-pretty">
+                <p className="max-w-[36rem] text-base text-charcoal text-pretty">
                   During pregnancy and for up to 1 full year postpartum, these warning signs require urgent medical evaluation — do not allow symptoms to be dismissed:
                 </p>
                 <ul className="mt-4 grid grid-cols-1 gap-x-8 gap-y-3 sm:grid-cols-2 lg:grid-cols-3">
@@ -646,7 +647,7 @@ export function ResourcesView({ onNavigate, initialCategory = "all" }: Resources
                       <Plus className="h-5 w-5 shrink-0 transition-transform duration-200 group-open:rotate-45" aria-hidden="true" />
                       Details and key demands
                     </summary>
-                    <p className="mt-1 max-w-[65ch] text-base text-charcoal text-pretty">{petition.summary}</p>
+                    <p className="mt-1 max-w-[36rem] text-base text-charcoal text-pretty">{petition.summary}</p>
                     <h3 className="mt-3 font-sans text-base font-semibold text-deep-teal">Key Demands</h3>
                     <ul className="mt-1 list-disc space-y-1.5 pl-5 text-base text-charcoal">
                       {petition.fullDemands.map((demand, idx) => (
@@ -678,7 +679,7 @@ export function ResourcesView({ onNavigate, initialCategory = "all" }: Resources
 
             <div className={cn(accordionBox, "mt-10")}>
               <Collapsible title="Pre-Written Advocacy Letter Templates">
-                <p className="max-w-[65ch] text-base text-charcoal text-pretty">
+                <p className="max-w-[36rem] text-base text-charcoal text-pretty">
                   Ready-to-use letters to send to your school principal, district superintendent, or elected officials. Copy with 1 click and customize!
                 </p>
                 <ul className="mt-5 grid grid-cols-1 gap-6 lg:grid-cols-2">
@@ -698,7 +699,7 @@ export function ResourcesView({ onNavigate, initialCategory = "all" }: Resources
                           <Plus className="h-5 w-5 shrink-0 transition-transform duration-200 group-open:rotate-45" aria-hidden="true" />
                           Read the letter
                         </summary>
-                        <p className="mt-1 max-w-[65ch] whitespace-pre-wrap text-base text-charcoal">{letter.text}</p>
+                        <p className="mt-1 max-w-[36rem] whitespace-pre-wrap text-base text-charcoal">{letter.text}</p>
                       </details>
                       <div className="flex flex-wrap items-center gap-3">
                         <CopyButton
@@ -714,7 +715,7 @@ export function ResourcesView({ onNavigate, initialCategory = "all" }: Resources
                 </ul>
               </Collapsible>
               <Collapsible title="National Advocacy & Legislative Coalitions">
-                <p className="max-w-[65ch] text-base text-charcoal text-pretty">
+                <p className="max-w-[36rem] text-base text-charcoal text-pretty">
                   Direct access to verified non-profit networks driving federal bills and state-level policy change:
                 </p>
                 <ul className="mt-5 divide-y divide-[#E5E1DC] border-y border-[#E5E1DC]">

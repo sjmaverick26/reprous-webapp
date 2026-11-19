@@ -20,7 +20,8 @@ const evidenceLink =
 // Research rows on the deep-teal band: closed by default, they open in place (her accordion look).
 const summaryRow =
   "flex min-h-11 cursor-pointer list-none items-center justify-between gap-4 px-5 py-4 transition-colors duration-200 hover:bg-light-teal md:px-6 [&::-webkit-details-marker]:hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-deep-teal";
-const rowTitle = "m-0 font-serif text-2xl font-normal leading-[1.2] text-deep-teal text-balance";
+// min-w-0 + a short glue run: the longest title still wraps beside its "+" on a 320 phone.
+const rowTitle = "m-0 min-w-0 font-serif text-2xl font-normal leading-[1.2] text-deep-teal text-balance";
 const rowIcon = "h-5 w-5 shrink-0 text-deep-teal transition-transform duration-200 group-open:rotate-45";
 
 const evidence = [
@@ -114,10 +115,10 @@ export function StoryView({ onNavigate }: StoryViewProps = {}) {
             <h1 className="mb-6 font-serif text-h1 font-normal text-balance text-deep-teal">
               Why ReproUs Exists
             </h1>
-            <p className="mb-4 max-w-[65ch] font-sans text-body text-pretty text-deep-teal">
+            <p className="mb-4 max-w-[36rem] font-sans text-body text-pretty text-deep-teal">
               Too many girls grow up knowing what a &ldquo;normal&rdquo; period is supposed to look like &mdash; but not what to do when something feels wrong.
             </p>
-            <p className="max-w-[65ch] font-sans text-body text-pretty text-charcoal-light">
+            <p className="max-w-[36rem] font-sans text-body text-pretty text-charcoal-light">
               For generations, gaps in health research and education have left important questions about girls&apos; and women&apos;s health unanswered, misunderstood, or overlooked. Conditions like PCOS, endometriosis, and the Female Athlete Triad can be difficult to recognize, especially when young people aren&apos;t taught what signs to look for or what questions to ask. We believe understanding your body is the first step toward advocating for your health.
             </p>
           </div>
@@ -133,7 +134,7 @@ export function StoryView({ onNavigate }: StoryViewProps = {}) {
             <h2 className="mb-4 font-serif text-h2 font-normal text-balance text-white">
               What happens when questions aren&apos;t asked?
             </h2>
-            <p className="max-w-[65ch] font-sans text-body text-pretty text-white">
+            <p className="max-w-[36rem] font-sans text-body text-pretty text-white">
               Until the 1993 NIH Revitalization Act, women and girls were routinely excluded from clinical trials. For generations, medical textbooks, dosage recommendations, and diagnostic criteria were based almost exclusively on male physiology. Today, that enduring data gap directly influences diagnostic delays, medication safety, and how seriously female pain is treated.
             </p>
           </div>
@@ -145,11 +146,11 @@ export function StoryView({ onNavigate }: StoryViewProps = {}) {
             {evidence.map((e) => (
               <details key={e.title} className="group">
                 <summary className={summaryRow}>
-                  <h3 className={rowTitle}>{titleText(e.title)}</h3>
+                  <h3 className={rowTitle}>{titleText(e.title, 16)}</h3>
                   <Plus className={rowIcon} aria-hidden="true" />
                 </summary>
                 <div className="px-5 pb-5 md:px-6">
-                  <p className="max-w-[65ch] font-sans text-base text-pretty text-charcoal">{e.body}</p>
+                  <p className="max-w-[36rem] font-sans text-base text-pretty text-charcoal">{e.body}</p>
                   <a
                     href={e.href}
                     target="_blank"
@@ -205,10 +206,10 @@ export function StoryView({ onNavigate }: StoryViewProps = {}) {
             <h2 className="mb-6 font-serif text-h2 font-normal text-balance text-deep-teal">
               Accessible Education for Every Girl
             </h2>
-            <p className="mb-4 max-w-[65ch] font-sans text-body text-pretty text-deep-teal">
+            <p className="mb-4 max-w-[36rem] font-sans text-body text-pretty text-deep-teal">
               ReproUs gives girls accessible health education focused on reproductive biology, female athlete physiology, and under-recognized conditions like PCOS and endometriosis.
             </p>
-            <p className="max-w-[65ch] font-sans text-body text-pretty text-charcoal-light">
+            <p className="max-w-[36rem] font-sans text-body text-pretty text-charcoal-light">
               Through interactive learning, workshops, and self-advocacy tools, we turn complicated health information into knowledge that young people can actually use.
             </p>
           </div>
@@ -227,7 +228,7 @@ export function StoryView({ onNavigate }: StoryViewProps = {}) {
               {DIFFERENCES.map((d) => (
                 <li
                   key={d}
-                  className="min-w-0 max-w-[65ch] rounded-2xl border border-[#E5E1DC] bg-white p-5 font-sans text-base text-pretty text-charcoal md:p-6"
+                  className="min-w-0 max-w-[36rem] rounded-2xl border border-[#E5E1DC] bg-white p-5 font-sans text-base text-pretty text-charcoal md:p-6"
                 >
                   {d}
                 </li>
