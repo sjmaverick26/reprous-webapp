@@ -1,3 +1,5 @@
+import { titleText } from "@/components/shared/keepUnits";
+
 export type TopicType = "lesson" | "article" | "game" | "badge";
 
 export interface QuizQuestion {
@@ -4411,4 +4413,6 @@ export function getTopicRoleplayScenario(topic: HubTopic, categoryId?: string): 
   return scenarios[0];
 }
 
-
+// Display-only title rule (DESIGN.md "Titles", gate 18 Nov 2026): Learn's card titles keep "&" with the next word
+// and never leave a lone word. Her words are unchanged; only the spaces become no-break spaces where needed.
+for (const cat of Object.values(HUB_CATEGORIES)) cat.title = titleText(cat.title);

@@ -5,6 +5,7 @@ import { Calendar, Mail } from "lucide-react";
 import { WORKSHOP_STEPS } from "@/data/workshopsData";
 import { siteLinks } from "@/data/siteLinks";
 import { cn } from "@/lib/utils";
+import { titleText } from "@/components/shared/keepUnits";
 
 const focusRing =
   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-deep-teal focus-visible:ring-offset-2";
@@ -30,11 +31,12 @@ export function WorkshopsView() {
       <section className="bg-warm-cream">
         <div className="mx-auto max-w-6xl px-4 py-16 md:px-6 md:py-24">
           <h2 className={h2Class}>What to expect</h2>
-          {/* Four steps: one column below 1024, one full row of four from 1024 (no orphan); title and text rows align */}
-          <ul className="mt-10 grid grid-cols-1 gap-6 lg:grid-cols-4">
+          {/* Four steps: one column below 1024, 2 x 2 at 1024, one row of four from 1280 (no orphan); title and text rows align */}
+          <ul className="mt-10 grid grid-cols-1 gap-6 lg:grid-cols-2 xl:grid-cols-4">
             {WORKSHOP_STEPS.map((step) => (
               <li key={step.step} className={cn(card, "grid gap-2 lg:row-span-2 lg:grid-rows-subgrid")}>
-                <h3 className="font-sans text-lg font-semibold text-deep-teal text-balance">{step.title}</h3>
+                {/* Titles stay on one line where they fit ("Open & Anonymous Q&A"): 16 px in the row of four */}
+                <h3 className="font-sans text-lg font-semibold text-deep-teal text-balance xl:text-base">{titleText(step.title)}</h3>
                 <p className="max-w-[65ch] text-base text-charcoal text-pretty">{step.desc}</p>
               </li>
             ))}

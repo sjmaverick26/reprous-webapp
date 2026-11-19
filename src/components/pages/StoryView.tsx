@@ -1,10 +1,10 @@
 "use client";
 
 import React from "react";
-import { ArrowRight, ExternalLink } from "lucide-react";
+import { ArrowRight, ExternalLink, Plus } from "lucide-react";
 import { PageId } from "@/components/layout/Navbar";
 import { FounderNote } from "@/components/shared/FounderNote";
-import { keepUnits } from "@/components/shared/keepUnits";
+import { keepUnits, titleText } from "@/components/shared/keepUnits";
 
 interface StoryViewProps {
   onNavigate?: (page: PageId, categoryId?: string) => void;
@@ -16,6 +16,12 @@ const sourceLink =
 // Source line in the evidence cards: first lines align whether a source name takes one line or two.
 const evidenceLink =
   "inline-flex min-h-[44px] items-start gap-2 py-2.5 font-sans text-base font-semibold underline-offset-4 hover:underline focus-visible:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 rounded-sm transition-colors duration-150";
+
+// Research rows on the deep-teal band: closed by default, they open in place (her accordion look).
+const summaryRow =
+  "flex min-h-11 cursor-pointer list-none items-center justify-between gap-4 px-5 py-4 transition-colors duration-200 hover:bg-light-teal md:px-6 [&::-webkit-details-marker]:hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-deep-teal";
+const rowTitle = "m-0 font-serif text-2xl font-normal leading-[1.2] text-deep-teal text-balance";
+const rowIcon = "h-5 w-5 shrink-0 text-deep-teal transition-transform duration-200 group-open:rotate-45";
 
 const evidence = [
   {
@@ -32,7 +38,8 @@ const evidence = [
     title: "Dosages were tested primarily on male biology.",
     body: (
       <>
-        Women experience adverse drug reactions at <strong>nearly twice the rate of men</strong>. Because pharmaceutical trials historically excluded female hormonal cycles, differences in gastrointestinal transit, fat distribution, and liver enzyme clearance were overlooked. In 2013, the FDA had to halve the recommended dose of zolpidem for women.
+        Women experience adverse drug reactions at <strong>nearly twice the rate of men</strong>. Because pharmaceutical trials historically excluded female hormonal cycles, differences in gastrointestinal transit, fat distribution, and liver enzyme clearance were overlooked.
+        {/* Dose hidden until KP rules (Herdy, 18 Nov 2026). Original last sentence: "In 2013, the FDA had to halve the recommended dose of zolpidem for women." */}
       </>
     ),
     href: "https://bsd.biomedcentral.com/articles/10.1186/s13293-020-00308-5",
@@ -118,10 +125,11 @@ export function StoryView({ onNavigate }: StoryViewProps = {}) {
         </div>
       </section>
 
-      {/* 2. What happens when questions aren't asked: the one deep-teal band */}
+      {/* 2. What happens when questions aren't asked: the one deep-teal band.
+          Her heading and intro lead (5/12); the research sits under it as closed rows (7/12), text unchanged. */}
       <section id="research-gap" className="w-full bg-deep-teal py-16 text-white md:py-24">
-        <div className="mx-auto w-full max-w-6xl min-w-0 px-4 md:px-6">
-          <div data-reveal="" className="mb-10 max-w-3xl md:mb-12">
+        <div className="mx-auto grid w-full max-w-6xl min-w-0 grid-cols-1 items-start gap-10 px-4 md:px-6 lg:grid-cols-12 lg:gap-12">
+          <div data-reveal="" className="min-w-0 lg:col-span-5">
             <h2 className="mb-4 font-serif text-h2 font-normal text-balance text-white">
               What happens when questions aren&apos;t asked?
             </h2>
@@ -130,59 +138,62 @@ export function StoryView({ onNavigate }: StoryViewProps = {}) {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-y-0 xl:grid-cols-3">
-            {evidence.map((e, i) => (
-              <article
-                key={e.title}
-                className={`flex min-w-0 flex-col rounded-2xl border border-[#E5E1DC] bg-white p-5 text-charcoal md:row-span-3 md:grid md:grid-rows-subgrid md:gap-0 md:p-6 ${
-                  // 3 cards, 2-up below 1280: the odd last card spans the row instead of sitting alone
-                  i === evidence.length - 1 && evidence.length % 2 === 1 ? "md:col-span-2 md:mt-6 xl:col-span-1 xl:mt-0" : ""
-                }`}
-              >
-                <h3 className="mb-3 font-serif text-2xl font-normal text-balance text-deep-teal">
-                  {e.title}
-                </h3>
-                <p className="mb-4 max-w-[65ch] font-sans text-base text-pretty text-charcoal">{e.body}</p>
-                <div className="mt-auto border-t border-[#E5E1DC] pt-2 md:mt-0">
+          <div
+            data-reveal=""
+            className="min-w-0 divide-y divide-[#E5E1DC] overflow-hidden rounded-2xl border border-[#E5E1DC] bg-white text-charcoal lg:col-span-7"
+          >
+            {evidence.map((e) => (
+              <details key={e.title} className="group">
+                <summary className={summaryRow}>
+                  <h3 className={rowTitle}>{titleText(e.title)}</h3>
+                  <Plus className={rowIcon} aria-hidden="true" />
+                </summary>
+                <div className="px-5 pb-5 md:px-6">
+                  <p className="max-w-[65ch] font-sans text-base text-pretty text-charcoal">{e.body}</p>
                   <a
                     href={e.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className={`${evidenceLink} text-deep-teal focus-visible:ring-deep-teal`}
+                    className={`${evidenceLink} mt-2 text-deep-teal focus-visible:ring-deep-teal`}
                   >
                     <span className="min-w-0 text-balance">{keepUnits(e.source)}</span>
                     <ExternalLink className="mt-1 h-4 w-4 shrink-0" aria-hidden="true" />
+                    <span className="sr-only">(opens in a new tab)</span>
                   </a>
                 </div>
-              </article>
+              </details>
             ))}
-          </div>
 
-          <div className="mt-10 border-t border-light-teal pt-8">
-            <h3 className="mb-1 font-sans text-base font-semibold text-white">
-              Peer-Reviewed Literature &amp; Institutional Research Citations
-            </h3>
-            <p className="mb-4 font-sans text-small text-light-teal">
-              Educational reference links · Not medical advice
-            </p>
-            <ul data-reveal-stagger="" className="m-0 grid list-none grid-cols-1 gap-x-8 p-0 lg:grid-cols-3">
-              {moreSources.map((s) => (
-                <li key={s.href} className="min-w-0">
-                  <a
-                    href={s.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="group flex min-h-[44px] flex-col justify-center py-2 font-sans focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white rounded-sm"
-                  >
-                    <span className="inline-flex items-center gap-2 text-base font-semibold text-white underline-offset-4 group-hover:underline">
-                      <span className="min-w-0 text-balance">{s.name}</span>
-                      <ExternalLink className="h-4 w-4 shrink-0" aria-hidden="true" />
-                    </span>
-                    <span className="text-small text-light-teal text-pretty">{s.note}</span>
-                  </a>
-                </li>
-              ))}
-            </ul>
+            <details className="group">
+              <summary className={summaryRow}>
+                <h3 className={rowTitle}>{titleText("Peer-Reviewed Literature & Institutional Research Citations")}</h3>
+                <Plus className={rowIcon} aria-hidden="true" />
+              </summary>
+              <div className="px-5 pb-5 md:px-6">
+                <p className="mb-2 font-sans text-small text-charcoal-light">
+                  Educational reference links · Not medical advice
+                </p>
+                <ul className="m-0 list-none p-0">
+                  {moreSources.map((s) => (
+                    <li key={s.href} className="min-w-0">
+                      <a
+                        href={s.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="group/src flex min-h-[44px] flex-col justify-center rounded-sm py-2 font-sans focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-deep-teal"
+                      >
+                        <span className="inline-flex items-center gap-2 text-base font-semibold text-deep-teal underline-offset-4 group-hover/src:underline">
+                          <span className="min-w-0 text-balance">{s.name}</span>
+                          <ExternalLink className="h-4 w-4 shrink-0" aria-hidden="true" />
+                          <span className="sr-only">(opens in a new tab)</span>
+                        </span>
+                        <span className="text-small text-charcoal-light text-pretty">{s.note}</span>
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </details>
           </div>
         </div>
       </section>

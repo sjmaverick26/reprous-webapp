@@ -3,7 +3,7 @@
 import React from "react";
 import { ExternalLink, BookOpen, FileCheck, HeartHandshake, Bookmark } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { keepUnits } from "./keepUnits";
+import { keepUnits, titleText } from "./keepUnits";
 
 export interface ReferenceItem {
   number: string;
@@ -449,7 +449,7 @@ export function EducationalReferences({
             <span>{item.type}</span>
           </span>
           <h4 className="font-sans font-semibold text-base text-deep-teal leading-snug text-balance mb-2 group-hover:underline">
-            {keepUnits(item.title)}
+            {titleText(item.title)}
           </h4>
           <p className="text-small text-charcoal-light leading-relaxed text-pretty m-0">{keepUnits(item.source)}</p>
         </div>

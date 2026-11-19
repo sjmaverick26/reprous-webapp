@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useId, useRef } from "react";
+import React, { useState, useEffect, useId } from "react";
 import {
   Phone,
   Download,
@@ -16,6 +16,7 @@ import { PETITIONS_DATA, REAL_WORLD_ADVOCACY_LINKS } from "@/data/petitionsData"
 import { SYMPTOMS_DATA, SYMPTOM_LOG_TEMPLATE } from "@/data/symptomsData";
 import { PageId } from "@/components/layout/Navbar";
 import { cn } from "@/lib/utils";
+import { TabStrip } from "@/components/shared/TabStrip";
 
 interface ResourcesViewProps {
   onNavigate: (page: PageId, categoryOrTab?: string) => void;
@@ -41,7 +42,6 @@ const textLink = cn(
   focusRing
 );
 const sectionInner = "mx-auto max-w-6xl px-4 py-16 md:px-6 md:py-24";
-const h2Class = "font-serif text-h2 font-normal text-deep-teal text-balance";
 const h3Class = "font-serif text-h3 font-normal text-deep-teal text-balance";
 const cardTitle = "font-sans text-lg font-semibold text-deep-teal text-balance";
 // Callouts: a tinted ground, no side bar.
@@ -142,20 +142,22 @@ const SPEAK_UP_SCRIPTS = [
   }
 ];
 
-const MATERNAL_WARNING_SIGNS = [
-  "Severe persistent headache",
-  "Dizziness or fainting spells",
-  "Vision changes or seeing spots",
-  "Fever of 100.4°F or higher",
-  "Extreme swelling of face or hands",
-  "Chest pain or rapid heartbeat",
-  "Severe shortness of breath",
-  "Severe abdominal / upper stomach pain",
-  "Heavy vaginal bleeding or clots",
-  "Fluid leaking before 37 weeks",
-  "Decreased baby movement",
-  "Overwhelming sadness or panic"
-];
+// COMPLIANCE (round 2, droppable): Dose hidden until KP rules (Herdy, 18 Nov 2026). Thresholds in this list;
+// it only fed the maternal warning-sign collapsible in Get help now, which is off. Original:
+// const MATERNAL_WARNING_SIGNS = [
+//   "Severe persistent headache",
+//   "Dizziness or fainting spells",
+//   "Vision changes or seeing spots",
+//   "Fever of 100.4°F or higher",
+//   "Extreme swelling of face or hands",
+//   "Chest pain or rapid heartbeat",
+//   "Severe shortness of breath",
+//   "Severe abdominal / upper stomach pain",
+//   "Heavy vaginal bleeding or clots",
+//   "Fluid leaking before 37 weeks",
+//   "Decreased baby movement",
+//   "Overwhelming sadness or panic"
+// ];
 
 // Crisis lines first, then the rest. Display order only: no numbers are added or changed.
 const HOTLINE_ORDER: Record<string, number> = { crisis: 0, lgbtq: 1, safety: 2, reproductive: 3, maternal: 4 };
@@ -265,7 +267,6 @@ export function ResourcesView({ onNavigate, initialCategory = "all" }: Resources
   const [tab, setTab] = useState<GroupId>(() => TAB_FOR[initialCategory] ?? "toolkit");
   const [openSymptomId, setOpenSymptomId] = useState<string | null>(null);
   const [copiedKey, setCopiedKey] = useState<string | null>(null);
-  const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
   const scrollToId = (id: string) => {
     if (typeof document === "undefined") return;
@@ -288,19 +289,6 @@ export function ResourcesView({ onNavigate, initialCategory = "all" }: Resources
       const el = document.getElementById(id);
       if (el && el.getBoundingClientRect().top < 120) scrollToId(id);
     }, 0);
-  };
-
-  const onTabKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>, idx: number) => {
-    const n = GROUP_TABS.length;
-    let next = -1;
-    if (e.key === "ArrowRight") next = (idx + 1) % n;
-    else if (e.key === "ArrowLeft") next = (idx - 1 + n) % n;
-    else if (e.key === "Home") next = 0;
-    else if (e.key === "End") next = n - 1;
-    if (next < 0) return;
-    e.preventDefault();
-    setTab(GROUP_TABS[next].id);
-    tabRefs.current[next]?.focus();
   };
 
   const copyText = (key: string, text: string) => {
@@ -346,38 +334,18 @@ export function ResourcesView({ onNavigate, initialCategory = "all" }: Resources
 
       {/* Sticky tabs */}
       <div className="sticky top-16 z-40 border-b border-[#E5E1DC] bg-white">
-        <div
-          role="tablist"
-          aria-label="Resources sections"
-          className="mx-auto flex max-w-6xl snap-x snap-mandatory scroll-px-4 gap-2 overflow-x-auto overscroll-x-contain px-4 py-2 md:gap-3 md:overflow-visible md:px-6"
-        >
-          {GROUP_TABS.map((g, idx) => {
-            const selected = tab === g.id;
-            return (
-              <button
-                key={g.id}
-                ref={(el) => {
-                  tabRefs.current[idx] = el;
-                }}
-                type="button"
-                role="tab"
-                id={`tab-${g.id}`}
-                aria-selected={selected}
-                aria-controls={g.id}
-                tabIndex={selected ? 0 : -1}
-                onClick={() => selectTab(g.id)}
-                onKeyDown={(e) => onTabKeyDown(e, idx)}
-                className={cn(
-                  "min-h-11 shrink-0 snap-start whitespace-nowrap rounded-full px-4 text-sm font-semibold transition-colors duration-200 md:px-6 md:text-base",
-                  focusRing,
-                  selected ? "bg-deep-teal text-white" : "text-deep-teal hover:bg-light-teal"
-                )}
-              >
-                {g.label}
-              </button>
-            );
-          })}
-        </div>
+        {/* Phones: one strip, labels whole on up to 2 lines (no sideways scroll, no cut label). */}
+        <TabStrip
+          tabs={GROUP_TABS}
+          selected={tab}
+          onSelect={selectTab}
+          onKeySelect={setTab}
+          label="Resources sections"
+          // Every label ends on two or more words: 375+ one row ("Get help now" and "Take action" on one line);
+          // under 375 the toolkit takes its own row and the other two sit side by side, all on one line.
+          phoneCols="grid-cols-2 [&>:first-child]:col-span-2 min-[375px]:grid-cols-[1.3fr_1.15fr_1fr] min-[375px]:[&>:first-child]:col-span-1"
+          className="mx-auto max-w-6xl px-4 py-2 md:px-6"
+        />
       </div>
 
       {/* ------------------------------------------------------------------ */}
@@ -386,13 +354,13 @@ export function ResourcesView({ onNavigate, initialCategory = "all" }: Resources
       {tab === "toolkit" && (
         <section role="tabpanel" id="toolkit" aria-labelledby="tab-toolkit" className="motion-panel scroll-mt-32 bg-warm-cream">
           <div className={panelInner}>
-            <h2 className={h2Class}>Self-advocacy toolkit</h2>
-            <p className={cn(bodyText, "mt-4")}>
+            {/* No H2 here: it only repeated the tab's name. */}
+            <p className={bodyText}>
               Practical tools to help you track your symptoms, prepare for appointments, and speak up with confidence.
             </p>
 
             <div id="symptom-tracker-section" className="mt-10 scroll-mt-32">
-              <h3 className={h3Class}>Symptom Tracker &amp; Clinical Guide</h3>
+              <h2 className={h3Class}>Symptom Tracker &amp; Clinical Guide</h2>
               <p className={cn(bodyText, "mt-3")}>
                 Too often, adolescent reproductive symptoms are dismissed as &ldquo;just growing pains&rdquo; or normal cramps. Use this guide to identify patterns, build an objective symptom log, and know what to ask your doctor.
               </p>
@@ -414,7 +382,7 @@ export function ResourcesView({ onNavigate, initialCategory = "all" }: Resources
                 {SYMPTOMS_DATA.map((symptom) => (
                   <Collapsible
                     key={symptom.id}
-                    level={4}
+                    level={3}
                     title={symptom.name}
                     open={openSymptomId === symptom.id}
                     onToggle={() => setOpenSymptomId((cur) => (cur === symptom.id ? null : symptom.id))}
@@ -422,7 +390,7 @@ export function ResourcesView({ onNavigate, initialCategory = "all" }: Resources
                     <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
                       <div className="space-y-6">
                         <div>
-                          <h5 className="text-base font-semibold text-deep-teal">What it can be associated with:</h5>
+                          <h4 className="text-base font-semibold text-deep-teal">What it can be associated with:</h4>
                           <ul className="mt-2 list-disc space-y-1.5 pl-5 text-base text-charcoal">
                             {symptom.associatedWith.map((item, i) => (
                               <li key={i}>{item}</li>
@@ -430,7 +398,7 @@ export function ResourcesView({ onNavigate, initialCategory = "all" }: Resources
                           </ul>
                         </div>
                         <div>
-                          <h5 className="text-base font-semibold text-deep-teal">What you can track in your log:</h5>
+                          <h4 className="text-base font-semibold text-deep-teal">What you can track in your log:</h4>
                           <ul className="mt-2 list-disc space-y-1.5 pl-5 text-base text-charcoal">
                             {symptom.whatToTrack.map((item, i) => (
                               <li key={i}>{item}</li>
@@ -440,17 +408,21 @@ export function ResourcesView({ onNavigate, initialCategory = "all" }: Resources
                       </div>
                       <div className="space-y-6">
                         <div>
-                          <h5 className="text-base font-semibold text-deep-teal">Questions you can ask a healthcare provider:</h5>
+                          <h4 className="text-base font-semibold text-deep-teal">Questions you can ask a healthcare provider:</h4>
                           <ul className="mt-2 list-disc space-y-2 pl-5 text-base text-charcoal">
                             {symptom.questionsToAsk.map((item, i) => (
                               <li key={i}>&ldquo;{item}&rdquo;</li>
                             ))}
                           </ul>
                         </div>
-                        <div className={tintPink}>
-                          <h5 className="text-base font-semibold text-deep-teal">When to seek medical care:</h5>
-                          <p className="mt-1 max-w-[65ch] text-base text-charcoal text-pretty">{symptom.whenToSeekCare}</p>
-                        </div>
+                        {/* Dose hidden until KP rules (Herdy, 18 Nov 2026): the lines are commented out in
+                            symptomsData.ts, so this whole box (heading included) stays off until they return. */}
+                        {symptom.whenToSeekCare && (
+                          <div className={tintPink}>
+                            <h4 className="text-base font-semibold text-deep-teal">When to seek medical care:</h4>
+                            <p className="mt-1 max-w-[65ch] text-base text-charcoal text-pretty">{symptom.whenToSeekCare}</p>
+                          </div>
+                        )}
                       </div>
                     </div>
                     <button
@@ -527,24 +499,27 @@ export function ResourcesView({ onNavigate, initialCategory = "all" }: Resources
       {tab === "help" && (
         <section role="tabpanel" id="help" aria-labelledby="tab-help" className="motion-panel scroll-mt-32">
           <div className={panelInner}>
-            <h2 className={h2Class}>Get help now</h2>
-            <p className={cn(bodyText, "mt-4")}>
+            {/* No H2 here: it only repeated the tab's name. */}
+            {/* COMPLIANCE (round 2, droppable): Dose hidden until KP rules (Herdy, 18 Nov 2026). The intro promises the
+                maternal warning signs, which are hidden below, so the whole sentence is off while they are. Original:
+            <p className={bodyText}>
               Confidential 24/7 hotlines, adolescent privacy guarantees, and maternal warning signs triage.
             </p>
+            */}
 
             <div className={cn(tintPink, "mt-8 flex items-start gap-4 md:p-6")}>
               <AlertTriangle className="mt-1 h-6 w-6 shrink-0 text-deep-teal" aria-hidden="true" />
               <div>
-                <h3 className="font-sans text-lg font-semibold text-deep-teal">
+                <h2 className="font-sans text-lg font-semibold text-deep-teal">
                   Emergency &amp; Life-Threatening Situations
-                </h3>
+                </h2>
                 <p className="mt-1 max-w-[65ch] text-base text-charcoal text-pretty">
                   If you or someone you know is experiencing acute severe bleeding, sudden chest pain, difficulty breathing, suicidal thoughts, or immediate domestic danger: <strong>call 911</strong> or proceed directly to the nearest emergency department immediately. You do not need insurance to receive emergency stabilization.
                 </p>
               </div>
             </div>
 
-            <h3 className={cn(h3Class, "mt-12")}>24/7 Confidential Hotlines &amp; Text Lines</h3>
+            <h2 className={cn(h3Class, "mt-12")}>24/7 Confidential Hotlines &amp; Text Lines</h2>
             <p className="mt-2 max-w-[65ch] text-base text-charcoal-light text-pretty">
               Always free, confidential, and staffed by trained educators &amp; crisis clinicians.
             </p>
@@ -556,7 +531,7 @@ export function ResourcesView({ onNavigate, initialCategory = "all" }: Resources
                   className="grid grid-cols-1 gap-4 px-5 py-5 md:px-6 xl:grid-cols-12 xl:items-center xl:gap-6"
                 >
                   <div className="xl:col-span-4">
-                    <h4 className={cardTitle}>{hotline.name}</h4>
+                    <h3 className={cardTitle}>{hotline.name}</h3>
                     <p className="mt-1 text-sm font-semibold text-deep-teal">{hotline.hours}</p>
                   </div>
                   <div className="xl:col-span-5">
@@ -608,6 +583,9 @@ export function ResourcesView({ onNavigate, initialCategory = "all" }: Resources
                   </div>
                 </div>
               </Collapsible>
+              {/* COMPLIANCE (round 2, droppable): Dose hidden until KP rules (Herdy, 18 Nov 2026). The maternal
+                  warning-sign row carries symptom thresholds ("Fever of 100.4°F or higher", "before 37 weeks"), so the
+                  whole collapsible is off. Original row (signs list: MATERNAL_WARNING_SIGNS, commented out above):
               <Collapsible title="Urgent Maternal Warning Signs (CDC Hear Her Protocol)">
                 <p className="max-w-[65ch] text-base text-charcoal text-pretty">
                   During pregnancy and for up to 1 full year postpartum, these warning signs require urgent medical evaluation — do not allow symptoms to be dismissed:
@@ -621,6 +599,7 @@ export function ResourcesView({ onNavigate, initialCategory = "all" }: Resources
                   ))}
                 </ul>
               </Collapsible>
+              */}
             </div>
           </div>
         </section>
@@ -632,8 +611,8 @@ export function ResourcesView({ onNavigate, initialCategory = "all" }: Resources
       {tab === "petitions" && (
         <section role="tabpanel" id="petitions" aria-labelledby="tab-petitions" className="motion-panel scroll-mt-32 bg-warm-cream">
           <div className={panelInner}>
-            <h2 className={h2Class}>Take Action &amp; Petitions</h2>
-            <p className={cn(bodyText, "mt-4")}>
+            {/* No H2 here: it only repeated the tab's name. */}
+            <p className={bodyText}>
               Add your voice to active legislative campaigns and download pre-drafted advocacy letters.
             </p>
 
@@ -643,7 +622,7 @@ export function ResourcesView({ onNavigate, initialCategory = "all" }: Resources
                   <p className="text-sm font-semibold text-deep-teal">
                     {petition.location} • {petition.organizer}
                   </p>
-                  <h3 className={cn(cardTitle, "mt-1")}>{petition.title}</h3>
+                  <h2 className={cn(cardTitle, "mt-1")}>{petition.title}</h2>
                   <p className="mt-1 text-sm font-semibold text-charcoal-light">Target: {petition.target}</p>
                   <div className="mt-3">
                     <a
@@ -668,7 +647,7 @@ export function ResourcesView({ onNavigate, initialCategory = "all" }: Resources
                       Details and key demands
                     </summary>
                     <p className="mt-1 max-w-[65ch] text-base text-charcoal text-pretty">{petition.summary}</p>
-                    <h4 className="mt-3 font-sans text-base font-semibold text-deep-teal">Key Demands</h4>
+                    <h3 className="mt-3 font-sans text-base font-semibold text-deep-teal">Key Demands</h3>
                     <ul className="mt-1 list-disc space-y-1.5 pl-5 text-base text-charcoal">
                       {petition.fullDemands.map((demand, idx) => (
                         <li key={idx}>{demand}</li>

@@ -8,6 +8,7 @@ import { siteLinks } from "@/data/siteLinks";
 import { EducationalReferences } from "@/components/shared/EducationalReferences";
 import { PageId } from "@/components/layout/Navbar";
 import { cn } from "@/lib/utils";
+import { TabStrip } from "@/components/shared/TabStrip";
 
 /** "toolkit" now lives in Resources; "ask" and "qa" both mean the anonymous Q&A section. */
 export type CommunityTab = "stories" | "qa" | "ask" | "toolkit";
@@ -32,9 +33,10 @@ const btnSecondary = cn(
   "inline-flex min-h-11 items-center justify-center gap-2 rounded-full border-2 border-deep-teal bg-white px-6 py-2.5 text-center text-base font-semibold text-deep-teal transition-colors duration-200 hover:bg-light-teal motion-press motion-arrow",
   focusRing
 );
-const sectionInner = "mx-auto max-w-6xl px-4 py-16 md:px-6 md:py-24";
-const h2Class = "font-serif text-h2 font-normal text-deep-teal text-balance";
-const h3Class = "font-serif text-h3 font-normal text-deep-teal text-balance";
+// Tab panels (same rhythm as Resources): her section heads become 36 px panel heads.
+const panelInner = "mx-auto max-w-6xl px-4 py-12 md:px-6 md:py-16";
+const panelHead = "font-serif text-h3 font-normal text-deep-teal text-balance";
+const blockHead = "font-serif text-2xl font-normal leading-[1.2] text-deep-teal text-balance";
 const bodyText = "text-body text-charcoal text-pretty max-w-[65ch]";
 
 // Her four story types.
@@ -57,8 +59,13 @@ const CATEGORY_TO_TYPE: Record<string, StoryType> = {
 const storyTypeOf = (voice: YouthVoice): StoryType =>
   (voice.category && CATEGORY_TO_TYPE[voice.category]) || "Personal stories";
 
-// Story grid: equal card widths (2-up from 768, 3-up from 1024); a short last row is centred, never stretched.
-const storyCell = "w-full md:basis-[calc((100%-1.5rem)/2)] lg:basis-[calc((100%-3rem)/3)] md:grow-0 md:shrink-0";
+type VoicesPanel = "stories" | "ask";
+const VOICE_TABS: { id: VoicesPanel; label: string }[] = [
+  { id: "stories", label: "Stories" },
+  { id: "ask", label: "Anonymous Q&A" }
+];
+const panelFor = (tab: string | undefined, autoOpen: boolean): VoicesPanel =>
+  tab === "qa" || tab === "ask" || autoOpen ? "ask" : "stories";
 
 /** Link-out block for a form she runs. Empty URL -> calm "open soon" state. No on-site form. */
 function SubmitBlock({
@@ -82,7 +89,7 @@ function SubmitBlock({
   const ready = url.trim() !== "";
   return (
     <div id={id} className={cn(card, "scroll-mt-32 md:p-8", centered && "flex flex-col items-center text-center")}>
-      <h3 className={cn(h3Class, centered && "max-w-2xl text-balance")}>{heading}</h3>
+      <h3 className={cn(blockHead, centered && "max-w-2xl text-balance")}>{heading}</h3>
       {body && <p className={cn(bodyText, "mt-3", centered && "mx-auto max-w-xl")}>{body}</p>}
       <div className={cn("mt-6", centered && "w-full max-w-2xl")}>
         {ready ? (
@@ -100,7 +107,8 @@ function SubmitBlock({
             <p className="text-sm text-charcoal-light">Opens a form run by ReproUs</p>
           </div>
         ) : (
-          <div className="rounded-2xl bg-soft-pink-light p-5">
+          // "Open soon" sits in the card itself (no card inside the card).
+          <div>
             <p className={cn("flex items-center gap-2 text-base font-semibold text-deep-teal", centered && "justify-center")}>
               <Clock className="h-4 w-4" aria-hidden="true" />
               <span>Submissions open soon</span>
@@ -121,24 +129,31 @@ export function VoicesView({
   onNavigate
 }: VoicesViewProps) {
   const [typeFilter, setTypeFilter] = useState<"all" | StoryType>("all");
+  const [panel, setPanel] = useState<VoicesPanel>(() => panelFor(initialTab, autoOpenSubmit));
 
   const scrollToId = (id: string) => {
     if (typeof document === "undefined") return;
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
-  // "qa" / "ask" / autoOpenSubmit -> scroll to the Q&A section. "toolkit" moved to Resources.
+  // "qa" / "ask" / autoOpenSubmit -> open the Q&A tab (#/voices/ask). "toolkit" moved to Resources.
   useEffect(() => {
     if (initialTab === "toolkit") {
       onNavigate?.("resources", "toolkit");
       return;
     }
-    if (initialTab === "qa" || initialTab === "ask" || autoOpenSubmit) {
-      const t = setTimeout(() => scrollToId("ask"), 80);
-      return () => clearTimeout(t);
-    }
+    setPanel(panelFor(initialTab, autoOpenSubmit));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialTab, autoOpenSubmit]);
+
+  const selectPanel = (id: VoicesPanel) => {
+    setPanel(id);
+    // If the page was scrolled past the top of the panel, bring the new panel into view.
+    setTimeout(() => {
+      const el = document.getElementById(id);
+      if (el && el.getBoundingClientRect().top < 120) scrollToId(id);
+    }, 0);
+  };
 
   const visibleVoices = INITIAL_VOICES.filter(
     (v) => typeFilter === "all" || storyTypeOf(v) === typeFilter
@@ -160,23 +175,29 @@ export function VoicesView({
         <p className="mt-5 max-w-2xl text-body text-charcoal text-pretty">
           Real stories from peers navigating bodily changes, and confidential clinical answers to questions you might feel nervous asking.
         </p>
-        <div className="mt-8 flex flex-wrap items-center gap-3">
-          <button type="button" onClick={() => scrollToId("stories")} className={btnSecondary}>
-            Stories
-          </button>
-          <button type="button" onClick={() => scrollToId("ask")} className={btnSecondary}>
-            Anonymous Q&amp;A
-          </button>
-        </div>
         </div>
       </header>
+
+      {/* Sticky tabs: Resources' strip. One half at a time. */}
+      <div className="sticky top-16 z-40 border-b border-[#E5E1DC] bg-white">
+        <TabStrip
+          tabs={VOICE_TABS}
+          selected={panel}
+          onSelect={selectPanel}
+          onKeySelect={setPanel}
+          label="Youth Voices sections"
+          phoneCols="grid-cols-2"
+          className="mx-auto max-w-6xl px-4 py-2 md:px-6"
+        />
+      </div>
 
       {/* ------------------------------------------------------------------ */}
       {/* STORIES */}
       {/* ------------------------------------------------------------------ */}
-      <section id="stories" className="scroll-mt-32 bg-warm-cream">
-        <div className={sectionInner}>
-          <h2 className={h2Class}>Real Stories, Shared on Purpose</h2>
+      {panel === "stories" && (
+      <section role="tabpanel" id="stories" aria-labelledby="tab-stories" className="motion-panel scroll-mt-32 bg-warm-cream">
+        <div className={panelInner}>
+          <h2 className={panelHead}>Real Stories, Shared on Purpose</h2>
           <p className={cn(bodyText, "mt-4")}>
             Personal reflections and lived discoveries from youth who navigated identical bodily changes and medical questions.
           </p>
@@ -197,8 +218,9 @@ export function VoicesView({
                   className={cn(
                     "min-h-11 rounded-full border-2 px-4 text-sm font-semibold transition-colors duration-200",
                     focusRing,
+                    // Selected chip: light-teal (6.5:1). Deep-teal fill marks only the active tab.
                     selected
-                      ? "border-deep-teal bg-deep-teal text-white"
+                      ? "border-deep-teal bg-light-teal text-deep-teal"
                       : "border-[#E5E1DC] bg-white text-deep-teal hover:border-deep-teal"
                   )}
                 >
@@ -221,9 +243,10 @@ export function VoicesView({
               </button>
             </div>
           ) : (
-            <ul key={typeFilter} data-reveal-stagger="" className="motion-panel mt-8 flex flex-wrap justify-center gap-6">
+            // Left-aligned grid: five quotes sit 3 + 2 from 1024; the tallest card sets its row.
+            <ul key={typeFilter} data-reveal-stagger="" className="motion-panel mt-8 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
               {visibleVoices.map((voice) => (
-                <li key={voice.id} className={cn(card, "flex flex-col justify-between gap-6", storyCell)}>
+                <li key={voice.id} className={cn(card, "flex min-w-0 flex-col justify-between gap-6")}>
                   <div>
                     <span className="flex h-8 w-8 items-center justify-center rounded-full bg-light-teal" aria-hidden="true">
                       <Quote className="h-4 w-4 text-deep-teal" />
@@ -259,13 +282,15 @@ export function VoicesView({
           </div>
         </div>
       </section>
+      )}
 
       {/* ------------------------------------------------------------------ */}
       {/* ANONYMOUS Q&A */}
       {/* ------------------------------------------------------------------ */}
-      <section id="ask" className="scroll-mt-32">
-        <div className={sectionInner}>
-          <h2 className={h2Class}>Questions, Answered Plainly</h2>
+      {panel === "ask" && (
+      <section role="tabpanel" id="ask" aria-labelledby="tab-ask" className="motion-panel scroll-mt-32">
+        <div className={panelInner}>
+          <h2 className={panelHead}>Questions, Answered Plainly</h2>
           <p className={cn(bodyText, "mt-4")}>Real answers written plainly from clinical guidelines.</p>
 
           <div data-reveal="" className="mt-8 divide-y divide-[#E5E1DC] rounded-2xl border border-[#E5E1DC] bg-white shadow-sm">
@@ -301,6 +326,7 @@ export function VoicesView({
           </div>
         </div>
       </section>
+      )}
     </div>
   );
 }

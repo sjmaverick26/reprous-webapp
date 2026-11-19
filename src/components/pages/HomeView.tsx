@@ -40,20 +40,21 @@ export function HomeView({ onNavigate }: HomeViewProps) {
           </p>
 
           <div className="flex flex-col items-center justify-center gap-x-6 gap-y-2 sm:flex-row sm:flex-wrap">
+            {/* The one filled action is the first lesson; the story is the quiet second door. */}
             <button
               type="button"
-              onClick={() => onNavigate("story")}
+              onClick={() => onNavigate("hub")}
               className="inline-flex min-h-[48px] items-center justify-center gap-2 rounded-full bg-raspberry px-7 py-3 font-sans text-base font-semibold text-white shadow-sm transition-colors duration-150 hover:bg-raspberry-dark motion-press motion-arrow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-raspberry focus-visible:ring-offset-2 active:bg-raspberry-dark"
             >
-              <span>Why ReproUs exists</span>
+              <span>Start learning</span>
               <ArrowRight className="h-4 w-4" aria-hidden="true" />
             </button>
             <button
               type="button"
-              onClick={() => onNavigate("hub")}
+              onClick={() => onNavigate("story")}
               className={`${linkClass} text-deep-teal focus-visible:ring-deep-teal`}
             >
-              Start learning
+              Why ReproUs exists
             </button>
           </div>
         </div>

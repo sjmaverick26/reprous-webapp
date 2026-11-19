@@ -4,7 +4,8 @@ export interface SymptomDetail {
   associatedWith: string[];
   whatToTrack: string[];
   questionsToAsk: string[];
-  whenToSeekCare: string;
+  /** Hidden until KP rules (Herdy, 18 Nov 2026): every value is commented out below. */
+  whenToSeekCare?: string;
   learnCategory: string;
   learnLabel: string;
 }
@@ -30,8 +31,8 @@ export const SYMPTOMS_DATA: SymptomDetail[] = [
       "Could we check my thyroid function (TSH) and reproductive hormone levels?",
       "Should we evaluate for insulin sensitivity or Polycystic Ovary Syndrome?",
     ],
-    whenToSeekCare:
-      "If your cycle consistently falls outside 21–45 days, bleeding lasts more than 7 days, or your period stops for over 90 days.",
+    // Dose hidden until KP rules (Herdy, 18 Nov 2026). Original whenToSeekCare:
+    //   "If your cycle consistently falls outside 21–45 days, bleeding lasts more than 7 days, or your period stops for over 90 days.",
     learnCategory: "pcos",
     learnLabel: "Explore PCOS & Hormonal Health →",
   },
@@ -55,8 +56,8 @@ export const SYMPTOMS_DATA: SymptomDetail[] = [
       "What non-surgical or diagnostic imaging steps do you recommend?",
       "Can you connect me with an adolescent gynecologist or pelvic health physical therapist?",
     ],
-    whenToSeekCare:
-      "Sudden, excruciating one-sided stabbing pain, pain accompanied by high fever or vomiting, or persistent pain that prevents walking or sitting.",
+    // Dose hidden until KP rules (Herdy, 18 Nov 2026). Original whenToSeekCare:
+    //   "Sudden, excruciating one-sided stabbing pain, pain accompanied by high fever or vomiting, or persistent pain that prevents walking or sitting.",
     learnCategory: "endo",
     learnLabel: "Explore Endometriosis & Pelvic Pain →",
   },
@@ -79,8 +80,8 @@ export const SYMPTOMS_DATA: SymptomDetail[] = [
       "Would a targeted anti-inflammatory regimen or hormonal regulation offer relief?",
       "What steps can we take to rule out underlying tissue inflammation like endometriosis?",
     ],
-    whenToSeekCare:
-      "Pain that leaves you incapacitated, does not improve with standard pain medication, or causes nausea, vomiting, or fainting.",
+    // Dose hidden until KP rules (Herdy, 18 Nov 2026). Original whenToSeekCare:
+    //   "Pain that leaves you incapacitated, does not improve with standard pain medication, or causes nausea, vomiting, or fainting.",
     learnCategory: "endo",
     learnLabel: "Learn What Pain Means in Hub →",
   },
@@ -103,8 +104,8 @@ export const SYMPTOMS_DATA: SymptomDetail[] = [
       "Could my training volume exceed my dietary energy intake (RED-S)?",
       "Is my thyroid functioning within the optimal range for adolescents?",
     ],
-    whenToSeekCare:
-      "Inability to complete school or athletic tasks, shortness of breath upon minimal exertion, chest tightness, or heart palpitations.",
+    // Dose hidden until KP rules (Herdy, 18 Nov 2026). Original whenToSeekCare:
+    //   "Inability to complete school or athletic tasks, shortness of breath upon minimal exertion, chest tightness, or heart palpitations.",
     learnCategory: "play",
     learnLabel: "Explore Athlete Health & Fueling →",
   },
@@ -128,8 +129,8 @@ export const SYMPTOMS_DATA: SymptomDetail[] = [
       "Could under-fueling or high training volume be suppressing my estrogen levels?",
       "How is this period absence affecting my bone mineral density and long-term health?",
     ],
-    whenToSeekCare:
-      "Missing 3 or more consecutive cycles (secondary amenorrhea) or reaching age 15 without ever having a first period (primary amenorrhea).",
+    // Dose hidden until KP rules (Herdy, 18 Nov 2026). Original whenToSeekCare:
+    //   "Missing 3 or more consecutive cycles (secondary amenorrhea) or reaching age 15 without ever having a first period (primary amenorrhea).",
     learnCategory: "cycle",
     learnLabel: "Explore Cycle Sense in Hub →",
   },
@@ -151,8 +152,8 @@ export const SYMPTOMS_DATA: SymptomDetail[] = [
       "Could heavy menstrual blood loss be contributing to low blood pressure or anemia?",
       "Should we assess orthostatic vitals (blood pressure and heart rate lying vs. standing)?",
     ],
-    whenToSeekCare:
-      "Episodes of fainting (syncope), head trauma from falling, chest pain, or irregular heartbeats.",
+    // Dose hidden until KP rules (Herdy, 18 Nov 2026). Original whenToSeekCare:
+    //   "Episodes of fainting (syncope), head trauma from falling, chest pain, or irregular heartbeats.",
     learnCategory: "body",
     learnLabel: "Explore Body Basics in Hub →",
   },
@@ -173,8 +174,8 @@ export const SYMPTOMS_DATA: SymptomDetail[] = [
       "Could insulin resistance or a thyroid imbalance be driving these weight fluctuations?",
       "What metabolic and endocrine panels do you recommend?",
     ],
-    whenToSeekCare:
-      "Unintended rapid weight gain or loss exceeding 10 pounds in a short period without dietary shifts.",
+    // Dose hidden until KP rules (Herdy, 18 Nov 2026). Original whenToSeekCare:
+    //   "Unintended rapid weight gain or loss exceeding 10 pounds in a short period without dietary shifts.",
     learnCategory: "pcos",
     learnLabel: "Explore PCOS & Hormones →",
   },
@@ -196,8 +197,8 @@ export const SYMPTOMS_DATA: SymptomDetail[] = [
       "Does the distribution of my acne suggest an underlying hormonal or androgen imbalance?",
       "Should we evaluate for PCOS alongside this skin symptom?",
     ],
-    whenToSeekCare:
-      "Deep, painful cystic lesions that leave deep scarring or do not respond to clinical dermatological care.",
+    // Dose hidden until KP rules (Herdy, 18 Nov 2026). Original whenToSeekCare:
+    //   "Deep, painful cystic lesions that leave deep scarring or do not respond to clinical dermatological care.",
     learnCategory: "pcos",
     learnLabel: "Explore Hormonal Health →",
   },
@@ -218,8 +219,8 @@ export const SYMPTOMS_DATA: SymptomDetail[] = [
       "Does this hair pattern meet the clinical criteria for hirsutism or PCOS?",
       "What evidence-based approaches (like anti-androgens or combined therapies) are appropriate?",
     ],
-    whenToSeekCare:
-      "Rapid onset of dark facial/body hair accompanied by deepening voice or missed menstrual cycles.",
+    // Dose hidden until KP rules (Herdy, 18 Nov 2026). Original whenToSeekCare:
+    //   "Rapid onset of dark facial/body hair accompanied by deepening voice or missed menstrual cycles.",
     learnCategory: "pcos",
     learnLabel: "Explore PCOS & Hormones →",
   },
@@ -241,13 +242,16 @@ export const SYMPTOMS_DATA: SymptomDetail[] = [
       "Could this exercise-related pelvic ache stem from pelvic floor tension or endometriosis?",
       "Can we explore pelvic floor physical therapy tailored to student athletes?",
     ],
-    whenToSeekCare:
-      "Acute, sharp lower abdominal pain that suddenly halts exercise, or pain accompanied by dizziness or nausea.",
+    // Dose hidden until KP rules (Herdy, 18 Nov 2026). Original whenToSeekCare:
+    //   "Acute, sharp lower abdominal pain that suddenly halts exercise, or pain accompanied by dizziness or nausea.",
     learnCategory: "play",
     learnLabel: "Explore Female Athlete Health →",
   },
 ];
 
+// Dose hidden until KP rules (Herdy, 18 Nov 2026): the example row is cut whole (cutting only the dose would break the row).
+// Original row, after the dashed rule under the column heads:
+// "Example: Oct 12 | Day 1 | 8/10 | Lower abdomen/thighs | 5 soaked pads | Ibuprofen 600mg (mild) | Missed soccer practice"
 export const SYMPTOM_LOG_TEMPLATE = `REPROUS CLINICAL SYMPTOM LOG (60-90 DAY APPOINTMENT COMPANION)
 ============================================================
 Patient / Student Name: _______________________
@@ -257,7 +261,6 @@ DAILY LOG ENTRIES
 ------------------------------------------------------------
 [Date]  [Cycle Day]  [Pain 1-10]  [Location & Type]  [Pads/Tampons]  [Meds / Relief]  [Impact on School/Sport]
 -------------------------------------------------------------------------------------------------------------
-Example: Oct 12 | Day 1 | 8/10 | Lower abdomen/thighs | 5 soaked pads | Ibuprofen 600mg (mild) | Missed soccer practice
 1.
 2.
 3.
