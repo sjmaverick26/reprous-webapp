@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
-import { Menu, X } from "lucide-react";
+import { ChevronDown, ChevronRight, Menu, X } from "lucide-react";
+import { LEARN_GROUPS, LEARN_QUICK_LINKS } from "@/data/learnGroups";
 import { ReproUsMark } from "@/components/shared/ReproUsMark";
 import { cn } from "@/lib/utils";
 
@@ -31,9 +32,127 @@ const NAV_ITEMS: { id: PageId; label: string }[] = [
 const FOCUS_RING =
   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-raspberry focus-visible:ring-offset-2";
 
+/**
+ * Her Learn menu (nav commits, 11 Nov): "Explore All Topics", her three groups (collapsed until clicked)
+ * and her quick links. A disclosure, not an ARIA menu: plain buttons in tab order.
+ */
+function LearnMenuContent({
+  idPrefix,
+  onPick,
+}: {
+  idPrefix: string;
+  onPick: (page: PageId, tab?: string) => void;
+}) {
+  const [openGroup, setOpenGroup] = useState<string | null>(null);
+  return (
+    <div className="flex flex-col gap-1">
+      <button
+        type="button"
+        onClick={() => onPick("hub")}
+        className={cn(
+          "motion-arrow flex min-h-11 w-full items-center justify-between gap-2 rounded-lg px-3 text-left text-base font-semibold text-deep-teal transition-colors duration-150 hover:bg-light-teal",
+          FOCUS_RING
+        )}
+      >
+        <span>Explore All Topics</span>
+        <ChevronRight className="h-4 w-4 shrink-0" aria-hidden="true" />
+      </button>
+
+      {LEARN_GROUPS.map((group) => {
+        const isOpen = openGroup === group.id;
+        const panelId = `${idPrefix}-${group.id}`;
+        return (
+          <div key={group.id}>
+            <button
+              type="button"
+              aria-expanded={isOpen}
+              aria-controls={panelId}
+              onClick={() => setOpenGroup(isOpen ? null : group.id)}
+              className={cn(
+                "flex min-h-11 w-full items-center justify-between gap-2 rounded-lg px-3 text-left text-base font-semibold transition-colors duration-150",
+                FOCUS_RING,
+                isOpen ? "bg-warm-cream text-deep-teal" : "text-charcoal hover:bg-warm-cream"
+              )}
+            >
+              <span className="flex items-center gap-2.5">
+                <span aria-hidden="true" className={cn("h-2.5 w-2.5 shrink-0 rounded-full", group.dot)} />
+                <span className="text-balance">{group.label}</span>
+              </span>
+              <ChevronDown
+                className={cn("h-4 w-4 shrink-0 text-deep-teal transition-transform duration-200", isOpen && "rotate-180")}
+                aria-hidden="true"
+              />
+            </button>
+            {isOpen && (
+              <ul id={panelId} className="motion-menu m-0 flex list-none flex-col gap-0.5 py-1 pl-5 pr-1">
+                {group.categories.map((cat) => (
+                  <li key={cat.id}>
+                    <button
+                      type="button"
+                      onClick={() => onPick("hub", cat.id)}
+                      className={cn(
+                        "flex min-h-10 w-full items-center gap-2.5 rounded-md px-3 text-left text-sm font-semibold text-charcoal-light transition-colors duration-150 hover:bg-light-teal hover:text-deep-teal",
+                        FOCUS_RING
+                      )}
+                    >
+                      <span aria-hidden="true" className={cn("h-1.5 w-1.5 shrink-0 rounded-full", group.dot)} />
+                      <span>{cat.label}</span>
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        );
+      })}
+
+      <div className="mt-1 flex flex-col gap-0.5 border-t border-[#E5E1DC] pt-2">
+        {LEARN_QUICK_LINKS.map((link) => (
+          <button
+            key={link.label}
+            type="button"
+            onClick={() => onPick(link.page, link.tab)}
+            className={cn(
+              "motion-arrow flex min-h-10 w-full items-center justify-between gap-2 rounded-md px-3 text-left text-sm font-semibold text-deep-teal transition-colors duration-150 hover:bg-light-teal",
+              FOCUS_RING
+            )}
+          >
+            <span>{link.label}</span>
+            <ChevronRight className="h-4 w-4 shrink-0" aria-hidden="true" />
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export function Navbar({ activePage, onNavigate }: NavbarProps) {
   const [menuOpen, setMenuOpen] = useState(false);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
+  const [learnOpen, setLearnOpen] = useState(false);
+  const [mobileLearnOpen, setMobileLearnOpen] = useState(false);
+  const learnRef = useRef<HTMLLIElement>(null);
+  const learnToggleRef = useRef<HTMLButtonElement>(null);
+
+  // Learn menu: Escape closes it (focus back on its toggle); a click outside closes it.
+  useEffect(() => {
+    if (!learnOpen) return;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setLearnOpen(false);
+        learnToggleRef.current?.focus();
+      }
+    };
+    const onPointerDown = (event: PointerEvent) => {
+      if (learnRef.current && !learnRef.current.contains(event.target as Node)) setLearnOpen(false);
+    };
+    document.addEventListener("keydown", onKeyDown);
+    document.addEventListener("pointerdown", onPointerDown);
+    return () => {
+      document.removeEventListener("keydown", onKeyDown);
+      document.removeEventListener("pointerdown", onPointerDown);
+    };
+  }, [learnOpen]);
 
   // Escape closes the phone menu and hands focus back to its button.
   useEffect(() => {
@@ -48,9 +167,11 @@ export function Navbar({ activePage, onNavigate }: NavbarProps) {
     return () => document.removeEventListener("keydown", onKeyDown);
   }, [menuOpen]);
 
-  const go = (page: PageId) => {
+  const go = (page: PageId, tab?: string) => {
     setMenuOpen(false);
-    onNavigate(page);
+    setLearnOpen(false);
+    setMobileLearnOpen(false);
+    onNavigate(page, tab);
   };
 
   return (
@@ -74,8 +195,22 @@ export function Navbar({ activePage, onNavigate }: NavbarProps) {
         <ul className="hidden md:flex items-center gap-8 list-none m-0 p-0">
           {NAV_ITEMS.map((item) => {
             const active = activePage === item.id;
+            const isLearn = item.id === "hub";
             return (
-              <li key={item.id}>
+              <li
+                key={item.id}
+                ref={isLearn ? learnRef : undefined}
+                className={isLearn ? "relative flex items-center" : undefined}
+                onMouseEnter={isLearn ? () => setLearnOpen(true) : undefined}
+                onMouseLeave={isLearn ? () => setLearnOpen(false) : undefined}
+                onBlur={
+                  isLearn
+                    ? (e) => {
+                        if (!e.currentTarget.contains(e.relatedTarget as Node | null)) setLearnOpen(false);
+                      }
+                    : undefined
+                }
+              >
                 <button
                   type="button"
                   onClick={() => go(item.id)}
@@ -91,6 +226,34 @@ export function Navbar({ activePage, onNavigate }: NavbarProps) {
                 >
                   {item.label}
                 </button>
+                {isLearn && (
+                  <>
+                    <button
+                      ref={learnToggleRef}
+                      type="button"
+                      onClick={() => setLearnOpen((o) => !o)}
+                      aria-expanded={learnOpen}
+                      aria-controls="learn-menu"
+                      aria-label="Learn topics"
+                      className={cn(
+                        "inline-flex min-h-11 min-w-8 items-center justify-center rounded text-charcoal-light transition-colors duration-150 hover:text-raspberry",
+                        FOCUS_RING
+                      )}
+                    >
+                      <ChevronDown
+                        className={cn("h-4 w-4 transition-transform duration-200", learnOpen && "rotate-180")}
+                        aria-hidden="true"
+                      />
+                    </button>
+                    {learnOpen && (
+                      <div id="learn-menu" className="absolute left-0 top-full z-50 w-80 pt-2">
+                        <div className="motion-menu rounded-2xl border border-[#E5E1DC] bg-white p-2 shadow-lg">
+                          <LearnMenuContent idPrefix="learn-desktop" onPick={go} />
+                        </div>
+                      </div>
+                    )}
+                  </>
+                )}
               </li>
             );
           })}
@@ -134,6 +297,31 @@ export function Navbar({ activePage, onNavigate }: NavbarProps) {
                   >
                     {item.label}
                   </button>
+                  {item.id === "hub" && (
+                    <>
+                      <button
+                        type="button"
+                        onClick={() => setMobileLearnOpen((o) => !o)}
+                        aria-expanded={mobileLearnOpen}
+                        aria-controls="mobile-learn-menu"
+                        className={cn(
+                          "flex min-h-11 w-full items-center justify-between rounded-lg px-3 text-left text-base font-semibold text-deep-teal transition-colors duration-150 hover:bg-soft-pink",
+                          FOCUS_RING
+                        )}
+                      >
+                        <span>Learn topics</span>
+                        <ChevronDown
+                          className={cn("h-4 w-4 transition-transform duration-200", mobileLearnOpen && "rotate-180")}
+                          aria-hidden="true"
+                        />
+                      </button>
+                      {mobileLearnOpen && (
+                        <div id="mobile-learn-menu" className="motion-menu pb-2 pl-3">
+                          <LearnMenuContent idPrefix="learn-mobile" onPick={go} />
+                        </div>
+                      )}
+                    </>
+                  )}
                 </li>
               );
             })}

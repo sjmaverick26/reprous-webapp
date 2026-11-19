@@ -36,6 +36,7 @@ import {
 } from "@/components/ui/dialog";
 import { EducationalReferences } from "@/components/shared/EducationalReferences";
 import { LittleHealthDictionary } from "@/components/shared/LittleHealthDictionary";
+import { LEARN_GROUPS, type LearnGroupId } from "@/data/learnGroups";
 import { FullPageLessonExperience } from "@/components/shared/FullPageLessonExperience";
 import { MythsView } from "@/components/pages/MythsView";
 import {
@@ -55,27 +56,15 @@ type SubView = "words" | "myths" | "sources";
 const isSubView = (value?: string | null): value is SubView =>
   value === "words" || value === "myths" || value === "sources";
 
-type PillarKey = "learn" | "recognize" | "advocate";
+type PillarKey = LearnGroupId;
 
-// Her three actions. Colour roles: Learn = teal, Recognize = coral, Advocate = raspberry.
-const PILLARS: Record<
+// Her three Learn groups (nav commits, 11 Nov) drive the Learn page grouping: labels and module lists
+// come from src/data/learnGroups.ts so the nav menu and this page never drift apart.
+const PILLAR_STYLE: Record<
   PillarKey,
-  {
-    name: string;
-    short: string;
-    ids: string[];
-    border: string;
-    rule: string;
-    chip: string;
-    chipIcon: string;
-    bar: string;
-    ring: string;
-  }
+  { border: string; rule: string; chip: string; chipIcon: string; bar: string; ring: string }
 > = {
-  learn: {
-    name: "Learn about your body",
-    short: "Learn",
-    ids: ["body", "cycle", "play"],
+  athlete: {
     border: "border-deep-teal",
     rule: "border-deep-teal",
     chip: "bg-deep-teal",
@@ -83,21 +72,7 @@ const PILLARS: Record<
     bar: "bg-deep-teal",
     ring: "ring-light-teal",
   },
-  recognize: {
-    name: "Recognize and understand symptoms",
-    short: "Recognize",
-    ids: ["pcos", "endo", "conditions"],
-    border: "border-coral",
-    rule: "border-coral",
-    chip: "bg-coral",
-    chipIcon: "text-charcoal",
-    bar: "bg-coral",
-    ring: "ring-soft-pink",
-  },
-  advocate: {
-    name: "Advocate for your health",
-    short: "Advocate",
-    ids: ["mind", "realtalk", "factors"],
+  hormonal: {
     border: "border-raspberry",
     rule: "border-raspberry",
     chip: "bg-raspberry",
@@ -105,13 +80,31 @@ const PILLARS: Record<
     bar: "bg-raspberry",
     ring: "ring-soft-pink",
   },
+  reproductive: {
+    border: "border-coral",
+    rule: "border-coral",
+    chip: "bg-coral",
+    chipIcon: "text-charcoal",
+    bar: "bg-coral",
+    ring: "ring-soft-pink",
+  },
 };
 
-const PILLAR_ORDER: PillarKey[] = ["learn", "recognize", "advocate"];
+const PILLARS: Record<
+  PillarKey,
+  { name: string; short: string; ids: string[] } & (typeof PILLAR_STYLE)[PillarKey]
+> = Object.fromEntries(
+  LEARN_GROUPS.map((g) => [
+    g.id,
+    { name: g.label, short: g.label, ids: g.categories.map((c) => c.id), ...PILLAR_STYLE[g.id] },
+  ])
+) as Record<PillarKey, { name: string; short: string; ids: string[] } & (typeof PILLAR_STYLE)[PillarKey]>;
+
+const PILLAR_ORDER: PillarKey[] = LEARN_GROUPS.map((g) => g.id);
 
 const pillarOf = (categoryId: string): PillarKey => {
   const found = PILLAR_ORDER.find((k) => PILLARS[k].ids.includes(categoryId));
-  return found || "learn";
+  return found || "athlete";
 };
 
 const CATEGORY_ICONS: Record<string, React.ComponentType<{ className?: string; "aria-hidden"?: boolean | "true" | "false" }>> = {
@@ -383,7 +376,10 @@ export function HubView({ initialCategory, onNavigate }: HubViewProps) {
         {showLanding && (
           <div className="flex flex-col gap-12">
             <header className="max-w-3xl">
-              <PillarMarker pillar="learn" />
+              <p className="m-0 mb-4 inline-flex items-center gap-2.5 text-base font-semibold text-deep-teal">
+                <span aria-hidden="true" className="h-3 w-3 shrink-0 rounded-full ring-4 bg-deep-teal ring-light-teal" />
+                Learn
+              </p>
               <h1 className="font-serif text-h1 font-normal text-deep-teal text-balance m-0 mb-4">
                 What do you want to understand?
               </h1>

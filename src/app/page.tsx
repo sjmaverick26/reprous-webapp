@@ -49,6 +49,8 @@ const SLUG_TO_PAGE: Record<string, PageId> = {
 /** Folds legacy page ids into the current ones (myths -> Learn/myths, qa -> Voices/qa). */
 function normalizeRoute(page: PageId, tab?: string): Route {
   if (page === "myths") return { page: "hub", tab: "myths" };
+  // Her nav links (11 Nov) use "dictionary" for Health words.
+  if (page === "hub" && tab === "dictionary") return { page: "hub", tab: "words" };
   if (page === "qa") return { page: "voices", tab: tab === "ask" ? "ask" : "qa" };
   if (page === "resources") {
     const t = tab === "action" ? "petitions" : tab;
