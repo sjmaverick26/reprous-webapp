@@ -85,7 +85,7 @@ To deploy the application to Vercel:
      - `NEXT_PUBLIC_API_URL`: `https://your-backend-api-url.com/api`
 
 4. **Deploy**:
-   - Click **Deploy**. Vercel will build and assign your production URL (e.g., `https://reprous-webapp.vercel.app`).
+   - Click **Deploy**. Vercel will build and assign your production URL (live at `https://reprous.vercel.app`).
    - Any commit pushed to the `main` branch will automatically trigger a new deployment.
 
 ---
