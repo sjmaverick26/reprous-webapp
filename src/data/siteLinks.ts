@@ -9,5 +9,5 @@
 export const siteLinks = {
   storyFormUrl: "",
   questionFormUrl: "",
-  contactEmail: "hello@reprous.org",
+  contactEmail: "lucascm980665@gmail.com",
 };

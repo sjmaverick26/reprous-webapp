@@ -81,6 +81,11 @@ export function Footer({ onNavigate }: FooterProps) {
           In an emergency, call 911. In crisis, call or text 988 (Suicide &amp; Crisis Lifeline).
         </p>
 
+        <p className="m-0 text-sm text-light-teal text-pretty">
+          <strong className="text-white">Your privacy:</strong> ReproUs has no accounts, no tracking and no cookies. Your lesson
+          progress is saved only in this browser on your device, and clearing your browser data removes it.
+        </p>
+
         <p className="m-0 pt-6 border-t border-deep-teal-light text-sm text-soft-pink">
           © {new Date().getFullYear()} ReproUs Network. All education is provided for informational empowerment.
         </p>

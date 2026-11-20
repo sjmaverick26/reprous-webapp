@@ -286,7 +286,7 @@ export function Navbar({ activePage, onNavigate }: NavbarProps) {
                       aria-controls="learn-menu"
                       aria-label="Learn topics"
                       className={cn(
-                        "inline-flex min-h-11 min-w-7 items-center justify-center rounded text-charcoal-light transition-colors duration-150 hover:text-raspberry",
+                        "ml-1 inline-flex min-h-11 min-w-7 items-center justify-center rounded text-charcoal-light transition-colors duration-150 hover:text-raspberry",
                         FOCUS_RING
                       )}
                     >

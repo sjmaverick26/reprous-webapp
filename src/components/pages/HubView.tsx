@@ -38,7 +38,8 @@ import { EducationalReferences } from "@/components/shared/EducationalReferences
 import { LittleHealthDictionary } from "@/components/shared/LittleHealthDictionary";
 import { LEARN_GROUPS, type LearnGroupId } from "@/data/learnGroups";
 import { titleText } from "@/components/shared/keepUnits";
-import { FullPageLessonExperience } from "@/components/shared/FullPageLessonExperience";
+import dynamic from "next/dynamic";
+
 import { MythsView } from "@/components/pages/MythsView";
 import {
   getStoredProgress,
@@ -46,6 +47,19 @@ import {
   resetStoredProgress,
 } from "@/lib/progressStorage";
 import { PageId } from "@/components/layout/Navbar";
+
+// Lessons, games and diagrams are the bulk of the site's code: load them only when a lesson opens.
+const FullPageLessonExperience = dynamic(
+  () => import("@/components/shared/FullPageLessonExperience").then((m) => m.FullPageLessonExperience),
+  {
+    ssr: false,
+    loading: () => (
+      <div role="status" className="min-h-[60vh] flex items-center justify-center text-deep-teal font-semibold">
+        Opening lesson…
+      </div>
+    ),
+  }
+);
 
 interface HubViewProps {
   initialCategory?: string | null;
@@ -443,7 +457,7 @@ export function HubView({ initialCategory, onNavigate }: HubViewProps) {
                               <span className={`w-11 h-11 shrink-0 rounded-full flex items-center justify-center md:mb-4 ${pillar.chip}`}>
                                 <Icon className={`w-5 h-5 ${pillar.chipIcon}`} aria-hidden="true" />
                               </span>
-                              <h3 className="font-serif text-2xl font-normal text-deep-teal text-balance leading-snug m-0 group-hover:underline">
+                              <h3 className="font-serif text-xl sm:text-2xl font-normal text-deep-teal text-balance leading-snug m-0 min-w-0 break-words group-hover:underline">
                                 {cat.title.includes(" · ") ? (
                                   <>
                                     <span className="block">{cat.title.split(" · ")[0]}</span>

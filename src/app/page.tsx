@@ -12,6 +12,7 @@ import { VoicesView } from "@/components/pages/VoicesView";
 import { ContactView } from "@/components/pages/ContactView";
 import { useReveal } from "@/components/shared/useReveal";
 import { scrollMotion } from "@/lib/utils";
+import { HUB_CATEGORIES } from "@/data/hubData";
 
 type Route = { page: PageId; tab?: string };
 type ResourcesCategory = React.ComponentProps<typeof ResourcesView>["initialCategory"];
@@ -87,6 +88,26 @@ export default function App() {
   const [resourceCategory, setResourceCategory] = useState<string>("all");
   const [voicesTab, setVoicesTab] = useState<"stories" | "qa" | "toolkit">("stories");
   const [qaAutoOpen, setQaAutoOpen] = useState(false);
+
+  // One browser-tab title per view, so tabs, history and bookmarks say where you are.
+  useEffect(() => {
+    const SITE = "ReproUs";
+    const HOME_TITLE = "ReproUs — Learn & Youth Reproductive Education";
+    const PAGE_TITLES: Partial<Record<PageId, string>> = {
+      story: "About",
+      hub: "Learn",
+      resources: "Resources",
+      voices: "Youth Voices",
+      workshops: "Workshops",
+      contact: "Contact",
+    };
+    const HUB_SUBVIEWS: Record<string, string> = { myths: "Myths vs. Facts", words: "Health Dictionary" };
+    let name = PAGE_TITLES[activePage];
+    if (activePage === "hub" && hubCategory) {
+      name = HUB_SUBVIEWS[hubCategory] ?? HUB_CATEGORIES[hubCategory]?.title ?? name;
+    }
+    document.title = name ? `${name} · ${SITE}` : HOME_TITLE;
+  }, [activePage, hubCategory]);
   const mainRef = useRef<HTMLElement>(null);
   // True after the first in-app navigation: only then do views fade in.
   const [hasNavigated, setHasNavigated] = useState(false);

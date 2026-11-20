@@ -2429,7 +2429,7 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
             organization: "American College of Sports Medicine (ACSM)",
             guideline: "ACSM Consensus on Prevention & Management of Bone Stress Injuries in Youth Runners",
             year: "2023",
-            url: "https://www.sportsmedicine.org",
+            url: "https://www.acsm.org/education-resources/pronouncements-scientific-communications/position-stands",
           },
           options: [
             {
@@ -2516,9 +2516,9 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
           },
           sourceCitation: {
             organization: "American College of Sports Medicine (ACSM)",
-            guideline: "ACSM Consensus Statement: Exercise and Fluid Replacement in Female Athletes",
-            year: "2023",
-            url: "https://www.sportsmedicine.org",
+            guideline: "ACSM Position Stand: Exercise and Fluid Replacement",
+            year: "2007",
+            url: "https://www.acsm.org/education-resources/pronouncements-scientific-communications/position-stands",
           },
           options: [
             {
@@ -2898,7 +2898,7 @@ export const HUB_CATEGORIES: Record<string, HubCategory> = {
             organization: "International Society of Sports Nutrition (ISSN) & ACOG",
             guideline: "Position Stand: Nutritional Considerations for Active and Menstruating Females",
             year: "2023",
-            url: "https://www.jissn.org",
+            url: "https://jissn.biomedcentral.com",
           },
           options: [
             {
@@ -3557,10 +3557,10 @@ export function getTopicRoleplayScenarios(topic: HubTopic, categoryId?: string):
           description: "Clinical diagnostic criteria identifying high risk for cortical bone stress fracture in an under-fueled female athlete.",
         },
         sourceCitation: {
-          organization: "American College of Sports Medicine (ACSM) & IOC",
-          guideline: "ACSM Female Athlete Triad Consensus & IOC RED-S Clinical Assessment",
+          organization: "International Olympic Committee (IOC)",
+          guideline: "2023 IOC Consensus Statement on Relative Energy Deficiency in Sport (REDs)",
           year: "2023",
-          url: "https://www.sportsmedicine.org",
+          url: "https://bjsm.bmj.com/content/57/17/1073",
         },
         options: [
           {

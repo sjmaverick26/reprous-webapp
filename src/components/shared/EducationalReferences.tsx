@@ -95,9 +95,9 @@ const DEFAULT_REFERENCES: Record<string, ReferenceItem[]> = {
     {
       number: "01",
       type: "Clinical guideline",
-      title: "Evaluation and Management of Abnormal Uterine Bleeding in Adolescents",
-      source: "American College of Obstetricians and Gynecologists (ACOG Practice Bulletin)",
-      url: "https://www.acog.org/clinical/clinical-guidance/practice-bulletin",
+      title: "Menstruation in Girls and Adolescents: Using the Menstrual Cycle as a Vital Sign",
+      source: "American College of Obstetricians and Gynecologists (ACOG Committee Opinion No. 651)",
+      url: "https://www.acog.org/clinical/clinical-guidance/committee-opinion/articles/2015/12/menstruation-in-girls-and-adolescents-using-the-menstrual-cycle-as-a-vital-sign",
       linkText: "Read ACOG Opinion",
     },
     {
@@ -152,10 +152,10 @@ const DEFAULT_REFERENCES: Record<string, ReferenceItem[]> = {
     {
       number: "04",
       type: "Patient education resource",
-      title: "Fueling Active Bodies: Iron Nutrition, Electrolytes, and Cycle-Aware Training",
+      title: "Female Athlete Program: Nutrition, Bone Health and Training Care",
       source: "Boston Children's Hospital Female Athlete Program",
-      url: "https://www.childrenshospital.org/centers-and-services/programs/f_n/female-athlete-program",
-      linkText: "View Athlete Factsheet",
+      url: "https://www.childrenshospital.org/programs/female-athlete-program",
+      linkText: "Visit the program",
     },
   ],
   pcos: [
