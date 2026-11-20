@@ -27,6 +27,7 @@ export const metadata: Metadata = {
   description: SITE_DESCRIPTION,
   keywords: ["reproductive health", "education", "puberty", "menstrual cycle", "youth health", "female athlete triad", "PCOS", "endometriosis", "self-advocacy"],
   authors: [{ name: "ReproUs Team" }],
+  alternates: { canonical: "/" },
   openGraph: {
     type: "website",
     title: SITE_TITLE,
@@ -35,7 +36,7 @@ export const metadata: Metadata = {
     siteName: "ReproUs",
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
     title: SITE_TITLE,
     description: SITE_DESCRIPTION,
   },
