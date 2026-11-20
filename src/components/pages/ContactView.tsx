@@ -53,7 +53,7 @@ export function ContactView({ onNavigate }: ContactViewProps) {
             <div>
               <a href={`mailto:${email}`} className={btnPrimary}>
                 <Mail className="h-4 w-4" aria-hidden="true" />
-                <span>Email {email}</span>
+                <span>Email us</span>
               </a>
             </div>
           </div>
