@@ -18,6 +18,7 @@ import { PageId } from "@/components/layout/Navbar";
 import { cn, scrollMotion } from "@/lib/utils";
 import { titleText } from "@/components/shared/keepUnits";
 import { TabStrip } from "@/components/shared/TabStrip";
+import { CoreThreeRule } from "@/components/shared/CoreThreeRule";
 
 interface ResourcesViewProps {
   onNavigate: (page: PageId, categoryOrTab?: string) => void;
@@ -195,7 +196,11 @@ const SCROLL_TARGETS: Record<string, string> = {
 const rowFocus =
   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-deep-teal";
 const accordionBox =
-  "divide-y divide-[#E5E1DC] overflow-hidden rounded-2xl border border-[#E5E1DC] bg-white shadow-sm";
+  "divide-y divide-[#E5E1DC] overflow-hidden rounded-2xl border border-[#E5E1DC] border-t-4 bg-white shadow-sm";
+// Warm accents: each tab carries one of her three pillar colours on its boxes' top edge.
+const edgeTeal = "border-t-deep-teal";
+const edgeCoral = "border-t-coral";
+const edgeRaspberry = "border-t-raspberry";
 const panelInner = "mx-auto max-w-6xl px-4 py-12 md:px-6 md:py-16";
 
 function CopyButton({
@@ -252,7 +257,7 @@ function Collapsible({
         >
           <span className="text-balance">{title}</span>
           <Plus
-            className={cn("h-5 w-5 shrink-0 text-deep-teal transition-transform duration-200", isOpen && "rotate-45")}
+            className={cn("h-5 w-5 shrink-0 text-raspberry transition-transform duration-200", isOpen && "rotate-45")}
             aria-hidden="true"
           />
         </button>
@@ -326,6 +331,7 @@ export function ResourcesView({ onNavigate, initialCategory = "all" }: Resources
         <h1 className="max-w-4xl font-serif text-h1 font-normal text-deep-teal text-balance">
           How to get help &amp; take action
         </h1>
+        <CoreThreeRule className="mt-5" />
         <p className="mt-5 max-w-[36rem] text-body text-charcoal text-pretty">
           When it&apos;s time for more than education — here is where to turn. Connect with 24/7 confidential hotlines, youth rights guides, and join real-world legislative petitions.
         </p>
@@ -380,7 +386,7 @@ export function ResourcesView({ onNavigate, initialCategory = "all" }: Resources
                 />
               </div>
 
-              <div className={cn(accordionBox, "mt-8")}>
+              <div className={cn(accordionBox, edgeTeal, "mt-8")}>
                 {SYMPTOMS_DATA.map((symptom) => (
                   <Collapsible
                     key={symptom.id}
@@ -442,7 +448,7 @@ export function ResourcesView({ onNavigate, initialCategory = "all" }: Resources
               </p>
             </div>
 
-            <div className={cn(accordionBox, "mt-12")}>
+            <div className={cn(accordionBox, edgeCoral, "mt-12")}>
               <Collapsible title="How to Build an Objective Symptom Log">
                 <p className="max-w-[36rem] text-base text-charcoal text-pretty">
                   Clinicians respond to concrete numbers and timelines rather than vague recollections. Log these 4 parameters:
@@ -458,8 +464,8 @@ export function ResourcesView({ onNavigate, initialCategory = "all" }: Resources
               </Collapsible>
               <Collapsible title="Preparing for an Appointment: 3 Rules for Clarity">
                 <ul className="grid grid-cols-1 gap-5 lg:grid-cols-3">
-                  {APPOINTMENT_RULES.map((rule) => (
-                    <li key={rule.title} className={tintTeal}>
+                  {APPOINTMENT_RULES.map((rule, i) => (
+                    <li key={rule.title} className={i % 2 ? tintPink : tintTeal}>
                       <h4 className="font-sans text-base font-semibold text-deep-teal">{rule.title}</h4>
                       <p className="mt-1 max-w-[36rem] text-base text-charcoal text-pretty">{rule.text}</p>
                     </li>
@@ -468,8 +474,8 @@ export function ResourcesView({ onNavigate, initialCategory = "all" }: Resources
               </Collapsible>
               <Collapsible title="Verbatim Scripts for Clinical Visits">
                 <ul className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-                  {SPEAK_UP_SCRIPTS.map((script) => (
-                    <li key={script.id} className={cn(tintTeal, "flex flex-col items-start gap-4")}>
+                  {SPEAK_UP_SCRIPTS.map((script, i) => (
+                    <li key={script.id} className={cn(i % 2 ? tintPink : tintTeal, "flex flex-col items-start gap-4")}>
                       <div>
                         <h4 className="font-sans text-base font-semibold text-deep-teal">{script.title}</h4>
                         <p className="mt-1 max-w-[36rem] text-lg text-charcoal text-pretty">{script.text}</p>
@@ -510,7 +516,7 @@ export function ResourcesView({ onNavigate, initialCategory = "all" }: Resources
             */}
 
             <div className={cn(tintPink, "mt-8 flex items-start gap-4 md:p-6")}>
-              <AlertTriangle className="mt-1 h-6 w-6 shrink-0 text-deep-teal" aria-hidden="true" />
+              <AlertTriangle className="mt-1 h-6 w-6 shrink-0 text-raspberry" aria-hidden="true" />
               <div>
                 <h2 className="font-sans text-lg font-semibold text-deep-teal">
                   Emergency &amp; Life-Threatening Situations
@@ -526,7 +532,7 @@ export function ResourcesView({ onNavigate, initialCategory = "all" }: Resources
               Always free, confidential, and staffed by trained educators &amp; crisis clinicians.
             </p>
             {/* One directory of rows: no half-empty card rows at any width */}
-            <ul className="mt-6 divide-y divide-[#E5E1DC] rounded-2xl border border-[#E5E1DC] bg-white shadow-sm">
+            <ul className="mt-6 divide-y divide-[#E5E1DC] rounded-2xl border border-[#E5E1DC] border-t-4 border-t-coral bg-white shadow-sm">
               {sortedHotlines.map((hotline) => (
                 <li
                   key={hotline.name}
@@ -540,7 +546,7 @@ export function ResourcesView({ onNavigate, initialCategory = "all" }: Resources
                     <p className="max-w-[36rem] text-base text-charcoal text-pretty">{hotline.desc}</p>
                     {hotline.sms && (
                       <p className="mt-3 flex items-start gap-2 text-sm font-semibold text-charcoal">
-                        <MessageSquare className="mt-0.5 h-4 w-4 shrink-0 text-deep-teal" aria-hidden="true" />
+                        <MessageSquare className="mt-0.5 h-4 w-4 shrink-0 text-coral-dark" aria-hidden="true" />
                         {/* Display only: phone numbers ("1-833-TLC-MAMA") never split at a hyphen */}
                         <span>
                           {hotline.sms.split(/(\(?[0-9A-Z]+(?:-[0-9A-Z]+)+\)?)/g).map((part, i) =>
@@ -574,7 +580,7 @@ export function ResourcesView({ onNavigate, initialCategory = "all" }: Resources
               ))}
             </ul>
 
-            <div className={cn(accordionBox, "mt-12")}>
+            <div className={cn(accordionBox, edgeRaspberry, "mt-12")}>
               <Collapsible title="Know Your Rights: Confidential Adolescent Care Guide">
                 <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
                   <div>
@@ -630,7 +636,7 @@ export function ResourcesView({ onNavigate, initialCategory = "all" }: Resources
               Add your voice to active legislative campaigns and download pre-drafted advocacy letters.
             </p>
 
-            <ul className="mt-8 divide-y divide-[#E5E1DC] rounded-2xl border border-[#E5E1DC] bg-white shadow-sm">
+            <ul className="mt-8 divide-y divide-[#E5E1DC] rounded-2xl border border-[#E5E1DC] border-t-4 border-t-raspberry bg-white shadow-sm">
               {PETITIONS_DATA.map((petition) => (
                 <li key={petition.id} className="px-5 py-5 md:px-6">
                   <p className="text-sm font-semibold text-deep-teal">
@@ -657,7 +663,7 @@ export function ResourcesView({ onNavigate, initialCategory = "all" }: Resources
                         focusRing
                       )}
                     >
-                      <Plus className="h-5 w-5 shrink-0 transition-transform duration-200 group-open:rotate-45" aria-hidden="true" />
+                      <Plus className="h-5 w-5 shrink-0 text-raspberry transition-transform duration-200 group-open:rotate-45" aria-hidden="true" />
                       Details and key demands
                     </summary>
                     <p className="mt-1 max-w-[36rem] text-base text-charcoal text-pretty">{petition.summary}</p>
@@ -690,14 +696,14 @@ export function ResourcesView({ onNavigate, initialCategory = "all" }: Resources
               ))}
             </ul>
 
-            <div className={cn(accordionBox, "mt-10")}>
+            <div className={cn(accordionBox, edgeCoral, "mt-10")}>
               <Collapsible title="Pre-Written Advocacy Letter Templates">
                 <p className="max-w-[36rem] text-base text-charcoal text-pretty">
                   Ready-to-use letters to send to your school principal, district superintendent, or elected officials. Copy with 1 click and customize!
                 </p>
                 <ul className="mt-5 grid grid-cols-1 gap-6 lg:grid-cols-2">
-                  {ADVOCACY_LETTER_TEMPLATES.map((letter) => (
-                    <li key={letter.id} className={cn(tintTeal, "flex flex-col items-start gap-3")}>
+                  {ADVOCACY_LETTER_TEMPLATES.map((letter, i) => (
+                    <li key={letter.id} className={cn(i % 2 ? tintPink : tintTeal, "flex flex-col items-start gap-3")}>
                       <div>
                         <p className="text-sm font-semibold text-deep-teal">{letter.category}</p>
                         <h4 className={cn(cardTitle, "mt-1")}>{letter.title}</h4>
@@ -709,7 +715,7 @@ export function ResourcesView({ onNavigate, initialCategory = "all" }: Resources
                             focusRing
                           )}
                         >
-                          <Plus className="h-5 w-5 shrink-0 transition-transform duration-200 group-open:rotate-45" aria-hidden="true" />
+                          <Plus className="h-5 w-5 shrink-0 text-raspberry transition-transform duration-200 group-open:rotate-45" aria-hidden="true" />
                           Read the letter
                         </summary>
                         <p className="mt-1 max-w-[36rem] whitespace-pre-wrap text-base text-charcoal">{letter.text}</p>

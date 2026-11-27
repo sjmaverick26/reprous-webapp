@@ -10,6 +10,14 @@ import { PageId } from "@/components/layout/Navbar";
 import { cn, scrollMotion } from "@/lib/utils";
 import { titleText } from "@/components/shared/keepUnits";
 import { TabStrip } from "@/components/shared/TabStrip";
+import { CoreThreeRule } from "@/components/shared/CoreThreeRule";
+
+// Warm accents: story cards cycle through her three pillar colours (teal, coral, raspberry).
+const STORY_ACCENTS = [
+  { edge: "border-t-deep-teal", chip: "bg-light-teal", icon: "text-deep-teal" },
+  { edge: "border-t-coral", chip: "bg-soft-pink", icon: "text-coral-dark" },
+  { edge: "border-t-raspberry", chip: "bg-soft-pink", icon: "text-raspberry" }
+] as const;
 
 /** "toolkit" now lives in Resources; "ask" and "qa" both mean the anonymous Q&A section. */
 export type CommunityTab = "stories" | "qa" | "ask" | "toolkit";
@@ -94,7 +102,7 @@ function SubmitBlock({
 }) {
   const ready = url.trim() !== "";
   return (
-    <div id={id} className={cn(card, "scroll-mt-32 md:p-8", centered && "flex flex-col items-start text-left md:items-center md:text-center")}>
+    <div id={id} className={cn(card, "scroll-mt-32 border-t-4 border-t-raspberry md:p-8", centered && "flex flex-col items-start text-left md:items-center md:text-center")}>
       <h3 className={cn(blockHead, centered && "max-w-2xl text-balance")}>{heading}</h3>
       {body && <p className={cn(bodyText, "mt-3", centered && "max-w-xl md:mx-auto")}>{body}</p>}
       <div className={cn("mt-6", centered && "w-full max-w-2xl")}>
@@ -180,6 +188,7 @@ export function VoicesView({
         <h1 className="max-w-4xl font-serif text-h1 font-normal text-deep-teal text-balance">
           Youth Voices
         </h1>
+        <CoreThreeRule className="mt-5" />
         <p className="mt-5 max-w-2xl text-body text-charcoal text-pretty">
           Real stories from peers navigating bodily changes, and confidential clinical answers to questions you might feel nervous asking.
         </p>
@@ -270,11 +279,12 @@ export function VoicesView({
                     : mdSpan
                     ? "lg:col-span-1"
                     : "";
+                const accent = STORY_ACCENTS[idx % STORY_ACCENTS.length];
                 return (
-                <li key={voice.id} className={cn(card, "flex min-w-0 flex-col justify-between gap-6", mdSpan, lgSpan)}>
+                <li key={voice.id} className={cn(card, "flex min-w-0 flex-col justify-between gap-6 border-t-4", accent.edge, mdSpan, lgSpan)}>
                   <div>
-                    <span className="flex h-8 w-8 items-center justify-center rounded-full bg-light-teal" aria-hidden="true">
-                      <Quote className="h-4 w-4 text-deep-teal" />
+                    <span className={cn("flex h-8 w-8 items-center justify-center rounded-full", accent.chip)} aria-hidden="true">
+                      <Quote className={cn("h-4 w-4", accent.icon)} />
                     </span>
                     <blockquote
                       className={cn(
@@ -324,7 +334,7 @@ export function VoicesView({
           <h2 className={panelHead}>Questions, Answered Plainly</h2>
           <p className={cn(bodyText, "mt-4")}>Real answers written plainly from clinical guidelines.</p>
 
-          <div data-reveal="" className="mt-8 divide-y divide-[#E5E1DC] rounded-2xl border border-[#E5E1DC] bg-white shadow-sm">
+          <div data-reveal="" className="mt-8 divide-y divide-[#E5E1DC] rounded-2xl border border-[#E5E1DC] border-t-4 border-t-coral bg-white shadow-sm">
             {FAQS_DATA.map((faq) => (
               <details key={faq.id} className="group px-5 md:px-6">
                 <summary
@@ -336,7 +346,7 @@ export function VoicesView({
                   <span className="text-pretty">{titleText(faq.question)}</span>
                   <Plus
                     aria-hidden="true"
-                    className="h-5 w-5 shrink-0 text-deep-teal transition-transform duration-200 group-open:rotate-45"
+                    className="h-5 w-5 shrink-0 text-raspberry transition-transform duration-200 group-open:rotate-45"
                   />
                 </summary>
                 <p className="pb-5 text-base text-charcoal text-pretty max-w-[36rem]">{faq.answer}</p>
