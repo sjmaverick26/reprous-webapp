@@ -15,7 +15,8 @@ export type PageId =
   | "qa"
   | "myths"
   | "voices"
-  | "contact";
+  | "contact"
+  | "privacy";
 
 interface NavbarProps {
   activePage: PageId;

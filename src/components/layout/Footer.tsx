@@ -21,6 +21,7 @@ const MAIN_LINKS: FooterLink[] = [
 const MORE_LINKS: FooterLink[] = [
   { id: "contact", label: "Contact", href: "/#/contact" },
   { id: "workshops", label: "Workshops", href: "/#/workshops" },
+  { id: "privacy", label: "Privacy", href: "/#/privacy" },
 ];
 
 const LINK_CLASS =

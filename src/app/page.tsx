@@ -10,6 +10,7 @@ import { WorkshopsView } from "@/components/pages/WorkshopsView";
 import { ResourcesView } from "@/components/pages/ResourcesView";
 import { VoicesView } from "@/components/pages/VoicesView";
 import { ContactView } from "@/components/pages/ContactView";
+import { PrivacyView } from "@/components/pages/PrivacyView";
 import { useReveal } from "@/components/shared/useReveal";
 import { scrollMotion } from "@/lib/utils";
 import { HUB_CATEGORIES } from "@/data/hubData";
@@ -37,6 +38,7 @@ const PAGE_TO_SLUG: Partial<Record<PageId, string>> = {
   voices: "voices",
   workshops: "workshops",
   contact: "contact",
+  privacy: "privacy",
 };
 
 const SLUG_TO_PAGE: Record<string, PageId> = {
@@ -46,6 +48,7 @@ const SLUG_TO_PAGE: Record<string, PageId> = {
   voices: "voices",
   workshops: "workshops",
   contact: "contact",
+  privacy: "privacy",
 };
 
 /** Folds legacy page ids into the current ones (myths -> Learn/myths, qa -> Voices/qa). */
@@ -100,6 +103,7 @@ export default function App() {
       voices: "Youth Voices",
       workshops: "Workshops",
       contact: "Contact",
+      privacy: "Privacy",
     };
     const HUB_SUBVIEWS: Record<string, string> = { myths: "Myths vs. Facts", words: "Health Dictionary" };
     let name = PAGE_TITLES[activePage];
@@ -224,6 +228,7 @@ export default function App() {
           />
         )}
         {activePage === "contact" && <ContactView initialTab={contactTab} onNavigate={handleNavigate} />}
+        {activePage === "privacy" && <PrivacyView />}
         </div>
       </main>
 
