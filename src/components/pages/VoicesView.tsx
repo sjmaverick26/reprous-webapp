@@ -44,7 +44,8 @@ const btnSecondary = cn(
 );
 // Tab panels (same rhythm as Resources): her section heads become 36 px panel heads.
 const panelInner = "mx-auto max-w-6xl px-4 py-12 md:px-6 md:py-16";
-const panelHead = "font-serif text-h3 font-normal text-deep-teal text-balance";
+// Coral underline: a small warm accent under each panel heading (decoration only).
+const panelHead = "font-serif text-h3 font-normal text-deep-teal text-balance after:mt-3 after:block after:h-1 after:w-12 after:rounded-full after:bg-coral";
 const blockHead = "font-serif text-2xl font-normal leading-[1.2] text-deep-teal text-balance";
 const bodyText = "text-body text-charcoal text-pretty max-w-[36rem]";
 
@@ -56,6 +57,15 @@ const STORY_TYPES = [
   "Navigating care & self-advocacy"
 ] as const;
 type StoryType = (typeof STORY_TYPES)[number];
+
+// Badge colour per type (her pillar colours; text colours pass 4.5:1 on their tint).
+const TYPE_BADGE: Record<StoryType, string> = {
+  "Personal stories": "bg-light-teal text-deep-teal",
+  "Poetry & creative writing": "bg-soft-pink text-raspberry-dark",
+  "Perspectives on health education": "bg-soft-pink text-raspberry-dark",
+  // Coral never carries text: it outlines this badge instead.
+  "Navigating care & self-advocacy": "border border-coral bg-white text-deep-teal"
+};
 
 // Existing stories mapped by their current category. Unclear -> "Personal stories".
 const CATEGORY_TO_TYPE: Record<string, StoryType> = {
@@ -300,7 +310,7 @@ export function VoicesView({
                       — {voice.author}
                       {typeof voice.age === "number" ? `, ages ${voice.age <= 15 ? "13–15" : voice.age <= 18 ? "16–18" : "19+"}` : ""}
                     </p>
-                    <span className="rounded-full bg-light-teal px-3 py-1 text-sm font-semibold text-deep-teal text-balance">
+                    <span className={cn("rounded-full px-3 py-1 text-sm font-semibold text-balance", TYPE_BADGE[storyTypeOf(voice)])}>
                       {storyTypeOf(voice)}
                     </span>
                   </div>

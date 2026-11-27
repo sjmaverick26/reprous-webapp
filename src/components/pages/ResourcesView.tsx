@@ -44,7 +44,9 @@ const textLink = cn(
   focusRing
 );
 const sectionInner = "mx-auto max-w-6xl px-4 py-16 md:px-6 md:py-24";
-const h3Class = "font-serif text-h3 font-normal text-deep-teal text-balance";
+// Coral underline: a small warm accent under each section heading (decoration only).
+const headAccent = "after:mt-3 after:block after:h-1 after:w-12 after:rounded-full after:bg-coral";
+const h3Class = cn("font-serif text-h3 font-normal text-deep-teal text-balance", headAccent);
 const cardTitle = "font-sans text-lg font-semibold text-deep-teal text-balance";
 // Callouts: a tinted ground, no side bar.
 const tintTeal = "rounded-2xl bg-light-teal-light p-5";
@@ -466,6 +468,13 @@ export function ResourcesView({ onNavigate, initialCategory = "all" }: Resources
                 <ul className="grid grid-cols-1 gap-5 lg:grid-cols-3">
                   {APPOINTMENT_RULES.map((rule, i) => (
                     <li key={rule.title} className={i % 2 ? tintPink : tintTeal}>
+                      {/* Decorative step number: the title already says "Rule 1" for screen readers. */}
+                      <span
+                        aria-hidden="true"
+                        className="mb-3 flex h-8 w-8 items-center justify-center rounded-full bg-coral font-serif text-lg leading-none text-charcoal"
+                      >
+                        {i + 1}
+                      </span>
                       <h4 className="font-sans text-base font-semibold text-deep-teal">{rule.title}</h4>
                       <p className="mt-1 max-w-[36rem] text-base text-charcoal text-pretty">{rule.text}</p>
                     </li>
