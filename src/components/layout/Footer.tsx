@@ -84,7 +84,18 @@ export function Footer({ onNavigate }: FooterProps) {
 
         <p className="m-0 text-sm text-light-teal text-pretty">
           <strong className="text-white">Your privacy:</strong> ReproUs has no accounts, no tracking and no cookies. Your lesson
-          progress is saved only in this browser on your device, and clearing your browser data removes it.
+          progress is saved only in this browser on your device, and clearing your browser data removes it.{" "}
+          <a
+            href="/#/privacy"
+            onClick={(e) => {
+              if (!onNavigate) return;
+              e.preventDefault();
+              onNavigate("privacy");
+            }}
+            className="font-semibold text-white underline underline-offset-4 rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-soft-pink focus-visible:ring-offset-2 focus-visible:ring-offset-deep-teal"
+          >
+            Read the privacy page
+          </a>
         </p>
 
         <p className="m-0 pt-6 border-t border-deep-teal-light text-sm text-soft-pink">
