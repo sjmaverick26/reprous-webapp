@@ -329,7 +329,9 @@ export function ResourcesView({ onNavigate, initialCategory = "all" }: Resources
   return (
     <div className="font-sans text-charcoal">
       {/* Header */}
-      <header className="mx-auto max-w-6xl px-4 pb-10 pt-16 md:px-6 md:pb-14 md:pt-20">
+      {/* Warm band (lightest soft pink): the Youth Voices header has a band too; cream would merge into the toolkit panel. */}
+      <header className="bg-soft-pink-light">
+        <div className="mx-auto max-w-6xl px-4 pb-10 pt-16 md:px-6 md:pb-14 md:pt-20">
         <h1 className="max-w-4xl font-serif text-h1 font-normal text-deep-teal text-balance">
           How to get help &amp; take action
         </h1>
@@ -337,6 +339,7 @@ export function ResourcesView({ onNavigate, initialCategory = "all" }: Resources
         <p className="mt-5 max-w-[36rem] text-body text-charcoal text-pretty">
           When it&apos;s time for more than education — here is where to turn. Connect with 24/7 confidential hotlines, youth rights guides, and join real-world legislative petitions.
         </p>
+        </div>
       </header>
 
       {/* Sticky tabs */}
